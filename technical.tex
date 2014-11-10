@@ -1,10 +1,176 @@
 \chapter{Technical preliminaries}
 
+In this chapter we introduce the technical preliminaries used throughout this dissertation.
+We recall definitions and results from modal logic, public announcement logic and action model logic.
+
 \section{Modal logic}
 
 \subsection{Syntax}
 
+Let $\atoms$ be a non-empty, countable set of propositional atoms, and
+let $\agents$ be a non-empty, finite set of agents.
+
+\begin{definition}[Language of modal logic]
+The {\em language of modal logic}, \langMl{}, is inductively defined inductively as:
+$$
+\phi ::= 
+    \atomP \mid
+    \lnot \phi \mid
+    (\phi \land \phi) \mid
+    \necessary[\agentA] \phi
+$$
+where $\atomP \in \atoms$ and $\agentA \in \agents$.
+\end{definition}
+
+We use all of the standard abbreviations from propositional logic, in addition to the standard abbreviation $\possible[\agentA] \phi ::= \lnot \necessary[\agentA] \lnot \phi$.
+
+The formula $\necessary[\agentA] \phi$ may be read as ``agent $\agentA$ {\em knows} that $\phi$ is true'', or ``agent $\agentA$ {\em believes} that $\phi$ is true'', depending on which terminology is appropriate for the setting we are working in.
+The formula $\possible[\agentA] \phi$ may be read as ``agent $\agentA$ considers it possible that $\phi$ is true'' (i.e. agent $\agentA$ doesn't know or believe that $\phi$ is not true).
+
 \subsection{Semantics}
+
+\begin{definition}[Kripke model]
+A {\em Kripke model}, $\modelAndTuple$ consists of:
+\begin{itemize}
+    \item A {\em domain} $\states$, which is a non-empty set of states (or {\em possible worlds}).
+    \item An indexed set of {\em accessibility relations}, indexed on $\agents$, where for every $\agentA \in \agents$, $\accessibility{\agentA} \subseteq \states \times \states$ is a binary relation on states.
+    \item A {\em valuation function} $\valuation : \atoms \to \powerset(\states)$, which is a function from propositional atoms to sets of states.
+\end{itemize}
+A {\em multi-pointed Kripke model} $\pointedModelAndTuple{\statesT}$ consists of a Kripke model $\modelAndTuple$ along with a designated set of states $\statesT \subseteq \states$.
+\end{definition}
+
+We write $\stateS \accessibility{\agentA} \stateT$ to denote that $(\stateS, \stateT) \in \accessibility{\agentA}$.
+We write $\successors{\agentA}{\statesT}$ to denote the set of successor states $\successors{\agentA}{\statesT} = \{\stateS \in \states \mid \stateT \in \statesT, \stateT \accessibility{\agentA} \stateS\}$ and
+we write $\predecessors{\agentA}{\statesT}$ to denote the set of predecessor states $\predecessors{\agentA}{\statesT} = \{\stateS \in \states \mid \stateT \in \statesT, \stateS \accessibility{\agentA} \stateT\}$.
+As we will often be required to discuss several Kripke models at once, we will use the convention that $\pointedModelAndTuple{\statesT}$, $\pointedModelAndTuple[\prime]{\statesT[\prime]}$, $\pointedModelAndTuple[\gamma]{\statesT[\gamma]}$, etc.
+We abbreviate the {\em pointed Kripke model}
+$\pointedModel{\{\stateS\}}$ as $\pointedModel{\stateS}$,
+$\successors{\agentA}{\{\stateS\}}$ as $\successors{\agentA}{\stateS}$ and
+$\predecessors{\agentA}{\{\stateS\}}$ as $\predecessors{\agentA}{\stateS}$.
+
+We will be working with a variety of modal logics that are defined by relational properties on Kripke models.
+We define those relational properties here.
+
+\begin{definition}[Serial, reflexive, transitive, symmetric and Euclidean relations]
+Let $\states$ be a set and let $\accessibilityRel \subseteq \states \times \states$ be a binary relation on $\states$. 
+Then we say that $\accessibilityRel$ is\ldots
+\begin{itemize}
+    \item \ldots {\em serial} if and only if for every $\stateS \in \states$ there exists $\stateT \in \states$ such that $\stateS \accessibility{} \stateT$.
+    \item \ldots {\em reflexive} if and only if for every $\stateS \in \states$: $\stateS \accessibility{} \stateS$.
+    \item \ldots {\em transitive} if and only if for every $\stateS, \stateT, \stateU \in \states$: if $\stateS \accessibility{} \stateT$ and $\stateT \accessibility{} \stateU$ then $\stateS \accessibility{} \stateU$.
+    \item \ldots {\em symmetric} if and only if for every $\stateS, \stateT \in \states$: if $\stateS \accessibility{} \stateT$ then $\stateT \accessibility{} \stateS$.
+    \item \ldots {\em Euclidean} if and only if for every $\stateS, \stateT, \stateU \in \states$: if $\stateS \accessibility{} \stateT$ and $\stateS \accessibility{} \stateU$ then $\stateT \accessibility{} \stateU$.
+\end{itemize}
+\end{definition}
+
+We say that a Kripke model $\modelAndTuple$ is \{serial, reflexive, etc.\} if and only if for every $\agentA \in \agents$ the binary relation $\accessibility{\agentA}$ is \{serial, reflexive, etc.\}.
+We thus use these properties to define the classes of Kripke models that we will be working with.
+
+\begin{definition}[Classes of Kripke models]
+We define the following classes of Kripke models:
+\begin{itemize}
+    \item The class \classK{} of all Kripke models.
+    \item The class \classKF{} of all transitive Kripke models.
+    \item The class \classKFF{} of all transitive and Euclidean Kripke models.
+    \item The class \classKD{} of all serial, transitive and Euclidean Kripke models.
+    \item The class \classSF{} of all reflexive and transitive Kripke models.
+    \item The class \classS{} of all reflexive, transitive and Euclidean Kripke models.
+\end{itemize}
+\end{definition}
+
+We next define the semantics of modal logic.
+We define the semantics in terms of a parameterised class of Kripke models, \classC{}, which could stand for \classK{}, \classKF{}, \classKFF{}, etc. or for any other class of Kripke models so defined.
+
+\begin{definition}[Semantics of modal logic]
+Let $\classC$ be a class of Kripke models and let $\pointedModelAndTuple{\stateS} \in \classC$ be a pointed Kripke model.
+The interpretation of the formula $\phi \in \langMl$ in the logic \logicC{} on the pointed Kripke model $\pointedModel{\stateS}$ is defined inductively as:
+$$
+\begin{array}{lcl}
+\pointedModel{\statesT} \entails \atomP & \text{ iff } & \statesT \subseteq \valuation(\atomP)\\
+\pointedModel{\statesT} \entails \lnot \phi & \text{ iff } & \pointedModel{\statesT} \nentails \phi\\
+\pointedModel{\statesT} \entails \phi \land \psi & \text{ iff } & \pointedModel{\statesT} \entails \phi \text{ and } \pointedModel{\statesT} \entails \psi\\
+\pointedModel{\statesT} \entails \necessary[\agentA] \phi & \text{ iff } & \pointedModel{\successors{\agentA}{\statesT}} \entails \phi
+\end{array}
+$$
+\end{definition}
+
+Thus we get the definitions of the semantics of the modal logics \logicK{}, \logicKF{}, \logicKFF{}, etc. for the corresponding classes of Kripke models \classK{}, \classKF{}, \classKFF{}, etc.
+
+Let $\pointedModelAndTuple{\statesT} \in \classC$ be a multi-pointed Kripke model and
+let $\Phi \subseteq \langMl$ be a (possibly infinite) set of formulas.
+If $\pointedModel{\statesT} \entails \phi$ for every $\phi \in \Phi$ then we say that $\Phi$ is {\em valid} on $\pointedModel{\statesT}$ and we write $\pointedModel{\statesT} \entails \Phi$.
+If $\pointedModel{\states} \entails \Phi$ then we say that $\Phi$ is valid on $\model$ and we denote this by $\model \entails \Phi$.
+If $\model \entails \Phi$ for every $\model \in \classC$ then we say that $\Phi$ is valid on \classC{} and we denote this by $\classC \entails \Phi$.
+When \classC{} is clear from context we may simply write $\entails \Phi$ instead of $\classC \entails \Phi$.
+If there exists $\stateS \in \statesT$ such that $\pointedModel{\stateS} \entails \Phi$ then we say that $\Phi$ is {\em satisfiable} in $\pointedModel{\statesT}$.
+If $\Phi$ is satisfiable in $\pointedModel{\states}$ then we say that $\Phi$ is satisfiable in $\model$.
+If there exists $\model \in \classC$ such that $\Phi$ is satisfiable in $\model$ then we say that $\Phi$ is satisfiable in \classC{}.
+If every finite subset of $\Phi$ is satisfiable in \{$\pointedModel{\statesT}$, $\model$, \classC{}\} then we say that $\Phi$ is {\em finitely satisfiable} in \{$\pointedModel{\statesT}$, $\model$, \classC{}\}.
+
+We write $\interpretation[\model]{\phi}$ to denote the set of states where $\phi$ is valid, $\interpretation[\model]{\phi} = \{\stateS \in \states \mid \pointedModel{\stateS} \entails \phi\}$.
+
+Finally we recall definitions and results related to bisimilarity of Kripke models.
+Bisimilarity captures a notion of equivalence between Kripke models with respect to modal validity.
+
+\begin{definition}[Bisimulation]
+Let $\modelAndTuple \in \classK$ and $\modelAndTuple[\prime] \in \classK$ be Kripke models.
+A non-empty relation $\bisimulation \subseteq \states \times \states[\prime]$ is a {\em bisimulation} if and only if for every $\atomP \in \atoms$, $\agentA \in \agents$ and $(\stateS, \stateS[\prime]) \in \bisimulation$ the following conditions, {\bf atoms-$\atomP$}, {\bf forth-$\agentA$} and {\bf back-$\agentB$} holds:
+
+\paragraph{atoms-$\atomP$}
+$\stateS \in \valuation(\atomP)$ if and only if $\stateS[\prime] \in \valuation[\prime](\atomP)$.
+
+\paragraph{forth-$\agentA$}
+for every $\stateT \in \successors{\agentA}{\stateS}$ there exists $\stateT[\prime] \in \successors[\prime]{\agentA}{\stateS[\prime]}$ such that $\stateS \bisimulation \stateT$.
+
+\paragraph{back-$\agentA$}
+for every $\stateT[\prime] \in \successors[\prime]{\agentA}{\stateS[\prime]}$ there exists $\stateT \in \successors{\agentA}{\stateS}$ such that $\stateS \bisimulation \stateT$.
+
+If there exists a bisimulation $\bisimulation$ such that $\stateS \bisimulation \stateS[\prime]$ then we say that $\pointedModel{\stateS}$ and $\pointedModel[\prime]{\stateS[\prime]}$ are {\em bisimilar} and we denote this by $\pointedModel{\stateS} \bisimilar \pointedModel[\prime]{\stateS[\prime]}$.
+\end{definition}
+
+We first note that the bisimilarity relation forms an equivalence relation.
+
+\begin{proposition}
+The relation $\bisimilar$ is an equivalence relation (reflexive, transitive and symmetric) on Kripke models.
+\end{proposition}
+
+Bisimilar Kripke models are equivalent under modal validity.
+
+\begin{proposition}
+Let $\phi \in \langMl$ be a modal formula and 
+let $\pointedModel{\stateS}, \pointedModel[\prime]{\stateS[\prime]} \in \classK$ be pointed Kripke models such that $\pointedModel{\stateS} \bisimilar \pointedModel[\prime]{\stateS[\prime]}$.
+Then $\pointedModel{\stateS} \entails \phi$ if and only if $\pointedModel[\prime]{\stateS[\prime]} \entails \phi$.
+\end{proposition}
+
+The converse, that Kripke models that are equivalent under modal validity are also bisimilar doesn't hold in general.
+However we note that the converse holds for modally saturated Kripke models, a notion that we define now.
+
+\begin{definition}
+Let $\modelAndTuple \in \classK$ be a Kripke model.
+We say that $\model$ is {\em modally saturated} if and only if for every $\agentA \in \agents$, $\stateS \in \states$ and $\Phi \subseteq \langMl$: if $\Phi$ is finitely satisfiable in $\pointedModel{\successors{\agentA}{\stateS}}$ then $\Phi$ is satisfiable in $\pointedModel{\successors{\agentA}{\stateS}}$.
+\end{definition}
+
+\begin{proposition}
+Let $\phi \in \langMl$ be a modal formula,
+let $\model, \model[\prime] \in \classK$ be modally saturated Kripke models, and
+let the relation $\bisimulation \subseteq \states \times \states[\prime]$ be defined such that $\stateS \bisimulation \stateS[\prime]$ if and only if for every $\phi \in \langMl$: $\pointedModel{\stateS} \entails \phi$ if and only if $\pointedModel[\prime]{\stateS[\prime]} \entails \phi$.
+Then $\bisimulation$ is a bisimulation.
+\end{proposition}
+
+A notable class of modally saturated Kripke models are the image-finite Kripke models.
+
+\begin{definition}[Image-finiteness]
+Let $\modelAndTuple \in \classK$ be a Kripke model.
+We say that $\model$ is {\em image-finite} if and only if for every $\agentA \in \agents$ and $\stateS \in \states$: $\successors{\agentA}{\stateS}$ is finite.
+\end{definition}
+
+\begin{proposition}
+Every finite Kripke model is image-finite.
+\end{proposition}
+
+\begin{proposition}
+Every image-finite Kripke model is modally saturated.
+\end{proposition}
 
 \subsection{Axiomatisation}
 

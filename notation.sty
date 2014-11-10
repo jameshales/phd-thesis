@@ -1,0 +1,226 @@
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+% Math macro
+\newcommand{\newcommandm}[2]{\newcommand{#1}{{\ensuremath{#2}}}}
+
+% Custom caligraphic font
+\DeclareFontFamily{OT1}{pzc}{}
+\DeclareFontShape{OT1}{pzc}{m}{it}{<-> s * [1.10] pzcmi7t}{}
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+% Miscellaneous
+\newcommand{\powerset}{\mathcal{P}}
+\newcommand{\naturals}{\mathbb{N}}
+\renewcommand{\phi}{\varphi}
+
+% Terms
+\newcommandm{\agents}{A}
+\newcommand{\agentA}{a}
+\newcommand{\agentB}{b}
+\newcommand{\agentC}{c}
+\newcommand{\agentD}{d}
+\newcommand{\agentsB}{B}
+\newcommand{\agentsC}{C}
+\newcommand{\agentsD}{D}
+
+\newcommandm{\atoms}{P}
+\newcommand{\atomsQ}{Q}
+\newcommand{\atomsR}{R}
+\newcommand{\atomP}{p}
+\newcommand{\atomQ}{q}
+\newcommand{\atomR}{r}
+
+\newcommand{\state}[2][\empty]{{{#2}^{#1}}}
+\newcommand{\stateS}[1][\empty]{\state[#1]{s}}
+\newcommand{\stateT}[1][\empty]{\state[#1]{t}}
+\newcommand{\stateU}[1][\empty]{\state[#1]{u}}
+\newcommand{\stateV}[1][\empty]{\state[#1]{v}}
+\newcommand{\stateW}[1][\empty]{\state[#1]{w}}
+\newcommand{\stateX}[1][\empty]{\state[#1]{x}}
+\newcommand{\stateY}[1][\empty]{\state[#1]{y}}
+\newcommand{\stateZ}[1][\empty]{\state[#1]{z}}
+\newcommand{\statesT}[1][\empty]{\state[#1]{T}}
+\newcommand{\statesU}[1][\empty]{\state[#1]{U}}
+\newcommand{\statesV}[1][\empty]{\state[#1]{V}}
+\newcommand{\statesW}[1][\empty]{\state[#1]{W}}
+
+\newcommand{\states}[1][\empty]{\ensuremath{{S^{#1}}}}
+\newcommand{\accessibility}[2][\empty]{\ensuremath{{R^{#1}_{#2}}}}
+\newcommand{\accessibilityRel}[1][\empty]{\accessibility[#1]{\empty}}
+\newcommand{\valuation}[1][\empty]{\ensuremath{{V^{#1}}}}
+\newcommand{\successors}[3][\empty]{{#3} \accessibility[#1]{#2}}
+\newcommand{\predecessors}[3][\empty]{\accessibility[#1]{#2} {#3}}
+\newcommand{\interpretation}[2][\empty]{[\![{#2}]\!]_{#1}}
+
+\newcommand{\modelTuple}[1][\empty]{\ensuremath{{(\states[#1], \accessibilityRel[#1], \valuation[#1])}}}
+\newcommand{\model}[1][\empty]{\ensuremath{{M^{#1}}}}
+\newcommand{\modelAndTuple}[1][\empty]{\model[#1] = \modelTuple[#1]}
+
+\newcommand{\pointedModel}[2][\empty]{\ensuremath{{M^{#1}_{#2}}}}
+\newcommand{\pointedModelTuple}[2][\empty]{\ensuremath{{(\modelTuple[#1], {#2})}}}
+\newcommand{\pointedModelAndTuple}[2][\empty]{\pointedModel[#1]{#2} = \pointedModelTuple[#1]{#2}}
+
+\newcommand{\actionState}[2][\empty]{{\mathsf{{#2}}^{#1}}}
+\newcommand{\actionStateS}[1][\empty]{\actionState[#1]{s}}
+\newcommand{\actionStateT}[1][\empty]{\actionState[#1]{t}}
+\newcommand{\actionStateU}[1][\empty]{\actionState[#1]{u}}
+\newcommand{\actionStateV}[1][\empty]{\actionState[#1]{v}}
+\newcommand{\actionStateW}[1][\empty]{\actionState[#1]{w}}
+\newcommand{\actionStateX}[1][\empty]{\actionState[#1]{x}}
+\newcommand{\actionStateY}[1][\empty]{\actionState[#1]{y}}
+\newcommand{\actionStatesT}[1][\empty]{\actionState[#1]{T}}
+\newcommand{\actionStatesU}[1][\empty]{\actionState[#1]{U}}
+\newcommand{\actionStatesV}[1][\empty]{\actionState[#1]{V}}
+\newcommand{\actionStatesW}[1][\empty]{\actionState[#1]{W}}
+\newcommand{\actionStateTest}{\actionState{test}}
+\newcommand{\actionStateSkip}{\actionState{skip}}
+\newcommand{\proxyStateS}[1][\empty]{\actionState[#1]{\bar{s}}}
+\newcommand{\proxyStateT}[1][\empty]{\actionState[#1]{\bar{t}}}
+\newcommand{\proxyStateU}[1][\empty]{\actionState[#1]{\bar{u}}}
+\newcommand{\proxyStateV}[1][\empty]{\actionState[#1]{\bar{v}}}
+\newcommand{\proxyStateW}[1][\empty]{\actionState[#1]{\bar{w}}}
+
+\newcommand{\actionStates}[1][\empty]{\ensuremath{{\mathsf{S}^{#1}}}}
+\newcommand{\actionAccessibility}[2][\empty]{\ensuremath{{\mathsf{R}^{#1}_{#2}}}}
+\newcommand{\actionAccessibilityRel}[1][\empty]{\actionAccessibility[#1]{\empty}}
+\newcommand{\actionPrecondition}[1][\empty]{\ensuremath{{\mathsf{pre}^{#1}}}}
+
+\newcommand{\actionModel}[1][\empty]{\ensuremath{{\mathsf{M}^{#1}}}}
+\newcommand{\actionModelTuple}[1][\empty]{\ensuremath{{(\actionStates[#1], \actionAccessibilityRel[#1], \actionPrecondition[#1])}}}
+\newcommand{\actionModelAndTuple}[1][\empty]{\actionModel[#1] = \actionModelTuple[#1]}
+
+\newcommand{\pointedActionModel}[2][\empty]{\ensuremath{{\mathsf{M}^{#1}_{#2}}}}
+\newcommand{\pointedActionModelTuple}[2][\empty]{\ensuremath{{(\actionModelTuple[#1], {#2})}}}
+\newcommand{\pointedActionModelAndTuple}[2][\empty]{\pointedActionModel[#1]{#2} = \pointedActionModelTuple[#1]{#2}}
+
+% Bisimulation, simulation, refinements
+\newcommand{\bisimilar}[1][\empty]{\simeq_{#1}}
+\newcommand{\refines}[1][\empty]{\preceq_{#1}}
+\newcommand{\simulates}[1][\empty]{\succeq_{#1}}
+\newcommand{\mutualrefines}[1][\empty]{{\bowtie}_{#1}}
+\newcommand{\bisimulation}{\mathfrak{R}}
+\newcommand{\refinement}{\bisimulation}
+
+% Logical operators
+\newcommand{\proves}{\vdash}
+\newcommand{\entails}{\vDash}
+\newcommand{\nproves}{\nvdash}
+\newcommand{\nentails}{\nvDash}
+\newcommand{\nequiv}{\not\equiv}
+\renewcommand{\implies}{\rightarrow}
+\renewcommand{\iff}{\leftrightarrow}
+
+% Modal operators
+\newcommand{\necessary}[1][\empty]{{{\raisebox{-1pt}{$\square$}}_{#1}}}
+\newcommand{\possible}[1][\empty]{{{\raisebox{-1pt}{$\Diamond$}}_{#1}}}
+\newcommand{\believes}{\necessary}
+\newcommand{\knows}{\necessary}
+\newcommand{\suspects}{\possible}
+
+% Cover operator
+\newcommand{\cover}[1][\empty]{\nabla_{#1}}
+\newcommand{\revoc}[1][\empty]{\triangle_{#1}}
+\newcommand{\covers}{\cover}
+
+% Public announcement operators
+\newcommand{\restrict}[2]{{{#1} | {#2}}}
+\newcommand{\announceE}[1]{\langle #1 \rangle}
+\newcommand{\announceA}[1]{[ #1 ]}
+
+% Action model operators
+\newcommand{\exec}{\otimes}
+\newcommand{\actionE}[1]{{\langle {#1} \rangle}}
+\newcommand{\actionA}[1]{{[ {#1} ]}}
+
+% Refinement modal operators
+\newcommandm{\somerefs}{\exists}
+\newcommandm{\allrefs}{\forall}
+
+% Arbitrary public announcement operators
+\newcommandm{\somepas}{\exists}
+\newcommandm{\allpas}{\forall}
+
+% Arbitrary positive announcement operators
+\newcommandm{\someppas}{\exists}
+\newcommandm{\allppas}{\forall}
+
+% Arbitrary action model operators
+\newcommandm{\someacts}{\exists}
+\newcommandm{\allacts}{\forall}
+
+% Action formula operators
+\newcommand{\test}[1]{?{#1}}
+\newcommand{\announce}[1]{!{#1}}
+\newcommand{\learns}{L}
+\newcommand{\choice}{\sqcup}
+\newcommand{\bigchoice}{\bigsqcup}
+\newcommand{\lchoice}{!}
+\newcommand{\rchoice}{\text{!`}}
+\newcommand{\compose}{\otimes}
+\newcommand{\bigcompose}{\bigotimes}
+
+
+% Languages
+\newcommandm{\lang}{\mathpzc{L}} % Modal
+\newcommandm{\langPl}{\lang_\mathit{pl}} % Propositional
+\newcommandm{\langMl}{\lang_\mathit{el}} % Modal logic
+\newcommandm{\langMlPlus}{\lang_\mathit{el}^{+}} % Positive
+\newcommandm{\langPal}{\lang_\mathit{pal}} % Public announcement logic
+\newcommandm{\langAml}{\lang_\mathit{aml}} % Action model logic
+\newcommandm{\langAfl}{\lang_\mathit{afl}} % Action formula logic
+\newcommandm{\langAflAct}{\lang_\mathit{afl}^\mathit{act}} % Action formula logic actions
+\newcommandm{\langApal}{\lang_\mathit{apal}} % Arbitrary public announcement logic
+\newcommandm{\langPapal}{\lang_\mathit{apal^+}} % Positive arbitrary public announcement logic
+\newcommandm{\langRml}{\lang_\mathit{rml}} % Refinement modal logic
+\newcommandm{\langAaml}{\lang_\mathit{aaml}} % Arbitrary action model logic
+\newcommandm{\langAafl}{\lang_\mathit{aafl}} % Arbitrary action formula logic
+\newcommandm{\langAaflAct}{\lang_\mathit{aafl}^\mathit{act}} % Arbitrary action formula logic actions
+
+
+% Modal classes, logics and axiomatisations
+\newcommand{\newmodalclass}[2]{%
+\expandafter\newcommandm\csname class#1\endcsname{{\mathpzc{#2}}}
+\expandafter\newcommandm\csname logic#1\endcsname{{\textit{#2}}}
+\expandafter\newcommandm\csname logicPal#1\endcsname{\textit{PAL}_\@nameuse{logic#1}}
+\expandafter\newcommandm\csname logicAml#1\endcsname{\textit{AML}_\@nameuse{logic#1}}
+\expandafter\newcommandm\csname logicAfl#1\endcsname{\textit{AFL}_\@nameuse{logic#1}}
+\expandafter\newcommandm\csname logicApal#1\endcsname{\textit{APAL}_\@nameuse{logic#1}}
+\expandafter\newcommandm\csname logicPapal#1\endcsname{\textit{APAL^{+}}_\@nameuse{logic#1}}
+\expandafter\newcommandm\csname logicRml#1\endcsname{\textit{RML}_\@nameuse{logic#1}}
+\expandafter\newcommandm\csname logicAaml#1\endcsname{\textit{AAML}_\@nameuse{logic#1}}
+\expandafter\newcommandm\csname logicAafl#1\endcsname{\textit{AAFL}_\@nameuse{logic#1}}
+\expandafter\newcommandm\csname axiom#1\endcsname{\mathrm{\mathbf{#2}}}
+\expandafter\newcommandm\csname axiomAml#1\endcsname{{\mathrm{\mathbf{AML}}_\@nameuse{axiom#1}}}
+\expandafter\newcommandm\csname axiomAfl#1\endcsname{{\mathrm{\mathbf{AFL}}_\@nameuse{axiom#1}}}
+\expandafter\newcommandm\csname axiomRml#1\endcsname{{\mathrm{\mathbf{RML}}_\@nameuse{axiom#1}}}
+\expandafter\newcommandm\csname axiomAaml#1\endcsname{{\mathrm{\mathbf{AAML}}_\@nameuse{axiom#1}}}
+\expandafter\newcommandm\csname axiomAafl#1\endcsname{{\mathrm{\mathbf{AAML}}_\@nameuse{axiom#1}}}
+}
+
+\newmodalclass{C}{C}
+\newmodalclass{K}{K}
+\newmodalclass{KF}{K4}
+\newmodalclass{KFF}{K45}
+\newmodalclass{KD}{KD45}
+\newmodalclass{SF}{S4}
+\newmodalclass{S}{S5}
+
+% Class of action models
+\newcommandm{\classAM}{\mathpzc{AM}}
+
+% AMS Theorems
+%\theoremstyle{plain}% default
+%\newtheorem{theorem}{Theorem}[section]
+%\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{proposition}[theorem]{Proposition}
+%\newtheorem{corollary}[theorem]{Corollary}
+%\newtheorem*{properties}{Properties}
+%\theoremstyle{definition}
+%\newtheorem{definition}{Definition}[section]
+%\newtheorem{example}{Example}[section]
+%\theoremstyle{remark}
+%\newtheorem*{remark}{Remark}
+%\newtheorem*{note}{Note}

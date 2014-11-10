@@ -25,7 +25,7 @@ where $\atomP \in \atoms$ and $\agentA \in \agents$.
 We use all of the standard abbreviations from propositional logic, in addition to the standard abbreviation $\possible[\agentA] \phi ::= \lnot \necessary[\agentA] \lnot \phi$.
 
 The formula $\necessary[\agentA] \phi$ may be read as ``agent $\agentA$ {\em knows} that $\phi$ is true'', or ``agent $\agentA$ {\em believes} that $\phi$ is true'', depending on which terminology is appropriate for the setting we are working in.
-The formula $\possible[\agentA] \phi$ may be read as ``agent $\agentA$ considers it possible that $\phi$ is true'' (i.e. agent $\agentA$ doesn't know or believe that $\phi$ is not true).
+The formula $\possible[\agentA] \phi$ may be read as ``agent $\agentA$ considers it possible that $\phi$ is true'', i.e. agent $\agentA$ doesn't know (or believe) that $\phi$ is not true.
 
 \subsection{Semantics}
 
@@ -51,7 +51,7 @@ $\predecessors{\agentA}{\{\stateS\}}$ as $\predecessors{\agentA}{\stateS}$.
 We will be working with a variety of modal logics that are defined by relational properties on Kripke models.
 We define those relational properties here.
 
-\begin{definition}[Serial, reflexive, transitive, symmetric and Euclidean relations]
+\begin{definition}[Relational properties]
 Let $\states$ be a set and let $\accessibilityRel \subseteq \states \times \states$ be a binary relation on $\states$. 
 Then we say that $\accessibilityRel$ is\ldots
 \begin{itemize}
@@ -172,7 +172,54 @@ Every finite Kripke model is image-finite.
 Every image-finite Kripke model is modally saturated.
 \end{proposition}
 
-\subsection{Axiomatisation}
+\subsection{Axiomatisations}
+
+\begin{definition}[Axiomatisation \axiomK{}]
+The axiomatisation \axiomK{} is a substitution schema consisting of the following axioms and rules:
+$$
+\begin{array}{rl}
+    {\bf P}     & \text{All propositional tautologies}\\
+    {\bf K}     & \proves \necessary[\agentA] (\phi \implies \psi) \implies (\necessary[\agentA] \phi \implies \necessary[\agentA] \psi)\\
+    {\bf MP}    & \text{From } \proves \phi \implies \psi \text{ and } \proves \phi \text{ infer } \proves \psi\\
+    {\bf NecK}  & \text{From } \proves \phi \text{ infer } \proves \necessary[\agentA] \phi
+\end{array}
+$$
+\end{definition}
+
+If $\proves \phi$ we say that $\phi$ is {\em provable} using the axiomatisation.
+If $\Phi \subseteq \langMl$ is a (possibly infinite) set of formulas and there exists $\phi_1, \dots, \phi_n \in \Phi$ such that $\proves (\phi_1 \land \cdots \land \phi_n) \implies \phi$ then we say that $\phi$ is {\em deducible} from $\Phi$ and we write $\Phi \proves \phi$.
+If every formula provable using the axiomatisation is valid in the corresponding semantics then we say that the axiomatisation is {\em sound} with respect to the logic.
+If every formula valid in a semantics is provable using the corresponding axiomatisation then we say that the axiomatisation is {\em (weakly) complete} with respect to the semantics.
+If every set of formulas that is consistent according to an axiomatisation is satisfiable in the corresponding semantics then we say that the axiomatisation is {\em strongly complete} with respect to the semantics.
+
+\begin{proposition}
+The axiomatisation \axiomK{} is sound and strongly complete with respect to the semantics of the logic \logicK{}.
+\end{proposition}
+
+\begin{definition}[Axiomatisations \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{}]
+We define the following axioms:
+$$
+\begin{array}{rl}
+    {\bf D}     & \proves \necessary[\agentA] \phi \implies \possible[\agentA] \phi\\
+    {\bf T}     & \proves \necessary[\agentA] \phi \implies \phi\\
+    {\bf 4}     & \proves \necessary[\agentA] \phi \implies \necessary[\agentA] \necessary[\agentA] \phi\\
+    {\bf 5}     & \proves \possible[\agentA] \phi \implies \necessary[\agentA] \possible[\agentA] \phi
+\end{array}
+$$
+
+Then the axiomatisations \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} consist of the axioms and rules of \axiomK{} along with the following respective additional axioms:
+\begin{itemize}
+    \item \axiomKF{}: {\bf 4}
+    \item \axiomKFF{}: {\bf 4} and {\bf 5}
+    \item \axiomKD{}: {\bf D}, {\bf 4} and {\bf 5}
+    \item \axiomSF{}: {\bf T} and {\bf 4}
+    \item \axiomS{}: {\bf T} and {\bf 5}
+\end{itemize}
+\end{definition}
+
+\begin{proposition}
+The axiomatisations \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} are sound and strongly complete with respect to the semantics of the the respective logics \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{}, and \logicS{}.
+\end{proposition}
 
 \section{Public announcement logic}
 

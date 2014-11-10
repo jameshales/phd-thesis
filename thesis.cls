@@ -215,7 +215,7 @@ class report.cls by Cara MacNish August 1999/September 2000 and James Hales Nove
     School of Computer Science \& Software Engineering\\
     for the degree of\\
     Doctor of Philosophy\\
-    of\\
+    from\\
     The University of Western Australia}
   \end{center}
   \end{titlepage}%

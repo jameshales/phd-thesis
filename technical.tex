@@ -1,9 +1,10 @@
 \chapter{Technical preliminaries}
 
 In this chapter we introduce the technical preliminaries used throughout this dissertation.
-We recall definitions and results from modal logic, public announcement logic and action model logic.
 
 \section{Modal logic}
+
+We recall definitions and results from modal logic.
 
 \subsection{Syntax}
 
@@ -81,7 +82,7 @@ We define the following classes of Kripke models:
 We next define the semantics of modal logic.
 We define the semantics in terms of a parameterised class of Kripke models, \classC{}, which could stand for \classK{}, \classKF{}, \classKFF{}, etc. or for any other class of Kripke models so defined.
 
-\begin{definition}[Semantics of modal logic]
+\begin{definition}[Semantics of modal logic]\label{modal-semantics}
 Let $\classC$ be a class of Kripke models and let $\pointedModelAndTuple{\stateS} \in \classC$ be a pointed Kripke model.
 The interpretation of the formula $\phi \in \langMl$ in the logic \logicC{} on the pointed Kripke model $\pointedModel{\stateS}$ is defined inductively as:
 $$
@@ -218,16 +219,81 @@ Then the axiomatisations \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \a
 \end{definition}
 
 \begin{proposition}
-The axiomatisations \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} are sound and strongly complete with respect to the semantics of the the respective logics \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{}, and \logicS{}.
+The axiomatisations \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} are sound and strongly complete with respect to the semantics of the respective logics \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{}, and \logicS{}.
 \end{proposition}
 
 \section{Public announcement logic}
 
+We recall definitions and results from the public announcement logic of Plaza~\cite{plaza:1989}.
+
 \subsection{Syntax}
+
+\begin{definition}[Language of public announcement logic]
+The {\em language of public announcement logic}, \langPal{}, is inductively defined as:
+$$
+\phi ::= 
+    \atomP \mid
+    \lnot \phi \mid
+    (\phi \land \phi) \mid
+    \necessary[\agentA] \phi \mid
+    \announceA{\phi} \phi
+$$
+where $\atomP \in \atoms$ and $\agentA \in \agents$.
+\end{definition}
+
+We use all of the standard abbreviations from modal logic, in addition to the standard abbreviation $\announceE{\phi} \psi ::= \lnot \announceA{\phi} \lnot \psi$.
+
+The formula $\announceA{\phi} \psi$ may be read as ``if $\phi$ is true then after publicly announcing that it is true, $\psi$ is true''.
+The formula $\announceE{\phi} \psi$ may be read as ``$\phi$ is true and after publicly announcing that it is true, $\psi$ is true''.
 
 \subsection{Semantics}
 
+\begin{definition}[Model restriction]
+Let $\modelAndTuple \in \classK$ be a Kripke model and let $\statesT \subseteq \states$.
+We denote the {\em restriction of $\model$ to $\statesT$} by $\restrict{\model}{\statesT}$ and
+define it as $\restrict{\model}{\statesT} = (\statesT, \restrict{\accessibilityRel}{\statesT}, \restrict{\valuation}{\statesT})$ where:
+\begin{eqnarray*}
+    \restrict{\accessibility{\agentA}}{\statesT} &=& \accessibility{\agentA} \cap (\statesT \times \statesT)\\
+    \restrict{\valuation}{\statesT}(\atomP) &=& \valuation(\atomP) \cap \statesT
+\end{eqnarray*}
+
+Let \lang{} be a logical language with an interpretation on $\model$, and let $\phi \in \lang$.
+We denote the {\em restriction of $\model$ to $\phi$} by $\restrict{\model}{\phi}$ and define it as $\restrict{\model}{\phi} = \restrict{\model}{\interpretation[\model]{\phi}}$.
+\end{definition}
+
+\begin{definition}[Semantics of public announcement logic]
+Let $\pointedModelAndTuple{\stateS} \in \classS$ be a pointed Kripke model.
+The interpretation of the formula $\phi \in \langMl$ in the logic \logicPalS{} on the pointed Kripke model $\pointedModel{\stateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{modal-semantics}, with the additional inductive case:
+$$
+\begin{array}{lcl}
+\pointedModel{\statesT} \entails \announceA{\phi} \psi & \text{ iff } & \pointedModel{\statesT} \entails \phi \text{ implies } \restrict{\pointedModel{\statesT}}{\phi} \entails \psi
+\end{array}
+$$
+\end{definition}
+
 \subsection{Axiomatisation}
+
+\begin{definition}[Axiomatisation \axiomPalS{}]
+The axiomatisation \axiomPalS{} is a substitution schema consisting of the axioms and rules of \axiomS{} along with the following additional axioms and rules:
+$$
+\begin{array}{rl}
+    {\bf AP} & \proves \announceA{\phi} \atomP \iff (\phi \implies \atomP)\\
+    {\bf AN} & \proves \announceA{\phi} \lnot \psi \iff (\phi \implies \lnot \announceA{\phi} \psi)\\
+    {\bf AC} & \proves \announceA{\phi} (\psi \land \chi) \iff (\announceA{\phi} \psi \land \announceA{\phi} \chi)\\
+    {\bf AK} & \proves \announceA{\phi} \necessary[\agentA] \psi \iff (\phi \implies \necessary[\agentA] \announceA{\phi} \psi)\\
+    {\bf AA} & \proves \announceA{\phi} \announceA{\psi} \chi \iff \announceA{\phi \land \announceA{\phi} \psi} \chi\\
+    {\bf NecA} & \text{From } \proves \phi \text{ infer } \proves \announceA{\psi} \phi
+\end{array}
+$$
+\end{definition}
+
+\begin{proposition}
+The axiomatisation \axiomPalS{} is sound and strongly complete with respect to the semantics of the logic \logicPalS{}.
+\end{proposition}
+
+\begin{proposition}
+\logicPalS{} is expressively equivalent to \logicS{}.
+\end{proposition}
 
 \section{Action model logic}
 

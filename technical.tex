@@ -35,17 +35,13 @@ A {\em Kripke model}, $\modelAndTuple$ consists of:
     \item An indexed set of {\em accessibility relations} $\accessibilityRel$, indexed on $\agents$, where for every $\agentA \in \agents$, $\accessibility{\agentA} \subseteq \states \times \states$ is a binary relation on states.
     \item A {\em valuation function} $\valuation : \atoms \to \powerset(\states)$, which is a function from propositional atoms to sets of states.
 \end{itemize}
-A {\em multi-pointed Kripke model} $\pointedModelAndTuple{\statesT}$ consists of a Kripke model $\modelAndTuple$ along with a designated set of states $\statesT \subseteq \states$.
+A {\em pointed Kripke model} $\pointedModelAndTuple{\stateS}$ consists of a Kripke model $\modelAndTuple$ along with a designated state $\stateS \in \states$.
 \end{definition}
 
 We write $\stateS \accessibility{\agentA} \stateT$ to denote that $(\stateS, \stateT) \in \accessibility{\agentA}$.
-We write $\successors{\agentA}{\statesT}$ to denote the set of successor states $\successors{\agentA}{\statesT} = \{\stateS \in \states \mid \stateT \in \statesT, \stateT \accessibility{\agentA} \stateS\}$ and
-we write $\predecessors{\agentA}{\statesT}$ to denote the set of predecessor states $\predecessors{\agentA}{\statesT} = \{\stateS \in \states \mid \stateT \in \statesT, \stateS \accessibility{\agentA} \stateT\}$.
-As we will often be required to discuss several Kripke models at once, we will use the convention that $\pointedModelAndTuple{\statesT}$, $\pointedModelAndTuple[\prime]{\statesT[\prime]}$, $\pointedModelAndTuple[\gamma]{\statesT[\gamma]}$, etc.
-We abbreviate the {\em pointed Kripke model}
-$\pointedModel{\{\stateS\}}$ as $\pointedModel{\stateS}$,
-$\successors{\agentA}{\{\stateS\}}$ as $\successors{\agentA}{\stateS}$ and
-$\predecessors{\agentA}{\{\stateS\}}$ as $\predecessors{\agentA}{\stateS}$.
+We write $\successors{\agentA}{\stateS}$ to denote the set of successor states $\successors{\agentA}{\stateS} = \{\stateT \in \states \mid \stateS \accessibility{\agentA} \stateT\}$ and
+we write $\predecessors{\agentA}{\stateT}$ to denote the set of predecessor states $\predecessors{\agentA}{\stateT} = \{\stateS \in \states \mid \stateS \accessibility{\agentA} \stateT\}$.
+As we will often be required to discuss several Kripke models at once, we will use the convention that $\pointedModelAndTuple{\stateS}$, $\pointedModelAndTuple[\prime]{\stateS[\prime]}$, $\pointedModelAndTuple[\gamma]{\stateS[\gamma]}$, etc.
 
 We will be working with a variety of modal logics that are defined by relational properties on Kripke models.
 We define those relational properties here.
@@ -81,27 +77,27 @@ We next define the semantics of modal logic.
 We define the semantics in terms of a parameterised class of Kripke models, \classC{}, which could stand for \classK{}, \classKF{}, \classKFF{}, etc. or for any other class of Kripke models so defined.
 
 \begin{definition}[Semantics of modal logic]\label{modal-semantics}
-Let $\classC$ be a class of Kripke models, let $\phi \in \langMl$, and let $\pointedModelAndTuple{\statesT} \in \classC$ be a pointed Kripke model.
-The interpretation of the formula $\phi$ in the logic \logicC{} on the pointed Kripke model $\pointedModel{\statesT}$ is defined inductively as:
+Let $\classC$ be a class of Kripke models, let $\phi \in \langMl$, and let $\pointedModelAndTuple{\stateS} \in \classC$ be a pointed Kripke model.
+The interpretation of the formula $\phi$ in the logic \logicC{} on the pointed Kripke model $\pointedModel{\stateS}$ is defined inductively as:
 $$
 \begin{array}{lcl}
-\pointedModel{\statesT} \entails \atomP & \text{ iff } & \statesT \subseteq \valuation(\atomP)\\
-\pointedModel{\statesT} \entails \lnot \phi & \text{ iff } & \pointedModel{\statesT} \nentails \phi\\
-\pointedModel{\statesT} \entails \phi \land \psi & \text{ iff } & \pointedModel{\statesT} \entails \phi \text{ and } \pointedModel{\statesT} \entails \psi\\
-\pointedModel{\statesT} \entails \necessary[\agentA] \phi & \text{ iff } & \pointedModel{\successors{\agentA}{\statesT}} \entails \phi
+\pointedModel{\stateS} \entails \atomP & \text{ iff } & \stateS \in \valuation(\atomP)\\
+\pointedModel{\stateS} \entails \lnot \phi & \text{ iff } & \pointedModel{\stateS} \nentails \phi\\
+\pointedModel{\stateS} \entails \phi \land \psi & \text{ iff } & \pointedModel{\stateS} \entails \phi \text{ and } \pointedModel{\stateS} \entails \psi\\
+\pointedModel{\stateS} \entails \necessary[\agentA] \phi & \text{ iff } & \text{for every } \stateT \in \successors{\agentA}{\stateS} : \pointedModel{\stateT} \entails \phi
 \end{array}
 $$
 \end{definition}
 
 Thus we get the definitions of the semantics of the modal logics \logicK{}, \logicKF{}, \logicKFF{}, etc. for the corresponding classes of Kripke models \classK{}, \classKF{}, \classKFF{}, etc.
 
-Let $\pointedModelAndTuple{\statesT} \in \classC$ be a multi-pointed Kripke model and
+Let $\pointedModelAndTuple{\stateS} \in \classC$ be a pointed Kripke model and
 let $\Phi \subseteq \langMl$ be a (possibly infinite) set of formulas.
-If $\pointedModel{\statesT} \entails \phi$ for every $\phi \in \Phi$ then we say that $\Phi$ is {\em valid} on $\pointedModel{\statesT}$ and we write $\pointedModel{\statesT} \entails \Phi$.
-If $\pointedModel{\states} \entails \Phi$ then we say that $\Phi$ is valid on $\model$ and we denote this by $\model \entails \Phi$.
+If $\pointedModel{\stateS} \entails \phi$ for every $\phi \in \Phi$ then we say that $\Phi$ is {\em valid} on $\pointedModel{\stateS}$ and we write $\pointedModel{\stateS} \entails \Phi$.
+If $\pointedModel{\stateS} \entails \Phi$ for every $\stateS \in \states$ then we say that $\Phi$ is valid on $\model$ and we denote this by $\model \entails \Phi$.
 If $\model \entails \Phi$ for every $\model \in \classC$ then we say that $\Phi$ is valid on \classC{} and we denote this by $\classC \entails \Phi$.
 When \classC{} is clear from context we may simply write $\entails \Phi$ instead of $\classC \entails \Phi$.
-If there exists $\stateS \in \statesT$ such that $\pointedModel{\stateS} \entails \Phi$ then we say that $\Phi$ is {\em satisfiable} in $\pointedModel{\statesT}$.
+If $\statesT \subseteq \states$ and there exists $\stateS \in \statesT$ such that $\pointedModel{\stateS} \entails \Phi$ then we say that $\Phi$ is {\em satisfiable} in $\pointedModel{\statesT}$.
 If $\Phi$ is satisfiable in $\pointedModel{\states}$ then we say that $\Phi$ is satisfiable in $\model$.
 If there exists $\model \in \classC$ such that $\Phi$ is satisfiable in $\model$ then we say that $\Phi$ is satisfiable in \classC{}.
 If every finite subset of $\Phi$ is satisfiable in \{$\pointedModel{\statesT}$, $\model$, \classC{}\} then we say that $\Phi$ is {\em finitely satisfiable} in \{$\pointedModel{\statesT}$, $\model$, \classC{}\}.
@@ -258,11 +254,11 @@ We denote the {\em restriction of $\model$ to $\phi$} by $\restrict{\model}{\phi
 \end{definition}
 
 \begin{definition}[Semantics of public announcement logic]
-Let $\phi \in \langPal$ and let $\pointedModelAndTuple{\statesT} \in \classS$ be a multi-pointed Kripke model.
-The interpretation of the formula $\phi$ in the logic \logicPalS{} on the pointed Kripke model $\pointedModel{\statesT}$ is the same as its interpretation in modal logic, defined in Definition~\ref{modal-semantics}, with the additional inductive case:
+Let $\phi \in \langPal$ and let $\pointedModelAndTuple{\stateS} \in \classS$ be a pointed Kripke model.
+The interpretation of the formula $\phi$ in the logic \logicPalS{} on the pointed Kripke model $\pointedModel{\stateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{modal-semantics}, with the additional inductive case:
 $$
 \begin{array}{lcl}
-\pointedModel{\statesT} \entails \announceA{\phi} \psi & \text{ iff } & \pointedModel{\statesT} \entails \phi \text{ implies } \restrict{\pointedModel{\statesT}}{\phi} \entails \psi
+\pointedModel{\stateS} \entails \announceA{\phi} \psi & \text{ iff } & \pointedModel{\stateS} \entails \phi \text{ implies } \restrict{\pointedModel{\stateS}}{\phi} \entails \psi
 \end{array}
 $$
 \end{definition}
@@ -293,6 +289,8 @@ The axiomatisation \axiomPalS{} is sound and strongly complete with respect to t
 
 \section{Action model logic}
 
+We recall definitions and results from the action model logic of Baltag, Moss and Solecki~\cite{baltagetal:1998,baltagetal:2004}.
+
 \subsection{Syntax and semantics}
 
 \begin{definition}[Action models]
@@ -303,10 +301,8 @@ An {\em action model}, $\actionModelAndTuple$, with preconditions defined on \la
     \item An indexed set of {\em accessibility relations} $\actionAccessibilityRel$, indexed on $\agents$, where for every $\agentA \in \agents$, $\actionAccessibility{\agentA} \subseteq \actionStates \times \actionStates$ is a binary relation on action states.
     \item A {\em precondition function} $\actionPrecondition : \actionStates \to \lang$, which is a function from action states to formulas of \lang{}.
 \end{itemize}
-A {\em multi-pointed action model} $\pointedActionModelAndTuple{\actionStatesT}$ consists of a Kripke model $\actionModelAndTuple$ along with a designated set of states $\actionStatesT \subseteq \actionStates$.
+A {\em pointed action model} $\pointedActionModelAndTuple{\actionStateS}$ consists of an action model $\actionModelAndTuple$ along with a designated action state $\actionStateS \in \actionStates$.
 \end{definition}
-
-We write $\actionPrecondition(\actionStatesT)$ to denote the set of formulas $\{\actionPrecondition(\actionStateS) \mid \actionStateS \in \actionStatesT\}$.
 
 \begin{definition}[Language of action model logic]
 The {\em language of action model logic}, \langAml{}, is inductively defined inductively as:
@@ -316,9 +312,9 @@ $$
     \lnot \phi \mid
     (\phi \land \phi) \mid
     \necessary[\agentA] \phi \mid
-    \actionA{\pointedActionModel{\actionStatesT}} \phi
+    \actionA{\pointedActionModel{\actionStateS}} \phi
 $$
-where $\atomP \in \atoms$, $\agentA \in \agents$ and $\pointedActionModel{\actionStatesT} \in \classAM$ is an action model with preconditions defined on \langAml{}.
+where $\atomP \in \atoms$, $\agentA \in \agents$ and $\pointedActionModel{\actionStateS} \in \classAM$ is an action model with preconditions defined on \langAml{}.
 \end{definition}
 
 \begin{definition}[Semantics of action model logic]

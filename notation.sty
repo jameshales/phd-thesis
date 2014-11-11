@@ -88,6 +88,8 @@
 \newcommand{\actionAccessibility}[2][\empty]{\ensuremath{{\mathsf{R}^{#1}_{#2}}}}
 \newcommand{\actionAccessibilityRel}[1][\empty]{\actionAccessibility[#1]{\empty}}
 \newcommand{\actionPrecondition}[1][\empty]{\ensuremath{{\mathsf{pre}^{#1}}}}
+\newcommand{\actionSuccessors}[3][\empty]{{#3} \actionAccessibility[#1]{#2}}
+\newcommand{\actionPredecessors}[3][\empty]{\actionAccessibility[#1]{#2} {#3}}
 
 \newcommand{\actionModel}[1][\empty]{\ensuremath{{\mathsf{M}^{#1}}}}
 \newcommand{\actionModelTuple}[1][\empty]{\ensuremath{{(\actionStates[#1], \actionAccessibilityRel[#1], \actionPrecondition[#1])}}}

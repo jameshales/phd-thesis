@@ -323,19 +323,44 @@ Let \classC{} be a class of Kripke models.
 Let $\modelAndTuple \in \classC$ be a Kripke model and $\actionModelAndTuple \in \classAM$ be an action model with preconditions defined on \langAml{}.
 We denote the result of executing the action model $\actionModel$ on the Kripke $\model$ as $\model \exec \actionModel$ and define it as $\model \exec \actionModel = \modelAndTuple[\prime]$ where:
 \begin{eqnarray*}
-    \states[\prime] &=& \{(\stateS, \actionStateS) \in \states \times \actionStates \mid \stateS \entails \actionPrecondition(\actionStateS)\}\\
+    \states[\prime] &=& \{(\stateS, \actionStateS) \in \states \times \actionStates \mid \pointedModel{\stateS} \entails \actionPrecondition(\actionStateS)\}\\
     (\stateS, \actionStateS) \accessibility[\prime]{\agentA} (\stateT, \actionStateT) &\text{ iff }& \stateS \accessibility{\agentA} \stateT \text{ and } \actionStateS \actionAccessibility{\agentA} \actionStateT\\
     \valuation[\prime](\atomP) &=& \{(\stateS, \actionStateS) \in \states[\prime] \mid \stateS \in \valuation(\atomP)\}
 \end{eqnarray*}
-We denote the result of executing the multi-pointed action model $\pointedActionModel{\actionStatesT}$ on the multi-pointed Kripke $\pointedModel{\statesT}$ as $\pointedModel{\statesT} \exec \pointedActionModel{\actionStatesT}$ and define it as $\pointedModel{\statesT} \exec \pointedActionModel{\actionStatesT} = (\model[\prime], \actionStatesT[\prime])$ where $\modelAndTuple[\prime] = \model \exec \actionModel$ and $\statesT[\prime] = (\statesT \times \actionStatesT) \cap \states[\prime]$.
+We denote the result of executing the pointed action model $\pointedActionModel{\actionStateS}$ on the pointed Kripke $\pointedModel{\stateS}$ as $\pointedModel{\stateS} \exec \pointedActionModel{\actionStateS}$ and define it as $\pointedModel{\stateS} \exec \pointedActionModel{\actionStateS} = (\model \exec \actionModel, (\stateS, \actionStateS))$. Note that $\pointedModel{\stateS} \exec \pointedActionModel{\actionStateS}$ is undefined if $\pointedModel{\stateS} \nentails \actionPrecondition(\actionStateS)$.
 
-Let $\phi \in \langAml$ and let $\pointedModelAndTuple{\statesT} \in \classS$ be a multi-pointed Kripke model.
-The interpretation of the formula $\phi$ in the logic \logicAmlS{} on the pointed Kripke model $\pointedModel{\statesT}$ is the same as its interpretation in modal logic, defined in Definition~\ref{modal-semantics}, with the additional inductive case:
+Let $\phi \in \langAml$ and let $\pointedModelAndTuple{\stateS} \in \classC$ be a pointed Kripke model.
+The interpretation of the formula $\phi$ in the logic \logicAmlS{} on the pointed Kripke model $\pointedModel{\stateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{modal-semantics}, with the additional inductive case:
 $$
 \begin{array}{lcl}
-    \pointedModel{\statesT} \entails \actionA{\pointedActionModel{\actionStatesT}} \phi & \text { iff } & \pointedModel{\statesT} \entails \bigvee \actionPrecondition(\actionStatesT) \text{ and } \pointedModel{\statesT} \exec \pointedActionModel{\actionStatesT} \in \classC \text{ implies } \pointedModel{\statesT} \exec \pointedActionModel{\actionStatesT} \entails \phi
+    \pointedModel{\stateS} \entails \actionA{\pointedActionModel{\actionStateS}} \phi & \text { iff } & \pointedModel{\stateS} \entails \actionPrecondition(\actionStateS) \text{ and } \pointedModel{\stateS} \exec \pointedActionModel{\actionStateS} \in \classC \text{ implies } \pointedModel{\stateS} \exec \pointedActionModel{\actionStateS} \entails \phi
 \end{array}
 $$
 \end{definition}
 
-\subsection{Axiomatisation}
+\todo[inline]{Action model bisimulation}
+
+\todo[inline]{Action model bisimulation invariance results}
+
+\subsection{Axiomatisations}
+
+\begin{definition}[Axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{}]
+The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} is a substitution schema consisting of the respective axioms and rules of \axiomK{}, \axiomKFF{}, and \axiomS{} along with the following additional axioms and rules:
+$$
+\begin{array}{rl}
+    {\bf AP} & \proves \actionA{\pointedActionModel{\actionStateS}} \atomP \iff (\actionPrecondition(\actionStateS) \implies \atomP)\\
+    {\bf AN} & \proves \actionA{\pointedActionModel{\actionStateS}} \lnot \phi \iff (\actionPrecondition(\actionStateS) \implies \lnot \actionA{\pointedActionModel{\actionStateS}} \phi)\\
+    {\bf AC} & \proves \actionA{\pointedActionModel{\actionStateS}} (\phi \land \psi) \iff (\actionA{\pointedActionModel{\actionStateS}} \phi \land \actionA{\pointedActionModel{\actionStateS}} \psi)\\
+    {\bf AK} & \proves \actionA{\pointedActionModel{\actionStateS}} \necessary[\agentA] \phi \iff (\actionPrecondition(\actionStateS) \implies \necessary[\agentA] \bigwedge_{\actionStateT \in \actionSuccessors{\agentA}{\actionStateS}} \actionA{\pointedActionModel{\actionStateT}} \phi)\\
+    {\bf NecA} & \text{From } \proves \phi \text{ infer } \proves \actionA{\pointedActionModel{\actionStateS}} \phi
+\end{array}
+$$
+\end{definition}
+
+\begin{proposition}
+The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} are sound and strongly complete with respect to the semantics of the respective logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{}.
+\end{proposition}
+
+\begin{proposition}
+The logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are expressively equivalent to the respective logics \logicK{}, \logicKFF{}, and \logicS{}.
+\end{proposition}

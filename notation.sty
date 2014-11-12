@@ -3,6 +3,7 @@
 \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{amsfonts}
+\usepackage{mathrsfs}
 
 % Math macro
 \newcommand{\newcommandm}[2]{\newcommand{#1}{{\ensuremath{#2}}}}
@@ -34,70 +35,94 @@
 \newcommand{\atomQ}{q}
 \newcommand{\atomR}{r}
 
-\newcommand{\state}[2][\empty]{{{#2}^{#1}}}
-\newcommand{\stateS}[1][\empty]{\state[#1]{s}}
-\newcommand{\stateT}[1][\empty]{\state[#1]{t}}
-\newcommand{\stateU}[1][\empty]{\state[#1]{u}}
-\newcommand{\stateV}[1][\empty]{\state[#1]{v}}
-\newcommand{\stateW}[1][\empty]{\state[#1]{w}}
-\newcommand{\stateX}[1][\empty]{\state[#1]{x}}
-\newcommand{\stateY}[1][\empty]{\state[#1]{y}}
-\newcommand{\stateZ}[1][\empty]{\state[#1]{z}}
-\newcommand{\statesT}[1][\empty]{\state[#1]{T}}
-\newcommand{\statesU}[1][\empty]{\state[#1]{U}}
-\newcommand{\statesV}[1][\empty]{\state[#1]{V}}
-\newcommand{\statesW}[1][\empty]{\state[#1]{W}}
+\newcommand{\kState}[2][\empty]{{{#2}^{#1}}}
+\newcommand{\kStateS}[1][\empty]{\kState[#1]{s}}
+\newcommand{\kStateT}[1][\empty]{\kState[#1]{t}}
+\newcommand{\kStateU}[1][\empty]{\kState[#1]{u}}
+\newcommand{\kStateV}[1][\empty]{\kState[#1]{v}}
+\newcommand{\kStateW}[1][\empty]{\kState[#1]{w}}
+\newcommand{\kStateX}[1][\empty]{\kState[#1]{x}}
+\newcommand{\kStateY}[1][\empty]{\kState[#1]{y}}
+\newcommand{\kStateZ}[1][\empty]{\kState[#1]{z}}
+\newcommand{\kStatesT}[1][\empty]{\kState[#1]{T}}
+\newcommand{\kStatesU}[1][\empty]{\kState[#1]{U}}
+\newcommand{\kStatesV}[1][\empty]{\kState[#1]{V}}
+\newcommand{\kStatesW}[1][\empty]{\kState[#1]{W}}
 
-\newcommand{\states}[1][\empty]{\ensuremath{{S^{#1}}}}
-\newcommand{\accessibility}[2][\empty]{\ensuremath{{R^{#1}_{#2}}}}
-\newcommand{\accessibilityRel}[1][\empty]{\accessibility[#1]{\empty}}
-\newcommand{\valuation}[1][\empty]{\ensuremath{{V^{#1}}}}
-\newcommand{\successors}[3][\empty]{{#3} \accessibility[#1]{#2}}
-\newcommand{\predecessors}[3][\empty]{\accessibility[#1]{#2} {#3}}
+\newcommand{\kStates}[1][\empty]{\ensuremath{{S^{#1}}}}
+\newcommand{\kAccessibility}[2][\empty]{\ensuremath{{R^{#1}_{#2}}}}
+\newcommand{\kAccessibilityRel}[1][\empty]{\kAccessibility[#1]{\empty}}
+\newcommand{\kValuation}[1][\empty]{\ensuremath{{V^{#1}}}}
+\newcommand{\kSuccessors}[3][\empty]{{#3} \kAccessibility[#1]{#2}}
+\newcommand{\kPredecessors}[3][\empty]{\kAccessibility[#1]{#2} {#3}}
 \newcommand{\interpretation}[2][\empty]{[\![{#2}]\!]_{#1}}
 
-\newcommand{\modelTuple}[1][\empty]{\ensuremath{{(\states[#1], \accessibilityRel[#1], \valuation[#1])}}}
-\newcommand{\model}[1][\empty]{\ensuremath{{M^{#1}}}}
-\newcommand{\modelAndTuple}[1][\empty]{\model[#1] = \modelTuple[#1]}
+\newcommand{\kFrame}[1][\empty]{\kPFrame[#1]{}}
+\newcommand{\kFrameTuple}[1][\empty]{\ensuremath{{(\kStates[#1], \kAccessibilityRel[#1])}}}
+\newcommand{\kFrameAndTuple}[1][\empty]{\kFrame[#1] = \kFrameTuple[#1]}
 
-\newcommand{\pointedModel}[2][\empty]{\ensuremath{{M^{#1}_{#2}}}}
-\newcommand{\pointedModelTuple}[2][\empty]{\ensuremath{{(\modelTuple[#1], {#2})}}}
-\newcommand{\pointedModelAndTuple}[2][\empty]{\pointedModel[#1]{#2} = \pointedModelTuple[#1]{#2}}
+\newcommand{\kPFrame}[2][\empty]{\ensuremath{{F^{#1}_{#2}}}}
+\newcommand{\kPFrameTuple}[2][\empty]{\ensuremath{{(\kFrameTuple[#1], {#2})}}}
+\newcommand{\kPFrameAndTuple}[2][\empty]{\kPFrame[#1]{#2} = \kPFrameTuple[#1]{#2}}
 
-\newcommand{\actionState}[2][\empty]{{\mathsf{{#2}}^{#1}}}
-\newcommand{\actionStateS}[1][\empty]{\actionState[#1]{s}}
-\newcommand{\actionStateT}[1][\empty]{\actionState[#1]{t}}
-\newcommand{\actionStateU}[1][\empty]{\actionState[#1]{u}}
-\newcommand{\actionStateV}[1][\empty]{\actionState[#1]{v}}
-\newcommand{\actionStateW}[1][\empty]{\actionState[#1]{w}}
-\newcommand{\actionStateX}[1][\empty]{\actionState[#1]{x}}
-\newcommand{\actionStateY}[1][\empty]{\actionState[#1]{y}}
-\newcommand{\actionStatesT}[1][\empty]{\actionState[#1]{T}}
-\newcommand{\actionStatesU}[1][\empty]{\actionState[#1]{U}}
-\newcommand{\actionStatesV}[1][\empty]{\actionState[#1]{V}}
-\newcommand{\actionStatesW}[1][\empty]{\actionState[#1]{W}}
-\newcommand{\actionStateTest}{\actionState{test}}
-\newcommand{\actionStateSkip}{\actionState{skip}}
-\newcommand{\proxyStateS}[1][\empty]{\actionState[#1]{\bar{s}}}
-\newcommand{\proxyStateT}[1][\empty]{\actionState[#1]{\bar{t}}}
-\newcommand{\proxyStateU}[1][\empty]{\actionState[#1]{\bar{u}}}
-\newcommand{\proxyStateV}[1][\empty]{\actionState[#1]{\bar{v}}}
-\newcommand{\proxyStateW}[1][\empty]{\actionState[#1]{\bar{w}}}
+\newcommand{\kModel}[1][\empty]{\kPModel[#1]{}}
+\newcommand{\kModelTuple}[1][\empty]{\ensuremath{{(\kStates[#1], \kAccessibilityRel[#1], \kValuation[#1])}}}
+\newcommand{\kModelAndTuple}[1][\empty]{\kModel[#1] = \kModelTuple[#1]}
 
-\newcommand{\actionStates}[1][\empty]{\ensuremath{{\mathsf{S}^{#1}}}}
-\newcommand{\actionAccessibility}[2][\empty]{\ensuremath{{\mathsf{R}^{#1}_{#2}}}}
-\newcommand{\actionAccessibilityRel}[1][\empty]{\actionAccessibility[#1]{\empty}}
-\newcommand{\actionPrecondition}[1][\empty]{\ensuremath{{\mathsf{pre}^{#1}}}}
-\newcommand{\actionSuccessors}[3][\empty]{{#3} \actionAccessibility[#1]{#2}}
-\newcommand{\actionPredecessors}[3][\empty]{\actionAccessibility[#1]{#2} {#3}}
+\newcommand{\kPModel}[2][\empty]{\ensuremath{{M^{#1}_{#2}}}}
+\newcommand{\kPModelTuple}[2][\empty]{\ensuremath{{(\kModelTuple[#1], {#2})}}}
+\newcommand{\kPModelAndTuple}[2][\empty]{\kPModel[#1]{#2} = \kPModelTuple[#1]{#2}}
 
-\newcommand{\actionModel}[1][\empty]{\ensuremath{{\mathsf{M}^{#1}}}}
-\newcommand{\actionModelTuple}[1][\empty]{\ensuremath{{(\actionStates[#1], \actionAccessibilityRel[#1], \actionPrecondition[#1])}}}
-\newcommand{\actionModelAndTuple}[1][\empty]{\actionModel[#1] = \actionModelTuple[#1]}
+\newcommand{\aState}[2][\empty]{{\mathsf{{#2}}^{#1}}}
+\newcommand{\aStateS}[1][\empty]{\aState[#1]{s}}
+\newcommand{\aStateT}[1][\empty]{\aState[#1]{t}}
+\newcommand{\aStateU}[1][\empty]{\aState[#1]{u}}
+\newcommand{\aStateV}[1][\empty]{\aState[#1]{v}}
+\newcommand{\aStateW}[1][\empty]{\aState[#1]{w}}
+\newcommand{\aStateX}[1][\empty]{\aState[#1]{x}}
+\newcommand{\aStateY}[1][\empty]{\aState[#1]{y}}
+\newcommand{\aStatesT}[1][\empty]{\aState[#1]{T}}
+\newcommand{\aStatesU}[1][\empty]{\aState[#1]{U}}
+\newcommand{\aStatesV}[1][\empty]{\aState[#1]{V}}
+\newcommand{\aStatesW}[1][\empty]{\aState[#1]{W}}
+\newcommand{\aStateTest}{\aState{test}}
+\newcommand{\aStateSkip}{\aState{skip}}
+\newcommand{\aPStateS}[1][\empty]{\aState[#1]{\bar{s}}}
+\newcommand{\aPStateT}[1][\empty]{\aState[#1]{\bar{t}}}
+\newcommand{\aPStateU}[1][\empty]{\aState[#1]{\bar{u}}}
+\newcommand{\aPStateV}[1][\empty]{\aState[#1]{\bar{v}}}
+\newcommand{\aPStateW}[1][\empty]{\aState[#1]{\bar{w}}}
 
-\newcommand{\pointedActionModel}[2][\empty]{\ensuremath{{\mathsf{M}^{#1}_{#2}}}}
-\newcommand{\pointedActionModelTuple}[2][\empty]{\ensuremath{{(\actionModelTuple[#1], {#2})}}}
-\newcommand{\pointedActionModelAndTuple}[2][\empty]{\pointedActionModel[#1]{#2} = \pointedActionModelTuple[#1]{#2}}
+\newcommand{\aStates}[1][\empty]{\ensuremath{{\mathsf{S}^{#1}}}}
+\newcommand{\aAccessibility}[2][\empty]{\ensuremath{{\mathsf{R}^{#1}_{#2}}}}
+\newcommand{\aAccessibilityRel}[1][\empty]{\aAccessibility[#1]{\empty}}
+\newcommand{\aPrecondition}[1][\empty]{\ensuremath{{\mathsf{pre}^{#1}}}}
+\newcommand{\aSuccessors}[3][\empty]{{#3} \aAccessibility[#1]{#2}}
+\newcommand{\aPredecessors}[3][\empty]{\aAccessibility[#1]{#2} {#3}}
+
+\newcommand{\aFrame}[1][\empty]{\aPFrame[#1]{}}
+\newcommand{\aFrameTuple}[1][\empty]{\ensuremath{{(\aStates[#1], \aAccessibilityRel[#1])}}}
+\newcommand{\aFrameAndTuple}[1][\empty]{\aFrame[#1] = \aFrameTuple[#1]}
+
+\newcommand{\aPFrame}[2][\empty]{\ensuremath{{\mathsf{F}^{#1}_{#2}}}}
+\newcommand{\aPFrameTuple}[2][\empty]{\ensuremath{{(\aFrameTuple[#1], {#2})}}}
+\newcommand{\aPFrameAndTuple}[2][\empty]{\aPFrame[#1]{#2} = \aPFrameTuple[#1]{#2}}
+
+\newcommand{\aModel}[1][\empty]{\ensuremath{{\mathsf{M}^{#1}}}}
+\newcommand{\aModelTuple}[1][\empty]{\ensuremath{{(\aStates[#1], \aAccessibilityRel[#1], \aPrecondition[#1])}}}
+\newcommand{\aModelAndTuple}[1][\empty]{\aModel[#1] = \aModelTuple[#1]}
+
+\newcommand{\aPModel}[2][\empty]{\ensuremath{{\mathsf{M}^{#1}_{#2}}}}
+\newcommand{\aPModelTuple}[2][\empty]{\ensuremath{{(\aModelTuple[#1], {#2})}}}
+\newcommand{\aPModelAndTuple}[2][\empty]{\aPModel[#1]{#2} = \aPModelTuple[#1]{#2}}
+
+\newcommand{\aSignature}[1][\empty]{\ensuremath{\mathsf{\Sigma}^{#1}}}
+\newcommand{\aSignatureTuple}[1][\empty]{\ensuremath{(\aStates[#1], \aAccessibilityRel[#1], (\aStateS[#1]_1, \dots, \aStateS[#1]_n))}}
+\newcommand{\aSignatureAndTuple}[1][\empty]{\aSignature[#1] = \aSignatureTuple[#1]}
+\newcommand{\aSignatureFamily}[1][\empty]{\ensuremath{\mathpzc{S}^{#1}}}
+
+\newcommandm{\aSkip}{\mathsf{skip}}
+\newcommandm{\aCrash}{\mathsf{crash}}
 
 % Bisimulation, simulation, refinements
 \newcommand{\bisimilar}[1][\empty]{\simeq_{#1}}
@@ -160,10 +185,12 @@
 \newcommand{\learns}{L}
 \newcommand{\choice}{\sqcup}
 \newcommand{\bigchoice}{\bigsqcup}
-\newcommand{\lchoice}{!}
-\newcommand{\rchoice}{\text{!`}}
 \newcommand{\compose}{\otimes}
 \newcommand{\bigcompose}{\bigotimes}
+%\newcommand{\choice}{\cup}
+%\newcommand{\compose}{;}
+\newcommand{\lchoice}{!}
+\newcommand{\rchoice}{\text{!`}}
 
 
 % Languages
@@ -186,6 +213,7 @@
 % Modal classes, logics and axiomatisations
 \newcommand{\newmodalclass}[2]{%
 \expandafter\newcommandm\csname class#1\endcsname{{\mathpzc{#2}}}
+\expandafter\newcommandm\csname classAm#1\endcsname{{\mathpzc{AM}_\@nameuse{class#1}}}
 \expandafter\newcommandm\csname logic#1\endcsname{{\textit{#2}}}
 \expandafter\newcommandm\csname logicPal#1\endcsname{\textit{PAL}_\@nameuse{logic#1}}
 \expandafter\newcommandm\csname logicAml#1\endcsname{\textit{AML}_\@nameuse{logic#1}}
@@ -215,7 +243,6 @@
 \newmodalclass{S}{S5}
 
 % Class of action models
-\newcommandm{\classAM}{\mathpzc{AM}}
 
 % AMS Theorems
 \theoremstyle{plain}% default

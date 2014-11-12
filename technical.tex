@@ -26,104 +26,116 @@ $$
 where $\atomP \in \atoms$ and $\agentA \in \agents$.
 \end{definition}
 
-We use all of the standard abbreviations from propositional logic, in addition to the standard abbreviation $\possible[\agentA] \phi ::= \lnot \necessary[\agentA] \lnot \phi$.
+We use all of the standard abbreviations from propositional logic, in addition to the abbreviation $\possible[\agentA] \phi ::= \lnot \necessary[\agentA] \lnot \phi$.
 
 The formula $\necessary[\agentA] \phi$ may be read as ``agent $\agentA$ {\em knows} that $\phi$ is true'', or ``agent $\agentA$ {\em believes} that $\phi$ is true'', depending on which terminology is appropriate for the setting we are working in.
-The formula $\possible[\agentA] \phi$ may be read as ``agent $\agentA$ considers it possible that $\phi$ is true'', i.e. agent $\agentA$ doesn't know (or believe) that $\phi$ is not true.
+The formula $\possible[\agentA] \phi$ may be read as ``agent $\agentA$ considers it possible that $\phi$ is true'', i.e. agent $\agentA$ doesn't know (or believe) that $\phi$ is false.
 
-\begin{definition}[Kripke model]
-A {\em Kripke model}, $\modelAndTuple$ consists of:
-\begin{itemize}
-    \item A {\em domain} $\states$, which is a non-empty set of states (or {\em possible worlds}).
-    \item An indexed set of {\em accessibility relations} $\accessibilityRel$, indexed on $\agents$, where for every $\agentA \in \agents$, $\accessibility{\agentA} \subseteq \states \times \states$ is a binary relation on states.
-    \item A {\em valuation function} $\valuation : \atoms \to \powerset(\states)$, which is a function from propositional atoms to sets of states.
-\end{itemize}
-A {\em pointed Kripke model} $\pointedModelAndTuple{\stateS}$ consists of a Kripke model $\modelAndTuple$ along with a designated state $\stateS \in \states$.
+\begin{definition}[Kripke frames]
+A {\em Kripke frame}, $\kFrameAndTuple$ consists of:
+a {\em domain} $\kStates$, which is a non-empty set of states (or {\em possible worlds}); and
+an indexed set of {\em accessibility relations} $\kAccessibilityRel$, indexed on $\agents$, where for every $\agentA \in \agents$, $\kAccessibility{\agentA} \subseteq \kStates \times \kStates$ is a binary relation on states.
 \end{definition}
 
-We write $\stateS \accessibility{\agentA} \stateT$ to denote that $(\stateS, \stateT) \in \accessibility{\agentA}$.
-We write $\successors{\agentA}{\stateS}$ to denote the set of successor states $\successors{\agentA}{\stateS} = \{\stateT \in \states \mid \stateS \accessibility{\agentA} \stateT\}$ and
-we write $\predecessors{\agentA}{\stateT}$ to denote the set of predecessor states $\predecessors{\agentA}{\stateT} = \{\stateS \in \states \mid \stateS \accessibility{\agentA} \stateT\}$.
-As we will often be required to discuss several Kripke models at once, we will use the convention that $\pointedModelAndTuple{\stateS}$, $\pointedModelAndTuple[\prime]{\stateS[\prime]}$, $\pointedModelAndTuple[\gamma]{\stateS[\gamma]}$, etc.
+We write $\kStateS \kAccessibility{\agentA} \kStateT$ to denote that $(\kStateS, \kStateT) \in \kAccessibility{\agentA}$.
+We write $\kSuccessors{\agentA}{\kStateS}$ to denote the set of successor states $\kSuccessors{\agentA}{\kStateS} = \{\kStateT \in \kStates \mid \kStateS \kAccessibility{\agentA} \kStateT\}$ and
+we write $\kPredecessors{\agentA}{\kStateT}$ to denote the set of predecessor states $\kPredecessors{\agentA}{\kStateT} = \{\kStateS \in \kStates \mid \kStateS \kAccessibility{\agentA} \kStateT\}$.
 
-We will be working with a variety of modal logics that are defined by relational properties on Kripke models.
+We will be working with a variety of modal logics that are defined by relational properties on Kripke frames.
 We define those relational properties here.
 
 \begin{definition}[Relational properties]
-Let $\states$ be a set and let $\accessibilityRel \subseteq \states \times \states$ be a binary relation on $\states$. 
-Then we say that $\accessibilityRel$ is\ldots
+Let $\kStates$ be a set and let $\kAccessibilityRel \subseteq \kStates \times \kStates$ be a binary relation on $\kStates$. 
+Then we say that $\kAccessibilityRel$ is \ldots
 \begin{itemize}
-    \item \ldots {\em serial} if and only if for every $\stateS \in \states$ there exists $\stateT \in \states$ such that $\stateS \accessibility{} \stateT$.
-    \item \ldots {\em reflexive} if and only if for every $\stateS \in \states$: $\stateS \accessibility{} \stateS$.
-    \item \ldots {\em transitive} if and only if for every $\stateS, \stateT, \stateU \in \states$: if $\stateS \accessibility{} \stateT$ and $\stateT \accessibility{} \stateU$ then $\stateS \accessibility{} \stateU$.
-    \item \ldots {\em symmetric} if and only if for every $\stateS, \stateT \in \states$: if $\stateS \accessibility{} \stateT$ then $\stateT \accessibility{} \stateS$.
-    \item \ldots {\em Euclidean} if and only if for every $\stateS, \stateT, \stateU \in \states$: if $\stateS \accessibility{} \stateT$ and $\stateS \accessibility{} \stateU$ then $\stateT \accessibility{} \stateU$.
+    \item \ldots {\em serial} if and only if for every $\kStateS \in \kStates$ there exists $\kStateT \in \kStates$ such that $\kStateS \kAccessibility{} \kStateT$.
+    \item \ldots {\em reflexive} if and only if for every $\kStateS \in \kStates$: $\kStateS \kAccessibility{} \kStateS$.
+    \item \ldots {\em transitive} if and only if for every $\kStateS, \kStateT, \kStateU \in \kStates$: if $\kStateS \kAccessibility{} \kStateT$ and $\kStateT \kAccessibility{} \kStateU$ then $\kStateS \kAccessibility{} \kStateU$.
+    \item \ldots {\em symmetric} if and only if for every $\kStateS, \kStateT \in \kStates$: if $\kStateS \kAccessibility{} \kStateT$ then $\kStateT \kAccessibility{} \kStateS$.
+    \item \ldots {\em Euclidean} if and only if for every $\kStateS, \kStateT, \kStateU \in \kStates$: if $\kStateS \kAccessibility{} \kStateT$ and $\kStateS \kAccessibility{} \kStateU$ then $\kStateT \kAccessibility{} \kStateU$.
 \end{itemize}
 \end{definition}
 
-We say that a Kripke model $\modelAndTuple$ is \{serial, reflexive, etc.\} if and only if for every $\agentA \in \agents$ the binary relation $\accessibility{\agentA}$ is \{serial, reflexive, etc.\}.
-We thus use these properties to define the classes of Kripke models that we will be working with.
+When we ascribe relational properties to Kripke frames we actually ascribe those properties to each of the accessibility relations of the Kripke frame.
+So we say that a Kripke frame $\kFrameAndTuple$ is \{serial, reflexive, etc.\} if and only if for every $\agentA \in \agents$ the binary relation $\kAccessibility{\agentA}$ is \{serial, reflexive, etc.\}.
+We use these properties to define the classes of Kripke frames that we will be working with throughout this dissertation.
 
-\begin{definition}[Classes of Kripke models]
-We define the following classes of Kripke models:
+\begin{definition}[Classes of Kripke frames]
+We define the following classes of Kripke frames:
 \begin{itemize}
-    \item The class \classK{} of all Kripke models.
-    \item The class \classKF{} of all transitive Kripke models.
-    \item The class \classKFF{} of all transitive and Euclidean Kripke models.
-    \item The class \classKD{} of all serial, transitive and Euclidean Kripke models.
-    \item The class \classSF{} of all reflexive and transitive Kripke models.
-    \item The class \classS{} of all reflexive, transitive and Euclidean Kripke models.
+    \item The class \classK{} of all Kripke frames.
+    \item The class \classKF{} of all transitive Kripke frames.
+    \item The class \classKFF{} of all transitive and Euclidean Kripke frames.
+    \item The class \classKD{} of all serial, transitive and Euclidean Kripke frames.
+    \item The class \classSF{} of all reflexive and transitive Kripke frames.
+    \item The class \classS{} of all reflexive, transitive and Euclidean Kripke frames.
 \end{itemize}
 \end{definition}
+
+\begin{definition}[Kripke models]
+A {\em Kripke model}, $\kModelAndTuple$ consists of an underlying Kripke frame $\kFrameAndTuple$ along with a {\em valuation function} $\kValuation : \atoms \to \powerset(\kStates)$, which is a function from propositional atoms to sets of states.
+
+A {\em pointed Kripke model} $\kPModelAndTuple{\kStateS}$ consists of a Kripke model $\kModelAndTuple$ along with a designated state $\kStateS \in \kStates$.
+A {\em multi-pointed Kripke model} $\kPModelAndTuple{\kStatesT}$ consists of a Kripke model $\kModelAndTuple$ along with a non-empty set of designated states $\kStatesT \subseteq \kStates$.
+\end{definition}
+
+As we will often work with Kripke models rather than frames we use an overloaded notation for classes of Kripke frames.
+If $\classC$ is a class of Kripke frames, $\kModelAndTuple$ is a Kripke model and $\kFrameAndTuple$ is its underlying Kripke frame, then we write $\kModel \in \classC$ to denote that $\kFrame \in \classC$.
+When we ascribe frame properties to a Kripke model we actually ascribe those properties to its underlying Kripke frame. 
+As we will often be required to discuss several Kripke models at once, we will use the convention that $\kPModelAndTuple{\kStateS}$, $\kPModelAndTuple[\prime]{\kStateS[\prime]}$, $\kPModelAndTuple[\gamma]{\kStateS[\gamma]}$, etc.
 
 We next define the semantics of modal logic.
-We define the semantics in terms of a parameterised class of Kripke models, \classC{}, which could stand for \classK{}, \classKF{}, \classKFF{}, etc. or for any other class of Kripke models so defined.
+We define the semantics in terms of a parameterised class of Kripke frames, \classC{}, which could stand for \classK{}, \classKF{}, \classKFF{}, etc. or for any other class of Kripke frames so defined.
 
 \begin{definition}[Semantics of modal logic]\label{modal-semantics}
-Let $\classC$ be a class of Kripke models, let $\phi \in \langMl$, and let $\pointedModelAndTuple{\stateS} \in \classC$ be a pointed Kripke model.
-The interpretation of the formula $\phi$ in the logic \logicC{} on the pointed Kripke model $\pointedModel{\stateS}$ is defined inductively as:
+Let $\classC$ be a class of Kripke frames, let $\phi \in \langMl$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
+The interpretation of the formula $\phi$ in the logic \logicC{} on the pointed Kripke model $\kPModel{\kStateS}$ is defined inductively as:
 $$
 \begin{array}{lcl}
-\pointedModel{\stateS} \entails \atomP & \text{ iff } & \stateS \in \valuation(\atomP)\\
-\pointedModel{\stateS} \entails \lnot \phi & \text{ iff } & \pointedModel{\stateS} \nentails \phi\\
-\pointedModel{\stateS} \entails \phi \land \psi & \text{ iff } & \pointedModel{\stateS} \entails \phi \text{ and } \pointedModel{\stateS} \entails \psi\\
-\pointedModel{\stateS} \entails \necessary[\agentA] \phi & \text{ iff } & \text{for every } \stateT \in \successors{\agentA}{\stateS} : \pointedModel{\stateT} \entails \phi
+\kPModel{\kStateS} \entails \atomP & \text{ iff } & \kStateS \in \kValuation(\atomP)\\
+\kPModel{\kStateS} \entails \lnot \phi & \text{ iff } & \kPModel{\kStateS} \nentails \phi\\
+\kPModel{\kStateS} \entails \phi \land \psi & \text{ iff } & \kPModel{\kStateS} \entails \phi \text{ and } \kPModel{\kStateS} \entails \psi\\
+\kPModel{\kStateS} \entails \necessary[\agentA] \phi & \text{ iff } & \text{for every } \kStateT \in \kSuccessors{\agentA}{\kStateS} : \kPModel{\kStateT} \entails \phi
 \end{array}
 $$
 \end{definition}
 
-Thus we get the definitions of the semantics of the modal logics \logicK{}, \logicKF{}, \logicKFF{}, etc. for the corresponding classes of Kripke models \classK{}, \classKF{}, \classKFF{}, etc.
+In particular we define the semantics of the modal logics \logicK{}, \logicKF{}, \logicKFF{}, etc. for the respective classes of Kripke frames \classK{}, \classKF{}, \classKFF{}, etc.
 
-Let $\pointedModelAndTuple{\stateS} \in \classC$ be a pointed Kripke model and
+Let $\kPModel{\kStateS} \in \classC$ be a pointed Kripke model,
+let $\kFrame \in \classC$ be a Kripke frame and
 let $\Phi \subseteq \langMl$ be a (possibly infinite) set of formulas.
-If $\pointedModel{\stateS} \entails \phi$ for every $\phi \in \Phi$ then we say that $\Phi$ is {\em valid} on $\pointedModel{\stateS}$ and we write $\pointedModel{\stateS} \entails \Phi$.
-If $\pointedModel{\stateS} \entails \Phi$ for every $\stateS \in \states$ then we say that $\Phi$ is valid on $\model$ and we denote this by $\model \entails \Phi$.
-If $\model \entails \Phi$ for every $\model \in \classC$ then we say that $\Phi$ is valid on \classC{} and we denote this by $\classC \entails \Phi$.
+If $\kPModel{\kStateS} \entails \phi$ for every $\phi \in \Phi$ then we say that $\Phi$ is {\em valid} on $\kPModel{\kStateS}$ and we write $\kPModel{\kStateS} \entails \Phi$.
+If $\kPModel{\kStateS} \entails \Phi$ for every $\kStateS \in \kStates$ then we say that $\Phi$ is valid on $\kModel$ and we denote this by $\kModel \entails \Phi$.
+If $\kModel \entails \Phi$ for every $\kModel$ with the underlying Kripke frame $\kFrame$ then we say that $\Phi$ is valid on $\kFrame$ and we denote this by $\kFrame \entails \Phi$.
+If $\kFrame \entails \Phi$ for every $\kFrame \in \classC$ then we say that $\Phi$ is valid on \classC{} and we denote this by $\classC \entails \Phi$.
 When \classC{} is clear from context we may simply write $\entails \Phi$ instead of $\classC \entails \Phi$.
-If $\statesT \subseteq \states$ and there exists $\stateS \in \statesT$ such that $\pointedModel{\stateS} \entails \Phi$ then we say that $\Phi$ is {\em satisfiable} in $\pointedModel{\statesT}$.
-If $\Phi$ is satisfiable in $\pointedModel{\states}$ then we say that $\Phi$ is satisfiable in $\model$.
-If there exists $\model \in \classC$ such that $\Phi$ is satisfiable in $\model$ then we say that $\Phi$ is satisfiable in \classC{}.
-If every finite subset of $\Phi$ is satisfiable in \{$\pointedModel{\statesT}$, $\model$, \classC{}\} then we say that $\Phi$ is {\em finitely satisfiable} in \{$\pointedModel{\statesT}$, $\model$, \classC{}\}.
+If $\kStatesT \subseteq \kStates$ and there exists $\kStateS \in \kStatesT$ such that $\kPModel{\kStateS} \entails \Phi$ then we say that $\Phi$ is {\em satisfiable} in $\kPModel{\kStatesT}$.
+If $\Phi$ is satisfiable in $\kPModel{\kStates}$ then we say that $\Phi$ is satisfiable in $\kModel$.
+If $\Phi$ is satisfiable in $\kModel$ with the underlying Kripke frame $\kFrame$ then we say that $\Phi$ is satisfiable in $\kFrame$.
+If there exists $\kFrame \in \classC$ such that $\Phi$ is satisfiable in $\kFrame$ then we say that $\Phi$ is satisfiable in \classC{}.
+If every finite subset of $\Phi$ is satisfiable in \{$\kPModel{\kStatesT}$, $\kModel$, $\kFrame$, \classC{}\} then we say that $\Phi$ is {\em finitely satisfiable} in \{$\kPModel{\kStatesT}$, $\kModel$, $\kFrame$, \classC{}\}.
 
-We write $\interpretation[\model]{\phi}$ to denote the set of states where $\phi$ is valid, $\interpretation[\model]{\phi} = \{\stateS \in \states \mid \pointedModel{\stateS} \entails \phi\}$.
+We write $\interpretation[\kModel]{\phi}$ to denote the set of states where $\phi$ is valid, $\interpretation[\kModel]{\phi} = \{\kStateS \in \kStates \mid \kPModel{\kStateS} \entails \phi\}$.
 
 Finally we recall definitions and results related to bisimilarity of Kripke models.
-Bisimilarity captures a notion of equivalence between Kripke models with respect to modal validity.
+Bisimilarity is an important concept in modal logics.
+Notably the modal logic \logicK{} corresponds to the bisimulation-invariant fragment of first-order logic, and there is a partial correspondence between bisimilarity and equivalence under modal validity.
 
 \begin{definition}[Bisimulation]
-Let $\modelAndTuple \in \classK$ and $\modelAndTuple[\prime] \in \classK$ be Kripke models.
-A non-empty relation $\bisimulation \subseteq \states \times \states[\prime]$ is a {\em bisimulation} if and only if for every $\atomP \in \atoms$, $\agentA \in \agents$ and $(\stateS, \stateS[\prime]) \in \bisimulation$ the following conditions, {\bf atoms-$\atomP$}, {\bf forth-$\agentA$} and {\bf back-$\agentB$} holds:
+Let $\kModelAndTuple \in \classK$ and $\kModelAndTuple[\prime] \in \classK$ be Kripke models.
+A non-empty relation $\bisimulation \subseteq \kStates \times \kStates[\prime]$ is a {\em bisimulation} if and only if for every $\atomP \in \atoms$, $\agentA \in \agents$ and $(\kStateS, \kStateS[\prime]) \in \bisimulation$ the following conditions, {\bf atoms-$\atomP$}, {\bf forth-$\agentA$} and {\bf back-$\agentB$} holds:
 
 \paragraph{atoms-$\atomP$}
-$\stateS \in \valuation(\atomP)$ if and only if $\stateS[\prime] \in \valuation[\prime](\atomP)$.
+$\kStateS \in \kValuation(\atomP)$ if and only if $\kStateS[\prime] \in \kValuation[\prime](\atomP)$.
 
 \paragraph{forth-$\agentA$}
-for every $\stateT \in \successors{\agentA}{\stateS}$ there exists $\stateT[\prime] \in \successors[\prime]{\agentA}{\stateS[\prime]}$ such that $\stateS \bisimulation \stateT$.
+for every $\kStateT \in \kSuccessors{\agentA}{\kStateS}$ there exists $\kStateT[\prime] \in \kSuccessors[\prime]{\agentA}{\kStateS[\prime]}$ such that $\kStateS \bisimulation \kStateT$.
 
 \paragraph{back-$\agentA$}
-for every $\stateT[\prime] \in \successors[\prime]{\agentA}{\stateS[\prime]}$ there exists $\stateT \in \successors{\agentA}{\stateS}$ such that $\stateS \bisimulation \stateT$.
+for every $\kStateT[\prime] \in \kSuccessors[\prime]{\agentA}{\kStateS[\prime]}$ there exists $\kStateT \in \kSuccessors{\agentA}{\kStateS}$ such that $\kStateS \bisimulation \kStateT$.
 
-If there exists a bisimulation $\bisimulation$ such that $\stateS \bisimulation \stateS[\prime]$ then we say that $\pointedModel{\stateS}$ and $\pointedModel[\prime]{\stateS[\prime]}$ are {\em bisimilar} and we denote this by $\pointedModel{\stateS} \bisimilar \pointedModel[\prime]{\stateS[\prime]}$.
+If there exists a bisimulation $\bisimulation$ such that $\kStateS \bisimulation \kStateS[\prime]$ then we say that $\kPModel{\kStateS}$ and $\kPModel[\prime]{\kStateS[\prime]}$ are {\em bisimilar} and we denote this by $\kPModel{\kStateS} \bisimilar \kPModel[\prime]{\kStateS[\prime]}$.
 \end{definition}
 
 We first note that the bisimilarity relation forms an equivalence relation.
@@ -135,31 +147,36 @@ The relation $\bisimilar$ is an equivalence relation (reflexive, transitive and 
 Bisimilar Kripke models are equivalent under modal validity.
 
 \begin{proposition}
-Let $\phi \in \langMl$ be a modal formula and 
-let $\pointedModel{\stateS}, \pointedModel[\prime]{\stateS[\prime]} \in \classK$ be pointed Kripke models such that $\pointedModel{\stateS} \bisimilar \pointedModel[\prime]{\stateS[\prime]}$.
-Then $\pointedModel{\stateS} \entails \phi$ if and only if $\pointedModel[\prime]{\stateS[\prime]} \entails \phi$.
+Let $\kPModel{\kStateS}, \kPModel[\prime]{\kStateS[\prime]} \in \classK$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModel[\prime]{\kStateS[\prime]}$.
+Then for every $\phi \in \langMl$:
+$\kPModel{\kStateS} \entails \phi$ if and only if $\kPModel[\prime]{\kStateS[\prime]} \entails \phi$.
 \end{proposition}
 
-The converse, that Kripke models that are equivalent under modal validity are also bisimilar doesn't hold in general.
-However we note that the converse holds for modally saturated Kripke models, a notion that we define now.
+Not all modally equivalent Kripke models are bisimilar.
+However we can define a property of Kripke models that guarantees that modal equivalence implies bisimilarity.
 
 \begin{definition}
-Let $\modelAndTuple \in \classK$ be a Kripke model.
-We say that $\model$ is {\em modally saturated} if and only if for every $\agentA \in \agents$, $\stateS \in \states$ and $\Phi \subseteq \langMl$: if $\Phi$ is finitely satisfiable in $\pointedModel{\successors{\agentA}{\stateS}}$ then $\Phi$ is satisfiable in $\pointedModel{\successors{\agentA}{\stateS}}$.
+Let $\kModelAndTuple \in \classK$ be a Kripke model.
+We say that $\kModel$ is {\em modally saturated} if and only if for every $\agentA \in \agents$, $\kStateS \in \kStates$ and $\Phi \subseteq \langMl$: if $\Phi$ is finitely satisfiable in $\kPModel{\kSuccessors{\agentA}{\kStateS}}$ then $\Phi$ is satisfiable in $\kPModel{\kSuccessors{\agentA}{\kStateS}}$.
 \end{definition}
 
+For modally saturated Kripke models, modal equivalence implies bisimilarity.
+
 \begin{proposition}
-Let $\phi \in \langMl$ be a modal formula,
-let $\model, \model[\prime] \in \classK$ be modally saturated Kripke models, and
-let the relation $\bisimulation \subseteq \states \times \states[\prime]$ be defined such that $\stateS \bisimulation \stateS[\prime]$ if and only if for every $\phi \in \langMl$: $\pointedModel{\stateS} \entails \phi$ if and only if $\pointedModel[\prime]{\stateS[\prime]} \entails \phi$.
-Then $\bisimulation$ is a bisimulation.
+Let $\kModel, \kModel[\prime] \in \classK$ be modally saturated Kripke models such that for every $\phi \in \langMl$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModel[\prime]{\kStateS[\prime]} \entails \phi$.
+Then $\kPModel{\kStateS} \bisimilar \kPModel[\prime]{\kStateS[\prime]}$.
 \end{proposition}
 
-A notable class of modally saturated Kripke models are the image-finite Kripke models.
+A notable class of modally saturated Kripke models are the finite and image-finite Kripke models.
+
+\begin{definition}[Finite Kripke models]
+Let $\kModelAndTuple \in \classK$ be a Kripke model.
+We say that $\kModel$ is {\em finite} if and only if $\kStates$ is finite.
+\end{definition}
 
 \begin{definition}[Image-finiteness]
-Let $\modelAndTuple \in \classK$ be a Kripke model.
-We say that $\model$ is {\em image-finite} if and only if for every $\agentA \in \agents$ and $\stateS \in \states$: $\successors{\agentA}{\stateS}$ is finite.
+Let $\kModelAndTuple \in \classK$ be a Kripke model.
+We say that $\kModel$ is {\em image-finite} if and only if for every $\agentA \in \agents$ and $\kStateS \in \kStates$: $\kSuccessors{\agentA}{\kStateS}$ is finite.
 \end{definition}
 
 \begin{proposition}
@@ -169,6 +186,8 @@ Every finite Kripke model is image-finite.
 \begin{proposition}
 Every image-finite Kripke model is modally saturated.
 \end{proposition}
+
+Thus for finite and image-finite Kripke models it is also the case that modal equivalence implies bisimilarity.
 
 \subsection{Axiomatisations}
 
@@ -221,6 +240,188 @@ The axiomatisations \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS
 
 \section{Action model logic}\label{aml}
 
+We recall definitions and results from the action model logic of Baltag, Moss and Solecki~\cite{baltagetal:1998,baltagetal:2004}.
+
+\subsection{Syntax and semantics}
+
+\begin{definition}[Action frames]
+An {\em action frame}, $\aFrameAndTuple$ consists of:
+a {\em domain} $\aStates$, which is a non-empty set of actions; and
+an indexed set of {\em accessibility relations} $\aAccessibilityRel$, indexed on $\agents$, where for every $\agentA \in \agents$, $\aAccessibility{\agentA} \subseteq \aStates \times \aStates$ is a binary relation on actions.
+\end{definition}
+
+We use similar notation and terminology to Kripke frames when discussing action frames.
+Similar to Kripke frames, we define several classes of action frames according to their relational properties.
+
+\begin{definition}[Classes of action frames]
+We define the following classes of action frames:
+\begin{itemize}
+    \item The class \classAmK{} of all action frames.
+    \item The class \classAmKFF{} of all transitive and Euclidean action frames.
+    \item The class \classAmKD{} of all serial, transitive and Euclidean action frames.
+    \item The class \classAmS{} of all reflexive, transitive and Euclidean action frames.
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Action models]
+Let \lang{} be a logical language.
+An {\em action model with preconditions defined on \lang{}}, $\aModelAndTuple$ consists of an underlying action frame $\aFrameAndTuple$ along with a {\em precondition function} $\aPrecondition : \aStates \to \lang$, which is a function from actions to formulas.
+
+A {\em pointed action model} $\aPModelAndTuple{\aStateS}$ consists of an action model $\aModelAndTuple$ along with a designated action $\aStateS \in \aStates$.
+A {\em multi-pointed action model} $\aPModelAndTuple{\aStatesT}$ consists of an action model $\aModelAndTuple$ along with a non-empty set of designated action $\aStatesT \subseteq \aStates$.
+\end{definition}
+
+When the language that an action model is defined on is clear from context we will simply refer to an {\em action model}, without explicit reference to the language.
+
+\begin{definition}[Action signature]
+An {\em action signature}, $\aSignatureAndTuple$ consists of an underlying action frame $\aFrameAndTuple$ along with a non-repeating list of {\em non-trivial actions}, $\aStateS_1, \dots, \aStateS_n \in \aStates$.
+Let $\lang$ be a logical language and let $\phi_1, \dots, \phi_n \in \lang$ be a list of formulas.
+Then we obtain an action model $\aSignature(\phi_1, \dots, \phi_n) = \aModelTuple$ where $\aPrecondition(\aStateS_i) = \phi_i$ for $i = 1, \dots, n$ and $\aPrecondition(\aStateS) = \top$ otherwise.
+The {\em trivial actions} are so named because their preconditions are always set to $\top$.
+\end{definition}
+
+\begin{definition}[Language of action model logic]
+Let \aSignatureFamily{} be a non-empty, countable set of action signatures.
+The {\em language of action model logic} with action signatures \aSignatureFamily{}, $\langAml(\aSignatureFamily)$, is inductively defined inductively as:
+$$
+\phi ::=
+    \atomP \mid
+    \lnot \phi \mid
+    (\phi \land \phi) \mid
+    \necessary[\agentA] \phi \mid
+    \actionA{\aSignature \aStatesT, \phi, \dots, \phi} \phi\\
+$$
+where $\atomP \in \atoms$, $\agentA \in \agents$, $\aSignatureAndTuple \in \aSignatureFamily$, $\aStatesT \subseteq \aStates$, and the number of parameters to a given action signature $\aSignature$ is determined by the number of designated actions in the action signature.
+\end{definition}
+
+We use all of the standard abbreviations from modal logic, in addition to the abbreviations 
+$\actionA{\aPModel{\aStatesT}} \phi ::= \actionA{\aSignature \aStatesT, \phi_1, \dots, \phi_n} \phi$ where $\aModel = \aSignature(\phi_1, \dots, \phi_n)$ and 
+$\actionE{\aPModel{\aStatesT}} \phi ::= \lnot \actionA{\aPModel{\aStatesT}} \lnot \phi$.
+
+\begin{definition}[Semantics of action model logic]
+Let \classC{} be a class of Kripke models and let \aSignatureFamily{} be a non-empty, countable set of action signatures.
+We define the semantics of action model logic and the notion of action model execution simultaneously.
+
+Let $\kModelAndTuple \in \classC$ be a Kripke model and $\aModelAndTuple \in \classAmK$ be an action model with preconditions defined on $\langAml(\aSignatureFamily)$.
+We denote the result of executing the action model $\aModel$ on the Kripke model $\kModel$ as $\kModel \exec \aModel$ and define it as $\kModel \exec \aModel = \kModelTuple[\prime]$ where:
+\begin{eqnarray*}
+    \kStates[\prime] &=& \{(\kStateS, \aStateS) \in \kStates \times \aStates \mid \kPModel{\kStateS} \entails \aPrecondition(\aStateS)\}\\
+    (\kStateS, \aStateS) \kAccessibility[\prime]{\agentA} (\kStateT, \aStateT) &\text{ iff }& \kStateS \kAccessibility{\agentA} \kStateT \text{ and } \aStateS \aAccessibility{\agentA} \aStateT\\
+    \kValuation[\prime](\atomP) &=& \{(\kStateS, \aStateS) \in \kStates[\prime] \mid \kStateS \in \kValuation(\atomP)\}
+\end{eqnarray*}
+We denote the result of executing the pointed action model $\aPModel{\aStateS}$ on the pointed Kripke model $\kPModel{\kStateS}$ as $\kPModel{\kStateS} \exec \aPModel{\aStateS}$ and define it as $\kPModel{\kStateS} \exec \aPModel{\aStateS} = (\kModel \exec \aModel, (\kStateS, \aStateS))$. Note that $\kPModel{\kStateS} \exec \aPModel{\aStateS}$ is undefined if $\kPModel{\kStateS} \nentails \aPrecondition(\aStateS)$ as then $(\kStateS, \aStateS) \notin \kStates[\prime]$.
+
+Let $\phi \in \langAml(\aSignatureFamily)$ and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
+The interpretation of the formula $\phi$ in the logic \logicAmlC{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{modal-semantics}, with the additional inductive cases:
+$$
+\begin{array}{lcl}
+    \kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi & \text { iff } & \kPModel{\kStateS} \entails \aPrecondition(\aStateS) \text{ implies } \kPModel{\kStateS} \exec \aPModel{\aStateS} \entails \phi\\
+    \kPModel{\kStateS} \entails \actionA{\aPModel{\aStatesT}} \phi & \text { iff } & \text{for every } \aStateT \in \aStatesT: \kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}}
+\end{array}
+$$
+\end{definition}
+
+\begin{definition}[Skip and crash]
+    We define the action models \aSkip{} and \aCrash{} as follows:
+    \begin{eqnarray*}
+        \aSkip &=& ((\{\aStateS\}, \{(\aStateS, \aStateS)\}, \{(\aStateS, \top)\}), \aStateS)\\
+        \aCrash &=& ((\{\aStateS\}, \{(\aStateS, \aStateS)\}, \{(\aStateS, \bot)\}), \aStateS)
+    \end{eqnarray*}
+\end{definition}
+
+The action model \aSkip{} is intended to represent an epistemic update that always succeeds and has no effect,
+whereas the action model \aCrash{} is intended to represent an epistemic update that never succeeds.
+Indeed we note that $\entails \actionE{\aSkip} \top$, $\entails \actionA{\aSkip} \phi \iff \phi$ and $\entails \lnot \actionE{\aCrash} \top$.
+
+We note that as $\top$ and $\bot$ are in the language $\langAml(\aSignatureFamily)$ for any set of action signatures $\aSignatureFamily$, and so \aSkip{} and \aCrash{} are action models with preconditions defined on $\langAml(\aSignatureFamily)$.
+However a given $\aSignatureFamily$ may not contain any action signature that would allow one to construct \aSkip{} or \aCrash{}, so statements about \aSkip{} and \aCrash{} may not be allowed by the language $\langAml(\aSignatureFamily)$.
+
+\begin{definition}[Disjoint union]
+    Let $\aPModelAndTuple{\aStatesT}$ and $\aPModelAndTuple[\prime]{\aStatesT[\prime]}$ be action models.
+    We denote the {\em disjoint union of $\aPModel{\aStatesT}$ and $\aPModel[\prime]{\aStatesT[\prime]}$} as $\aPModel{\aStatesT} \choice \aPModel[\prime]{\aStatesT[\prime]}$ and define it as $\aPModel{\aStatesT} \choice \aPModel[\prime]{\aStatesT[\prime]} = \aPModelAndTuple[\prime\prime]{\aStatesT[\prime\prime]}$ where:
+    \begin{eqnarray*}
+        \aStates[\prime\prime] &=& \aStates \cup \aStates[\prime]\\
+        \aAccessibility[\prime\prime]{\agentA} &=& \aAccessibility{\agentA} \cup \aAccessibility[\prime]{\agentA}\\
+        \aPrecondition[\prime\prime] &=& \aPrecondition \cup \aPrecondition[\prime]\\
+        \aStatesT[\prime\prime] &=& \aStatesT \cup \aStatesT[\prime]
+    \end{eqnarray*}
+\end{definition}
+
+The operation of disjoint union of action models is intended to represent the epistemic update that is formed by the non-deterministic choice between two epistemic updates.
+Indeed we note that $\entails \actionA{\aPModel{\aStatesT} \choice \aPModel[\prime]{\aStatesT[\prime]}} \phi \iff (\actionA{\aPModel{\aStatesT}} \phi \land \actionA{\aPModel[\prime]{\aStatesT[\prime]}} \phi)$.
+
+As we will occasionally take the `disjoint' union of two action models that are not actually disjoint we will assume in this case that we implicitly rename the actions in each action model so that the domains become disjoint.
+
+\begin{definition}[Sequential composition]
+    Let $\aPModelAndTuple{\aStatesT}$ and $\aPModelAndTuple[\prime]{\aStatesT[\prime]}$ be action models.
+    We denote the {\em sequential composition of $\aPModel{\aStatesT}$ and $\aPModel[\prime]{\aStatesT[\prime]}$} as $\aPModel{\aStatesT} \compose \aPModel[\prime]{\aStatesT[\prime]}$ and define it as $\aPModel{\aStatesT} \compose \aPModel[\prime]{\aStatesT[\prime]} = \aPModelAndTuple[\prime\prime]{\aStatesT[\prime\prime]}$ where:
+    \begin{eqnarray*}
+        \aStates[\prime\prime] &=& \aStates \times \aStates[\prime]\\
+        (\aStateS, \aStateS[\prime]) \aAccessibility[\prime\prime]{\agentA} (\aStateT, \aStateT[\prime]) &\text{ iff }& \aStateS \aAccessibility{\agentA} \aStateT \text{ and } \aStateS[\prime] \aAccessibility[\prime]{\agentA} \aStateT[\prime]\\
+        \aPrecondition[\prime\prime]((\aStateS, \aStateS[\prime])) &=& \aPrecondition(\aStateS) \land \actionA{\aPModel{\aStateS}} \aPrecondition[\prime](\aStateS[\prime])\\
+        \aStatesT[\prime\prime] &=& \aStatesT \times \aStatesT[\prime]
+    \end{eqnarray*}
+\end{definition}
+
+The operation of sequential composition of action models is intended to represent the epistemic update that is formed by sequentially performing two epistemic updates.
+Indeed we note that $\entails \actionA{\aPModel{\aStatesT} \compose \aPModel[\prime]{\aStatesT[\prime]}} \phi \iff \actionA{\aPModel{\aStatesT}} \actionA{\aPModel[\prime]{\aStatesT[\prime]}} \phi$.
+
+Using the \aSkip{} and \aCrash{} action models, along with the operations of disjoint union and sequential composition we may define an extended language of action model logic.
+
+\begin{definition}[Language of action model logic (extended)]
+Let \aSignatureFamily{} be a non-empty, countable set of action signatures.
+The {\em language of action model logic} with action signatures \aSignatureFamily{}, $\langAml(\aSignatureFamily)$, is inductively defined inductively as:
+\begin{eqnarray*}
+\phi &::=&
+    \atomP \mid
+    \lnot \phi \mid
+    (\phi \land \phi) \mid
+    \necessary[\agentA] \phi \mid
+    \actionA{\alpha} \phi\\
+\alpha &::=&
+    \aSkip \mid
+    \aCrash \mid
+    \aSignature \aStatesT, \phi, \dots, \phi \mid
+    \alpha \choice \alpha \mid
+    \alpha \compose \alpha
+\end{eqnarray*}
+where $\atomP \in \atoms$, $\agentA \in \agents$, $\aSignatureAndTuple \in \aSignatureFamily$, $\aStatesT \subseteq \aStates$, and the number of parameters to a given action signature $\aSignature$ is determined by the number of designated actions in the action signature.
+\end{definition}
+
+We use all of the standard abbreviations from action model logic.
+The semantics of formulas of this extended language should be obvious.
+We note that formulas of the extended language can be translated back into the basic language using the equivalences listed above.
+
+\todo[inline]{Action model bisimulation}
+
+\todo[inline]{Action model bisimulation invariance results}
+
+\subsection{Axiomatisations}
+
+\begin{definition}[Axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{}]
+The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} is a substitution schema consisting of the respective axioms and rules of \axiomK{}, \axiomKFF{}, and \axiomS{} along with the following additional axioms and rules:
+$$
+\begin{array}{rl}
+    {\bf AP} & \proves \actionA{\aPModel{\aStateS}} \atomP \iff (\aPrecondition(\aStateS) \implies \atomP)\\
+    {\bf AN} & \proves \actionA{\aPModel{\aStateS}} \lnot \phi \iff (\aPrecondition(\aStateS) \implies \lnot \actionA{\aPModel{\aStateS}} \phi)\\
+    {\bf AC} & \proves \actionA{\aPModel{\aStateS}} (\phi \land \psi) \iff (\actionA{\aPModel{\aStateS}} \phi \land \actionA{\aPModel{\aStateS}} \psi)\\
+    {\bf AK} & \proves \actionA{\aPModel{\aStateS}} \necessary[\agentA] \phi \iff (\aPrecondition(\aStateS) \implies \necessary[\agentA] \bigwedge_{\aStateT \in \aSuccessors{\agentA}{\aStateS}} \actionA{\aPModel{\aStateT}} \phi)\\
+    {\bf AU} & \proves \actionA{\aPModel{\aStatesT}} \phi \iff \bigwedge_{\aStateT \in \aStatesT} \actionA{\aPModel{\aStateT}} \phi\\
+    {\bf NecA} & \text{From } \proves \phi \text{ infer } \proves \actionA{\aPModel{\aStateS}} \phi
+\end{array}
+$$
+\end{definition}
+
+\begin{proposition}
+The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} are sound and strongly complete with respect to the semantics of the respective logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{}.
+\end{proposition}
+
+\begin{proposition}
+The logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are expressively equivalent to the respective logics \logicK{}, \logicKFF{}, and \logicS{}.
+\end{proposition}
+
+\section{Public announcement logic}\label{pal}
+
 We recall definitions and results from the public announcement logic of Plaza~\cite{plaza:1989}.
 
 \subsection{Syntax and semantics}
@@ -238,30 +439,30 @@ $$
 where $\atomP \in \atoms$ and $\agentA \in \agents$.
 \end{definition}
 
-We use all of the standard abbreviations from modal logic, in addition to the standard abbreviation $\announceE{\phi} \psi ::= \lnot \announceA{\phi} \lnot \psi$.
+We use all of the standard abbreviations from modal logic, in addition to the abbreviation $\announceE{\phi} \psi ::= \lnot \announceA{\phi} \lnot \psi$.
 
 The formula $\announceA{\phi} \psi$ may be read as ``if $\phi$ is true then after publicly announcing that it is true, $\psi$ is true''.
 The formula $\announceE{\phi} \psi$ may be read as ``$\phi$ is true and after publicly announcing that it is true, $\psi$ is true''.
 
 \begin{definition}[Model restriction]
-Let $\modelAndTuple \in \classK$ be a Kripke model and let $\statesT \subseteq \states$.
-We denote the {\em restriction of $\model$ to $\statesT$} by $\restrict{\model}{\statesT}$ and
-define it as $\restrict{\model}{\statesT} = (\statesT, \restrict{\accessibilityRel}{\statesT}, \restrict{\valuation}{\statesT})$ where:
+Let $\kModelAndTuple \in \classK$ be a Kripke model and let $\kStatesT \subseteq \kStates$.
+We denote the {\em restriction of $\kModel$ to $\kStatesT$} by $\restrict{\kModel}{\kStatesT}$ and
+define it as $\restrict{\kModel}{\kStatesT} = (\kStatesT, \restrict{\kAccessibilityRel}{\kStatesT}, \restrict{\kValuation}{\kStatesT})$ where:
 \begin{eqnarray*}
-    \restrict{\accessibility{\agentA}}{\statesT} &=& \accessibility{\agentA} \cap (\statesT \times \statesT)\\
-    \restrict{\valuation}{\statesT}(\atomP) &=& \valuation(\atomP) \cap \statesT
+    \restrict{\kAccessibility{\agentA}}{\kStatesT} &=& \kAccessibility{\agentA} \cap (\kStatesT \times \kStatesT)\\
+    \restrict{\kValuation}{\kStatesT}(\atomP) &=& \kValuation(\atomP) \cap \kStatesT
 \end{eqnarray*}
 
-Let \lang{} be a logical language with an interpretation on $\model$, and let $\phi \in \lang$.
-We denote the {\em restriction of $\model$ to $\phi$} by $\restrict{\model}{\phi}$ and define it as $\restrict{\model}{\phi} = \restrict{\model}{\interpretation[\model]{\phi}}$.
+Let \lang{} be a logical language with an interpretation on $\kModel$, and let $\phi \in \lang$.
+We denote the {\em restriction of $\kModel$ to $\phi$} by $\restrict{\kModel}{\phi}$ and define it as $\restrict{\kModel}{\phi} = \restrict{\kModel}{\interpretation[\kModel]{\phi}}$.
 \end{definition}
 
 \begin{definition}[Semantics of public announcement logic]
-Let $\phi \in \langPal$ and let $\pointedModelAndTuple{\stateS} \in \classS$ be a pointed Kripke model.
-The interpretation of the formula $\phi$ in the logic \logicPalS{} on the pointed Kripke model $\pointedModel{\stateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{modal-semantics}, with the additional inductive case:
+Let $\phi \in \langPal$ and let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model.
+The interpretation of the formula $\phi$ in the logic \logicPalS{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{modal-semantics}, with the additional inductive case:
 $$
 \begin{array}{lcl}
-\pointedModel{\stateS} \entails \announceA{\phi} \psi & \text{ iff } & \pointedModel{\stateS} \entails \phi \text{ implies } \restrict{\pointedModel{\stateS}}{\phi} \entails \psi
+\kPModel{\kStateS} \entails \announceA{\phi} \psi & \text{ iff } & \kPModel{\kStateS} \entails \phi \text{ implies } \restrict{\kPModel{\kStateS}}{\phi} \entails \psi
 \end{array}
 $$
 \end{definition}
@@ -288,82 +489,4 @@ The axiomatisation \axiomPalS{} is sound and strongly complete with respect to t
 
 \begin{proposition}
 \logicPalS{} is expressively equivalent to \logicS{}.
-\end{proposition}
-
-\section{Action model logic}
-
-We recall definitions and results from the action model logic of Baltag, Moss and Solecki~\cite{baltagetal:1998,baltagetal:2004}.
-
-\subsection{Syntax and semantics}
-
-\begin{definition}[Action models]
-Let \lang{} be a logical language.
-An {\em action model}, $\actionModelAndTuple$, with preconditions defined on \lang{}, consists of:
-\begin{itemize}
-    \item A {\em domain} $\actionStates$, which is a non-empty, finite set of action states.
-    \item An indexed set of {\em accessibility relations} $\actionAccessibilityRel$, indexed on $\agents$, where for every $\agentA \in \agents$, $\actionAccessibility{\agentA} \subseteq \actionStates \times \actionStates$ is a binary relation on action states.
-    \item A {\em precondition function} $\actionPrecondition : \actionStates \to \lang$, which is a function from action states to formulas of \lang{}.
-\end{itemize}
-A {\em pointed action model} $\pointedActionModelAndTuple{\actionStateS}$ consists of an action model $\actionModelAndTuple$ along with a designated action state $\actionStateS \in \actionStates$.
-\end{definition}
-
-\begin{definition}[Language of action model logic]
-The {\em language of action model logic}, \langAml{}, is inductively defined inductively as:
-$$
-\phi ::= 
-    \atomP \mid
-    \lnot \phi \mid
-    (\phi \land \phi) \mid
-    \necessary[\agentA] \phi \mid
-    \actionA{\pointedActionModel{\actionStateS}} \phi
-$$
-where $\atomP \in \atoms$, $\agentA \in \agents$ and $\pointedActionModel{\actionStateS} \in \classAM$ is an action model with preconditions defined on \langAml{}.
-\end{definition}
-
-\begin{definition}[Semantics of action model logic]
-Let \classC{} be a class of Kripke models.
-
-Let $\modelAndTuple \in \classC$ be a Kripke model and $\actionModelAndTuple \in \classAM$ be an action model with preconditions defined on \langAml{}.
-We denote the result of executing the action model $\actionModel$ on the Kripke $\model$ as $\model \exec \actionModel$ and define it as $\model \exec \actionModel = \modelAndTuple[\prime]$ where:
-\begin{eqnarray*}
-    \states[\prime] &=& \{(\stateS, \actionStateS) \in \states \times \actionStates \mid \pointedModel{\stateS} \entails \actionPrecondition(\actionStateS)\}\\
-    (\stateS, \actionStateS) \accessibility[\prime]{\agentA} (\stateT, \actionStateT) &\text{ iff }& \stateS \accessibility{\agentA} \stateT \text{ and } \actionStateS \actionAccessibility{\agentA} \actionStateT\\
-    \valuation[\prime](\atomP) &=& \{(\stateS, \actionStateS) \in \states[\prime] \mid \stateS \in \valuation(\atomP)\}
-\end{eqnarray*}
-We denote the result of executing the pointed action model $\pointedActionModel{\actionStateS}$ on the pointed Kripke $\pointedModel{\stateS}$ as $\pointedModel{\stateS} \exec \pointedActionModel{\actionStateS}$ and define it as $\pointedModel{\stateS} \exec \pointedActionModel{\actionStateS} = (\model \exec \actionModel, (\stateS, \actionStateS))$. Note that $\pointedModel{\stateS} \exec \pointedActionModel{\actionStateS}$ is undefined if $\pointedModel{\stateS} \nentails \actionPrecondition(\actionStateS)$.
-
-Let $\phi \in \langAml$ and let $\pointedModelAndTuple{\stateS} \in \classC$ be a pointed Kripke model.
-The interpretation of the formula $\phi$ in the logic \logicAmlS{} on the pointed Kripke model $\pointedModel{\stateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{modal-semantics}, with the additional inductive case:
-$$
-\begin{array}{lcl}
-    \pointedModel{\stateS} \entails \actionA{\pointedActionModel{\actionStateS}} \phi & \text { iff } & \pointedModel{\stateS} \entails \actionPrecondition(\actionStateS) \text{ and } \pointedModel{\stateS} \exec \pointedActionModel{\actionStateS} \in \classC \text{ implies } \pointedModel{\stateS} \exec \pointedActionModel{\actionStateS} \entails \phi
-\end{array}
-$$
-\end{definition}
-
-\todo[inline]{Action model bisimulation}
-
-\todo[inline]{Action model bisimulation invariance results}
-
-\subsection{Axiomatisations}
-
-\begin{definition}[Axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{}]
-The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} is a substitution schema consisting of the respective axioms and rules of \axiomK{}, \axiomKFF{}, and \axiomS{} along with the following additional axioms and rules:
-$$
-\begin{array}{rl}
-    {\bf AP} & \proves \actionA{\pointedActionModel{\actionStateS}} \atomP \iff (\actionPrecondition(\actionStateS) \implies \atomP)\\
-    {\bf AN} & \proves \actionA{\pointedActionModel{\actionStateS}} \lnot \phi \iff (\actionPrecondition(\actionStateS) \implies \lnot \actionA{\pointedActionModel{\actionStateS}} \phi)\\
-    {\bf AC} & \proves \actionA{\pointedActionModel{\actionStateS}} (\phi \land \psi) \iff (\actionA{\pointedActionModel{\actionStateS}} \phi \land \actionA{\pointedActionModel{\actionStateS}} \psi)\\
-    {\bf AK} & \proves \actionA{\pointedActionModel{\actionStateS}} \necessary[\agentA] \phi \iff (\actionPrecondition(\actionStateS) \implies \necessary[\agentA] \bigwedge_{\actionStateT \in \actionSuccessors{\agentA}{\actionStateS}} \actionA{\pointedActionModel{\actionStateT}} \phi)\\
-    {\bf NecA} & \text{From } \proves \phi \text{ infer } \proves \actionA{\pointedActionModel{\actionStateS}} \phi
-\end{array}
-$$
-\end{definition}
-
-\begin{proposition}
-The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} are sound and strongly complete with respect to the semantics of the respective logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{}.
-\end{proposition}
-
-\begin{proposition}
-The logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are expressively equivalent to the respective logics \logicK{}, \logicKFF{}, and \logicS{}.
 \end{proposition}

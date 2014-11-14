@@ -18,7 +18,7 @@
 \newcommand{\naturals}{\mathbb{N}}
 \renewcommand{\phi}{\varphi}
 
-% Terms
+% Agents
 \newcommandm{\agents}{A}
 \newcommand{\agentA}{a}
 \newcommand{\agentB}{b}
@@ -28,6 +28,7 @@
 \newcommand{\agentsC}{C}
 \newcommand{\agentsD}{D}
 
+% Atoms
 \newcommandm{\atoms}{P}
 \newcommand{\atomsQ}{Q}
 \newcommand{\atomsR}{R}
@@ -35,6 +36,9 @@
 \newcommand{\atomQ}{q}
 \newcommand{\atomR}{r}
 
+%%%% Kripke models %%%%
+
+% Kripke states
 \newcommand{\kState}[2][\empty]{{{#2}^{#1}}}
 \newcommand{\kStateS}[1][\empty]{\kState[#1]{s}}
 \newcommand{\kStateT}[1][\empty]{\kState[#1]{t}}
@@ -49,30 +53,37 @@
 \newcommand{\kStatesV}[1][\empty]{\kState[#1]{V}}
 \newcommand{\kStatesW}[1][\empty]{\kState[#1]{W}}
 
+% Kripke model components
 \newcommand{\kStates}[1][\empty]{\ensuremath{{S^{#1}}}}
 \newcommand{\kAccessibility}[2][\empty]{\ensuremath{{R^{#1}_{#2}}}}
 \newcommand{\kAccessibilityRel}[1][\empty]{\kAccessibility[#1]{\empty}}
 \newcommand{\kValuation}[1][\empty]{\ensuremath{{V^{#1}}}}
 \newcommand{\kSuccessors}[3][\empty]{{#3} \kAccessibility[#1]{#2}}
 \newcommand{\kPredecessors}[3][\empty]{\kAccessibility[#1]{#2} {#3}}
-\newcommand{\interpretation}[2][\empty]{[\![{#2}]\!]_{#1}}
 
+% Kripke frames
 \newcommand{\kFrame}[1][\empty]{\kPFrame[#1]{}}
 \newcommand{\kFrameTuple}[1][\empty]{\ensuremath{{(\kStates[#1], \kAccessibilityRel[#1])}}}
 \newcommand{\kFrameAndTuple}[1][\empty]{\kFrame[#1] = \kFrameTuple[#1]}
 
+% Pointed Kripke frames
 \newcommand{\kPFrame}[2][\empty]{\ensuremath{{F^{#1}_{#2}}}}
 \newcommand{\kPFrameTuple}[2][\empty]{\ensuremath{{(\kFrameTuple[#1], {#2})}}}
 \newcommand{\kPFrameAndTuple}[2][\empty]{\kPFrame[#1]{#2} = \kPFrameTuple[#1]{#2}}
 
+% Kripke models
 \newcommand{\kModel}[1][\empty]{\kPModel[#1]{}}
 \newcommand{\kModelTuple}[1][\empty]{\ensuremath{{(\kStates[#1], \kAccessibilityRel[#1], \kValuation[#1])}}}
 \newcommand{\kModelAndTuple}[1][\empty]{\kModel[#1] = \kModelTuple[#1]}
 
+% Pointed Kripke models
 \newcommand{\kPModel}[2][\empty]{\ensuremath{{M^{#1}_{#2}}}}
 \newcommand{\kPModelTuple}[2][\empty]{\ensuremath{{(\kModelTuple[#1], {#2})}}}
 \newcommand{\kPModelAndTuple}[2][\empty]{\kPModel[#1]{#2} = \kPModelTuple[#1]{#2}}
 
+%%%% Action models %%%%
+
+% Action states
 \newcommand{\aState}[2][\empty]{{\mathsf{{#2}}^{#1}}}
 \newcommand{\aStateS}[1][\empty]{\aState[#1]{s}}
 \newcommand{\aStateT}[1][\empty]{\aState[#1]{t}}
@@ -85,14 +96,13 @@
 \newcommand{\aStatesU}[1][\empty]{\aState[#1]{U}}
 \newcommand{\aStatesV}[1][\empty]{\aState[#1]{V}}
 \newcommand{\aStatesW}[1][\empty]{\aState[#1]{W}}
-\newcommand{\aStateTest}{\aState{test}}
-\newcommand{\aStateSkip}{\aState{skip}}
 \newcommand{\aPStateS}[1][\empty]{\aState[#1]{\bar{s}}}
 \newcommand{\aPStateT}[1][\empty]{\aState[#1]{\bar{t}}}
 \newcommand{\aPStateU}[1][\empty]{\aState[#1]{\bar{u}}}
 \newcommand{\aPStateV}[1][\empty]{\aState[#1]{\bar{v}}}
 \newcommand{\aPStateW}[1][\empty]{\aState[#1]{\bar{w}}}
 
+% Action model components
 \newcommand{\aStates}[1][\empty]{\ensuremath{{\mathsf{S}^{#1}}}}
 \newcommand{\aAccessibility}[2][\empty]{\ensuremath{{\mathsf{R}^{#1}_{#2}}}}
 \newcommand{\aAccessibilityRel}[1][\empty]{\aAccessibility[#1]{\empty}}
@@ -100,27 +110,33 @@
 \newcommand{\aSuccessors}[3][\empty]{{#3} \aAccessibility[#1]{#2}}
 \newcommand{\aPredecessors}[3][\empty]{\aAccessibility[#1]{#2} {#3}}
 
+% Action frames
 \newcommand{\aFrame}[1][\empty]{\aPFrame[#1]{}}
 \newcommand{\aFrameTuple}[1][\empty]{\ensuremath{{(\aStates[#1], \aAccessibilityRel[#1])}}}
 \newcommand{\aFrameAndTuple}[1][\empty]{\aFrame[#1] = \aFrameTuple[#1]}
 
+% Pointed action frames
 \newcommand{\aPFrame}[2][\empty]{\ensuremath{{\mathsf{F}^{#1}_{#2}}}}
 \newcommand{\aPFrameTuple}[2][\empty]{\ensuremath{{(\aFrameTuple[#1], {#2})}}}
 \newcommand{\aPFrameAndTuple}[2][\empty]{\aPFrame[#1]{#2} = \aPFrameTuple[#1]{#2}}
 
+% Action models
 \newcommand{\aModel}[1][\empty]{\ensuremath{{\mathsf{M}^{#1}}}}
 \newcommand{\aModelTuple}[1][\empty]{\ensuremath{{(\aStates[#1], \aAccessibilityRel[#1], \aPrecondition[#1])}}}
 \newcommand{\aModelAndTuple}[1][\empty]{\aModel[#1] = \aModelTuple[#1]}
 
+% Pointed action models
 \newcommand{\aPModel}[2][\empty]{\ensuremath{{\mathsf{M}^{#1}_{#2}}}}
 \newcommand{\aPModelTuple}[2][\empty]{\ensuremath{{(\aModelTuple[#1], {#2})}}}
 \newcommand{\aPModelAndTuple}[2][\empty]{\aPModel[#1]{#2} = \aPModelTuple[#1]{#2}}
 
+% Action signatures
 \newcommand{\aSignature}[1][\empty]{\ensuremath{\mathsf{\Sigma}^{#1}}}
 \newcommand{\aSignatureTuple}[1][\empty]{\ensuremath{(\aStates[#1], \aAccessibilityRel[#1], (\aStateS[#1]_1, \dots, \aStateS[#1]_n))}}
 \newcommand{\aSignatureAndTuple}[1][\empty]{\aSignature[#1] = \aSignatureTuple[#1]}
 \newcommand{\aSignatureFamily}[1][\empty]{\ensuremath{\mathpzc{S}^{#1}}}
 
+% Special action models: skip and crash
 \newcommandm{\aSkip}{\mathsf{skip}}
 \newcommandm{\aCrash}{\mathsf{crash}}
 
@@ -132,12 +148,17 @@
 \newcommand{\bisimulation}{\mathfrak{R}}
 \newcommand{\refinement}{\bisimulation}
 
-% Logical operators
+%%%% Logical operators %%%%
+
+% Meta-Logical operators
 \newcommand{\proves}{\vdash}
 \newcommand{\entails}{\vDash}
 \newcommand{\nproves}{\nvdash}
 \newcommand{\nentails}{\nvDash}
 \newcommand{\nequiv}{\not\equiv}
+\newcommand{\interpretation}[2][\empty]{[\![{#2}]\!]_{#1}}
+
+% Propositional operators
 \renewcommand{\implies}{\rightarrow}
 \renewcommand{\iff}{\leftrightarrow}
 
@@ -192,6 +213,7 @@
 \newcommand{\lchoice}{!}
 \newcommand{\rchoice}{\text{!`}}
 
+%%%% Logics %%%%
 
 % Languages
 \newcommandm{\lang}{\mathpzc{L}} % Modal
@@ -208,7 +230,6 @@
 \newcommandm{\langAaml}{\lang_\mathit{aaml}} % Arbitrary action model logic
 \newcommandm{\langAafl}{\lang_\mathit{aafl}} % Arbitrary action formula logic
 \newcommandm{\langAaflAct}{\lang_\mathit{aafl}^\mathit{act}} % Arbitrary action formula logic actions
-
 
 % Modal classes, logics and axiomatisations
 \newcommand{\newmodalclass}[2]{%
@@ -242,9 +263,8 @@
 \newmodalclass{SF}{S4}
 \newmodalclass{S}{S5}
 
-% Class of action models
+%%%% Theorems %%%%
 
-% AMS Theorems
 \theoremstyle{plain}% default
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}

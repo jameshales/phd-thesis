@@ -66,11 +66,6 @@
 \newcommand{\kFrameTuple}[1][\empty]{\ensuremath{{(\kStates[#1], \kAccessibilityRel[#1])}}}
 \newcommand{\kFrameAndTuple}[1][\empty]{\kFrame[#1] = \kFrameTuple[#1]}
 
-% Pointed Kripke frames
-\newcommand{\kPFrame}[2][\empty]{\ensuremath{{F^{#1}_{#2}}}}
-\newcommand{\kPFrameTuple}[2][\empty]{\ensuremath{{(\kFrameTuple[#1], {#2})}}}
-\newcommand{\kPFrameAndTuple}[2][\empty]{\kPFrame[#1]{#2} = \kPFrameTuple[#1]{#2}}
-
 % Kripke models
 \newcommand{\kModel}[1][\empty]{\kPModel[#1]{}}
 \newcommand{\kModelTuple}[1][\empty]{\ensuremath{{(\kStates[#1], \kAccessibilityRel[#1], \kValuation[#1])}}}
@@ -114,11 +109,6 @@
 \newcommand{\aFrame}[1][\empty]{\aPFrame[#1]{}}
 \newcommand{\aFrameTuple}[1][\empty]{\ensuremath{{(\aStates[#1], \aAccessibilityRel[#1])}}}
 \newcommand{\aFrameAndTuple}[1][\empty]{\aFrame[#1] = \aFrameTuple[#1]}
-
-% Pointed action frames
-\newcommand{\aPFrame}[2][\empty]{\ensuremath{{\mathsf{F}^{#1}_{#2}}}}
-\newcommand{\aPFrameTuple}[2][\empty]{\ensuremath{{(\aFrameTuple[#1], {#2})}}}
-\newcommand{\aPFrameAndTuple}[2][\empty]{\aPFrame[#1]{#2} = \aPFrameTuple[#1]{#2}}
 
 % Action models
 \newcommand{\aModel}[1][\empty]{\ensuremath{{\mathsf{M}^{#1}}}}

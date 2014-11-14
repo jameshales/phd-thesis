@@ -61,8 +61,24 @@
 \newcommand{\kSuccessors}[3][\empty]{{#3} \kAccessibility[#1]{#2}}
 \newcommand{\kPredecessors}[3][\empty]{\kAccessibility[#1]{#2} {#3}}
 
+\newcommand{\kAccessibilityA}[1][\empty]{\kAccessibility[#1]{\agentA}}
+\newcommand{\kSuccessorsA}[1][\empty]{\kSuccessors[#1]{\agentA}}
+\newcommand{\kPredecessorsA}[1][\empty]{\kPredecessors[#1]{\agentA}}
+
+\newcommand{\kAccessibilityB}[1][\empty]{\kAccessibility[#1]{\agentB}}
+\newcommand{\kSuccessorsB}[1][\empty]{\kSuccessors[#1]{\agentB}}
+\newcommand{\kPredecessorsB}[1][\empty]{\kPredecessors[#1]{\agentB}}
+
+\newcommand{\kAccessibilityC}[1][\empty]{\kAccessibility[#1]{\agentC}}
+\newcommand{\kSuccessorsC}[1][\empty]{\kSuccessors[#1]{\agentC}}
+\newcommand{\kPredecessorsC}[1][\empty]{\kPredecessors[#1]{\agentC}}
+
+\newcommand{\kAccessibilityD}[1][\empty]{\kAccessibility[#1]{\agentD}}
+\newcommand{\kSuccessorsD}[1][\empty]{\kSuccessors[#1]{\agentD}}
+\newcommand{\kPredecessorsD}[1][\empty]{\kPredecessors[#1]{\agentD}}
+
 % Kripke frames
-\newcommand{\kFrame}[1][\empty]{\kPFrame[#1]{}}
+\newcommand{\kFrame}[1][\empty]{\ensuremath{{F^{#1}}}}
 \newcommand{\kFrameTuple}[1][\empty]{\ensuremath{{(\kStates[#1], \kAccessibilityRel[#1])}}}
 \newcommand{\kFrameAndTuple}[1][\empty]{\kFrame[#1] = \kFrameTuple[#1]}
 
@@ -105,8 +121,24 @@
 \newcommand{\aSuccessors}[3][\empty]{{#3} \aAccessibility[#1]{#2}}
 \newcommand{\aPredecessors}[3][\empty]{\aAccessibility[#1]{#2} {#3}}
 
+\newcommand{\aAccessibilityA}[1][\empty]{\aAccessibility[#1]{\agentA}}
+\newcommand{\aSuccessorsA}[1][\empty]{\aSuccessors[#1]{\agentA}}
+\newcommand{\aPredecessorsA}[1][\empty]{\aPredecessors[#1]{\agentA}}
+
+\newcommand{\aAccessibilityB}[1][\empty]{\aAccessibility[#1]{\agentB}}
+\newcommand{\aSuccessorsB}[1][\empty]{\aSuccessors[#1]{\agentB}}
+\newcommand{\aPredecessorsB}[1][\empty]{\aPredecessors[#1]{\agentB}}
+
+\newcommand{\aAccessibilityC}[1][\empty]{\aAccessibility[#1]{\agentC}}
+\newcommand{\aSuccessorsC}[1][\empty]{\aSuccessors[#1]{\agentC}}
+\newcommand{\aPredecessorsC}[1][\empty]{\aPredecessors[#1]{\agentC}}
+
+\newcommand{\aAccessibilityD}[1][\empty]{\aAccessibility[#1]{\agentD}}
+\newcommand{\aSuccessorsD}[1][\empty]{\aSuccessors[#1]{\agentD}}
+\newcommand{\aPredecessorsD}[1][\empty]{\aPredecessors[#1]{\agentD}}
+
 % Action frames
-\newcommand{\aFrame}[1][\empty]{\aPFrame[#1]{}}
+\newcommand{\aFrame}[1][\empty]{\ensuremath{{\mathsf{F}^{#1}}}}
 \newcommand{\aFrameTuple}[1][\empty]{\ensuremath{{(\aStates[#1], \aAccessibilityRel[#1])}}}
 \newcommand{\aFrameAndTuple}[1][\empty]{\aFrame[#1] = \aFrameTuple[#1]}
 
@@ -162,6 +194,22 @@
 \newcommand{\kSuccessorsP}{\kSuccessors[\prime]}
 \newcommand{\kPredecessorsP}{\kPredecessors[\prime]}
 
+\newcommand{\kAccessibilityPA}{\kAccessibilityP{\agentA}}
+\newcommand{\kSuccessorsPA}{\kSuccessorsP{\agentA}}
+\newcommand{\kPredecessorsPA}{\kPredecessorsP{\agentA}}
+
+\newcommand{\kAccessibilityPB}{\kAccessibilityP{\agentB}}
+\newcommand{\kSuccessorsPB}{\kSuccessorsP{\agentB}}
+\newcommand{\kPredecessorsPB}{\kPredecessorsP{\agentB}}
+
+\newcommand{\kAccessibilityPC}{\kAccessibilityP{\agentC}}
+\newcommand{\kSuccessorsPC}{\kSuccessorsP{\agentC}}
+\newcommand{\kPredecessorsPC}{\kPredecessorsP{\agentC}}
+
+\newcommand{\kAccessibilityPD}{\kAccessibilityP{\agentD}}
+\newcommand{\kSuccessorsPD}{\kSuccessorsP{\agentD}}
+\newcommand{\kPredecessorsPD}{\kPredecessorsP{\agentD}}
+
 % Kripke frames
 \newcommand{\kFrameP}{\kFrame[\prime]}
 \newcommand{\kFrameTupleP}{\kFrameTuple[\prime]}
@@ -200,6 +248,22 @@
 \newcommand{\kValuationPP}{\kValuation[\prime\prime]}
 \newcommand{\kSuccessorsPP}{\kSuccessors[\prime\prime]}
 \newcommand{\kPredecessorsPP}{\kPredecessors[\prime\prime]}
+
+\newcommand{\kAccessibilityPPA}{\kAccessibilityPP{\agentA}}
+\newcommand{\kSuccessorsPPA}{\kSuccessorsPP{\agentA}}
+\newcommand{\kPredecessorsPPA}{\kPredecessorsPP{\agentA}}
+
+\newcommand{\kAccessibilityPPB}{\kAccessibilityPP{\agentB}}
+\newcommand{\kSuccessorsPPB}{\kSuccessorsPP{\agentB}}
+\newcommand{\kPredecessorsPPB}{\kPredecessorsPP{\agentB}}
+
+\newcommand{\kAccessibilityPPC}{\kAccessibilityPP{\agentC}}
+\newcommand{\kSuccessorsPPC}{\kSuccessorsPP{\agentC}}
+\newcommand{\kPredecessorsPPC}{\kPredecessorsPP{\agentC}}
+
+\newcommand{\kAccessibilityPPD}{\kAccessibilityPP{\agentD}}
+\newcommand{\kSuccessorsPPD}{\kSuccessorsPP{\agentD}}
+\newcommand{\kPredecessorsPPD}{\kPredecessorsPP{\agentD}}
 
 % Kripke frames
 \newcommand{\kFramePP}{\kFrame[\prime\prime]}
@@ -244,6 +308,22 @@
 \newcommand{\aSuccessorsP}{\aSuccessors[\prime]}
 \newcommand{\aPredecessorsP}{\aPredecessors[\prime]}
 
+\newcommand{\aAccessibilityPA}{\aAccessibilityP{\agentA}}
+\newcommand{\aSuccessorsPA}{\aSuccessorsP{\agentA}}
+\newcommand{\aPredecessorsPA}{\aPredecessorsP{\agentA}}
+
+\newcommand{\aAccessibilityPB}{\aAccessibilityP{\agentB}}
+\newcommand{\aSuccessorsPB}{\aSuccessorsP{\agentB}}
+\newcommand{\aPredecessorsPB}{\aPredecessorsP{\agentB}}
+
+\newcommand{\aAccessibilityPC}{\aAccessibilityP{\agentC}}
+\newcommand{\aSuccessorsPC}{\aSuccessorsP{\agentC}}
+\newcommand{\aPredecessorsPC}{\aPredecessorsP{\agentC}}
+
+\newcommand{\aAccessibilityPD}{\aAccessibilityP{\agentD}}
+\newcommand{\aSuccessorsPD}{\aSuccessorsP{\agentD}}
+\newcommand{\aPredecessorsPD}{\aPredecessorsP{\agentD}}
+
 % Action frames
 \newcommand{\aFrameP}{\aFrame[\prime]}
 \newcommand{\aFrameTupleP}{\aFrameTuple[\prime]}
@@ -286,6 +366,22 @@
 \newcommand{\aPreconditionPP}{\aPrecondition[\prime\prime]}
 \newcommand{\aSuccessorsPP}{\aSuccessors[\prime\prime]}
 \newcommand{\aPredecessorsPP}{\aPredecessors[\prime\prime]}
+
+\newcommand{\aAccessibilityPPA}{\aAccessibilityPP{\agentA}}
+\newcommand{\aSuccessorsPPA}{\aSuccessorsPP{\agentA}}
+\newcommand{\aPredecessorsPPA}{\aPredecessorsPP{\agentA}}
+
+\newcommand{\aAccessibilityPPB}{\aAccessibilityPP{\agentB}}
+\newcommand{\aSuccessorsPPB}{\aSuccessorsPP{\agentB}}
+\newcommand{\aPredecessorsPPB}{\aPredecessorsPP{\agentB}}
+
+\newcommand{\aAccessibilityPPC}{\aAccessibilityPP{\agentC}}
+\newcommand{\aSuccessorsPPC}{\aSuccessorsPP{\agentC}}
+\newcommand{\aPredecessorsPPC}{\aPredecessorsPP{\agentC}}
+
+\newcommand{\aAccessibilityPPD}{\aAccessibilityPP{\agentD}}
+\newcommand{\aSuccessorsPPD}{\aSuccessorsPP{\agentD}}
+\newcommand{\aPredecessorsPPD}{\aPredecessorsPP{\agentD}}
 
 % Action frames
 \newcommand{\aFramePP}{\aFrame[\prime\prime]}

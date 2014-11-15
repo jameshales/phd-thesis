@@ -391,7 +391,15 @@ The axiomatisation \axiomPalS{} is sound and strongly complete with respect to t
 \end{proposition}
 
 \begin{proposition}
-\logicPalS{} is expressively equivalent to \logicS{}.
+The logic \logicPalS{} is expressively equivalent to the logic \logicS{}.
+\end{proposition}
+
+\begin{proposition}
+The logic \logicPalS{} is compact.
+\end{proposition}
+
+\begin{proposition}
+The satisfiability problem for the logic \logicPalS{} is decidable.
 \end{proposition}
 
 \section{Action model logic}\label{aml}
@@ -682,7 +690,7 @@ $$
     {\bf AC} & \proves \actionA{\aPModel{\aStateS}} (\phi \land \psi) \iff (\actionA{\aPModel{\aStateS}} \phi \land \actionA{\aPModel{\aStateS}} \psi)\\
     {\bf AK} & \proves \actionA{\aPModel{\aStateS}} \necessaryA \phi \iff (\aPrecondition(\aStateS) \implies \necessaryA \bigwedge_{\aStateT \in \aSuccessorsA{\aStateS}} \actionA{\aPModel{\aStateT}} \phi)\\
     {\bf AU} & \proves \actionA{\aPModel{\aStatesT}} \phi \iff \bigwedge_{\aStateT \in \aStatesT} \actionA{\aPModel{\aStateT}} \phi\\
-    {\bf NecA} & \text{From } \proves \phi \text{ infer } \proves \actionA{\aPModel{\aStateS}} \phi
+    {\bf NecA} & \text{From } \proves \phi \text{ infer } \proves \actionA{\aPModel{\aStatesT}} \phi
 \end{array}
 $$
 \end{definition}
@@ -693,4 +701,12 @@ The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} are sound and
 
 \begin{proposition}
 The logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are expressively equivalent to the respective logics \logicK{}, \logicKFF{}, and \logicS{}.
+\end{proposition}
+
+\begin{proposition}
+The logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are compact.
+\end{proposition}
+
+\begin{proposition}
+The satisfiability problems for the logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are decidable.
 \end{proposition}

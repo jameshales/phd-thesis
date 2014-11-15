@@ -405,7 +405,8 @@ an indexed set of {\em accessibility relations} $\aAccessibilityRel$, indexed on
 \end{definition}
 
 We use similar notation and terminology to Kripke frames when discussing action frames.
-Similar to Kripke frames, we define several classes of action frames according to their relational properties.
+Similar to Kripke frames, when we ascribe relational properties to action frames we actually ascribe those properties to each of the accessibility relations of the action frame.
+We define several classes of action frames according to their relational properties.
 
 \begin{definition}[Classes of action frames]
 We define the following classes of action frames:
@@ -433,6 +434,9 @@ Let $\lang$ be a logical language and let $\phi_1, \dots, \phi_n \in \lang$ be a
 Then we obtain an action model $\aSignature(\phi_1, \dots, \phi_n) = \aModelTuple$ where $\aPrecondition(\aStateS_i) = \phi_i$ for $i = 1, \dots, n$ and $\aPrecondition(\aStateS) = \top$ otherwise.
 The {\em trivial actions} are so named because their preconditions are always set to $\top$.
 \end{definition}
+
+When we ascribe relational or frame properties to an action model or signature we actually ascribe those properties to its underlying action frame.
+As we will often work with action models and signatures rather than frames we overload the notation for classes of action frames to also refer to classes of action models or signatures.
 
 \begin{definition}[Language of action model logic]
 Let \aSignatureFamily{} be a non-empty, countable set of action signatures.
@@ -474,6 +478,13 @@ $$
 \end{array}
 $$
 \end{definition}
+
+We are interested in the following variants of action model:
+\begin{itemize}
+    \item \logicAmlK{} interpreted over the class of \classK{} Kripke frames and the language of action model logic $\langAml(\classAmK)$ with action signatures defined on the class of \classAmK{} action frames.
+    \item \logicAmlKFF{} interpreted over the class of \classKFF{} Kripke frames and the language of action model logic $\langAml(\classAmK)$ with action signatures defined on the class of \classAmKFF{} action frames.
+    \item \logicAmlS{} interpreted over the class of \classS{} Kripke frames and the language of action model logic $\langAml(\classAmK)$ with action signatures defined on the class of \classAmS{} action frames.
+\end{itemize}
 
 \begin{definition}[Skip and crash]
     We define the action models \aSkip{} and \aCrash{} as follows:
@@ -588,7 +599,7 @@ If there exists a bisimulation $\bisimulation$ such that $\aStateS \bisimulation
 The relation $\bisimilar$ is an equivalence relation on action models.
 \end{proposition}
 
-Bisimilar action models have bisimilar results.
+Bisimilar action models have bisimilar results on bisimilar Kripke models.
 
 \begin{proposition}\label{action-bisimulation-results}
 Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ and

@@ -318,6 +318,15 @@ The satisfiability problems for the logics \logicK{}, \logicKF{}, \logicKFF{}, \
 For the logics \logicK{}, \logicKFF{}, \logicKD{} and \logicS{} the problem is PSPACE-complete.\todo{Double-check complexity} 
 \end{proposition}
 
+In the following sections and chapters we will compare the expressive power of the logics that we consider to other logics, often to an underlying modal logic.
+
+\begin{definition}[Expressivity]
+If a logic can express all of the semantic properties that another logic can then we say that the logic is {\em at least as expressive} as the other logic.
+If two logics are at least as expressive as each other then we say that the two logics are {\em expressively equivalent}.
+If a logic is at least as expressive as but not expressively equivalent to another logic then we say that the logic is {\em strictly less expressive} than the other logic.
+If two logics are neither at least as expressive as the other logic then we say that the two logics are {\em incomparable} in expressivity.
+\end{definition}
+
 \section{Action model logic}\label{aml}
 
 We recall definitions and results from the action model logic of Baltag, Moss and Solecki~\cite{baltagetal:1998,baltagetal:2004}.
@@ -399,6 +408,97 @@ $$
 $$
 \end{definition}
 
+\begin{definition}[Skip and crash]
+    We define the action models \aSkip{} and \aCrash{} as follows:
+    \begin{eqnarray*}
+        \aSkip &=& ((\{\aStateS\}, \{(\aStateS, \aStateS)\}, \{(\aStateS, \top)\}), \aStateS)\\
+        \aCrash &=& ((\{\aStateS\}, \{(\aStateS, \aStateS)\}, \{(\aStateS, \bot)\}), \aStateS)
+    \end{eqnarray*}
+\end{definition}
+
+The action model \aSkip{} is intended to represent an epistemic update that always succeeds and has no effect,
+whereas the action model \aCrash{} is intended to represent an epistemic update that never succeeds.
+Indeed we note that $\entails \actionE{\aSkip} \top$, $\entails \actionA{\aSkip} \phi \iff \phi$ and $\entails \lnot \actionE{\aCrash} \top$.
+
+We note that as $\top$ and $\bot$ are in the language $\langAml(\aSignatureFamily)$ for any set of action signatures $\aSignatureFamily$, and so \aSkip{} and \aCrash{} are action models with preconditions defined on $\langAml(\aSignatureFamily)$.
+However a given $\aSignatureFamily$ may not contain any action signature that would allow one to construct \aSkip{} or \aCrash{}, so statements about \aSkip{} and \aCrash{} may not be allowed by the language $\langAml(\aSignatureFamily)$.
+
+\begin{definition}[Disjoint union]
+    Let $\aPModelAndTuple{\aStatesT}$ and $\aPModelAndTupleP{\aStatesTP}$ be action models.
+    We denote the {\em disjoint union of $\aPModel{\aStatesT}$ and $\aPModelP{\aStatesTP}$} as $\aPModel{\aStatesT} \choice \aPModelP{\aStatesTP}$ and define it as $\aPModel{\aStatesT} \choice \aPModelP{\aStatesTP} = \aPModelAndTuplePP{\aStatesTPP}$ where:
+    \begin{eqnarray*}
+        \aStatesPP &=& \aStates \cup \aStatesP\\
+        \aAccessibilityPPA &=& \aAccessibilityA \cup \aAccessibilityPA\\
+        \aPreconditionPP &=& \aPrecondition \cup \aPreconditionP\\
+        \aStatesTPP &=& \aStatesT \cup \aStatesTP
+    \end{eqnarray*}
+\end{definition}
+
+The operation of disjoint union of action models is intended to represent the epistemic update that is formed by the non-deterministic choice between two epistemic updates.
+Indeed we note that $\entails \actionA{\aPModel{\aStatesT} \choice \aPModelP{\aStatesTP}} \phi \iff (\actionA{\aPModel{\aStatesT}} \phi \land \actionA{\aPModelP{\aStatesTP}} \phi)$.
+
+We will sometimes take the `disjoint' union of two action models that are not actually disjoint and we assume in this case that we implicitly rename the actions in each action model so that the domains become disjoint before taking the disjoint union.
+
+\begin{definition}[Sequential composition]
+    Let $\aPModelAndTuple{\aStatesT}$ and $\aPModelAndTupleP{\aStatesTP}$ be action models.
+    We denote the {\em sequential composition of $\aPModel{\aStatesT}$ and $\aPModelP{\aStatesTP}$} as $\aPModel{\aStatesT} \compose \aPModelP{\aStatesTP}$ and define it as $\aPModel{\aStatesT} \compose \aPModelP{\aStatesTP} = \aPModelAndTuplePP{\aStatesTPP}$ where:
+    \begin{eqnarray*}
+        \aStatesPP &=& \aStates \times \aStatesP\\
+        (\aStateS, \aStateSP) \aAccessibilityPPA (\aStateT, \aStateTP) &\text{ iff }& \aStateS \aAccessibilityA \aStateT \text{ and } \aStateSP \aAccessibilityPA \aStateTP\\
+        \aPreconditionPP((\aStateS, \aStateSP)) &=& \aPrecondition(\aStateS) \land \actionA{\aPModel{\aStateS}} \aPreconditionP(\aStateSP)\\
+        \aStatesTPP &=& \aStatesT \times \aStatesTP
+    \end{eqnarray*}
+\end{definition}
+
+The operation of sequential composition of action models is intended to represent the epistemic update that is formed by sequentially performing two epistemic updates.
+Indeed we note that $\entails \actionA{\aPModel{\aStatesT} \compose \aPModelP{\aStatesTP}} \phi \iff \actionA{\aPModel{\aStatesT}} \actionA{\aPModelP{\aStatesTP}} \phi$.
+
+Using the \aSkip{} and \aCrash{} action models, along with the operations of disjoint union and sequential composition we may define an extended language of action model logic.
+
+\begin{definition}[Language of action model logic (extended)]
+Let \aSignatureFamily{} be a non-empty, countable set of action signatures.
+The {\em language of action model logic} with action signatures \aSignatureFamily{}, $\langAml(\aSignatureFamily)$, is inductively defined as:
+$$
+\phi ::=
+    \atomP \mid
+    \lnot \phi \mid
+    (\phi \land \phi) \mid
+    \necessaryA \phi \mid
+    \actionA{\alpha} \phi
+$$
+where $\atomP \in \atoms$, $\agentA \in \agents$, and the {\em language of action model logic actions} with action signatures \aSignatureFamily{}, $\langAmlAct(\aSignatureFamily)$, is inductively defined as:
+$$
+\alpha ::=
+    \aSkip \mid
+    \aCrash \mid
+    \aSignature \aStatesT, \phi, \dots, \phi \mid
+    \alpha \choice \alpha \mid
+    \alpha \compose \alpha
+$$
+where , $\aSignatureAndTuple \in \aSignatureFamily$, $\aStatesT \subseteq \aStates$, and the number of parameters to a given action signature $\aSignature$ is determined by the number of designated actions in the action signature.
+\end{definition}
+
+We use all of the standard abbreviations from action model logic.
+The semantics of formulas of this extended language should be obvious.
+We note that formulas of the extended language can be translated back into the basic language using the equivalences listed above.
+
+We note the following algebraic properties of action model logic actions:
+
+\begin{proposition}
+Let $\alpha, \beta, \gamma \in \langAmlAct$ and let $\phi \in \langAml$. Then:
+$$
+\begin{array}{l}
+    \entails \actionA{\alpha \choice \aCrash} \phi \iff \actionA{\alpha} \phi\\
+    \entails \actionA{\alpha \choice \beta} \phi \iff \actionA{\beta \choice \alpha} \phi\\
+    \entails \actionA{(\alpha \choice \beta) \choice \gamma} \phi \iff \actionA{\alpha \choice (\beta \choice \gamma)} \phi\\
+    \entails \actionA{\alpha \compose \aSkip} \phi \iff \actionA{\alpha} \phi\\
+    \entails \actionA{\aSkip \compose \alpha} \phi \iff \actionA{\alpha} \phi\\
+    \entails \actionA{(\alpha \compose \beta) \compose \gamma} \phi \iff \actionA{\alpha \compose (\beta \compose \gamma)} \phi\\
+    \entails \actionA{(\alpha \choice \beta) \compose \gamma} \phi \iff \actionA{(\alpha \compose \gamma) \choice (\beta \compose \gamma)} \phi
+\end{array}
+$$
+\end{proposition}
+
 Similar to Kripke models there is a notion of bisimilarity of action models.
 
 \begin{definition}[Bisimulation of action models]
@@ -462,8 +562,6 @@ For every $\aStateTP \in \aSuccessorsPA{\aStateSP}$ there exists $\aStateT \in \
 If there exists an $n$-bisimulation $\bisimulation_0, \dots, \bisimulation_n$ such that $\aStateS \bisimulation_n \aStateSP$ then we say that $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ are {\em $n$-bisimilar} and we denote this by $\aPModel{\aStateS} \bisimilar[n] \aPModelP{\aStateSP}$.
 \end{definition}
 
-We have similar depth-limited results for $n$-bisimilarity.
-
 \begin{definition}[Modal depth]
 Let $\phi \in \langAml$.
 We denote the {\em modal depth of $\phi$} by $d(\phi)$ and define it inductively as:
@@ -497,83 +595,8 @@ let $\aPModel{\aStateS}, \aPModelP{\aStateSP}$ be pointed action models such tha
 Then for every $\phi \in \langAml$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi$ if and only if $\kPModel{\kStateS} \entails \actionA{\aPModelP{\aStateSP}} \phi$.
 \end{proposition}
 
-\begin{definition}[Skip and crash]
-    We define the action models \aSkip{} and \aCrash{} as follows:
-    \begin{eqnarray*}
-        \aSkip &=& ((\{\aStateS\}, \{(\aStateS, \aStateS)\}, \{(\aStateS, \top)\}), \aStateS)\\
-        \aCrash &=& ((\{\aStateS\}, \{(\aStateS, \aStateS)\}, \{(\aStateS, \bot)\}), \aStateS)
-    \end{eqnarray*}
-\end{definition}
-
-The action model \aSkip{} is intended to represent an epistemic update that always succeeds and has no effect,
-whereas the action model \aCrash{} is intended to represent an epistemic update that never succeeds.
-Indeed we note that $\entails \actionE{\aSkip} \top$, $\entails \actionA{\aSkip} \phi \iff \phi$ and $\entails \lnot \actionE{\aCrash} \top$.
-
-We note that as $\top$ and $\bot$ are in the language $\langAml(\aSignatureFamily)$ for any set of action signatures $\aSignatureFamily$, and so \aSkip{} and \aCrash{} are action models with preconditions defined on $\langAml(\aSignatureFamily)$.
-However a given $\aSignatureFamily$ may not contain any action signature that would allow one to construct \aSkip{} or \aCrash{}, so statements about \aSkip{} and \aCrash{} may not be allowed by the language $\langAml(\aSignatureFamily)$.
-
-\begin{definition}[Disjoint union]
-    Let $\aPModelAndTuple{\aStatesT}$ and $\aPModelAndTupleP{\aStatesTP}$ be action models.
-    We denote the {\em disjoint union of $\aPModel{\aStatesT}$ and $\aPModelP{\aStatesTP}$} as $\aPModel{\aStatesT} \choice \aPModelP{\aStatesTP}$ and define it as $\aPModel{\aStatesT} \choice \aPModelP{\aStatesTP} = \aPModelAndTuplePP{\aStatesTPP}$ where:
-    \begin{eqnarray*}
-        \aStatesPP &=& \aStates \cup \aStatesP\\
-        \aAccessibilityPPA &=& \aAccessibilityA \cup \aAccessibilityPA\\
-        \aPreconditionPP &=& \aPrecondition \cup \aPreconditionP\\
-        \aStatesTPP &=& \aStatesT \cup \aStatesTP
-    \end{eqnarray*}
-\end{definition}
-
-The operation of disjoint union of action models is intended to represent the epistemic update that is formed by the non-deterministic choice between two epistemic updates.
-Indeed we note that $\entails \actionA{\aPModel{\aStatesT} \choice \aPModelP{\aStatesTP}} \phi \iff (\actionA{\aPModel{\aStatesT}} \phi \land \actionA{\aPModelP{\aStatesTP}} \phi)$.
-
-We will sometimes take the `disjoint' union of two action models that are not actually disjoint and we assume in this case that we implicitly rename the actions in each action model so that the domains become disjoint before taking the disjoint union.
-
-\begin{definition}[Sequential composition]
-    Let $\aPModelAndTuple{\aStatesT}$ and $\aPModelAndTupleP{\aStatesTP}$ be action models.
-    We denote the {\em sequential composition of $\aPModel{\aStatesT}$ and $\aPModelP{\aStatesTP}$} as $\aPModel{\aStatesT} \compose \aPModelP{\aStatesTP}$ and define it as $\aPModel{\aStatesT} \compose \aPModelP{\aStatesTP} = \aPModelAndTuplePP{\aStatesTPP}$ where:
-    \begin{eqnarray*}
-        \aStatesPP &=& \aStates \times \aStatesP\\
-        (\aStateS, \aStateSP) \aAccessibilityPPA (\aStateT, \aStateTP) &\text{ iff }& \aStateS \aAccessibilityA \aStateT \text{ and } \aStateSP \aAccessibilityPA \aStateTP\\
-        \aPreconditionPP((\aStateS, \aStateSP)) &=& \aPrecondition(\aStateS) \land \actionA{\aPModel{\aStateS}} \aPreconditionP(\aStateSP)\\
-        \aStatesTPP &=& \aStatesT \times \aStatesTP
-    \end{eqnarray*}
-\end{definition}
-
-The operation of sequential composition of action models is intended to represent the epistemic update that is formed by sequentially performing two epistemic updates.
-Indeed we note that $\entails \actionA{\aPModel{\aStatesT} \compose \aPModelP{\aStatesTP}} \phi \iff \actionA{\aPModel{\aStatesT}} \actionA{\aPModelP{\aStatesTP}} \phi$.
-
-Using the \aSkip{} and \aCrash{} action models, along with the operations of disjoint union and sequential composition we may define an extended language of action model logic.
-
-\begin{definition}[Language of action model logic (extended)]
-Let \aSignatureFamily{} be a non-empty, countable set of action signatures.
-The {\em language of action model logic} with action signatures \aSignatureFamily{}, $\langAml(\aSignatureFamily)$, is inductively defined as:
-\begin{eqnarray*}
-\phi &::=&
-    \atomP \mid
-    \lnot \phi \mid
-    (\phi \land \phi) \mid
-    \necessaryA \phi \mid
-    \actionA{\alpha} \phi\\
-\alpha &::=&
-    \aSkip \mid
-    \aCrash \mid
-    \aSignature \aStatesT, \phi, \dots, \phi \mid
-    \alpha \choice \alpha \mid
-    \alpha \compose \alpha
-\end{eqnarray*}
-where $\atomP \in \atoms$, $\agentA \in \agents$, $\aSignatureAndTuple \in \aSignatureFamily$, $\aStatesT \subseteq \aStates$, and the number of parameters to a given action signature $\aSignature$ is determined by the number of designated actions in the action signature.
-\end{definition}
-
-We use all of the standard abbreviations from action model logic.
-The semantics of formulas of this extended language should be obvious.
-We note that formulas of the extended language can be translated back into the basic language using the equivalences listed above.
-
-\todo[inline]{Action model bisimulation}
-
-\todo[inline]{Action model bisimulation invariance results}
-
 \begin{definition}[Axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{}]
-The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} is a substitution schema consisting of the respective axioms and rules of \axiomK{}, \axiomKFF{}, and \axiomS{} along with the following additional axioms and rules:
+The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} are substitution schemas consisting of the respective axioms and rules of \axiomK{}, \axiomKFF{}, and \axiomS{} along with the following additional axioms and rules:
 $$
 \begin{array}{rl}
     {\bf AP} & \proves \actionA{\aPModel{\aStateS}} \atomP \iff (\aPrecondition(\aStateS) \implies \atomP)\\

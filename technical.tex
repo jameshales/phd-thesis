@@ -472,6 +472,20 @@ where $\nu(\sharp)$ is a necessity form.
 The axiomatisation \axiomApalS{} is sound and strongly complete with respect to the semantics of the logic \logicApalS{}.
 \end{proposition}
 
+We note that the axiomatisation \axiomApalS{} is an infinitary axiomatisation, as the rule ${\bf R+^\omega}$ requires an infinite number of premises.
+As a consequence the axiomatisation is not recursively enumerable.
+The rule ${\bf R+^\omega}$ can be replaced with a finitary rule of the form:
+$$
+\begin{array}{rl}
+    {\bf R+^1} & \text{From } \proves \nu(\announceA{\atomP} \phi) \text{ infer } \nu(\allpas \phi)
+\end{array}
+$$
+where $\nu(\sharp)$ is a necessity form and $\atomP$ is a fresh atom.
+
+\begin{proposition}
+The axiomatisation \axiomApalS{} substituting the rule ${\bf R+^\omega}$ with the rule ${\bf R+^1}$ is sound and {\em weakly} complete with respect to the semantics of the logic \logicApalS{}.
+\end{proposition}
+
 \begin{proposition}
 The logic \logicApalS{} is strictly more expressive than the logic \logicPalS{}.
 \end{proposition}

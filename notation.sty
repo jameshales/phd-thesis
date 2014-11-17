@@ -36,6 +36,12 @@
 \newcommand{\atomQ}{q}
 \newcommand{\atomR}{r}
 
+% Atoms
+\newcommandm{\variables}{X}
+\newcommand{\varX}{x}
+\newcommand{\varY}{y}
+\newcommand{\varZ}{z}
+
 %%%% Kripke models %%%%
 
 % Kripke states
@@ -58,6 +64,8 @@
 \newcommand{\kAccessibility}[2][\empty]{\ensuremath{{R^{#1}_{#2}}}}
 \newcommand{\kAccessibilityRel}[1][\empty]{\kAccessibility[#1]{\empty}}
 \newcommand{\kValuation}[1][\empty]{\ensuremath{{V^{#1}}}}
+\newcommand{\kAssignment}[1][\empty]{\ensuremath{{Val^{#1}}}}
+\newcommand{\kAssignmentSubstitute}[3][\empty]{\kAssignment[#1] \lbrack {#2} / {#3} \rbrack}
 \newcommand{\kSuccessors}[3][\empty]{{#3} \kAccessibility[#1]{#2}}
 \newcommand{\kPredecessors}[3][\empty]{\kAccessibility[#1]{#2} {#3}}
 
@@ -444,6 +452,18 @@
 \newcommand{\knowsD}{\knows[\agentD]}
 \newcommand{\suspectsD}{\suspects[\agentD]}
 
+% Mu-calculus operators
+\newcommand{\lfp}[1]{\mu {#1} . }
+\newcommand{\gfp}[1]{\nu {#1} . }
+
+\newcommand{\lfpX}{\lfp{\varX}}
+\newcommand{\lfpY}{\lfp{\varY}}
+\newcommand{\lfpZ}{\lfp{\varZ}}
+
+\newcommand{\gfpX}{\gfp{\varX}}
+\newcommand{\gfpY}{\gfp{\varY}}
+\newcommand{\gfpZ}{\gfp{\varZ}}
+
 % Cover operator
 \newcommand{\cover}[1][\empty]{\nabla_{#1}}
 \newcommand{\revoc}[1][\empty]{\triangle_{#1}}
@@ -510,6 +530,7 @@
 \newcommandm{\lang}{\mathpzc{L}} % Modal
 \newcommandm{\langPl}{\lang_\mathit{pl}} % Propositional
 \newcommandm{\langMl}{\lang_\mathit{ml}} % Modal logic
+\newcommandm{\langMu}{\lang_\mathit{\mu}} % Modal mu-calculus
 \newcommandm{\langMlPlus}{\lang_\mathit{ml}^{+}} % Positive
 \newcommandm{\langPal}{\lang_\mathit{pal}} % Public announcement logic
 \newcommandm{\langAml}{\lang_\mathit{aml}} % Action model logic
@@ -528,6 +549,7 @@
 \expandafter\newcommandm\csname class#1\endcsname{{\mathpzc{#2}}}
 \expandafter\newcommandm\csname classAm#1\endcsname{{\mathpzc{AM}_\@nameuse{class#1}}}
 \expandafter\newcommandm\csname logic#1\endcsname{{\textit{#2}}}
+\expandafter\newcommandm\csname logicMu#1\endcsname{{\@nameuse{logic#1}_\mu}}
 \expandafter\newcommandm\csname logicPal#1\endcsname{\textit{PAL}_\@nameuse{logic#1}}
 \expandafter\newcommandm\csname logicAml#1\endcsname{\textit{AML}_\@nameuse{logic#1}}
 \expandafter\newcommandm\csname logicAfl#1\endcsname{\textit{AFL}_\@nameuse{logic#1}}

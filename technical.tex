@@ -4,6 +4,7 @@ In this chapter we recall technical preliminaries used in the following chapters
 In Section~\ref{ml} we introduce modal logic along with standard logical notation and terminology applicable to the other logics we will be working with, which will be used throughout the following chapters.
 In Section~\ref{pal} we introduce public announcement logic and in Section~\ref{apal} we introduce arbitrary public announcement logic, which are used as the basis for the arbitrary positive announcement logic in Chapter~\ref{papal}.
 In Section~\ref{aml} we introduce action model logic, which is used for the purposes of motivation in Chapter~\ref{rml} on refinement modal logic but becomes more central in the following Chapter~\ref{afl} on action formula logic and Chapter~\ref{aafl} on arbitrary action formula logic.
+In Section~\ref{mu} we introduce the modal $\mu$-calculus, which is used as a point of comparison for the expressivity of the transitive refinement modal logic in Chapter~\ref{rml}.
 
 \section{Modal logic}\label{ml}
 
@@ -801,4 +802,41 @@ The logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are compact.
 
 \begin{proposition}
 The satisfiability problems for the logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are decidable.
+\end{proposition}
+
+\section{Modal $\mu$-calculus}\label{mu}
+
+Let $\variables$ be a non-empty, countable set of variables.
+
+\begin{definition}[Language of modal $\mu$-calculus]
+The {\em language of modal $\mu$-calculus}, \langMu{}, is inductively defined as:
+$$
+\phi ::= 
+    \atomP \mid
+    \varX \mid
+    \lnot \phi \mid
+    (\phi \land \phi) \mid
+    \necessaryA \phi \mid
+    \lfpX \phi
+$$
+where $\atomP \in \atoms$, $\agentA \in \agents$ and $\varX \in \variables$, and in $\lfpX \phi$ every free occurrence of $\varX$ in $\phi$ occurs positively (i.e. within the scope of an even number of negations).
+\end{definition}
+
+We use all of the standard abbreviations from modal logic, in addition to the abbreviation $\gfpX \phi ::= \lnot \lfpX \lnot \phi$.
+
+\begin{definition}[Semantics of modal $\mu$-calculus]\label{mu-semantics}
+Let $\classC$ be a class of Kripke frames, let $\phi \in \langMu$, let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model and let $\kAssignment : \varX \to \powerset(\kStates)$ be a function from variables to sets of states.
+The set of states $\interpretation[\kAssignment]{\phi} \subseteq \kStates$ where $\phi$ is satisfied with respect to an assignment $\kAssignment$ is defined inductively as follows:
+\begin{eqnarray*}
+    \interpretation[\kAssignment]{\atomP} &=& \kValuation(\atomP)\\
+    \interpretation[\kAssignment]{\varX} &=& \kAssignment(\varX)\\
+    \interpretation[\kAssignment]{\phi \land \psi} &=& \interpretation[\kAssignment]{\phi} \cap \interpretation[\kAssignment]{\psi}\\
+    \interpretation[\kAssignment]{\necessaryA \phi} &=& \{ \kStateS \in \kStates \mid \kStateS \kAccessibility{\agentA} \subseteq \interpretation[\kAssignment]{\phi} \}\\
+    \interpretation[\kAssignment]{\lfp{\varX} \phi} &=& \bigcap \{ \kStatesT \subseteq \kStates \mid \interpretation[\kAssignmentSubstitute{\kStatesT}{\varX}]{\phi} \subseteq \kStatesT \}
+\end{eqnarray*}
+where $\kAssignmentSubstitute{\kStatesT}{\varX}$ is the assignment such that $\kAssignmentSubstitute{\kStatesT}{\varX}(\varX) = \kStatesT$ and $\kAssignmentSubstitute{\kStatesT}{\varX}(\varY) = \kAssignment(\varY)$ for $\varY \neq \varX$. 
+\end{definition}
+
+\begin{proposition}
+The logics \logicMuK{}, \logicMuKF{}, \logicMuKFF{}, \logicMuKD{}, \logicMuSF{} and \logicMuS{} are strictly more expressive than the respective logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{} and \logicS{}.
 \end{proposition}

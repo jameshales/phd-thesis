@@ -15,13 +15,13 @@ where $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentsB \subseteq \agents
 
 \begin{definition}[Simulation and refinement]
 Let $\agentsB \subseteq \agents$ and let $\kModelAndTuple$ and $\kModelAndTupleP$ be Kripke models.
-A non-empty relation $\refinement \subseteq \kStates \times \kStatesP$ is a {\em $\agentsB$-refinement} if and only if for every $\atomP \in \atoms$, $\agentA \in \agents$, $\agentB \in \agents \setminus \agentsB$ and $(\kStateS, \kStateSP) \in \refinement$ the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentB$} and {\bf back-$\agentA$} holds:
+A non-empty relation $\refinement \subseteq \kStates \times \kStatesP$ is a {\em $\agentsB$-refinement} if and only if for every $\atomP \in \atoms$, $\agentA \in \agents$, $\agentC \in \agents \setminus \agentsB$ and $(\kStateS, \kStateSP) \in \refinement$ the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentC$} and {\bf back-$\agentA$} holds:
 
 \paragraph{atoms-$\atomP$}
 $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
 
-\paragraph{forth-$\agentB$}
-For every $\kStateT \in \kSuccessorsB{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPB{\kStateSP}$ such that $\kStateT \refinement \kStateTP$.
+\paragraph{forth-$\agentC$}
+For every $\kStateT \in \kSuccessorsC{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPC{\kStateSP}$ such that $\kStateT \refinement \kStateTP$.
 
 \paragraph{back-$\agentA$}
 For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $\kStateT \refinement \kStateTP$.
@@ -58,20 +58,20 @@ The relation $\simulatesBs$ is a preorder (reflexive and transitive) on Kripke m
     Let $\agentsB \subseteq \agents$ and let $\kPModel{\kStateS}$, $\kPModelP{\kStateSP}$ and $\kPModelPP{\kStateSPP}$ be Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
     Then there exists $\agentsB$-refinements $\refinement \subseteq \kStates \times \kStatesP$ and $\refinement' \subseteq \kStatesP \times \kStatesPP$.
     We claim that the relation $\refinement'' = \refinement \circ \refinement' \subseteq \kStates \times \kStatesPP$ is a $\agentsB$-refinement and therefore $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$.
-    Let $\atomP \in \atoms$, $\agentA \in \agents$, $\agentB \in \agents \setminus \agentsB$ and $(\kStateS, \kStateSPP) \in \refinement''$.
+    Let $\atomP \in \atoms$, $\agentA \in \agents$, $\agentC \in \agents \setminus \agentsB$ and $(\kStateS, \kStateSPP) \in \refinement''$.
     We note that $\kStateS \refinement'' \kStateSPP$ if and only if there exists $\kStateSP \in \kStatesP$ such that $\kStateS \refinement \kStateSP$ and $\kStateSP \refinement' \kStateSPP$.
-    We show that the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentB$} and {\bf back-$\agentA$} hold.
+    We show that the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentC$} and {\bf back-$\agentA$} hold.
 
     \paragraph{atoms-$\atomP$}
     As $\kStateS \refinement \kStateSP$ from {\bf atoms-$\atomP$} we have that $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
     As $\kStateSP \refinement' \kStateSPP$ from {\bf atoms-$\atomP$} we have that $\kStateSP \in \kValuationP(\atomP)$ if and only if $\kStateSPP \in \kValuationPP(\atomP)$.
     Therefore $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSPP \in \kValuationPP(\atomP)$.
 
-    \paragraph{forth-$\agentB$}
-    Let $\kStateT \in \kSuccessorsB{\kStateS}$.
-    As $\kStateS \refinement \kStateSP$ from {\bf forth-$\agentB$} there exists $\kStateTP \in \kSuccessorsPB{\kStateSP}$ such that $\kStateT \refinement \kStateTP$.
-    As $\kStateSP \refinement \kStateSPP$ from {\bf forth-$\agentB$} there exists $\kStateTPP \in \kSuccessorsPPB{\kStateSPP}$ such that $\kStateTP \refinement' \kStateTPP$.
-    Therefore there exists $\kStateTPP \in \kSuccessorsPPB{\kStateSPP}$ such that $\kStateT \refinement'' \kStateTPP$.
+    \paragraph{forth-$\agentC$}
+    Let $\kStateT \in \kSuccessorsC{\kStateS}$.
+    As $\kStateS \refinement \kStateSP$ from {\bf forth-$\agentC$} there exists $\kStateTP \in \kSuccessorsPC{\kStateSP}$ such that $\kStateT \refinement \kStateTP$.
+    As $\kStateSP \refinement \kStateSPP$ from {\bf forth-$\agentC$} there exists $\kStateTPP \in \kSuccessorsPPC{\kStateSPP}$ such that $\kStateTP \refinement' \kStateTPP$.
+    Therefore there exists $\kStateTPP \in \kSuccessorsPPC{\kStateSPP}$ such that $\kStateT \refinement'' \kStateTPP$.
 
     \paragraph{back-$\agentA$}
     Let $\kStateT \in \kSuccessorsA{\kStateS}$.
@@ -79,7 +79,7 @@ The relation $\simulatesBs$ is a preorder (reflexive and transitive) on Kripke m
     As $\kStateSP \refinement \kStateSPP$ from {\bf back-$\agentA$} there exists $\kStateTPP \in \kSuccessorsPPA{\kStateSPP}$ such that $\kStateTP \refinement' \kStateTPP$.
     Therefore there exists $\kStateTPP \in \kSuccessorsPPA{\kStateSPP}$ such that $\kStateT \refinement'' \kStateTPP$.
 
-    Therefore $\refinement''$ is a $\agentsB$-refinement and $\refinement' \subseteq \kStatesP \times \kStatesPP$.
+    Therefore $\refinement''$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$. 
 \end{proof}
 
 Refinements preserve the validity of positive formulas.
@@ -105,18 +105,106 @@ Then for every $\phi \in \langMlPlusBs$:
 if $\kPModel{\kStateS} \entails \phi$ then $\kPModelP{\kStateSP} \entails \phi$.
 \end{proposition}
 
-\todo[inline]{Proof}
+\begin{proof}
+Let $\phi \in \langMlPlusBs$.
+As $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ there exists a $\agentsB$-refinement $\refinement \subseteq \kStates \times \kStatesP$ such that $(\kStateS, \kStateSP) \in \refinement$.
+We show for every $(\kStateT, \kStateTP) \in \refinement$ that $\kPModel{\kStateT} \entails \phi$ implies $\kPModelP{\kStateTP} \entails \phi$ by induction on the structure of $\phi$.
+Let $(\kStateT, \kStateTP) \in \refinement$.
+
+Suppose that $\phi = \atomP$ for $\atomP \in \atoms$ and suppose that $\kPModel{\kStateT} \entails \atomP$.
+As $\kStateT \refinement \kStateTP$ then by {\bf atoms-$\atomP$} we have that $\kPModelP{\kStateTP} \entails \atomP$.
+
+Suppose that $\phi = \lnot \atomP$ for $\atomP \in \atoms$ and suppose that $\kPModel{\kStateT} \entails \lnot \atomP$.
+As $\kStateT \refinement \kStateTP$ then by {\bf atoms-$\atomP$} we have that $\kPModelP{\kStateTP} \entails \lnot \atomP$.
+
+Suppose that $\phi = \psi \land \chi$ for $\psi, \chi \in \langMlPlusBs$ and suppose that $\kPModel{\kStateT} \entails \psi \land \chi$.
+This follows directly from the induction hypothesis.
+
+Suppose that $\phi = \psi \lor \chi$ for $\psi, \chi \in \langMlPlusBs$ and suppose that $\kPModel{\kStateT} \entails \psi \lor \chi$.
+This follows directly from the induction hypothesis.
+
+Suppose that $\phi = \necessaryA \psi$ for $\agentA \in \agents$ and $\psi \langMlPlusBs$, and suppose that $\kPModel{\kStateT} \entails \necessaryA \psi$.
+Then $\kPModel{\kStateU} \entails \psi$ for every $\kStateU \in \kSuccessorsA{\kStateT}$.
+Let $\kStateUP \in \kSuccessorsPA{\kStateTP}$.
+As $\kStateT \refinement \kStateTP$ then by {\bf back-$\agentA$} there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $\kStateU \refinement \kStateUP$.
+As $\kStateU \refinement \kStateUP$ then by the induction hypothesis we have $\kPModelP{\kStateUP} \entails \psi$.
+Therefore $\kPModelP{\kStateTP} \entails \necessaryA \psi$.
+
+Suppose that $\phi = \possibleC \psi$ for $\agentC \in \agents \setminus \agentsB$ and $\psi \in \langMlPlusBs$, and suppose that $\kPModel{\kStateT} \entails \possibleC \psi$.
+Then there exists $\kStateU \in \kSuccessorsC{\kStateT}$ such that $\kPModel{\kStateU} \entails \psi$.
+As $\kStateT \refinement \kStateTP$ then by {\bf forth-$\agentC$} there exists $\kStateUP \in \kSuccessorsPC{\kStateTP}$ such that $\kStateU \refinement \kStateUP$.
+As $\kStateU \refinement \kStateUP$ then by the induction hypothesis we have $\kPModelP{\kStateUP} \entails \psi$.
+Therefore $\kPModel{\kStateTP} \entails \possibleC \psi$.
+
+Therefore if $\kPModel{\kStateS} \entails \phi$ then $\kPModel{\kStateSP} \entails \phi$.
+\end{proof}
 
 \begin{proposition}
-Let $\agentsB \subseteq \agents$ and let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMlPlus$: if $\kPModel{\kStateS} \entails \phi$ then $\kPModelP{\kStateSP} \entails \phi$.
+Let $\agentsB \subseteq \agents$ and let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMlPlusBs$: if $\kPModel{\kStateS} \entails \phi$ then $\kPModelP{\kStateSP} \entails \phi$.
 Then $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 \end{proposition}
 
-\todo[inline]{Proof}
+\begin{proof}
+Let $\refinement \subseteq \kStates \times \kStatesP$ be a relation such that $\kStateT \refinement \kStateTP$ if and only if for every $\phi \in \langMlPlusBs$: if $\kPModel{\kStateT} \entails \phi$ then $\kPModelP{\kStateTP} \entails \phi$.
+We claim that the $\refinement$ is a $\agentsB$-refinement and therefore $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
+Let $\atomP \in \atoms$, $\agentA \in \agents$, $\agentC \in \agents \setminus \agentsB$ and $(\kStateT, \kStateTP) \in \refinement'$.
+We show that the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentC$} and {\bf back-$\agentA$} hold.
+
+\paragraph{atoms-$\atomP$}
+$\kStateT \in \kValuation(\atomP)$ if and only if $\kPModel{\kStateT} \entails \atomP$.
+As $\atomP \in \langMlPlusBs$ and $\kStateT \refinement \kStateTP$ then $\kPModel{\kStateT} \entails \atomP$ if and only if $\kPModelP{\kStateTP} \entails \atomP$.
+$\kPModelP{\kStateTP} \entails \atomP$ if and only if $\kStateTP \in \kValuationP(\atomP)$
+Therefore $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateTP \in \kValuationP(\atomP)$.
+
+\paragraph{forth-$\agentC$}
+Let $\kStateU \in \kSuccessorsC{\kStateT}$, let $\Sigma = \{\phi \in \langMlPlusBs \mid \kPModel{\kStateU} \entails \phi\}$ be the set of $\agentsB$-positive formulas satisfied at $\kPModel{\kStateU}$, and let $\Delta \subseteq \Sigma$ be a finite subset of $\Sigma$.
+Then $\kPModel{\kStateU} \entails \bigwedge \Delta$ and so $\kPModel{\kStateT} \entails \possibleC \bigwedge \Delta$.
+As $\possibleC \bigwedge \Delta \in \langMlPlusBs$ and $\kStateT \refinement \kStateTP$ then $\kPModelP{\kStateTP} \entails \possibleC \bigwedge \Delta$.
+So $\Sigma$ is finitely satisfiable on $\kPModelP{\kSuccessorsPC{\kStateTP}}$ and as $\kModelP$ is modally saturated then $\Sigma$ is satisfiable on $\kPModelP{\kSuccessorsPC{\kStateTP}}$.
+So there exists $\kStateUP \in \kSuccessorsPC{\kStateTP}$ such that $\kPModelP{\kStateUP} \entails \Sigma$, and so for every $\phi \in \langMlPlusBs$: if $\kPModel{\kStateU} \entails \phi$ then $\kPModelP{\kStateUP} \entails \phi$.
+Therefore $\kStateU \refinement \kStateUP$.
+
+\paragraph{back-$\agentA$}
+Let $\kStateUP \in \kSuccessorsPA{\kStateTP}$, let $\Sigma = \{\phi \in \langMlPlusBs \mid \kPModelP{\kStateUP} \nentails \phi\}$ be the set of $\agentsB$-positive formulas {\em not} satisfied at $\kPModelP{\kStateUP}$, and let $\Delta \subseteq \Sigma$ be a finite subset of $\Sigma$.
+Then $\kPModelP{\kStateUP} \entails \bigwedge \lnot \Delta$ and so $\kPModelP{\kStateTP} \entails \possibleA \bigwedge \lnot \Delta$, or equivalently $\kPModelP{\kStateTP} \nentails \necessaryA \bigvee \Delta$.
+As $\necessaryA \bigvee \Delta \in \langMlPlusBs$ and $\kStateT \refinement \kStateTP$ then $\kPModel{\kStateT} \nentails \necessaryA \bigvee \Delta$, or equivalently $\kPModel{\kStateT} \entails \possibleA \bigwedge \lnot \Delta$.
+So $\lnot \Sigma$ is finitely satisfiable on $\kPModel{\kSuccessorsA{\kStateT}}$ and as $\kModel$ is modally saturated then $\lnot \Sigma$ is satisfiable on $\kPModel{\kSuccessorsA{\kStateT}}$.
+So there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $\kPModel{\kStateU} \entails \lnot \Sigma$, and so for every $\phi \in \langMlPlusBs$: if $\kPModel{\kStateU} \entails \phi$ then $\kPModelP{\kStateUP} \entails \phi$.
+Therefore $\kStateU \refinement \kStateUP$.
+
+Therefore $\refinement$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
+\end{proof}
 
 \begin{proposition}
 Let $\kPModel{\kStateS}$ be a Kripke model and let $\aPModel{\aStateS}$ be an action model.
 Then $\kPModel{\kStateS} \simulates \kPModel{\kStateS} \exec \aPModel{\aStateS}$.
+\end{proposition}
+
+\begin{proof}
+Let $\kModel \exec \aModel = \kModelTupleP$ where:
+\begin{eqnarray*}
+    \kStatesP &=& \{(\kStateT, \aStateT) \in \kStates \times \aStates \mid \kPModel{\kStateT} \entails \aPrecondition(\aStateT)\}\\
+    (\kStateT, \aStateT) \kAccessibilityPA (\kStateU, \aStateU) &\text{ iff }& \kStateT \kAccessibilityA \kStateU \text{ and } \aStateT \aAccessibilityA \aStateU\\
+    \kValuationP(\atomP) &=& \{(\kStateT, \aStateT) \in \kStatesP \mid \kStateT \in \kValuation(\atomP)\}
+\end{eqnarray*}
+and let $\refinement \subseteq \kStates \times \kStatesP$ be a relation such that $\kStateT \refinement (\kStateT, \aStateT)$ for every $(\kStateT, \aStateT) \in \kStatesP$.
+We claim that the $\refinement$ is a refinement and therefore $\kPModel{\kStateS} \simulates \kPModel{\kStateS} \exec \aPModel{\aStateS}$.
+Let $\atomP \in \atoms$, $\agentA \in \agents$ and $(\kStateT, (\kStateT, \aStateT)) \in \refinement'$.
+We show that the conditions {\bf atoms-$\atomP$} and {\bf back-$\agentA$} hold.
+
+\paragraph{atoms-$\atomP$}
+By construction, $\kStateT \in \kValuation(\atomP)$ if and only if $(\kStateT, \aStateT) \in \kValuationP(\atomP)$.
+
+\paragraph{back-$\agentA$}
+Let $(\kStateU, \aStateU) \in \kAccessibilityPA{(\kStateT, \aStateT)}$.
+Then by construction $\kStateU \in \kAccessibilityA{\kStateT}$ and $\kStateU \refinement (\kStateU, \aStateU)$.
+
+Therefore $\refinement$ is a refinement and $\kPModel{\kStateS} \simulates \kPModel{\kStateS} \exec \aPModel{\aStateS}$.
+\end{proof}
+
+\begin{proposition}
+Let $\kPModel{\kStateS}$ be a finite Kripke model and let $\kPModelP{\kStateSP}$ be a (possibly infinte) Kripke model such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
+Then there exists an action model $\aPModel{\aStateS}$ such that $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar \kPModelP{\kStateSP}$.
 \end{proposition}
 
 \todo[inline]{Proof}
@@ -124,13 +212,6 @@ Then $\kPModel{\kStateS} \simulates \kPModel{\kStateS} \exec \aPModel{\aStateS}$
 \begin{proposition}
 Let $\kModelAndTuple$ and $\kModelAndTupleP$ be finite Kripke models.
 There is a unique, maximal refinement between $\kModel$ and $\kModelP$ and it can be computed in polynomial time.
-\end{proposition}
-
-\todo[inline]{Proof}
-
-\begin{proposition}
-Let $\kPModel{\kStateS}$ be a finite Kripke model and let $\kPModelP{\kStateSP}$ be a (possibly infinte) Kripke model such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
-Then there exists an action model $\aPModel{\aStateS}$ such that $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar \kPModelP{\kStateSP}$.
 \end{proposition}
 
 \todo[inline]{Proof}

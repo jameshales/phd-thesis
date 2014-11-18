@@ -22,7 +22,7 @@ $$
 \phi ::= 
     \atomP \mid
     \lnot \phi \mid
-    (\phi \land \phi) \mid
+    \phi \land \phi \mid
     \necessaryA \phi
 $$
 where $\atomP \in \atoms$ and $\agentA \in \agents$.
@@ -128,30 +128,30 @@ Notably the modal logic \logicK{} corresponds to the bisimulation-invariant frag
 
 \begin{definition}[Bisimulation]
 Let $\kModelAndTuple$ and $\kModelAndTupleP$ be Kripke models.
-A non-empty relation $\bisimulation \subseteq \kStates \times \kStatesP$ is a {\em bisimulation} if and only if for every $\atomP \in \atoms$, $\agentA \in \agents$ and $(\kStateS, \kStateSP) \in \bisimulation$ the following conditions, {\bf atoms-$\atomP$}, {\bf forth-$\agentA$} and {\bf back-$\agentB$} holds:
+A non-empty relation $\bisimulation \subseteq \kStates \times \kStatesP$ is a {\em bisimulation} if and only if for every $\atomP \in \atoms$, $\agentA \in \agents$ and $(\kStateS, \kStateSP) \in \bisimulation$ the following conditions, {\bf atoms-$\atomP$}, {\bf forth-$\agentA$} and {\bf back-$\agentA$} holds:
 
 \paragraph{atoms-$\atomP$}
 $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
 
 \paragraph{forth-$\agentA$}
-For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kStateS \bisimulation \kStateT$.
+For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kStateT \bisimulation \kStateTP$.
 
 \paragraph{back-$\agentA$}
-For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $\kStateS \bisimulation \kStateT$.
+For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $\kStateT \bisimulation \kStateTP$.
 
 If there exists a bisimulation $\bisimulation$ such that $\kStateS \bisimulation \kStateSP$ then we say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em bisimilar} and we denote this by $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
 \end{definition}
 
 We first note that the bisimilarity relation forms an equivalence relation.
 
-\begin{proposition}
+\begin{proposition}\label{bisimulation-equivalence-relation}
 The relation $\bisimilar$ is an equivalence relation (reflexive, transitive and symmetric) on Kripke models.
 \end{proposition}
 
 Bisimilar Kripke models are equivalent under modal validity.
 
 \begin{proposition}\label{modal-bisimulation-invariance}
-Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
+Let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
 Then for every $\phi \in \langMl$:
 $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 \end{proposition}
@@ -167,7 +167,7 @@ We say that $\kModel$ is {\em modally saturated} if and only if for every $\agen
 For modally saturated Kripke models, modal equivalence implies bisimilarity.
 
 \begin{proposition}
-Let $\kModel, \kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMl$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
+Let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMl$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 Then $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
 \end{proposition}
 
@@ -197,7 +197,7 @@ Bisimulations can be computed in polynomial time for finite Kripke models.
 
 \begin{proposition}
 Let $\kModelAndTuple$ and $\kModelAndTupleP$ be finite Kripke models.
-There is a unique, maximal bisimulation bisimulation between $\kModel$ and $\kModelP$ and it can be computed in polynomial time.
+There is a unique, maximal bisimulation between $\kModel$ and $\kModelP$ and it can be computed in polynomial time.
 \end{proposition}
 
 We also consider a depth-limited notion of bisimulation.
@@ -211,10 +211,10 @@ If $i = 0$ then $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in
 If $i > 0$ then $\kPModel{\kStateS} \bisimulation_{i-1} \kPModelP{\kStateSP}$.
 
 \paragraph{forth-$i$-$\agentA$}
-For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kStateS \bisimulation_i \kStateT$.
+For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kStateT \bisimulation_i \kStateTP$.
 
 \paragraph{back-$i$-$\agentA$}
-For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $\kStateS \bisimulation_i \kStateT$.
+For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $\kStateT \bisimulation_i \kStateTP$.
 
 If there exists an $n$-bisimulation $\bisimulation_0, \dots, \bisimulation_n$ such that $\kStateS \bisimulation_n \kStateSP$ then we say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $n$-bisimilar} and we denote this by $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$.
 \end{definition}
@@ -237,13 +237,13 @@ We denote the {\em modal depth of $\phi$} by $d(\phi)$ and define it inductively
 \end{definition}
 
 \begin{proposition}
-Let $n \in \naturals$ and let $\kPModel{\kStateS}, \kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$.
+Let $n \in \naturals$ and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$.
 Then for every $\phi \in \langMl$ such that $d(\phi) \leq n$:
 $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 \end{proposition}
 
 \begin{proposition}
-Let $n \in \naturals$ and let $\kModel, \kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMl$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
+Let $n \in \naturals$ and let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMl$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 Then $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$.
 \end{proposition}
 
@@ -350,7 +350,7 @@ $$
 \phi ::= 
     \atomP \mid
     \lnot \phi \mid
-    (\phi \land \phi) \mid
+    \phi \land \phi \mid
     \necessaryA \phi \mid
     \announceA{\phi} \phi
 $$
@@ -425,7 +425,7 @@ $$
 \phi ::= 
     \atomP \mid
     \lnot \phi \mid
-    (\phi \land \phi) \mid
+    \phi \land \phi \mid
     \necessaryA \phi \mid
     \announceA{\phi} \phi \mid
     \allpas \phi
@@ -532,7 +532,7 @@ $$
 \phi ::=
     \atomP \mid
     \lnot \phi \mid
-    (\phi \land \phi) \mid
+    \phi \land \phi \mid
     \necessaryA \phi \mid
     \actionA{\aSignature \aStatesT, \phi, \dots, \phi} \phi\\
 $$
@@ -627,7 +627,7 @@ $$
 \phi ::=
     \atomP \mid
     \lnot \phi \mid
-    (\phi \land \phi) \mid
+    \phi \land \phi \mid
     \necessaryA \phi \mid
     \actionA{\alpha} \phi
 $$
@@ -674,10 +674,10 @@ A non-empty relation $\bisimulation \subseteq \aStates \times \aStatesP$ is a {\
 $\entails \aPrecondition(\aStateS) \iff \aPrecondition(\aStateSP)$.
 
 \paragraph{forth-$\agentA$}
-For every $\aStateT \in \aSuccessorsA{\aStateS}$ there exists $\aStateTP \in \aSuccessorsPA{\aStateSP}$ such that $\aStateS \bisimulation \aStateT$.
+For every $\aStateT \in \aSuccessorsA{\aStateS}$ there exists $\aStateTP \in \aSuccessorsPA{\aStateSP}$ such that $\aStateT \bisimulation \aStateTP$.
 
 \paragraph{back-$\agentA$}
-For every $\aStateTP \in \aSuccessorsPA{\aStateSP}$ there exists $\aStateT \in \aSuccessorsA{\aStateS}$ such that $\aStateS \bisimulation \aStateT$.
+For every $\aStateTP \in \aSuccessorsPA{\aStateSP}$ there exists $\aStateT \in \aSuccessorsA{\aStateS}$ such that $\aStateT \bisimulation \aStateTP$.
 
 If there exists a bisimulation $\bisimulation$ such that $\aStateS \bisimulation \aStateSP$ then we say that $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ are {\em bisimilar} and we denote this by $\aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
 \end{definition}
@@ -689,15 +689,15 @@ The relation $\bisimilar$ is an equivalence relation on action models.
 Bisimilar action models have bisimilar results on bisimilar Kripke models.
 
 \begin{proposition}\label{action-bisimulation-results}
-Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ and
-let $\aPModel{\aStateS}, \aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
+Let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ and
+let $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
 Then $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar \kPModelP{\kStateSP} \exec \aPModelP{\aStateSP}$.
 \end{proposition}
 
 In particular, due to Proposition~\ref{modal-bisimulation-invariance} and Proposition~\ref{action-bisimulation-results} we have:
 
 \begin{proposition}
-Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ and
+Let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ and
 let $\aPModel{\aStateS}$ be a pointed action model.
 Then for every $\phi \in \langAml$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 \end{proposition}
@@ -719,10 +719,10 @@ If $i = 0$ then $\entails \aPrecondition(\aStateS) \iff \aPreconditionP(\aStateS
 If $i > 0$ then $\aPModel{\aStateS} \bisimulation_{i-1} \aPModelP{\aStateSP}$.
 
 \paragraph{forth-$i$-$\agentA$}
-For every $\aStateT \in \aSuccessorsA{\aStateS}$ there exists $\aStateTP \in \aSuccessorsPA{\aStateSP}$ such that $\aStateS \bisimulation_i \aStateT$.
+For every $\aStateT \in \aSuccessorsA{\aStateS}$ there exists $\aStateTP \in \aSuccessorsPA{\aStateSP}$ such that $\aStateT \bisimulation_i \aStateTP$.
 
 \paragraph{back-$i$-$\agentA$}
-For every $\aStateTP \in \aSuccessorsPA{\aStateSP}$ there exists $\aStateT \in \aSuccessorsA{\aStateS}$ such that $\aStateS \bisimulation_i \aStateT$.
+For every $\aStateTP \in \aSuccessorsPA{\aStateSP}$ there exists $\aStateT \in \aSuccessorsA{\aStateS}$ such that $\aStateT \bisimulation_i \aStateTP$.
 
 If there exists an $n$-bisimulation $\bisimulation_0, \dots, \bisimulation_n$ such that $\aStateS \bisimulation_n \aStateSP$ then we say that $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ are {\em $n$-bisimilar} and we denote this by $\aPModel{\aStateS} \bisimilar[n] \aPModelP{\aStateSP}$.
 \end{definition}
@@ -741,14 +741,14 @@ We denote the {\em modal depth of $\phi$} by $d(\phi)$ and define it inductively
 
 \begin{proposition}
 Let $n \in \naturals$,
-let $\kPModel{\kStateS}, \kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$ and
-let $\aPModel{\aStateS}, \aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar[n] \aPModelP{\aStateSP}$.
+let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$ and
+let $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar[n] \aPModelP{\aStateSP}$.
 Then $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar[n] \kPModelP{\kStateSP} \exec \aPModelP{\aStateSP}$.
 \end{proposition}
 
 \begin{proposition}
 Let $n \in \naturals$,
-let $\kPModel{\kStateS}, \kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$ and
+let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$ and
 let $\aPModel{\aStateS}$ be a pointed action model.
 Then for every $\phi \in \langAml$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 \end{proposition}
@@ -801,7 +801,7 @@ $$
     \atomP \mid
     \varX \mid
     \lnot \phi \mid
-    (\phi \land \phi) \mid
+    \phi \land \phi \mid
     \necessaryA \phi \mid
     \lfpX \phi
 $$

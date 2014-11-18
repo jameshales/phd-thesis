@@ -178,6 +178,22 @@
 \newcommand{\bisimulation}{\mathfrak{R}}
 \newcommand{\refinement}{\bisimulation}
 
+\newcommand{\refinesA}{\refines[\agentA]}
+\newcommand{\refinesB}{\refines[\agentB]}
+\newcommand{\refinesC}{\refines[\agentC]}
+\newcommand{\refinesD}{\refines[\agentD]}
+\newcommand{\refinesBs}{\refines[\agentsB]}
+\newcommand{\refinesCs}{\refines[\agentsC]}
+\newcommand{\refinesDs}{\refines[\agentsD]}
+
+\newcommand{\simulatesA}{\simulates[\agentA]}
+\newcommand{\simulatesB}{\simulates[\agentB]}
+\newcommand{\simulatesC}{\simulates[\agentC]}
+\newcommand{\simulatesD}{\simulates[\agentD]}
+\newcommand{\simulatesBs}{\simulates[\agentsB]}
+\newcommand{\simulatesCs}{\simulates[\agentsC]}
+\newcommand{\simulatesDs}{\simulates[\agentsD]}
+
 %%%% Kripke models (with a '\prime') %%%%
 
 % Kripke states
@@ -496,8 +512,24 @@
 \newcommand{\actionA}[1]{{[ {#1} ]}}
 
 % Refinement modal operators
-\newcommandm{\somerefs}{\exists}
-\newcommandm{\allrefs}{\forall}
+\newcommand{\somerefs}[1][\empty]{{\exists_{#1}}}
+\newcommand{\allrefs}[1][\empty]{{\forall_{#1}}}
+
+\newcommand{\somerefsA}{\somerefs[\agentA]}
+\newcommand{\somerefsB}{\somerefs[\agentB]}
+\newcommand{\somerefsC}{\somerefs[\agentC]}
+\newcommand{\somerefsD}{\somerefs[\agentD]}
+\newcommand{\somerefsBs}{\somerefs[\agentsB]}
+\newcommand{\somerefsCs}{\somerefs[\agentsC]}
+\newcommand{\somerefsDs}{\somerefs[\agentsD]}
+
+\newcommand{\allrefsA}{\allrefs[\agentA]}
+\newcommand{\allrefsB}{\allrefs[\agentB]}
+\newcommand{\allrefsC}{\allrefs[\agentC]}
+\newcommand{\allrefsD}{\allrefs[\agentD]}
+\newcommand{\allrefsBs}{\allrefs[\agentsB]}
+\newcommand{\allrefsCs}{\allrefs[\agentsC]}
+\newcommand{\allrefsDs}{\allrefs[\agentsD]}
 
 % Arbitrary public announcement operators
 \newcommandm{\somepas}{\exists}
@@ -531,7 +563,8 @@
 \newcommandm{\langPl}{\lang_\mathit{pl}} % Propositional
 \newcommandm{\langMl}{\lang_\mathit{ml}} % Modal logic
 \newcommandm{\langMu}{\lang_\mathit{\mu}} % Modal mu-calculus
-\newcommandm{\langMlPlus}{\lang_\mathit{ml}^{+}} % Positive
+\newcommand{\langMlPlus}[1][\empty]{\ensuremath{\lang_\mathit{ml}^{{#1}+}}} % Positive
+\newcommand{\langMlPlusBs}{\langMlPlus[\agentsB]}
 \newcommandm{\langPal}{\lang_\mathit{pal}} % Public announcement logic
 \newcommandm{\langAml}{\lang_\mathit{aml}} % Action model logic
 \newcommandm{\langAmlAct}{\lang_\mathit{aml}^\mathit{act}} % Action model logic actions

@@ -1,6 +1,6 @@
 \chapter{Technical preliminaries}\label{technical}
 
-In this chapter we recall technical definitions and results needed in the following chapters.
+In this chapter we recall technical definitions and results used in the following chapters.
 In Section~\ref{ml} we introduce modal logic, along with logical notation and terminology applicable to the other logics we will be working with.
 All of the logics that we will be considering are modal logics or extensions of modal logics, and the definitions and results of this section will be used throughout the following sections and chapters. 
 In Section~\ref{pal} we introduce public announcement logic, a logic for reasoning about the effects of specific epistemic updates, then in Section~\ref{apal} we introduce arbitrary public announcement logic, a logic for reasoning additionally about the effects of arbitrary epistemic updates.
@@ -11,8 +11,7 @@ Finally in Section~\ref{mu} we introduce the modal $\mu$-calculus, a very expres
 
 \section{Modal logic}\label{ml}
 
-We recall standard definitions and results from modal logic.
-Hughes and Cresswell~\cite{hughesetal:1996} and Blackburn, de Rijke and Venema~\cite{blackburnetal:2001} offer more comprehensive introductions to these topics.
+We recall standard definitions and results from modal logic.  
 
 Let $\atoms$ be a non-empty, countable set of propositional atoms, and
 let $\agents$ be a non-empty, finite set of agents.
@@ -61,7 +60,8 @@ Then we say that $\kAccessibilityRel$ is \ldots
 
 When we ascribe relational properties to Kripke frames we actually ascribe those properties to each of the accessibility relations of the Kripke frame.
 So we say that a Kripke frame $\kFrameAndTuple$ is \{serial, reflexive, etc.\} if and only if for every $\agentA \in \agents$ the binary relation $\kAccessibilityA$ is \{serial, reflexive, etc.\}.
-We use these properties to define the classes of Kripke frames that we will be working with.
+
+We use these relational properties to define the classes of Kripke frames that we will be working with.
 
 \begin{definition}[Classes of Kripke frames]
 We define the following classes of Kripke frames:
@@ -78,8 +78,8 @@ We define the following classes of Kripke frames:
 \begin{definition}[Kripke models]
 A {\em Kripke model}, $\kModelAndTuple$ consists of an underlying Kripke frame $\kFrameAndTuple$ along with a {\em valuation function} $\kValuation : \atoms \to \powerset(\kStates)$, which is a function from propositional atoms to sets of states.
 
-A {\em pointed Kripke model} $\kPModelAndTuple{\kStateS}$ consists of a Kripke model $\kModelAndTuple$ along with a designated state $\kStateS \in \kStates$.
-A {\em multi-pointed Kripke model} $\kPModelAndTuple{\kStatesT}$ consists of a Kripke model $\kModelAndTuple$ along with a non-empty set of designated states $\kStatesT \subseteq \kStates$.
+A {\em pointed Kripke model} $\kPModelAndTuple{\kStateS}$ consists of a Kripke model $\kModelAndTuple$ along with a designated state (the {\em real world}), $\kStateS \in \kStates$.
+A {\em multi-pointed Kripke model} $\kPModelAndTuple{\kStatesT}$ consists of a Kripke model $\kModelAndTuple$ along with a non-empty set of designated states, $\kStatesT \subseteq \kStates$.
 \end{definition}
 
 As we will often work with Kripke models rather than frames we overload the notation for classes of Kripke frames to also refer to classes of Kripke models.
@@ -87,6 +87,7 @@ When we ascribe relational properties or frame properties to a Kripke model we a
 We will sometimes treat a (single-)pointed Kripke model as though it were a multi-pointed Kripke model and we assume in this case that $\kPModel{\kStateS}$ is an abbreviation for $\kPModel{\{\kStateS\}}$.
 
 We now define the semantics of modal logic.
+
 We define the semantics in terms of a parameterised class of Kripke frames, \classC{}, which could stand for \classK{}, \classKF{}, \classKFF{}, etc. or for any other class of Kripke frames so defined.
 
 \begin{definition}[Semantics of modal logic]\label{ml-semantics}
@@ -502,45 +503,27 @@ The logic \logicApalS{} is not compact.
 
 We recall definitions and results from the action model logic of Baltag, Moss and Solecki~\cite{baltagetal:1998,baltagetal:2004}.
 
-\begin{definition}[Action frames]
-An {\em action frame}, $\aFrameAndTuple$ consists of:
-a {\em domain} $\aStates$, which is a non-empty set of actions; and
-an indexed set of {\em accessibility relations} $\aAccessibilityRel$, indexed on $\agents$, where for every $\agentA \in \agents$, $\aAccessibilityA \subseteq \aStates \times \aStates$ is a binary relation on actions.
-\end{definition}
-
-We use similar notation and terminology to Kripke frames when discussing action frames.
-Similar to Kripke frames, when we ascribe relational properties to action frames we actually ascribe those properties to each of the accessibility relations of the action frame.
-We define several classes of action frames according to their relational properties.
-
-\begin{definition}[Classes of action frames]
-We define the following classes of action frames:
-\begin{itemize}
-    \item The class \classAmK{} of all action frames.
-    \item The class \classAmKFF{} of all transitive and Euclidean action frames.
-    \item The class \classAmKD{} of all serial, transitive and Euclidean action frames.
-    \item The class \classAmS{} of all reflexive, transitive and Euclidean action frames.
-\end{itemize}
-\end{definition}
-
 \begin{definition}[Action models]
 Let \lang{} be a logical language.
-An {\em action model with preconditions defined on \lang{}}, $\aModelAndTuple$ consists of an underlying action frame $\aFrameAndTuple$ along with a {\em precondition function} $\aPrecondition : \aStates \to \lang$, which is a function from actions to formulas.
+An {\em action model with preconditions defined on \lang{}}, $\aModelAndTuple$ consists of an underlying Kripke frame $\aFrameAndTuple$ along with a {\em precondition function} $\aPrecondition : \aStates \to \lang$, which is a function from actions to formulas.
 
 A {\em pointed action model} $\aPModelAndTuple{\aStateS}$ consists of an action model $\aModelAndTuple$ along with a designated action $\aStateS \in \aStates$.
 A {\em multi-pointed action model} $\aPModelAndTuple{\aStatesT}$ consists of an action model $\aModelAndTuple$ along with a non-empty set of designated action $\aStatesT \subseteq \aStates$.
 \end{definition}
 
+We use similar notation and terminology to Kripke models when discussing action models.
+Similar to Kripke models, when we ascribe relational properties or frame properties to an action model we actually ascribe those properties to its underlying Kripke frame.
 When the language that an action model is defined on is clear from context we will simply refer to an {\em action model}, without explicit reference to the language.
 
 \begin{definition}[Action signature]
-An {\em action signature}, $\aSignatureAndTuple$ consists of an underlying action frame $\aFrameAndTuple$ along with a non-repeating list of {\em non-trivial actions}, $\aStateS_1, \dots, \aStateS_n \in \aStates$.
+An {\em action signature}, $\aSignatureAndTuple$ consists of an underlying Kripke frame $\aFrameAndTuple$ along with a non-repeating list of {\em non-trivial actions}, $\aStateS_1, \dots, \aStateS_n \in \aStates$.
 Let $\lang$ be a logical language and let $\phi_1, \dots, \phi_n \in \lang$ be a list of formulas.
 Then we obtain an action model $\aSignature(\phi_1, \dots, \phi_n) = \aModelTuple$ where $\aPrecondition(\aStateS_i) = \phi_i$ for $i = 1, \dots, n$ and $\aPrecondition(\aStateS) = \top$ otherwise.
 The {\em trivial actions} are so named because their preconditions are always set to $\top$.
 \end{definition}
 
-When we ascribe relational or frame properties to an action model or signature we actually ascribe those properties to its underlying action frame.
-As we will often work with action models and signatures rather than frames we overload the notation for classes of action frames to also refer to classes of action models or signatures.
+When we ascribe relational or frame properties to an action model or signature we actually ascribe those properties to its underlying Kripke frame.
+As we will often work with action models and signatures rather than Kripke frames we overload the notation for classes of Kripke frames to also refer to classes of action models or signatures.
 
 \begin{definition}[Language of action model logic]
 Let \aSignatureFamily{} be a non-empty, countable set of action signatures.
@@ -564,7 +547,7 @@ $\actionE{\aPModel{\aStatesT}} \phi ::= \lnot \actionA{\aPModel{\aStatesT}} \lno
 Let \classC{} be a class of Kripke models and let \aSignatureFamily{} be a non-empty, countable set of action signatures.
 We define the semantics of action model logic and the notion of action model execution simultaneously.
 
-Let $\kModelAndTuple \in \classC$ be a Kripke model and $\aModelAndTuple \in \classAmK$ be an action model with preconditions defined on $\langAml(\aSignatureFamily)$.
+Let $\kModelAndTuple \in \classC$ be a Kripke model and $\aModelAndTuple \in \classK$ be an action model with preconditions defined on $\langAml(\aSignatureFamily)$.
 We denote the result of executing the action model $\aModel$ on the Kripke model $\kModel$ as $\kModel \exec \aModel$ and define it as $\kModel \exec \aModel = \kModelTupleP$ where:
 \begin{eqnarray*}
     \kStatesP &=& \{(\kStateS, \aStateS) \in \kStates \times \aStates \mid \kPModel{\kStateS} \entails \aPrecondition(\aStateS)\}\\
@@ -585,9 +568,9 @@ $$
 
 We are interested in the following variants of action model:
 \begin{itemize}
-    \item \logicAmlK{} interpreted over the class of \classK{} Kripke frames and the language of action model logic $\langAml(\classAmK)$ with action signatures defined on the class of \classAmK{} action frames.
-    \item \logicAmlKFF{} interpreted over the class of \classKFF{} Kripke frames and the language of action model logic $\langAml(\classAmK)$ with action signatures defined on the class of \classAmKFF{} action frames.
-    \item \logicAmlS{} interpreted over the class of \classS{} Kripke frames and the language of action model logic $\langAml(\classAmK)$ with action signatures defined on the class of \classAmS{} action frames.
+    \item \logicAmlK{} interpreted over the class of \classK{} Kripke frames and the language of action model logic $\langAml(\classK)$ with action signatures defined on the class of finite \classK{} Kripke frames.
+    \item \logicAmlKFF{} interpreted over the class of \classKFF{} Kripke frames and the language of action model logic $\langAml(\classKFF)$ with action signatures defined on the class of finite \classKFF{} Kripke frames.
+    \item \logicAmlS{} interpreted over the class of \classS{} Kripke frames and the language of action model logic $\langAml(\classS)$ with action signatures defined on the class of finite \classS{} Kripke frames.
 \end{itemize}
 
 \begin{definition}[Skip and crash]

@@ -509,3 +509,49 @@ The satisfiability problem for the logic \logicRmlS{} is decidable.
 \end{corollary}
 
 \section{K4}
+
+\begin{lemma}
+Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulates \kPModelP{\kStateSP}$.
+If there exists an infinite path of states in $\kModelP$ starting from the state $\kStateSP$ then there exists an infinte path of states in $\kModel$ starting from the state $\kStateS$.
+\end{lemma}
+
+\todo[inline]{Proof}
+
+\begin{lemma}
+Let $\kPModel{\kStateS} \in \classKF$ be a pointed Kripke model.
+Then $\kPModel{\kStateS} \entails \somerefs(\possible \top \land \necessary \possible \top)$ if and only if there exists an infinite path in $\kModel$ starting from $\kStateS$.
+\end{lemma}
+
+\todo[inline]{Proof}
+
+\begin{theorem}
+The logic \logicRmlKF{} is strictly more expressive than \logicKF{}.
+\end{theorem}
+
+\todo[inline]{Proof}
+
+\begin{lemma}
+    Let $n \in \naturals$, and let $\kPModel{\kStateS}, \kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \mutualrefines[n] \kPModelP{\kStateSP}$.
+    Then for every $\phi \in \langRml$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
+\end{lemma}
+
+\todo[inline]{Proof}
+
+\begin{lemma}
+Let $\kPModel{\kStateS} \in \classKF$ be a pointed Kripke model and let $\Gamma = \{\gamma_0, \dots, \gamma_n\} \subseteq \langTangle$.
+Then $\kPModel{\kStateS} \entails \tangle \Gamma$ if and only if there exists an infinite path in $\kModel$ starting from $\kStateS$ such that every state in the path satisfies some $\gamma \in \Gamma$ and each $\gamma \in \Gamma$ is satisfied infinitely often.
+\end{lemma}
+
+\todo[inline]{Proof}
+
+\begin{theorem}
+The logic \logicRmlKF{} is strictly less expressive than \logicTangleKF{}.
+\end{theorem}
+
+\todo[inline]{Proof}
+
+\begin{corollary}
+The logic \logicRmlKF{} is strictly less expressive than \logicMuKF{}.
+\end{corollary}
+
+\todo[inline]{Proof}

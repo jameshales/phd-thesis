@@ -480,6 +480,9 @@
 \newcommand{\gfpY}{\gfp{\varY}}
 \newcommand{\gfpZ}{\gfp{\varZ}}
 
+% Tangle operator
+\newcommand{\tangle}{\natural}
+
 % Cover operator
 \newcommand{\cover}[1][\empty]{\nabla_{#1}}
 \newcommand{\revoc}[1][\empty]{\triangle_{#1}}
@@ -563,6 +566,7 @@
 \newcommandm{\langPl}{\lang_\mathit{pl}} % Propositional
 \newcommandm{\langMl}{\lang_\mathit{ml}} % Modal logic
 \newcommandm{\langMu}{\lang_\mathit{\mu}} % Modal mu-calculus
+\newcommandm{\langTangle}{\lang_{\tangle}} % Tangled modal logic
 \newcommand{\langMlPlus}[1][\empty]{\ensuremath{\lang_\mathit{ml}^{{#1}+}}} % Positive
 \newcommand{\langMlPlusBs}{\langMlPlus[\agentsB]}
 \newcommandm{\langPal}{\lang_\mathit{pal}} % Public announcement logic
@@ -582,6 +586,7 @@
 \expandafter\newcommandm\csname class#1\endcsname{{\mathpzc{#2}}}
 \expandafter\newcommandm\csname logic#1\endcsname{{\textit{#2}}}
 \expandafter\newcommandm\csname logicMu#1\endcsname{{\@nameuse{logic#1}_\mu}}
+\expandafter\newcommandm\csname logicTangle#1\endcsname{{\@nameuse{logic#1}_\tangle}}
 \expandafter\newcommandm\csname logicPal#1\endcsname{\textit{PAL}_\@nameuse{logic#1}}
 \expandafter\newcommandm\csname logicAml#1\endcsname{\textit{AML}_\@nameuse{logic#1}}
 \expandafter\newcommandm\csname logicAfl#1\endcsname{\textit{AFL}_\@nameuse{logic#1}}

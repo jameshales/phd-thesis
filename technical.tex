@@ -11,7 +11,8 @@ Finally in Section~\ref{mu} we introduce the modal $\mu$-calculus, a very expres
 
 \section{Modal logic}\label{ml}
 
-We recall standard definitions and results from modal logic.  
+We recall standard definitions and results from modal logic.
+For a comprehensive introduction to modal logic we direct the reader to the books by Blackburn, de~Rijke and Venema~\cite{blackburn:2001}, and Hughes and Cresswell~\cite{hughes:1996}.
 
 Let $\atoms$ be a non-empty, countable set of propositional atoms, and
 let $\agents$ be a non-empty, finite set of agents.
@@ -28,14 +29,34 @@ $$
 where $\atomP \in \atoms$ and $\agentA \in \agents$.
 \end{definition}
 
-We use all of the standard abbreviations from propositional logic, in addition to the abbreviation $\possibleA \phi ::= \lnot \necessaryA \lnot \phi$.
+We use all of the standard abbreviations from propositional logic:
+$\bot ::= \atomP \land \lnot \atomP$;
+$\top ::= \lnot \bot$;
+$\phi \lor \psi ::= \lnot (\lnot \phi \land \lnot \psi)$;
+$\phi \implies \psi ::= \lnot \phi \lor \psi$; and
+$\phi \iff \psi ::= (\phi \implies \psi) \land (\psi \implies \phi)$.
+We also use the abbreviation $\possibleA \phi ::= \lnot \necessaryA \lnot \phi$.
+When we are working in a single-agent setting we will simply write $\necessary$ and $\possible$ instead of $\necessaryA$ and $\possibleA$.
 
 The formula $\necessaryA \phi$ may be read as ``agent $\agentA$ {\em knows} that $\phi$ is true'', or ``agent $\agentA$ {\em believes} that $\phi$ is true'', depending on which terminology is appropriate for the setting we are working in.
 The formula $\possibleA \phi$ may be read as ``agent $\agentA$ considers it possible that $\phi$ is true'', i.e. agent $\agentA$ doesn't know (or believe) that $\phi$ is false.
 
+\begin{example}
+Suppose that Alice (agent $\agentA$) has flipped a coin and, being careful that Bob (agent $\agentB$) can't see it, she looks at the coin and sees that it has landed heads up (atom $\atomP$).
+Then the formula $\atomP$ may be read as ``the coin landed heads up'',
+the formula $\knowsA \atomP$ may be read as ``Alice knows that the coin landed heads up'',
+the formula $\lnot \knowsB \atomP$ may be read as ``Bob doesn't know that the coin landed heads up'',
+and the formula $\knowsA \lnot \knowsB \atomP$ may be read as ``Alice knows that Bob doesn't know that the coin landed heads up''.
+If Alice was not as careful when she looked at the coin we might write the formula $\possibleA \knowsB \atomP$, which may be read as ``Alice considers it possible that Bob knows that the coin landed heads up'', 
+or equivalently $\lnot \knowsA \lnot \knowsB \atomP$, which may be read as ``Alice doesn't know that Bob doesn't know that the coin landed heads up''.
+\end{example}
+
+We interpret the validity of modal formulas with respect to semantics defined on relational structures known as Kripke models~\cite{tarski:1941,kripke:1959,hintikka:1962}.
+We first define the structural component of a Kripke model, known as a Kripke frame.
+
 \begin{definition}[Kripke frames]
 A {\em Kripke frame}, $\kFrameAndTuple$ consists of:
-a {\em domain} $\kStates$, which is a non-empty set of states (or {\em possible worlds}); and
+a {\em domain} $\kStates$, which is a non-empty set of states; and
 an indexed set of {\em accessibility relations} $\kAccessibilityRel$, indexed on $\agents$, where for every $\agentA \in \agents$, $\kAccessibilityA \subseteq \kStates \times \kStates$ is a binary relation on states.
 \end{definition}
 
@@ -75,6 +96,8 @@ We define the following classes of Kripke frames:
 \end{itemize}
 \end{definition}
 
+In order to interpret the validity of modal formulas containing propositional atoms we augment Kripke frames with valuations of propositional atoms.
+
 \begin{definition}[Kripke models]
 A {\em Kripke model}, $\kModelAndTuple$ consists of an underlying Kripke frame $\kFrameAndTuple$ along with a {\em valuation function} $\kValuation : \atoms \to \powerset(\kStates)$, which is a function from propositional atoms to sets of states.
 
@@ -86,9 +109,12 @@ As we will often work with Kripke models rather than frames we overload the nota
 When we ascribe relational properties or frame properties to a Kripke model we actually ascribe those properties to its underlying Kripke frame.
 We will sometimes treat a (single-)pointed Kripke model as though it were a multi-pointed Kripke model and we assume in this case that $\kPModel{\kStateS}$ is an abbreviation for $\kPModel{\{\kStateS\}}$.
 
-We now define the semantics of modal logic.
+A Kripke model can be thought of as being defined over a set of hypothetical {\em worlds} (states), providing an abstract model of the knowledge or beliefs a set of agents have about what is true in the {\em real world} (a designated state).
+Propositional atoms are true or false in a world depending on whether the world appears in the Kripke model's valuation for the atom.
+An agent is said to {\em know} or {\em believe} that a statement is true in the real world if the statement is true in all of the worlds that the agent considers possible, where the agent's {\em possible worlds} are precisely those which are accessible to it from the real world through the Kripke model's accessibility relation.
 
-We define the semantics in terms of a parameterised class of Kripke frames, \classC{}, which could stand for \classK{}, \classKF{}, \classKFF{}, etc. or for any other class of Kripke frames so defined.
+We now define the semantics of modal logic.
+We use a parameterised class of Kripke frames, \classC{}, which could stand for \classK{}, \classKF{}, \classKFF{}, etc. or for any other class of Kripke frames so defined.
 
 \begin{definition}[Semantics of modal logic]\label{ml-semantics}
 Let $\classC$ be a class of Kripke frames, let $\phi \in \langMl$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
@@ -122,9 +148,49 @@ If every finite subset of $\Phi$ is satisfiable in \{$\kPModel{\kStatesT}$, $\kM
 
 We write $\interpretation[\kModel]{\phi}$ to denote the set of states where $\phi$ is valid, $\interpretation[\kModel]{\phi} = \{\kStateS \in \kStates \mid \kPModel{\kStateS} \entails \phi\}$.
 
+\begin{example}
+\begin{figure}
+    \caption{An example of a Kripke model.}\label{example-kripke-model}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+
+        \node[label=above left:{$\kStateS$}] (s) {\underline{$\{\atomP, \atomQ\}$}};
+        \node[label=above right:{$\kStateT$}] (t) [right of=s] {$\{\atomP\}$};
+        \node[label=below left:{$\kStateU$}] (u) [below of=s] {$\{\atomQ\}$};
+        \node[label=below right:{$\kStateV$}] (v) [right of=u] {$\{\}$};
+
+      \path[every node/.style={font=\sffamily\small},<->]
+        (s) edge node {$\agentA$} (t)
+            edge [loop above] node {$\agentA, \agentB$} (s)
+        (t) edge node {$\agentB$} (v)
+            edge [loop above] node {$\agentA, \agentB$} (t)
+        (v) edge node {$\agentA$} (u)
+            edge [loop below] node {$\agentA, \agentB$} (v)
+        (u) edge node {$\agentB$} (s)
+            edge [loop below] node {$\agentA, \agentB$} (u);
+    \end{tikzpicture}
+\end{figure}
+
+Let $\kPModelAndTuple{\kStateS}$ be a Kripke model where:
+\begin{eqnarray*}
+    \kStates &=& \{\kStateS, \kStateT, \kStateU, \kStateV\}\\
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateT), (\kStateT, \kStateS),
+                           (\kStateU, \kStateU), (\kStateU, \kStateV), (\kStateV, \kStateV), (\kStateV, \kStateU)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateU), (\kStateU, \kStateU), (\kStateU, \kStateS),
+                           (\kStateT, \kStateT), (\kStateT, \kStateV), (\kStateV, \kStateV), (\kStateV, \kStateT)\}\\
+    \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
+    \kValuation(\atomQ) &=& \{\kStateS, \kStateU\}
+\end{eqnarray*}
+This model is represented in Figure~\ref{example-kripke-model}.
+
+The propositional atom $\atomP$ is valid in all of the worlds accessible by agent $\agentA$ from state $\kStateS$, and so we have that $\kPModel{\kStateS} \entails \knowsA \atomP$.
+However there is a state accessible by agent $\agentB$ from state $\kStateS$ where $\atomP$ is not valid, and so we have that $\kPModel{\kStateS} \entails \lnot \knowsB \atomP$.
+We also have that $\kPModel{\kStateT} \entails \lnot \knowsB \atomP$, and so $\kPModel{\kStateS} \entails \knowsA \lnot \knowsB \atomP$.
+\end{example}
+
 Next we recall definitions and results related to bisimilarity of Kripke models.
 Bisimilarity is an important concept in modal logics.
-Notably the modal logic \logicK{} corresponds to the bisimulation-invariant fragment of first-order logic, and there is a partial correspondence between bisimilarity and equivalence under modal validity.
+Notably the modal logic \logicK{} corresponds to the bisimulation-invariant fragment of first-order logic~\cite{vanbenthem:1984}, and there is a partial correspondence between bisimilarity and equivalence under modal validity~\cite{goranko:2006}.
 
 \begin{definition}[Bisimulation]
 Let $\kModelAndTuple$ and $\kModelAndTupleP$ be Kripke models.
@@ -141,6 +207,8 @@ For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \
 
 If there exists a bisimulation $\bisimulation$ such that $\kStateS \bisimulation \kStateSP$ then we say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em bisimilar} and we denote this by $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
 \end{definition}
+
+Bisimulations were first developed by Milner~\cite{milner:1980} and Park~\cite{park:1981} to capture a notion of process equivalence in the process algebra for concurrent systems, and have appeared in the context of modal logics since van Benthem~\cite{vanbenthem:1984}.
 
 We first note that the bisimilarity relation forms an equivalence relation.
 
@@ -196,11 +264,40 @@ Thus for image-finite Kripke models it is also the case that modal equivalence i
 Bisimulations can be computed in polynomial time for finite Kripke models.
 
 \begin{proposition}
-Let $\kModelAndTuple$ and $\kModelAndTupleP$ be finite Kripke models.
-There is a unique, maximal bisimulation between $\kModel$ and $\kModelP$ and it can be computed in polynomial time.
+Let $\kModelAndTuple$ and $\kModelAndTupleP$ be Kripke models.
+There is a unique, maximal bisimulation between $\kModel$ and $\kModelP$.
 \end{proposition}
 
-\todo[inline]{Bisimulation contraction}
+\begin{proposition}
+Let $\kModelAndTuple$ and $\kModelAndTupleP$ be finite Kripke models.
+The maximal bisimulation between $\kModel$ and $\kModelP$ can be computed in polynomial time.
+\end{proposition}
+
+These results are shown by Goranko and Otto~\cite{goranko:2006}.
+
+We can define a bisimulation-minimal version of a Kripke model by `merging' bisimilar states as in the bisimulation contraction.
+
+\begin{definition}[Bisimulation contraction]
+Let $\kModelAndTuple$ be a Kripke model,
+let $\bisimulation \subseteq \kStates \times \kStates$ be the maximal bisimulation between $\kModel$ and itself,
+and let ${[\kStateS]} = \{\kStateT \in \kStates \mid \kStateT \bisimulation \kStateS\}$.
+The {\em bisimulation contraction} of $\kModel$ is the quotient model $\kModelAndTupleP$ where:
+\begin{eqnarray*}
+    \kStatesP &=& \{{[\kStateS]} \mid \kStateS \in \kStates\}\\
+    {[\kStateS]} \kAccessibilityPA {[\kStateT]} &\text{ iff }& \text{there exists } \kStateSP \in {[\kStateS]}, \kStateTP \in {[\kStateT]} \text{ such that } \kStateS \kAccessibilityA \kStateT\\
+    \kValuationP(\atomP) &=& \{{[\kStateS]} \mid \kStateS \in \kValuation(\atomP)\}
+\end{eqnarray*}
+\end{definition}
+
+\begin{proposition}
+Let $\kModelAndTuple$ be a Kripke model and let $\kModelP$ be the bisimulation contraction of $\kModel$.
+Then for every $\kStateS, \kStateT \in \kStates$: $\kPModelP{[\kStateS]} \bisimilar \kPModelP{[\kStateT]}$ if and only if $[\kStateS] = [\kStateT]$.
+\end{proposition}
+
+\begin{proposition}
+Let $\kModelAndTuple$ be a Kripke model and let $\kModelP$ be the bisimulation contraction of $\kModel$.
+Then for every $\kStateS \in \kStates$: $\kPModel{\kStateS} \bisimilar \kPModelP{[\kStateS]}$.
+\end{proposition}
 
 We also consider a depth-limited notion of bisimulation.
 

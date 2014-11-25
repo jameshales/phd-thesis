@@ -455,4 +455,57 @@ The satisfiability problem for the logic \logicRmlKD{} is decidable.
 
 \section{S5}
 
+\begin{definition}[Axiomatisation \axiomRmlS{}]
+    The axiomatisation \axiomRmlS{} is a substitution schema consisting of the axioms and rules of \axiomS{} along with the following additional axioms and rules:
+$$
+\begin{array}{rl}
+    {\bf R} & \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
+    {\bf RP} & \allrefsBs \atomP \iff \atomP\\
+    {\bf RS5} & \somerefsBs (\gamma_\agentA \land \coversA \Gamma_\agentA) \iff \somerefsBs \gamma_\agentA \land \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma \text{ where } \agentA \in \agentsB\\
+    {\bf RComm} & \somerefsBs (\gamma_\agentA \land \coversA \Gamma_\agentA) \iff \somerefsBs \gamma_\agentA \land \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \text{ where } \agentA \notin \agentsB\\
+    {\bf RDist} & \somerefsBs (\gamma_0 \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC) \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs (\gamma_0 \land \coversC \Gamma_\agentC)\\
+    {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
+\end{array}
+$$
+where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite set of explicit formulas and $\gamma_0, \gamma_\agentA \in \Gamma_\agentA$.
+\end{definition}
+
+\begin{lemma}
+The axiomatisation \axiomRmlS{} is sound with respect to the semantics of the logic \logicRmlS{}.
+\end{lemma}
+
+\begin{definition}[Explicit formulas]
+    \todo[inline]{Definition of explicit formulas}
+\end{definition}
+
+\begin{lemma}
+Every modal formula is equivalent to an explicit formula under the semantics of the logic \logicS{}.
+\end{lemma}
+
+\todo[inline]{Proof}
+
+\begin{lemma}
+Every refinement modal formula is equivalent to a modal formula under the semantics of the logic \logicRmlS{}.
+\end{lemma}
+
+\todo[inline]{Proof}
+
+\begin{theorem}
+The axiomatisation \axiomRmlS{} is sound and strongly complete with respect to the semantics of the logic \logicRmlS{}.
+\end{theorem}
+
+\todo[inline]{Proof}
+
+\begin{corollary}
+The logic \logicRmlS{} is expressively equivalent to the logic \logicS{}.
+\end{corollary}
+
+\begin{corollary}
+The logic \logicRmlS{} is compact.
+\end{corollary}
+
+\begin{corollary}
+The satisfiability problem for the logic \logicRmlS{} is decidable.
+\end{corollary}
+
 \section{K4}

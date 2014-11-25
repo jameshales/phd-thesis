@@ -29,9 +29,10 @@ For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \
 If there exists a $\agentsB$-refinement $\refinement$ such that $\kStateS \refinement \kStateSP$ then we say that $\kPModelP{\kStateSP}$ is a $\agentsB$-refinement of $\kPModel{\kStateS}$ and we denote this by $\kPModelP{\kStateSP} \refinesBs \kPModel{\kStateS}$ or equivalently $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 \end{definition}
 
-\todo[inline]{Simulations, notation, abbreviations, conventions.}
+We call an $\agents$-refinement simply a {\em refinement} and we write $\kPModelP{\kStateSP} \refines \kPModel{\kStateS}$ or equivalently $\kPModel{\kStateS} \simulates \kPModelP{\kStateSP}$.
+We call an $\{\agentA\}$-refinement simply an {\em $\agentA$-refinement} and we write $\kPModelP{\kStateSP} \refinesA \kPModel{\kStateS}$ or equivalently $\kPModel{\kStateS} \simulatesA \kPModelP{\kStateSP}$.
 
-We first note that bisimulations are also refinements.
+We note that bisimulations are also refinements.
 
 \begin{proposition}\label{bisimulation-refinement}
 Let $\agentsB \subseteq \agents$ and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be Kripke models.
@@ -46,7 +47,7 @@ If $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ then $\kPModel{\kStateS}
 
 The refinement relation forms a preorder.
 
-\begin{proposition}
+\begin{proposition}\label{refinements-preorder}
 The relation $\simulatesBs$ is a preorder (reflexive and transitive) on Kripke models.
 \end{proposition}
 
@@ -99,7 +100,7 @@ $$
 where $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentC \in \agents \setminus \agentsB$.
 \end{definition}
 
-\begin{proposition}
+\begin{proposition}\label{refinements-preserve-positive}
 Let $\agentsB \subseteq \agents$ and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 Then for every $\phi \in \langMlPlusBs$:
 if $\kPModel{\kStateS} \entails \phi$ then $\kPModelP{\kStateSP} \entails \phi$.
@@ -207,7 +208,44 @@ Let $\kPModel{\kStateS}$ be a finite Kripke model and let $\kPModelP{\kStateSP}$
 Then there exists an action model $\aPModel{\aStateS}$ such that $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar \kPModelP{\kStateSP}$.
 \end{proposition}
 
-\todo[inline]{Proof}
+\begin{proof}
+Without loss of generality assume that $\kPModel{\kStateS}$ is bisimulation contracted.
+Let $\refinement \subseteq \kStates \times \kStatesP$ be a refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
+
+For every $\kStateT, \kStateU \in \kStates$ such that $\kStateT \neq \kStateU$, as $\kModel$ is finite, and $\kStateT$ and $\kStateU$ are distinct and therefore not bisimilar, from Proposition~\ref{modal-hennessy-milner} there exists $\phi_{\kStateT, \kStateU} \in \langMl$ such that $\kPModel{\kStateT} \entails \phi_{\kStateT, \kStateU}$ but $\kPModel{\kStateU} \nentails \phi_{\kStateT, \kStateU}$.
+For every $\kStateT \in \kStates$ let $\phi_{\kStateT} = \bigwedge_{\kStateU \in \kStates \setminus \{\kStateT\}} \phi_{\kStateT, \kStateU}$.
+Then for every $\kStateT, \kStateU \in \kStates$ we have that $\kPModel{\kStateU} \entails \phi_{\kStateT}$ if and only if $\kStateU = \kStateT$.
+
+We construct an action model $\aPModelAndTuple{\kStateSP}$ where:
+\begin{eqnarray*}
+    \aStates &=& \kStatesP\\
+    \aAccessibilityA &=& \kAccessibilityA\\
+    \aPrecondition(\kStateTP) &=& \bigvee_{(\kStateT, \kStateTP) \in \refinement} \phi_{\kStateT}
+\end{eqnarray*}
+
+Let $\kModelAndTuplePP = \kModel \exec \aModel$. 
+We note that $(\kStateT, \kStateTP) \in \kStatesPP$ if and only if $(\kStateT, \kStateTP) \in \refinement$.
+
+Let $\bisimulation' \subseteq \kStatesP \times \kStatesPP$ such that $\kStateTP \bisimulation' (\kStateT, \kStateTP)$ for every $(\kStateT, \kStateTP) \in \refinement$.
+We claim that $\bisimulation'$ is a bisimulation.
+Let $\atomP \in \atoms$, $\agentA \in \agents$, and $(\kStateTP, (\kStateT, \kStateTP)) \in \bisimulation'$.
+We show that the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentA$} and {\bf back-$\agentA$} hold.
+
+\paragraph{atoms-$\atomP$}
+{\bf atom-$\atomP$} follows directly from $\kStateT \refinement \kStateTP$ and {\bf atoms-$\atomP$} for $\refinement$.
+
+\paragraph{forth-$\agentA$}
+Let $\kStateUP \in \kSuccessorsPA{\kStateTP}$.
+As $\kStateT \refinement \kStateTP$ from {\bf back-$\agentA$} for $\refinement$ there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $\kStateU \refinement \kStateUP$.
+Therefore $\kStateUP \bisimulation' (\kStateU, \kStateUP)$.
+
+\paragraph{back-$\agentA$}
+Let $(\kStateU, \kStateUP) \in \kSuccessorsPPA{(\kStateT, \kStateTP)}$.
+Then by construction $\kStateUP \in \kSuccessorsPA{\kStateTP}$ and $\kStateUP \bisimulation' (\kStateU, \kStateUP)$.
+
+Therefore $\bisimulation'$ is a bisimulation.
+In particular we note as $\kStateS \refinement \kStateSP$ then $\kStateSP \bisimulation' (\kStateS, \kStateSP)$ and so $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar \kPModelP{\kStateSP}$.
+\end{proof}
 
 \begin{proposition}
 Let $\kModelAndTuple$ and $\kModelAndTupleP$ be finite Kripke models.
@@ -226,58 +264,158 @@ $$
 $$
 \end{definition}
 
-\begin{proposition}
+\begin{proposition}\label{rml-validities}
 Let $\classC$ be a class of Kripke frames. Then:
 $$
 \begin{array}{l}
-    \classC \entails \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
-    \classC \entails \phi \text{ implies } \classC \entails \allrefsBs \phi\\
-    \classC \entails \allrefsBs \phi \implies \phi\\
-    \classC \entails \allrefsBs \phi \implies \allrefsBs \allrefsBs \phi\\
-    \classC \entails \phi^+ \implies \allrefsBs \phi^+
+    \classC \entails_\logicRmlC \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
+    \classC \entails_\logicRmlC \phi \text{ implies } \classC \entails \allrefsBs \phi\\
+    \classC \entails_\logicRmlC \allrefsBs \phi \implies \phi\\
+    \classC \entails_\logicRmlC \allrefsBs \phi \implies \allrefsBs \allrefsBs \phi\\
+    \classC \entails_\logicRmlC \phi^+ \implies \allrefsBs \phi^+
 \end{array}
 $$
 where $\agentsB \subseteq \agents$, $\phi, \psi \in \langRml$ and $\phi^+ \in \langMlPlus$.
 \end{proposition}
 
-\todo[inline]{Proof}
+\begin{proof}
+Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}, \kPModelPP{\kStateSPP} \in \classC$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
+\begin{itemize}
+    \item 
+        Suppose that $\kPModel{\kStateS} \entails \allrefsBs (\phi \implies \psi)$ and $\kPModel{\kStateS} \entails \allrefsBs \phi$.
+        Then $\kPModelP{\kStateSP} \entails \phi \implies \psi$
+        and $\kPModelP{\kStateSP} \entails \phi$,
+        so by modus ponens $\kPModelP{\kStateSP} \entails \psi$.
+        Therefore $\kPModel{\kStateS} \entails \allrefsBs \psi$
+        and $\kPModel{\kStateS} \entails \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)$.
+    \item
+        Suppose that $\classC \entails \phi$. 
+        Then $\kPModelP{\kStateSP} \entails \phi$ and so $\kPModel{\kStateS} \entails \allrefsBs \phi$.
+        Therefore $\classC \entails \allrefsBs \phi$
+    \item
+        Suppose that $\kPModel{\kStateS} \entails \allrefsBs \phi$.
+        By Proposition~\ref{refinements-preorder} we have that $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS}$ and so $\kPModel{\kStateS} \entails \phi$.
+        Therefore $\kPModel{\kStateS} \entails \allrefsBs \phi \implies \phi$.
+    \item
+        Suppose that $\kPModel{\kStateS} \entails \allrefsBs \phi$.
+        By Proposition~\ref{refinements-preorder} we have that $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$ and so $\kPModelPP{\kStateSPP} \entails \phi$ and $\kPModel{\kStateS} \entails \allrefsBs \allrefsBs \phi$.
+        Therefore $\kPModel{\kStateS} \entails \allrefsBs \phi \implies \allrefsBs \allrefsBs \phi$.
+    \item
+        Suppose that $\kPModel{\kStateS} \entails \phi^+$.
+        By Proposition~\ref{refinements-preserve-positive} we have that $\kPModelP{\kStateSP} \entails \phi^+$ and so $\kPModel{\kStateS} \entails \allrefsBs \phi^+$.
+        Therefore $\kPModel{\kStateS} \entails \phi^+ \implies \allrefsBs \phi^+$.
+\end{itemize}
+\end{proof}
 
 \begin{proposition}
 Let $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classSF, \classS\}$. Then:
 $$
 \begin{array}{l}
-    \classC \entails \allrefsBs \somerefsBs \phi \implies \somerefsBs \allrefsBs \phi\\
-    \classC \entails (\allrefsBs \somerefsBs \phi \land \allrefsBs \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi)
+    \classC \entails_\logicRmlC \allrefsBs \somerefsBs \phi \implies \somerefsBs \allrefsBs \phi\\
+    \classC \entails_\logicRmlC (\allrefsBs \somerefsBs \phi \land \allrefsBs \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi)
 \end{array}
 $$
 where $\agentsB \subseteq \agents$ and $\phi, \psi \in \langRml$.
 \end{proposition}
 
-\todo[inline]{Proof}
+\begin{proof}
+Let $\classC \in \{\classK, \classKF, \classKFF\}$, let $\kPModel{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \entails \allrefsBs \somerefsBs \phi$ and let $\kPModelAndTupleP{\kStateS}$ where:
+\begin{eqnarray*}
+    \kStatesP &=& \kStates\\
+    \kAccessibilityPA &=& \emptyset \text{ where } \agentA \in \agentsB\\
+    \kAccessibilityPA &=& \kAccessibilityA \text{ where } \agentA \notin \agentsB\\
+    \kValuationP(\atomP) &=& \kValuation(\atomP)
+\end{eqnarray*}
+Then $\kPModelP{\kStateS} \in \classC$, $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateS}$ and $\kPModelP{\kStateS} \entails \somerefsBs \phi$.
+We note that as there are no $\agentsB$-edges in $\kModelP$ then every refinement of $\kPModelP{\kStateS}$ is bisimilar to $\kPModelP{\kStateS}$.
+Therefore $\kPModelP{\kStateS} \entails \phi$ and $\kPModelP{\kStateS} \entails \allrefsBs \phi$ and so $\kPModel{\kStateS} \entails \somerefsBs \allrefsBs \phi$.
+
+A similar argument holds for $\classC \in \{\classSF, \classS\}$ by constructing a refinement where the only $\agentsB$-edges are the reflexive edges,
+and for $\classKD$ by constructing a refinement where each state and each $\agentB \in \agentsB$ has only a single $\agentsB$-successor.
+
+A similar argument shows that $\classC \entails_\logicRmlC (\allrefsBs \somerefsBs \phi \land \allrefsBs \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi)$ for $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classSF, \classS\}$.
+\end{proof}
 
 \begin{proposition}
 Let $\classC \in \{\classK, \classKF, \classKFF, \classSF, \classS\}$. Then:
 $$
 \begin{array}{l}
-    \classC \entails \somerefsBs \allrefsBs \phi \implies \allrefsBs \somerefsBs \phi
+    \classC \entails_\logicRmlC \somerefsBs \allrefsBs \phi \implies \allrefsBs \somerefsBs \phi
 \end{array}
 $$
 where $\agentsB \subseteq \agents$ and $\phi \in \langRml$.
 \end{proposition}
 
-\todo[inline]{Proof}
+\begin{proof}
+Let $\classC \in \{\classK, \classKF, \classKFF\}$, let $\kPModel{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \entails \somerefsBs \allrefsBs \phi$.
+There exists $\kPModelP{\kStateSP} \in \classC$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModel{\kStateS} \entails \allrefsBs \phi$.
+From Proposition~\ref{rml-validities} we have that $\kPModelP{\kStateSP} \entails \allrefsBs \allrefsBs \phi$.
+Let $\kPModelAndTuplePP{\kStateSP}$ where:
+\begin{eqnarray*}
+    \kStatesPP &=& \kStatesP\\
+    \kAccessibilityPPA &=& \emptyset \text{ where } \agentA \in \agentsB\\
+    \kAccessibilityPPA &=& \kAccessibilityPA \text{ where } \agentA \notin \agentsB\\
+    \kValuationPP(\atomP) &=& \kValuationP(\atomP)
+\end{eqnarray*}
+Then $\kPModelPP{\kStateSP} \in \classC$, $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSP}$ and $\kPModelPP{\kStateSP} \entails \allrefsBs \phi$.
+From Proposition~\ref{rml-validities} we have that $\kPModelPP{\kStateSPP} \entails \phi$ and therefore $\kPModelPP{\kStateSPP} \entails \somerefsBs \phi$.
+We note that as there are no $\agentsB$-edges in $\kModelP$ then every refinement of $\kPModelP{\kStateS}$ is bisimilar to $\kPModelP{\kStateS}$.
+Therefore $\kPModelP{\kStateS} \entails \phi$ and $\kPModelP{\kStateS} \entails \allrefsBs \phi$ and so $\kPModel{\kStateS} \entails \somerefsBs \allrefsBs \phi$.
+\todo[inline]{Finish proof.}
+\end{proof}
 
-\begin{proposition}
+\begin{proposition}\label{rml-bisimulation-invariance}
 Let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
 Then for every $\phi \in \langRml$:
 $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 \end{proposition}
 
+\begin{proof}
+We proceed by induction on the structure of the formula $\phi \in \langRml$.
+Let $\bisimulation \subseteq \kStates \times \kStateSP$ be a bisimulation between $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ and let $(\kStateT, \kStateTP) \in \bisimulation$.
+
+Suppose that $\phi = \atomP$ where $\atomP \in \atoms$.
+Then $\kPModel{\kStateT} \entails \atomP$ if and only if $\kStateT \in \kValuation(\atomP)$.
+By {\bf atoms-$\atomP$}, $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateTP \in \kValuationP(\atomP)$.
+Finally $\kStateTP \in \kValuationP(\atomP)$ if and only if $\kPModelP{\kStateTP} \entails \atomP$.
+Therefore $\kPModel{\kStateT} \entails \atomP$ if and only if $\kPModelP{\kStateTP} \entails \atomP$.
+
+Suppose that $\phi = \neg \psi$ or $\phi = \psi \land \chi$ where $\psi, \chi \in \langRml$. These follow directly from the induction hypothesis.
+
+Suppose that $\phi = \possibleA \psi$ where $\psi \in \langRml$.
+Suppose that $\kPModel{\kStateT} \entails \possible \psi$. 
+Then there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $\kPModel{\kStateU} \entails \psi$.
+As $\kStateT \bisimulation \kStateTP$ by {\bf forth-$\agentA$} there exists $\kStateUP \in \kSuccessorsPA{\kStateTP}$ such that $\kStateU \bisimulation \kStateUP$.
+By the induction hypothesis $\kPModelP{\kStateUP} \entails \psi$.
+Therefore $\kPModelP{\kStateTP} \entails \possibleA \psi$.
+The converse follows a similar argument.
+Therefore $\kPModel{\kStateT} \entails \possibleA \psi$ if and only if $\kPModelP{\kStateTP} \entails \possibleA \psi$.
+
+Suppose that $\phi = \somerefsBs \psi$ where $\psi \in \langRml$.
+Then $\kPModel{\kStateT} \entails \somerefsBs \psi$ if and only if there exists $\kPModelPP{\kStateTPP} \in \classC$ such that $\kPModel{\kStateT} \simulatesBs \kPModelPP{\kStateTPP}$ and $\kPModelPP{\kStateTPP} \entails \psi$.
+As $\kPModel{\kStateT} \bisimilar \kPModelP{\kStateTP}$, from Proposition~\ref{bisimulation-refinement} and Proposition~\ref{refinements-preorder} we have that $\kPModel{\kStateT} \simulatesBs \kPModelPP{\kStateTPP}$ if and only if $\kPModelP{\kStateTP} \simulatesBs \kPModelPP{\kStateTPP}$.
+Therefore $\kPModel{\kStateT} \entails \somerefsBs \psi$ if and only if $\kPModelP{\kStateTP} \entails \somerefsBs \psi$.
+
+Therefore $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
+\end{proof}
+
+\begin{proposition}
+The logics \logicRmlK{}, \logicRmlKF{}, \logicRmlKFF{}, \logicRmlKD{}, \logicRmlSF{} and \logicRmlS{} do not have uniform subsitution.
+\end{proposition}
+
+\begin{proof}
+From Proposition~\ref{rml-validities} we have that $\entails \atomP \implies \allrefs \atomP$ but we do not have in general that $\entails \possibleB \atomP \implies \allrefs \possible \atomP$, as the successor state where $\atomP$ is valid may be removed in a refinement.
+\end{proof}
+
 \begin{proposition}
 The logic \logicRmlK{} is not a sublogic of \logicRmlKF{}, \logicRmlKFF{}, \logicRmlKD{}, \logicRmlSF{} or \logicRmlS{}.
 \end{proposition}
 
-\todo[inline]{Proof}
+\begin{proof}
+In \logicRmlK{} we have that $\entails \possible (\neg \atomP \land \possible \atomP) \implies \somerefs (\possible \possible \atomP \land \neg \possible \atomP)$. 
+That is, a refinement in \logicRmlK{} need not be transitive.
+However in \logicRmlKF{}, \logicRmlKFF{}, \logicRmlKD{}, \logicRmlSF{} or \logicRmlS{} we have that $\entails \allrefs (\possible \possible \atomP \implies \possible \atomP)$, as refinements in these settings must be transitive.
+\end{proof}
 
 \section{K}
 

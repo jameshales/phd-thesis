@@ -166,7 +166,7 @@ We say that $\kModel$ is {\em modally saturated} if and only if for every $\agen
 
 For modally saturated Kripke models, modal equivalence implies bisimilarity.
 
-\begin{proposition}
+\begin{proposition}\label{modal-hennessy-milner}
 Let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMl$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 Then $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
 \end{proposition}
@@ -199,6 +199,8 @@ Bisimulations can be computed in polynomial time for finite Kripke models.
 Let $\kModelAndTuple$ and $\kModelAndTupleP$ be finite Kripke models.
 There is a unique, maximal bisimulation between $\kModel$ and $\kModelP$ and it can be computed in polynomial time.
 \end{proposition}
+
+\todo[inline]{Bisimulation contraction}
 
 We also consider a depth-limited notion of bisimulation.
 

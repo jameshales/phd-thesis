@@ -281,7 +281,177 @@ The logic \logicRmlK{} is not a sublogic of \logicRmlKF{}, \logicRmlKFF{}, \logi
 
 \section{K}
 
+\begin{definition}[Axiomatisation \axiomRmlK{}]
+    The axiomatisation \axiomRmlK{} is a substitution schema consisting of the axioms and rules of \axiomK{} along with the following additional axioms and rules:
+$$
+\begin{array}{rl}
+    {\bf R} & \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
+    {\bf RP} & \allrefsBs \atomP \iff \atomP\\
+    {\bf RK} & \somerefsBs \coversA \Gamma \iff \bigwedge_{\gamma \in \Gamma} \possibleA \somerefsBs \gamma \text{ where } \agentA \in \agentsB\\
+    {\bf RComm} & \somerefsBs \coversA \Gamma \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma\} \text{ where } \agentA \notin \agentsB\\
+    {\bf RDist} & \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC\\
+    {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
+\end{array}
+$$
+\end{definition}
+
+\begin{lemma}
+The axiomatisation \axiomRmlK{} is sound with respect to the semantics of the logic \logicRmlK{}.
+\end{lemma}
+
+\todo[inline]{Proof}
+
+\begin{definition}[Negation normal form]
+A formula in {\em negation normal form} is inductively defined as:
+$$
+\phi ::= \atomP \mid
+         \neg \atomP \mid
+         \phi \land \phi \mid
+         \phi \lor \phi \mid
+         \necessaryA \phi \mid
+         \possibleA \phi
+$$
+where $\atomP \in \atoms$ and $\agentA \in \agents$.
+\end{definition}
+
+\begin{lemma}
+Every modal formula is equivalent to a formula in negation normal form.
+\end{lemma}
+
+\todo[inline]{Proof}
+
+\begin{definition}[Disjunctive normal form]
+A formula in {\em disjunctive normal form} is inductively defined as:
+\begin{eqnarray*}
+\phi &::=& \delta \mid \phi \lor \phi\\
+\delta &::=& \atomP \mid \neg \atomP \mid \necessaryA \phi \mid \possibleA \phi \mid \delta \land \delta
+\end{eqnarray*}
+where $\atomP \in \atoms$ and $\agentA \in \agents$.
+\end{definition}
+
+\begin{lemma}
+Every modal formula is equivalent to a formula in disjunctive normal form.
+\end{lemma}
+
+\todo[inline]{Proof}
+
+\begin{definition}[Cover disjunctive normal form]
+A formula in {\em cover disjunctive normal form} is inductively defined as:
+$$
+\phi ::= \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB \mid \phi \lor \phi
+$$
+where $\atomsQ, \atomsQ' \subseteq \atoms$ are finite sets of propositional atoms and $\agentsB \subseteq \agents$.
+\end{definition}
+
+\begin{lemma}
+Every modal formula is equivalent to a formula in cover disjunctive normal form.
+\end{lemma}
+
+\todo[inline]{Proof}
+
+\begin{lemma}
+Every refinement modal formula is equivalent to a modal formula.
+\end{lemma}
+
+\todo[inline]{Proof}
+
+\begin{theorem}
+The axiomatisation \axiomRmlK{} is sound and strongly complete with respect to the semantics of the logic \logicRmlK{}.
+\end{theorem}
+
+\todo[inline]{Proof}
+
+\begin{corollary}
+The logic \logicRmlK{} is expressively equivalent to the logic \logicK{}.
+\end{corollary}
+
+\begin{corollary}
+The logic \logicRmlK{} is compact.
+\end{corollary}
+
+\begin{corollary}
+The satisfiability problem for the logic \logicRmlK{} is decidable.
+\end{corollary}
+
 \section{K45 and KD45}
+
+\todo[inline]{Define $\agentsB$-restricted formulas.}
+
+\begin{definition}[Axiomatisation \axiomRmlKD{}]
+    The axiomatisation \axiomRmlKD{} is a substitution schema consisting of the axioms and rules of \axiomKD{} along with the following additional axioms and rules:
+$$
+\begin{array}{rl}
+    {\bf R} & \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
+    {\bf RP} & \allrefsBs \atomP \iff \atomP\\
+    {\bf RKD45} & \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma \text{ where } \agentA \in \agentsB\\
+    {\bf RComm} & \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \text{ where } \agentA \notin \agentsB\\
+    {\bf RDist} & \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC\\
+    {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
+\end{array}
+$$
+where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite set of $\agentA$-restricted formulas.
+\end{definition}
+
+\begin{lemma}
+The axiomatisation \axiomRmlKD{} is sound with respect to the semantics of the logic \logicRmlKD{}.
+\end{lemma}
+
+\todo[inline]{Proof}
+
+\begin{definition}[Alternating disjunctive normal form]
+Let $\agentsB \subseteq \agents$ be a set of agents.
+A formula in {\em $\agentsB$-alternating disjunctive normal form} is inductively defined as:
+\begin{eqnarray*}
+\phi &::=& \delta \mid \phi \lor \phi\\
+\delta &::=& \atomP \mid \neg \atomP \mid \necessaryB \phi_\agentB \mid \possibleB \phi_\agentB \mid \delta \land \delta
+\end{eqnarray*}
+where $\atomP \in \atoms$, $\agentB \in \agentsB$, and $\phi_\agentB$ is a formula in $\{\agentB\}$-alternating disjunctive normal form.
+\end{definition}
+
+\begin{lemma}
+Every $\agentsB$-restricted modal formula is equivalent to a formula in $\agentsB$-alternating disjunctive normal form under the semantics of the logic \logicKD{}.
+\end{lemma}
+
+\todo[inline]{Proof}
+
+\begin{definition}[Alternating cover disjunctive normal form]
+Let $\agentsB \subseteq \agents$ be a set of agents.
+A formula in {\em $\agentsB$-alternating disjunctive normal form} is inductively defined as:
+$$
+\phi ::= \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB \mid \phi \lor \phi
+$$
+where $\atomsQ, \atomsQ' \subseteq \atoms$ are finite sets of propositional atoms, $\agentsB \subseteq \agents$, and $\Gamma_\agentB$ is a finite set of formulas in $\{\agentB\}$-alternating cover disjunctive normal form.
+\end{definition}
+
+\begin{lemma}
+Every $\agentsB$-restricted modal formula is equivalent to a formula in $\agentsB$-alternating cover disjunctive normal form under the semantics of the logic \logicKD{}.
+\end{lemma}
+
+\todo[inline]{Proof}
+
+\begin{lemma}
+Every refinement modal formula is equivalent to a modal formula under the semantics of the logic \logicRmlKD{}.
+\end{lemma}
+
+\todo[inline]{Proof}
+
+\begin{theorem}
+The axiomatisation \axiomRmlKD{} is sound and strongly complete with respect to the semantics of the logic \logicRmlKD{}.
+\end{theorem}
+
+\todo[inline]{Proof}
+
+\begin{corollary}
+The logic \logicRmlKD{} is expressively equivalent to the logic \logicKD{}.
+\end{corollary}
+
+\begin{corollary}
+The logic \logicRmlKD{} is compact.
+\end{corollary}
+
+\begin{corollary}
+The satisfiability problem for the logic \logicRmlKD{} is decidable.
+\end{corollary}
 
 \section{S5}
 

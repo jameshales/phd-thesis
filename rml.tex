@@ -455,11 +455,11 @@ However in \logicRmlKF{}, \logicRmlKFF{}, \logicRmlKD{}, \logicRmlSF{} or \logic
     The axiomatisation \axiomRmlK{} is a substitution schema consisting of the axioms and rules of \axiomK{} along with the following additional axioms and rules:
 $$
 \begin{array}{rl}
-    {\bf R} & \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
-    {\bf RP} & \allrefsBs \atomP \iff \atomP\\
-    {\bf RK} & \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma \text{ where } \agentA \in \agentsB\\
-    {\bf RComm} & \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \text{ where } \agentA \notin \agentsB\\
-    {\bf RDist} & \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC\\
+    {\bf R} & \proves \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
+    {\bf RP} & \proves \allrefsBs \atomP \iff \atomP\\
+    {\bf RK} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma \text{ where } \agentA \in \agentsB\\
+    {\bf RComm} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \text{ where } \agentA \notin \agentsB\\
+    {\bf RDist} & \proves \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC\\
     {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
 \end{array}
 $$
@@ -467,15 +467,10 @@ where $\phi, \psi \in \langRml$, $\atomP \in \atoms$, $\agentA \in \agents$, $\a
 \end{definition}
 
 \begin{lemma}
-The axiomatisation \axiomRmlK{} is sound with respect to the semantics of the logic \logicRmlK{}.
+The axiom {\bf RK} is sound with respect to the semantics of the logic \logicRmlK{}.
 \end{lemma}
 
 \begin{proof}
-The soundness of the axioms and rules of \axiomK{} with respect to the semantics of the logic \logicRmlK{} follow from the same reasoning that they are sound in the logic \logicK{}.
-The soundness of {\bf R}, {\bf RP} and {\bf NecR} follow from Proposition~\ref{rml-validities}.
-We show the soundness of the axioms {\bf RK}, {\bf RComm}, and {\bf RDist}.
-
-\paragraph{RK}
 Let $\kPModel{\kStateS} \in \classK$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 There exists $\kPModelP{\kStateSP} \in \classK$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kPModelP{\kStateTP} \entails \gamma$.
@@ -561,8 +556,13 @@ For every $\gamma \in \Gamma_\agentA$ we have that $\kStateS[\gamma] \in \kSucce
 For every $\kStateS[\gamma] \in \kSuccessorsPA{\kStateSP}$ we have that $\kPModelP{\kStateS[\gamma]} \entails \gamma$.
 
 Therefore $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ and $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
+\end{proof}
 
-\paragraph{RComm}
+\begin{lemma}
+The axiom {\bf RComm} is sound with respect to the semantics of the logic \logicRmlK{}.
+\end{lemma}
+
+\begin{proof}
 Let $\kPModel{\kStateS} \in \classK$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 There exists $\kPModelP{\kStateSP} \in \classK$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP \entails \coversA \Gamma_\agentA$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kPModelP{\kStateTP} \entails \gamma$.
@@ -662,8 +662,13 @@ Therefore $\refinement$ is a $\agentsB$-refinement and as $\kStateS \refinement 
 
 Then $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ follows from similar reasoning as in {\bf RK}.
 Therefore $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
+\end{proof}
 
-{\bf RDist}
+\begin{lemma}
+The axiom {\bf RDist} is sound with respect to the semantics of the logic \logicRmlK{}.
+\end{lemma}
+
+\begin{proof}
 Let $\kPModel{\kStateS} \in \classK$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
 There exists $\kPModel{\kStateSP} \in \classK$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
 For every $\agentC \in \agentsC$ we have that $\kPModelP{\kStateSP} \entails \coversC \Gamma_\agentC$ and so $\kPModel{\kStateS} \entails \somerefsBs \coversC \Gamma_\agentC$.
@@ -681,6 +686,8 @@ Let $\kPModelAndTupleP{\kStateSP}$ be a Kripke model where:
     \kValuation(\atomP) &=& \overline{\{\kStateSP\}} \cup \kValuation(\atomP) \cup \bigcup_{\agentC \in \agentsC} \kValuation[\agentC](\atomP)
 \end{eqnarray*}
 where $\kStateSP$ is a fresh state not appearing in $\kStates$ or $\kStates[\agentC]$ for any $\agentC \in \Gamma_\agentA$, and $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise.
+
+\todo[inline]{Diagram of {\bf RK} construction.}
 
 We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
 
@@ -742,6 +749,16 @@ Therefore $\refinement$ is a $\agentsB$-refinement and as $\kStateS \refinement 
 
 Then $\kPModelP{\kStateSP} \entails \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$ follows from similar reasoning as in {\bf RK}.
 Therefore $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
+\end{proof}
+
+\begin{lemma}
+The axiomatisation \axiomRmlK{} is sound with respect to the semantics of the logic \logicRmlK{}.
+\end{lemma}
+
+\begin{proof}
+The soundness of the axioms and rules of \axiomK{} with respect to the semantics of the logic \logicRmlK{} follow from the same reasoning that they are sound in the logic \logicK{}.
+The soundness of {\bf R}, {\bf RP} and {\bf NecR} follow from Proposition~\ref{rml-validities}.
+The soundness of {\bf RK}, {\bf RComm} and {\bf RDist} were shown in the previous lemmas.
 \end{proof}
 
 \begin{definition}[Negation normal form]

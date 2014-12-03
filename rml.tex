@@ -13,7 +13,7 @@ $$
 where $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentsB \subseteq \agents$.
 \end{definition}
 
-\begin{definition}[Simulation and refinement]
+\begin{definition}[Refinements]
 Let $\agentsB \subseteq \agents$ and let $\kModelAndTuple$ and $\kModelAndTupleP$ be Kripke models.
 A non-empty relation $\refinement \subseteq \kStates \times \kStatesP$ is a {\em $\agentsB$-refinement} if and only if for every $\atomP \in \atoms$, $\agentA \in \agents$, $\agentC \in \agents \setminus \agentsB$ and $(\kStateS, \kStateSP) \in \refinement$ the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentC$} and {\bf back-$\agentA$} holds:
 
@@ -35,15 +35,13 @@ We call an $\{\agentA\}$-refinement simply an {\em $\agentA$-refinement} and we 
 We note that bisimulations are also refinements.
 
 \begin{proposition}\label{bisimulation-refinement}
-Let $\agentsB \subseteq \agents$ and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be Kripke models.
-If $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ then $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
+Let $\agentsB \subseteq \agents$. Then every bisimulation is a $\agentsB$-refinement.
 \end{proposition}
 
-\begin{proof}
-    Suppose that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
-    Then there exists a bisimulation $\bisimulation \subseteq \kStates \times \kStatesP$ that for every $\atomP \in \atoms$, $\agentA \in \agents$ and $(\kStateT, \kStateTP) \in \bisimulation$ satisfies the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentA$} and {\bf back-$\agentA$} and such that $\kStateS \bisimulation \kStateSP$.
-    Therefore $\bisimulation$ is also a $\agentsB$-refinement relation and as $\kStateS \bisimulation \kStateSP$ we have $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
-\end{proof}
+\begin{corollary}\label{bisimilar-refinement}
+Let $\agentsB \subseteq \agents$ and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be Kripke models.
+If $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ then $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
+\end{corollary}
 
 The refinement relation forms a preorder.
 
@@ -53,7 +51,7 @@ The relation $\simulatesBs$ is a preorder (reflexive and transitive) on Kripke m
 
 \begin{proof}
     Let $\agentsB \subseteq \agents$ and let $\kPModel{\kStateS}$ be a Kripke model.
-    By Proposition~\ref{bisimulation-equivalence-relation} we have $\kPModel{\kStateS} \bisimilar \kPModel{\kStateS}$ and by Proposition~\ref{bisimulation-refinement} we have $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS}$.
+    By Proposition~\ref{bisimulation-equivalence-relation} we have $\kPModel{\kStateS} \bisimilar \kPModel{\kStateS}$ and by Corollary~\ref{bisimilar-refinement} we have $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS}$.
     Therefore the relation $\simulatesBs$ is reflexive.
 
     Let $\agentsB \subseteq \agents$ and let $\kPModel{\kStateS}$, $\kPModelP{\kStateSP}$ and $\kPModelPP{\kStateSPP}$ be Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
@@ -102,7 +100,7 @@ where $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentC \in \agents \setmi
 
 \begin{proposition}\label{refinements-preserve-positive}
 Let $\agentsB \subseteq \agents$ and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
-Then for every $\phi \in \langMlPlusBs$:
+Then for every $\phi \in \langMlPlusBs$
 if $\kPModel{\kStateS} \entails \phi$ then $\kPModelP{\kStateSP} \entails \phi$.
 \end{proposition}
 
@@ -118,35 +116,32 @@ As $\kStateT \refinement \kStateTP$ then by {\bf atoms-$\atomP$} we have that $\
 Suppose that $\phi = \lnot \atomP$ for $\atomP \in \atoms$ and suppose that $\kPModel{\kStateT} \entails \lnot \atomP$.
 As $\kStateT \refinement \kStateTP$ then by {\bf atoms-$\atomP$} we have that $\kPModelP{\kStateTP} \entails \lnot \atomP$.
 
-Suppose that $\phi = \psi \land \chi$ for $\psi, \chi \in \langMlPlusBs$ and suppose that $\kPModel{\kStateT} \entails \psi \land \chi$.
-This follows directly from the induction hypothesis.
-
-Suppose that $\phi = \psi \lor \chi$ for $\psi, \chi \in \langMlPlusBs$ and suppose that $\kPModel{\kStateT} \entails \psi \lor \chi$.
-This follows directly from the induction hypothesis.
+Suppose that $\phi = \psi \land \chi$ or $\phi = \psi \lor \chi$ for $\psi, \chi \in \langMlPlusBs$.
+These follow directly from the induction hypothesis.
 
 Suppose that $\phi = \necessaryA \psi$ for $\agentA \in \agents$ and $\psi \langMlPlusBs$, and suppose that $\kPModel{\kStateT} \entails \necessaryA \psi$.
 Then $\kPModel{\kStateU} \entails \psi$ for every $\kStateU \in \kSuccessorsA{\kStateT}$.
 Let $\kStateUP \in \kSuccessorsPA{\kStateTP}$.
 As $\kStateT \refinement \kStateTP$ then by {\bf back-$\agentA$} there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $\kStateU \refinement \kStateUP$.
-As $\kStateU \refinement \kStateUP$ then by the induction hypothesis we have $\kPModelP{\kStateUP} \entails \psi$.
+As $\kStateU \refinement \kStateUP$ and $\kPModel{\kStateU} \entails \psi$ then by the induction hypothesis we have $\kPModelP{\kStateUP} \entails \psi$.
 Therefore $\kPModelP{\kStateTP} \entails \necessaryA \psi$.
 
 Suppose that $\phi = \possibleC \psi$ for $\agentC \in \agents \setminus \agentsB$ and $\psi \in \langMlPlusBs$, and suppose that $\kPModel{\kStateT} \entails \possibleC \psi$.
 Then there exists $\kStateU \in \kSuccessorsC{\kStateT}$ such that $\kPModel{\kStateU} \entails \psi$.
 As $\kStateT \refinement \kStateTP$ then by {\bf forth-$\agentC$} there exists $\kStateUP \in \kSuccessorsPC{\kStateTP}$ such that $\kStateU \refinement \kStateUP$.
-As $\kStateU \refinement \kStateUP$ then by the induction hypothesis we have $\kPModelP{\kStateUP} \entails \psi$.
+As $\kStateU \refinement \kStateUP$ and $\kPModel{\kStateU} \entails \psi$ then by the induction hypothesis we have $\kPModelP{\kStateUP} \entails \psi$.
 Therefore $\kPModel{\kStateTP} \entails \possibleC \psi$.
 
 Therefore if $\kPModel{\kStateS} \entails \phi$ then $\kPModel{\kStateSP} \entails \phi$.
 \end{proof}
 
 \begin{proposition}
-Let $\agentsB \subseteq \agents$ and let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMlPlusBs$: if $\kPModel{\kStateS} \entails \phi$ then $\kPModelP{\kStateSP} \entails \phi$.
+Let $\agentsB \subseteq \agents$ and let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMlPlusBs$ if $\kPModel{\kStateS} \entails \phi$ then $\kPModelP{\kStateSP} \entails \phi$.
 Then $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 \end{proposition}
 
 \begin{proof}
-Let $\refinement \subseteq \kStates \times \kStatesP$ be a relation such that $\kStateT \refinement \kStateTP$ if and only if for every $\phi \in \langMlPlusBs$: if $\kPModel{\kStateT} \entails \phi$ then $\kPModelP{\kStateTP} \entails \phi$.
+Let $\refinement \subseteq \kStates \times \kStatesP$ be a relation such that $\kStateT \refinement \kStateTP$ if and only if for every $\phi \in \langMlPlusBs$ if $\kPModel{\kStateT} \entails \phi$ then $\kPModelP{\kStateTP} \entails \phi$.
 We claim that the $\refinement$ is a $\agentsB$-refinement and therefore $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 Let $\atomP \in \atoms$, $\agentA \in \agents$, $\agentC \in \agents \setminus \agentsB$ and $(\kStateT, \kStateTP) \in \refinement'$.
 We show that the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentC$} and {\bf back-$\agentA$} hold.
@@ -162,7 +157,7 @@ Let $\kStateU \in \kSuccessorsC{\kStateT}$, let $\Sigma = \{\phi \in \langMlPlus
 Then $\kPModel{\kStateU} \entails \bigwedge \Delta$ and so $\kPModel{\kStateT} \entails \possibleC \bigwedge \Delta$.
 As $\possibleC \bigwedge \Delta \in \langMlPlusBs$ and $\kStateT \refinement \kStateTP$ then $\kPModelP{\kStateTP} \entails \possibleC \bigwedge \Delta$.
 So $\Sigma$ is finitely satisfiable on $\kPModelP{\kSuccessorsPC{\kStateTP}}$ and as $\kModelP$ is modally saturated then $\Sigma$ is satisfiable on $\kPModelP{\kSuccessorsPC{\kStateTP}}$.
-So there exists $\kStateUP \in \kSuccessorsPC{\kStateTP}$ such that $\kPModelP{\kStateUP} \entails \Sigma$, and so for every $\phi \in \langMlPlusBs$: if $\kPModel{\kStateU} \entails \phi$ then $\kPModelP{\kStateUP} \entails \phi$.
+So there exists $\kStateUP \in \kSuccessorsPC{\kStateTP}$ such that $\kPModelP{\kStateUP} \entails \Sigma$, and so for every $\phi \in \langMlPlusBs$ if $\kPModel{\kStateU} \entails \phi$ then $\kPModelP{\kStateUP} \entails \phi$.
 Therefore $\kStateU \refinement \kStateUP$.
 
 \paragraph{back-$\agentA$}
@@ -170,7 +165,7 @@ Let $\kStateUP \in \kSuccessorsPA{\kStateTP}$, let $\Sigma = \{\phi \in \langMlP
 Then $\kPModelP{\kStateUP} \entails \bigwedge \lnot \Delta$ and so $\kPModelP{\kStateTP} \entails \possibleA \bigwedge \lnot \Delta$, or equivalently $\kPModelP{\kStateTP} \nentails \necessaryA \bigvee \Delta$.
 As $\necessaryA \bigvee \Delta \in \langMlPlusBs$ and $\kStateT \refinement \kStateTP$ then $\kPModel{\kStateT} \nentails \necessaryA \bigvee \Delta$, or equivalently $\kPModel{\kStateT} \entails \possibleA \bigwedge \lnot \Delta$.
 So $\lnot \Sigma$ is finitely satisfiable on $\kPModel{\kSuccessorsA{\kStateT}}$ and as $\kModel$ is modally saturated then $\lnot \Sigma$ is satisfiable on $\kPModel{\kSuccessorsA{\kStateT}}$.
-So there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $\kPModel{\kStateU} \entails \lnot \Sigma$, and so for every $\phi \in \langMlPlusBs$: if $\kPModel{\kStateU} \entails \phi$ then $\kPModelP{\kStateUP} \entails \phi$.
+So there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $\kPModel{\kStateU} \entails \lnot \Sigma$, and so for every $\phi \in \langMlPlusBs$ if $\kPModel{\kStateU} \entails \phi$ then $\kPModelP{\kStateUP} \entails \phi$.
 Therefore $\kStateU \refinement \kStateUP$.
 
 Therefore $\refinement$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
@@ -210,9 +205,9 @@ Then there exists an action model $\aPModel{\aStateS}$ such that $\kPModel{\kSta
 
 \begin{proof}
 Without loss of generality assume that $\kPModel{\kStateS}$ is bisimulation contracted.
-Let $\refinement \subseteq \kStates \times \kStatesP$ be a refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
+Let $\refinement \subseteq \kStates \times \kStatesP$ be a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
 
-For every $\kStateT, \kStateU \in \kStates$ such that $\kStateT \neq \kStateU$, as $\kModel$ is finite, and $\kStateT$ and $\kStateU$ are distinct and therefore not bisimilar, from Proposition~\ref{modal-hennessy-milner} there exists $\phi_{\kStateT, \kStateU} \in \langMl$ such that $\kPModel{\kStateT} \entails \phi_{\kStateT, \kStateU}$ but $\kPModel{\kStateU} \nentails \phi_{\kStateT, \kStateU}$.
+For every $\kStateT, \kStateU \in \kStates$ such that $\kStateT \neq \kStateU$, as $\kModel$ is bisimulation contracted then $\kPModel{\kStateT} \nbisimilar \kPModel{\kStateU}$, from Proposition~\ref{modal-hennessy-milner} there exists $\phi_{\kStateT, \kStateU} \in \langMl$ such that $\kPModel{\kStateT} \entails \phi_{\kStateT, \kStateU}$ but $\kPModel{\kStateU} \nentails \phi_{\kStateT, \kStateU}$.
 For every $\kStateT \in \kStates$ let $\phi_{\kStateT} = \bigwedge_{\kStateU \in \kStates \setminus \{\kStateT\}} \phi_{\kStateT, \kStateU}$.
 Then for every $\kStateT, \kStateU \in \kStates$ we have that $\kPModel{\kStateU} \entails \phi_{\kStateT}$ if and only if $\kStateU = \kStateT$.
 
@@ -247,19 +242,53 @@ Therefore $\bisimulation'$ is a bisimulation.
 In particular we note as $\kStateS \refinement \kStateSP$ then $\kStateSP \bisimulation' (\kStateS, \kStateSP)$ and so $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar \kPModelP{\kStateSP}$.
 \end{proof}
 
+\begin{lemma}\label{refinement-union}
+Let $\agentsB \subseteq \agents$ let $\kModel$ and $\kModelP$ be Kripke models and let $\refinement, \refinement' \subseteq \kStates \times \kStatesP$ be $\agentsB$-refinements.
+Then $\refinement \cup \refinement'$ is also a $\agentsB$-refinement.
+\end{lemma}
+
 \begin{proposition}
-Let $\kModelAndTuple$ and $\kModelAndTupleP$ be finite Kripke models.
-There is a unique, maximal refinement between $\kModel$ and $\kModelP$ and it can be computed in polynomial time.
+Let $\agentsB \subseteq \agents$ and let $\kModel$ and $\kModelP$ be Kripke models such that $\kModel \simulates[\agentsB] \kModelP$.
+Then there is a unique, maximal $\agentsB$-refinement from $\kModel$ to $\kModelP$.
 \end{proposition}
 
-\todo[inline]{Proof}
+\begin{proof}
+From Lemma~\ref{refinement-union} the union of all $\agentsB$-refinements from $\kModel$ to $\kModelP$ is a $\agentsB$-refinement, and so it is the unique, maximal $\agentsB$-refinement from $\kModel$ to $\kModelP$.
+\end{proof}
+
+\begin{proposition}
+Let $\agentsB \subseteq \agents$ and let $\kModel$ and $\kModelP$ be finite Kripke models defined on a finite set of propositional atoms such that $\kModel \simulates[\agentsB] \kModelP$.
+Then the maximal refinement from $\kModel$ to $\kModelP$ can be computed in polynomial time.
+\end{proposition}
+
+\begin{proof}
+We compute the relation $\refinement_0 \subseteq \kStates \times \kStatesP$ such that $(\kStateS, \kStateSP) \in \refinement_0$ if and only if for every $\atomP \in \atoms$ the pair $(\kStateS, \kStateSP)$ satisfies the condition {\bf atoms-$\atomP$}.
+The relation $\refinement_0$ can be computed in $O(||\kStates|| \times ||\kStatesP||)$ time.
+Let $i \in \naturals$.
+Given $\refinement_i$ we compute the relation $\refinement_{i+1} \subseteq \refinement_i$ such that $(\kStateS, \kStateSP) \in \refinement_{i+1}$ if and only if for every $\agentA \in \agents$ and $\agentC \in \agents \setminus \agentsB$ the pair $(\kStateS, \kStateSP)$ satisfies the conditions {\bf forth-$\agentC$} and {\bf back-$\agentA$}.
+The relation $\refinement_{i+1}$ can be computed in $O(||\kStates|| \times ||\kStatesP|| \times ||\kAccessibilityRel|| \times ||\kAccessibilityRelP||)$ time.
+We repreat this process until we reach a fixed point, called $\refinement_n$.
+The process cannot be repeated more than $||\kStates|| \times ||\kStatesP||$ times, as $||\refinement_0|| \leq ||\kStates|| \times ||\kStatesP||$.
+Therefore $\refinement_n$ can be computed in polynomial time.
+
+For every $\atomP \in \atoms$, $\agentA \in \agents$, $\agentC \in \agents \setminus \agentsB$ the relation $\refinement_n$ satisfies the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentC$} and {\bf back-$\agentA$}.
+Therefore if $\refinement_n$ is non-empty then it is a $\agentsB$-refinement.
+
+Let $\refinement$ be the maximal $\agentsB$-refinement from $\kModel$ to $\kModelP$.
+As $\refinement$ satisfies {\bf atoms-$\atomP$} for every $\atomP \in \atoms$ then $\refinement \subseteq \refinement_0$.
+Let $i \in \naturals$ and suppose that $\refinement \subseteq \refinement_i$. 
+We note that $\refinement \subseteq \refinement_{i + 1}$.
+So $\refinement \subseteq \refinement_n$, and we have that $\refinement_n$ is non-empty and therefore $\refinement_n$ is a $\agentsB$-refinement.
+As $\refinement$ is the maximal $\agentsB$-refinement then $\refinement_n \subseteq \refinement$.
+Therefore $\refinement_n = \refinement$ and the above algorithm computes the maximal $\agentsB$-refinement.
+\end{proof}
 
 \begin{definition}[Semantics of refinement modal logic]
 Let $\classC$ be a class of Kripke frames, let $\phi \in \langRml$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
 The interpretation of the formula $\phi$ in the logic \logicRmlC{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{ml-semantics}, with the additional inductive case:
 $$
 \begin{array}{lcl}
-    \kPModel{\kStateS} \entails \allrefsBs \phi & \text{ iff } & \text{for every } \kPModelP{\kStateSP} \in \classC \text{ such that } \kPModelP{\kStateSP} \refinesBs \kPModel{\kStateS} : \kPModelP{\kStateSP} \entails \phi
+    \kPModel{\kStateS} \entails \allrefsBs \phi & \text{ iff } & \text{for every } \kPModelP{\kStateSP} \in \classC \text{ if } \kPModelP{\kStateSP} \refinesBs \kPModel{\kStateS} \text{ then } \kPModelP{\kStateSP} \entails \phi
 \end{array}
 $$
 \end{definition}
@@ -307,7 +336,7 @@ Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}, \kPModelPP{\kStateSPP} \in \class
 \end{itemize}
 \end{proof}
 
-\begin{proposition}
+\begin{proposition}\label{rml-mckinsey}
 Let $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classSF, \classS\}$. Then:
 $$
 \begin{array}{l}
@@ -358,11 +387,14 @@ Let $\kPModelAndTuplePP{\kStateSP}$ where:
     \kValuationPP(\atomP) &=& \kValuationP(\atomP)
 \end{eqnarray*}
 Then $\kPModelPP{\kStateSP} \in \classC$, $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSP}$ and $\kPModelPP{\kStateSP} \entails \allrefsBs \phi$.
-From Proposition~\ref{rml-validities} we have that $\kPModelPP{\kStateSPP} \entails \phi$ and therefore $\kPModelPP{\kStateSPP} \entails \somerefsBs \phi$.
+From Proposition~\ref{rml-validities} we have that $\kPModelPP{\kStateSPP} \entails \phi$ and therefore $\kPModelP{\kStateSP} \entails \somerefsBs \phi$.
 We note that as there are no $\agentsB$-edges in $\kModelP$ then every refinement of $\kPModelP{\kStateS}$ is bisimilar to $\kPModelP{\kStateS}$.
 Therefore $\kPModelP{\kStateS} \entails \phi$ and $\kPModelP{\kStateS} \entails \allrefsBs \phi$ and so $\kPModel{\kStateS} \entails \somerefsBs \allrefsBs \phi$.
-\todo[inline]{Finish proof.}
+
+A similar argument holds for $\classC \in \{\classSF, \classS\}$ by constructing a refinement where the only $\agentsB$-edges are the reflexive edges.
 \end{proof}
+
+\todo[inline]{Note on why this doesn't hold for \classKD{}}
 
 \begin{proposition}\label{rml-bisimulation-invariance}
 Let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
@@ -372,7 +404,7 @@ $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails
 
 \begin{proof}
 We proceed by induction on the structure of the formula $\phi \in \langRml$.
-Let $\bisimulation \subseteq \kStates \times \kStateSP$ be a bisimulation between $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ and let $(\kStateT, \kStateTP) \in \bisimulation$.
+Let $\bisimulation \subseteq \kStates \times \kStatesP$ be a bisimulation between $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ and let $(\kStateT, \kStateTP) \in \bisimulation$.
 
 Suppose that $\phi = \atomP$ where $\atomP \in \atoms$.
 Then $\kPModel{\kStateT} \entails \atomP$ if and only if $\kStateT \in \kValuation(\atomP)$.

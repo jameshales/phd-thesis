@@ -412,7 +412,7 @@ By {\bf atoms-$\atomP$}, $\kStateT \in \kValuation(\atomP)$ if and only if $\kSt
 Finally $\kStateTP \in \kValuationP(\atomP)$ if and only if $\kPModelP{\kStateTP} \entails \atomP$.
 Therefore $\kPModel{\kStateT} \entails \atomP$ if and only if $\kPModelP{\kStateTP} \entails \atomP$.
 
-Suppose that $\phi = \neg \psi$ or $\phi = \psi \land \chi$ where $\psi, \chi \in \langRml$. These follow directly from the induction hypothesis.
+Suppose that $\phi = \lnot \psi$ or $\phi = \psi \land \chi$ where $\psi, \chi \in \langRml$. These follow directly from the induction hypothesis.
 
 Suppose that $\phi = \possibleA \psi$ where $\psi \in \langRml$.
 Suppose that $\kPModel{\kStateT} \entails \possible \psi$. 
@@ -444,7 +444,7 @@ The logic \logicRmlK{} is not a sublogic of \logicRmlKF{}, \logicRmlKFF{}, \logi
 \end{proposition}
 
 \begin{proof}
-In \logicRmlK{} we have that $\entails \possible (\neg \atomP \land \possible \atomP) \implies \somerefs (\possible \possible \atomP \land \neg \possible \atomP)$. 
+In \logicRmlK{} we have that $\entails \possible (\lnot \atomP \land \possible \atomP) \implies \somerefs (\possible \possible \atomP \land \lnot \possible \atomP)$. 
 That is, a refinement in \logicRmlK{} need not be transitive.
 However in \logicRmlKF{}, \logicRmlKFF{}, \logicRmlKD{}, \logicRmlSF{} or \logicRmlS{} we have that $\entails \allrefs (\possible \possible \atomP \implies \possible \atomP)$, as refinements in these settings must be transitive.
 \end{proof}
@@ -765,7 +765,7 @@ The soundness of {\bf RK}, {\bf RComm} and {\bf RDist} were shown in the previou
 A formula in {\em negation normal form} is inductively defined as:
 $$
 \phi ::= \atomP \mid
-         \neg \atomP \mid
+         \lnot \atomP \mid
          \phi \land \phi \mid
          \phi \lor \phi \mid
          \necessaryA \phi \mid
@@ -774,17 +774,24 @@ $$
 where $\atomP \in \atoms$ and $\agentA \in \agents$.
 \end{definition}
 
-\begin{lemma}
+\begin{lemma}\label{nnf-equivalent}
 Every modal formula is equivalent to a formula in negation normal form.
 \end{lemma}
 
-\todo[inline]{Proof}
+\begin{proof}
+Similar to negation normal forms in propositional logic, we can recursively push the negations inwards until negations are only applied to propositional atoms, using the following equivalences:
+\begin{eqnarray*}
+    \lnot \lnot \phi &\iff& \phi\\
+    \lnot (\phi \land \psi) &\iff& \lnot \phi \lor \lnot \psi\\
+    \lnot \necessaryA \phi &\iff& \possibleA \lnot \phi
+\end{eqnarray*}
+\end{proof}
 
 \begin{definition}[Disjunctive normal form]
 A formula in {\em disjunctive normal form} is inductively defined as:
 \begin{eqnarray*}
 \phi &::=& \delta \mid \phi \lor \phi\\
-\delta &::=& \atomP \mid \neg \atomP \mid \necessaryA \phi \mid \possibleA \phi \mid \delta \land \delta
+\delta &::=& \atomP \mid \lnot \atomP \mid \necessaryA \phi \mid \possibleA \phi \mid \delta \land \delta
 \end{eqnarray*}
 where $\atomP \in \atoms$ and $\agentA \in \agents$.
 \end{definition}
@@ -793,7 +800,36 @@ where $\atomP \in \atoms$ and $\agentA \in \agents$.
 Every modal formula is equivalent to a formula in disjunctive normal form.
 \end{lemma}
 
-\todo[inline]{Proof}
+\begin{proof}
+Let $\phi \in \langMl$ be a modal formula.
+Without loss of generality, by Lemma~\ref{nnf-equivalent} we may assume that $\phi$ is in negation normal form.
+We prove by induction on the structure of $\phi$ that it is equivalent to a formula in disjunctive normal form.
+
+Suppose that $\phi = \atomP$ or $\phi = \lnot \atomP$ for $\atomP \in \atoms$.
+Then $\phi$ is already in disjunctive normal form.
+
+Suppose that $\phi = \psi \lor \chi$ for $\psi, \chi \in \langMl$ in negation normal form.
+By the induction hypothesis there exists $\psi', \chi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$ and $\entails \chi \iff \chi'$.
+Then $\psi' \lor \chi'$ is in disjunctive normal form and $\entails (\psi \lor \chi) \iff (\psi' \lor \chi')$.
+
+Suppose that $\phi = \necessaryA \psi$ for $\psi \in \langMl$ in negation normal form.
+By the induction hypothesis there exists $\psi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$.
+Then $\necessaryA \psi'$ is in disjunctive normal form and $\entails \necessaryA \psi \iff \necessaryA \psi'$.
+
+Suppose that $\phi = \possibleA \psi$ for $\psi \in \langMl$ in negation normal form.
+By the induction hypothesis there exists $\psi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$.
+Then $\possibleA \psi'$ is in disjunctive normal form and $\entails \possibleA \psi \iff \possibleA \psi'$.
+
+Suppose that $\phi = \psi \land \chi$ for $\psi, \chi \in \langMl$ in negation normal form.
+By the induction hypothesis there exists $\psi', \chi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$ and $\entails \chi \iff \chi'$.
+Then $\entails (\psi \land \chi) \iff (\psi' \land \chi')$.
+As $\psi'$ and $\chi'$ are in disjunctive normal form then $\psi' = \delta_0 \lor \cdots \lor \delta_m$ and $\chi' = \gamma_0 \lor \cdots \lor \gamma_n$ for $m, n \in \naturals$.
+Then we have the following equivalence:
+$$
+\entails (\psi \land \chi) \iff (\psi' \land \chi') \iff \bigwedge_{\substack{0 \leq i \leq m\\0 \leq j \leq n}} (\delta_i \land \gamma_i)
+$$
+where the right-hand-side is a formula in disjunctive normal form.
+\end{proof}
 
 \begin{definition}[Cover disjunctive normal form]
 A formula in {\em cover disjunctive normal form} is inductively defined as:
@@ -863,7 +899,7 @@ Let $\agentsB \subseteq \agents$ be a set of agents.
 A formula in {\em $\agentsB$-alternating disjunctive normal form} is inductively defined as:
 \begin{eqnarray*}
 \phi &::=& \delta \mid \phi \lor \phi\\
-\delta &::=& \atomP \mid \neg \atomP \mid \necessaryB \phi_\agentB \mid \possibleB \phi_\agentB \mid \delta \land \delta
+\delta &::=& \atomP \mid \lnot \atomP \mid \necessaryB \phi_\agentB \mid \possibleB \phi_\agentB \mid \delta \land \delta
 \end{eqnarray*}
 where $\atomP \in \atoms$, $\agentB \in \agentsB$, and $\phi_\agentB$ is a formula in $\{\agentB\}$-alternating disjunctive normal form.
 \end{definition}

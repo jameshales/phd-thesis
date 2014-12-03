@@ -796,6 +796,14 @@ A formula in {\em disjunctive normal form} is inductively defined as:
 where $\atomP \in \atoms$ and $\agentA \in \agents$.
 \end{definition}
 
+\begin{definition}[Disjunctive normal form]
+A formula in {\em disjunctive normal form} is inductively defined as:
+$$
+\phi ::= \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB \mid \phi \lor \phi
+$$
+where $\atomsQ, \atomsQ' \subseteq \atoms$ are finite sets of propositional atoms and $\agentsB \subseteq \agents$.
+\end{definition}
+
 \begin{lemma}
 Every modal formula is equivalent to a formula in disjunctive normal form.
 \end{lemma}
@@ -803,7 +811,7 @@ Every modal formula is equivalent to a formula in disjunctive normal form.
 \begin{proof}
 Let $\phi \in \langMl$ be a modal formula.
 Without loss of generality, by Lemma~\ref{nnf-equivalent} we may assume that $\phi$ is in negation normal form.
-We prove by induction on the structure of $\phi$ that it is equivalent to a formula in disjunctive normal form.
+We prove by induction on the modal depth of $\phi$ and the structure of $\phi$ that it is equivalent to a formula in disjunctive normal form.
 
 Suppose that $\phi = \atomP$ or $\phi = \lnot \atomP$ for $\atomP \in \atoms$.
 Then $\phi$ is already in disjunctive normal form.
@@ -814,36 +822,34 @@ Then $\psi' \lor \chi'$ is in disjunctive normal form and $\entails (\psi \lor \
 
 Suppose that $\phi = \necessaryA \psi$ for $\psi \in \langMl$ in negation normal form.
 By the induction hypothesis there exists $\psi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$.
-Then $\necessaryA \psi'$ is in disjunctive normal form and $\entails \necessaryA \psi \iff \necessaryA \psi'$.
+Then $\coversA \{\phi'\} \lor \coversA \emptyset$ is in disjunctive normal form and $\entails \necessaryA \phi \iff (\coversA \{\phi'\} \lor \coversA \emptyset)$.
 
 Suppose that $\phi = \possibleA \psi$ for $\psi \in \langMl$ in negation normal form.
 By the induction hypothesis there exists $\psi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$.
-Then $\possibleA \psi'$ is in disjunctive normal form and $\entails \possibleA \psi \iff \possibleA \psi'$.
+Then $\coversA \{\phi', \top\}$ is in disjunctive normal form and $\entails \possibleA \phi \iff (\coversA \{\phi', \top\}$.
 
 Suppose that $\phi = \psi \land \chi$ for $\psi, \chi \in \langMl$ in negation normal form.
 By the induction hypothesis there exists $\psi', \chi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$ and $\entails \chi \iff \chi'$.
-Then $\entails (\psi \land \chi) \iff (\psi' \land \chi')$.
 As $\psi'$ and $\chi'$ are in disjunctive normal form then $\psi' = \delta_0 \lor \cdots \lor \delta_m$ and $\chi' = \gamma_0 \lor \cdots \lor \gamma_n$ for $m, n \in \naturals$.
-Then we have the following equivalence:
+We distribute the disjunctions over the conjunction using the following equivalence:
 $$
 \entails (\psi \land \chi) \iff (\psi' \land \chi') \iff \bigwedge_{\substack{0 \leq i \leq m\\0 \leq j \leq n}} (\delta_i \land \gamma_i)
 $$
-where the right-hand-side is a formula in disjunctive normal form.
+Here we note that the subformulas $\delta_i \land \gamma_i$ may not be in the appropriate form, and so we use some equivalences to find appropriate substitutes. 
+Let $i, j \in \naturals$ such that $0 \leq i \leq m$ and $0 \leq j \leq n$ and suppose that $\delta_i = \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB$ and $\gamma_j = \bigwedge_{\atomR \in \atomsR} \atomR \land \bigwedge_{\atomR' \in \atomsR'} \atomR' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC$.
+We rewrite the conjunction $\delta_i \land \gamma_j$ using the following equivalence:
+$$
+\entails (\delta_i \land \gamma_j) \iff 
+\bigwedge_{\atomP \in \atomsQ \cup \atomsR} \atomP \land \bigwedge_{\atomP' \in \atomsQ' \cup \atomsR'} \atomP' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC
+$$
+This may leave us with more than one cover operator for some agents, but we can combine these cover operators using the following equivalence:
+$$
+\entails (\coversA \Gamma \land \coversA \Gamma') \iff \coversA \{\gamma \land \gamma' \mid \gamma \in \Gamma, \gamma' \in \Gamma'\}
+$$
+Here we note that $\gamma \land \gamma'$ may not be in disjunctive normal form, and so we appeal to the induction hypothesis to find a substitute.
+For every $\gamma \in \Gamma$, $\gamma' \in \Gamma'$ as $\gamma \land \gamma'$ has a modal depth less than $\phi$ then by the induction hypothesis there exists an $\epsilon_{\gamma,\gamma'} \in \langMl$ in disjunctive normal form such that $\entails \epsilon_{\gamma,\gamma'} \iff (\gamma \land \gamma')$.
+Substituting $\epsilon_{\gamma,\gamma'}$ for $\gamma \land \gamma'$ after applying all of the above equivalences leaves us with a formula in disjunctive normal form.
 \end{proof}
-
-\begin{definition}[Cover disjunctive normal form]
-A formula in {\em cover disjunctive normal form} is inductively defined as:
-$$
-\phi ::= \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB \mid \phi \lor \phi
-$$
-where $\atomsQ, \atomsQ' \subseteq \atoms$ are finite sets of propositional atoms and $\agentsB \subseteq \agents$.
-\end{definition}
-
-\begin{lemma}
-Every modal formula is equivalent to a formula in cover disjunctive normal form.
-\end{lemma}
-
-\todo[inline]{Proof}
 
 \begin{lemma}
 Every refinement modal formula is equivalent to a modal formula.

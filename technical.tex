@@ -2,9 +2,9 @@
 
 In this chapter we recall technical definitions and results used in the following chapters.
 In Section~\ref{ml} we introduce modal logic, along with logical notation and terminology applicable to the other logics we will be working with.
-All of the logics that we will be considering are modal logics or extensions of modal logics, and the definitions and results of this section will be used throughout the following sections and chapters. 
-In Section~\ref{pal} we introduce public announcement logic, a logic for reasoning about the effects of specific epistemic updates, then in Section~\ref{apal} we introduce arbitrary public announcement logic, a logic for reasoning additionally about the effects of arbitrary epistemic updates.
-As a simple form of epistemic update we often use public announcements in examples and motivation throughout the dissertation, and we consider public announcements more closely in Chapter~\ref{papal} on arbitrary positive announcement logic.
+All of the logics that we will be considering are modal logics or extensions of modal logics, and the definitions and results of this section will be used throughout the dissertation. 
+In Section~\ref{pal} we introduce public announcement logic, a logic for reasoning about the effects of specific epistemic updates, then in Section~\ref{apal} we introduce arbitrary public announcement logic, a logic for also reasoning about the effects of arbitrary epistemic updates.
+As a simple form of epistemic update we often use public announcements in examples and motivation, and we consider public announcements more closely in Chapter~\ref{papal} on arbitrary positive announcement logic.
 In Section~\ref{aml} we introduce action model logic, a logic for reasoning about the effects of specific epistemic updates of a more general kind than just public announcements.
 As a very general form of epistemic update we use action models in motivating the investigation of refinement modal logic in Chapter~\ref{rml}, and we consider action models more closely in Chapter~\ref{aafl} on arbitrary action formula logic.
 Finally in Section~\ref{mu} we introduce the modal $\mu$-calculus, a very expressive extension of modal logic that we use as a point of comparison for the expressivity of refinement modal logics in Chapter~\ref{rml}.
@@ -36,12 +36,13 @@ $\phi \lor \psi ::= \lnot (\lnot \phi \land \lnot \psi)$;
 $\phi \implies \psi ::= \lnot \phi \lor \psi$; and
 $\phi \iff \psi ::= (\phi \implies \psi) \land (\psi \implies \phi)$.
 We also use the abbreviation $\possibleA \phi ::= \lnot \necessaryA \lnot \phi$.
-When we are working in a single-agent setting we will simply write $\necessary$ and $\possible$ instead of $\necessaryA$ and $\possibleA$.
+When we are working in a single-agent setting we will write $\necessary$ and $\possible$ instead of $\necessaryA$ and $\possibleA$.
 
 The formula $\necessaryA \phi$ may be read as ``agent $\agentA$ {\em knows} that $\phi$ is true'', or ``agent $\agentA$ {\em believes} that $\phi$ is true'', depending on which terminology is appropriate for the setting we are working in.
-The formula $\possibleA \phi$ may be read as ``agent $\agentA$ considers it possible that $\phi$ is true'', i.e. agent $\agentA$ doesn't know (or believe) that $\phi$ is false.
+The formula $\possibleA \phi$ may be read as ``agent $\agentA$ considers it possible that $\phi$ is true''.
+This reading can be understood with respect to the definition of the $\possibleA$ operator as the dual of the $\necessaryA$ operator: if an agent doesn't know or believe that a statement is false, then the agent must be open to the possibility that the statement is true (and vice versa).
 
-\begin{example}
+\begin{example}\label{example-ml-formula}
 Suppose that Alice (agent $\agentA$) has flipped a coin and, being careful that Bob (agent $\agentB$) can't see it, she looks at the coin and sees that it has landed heads up (atom $\atomP$).
 Then the formula $\atomP$ may be read as ``the coin landed heads up'',
 the formula $\knowsA \atomP$ may be read as ``Alice knows that the coin landed heads up'',
@@ -51,8 +52,10 @@ If Alice was not as careful when she looked at the coin we might write the formu
 or equivalently $\lnot \knowsA \lnot \knowsB \atomP$, which may be read as ``Alice doesn't know that Bob doesn't know that the coin landed heads up''.
 \end{example}
 
-We interpret the validity of modal formulas with respect to semantics defined on relational structures known as Kripke models~\cite{tarski:1941,kripke:1959,hintikka:1962}.
-We first define the structural component of a Kripke model, known as a Kripke frame.
+Under the standard Kripke semantics for modal logics, modal formulas are interpreted over relational structures known as Kripke models~\cite{tarski:1941,kripke:1959,hintikka:1962}.
+In epistemic and doxastic logics, Kripke models are thought of as abstract models of the knowledge or beliefs of a set of agents.
+
+We first define Kripke frames, the relational components of Kripke models.
 
 \begin{definition}[Kripke frames]
 A {\em Kripke frame}, $\kFrameAndTuple$ consists of:
@@ -105,16 +108,12 @@ A {\em pointed Kripke model} $\kPModelAndTuple{\kStateS}$ consists of a Kripke m
 A {\em multi-pointed Kripke model} $\kPModelAndTuple{\kStatesT}$ consists of a Kripke model $\kModelAndTuple$ along with a non-empty set of designated states, $\kStatesT \subseteq \kStates$.
 \end{definition}
 
-As we will often work with Kripke models rather than frames we overload the notation for classes of Kripke frames to also refer to classes of Kripke models.
+As we will usually work with Kripke models rather than frames we overload the notation for classes of Kripke frames to also refer to classes of Kripke models.
 When we ascribe relational properties or frame properties to a Kripke model we actually ascribe those properties to its underlying Kripke frame.
 We will sometimes treat a (single-)pointed Kripke model as though it were a multi-pointed Kripke model and we assume in this case that $\kPModel{\kStateS}$ is an abbreviation for $\kPModel{\{\kStateS\}}$.
 
-A Kripke model can be thought of as being defined over a set of hypothetical {\em worlds} (states), providing an abstract model of the knowledge or beliefs a set of agents have about what is true in the {\em real world} (a designated state).
-Propositional atoms are true or false in a world depending on whether the world appears in the Kripke model's valuation for the atom.
-An agent is said to {\em know} or {\em believe} that a statement is true in the real world if the statement is true in all of the worlds that the agent considers possible, where the agent's {\em possible worlds} are precisely those which are accessible to it from the real world through the Kripke model's accessibility relation.
-
 We now define the semantics of modal logic.
-We use a parameterised class of Kripke frames, \classC{}, which could stand for \classK{}, \classKF{}, \classKFF{}, etc. or for any other class of Kripke frames so defined.
+We define the semantics in terms of a parameterised class of Kripke frames, \classC{}, which could stand for \classK{}, \classKF{}, \classKFF{}, etc. or for any other class of Kripke frames so defined.
 
 \begin{definition}[Semantics of modal logic]\label{ml-semantics}
 Let $\classC$ be a class of Kripke frames, let $\phi \in \langMl$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
@@ -129,7 +128,7 @@ $$
 $$
 \end{definition}
 
-In particular we define the semantics of the modal logics \logicK{}, \logicKF{}, \logicKFF{}, etc. for the respective classes of Kripke frames \classK{}, \classKF{}, \classKFF{}, etc.
+In particular we are interested in the modal logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{} and \logicS{} for the respective classes of Kripke frames \classK{}, \classKF{}, \classKFF{}, \classKD{}, \classSF{} and \classS{}.
 
 Let $\kPModel{\kStateS} \in \classC$ be a pointed Kripke model,
 let $\kFrame \in \classC$ be a Kripke frame.
@@ -154,38 +153,31 @@ We write $\interpretation[\kModel]{\phi}$ to denote the set of states where $\ph
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
-        \node[label=above left:{$\kStateS$}] (s) {\underline{$\{\atomP, \atomQ\}$}};
-        \node[label=above right:{$\kStateT$}] (t) [right of=s] {$\{\atomP\}$};
-        \node[label=below left:{$\kStateU$}] (u) [below of=s] {$\{\atomQ\}$};
-        \node[label=below right:{$\kStateV$}] (v) [right of=u] {$\{\}$};
+        \node[label=above left:{$\kStateS$}] (s) {\underline{$\{\atomP\}$}};
+        \node[label=above right:{$\kStateT$}] (t) [right of=s] {$\{\}$};
 
       \path[every node/.style={font=\sffamily\small},<->]
         (s) edge node {$\agentA$} (t)
             edge [loop above] node {$\agentA, \agentB$} (s)
-        (t) edge node {$\agentB$} (v)
-            edge [loop above] node {$\agentA, \agentB$} (t)
-        (v) edge node {$\agentA$} (u)
-            edge [loop below] node {$\agentA, \agentB$} (v)
-        (u) edge node {$\agentB$} (s)
-            edge [loop below] node {$\agentA, \agentB$} (u);
+        (t) edge [loop above] node {$\agentA, \agentB$} (t);
     \end{tikzpicture}
 \end{figure}
 
 Let $\kPModelAndTuple{\kStateS}$ be a Kripke model where:
 \begin{eqnarray*}
     \kStates &=& \{\kStateS, \kStateT, \kStateU, \kStateV\}\\
-    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateT), (\kStateT, \kStateS),
-                           (\kStateU, \kStateU), (\kStateU, \kStateV), (\kStateV, \kStateV), (\kStateV, \kStateU)\}\\
-    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateU), (\kStateU, \kStateU), (\kStateU, \kStateS),
-                           (\kStateT, \kStateT), (\kStateT, \kStateV), (\kStateV, \kStateV), (\kStateV, \kStateT)\}\\
-    \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
-    \kValuation(\atomQ) &=& \{\kStateS, \kStateU\}
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
+    \kValuation(\atomP) &=& \{\kStateS\}
 \end{eqnarray*}
-This model is represented in Figure~\ref{example-kripke-model}.
+This model is represented in Figure~\ref{example-kripke-model}, and can be thought of as a model for the situation described in Example~\ref{example-ml-formula}.
 
-The propositional atom $\atomP$ is valid in all of the worlds accessible by agent $\agentA$ from state $\kStateS$, and so we have that $\kPModel{\kStateS} \entails \knowsA \atomP$.
-However there is a state accessible by agent $\agentB$ from state $\kStateS$ where $\atomP$ is not valid, and so we have that $\kPModel{\kStateS} \entails \lnot \knowsB \atomP$.
-We also have that $\kPModel{\kStateT} \entails \lnot \knowsB \atomP$, and so $\kPModel{\kStateS} \entails \knowsA \lnot \knowsB \atomP$.
+As $\kStateS \in \kValuation(\atomP)$ then $\kPModel{\kStateS} \entails \atomP$.
+As $\kSuccessorsA{\kStateS} = \{\kStateS\}$ then $\kPModel{\kStateS} \entails \necessaryA \atomP$.
+However as $\kStateT \notin \kValuation(\atomP)$ then $\kPModel{\kStateT} \nentails \atomP$,
+and as $\kStateT \in \kSuccessorsB{\kStateS}$ then $\kPModel{\kStateS} \nentails \necessaryB \atomP$.
+Therefore we have $\kPModel{\kStateS} \entails \lnot \necessaryB \atomP$ and also $\kPModel{\kStateS} \entails \necessaryA \lnot \necessaryB \atomP$.
+
 \end{example}
 
 Next we recall definitions and results related to bisimilarity of Kripke models.
@@ -360,7 +352,7 @@ $$
 $$
 \end{definition}
 
-If $\proves \phi$ is in the least set containing the axioms and closed under the rules of an axiomatisation then we say that $\phi$ is {\em provable} using the axiomatisation.
+If $\proves \phi$ is in the least set containing the axioms and closed under the rules of an axiomatisation then we say that $\phi$ is a {\em theorem} of the axiomatisation.
 Let $\Phi \subseteq \langMl$ be a (possibly infinite) set of formulas.
 If there exists $\phi_1, \dots, \phi_n \in \Phi$ such that $\proves (\phi_1 \land \cdots \land \phi_n) \implies \phi$ then we say that $\phi$ is {\em deducible} from $\Phi$ and we write $\Phi \proves \phi$.
 If $\Phi \proves \bot$ then we say that $\Phi$ is {\em inconsistent}, and if $\Phi \nproves \bot$ then we say that $\Phi$ is {\em consistent}.
@@ -388,17 +380,21 @@ Then the axiomatisations \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \a
 \end{itemize}
 \end{definition}
 
+\todo[inline]{Citation}
+
 We are interested in properties of the proof theories of the logics we consider.
 
 \begin{definition}[Soundness and completeness]
-If every formula provable using an axiomatisation is valid in the corresponding semantics then we say that the axiomatisation is {\em sound} with respect to the logic.
-If every formula valid in a semantics is provable using the corresponding axiomatisation then we say that the axiomatisation is {\em (weakly) complete} with respect to the semantics.
+If every theorem of an axiomatisation is valid in the corresponding semantics then we say that the axiomatisation is {\em sound} with respect to the logic.
+If every formula valid in a semantics is a theorem of the corresponding axiomatisation then we say that the axiomatisation is {\em (weakly) complete} with respect to the semantics.
 If every set of formulas that is consistent according to an axiomatisation is satisfiable in the corresponding semantics then we say that the axiomatisation is {\em strongly complete} with respect to the semantics.
 \end{definition}
 
 \begin{proposition}
 The axiomatisations \axiomK{}, \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} are sound and strongly complete with respect to the semantics of the respective logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{}, and \logicS{}.
 \end{proposition}
+
+\todo[inline]{Citation}
 
 We are also interested in properties of the logics themselves.
 
@@ -410,6 +406,8 @@ If every (possibly infinite) set of formulas that is finitely satisfiable accord
 The logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{}, and \logicS{} are compact.
 \end{proposition}
 
+\todo[inline]{Citation}
+
 \begin{definition}[Model-checking problem]
 The {\em model-checking problem} for a logic is to determine for a given formula and a given finite pointed Kripke model whether the formula is valid on the pointed Kripke model.
 \end{definition}
@@ -417,6 +415,8 @@ The {\em model-checking problem} for a logic is to determine for a given formula
 \begin{proposition}
 The model-checking problems for the logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{} and \logicS{} are decidable in polynomial time.
 \end{proposition}
+
+\todo[inline]{Citation}
 
 \begin{definition}[Satisfiability and provability problems]
 The {\em satisfiability problem} for a logic is to determine for a given formula whether the formula is satisfiable according to the semantics of the logic.
@@ -429,6 +429,8 @@ We note that for sound and complete proof systems the satisfiability and provabi
 The satisfiability problems for the logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{} and \logicS{} are decidable.
 For the logics \logicK{}, \logicKFF{}, \logicKD{} and \logicS{} the problem is PSPACE-complete.\todo{Double-check complexity} 
 \end{proposition}
+
+\todo[inline]{Citation}
 
 In the following sections and chapters we will compare the expressive power of the logics that we consider to other logics, often to an underlying modal logic.
 
@@ -461,6 +463,9 @@ We use all of the standard abbreviations from modal logic, in addition to the ab
 The formula $\announceA{\phi} \psi$ may be read as ``if $\phi$ is true then after publicly announcing that it is true, $\psi$ is true''.
 The formula $\announceE{\phi} \psi$ may be read as ``$\phi$ is true and after publicly announcing that it is true, $\psi$ is true''.
 
+As in modal logics, formulas of public announcement logic are interpreted over Kripke models.
+The act of publicly announcing that a statement is true is modelled as an operation on Kripke models, a model restriction, that gives a new Kripke model representing the knowledge of the agents after witnessing the public announcement.
+
 \begin{definition}[Model restriction]
 Let $\kModelAndTuple$ be a Kripke model and let $\kStatesT \subseteq \kStates$.
 We denote the {\em restriction of $\kModel$ to $\kStatesT$} by $\restrict{\kModel}{\kStatesT}$ and
@@ -474,6 +479,10 @@ Let \lang{} be a logical language with an interpretation on $\kModel$, and let $
 We denote the {\em restriction of $\kModel$ to $\phi$} by $\restrict{\kModel}{\phi}$ and define it as $\restrict{\kModel}{\phi} = \restrict{\kModel}{\interpretation[\kModel]{\phi}}$.
 \end{definition}
 
+\todo[inline]{Explanation of public announcements and model restrictions}
+
+We thus define the semantics of public announcement logic using the notion of a model restriction.
+
 \begin{definition}[Semantics of public announcement logic]\label{pal-semantics}
 Let $\phi \in \langPal$ and let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model.
 The interpretation of the formula $\phi$ in the logic \logicPalS{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{ml-semantics}, with the additional inductive case:
@@ -483,6 +492,8 @@ $$
 \end{array}
 $$
 \end{definition}
+
+\todo[inline]{Remark on \classS{} specific semantics.}
 
 \begin{definition}[Axiomatisation \axiomPalS{}]
 The axiomatisation \axiomPalS{} is a substitution schema consisting of the axioms and rules of \axiomS{} along with the following additional axioms and rules:
@@ -504,6 +515,10 @@ The axiomatisation \axiomPalS{} is sound and strongly complete with respect to t
 
 \begin{proposition}
 The logic \logicPalS{} is expressively equivalent to the logic \logicS{}.
+\end{proposition}
+
+\begin{proposition}
+The logic \logicPalS{} is bisimulation invariant.
 \end{proposition}
 
 \begin{proposition}

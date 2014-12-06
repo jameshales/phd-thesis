@@ -243,7 +243,7 @@ In particular we note as $\kStateS \refinement \kStateSP$ then $\kStateSP \bisim
 \end{proof}
 
 \begin{lemma}\label{refinement-union}
-Let $\agentsB \subseteq \agents$ let $\kModel$ and $\kModelP$ be Kripke models and let $\refinement, \refinement' \subseteq \kStates \times \kStatesP$ be $\agentsB$-refinements.
+Let $\agentsB \subseteq \agents$, let $\kModel$ and $\kModelP$ be Kripke models and let $\refinement, \refinement' \subseteq \kStates \times \kStatesP$ be $\agentsB$-refinements.
 Then $\refinement \cup \refinement'$ is also a $\agentsB$-refinement.
 \end{lemma}
 
@@ -687,7 +687,7 @@ Let $\kPModelAndTupleP{\kStateSP}$ be a Kripke model where:
 \end{eqnarray*}
 where $\kStateSP$ is a fresh state not appearing in $\kStates$ or $\kStates[\agentC]$ for any $\agentC \in \Gamma_\agentA$, and $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise.
 
-\todo[inline]{Diagram of {\bf RK} construction.}
+\todo[inline]{Diagram of {\bf RDist} construction.}
 
 We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
 
@@ -751,7 +751,7 @@ Then $\kPModelP{\kStateSP} \entails \bigwedge_{\agentC \in \agentsC} \coversC \G
 Therefore $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{rmlk-sound}
 The axiomatisation \axiomRmlK{} is sound with respect to the semantics of the logic \logicRmlK{}.
 \end{lemma}
 
@@ -775,7 +775,7 @@ where $\atomP \in \atoms$ and $\agentA \in \agents$.
 \end{definition}
 
 \begin{lemma}\label{nnf-equivalent}
-Every modal formula is equivalent to a formula in negation normal form.
+Every modal formula is equivalent to a formula in negation normal form in the logic \logicK{}.
 \end{lemma}
 
 \begin{proof}
@@ -789,23 +789,14 @@ Similar to negation normal forms in propositional logic, we can recursively push
 
 \begin{definition}[Disjunctive normal form]
 A formula in {\em disjunctive normal form} is inductively defined as:
-\begin{eqnarray*}
-\phi &::=& \delta \mid \phi \lor \phi\\
-\delta &::=& \atomP \mid \lnot \atomP \mid \necessaryA \phi \mid \possibleA \phi \mid \delta \land \delta
-\end{eqnarray*}
-where $\atomP \in \atoms$ and $\agentA \in \agents$.
-\end{definition}
-
-\begin{definition}[Disjunctive normal form]
-A formula in {\em disjunctive normal form} is inductively defined as:
 $$
 \phi ::= \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB \mid \phi \lor \phi
 $$
 where $\atomsQ, \atomsQ' \subseteq \atoms$ are finite sets of propositional atoms and $\agentsB \subseteq \agents$.
 \end{definition}
 
-\begin{lemma}
-Every modal formula is equivalent to a formula in disjunctive normal form.
+\begin{lemma}\label{dnf-equivalent}
+Every modal formula is equivalent to a formula in disjunctive normal form in the logic \logicK{}.
 \end{lemma}
 
 \begin{proof}
@@ -851,17 +842,96 @@ For every $\gamma \in \Gamma$, $\gamma' \in \Gamma'$ as $\gamma \land \gamma'$ h
 Substituting $\epsilon_{\gamma,\gamma'}$ for $\gamma \land \gamma'$ after applying all of the above equivalences leaves us with a formula in disjunctive normal form.
 \end{proof}
 
-\begin{lemma}
-Every refinement modal formula is equivalent to a modal formula.
+\begin{lemma}\label{rmlk-theorems}
+The following are theorems of \axiomRmlK{}:
+\begin{align}
+    \proves & \somerefsBs (\phi \lor \psi) \iff (\somerefsBs \phi \lor \somerefsBs \psi) \label{rmlk-or}\\
+    \proves & \displaystyle \somerefsBs (\bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \nonumber\\
+            & \displaystyle \quad
+            \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land 
+            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \somerefsBs \gamma \land
+            \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} \label{rmlk-cover}
+\end{align}
+\end{lemma}
+
+\begin{proof}
+    (\ref{rmlk-or}) is derivable from {\bf P} and {\bf R} using the same strategy to prove that $\proves \possibleA (\phi \lor \psi) \iff (\possibleA \phi \lor \possibleA \psi)$ is derivable from {\bf P} and {\bf K}.
+
+    (\ref{rmlk-cover}) is derivable by using {\bf P}, {\bf R} and {\bf RP} to bring the propositional parts outside of the $\somerefsBs$ operator,
+    using {\bf RDist} to push the $\somerefsBs$ operator inside the conjunction,
+    and then using {\bf RK} or {\bf RComm} as appropriate for each cover operator.
+\end{proof}
+
+\begin{lemma}\label{rml-k-substitution-equivalents}
+The axiomatisation \axiomRmlK{} allows substitution of equivalents.
 \end{lemma}
 
 \todo[inline]{Proof}
+
+\begin{lemma}\label{rml-k-ml-provability}
+Let $\phi \in \langRml$ be a refinement modal formula and let $\phi' \in \langMl$ be a modal formula such that $\proves_\axiomRmlK \phi \iff \phi'$.
+If $\proves_\axiomK \phi'$ then $\proves_\axiomRmlK \phi$.
+\end{lemma}
+
+\begin{proof}
+Suppose that $\proves_\axiomK \phi'$.
+As \axiomRmlK{} includes all of the axioms and rules of \axiomK{} then we have that $\proves_\axiomRmlK{} \phi'$.
+As $\proves_\axiomRmlK \phi \iff \phi'$ then we conclude that $\proves_\axiomRmlK{} \phi$.
+\end{proof}
+
+\begin{lemma}\label{rml-k-ml-equivalent}
+Every refinement modal formula is provably equivalent to a modal formula using the axiomatisation \axiomRmlK{}.
+\end{lemma}
+
+\begin{proof}
+Let $\phi \in \langRml$ be a refinement modal formula.
+Assume without loss of generality that all $\allrefsBs$ operators are expressed instead as $\somerefsBs$ operators.
+We show by induction on the number of $\somerefsBs$-operators in $\phi$ ($\somerefsBs$ operators for any $\agentsB \subseteq \agents$) that $\phi$ is provably equivalent to a modal formula.
+
+Suppose that $\phi$ has no $\somerefsBs$-operators.
+Then $\phi$ is already a modal formula.
+
+Suppose that $\phi$ has $n + 1$ $\somerefsBs$-operators.
+Let $\somerefsBs \psi$ be a subformula of $\phi$ such that $\psi \in \langMl$ is a modal formula.
+By Lemma~\ref{dnf-equivalent} there exists $\psi' \in \langMl$ in disjunctive normal form such that $\entails_\logicK{} \psi \iff \psi'$ under the semantics of the logic \logicK{}.
+By the completeness of the logic \logicK{}, we have that $\proves_\axiomK{} \psi \iff \psi'$ using the axiomatisation \axiomK{}.
+By Lemma~\ref{rml-k-ml-provability} we have that $\proves \psi \iff \psi'$ using the axiomatisation \axiomRmlK{}.
+By substitution of equivalents we have $\proves \somerefsBs \psi \iff \somerefsBs \psi'$.
+We show by induction on the structure of $\psi'$ that $\somerefsBs \psi'$ is provably equivalent to a modal formula.
+
+Suppose that $\psi' = \alpha \lor \beta$.
+By Lemma~\ref{rmlk-theorems} we have that $\proves \somerefsBs (\alpha \lor \beta) \iff (\somerefsBs \alpha \lor \somerefsBs \beta)$.
+By the induction hypothesis there exists $\alpha', \beta' \in \langMl$ such that $\proves \somerefsBs \alpha \iff \alpha'$ and $\proves \somerefsBs \beta \iff \beta'$.
+Therefore by substitution of equivalents we have that $\proves \somerefsBs (\alpha \lor \beta) \iff (\alpha' \lor \beta')$, where $\alpha' \lor \beta' \in \langMl$.
+
+Suppose that $\psi' = \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC$.
+We use similar reasoning to the case above to show that $\psi'$ is provably equivalent to a modal formula.
+
+Therefore $\somerefsBs \psi'$ is provably equivalent to a modal formula $\psi''$.
+By substitution of equivalents, substiting $\psi''$ for $\somerefsBs \psi$ in $\phi$ yields a provably equivalent formula $\phi'$ with $n$ $\somerefsBs$ operators.
+By the induction hypothesis $\phi'$ is provably equivalent to a modal formula and therefore $\phi$ is provably equivalent to a modal formula.
+\end{proof}
 
 \begin{theorem}
 The axiomatisation \axiomRmlK{} is sound and strongly complete with respect to the semantics of the logic \logicRmlK{}.
 \end{theorem}
 
-\todo[inline]{Proof}
+\begin{proof}
+Soundness is shown in Lemma~\ref{rmlk-sound}.
+
+Let $\Phi \subseteq \langRml$ be a set of formulas consistent according to the axiomatisation \axiomRmlK{}.
+By Lemma~\ref{rml-k-ml-equivalent}, for every $\phi \in \Phi$ there exists $\phi' \in \langMl$ such that $\proves \phi \iff \phi'$.
+Let $\Phi' = \{\phi' \mid \phi \in \Phi\}$.
+Then $\Phi'$ is consistent according to the axiomatisation \axiomRmlK{}.
+As \axiomRmlK{} contains all of the axioms and rules of \axiomK{} then $\Phi'$ is also consistent according to the axiomatisation \axiomK{}.
+By the strong completeness of \axiomK{} it follows that $\Phi'$ is satisfiable with respect to the semantics of the logic \logicK{}.
+Suppose that $\kPModel{\kStateS} \in \classK$ is a Kripke model such that $\kPModel{\kStateS} \entails_\logicK{} \Phi'$.
+Then $\kPModel{\kStateS} \entails \Phi'$.
+Let $\phi \in \Phi$.
+Then $\kPModel{\kStateS} \entails \phi'$, and as $\proves \phi \iff \phi'$ by the soundness of the axiomatisation \axiomRmlK{} it follows that $\entails \phi \iff \phi'$ and $\kPModel{\kStateS} \entails \phi$.
+Therefore $\kPModel{\kStateS} \entails \Phi$.
+Therefore $\Phi$ is satisfiable.
+\end{proof}
 
 \begin{corollary}
 The logic \logicRmlK{} is expressively equivalent to the logic \logicK{}.

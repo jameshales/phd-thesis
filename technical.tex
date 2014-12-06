@@ -396,6 +396,15 @@ The axiomatisations \axiomK{}, \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, 
 
 \todo[inline]{Citation}
 
+\begin{definition}[Substitution of equivalents]
+Let $\lang$ be a logical language defined on the propositional atoms $\atoms$.
+An axiomatisation allows {\em substitution of equivalents} if and only if for every $\phi, \psi, \psi' \in \lang$, and $\atomP \in \atoms$: $\proves \psi \iff \psi'$ implies $\proves \phi[\psi/\atomP] \iff \phi[\psi'/\atomP]$.
+\end{definition}
+
+\begin{proposition}
+The axiomatisations \axiomK{}, \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} allow substitution of equivalents.
+\end{proposition}
+
 We are also interested in properties of the logics themselves.
 
 \begin{definition}[Compactness]

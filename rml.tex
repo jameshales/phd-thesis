@@ -962,9 +962,41 @@ $$
 where $\atomP \in \atoms$, $\agentB \in \agentsB$ and $\psi \in \langMl$.
 \end{definition}
 
-We call an $\{\agentA\}$-restricted formula simply an {\em $\agentA$-restricted formula}.
+\begin{definition}[$\agentsB$-bisimilarity]
+Let $\agentsB \subseteq \agents$ and let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateSP}$ be pointed Kripke models.
+Then $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are $\agentsB$-bisimilar and we write $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ if and only if:
+\begin{enumerate}
+    \item For every $\atomP \in \atoms$, $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
+    \item For every $\agentB \in \agentsB$, $\kStateT \kSuccessorsB{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPB{\kStateSP}$ such that $\kPModel{\kStateT} \bisimilar \kPModelP{\kStateTP}$.
+    \item For every $\agentB \in \agentsB$, $\kStateTP \kSuccessorsPB{\kStateSP}$ there exists $\kStateT \in \kSuccessorsB{\kStateS}$ such that $\kPModel{\kStateT} \bisimilar \kPModelP{\kStateTP}$.
+\end{enumerate}
 
-\todo[inline]{$\agentsB$-restricted bisimulation}
+\end{definition}
+
+\begin{lemma}\label{b-restricted-invariance}
+Let $\agentsB \subseteq \agents$ and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$.
+Then for every $\agentsB$-restricted formula $\phi \in \langMl$:
+$\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
+\end{lemma}
+
+\begin{proof}
+Let $\phi \in \langMl$ be a $\agentsB$-restricted formula.
+Assume without loss of generality that all $\necessaryB$ operators are expressed instead as $\possibleB$ operators.
+We show that $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$ by induction on the structure of $\phi$.
+
+Suppose that $\phi = \atomP$ for $\atomP \in \atoms$.
+Then $\kPModel{\kStateS} \entails \atomP$ if and only if $\kStateS \in \kValuation(\atomP)$.
+As $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ then $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
+Finally $\kStateSP \in \kValuationP(\atomP)$ if and only if $\kPModelP{\kStateSP} \entails \atomP$.
+
+Suppose that $\phi = \lnot \psi$ or $\phi = \psi \land \chi$ for $\agentsB$-restricted formulas $\psi, \chi \in \langMl$.
+These follow directly from the induction hypothesis.
+
+Suppose that $\phi = \possible[\agentB] \psi$ for $\agentB \in \agentsB$ and $\psi \in \langMl$.
+Then $\kPModel{\kStateS} \entails \necessary[\agentB] \psi$ if and only if there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $\kPModel{\kStateT} \entails \psi$.
+As $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ then if there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $\kPModel{\kStateT} \entails \psi$ if and only if there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kPModelP{\kStateTP} \entails \psi$ (as we can find a bisimilar $\kStateTP$ for every $\kStateT$ and vice-versa).
+Finally there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kPModelP{\kStateTP} \entails \psi$ if and only if $\kPModelP{\kStateS} \entails \necessary[\agentB] \psi$.
+\end{proof}
 
 \begin{definition}[Axiomatisation \axiomRmlKD{}]
     The axiomatisation \axiomRmlKD{} is a substitution schema consisting of the axioms and rules of \axiomKD{} along with the following additional axioms and rules:
@@ -978,7 +1010,7 @@ $$
     {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
 \end{array}
 $$
-where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite set of $\agentA$-restricted formulas.
+where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted formulas.
 \end{definition}
 
 \begin{lemma}
@@ -1086,7 +1118,7 @@ Therefore $\refinement$ is a $\agentsB$-refinement and as $\kStateS \refinement 
 Let $\gamma \in \Gamma_\agentA$.
 We note for every $\kStateT[\gamma] \in \kStates[\gamma]$ that $\kPModelP{\kStateT[\gamma]} \bisimilar \kPModel[\gamma]{\kStateT[\gamma]}$, as by construction the valuations and successor states of states from $\kModel[\gamma]$ are left unchanged in $\kModelP$.
 So we have that $\kPModelP{\kStateSP_\gamma} \bisimilar[\agents \setminus \{\agentA\}] \kPModel[\gamma]{\kStateS[\gamma]}$.
-As $\gamma$ is a $\agents \setminus \{\agentA\}$-restricted formula and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$ then we have that $\kPModelP{\kStateSP_\gamma} \entails \gamma$.
+As $\gamma$ is a $(\agents \setminus \{\agentA\})$-restricted formula and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$ then by Lemma~\ref{b-restricted-invariance} we have that $\kPModelP{\kStateSP_\gamma} \entails \gamma$.
 Then $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ follows from the same reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 Therefore $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 \end{proof}
@@ -1252,7 +1284,7 @@ Therefore $\refinement$ is a $\agentsB$-refinement and as $\kStateS \refinement 
 Let $\gamma \in \Gamma_\agentA$.
 We note for every $\kStateT[\gamma] \in \kStates[\gamma]$ that $\kPModelP{\kStateT[\gamma]} \bisimilar \kPModel[\gamma]{\kStateT[\gamma]}$, as by construction the valuations and successor states of states from $\kModel[\gamma]$ are left unchanged in $\kModelP$.
 So we have that $\kPModelP{\kStateSP_\gamma} \bisimilar[\agents \setminus \{\agentA\}] \kPModel[\gamma]{\kStateS[\gamma]}$.
-As $\gamma$ is a $\agents \setminus \{\agentA\}$-restricted formula and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$ then we have that $\kPModelP{\kStateSP_\gamma} \entails \gamma$.
+As $\gamma$ is a $(\agents \setminus \{\agentA\})$-restricted formula and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$ then by Lemma~\ref{b-restricted-invariance} we have that $\kPModelP{\kStateSP_\gamma} \entails \gamma$.
 Likewise for every $\kStateT \in \kSuccessorsA{\kStateS}$ we have that $\kPModel{\kStateSP_{\kStateT}} \entails \bigvee_{\gamma \in \Gamma_\agentA} \gamma$.
 Then $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ follows from the same reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 
@@ -1277,7 +1309,11 @@ We note that since each of the refinements $\kPModel[\agentC]{\kStateS[\agentC]}
 The axiomatisation \axiomRmlKD{} is sound with respect to the semantics of the logic \logicRmlKD{}.
 \end{lemma}
 
-\todo[inline]{Proof}
+\begin{proof}
+The soundness of the axioms and rules of \axiomKD{} with respect to the semantics of the logic \logicRmlKD{} follow from the same reasoning that they are sound in the logic \logicKD{}.
+The soundness of {\bf R}, {\bf RP} and {\bf NecR} follow from Proposition~\ref{rml-validities}.
+The soundness of {\bf RK}, {\bf RComm} and {\bf RDist} were shown in the previous lemmas.
+\end{proof}
 
 \begin{definition}[Alternating disjunctive normal form]
 Let $\agentsB \subseteq \agents$ be a set of agents.

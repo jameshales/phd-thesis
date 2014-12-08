@@ -1,18 +1,13 @@
 \begin{abstract}
 
-Epistemic logics reason about the knowledge that a collection of agents hold about the state of the world and about the knowledge of other agents.
-Knowledge may change in response to informative updates, events that communicate additional information to the agents, changing the agents' knowledge whilst leaving the state of the world unchanged.
-We are interested in determining how a collection of agents with given initial knowledge may arrive at desired knowledge through the execution of informative updates.
-We investigate this by extending epistemic logics with operators for reasoning about the effects of arbitrary informative updates, allowing us to pose questions about the existence of informative updates that achieve desired results.
+Dynamic epistemic logics reason about knowledge and how knowledge changes in response to additional information provided by events known as epistemic updates.
+Previous work in dynamic epistemic logic has typically focussed on analysing how knowledge changes in response to specific epistemic updates.
+In the present work we instead focus on analysing how knowledge changes in response to arbitrary epistemic updates, allowing us to pose questions about the existence of epistemic updates that result in desired changes in knowledge, and synthesise such epistemic updates when they do exist.
 
-%Epistemic logics model the knowledge that a collection of agents hold about the state of the world.
-
-%Informative updates are events in multi-agent epistemic systems that provide the agents with additional information.
-
-%Dynamic epistemic logics reason about how the knowledge of a collection of agents changes as a result of {\em informative updates}, events that provide agents with additional information.
-%Several models for informative updates have previously been considered in logics for reasoning about the effects of specific informative updates, such as public announcement logic~\cite{plaza:1989,gerbrandyetal:1997}, action model logic~\cite{baltagetal:1998,baltagetal:2004} and epistemic action logic~\cite{hvd.bnaic:1999,hvd.thesis:2000,hvd.jolli:2002}.
-%These logics extend epistemic logic with operators for reasoning about the effect of performing specific informative updates, where the formula $[\alpha] \phi$ means that ``after performing the informative update $\alpha$, the formula $\phi$ is true''.
-%In the present work we instead consider logics for reasoning about the effects of {\em arbitrary} informative updates.
-%These logics extend epistemic logic with operators for reasoning about the effect of performing arbitrary informative updates, where the formula $\forall \phi$ means that ``after performing {\em any} informative update, the formula $\phi$ is true''.
+We consider extensions of epistemic logics with operators for quantifying over the results of epistemic updates.
+Arbitrary positive announcement logic quantifies over the results of positive announcements, which are public announcements of positive formulas;
+arbitrary action model logic quantifies over the results of action models, a very general form of epistemic update that subsumes public announcements; 
+and refinement modal logic quantifies over refinements, which have a partial correspondence to the results of action models, but are more general.
+We provide axiomatisations, synthesis and decision procedures, and expressivity results for these logics.
 
 \end{abstract}

@@ -14,7 +14,7 @@ where $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentsB \subseteq \agents
 \end{definition}
 
 \begin{definition}[Refinements]
-Let $\agentsB \subseteq \agents$ and let $\kModelAndTuple$ and $\kModelAndTupleP$ be Kripke models.
+Let $\agentsB \subseteq \agents$ be a set of agents and let $\kModelAndTuple$ and $\kModelAndTupleP$ be Kripke models.
 A non-empty relation $\refinement \subseteq \kStates \times \kStatesP$ is a {\em $\agentsB$-refinement} if and only if for every $\atomP \in \atoms$, $\agentA \in \agents$, $\agentC \in \agents \setminus \agentsB$ and $(\kStateS, \kStateSP) \in \refinement$ the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentC$} and {\bf back-$\agentA$} holds:
 
 \paragraph{atoms-$\atomP$}
@@ -35,11 +35,11 @@ We call an $\{\agentA\}$-refinement simply an {\em $\agentA$-refinement} and we 
 We note that bisimulations are also refinements.
 
 \begin{proposition}\label{bisimulation-refinement}
-Let $\agentsB \subseteq \agents$. Then every bisimulation is a $\agentsB$-refinement.
+Let $\agentsB \subseteq \agents$ be a set of agents. Then every bisimulation is a $\agentsB$-refinement.
 \end{proposition}
 
 \begin{corollary}\label{bisimilar-refinement}
-Let $\agentsB \subseteq \agents$ and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be Kripke models.
+Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be Kripke models.
 If $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ then $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 \end{corollary}
 
@@ -50,11 +50,11 @@ The relation $\simulatesBs$ is a preorder (reflexive and transitive) on Kripke m
 \end{proposition}
 
 \begin{proof}
-    Let $\agentsB \subseteq \agents$ and let $\kPModel{\kStateS}$ be a Kripke model.
+    Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$ be a Kripke model.
     By Proposition~\ref{bisimulation-equivalence-relation} we have $\kPModel{\kStateS} \bisimilar \kPModel{\kStateS}$ and by Corollary~\ref{bisimilar-refinement} we have $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS}$.
     Therefore the relation $\simulatesBs$ is reflexive.
 
-    Let $\agentsB \subseteq \agents$ and let $\kPModel{\kStateS}$, $\kPModelP{\kStateSP}$ and $\kPModelPP{\kStateSPP}$ be Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
+    Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$, $\kPModelP{\kStateSP}$ and $\kPModelPP{\kStateSPP}$ be Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
     Then there exists $\agentsB$-refinements $\refinement \subseteq \kStates \times \kStatesP$ and $\refinement' \subseteq \kStatesP \times \kStatesPP$.
     We claim that the relation $\refinement'' = \refinement \circ \refinement' \subseteq \kStates \times \kStatesPP$ is a $\agentsB$-refinement and therefore $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$.
     Let $\atomP \in \atoms$, $\agentA \in \agents$, $\agentC \in \agents \setminus \agentsB$ and $(\kStateS, \kStateSPP) \in \refinement''$.
@@ -84,7 +84,7 @@ The relation $\simulatesBs$ is a preorder (reflexive and transitive) on Kripke m
 Refinements preserve the validity of positive formulas.
 
 \begin{definition}[Positive formulas]
-Let $\agentsB \subseteq \agents$.
+Let $\agentsB \subseteq \agents$ be a set of agents.
 The {\em language of $\agentsB$-positive formulas}, \langMlPlusBs{}, is inductively defined as:
 $$
 \phi ::= 
@@ -99,7 +99,7 @@ where $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentC \in \agents \setmi
 \end{definition}
 
 \begin{proposition}\label{refinements-preserve-positive}
-Let $\agentsB \subseteq \agents$ and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
+Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 Then for every $\phi \in \langMlPlusBs$
 if $\kPModel{\kStateS} \entails \phi$ then $\kPModelP{\kStateSP} \entails \phi$.
 \end{proposition}
@@ -136,7 +136,7 @@ Therefore if $\kPModel{\kStateS} \entails \phi$ then $\kPModel{\kStateSP} \entai
 \end{proof}
 
 \begin{proposition}
-Let $\agentsB \subseteq \agents$ and let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMlPlusBs$ if $\kPModel{\kStateS} \entails \phi$ then $\kPModelP{\kStateSP} \entails \phi$.
+Let $\agentsB \subseteq \agents$ be a set of agents and let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMlPlusBs$ if $\kPModel{\kStateS} \entails \phi$ then $\kPModelP{\kStateSP} \entails \phi$.
 Then $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 \end{proposition}
 
@@ -243,12 +243,12 @@ In particular we note as $\kStateS \refinement \kStateSP$ then $\kStateSP \bisim
 \end{proof}
 
 \begin{lemma}\label{refinement-union}
-Let $\agentsB \subseteq \agents$, let $\kModel$ and $\kModelP$ be Kripke models and let $\refinement, \refinement' \subseteq \kStates \times \kStatesP$ be $\agentsB$-refinements.
+Let $\agentsB \subseteq \agents$ be a set of agents, let $\kModel$ and $\kModelP$ be Kripke models and let $\refinement, \refinement' \subseteq \kStates \times \kStatesP$ be $\agentsB$-refinements.
 Then $\refinement \cup \refinement'$ is also a $\agentsB$-refinement.
 \end{lemma}
 
 \begin{proposition}
-Let $\agentsB \subseteq \agents$ and let $\kModel$ and $\kModelP$ be Kripke models such that $\kModel \simulatesBs \kModelP$.
+Let $\agentsB \subseteq \agents$ be a set of agents and let $\kModel$ and $\kModelP$ be Kripke models such that $\kModel \simulatesBs \kModelP$.
 Then there is a unique, maximal $\agentsB$-refinement from $\kModel$ to $\kModelP$.
 \end{proposition}
 
@@ -257,7 +257,7 @@ From Lemma~\ref{refinement-union} the union of all $\agentsB$-refinements from $
 \end{proof}
 
 \begin{proposition}
-Let $\agentsB \subseteq \agents$ and let $\kModel$ and $\kModelP$ be finite Kripke models defined on a finite set of propositional atoms such that $\kModel \simulatesBs \kModelP$.
+Let $\agentsB \subseteq \agents$ be a set of agents and let $\kModel$ and $\kModelP$ be finite Kripke models defined on a finite set of propositional atoms such that $\kModel \simulatesBs \kModelP$.
 Then the maximal refinement from $\kModel$ to $\kModelP$ can be computed in polynomial time.
 \end{proposition}
 
@@ -807,22 +807,22 @@ Let $\phi \in \langMl$ be a modal formula.
 Without loss of generality, by Lemma~\ref{nnf-equivalent} we may assume that $\phi$ is in negation normal form.
 We prove by induction on the modal depth of $\phi$ and the structure of $\phi$ that it is equivalent to a formula in disjunctive normal form.
 
-Suppose that $\phi = \atomP$ or $\phi = \lnot \atomP$ for $\atomP \in \atoms$.
+Suppose that $d(\phi) = 0$ and $\phi = \atomP$ or $\phi = \lnot \atomP$ for $\atomP \in \atoms$.
 Then $\phi$ is already in disjunctive normal form.
 
-Suppose that $\phi = \psi \lor \chi$ for $\psi, \chi \in \langMl$ in negation normal form.
+Suppose that $d(\phi) > 0$ and $\phi = \psi \lor \chi$ for $\psi, \chi \in \langMl$ in negation normal form.
 By the induction hypothesis there exists $\psi', \chi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$ and $\entails \chi \iff \chi'$.
 Then $\psi' \lor \chi'$ is in disjunctive normal form and $\entails (\psi \lor \chi) \iff (\psi' \lor \chi')$.
 
-Suppose that $\phi = \necessaryA \psi$ for $\psi \in \langMl$ in negation normal form.
+Suppose that $d(\phi) > 0$ and $\phi = \necessaryA \psi$ for $\psi \in \langMl$ in negation normal form.
 By the induction hypothesis there exists $\psi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$.
 Then $\coversA \{\phi'\} \lor \coversA \emptyset$ is in disjunctive normal form and $\entails \necessaryA \phi \iff (\coversA \{\phi'\} \lor \coversA \emptyset)$.
 
-Suppose that $\phi = \possibleA \psi$ for $\psi \in \langMl$ in negation normal form.
+Suppose that $d(\phi) > 0$ and $\phi = \possibleA \psi$ for $\psi \in \langMl$ in negation normal form.
 By the induction hypothesis there exists $\psi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$.
 Then $\coversA \{\phi', \top\}$ is in disjunctive normal form and $\entails \possibleA \phi \iff (\coversA \{\phi', \top\}$.
 
-Suppose that $\phi = \psi \land \chi$ for $\psi, \chi \in \langMl$ in negation normal form.
+Suppose that $d(\phi) > 0$ and $\phi = \psi \land \chi$ for $\psi, \chi \in \langMl$ in negation normal form.
 By the induction hypothesis there exists $\psi', \chi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$ and $\entails \chi \iff \chi'$.
 As $\psi'$ and $\chi'$ are in disjunctive normal form then $\psi' = \delta_0 \lor \cdots \lor \delta_m$ and $\chi' = \gamma_0 \lor \cdots \lor \gamma_n$ for $m, n \in \naturals$.
 We distribute the disjunctions over the conjunction using the following equivalence:
@@ -860,8 +860,8 @@ The following are theorems of \axiomRmlK{}:
 \begin{proof}
     (\ref{rml-k-or}) is derivable from {\bf P} and {\bf R} using the same strategy to prove that $\proves \possibleA (\phi \lor \psi) \iff (\possibleA \phi \lor \possibleA \psi)$ is derivable from {\bf P} and {\bf K}.
 
-    (\ref{rml-k-cover}) is derivable by using {\bf P}, {\bf R} and {\bf RP} to bring the propositional parts outside of the $\somerefsBs$ operator,
-    using {\bf RDist} to push the $\somerefsBs$ operator inside the conjunction,
+    (\ref{rml-k-cover}) is derivable by using {\bf P}, {\bf R} and {\bf RP} to bring the propositional parts outside of the $\somerefsBs$~operator,
+    using {\bf RDist} to push the $\somerefsBs$~operator inside the conjunction,
     and then using {\bf RK} or {\bf RComm} as appropriate for each cover operator.
 \end{proof}
 
@@ -888,8 +888,8 @@ Every refinement modal formula is provably equivalent to a modal formula using t
 
 \begin{proof}
 Let $\phi \in \langRml$ be a refinement modal formula.
-Assume without loss of generality that all $\allrefsBs$ operators are expressed instead as $\somerefsBs$ operators.
-We show by induction on the number of $\somerefsBs$-operators in $\phi$ ($\somerefsBs$ operators for any $\agentsB \subseteq \agents$) that $\phi$ is provably equivalent to a modal formula.
+Assume without loss of generality that all $\allrefsBs$~operators are expressed instead as $\somerefsBs$~operators.
+We show by induction on the number of $\somerefsBs$-operators in $\phi$ ($\somerefsBs$~operators for any $\agentsB \subseteq \agents$) that $\phi$ is provably equivalent to a modal formula.
 
 Suppose that $\phi$ has no $\somerefsBs$-operators.
 Then $\phi$ is already a modal formula.
@@ -911,11 +911,11 @@ Suppose that $\psi' = \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\at
 We use similar reasoning to the case above to show that $\psi'$ is provably equivalent to a modal formula.
 
 Therefore $\somerefsBs \psi'$ is provably equivalent to a modal formula $\psi''$.
-By substitution of equivalents, substiting $\psi''$ for $\somerefsBs \psi$ in $\phi$ yields a provably equivalent formula $\phi'$ with $n$ $\somerefsBs$ operators.
+By substitution of equivalents, substiting $\psi''$ for $\somerefsBs \psi$ in $\phi$ yields a provably equivalent formula $\phi'$ with $n$ $\somerefsBs$~operators.
 By the induction hypothesis $\phi'$ is provably equivalent to a modal formula and therefore $\phi$ is provably equivalent to a modal formula.
 \end{proof}
 
-\begin{theorem}
+\begin{theorem}\label{rml-k-sound-complete}
 The axiomatisation \axiomRmlK{} is sound and strongly complete with respect to the semantics of the logic \logicRmlK{}.
 \end{theorem}
 
@@ -950,9 +950,9 @@ The satisfiability problem for the logic \logicRmlK{} is decidable.
 
 \section{K45 and KD45}
 
-\begin{definition}[$\agentsB$-restricted formulas]
-Let $\agentsB \subseteq \agents$.
-A $\agentsB$-restricted formula is inductively defined as:
+\begin{definition}[$\agentsB$-restricted modal formulas]
+Let $\agentsB \subseteq \agents$ be a set of agents.
+A $\agentsB$-restricted modal formula is inductively defined as:
 $$
 \phi ::= \atomP \mid
          \lnot \phi \mid
@@ -963,7 +963,7 @@ where $\atomP \in \atoms$, $\agentB \in \agentsB$ and $\psi \in \langMl$.
 \end{definition}
 
 \begin{definition}[$\agentsB$-bisimilarity]
-Let $\agentsB \subseteq \agents$ and let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateSP}$ be pointed Kripke models.
+Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateSP}$ be pointed Kripke models.
 Then $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are $\agentsB$-bisimilar and we write $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ if and only if:
 \begin{enumerate}
     \item For every $\atomP \in \atoms$, $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
@@ -974,14 +974,14 @@ Then $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are $\agentsB$-bisimilar an
 \end{definition}
 
 \begin{lemma}\label{b-restricted-invariance}
-Let $\agentsB \subseteq \agents$ and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$.
-Then for every $\agentsB$-restricted formula $\phi \in \langMl$:
+Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$.
+Then for every $\agentsB$-restricted modal formula $\phi \in \langMl$:
 $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 \end{lemma}
 
 \begin{proof}
-Let $\phi \in \langMl$ be a $\agentsB$-restricted formula.
-Assume without loss of generality that all $\necessaryB$ operators are expressed instead as $\possibleB$ operators.
+Let $\phi \in \langMl$ be a $\agentsB$-restricted modal formula.
+Assume without loss of generality that all $\necessaryB$~operators are expressed instead as $\possibleB$~operators.
 We show that $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$ by induction on the structure of $\phi$.
 
 Suppose that $\phi = \atomP$ for $\atomP \in \atoms$.
@@ -989,7 +989,7 @@ Then $\kPModel{\kStateS} \entails \atomP$ if and only if $\kStateS \in \kValuati
 As $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ then $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
 Finally $\kStateSP \in \kValuationP(\atomP)$ if and only if $\kPModelP{\kStateSP} \entails \atomP$.
 
-Suppose that $\phi = \lnot \psi$ or $\phi = \psi \land \chi$ for $\agentsB$-restricted formulas $\psi, \chi \in \langMl$.
+Suppose that $\phi = \lnot \psi$ or $\phi = \psi \land \chi$ for $\agentsB$-restricted modal formulas $\psi, \chi \in \langMl$.
 These follow directly from the induction hypothesis.
 
 Suppose that $\phi = \possible[\agentB] \psi$ for $\agentB \in \agentsB$ and $\psi \in \langMl$.
@@ -1010,7 +1010,7 @@ $$
     {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
 \end{array}
 $$
-where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted formulas.
+where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
 \end{definition}
 
 \begin{lemma}
@@ -1118,7 +1118,7 @@ Therefore $\refinement$ is a $\agentsB$-refinement and as $\kStateS \refinement 
 Let $\gamma \in \Gamma_\agentA$.
 We note for every $\kStateT[\gamma] \in \kStates[\gamma]$ that $\kPModelP{\kStateT[\gamma]} \bisimilar \kPModel[\gamma]{\kStateT[\gamma]}$, as by construction the valuations and successor states of states from $\kModel[\gamma]$ are left unchanged in $\kModelP$.
 So we have that $\kPModelP{\kStateSP_\gamma} \bisimilar[\agents \setminus \{\agentA\}] \kPModel[\gamma]{\kStateS[\gamma]}$.
-As $\gamma$ is a $(\agents \setminus \{\agentA\})$-restricted formula and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$ then by Lemma~\ref{b-restricted-invariance} we have that $\kPModelP{\kStateSP_\gamma} \entails \gamma$.
+As $\gamma$ is a $(\agents \setminus \{\agentA\})$-restricted modal formula and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$ then by Lemma~\ref{b-restricted-invariance} we have that $\kPModelP{\kStateSP_\gamma} \entails \gamma$.
 Then $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ follows from the same reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 Therefore $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 \end{proof}
@@ -1284,7 +1284,7 @@ Therefore $\refinement$ is a $\agentsB$-refinement and as $\kStateS \refinement 
 Let $\gamma \in \Gamma_\agentA$.
 We note for every $\kStateT[\gamma] \in \kStates[\gamma]$ that $\kPModelP{\kStateT[\gamma]} \bisimilar \kPModel[\gamma]{\kStateT[\gamma]}$, as by construction the valuations and successor states of states from $\kModel[\gamma]$ are left unchanged in $\kModelP$.
 So we have that $\kPModelP{\kStateSP_\gamma} \bisimilar[\agents \setminus \{\agentA\}] \kPModel[\gamma]{\kStateS[\gamma]}$.
-As $\gamma$ is a $(\agents \setminus \{\agentA\})$-restricted formula and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$ then by Lemma~\ref{b-restricted-invariance} we have that $\kPModelP{\kStateSP_\gamma} \entails \gamma$.
+As $\gamma$ is a $(\agents \setminus \{\agentA\})$-restricted modal formula and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$ then by Lemma~\ref{b-restricted-invariance} we have that $\kPModelP{\kStateSP_\gamma} \entails \gamma$.
 Likewise for every $\kStateT \in \kSuccessorsA{\kStateS}$ we have that $\kPModel{\kStateSP_{\kStateT}} \entails \bigvee_{\gamma \in \Gamma_\agentA} \gamma$.
 Then $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ follows from the same reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 
@@ -1305,7 +1305,7 @@ Then we show that $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \i
 We note that since each of the refinements $\kPModel[\agentC]{\kStateS[\agentC]}$ are \classKD{} models then the construction used in Lemma~\ref{rml-k-rcomm} will produce a \classKD{} model as required.
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{rml-kd-sound}
 The axiomatisation \axiomRmlKD{} is sound with respect to the semantics of the logic \logicRmlKD{}.
 \end{lemma}
 
@@ -1318,45 +1318,77 @@ The soundness of {\bf RK}, {\bf RComm} and {\bf RDist} were shown in the previou
 \begin{definition}[Alternating disjunctive normal form]
 Let $\agentsB \subseteq \agents$ be a set of agents.
 A formula in {\em $\agentsB$-alternating disjunctive normal form} is inductively defined as:
-\begin{eqnarray*}
-\phi &::=& \delta \mid \phi \lor \phi\\
-\delta &::=& \atomP \mid \lnot \atomP \mid \necessaryB \phi_\agentB \mid \possibleB \phi_\agentB \mid \delta \land \delta
-\end{eqnarray*}
-where $\atomP \in \atoms$, $\agentB \in \agentsB$, and $\phi_\agentB$ is a formula in $\{\agentB\}$-alternating disjunctive normal form.
+$$
+\phi ::= \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC \mid \phi \lor \phi
+$$
+where $\atomsQ, \atomsQ' \subseteq \atoms$ are finite sets of propositional atoms, $\agentsC \subseteq \agentsB$, and for every $\agentC \in \agentsC$, $\Gamma_\agentC$ is a finite set of formulas in $(\agents \setminus \{\agentC\})$-alternating disjunctive normal form.
 \end{definition}
 
 \begin{lemma}
-Every $\agentsB$-restricted modal formula is equivalent to a formula in $\agentsB$-alternating disjunctive normal form under the semantics of the logic \logicKD{}.
-\end{lemma}
-
-\todo[inline]{Proof}
-
-\begin{definition}[Alternating cover disjunctive normal form]
 Let $\agentsB \subseteq \agents$ be a set of agents.
-A formula in {\em $\agentsB$-alternating disjunctive normal form} is inductively defined as:
-$$
-\phi ::= \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB \mid \phi \lor \phi
-$$
-where $\atomsQ, \atomsQ' \subseteq \atoms$ are finite sets of propositional atoms, $\agentsB \subseteq \agents$, and $\Gamma_\agentB$ is a finite set of formulas in $\{\agentB\}$-alternating cover disjunctive normal form.
-\end{definition}
-
-\begin{lemma}
 Every $\agentsB$-restricted modal formula is equivalent to a formula in $\agentsB$-alternating cover disjunctive normal form under the semantics of the logic \logicKD{}.
 \end{lemma}
 
-\todo[inline]{Proof}
+\begin{proof}
+Let $\phi \in \langMl$ be a $\agentsB$-restricted modal formula.
+Without loss of generality, by Lemma~\ref{dnf-equivalent} we may assume that $\phi$ is in disjunctive normal form.
+We prove by induction on the modal depth of $\phi$ and the structure of $\phi$ that it is equivalent to a formula in $\agentsB$-alternating disjunctive normal form.
+
+Suppose that $d(\phi) = 0$. 
+Then $\phi$ is already in $\agentsB$-alternating disjunctive normal form.
+
+Suppose that $d(\phi) > 0$ and $\phi = \psi \lor \chi$ for $\psi, \chi \in \langMl$ in disjunctive normal form.
+By the induction hypothesis there exists $\psi', \chi' \in \langMl$ in $\agentsB$-alternating disjunctive normal form such that $\entails \psi \iff \psi'$ and $\entails \chi \iff \chi'$.
+Then $\psi' \lor \chi'$ is in $\agentsB$-alternating disjunctive normal form and $\entails (\psi \lor \chi) \iff (\psi' \lor \chi')$.
+
+Suppose that $d(\phi) > 0$ and $\phi = \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC$.
+By the induction hypothesis for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$ there exists $\gamma' \in \langMl$ in alternating disjunctive normal form such that $\entails \gamma \iff \gamma'$.
+For every $\agentC \in \agentsC$, let $\Gamma'_\agentC = \{\gamma' \mid \gamma \in \Gamma_\agentC\}$.
+Let $\phi' = \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma'_\agentC$.
+Then $\entails \phi \iff \phi'$.
+Here we note that for every $\agentC \in \agentC$, $\gamma' \in \Gamma'_\agentC$ may contain $\coversC$ modalities at the top level, and so we use some equivalences to correct this.
+We pull the disjunctions within each cover operator up one level using the following equivalence:
+$$
+\entails \coversC (\{\psi \lor \chi\} \cup \Gamma) \iff \coversC (\{\psi\} \cup \Gamma) \lor \coversC (\{\chi\} \cup \Gamma) \lor \coversC (\{\psi, \chi\} \cup \Gamma)
+$$
+Once the disjunctions within the cover operators are removed, we pull the nested cover operators of the same agent up one level using the following equivalence:
+$$
+\entails \coversC (\{\psi \land \coversC \Gamma'\} \cup \Gamma) \iff \coversC (\{\psi\} \cup \Gamma) \land \coversC \Gamma'
+$$
+Once these equivalences have been applied as many times as possible, the resulting formula will have no cover modalities nested directly with a cover operator of the same agent.
+We can then translate the resulting formula into $\agentsB$-alternating disjunctive normal form using the same method for disjunctive normal form, noting that the equivalences used in the proof of Lemma~\ref{dnf-equivalent} will preserve the alternating structure of the formula.
+\end{proof}
+
+\begin{lemma}\label{rml-kd-theorems}
+The following are theorems of \axiomRmlKD{}:
+\begin{align}
+    \proves & \somerefsBs (\phi \lor \psi) \iff (\somerefsBs \phi \lor \somerefsBs \psi) \label{rml-kd-or}\\
+    \proves & \displaystyle \somerefsBs (\bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \nonumber\\
+            & \displaystyle \quad
+            \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land 
+            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \somerefsBs \gamma \land
+            \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} \label{rml-kd-cover}
+\end{align}
+where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+\end{lemma}
 
 \begin{lemma}
 Every refinement modal formula is equivalent to a modal formula under the semantics of the logic \logicRmlKD{}.
 \end{lemma}
 
-\todo[inline]{Proof}
+\begin{proof}[Proof (Sketch).]
+We use similar reasoning as in the setting of \logicRmlK{} in Lemma~\ref{rml-k-ml-equivalent}.
+We convert subformulas to alternating disjunctive normal form instead of disjunctive normal form, which ensures that the equivalences from Lemma~\ref{rml-kd-theorems} can be applied inductively to the subformula, by satisfying the requirement that $\coversA$~operators  are only applied to sets of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+\end{proof}
 
 \begin{theorem}
 The axiomatisation \axiomRmlKD{} is sound and strongly complete with respect to the semantics of the logic \logicRmlKD{}.
 \end{theorem}
 
-\todo[inline]{Proof}
+\begin{proof}
+Soundness is shown in Lemma~\ref{rml-kd-sound}.
+Strong completeness follows from similar reasoning used to show the strong completeness of \axiomRmlK{} in Lemma~\ref{rml-k-sound-complete}.
+\end{proof}
 
 \begin{corollary}
 The logic \logicRmlKD{} is expressively equivalent to the logic \logicKD{}.

@@ -1260,6 +1260,20 @@ Therefore $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 \end{proof}
 
 \begin{lemma}
+The axiom {\bf RDist} is sound with respect to the semantics of the logic \logicRmlKD{}.
+\end{lemma}
+
+\begin{proof}
+($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKD$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
+Then we show that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$ using the same reasoning as in the proof of soundness of {\bf RDist} in Lemma~\ref{rml-k-rcomm}.
+
+($\Leftarrow$) Let $\kPModel{\kStateS} \in \classKD$ be a Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$.
+For every $\agentC \in \agentsC$ there exists $\kPModel[\agentC]{\kStateS[\agentC]} \in \classKD$ such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentC]{\kStateS[\agentC]}$ and $\kPModel[\agentC]{\kStateS[\agentC]} \entails \coversC \Gamma_\agentC$.
+Then we show that $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$ using the same reasoning as in the proof of soundness of {\bf RDist} in Lemma~\ref{rml-k-rcomm}.
+We note that since each of the refinements $\kPModel[\agentC]{\kStateS[\agentC]}$ are \classKD{} models then the construction used in Lemma~\ref{rml-k-rcomm} will produce a \classKD{} model as required.
+\end{proof}
+
+\begin{lemma}
 The axiomatisation \axiomRmlKD{} is sound with respect to the semantics of the logic \logicRmlKD{}.
 \end{lemma}
 

@@ -192,12 +192,12 @@ A non-empty relation $\bisimulation \subseteq \kStates \times \kStatesP$ is a {\
 $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
 
 \paragraph{forth-$\agentA$}
-For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kStateT \bisimulation \kStateTP$.
+For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $(\kStateT, \kStateTP) \in \bisimulation$.
 
 \paragraph{back-$\agentA$}
-For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $\kStateT \bisimulation \kStateTP$.
+For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTP) \in \bisimulation$.
 
-If there exists a bisimulation $\bisimulation$ such that $\kStateS \bisimulation \kStateSP$ then we say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em bisimilar} and we denote this by $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
+If there exists a bisimulation $\bisimulation$ such that $(\kStateS, \kStateSP) \in \bisimulation$ then we say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em bisimilar} and we denote this by $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
 \end{definition}
 
 Bisimulations were first developed by Milner~\cite{milner:1980} and Park~\cite{park:1981} to capture a notion of process equivalence in the process algebra for concurrent systems, and have appeared in the context of modal logics since van Benthem~\cite{vanbenthem:1984}.
@@ -272,7 +272,7 @@ We can define a bisimulation-minimal version of a Kripke model by `merging' bisi
 \begin{definition}[Bisimulation contraction]
 Let $\kModelAndTuple$ be a Kripke model,
 let $\bisimulation \subseteq \kStates \times \kStates$ be the maximal bisimulation between $\kModel$ and itself,
-and let ${[\kStateS]} = \{\kStateT \in \kStates \mid \kStateT \bisimulation \kStateS\}$.
+and let ${[\kStateS]} = \{\kStateT \in \kStates \mid (\kStateT, \kStateS\}) \in \bisimulation$.
 The {\em bisimulation contraction} of $\kModel$ is the quotient model $\kModelAndTupleP$ where:
 \begin{eqnarray*}
     \kStatesP &=& \{{[\kStateS]} \mid \kStateS \in \kStates\}\\
@@ -302,12 +302,12 @@ If $i = 0$ then $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in
 If $i > 0$ then $\kPModel{\kStateS} \bisimulation_{i-1} \kPModelP{\kStateSP}$.
 
 \paragraph{forth-$i$-$\agentA$}
-For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kStateT \bisimulation_i \kStateTP$.
+For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $(\kStateT, \kStateTP) \in \bisimulation_i$.
 
 \paragraph{back-$i$-$\agentA$}
-For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $\kStateT \bisimulation_i \kStateTP$.
+For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTP) \in \bisimulation_i$.
 
-If there exists an $n$-bisimulation $\bisimulation_0, \dots, \bisimulation_n$ such that $\kStateS \bisimulation_n \kStateSP$ then we say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $n$-bisimilar} and we denote this by $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$.
+If there exists an $n$-bisimulation $\bisimulation_0, \dots, \bisimulation_n$ such that $(\kStateS, \kStateSP) \in \bisimulation_n$ then we say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $n$-bisimilar} and we denote this by $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$.
 \end{definition}
 
 Similar to bisimilarity, there is a partial correspondence between $n$-bisimilarity and equivalence under depth-limited modal equivalence.

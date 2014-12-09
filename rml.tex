@@ -1107,7 +1107,7 @@ Let $\kPModelAndTupleP{\kStateSP}$ be a Kripke model where:
 \end{eqnarray*}
 where $\kStateSP$ and $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ are fresh states not appearing in $\kStates$ or $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$, $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise, and for every $\gamma \in \Gamma_\agentA$: $\overline{\{\kStateSP_\gamma\}} = \{\kStateSP_\gamma\}$ if $\kStateS[\gamma] \in \kValuation[\gamma](\atomP)$ and $\overline{\{\kStateSP_\gamma\}} = \emptyset$ otherwise.
 
-We note that by construction $\kPModelP \in \classKD$.
+We note that by construction $\kModelP \in \classKD$.
 
 We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
 
@@ -1128,13 +1128,13 @@ Consider $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement$ where $\gamma \in
 By construction $(\kStateT_\gamma, \kStateS[\gamma]) \in \refinement^\gamma$.
 Then {\bf atoms-$\atomP$} for $\refinement$ follows from {\bf atoms-$\atomP$} for $\refinement^\gamma$ ($\kPModel{\kStateT_\gamma}$ and $\kPModel[\gamma]{\kStateS[\gamma]}$ have the same valuation) and by construction ($\kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModelP{\kStateSP_\gamma}$ have the same valuation).
 
-Consider $(\kStateT, \kStateTP) \in \refinement$ where $(\kStateT, \kStateTP) \in \refinement^\gamma$ for some $\gamma \in \Gamma_\agentA$.
+Consider $(\kStateT, \kStateT[\gamma]) \in \refinement^\gamma \subseteq \refinement$ where $\gamma \in \Gamma_\agentA$.
 Then {\bf atoms-$\atomP$} for $\refinement$ follows from {\bf atoms-$\atomP$} for $\refinement^\gamma$.
 
 \paragraph{forth-$\agentC$}
 Consider $(\kStateS, \kStateSP) \in \refinement$.
-Let $\kStateT \in \kSuccessorsC{\kStateS}$.
 As $\agentC \in \agents \setminus \agentsB$ and $\agentA \in \agentsB$ then $\agentC \neq \agentA$.
+Let $\kStateT \in \kSuccessorsC{\kStateS}$.
 By construction $\kStateT \in \kSuccessorsPC{\kStateSP}$ and $(\kStateT, \kStateT) \in \refinement$.
 
 Consider $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement$ where $\gamma \in \Gamma_\agentA$.
@@ -1167,8 +1167,7 @@ By construction $\kStateT \in \kSuccessorsB{\kStateS}$ and $(\kStateT, \kStateT)
 Consider $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement$ where $\gamma \in \Gamma_\agentA$.
 Suppose that $\agentB = \agentA$.
 Let $\kStateSP_{\gamma'} \in \kSuccessorsPA{\kStateSP_\gamma}$ where $\gamma' \in \Gamma_\agentA$.
-By hypothesis $\kStateT_{\gamma}, \kStateT_{\gamma'} \in \kSuccessorsA{\kStateS}$, and $(\kStateT_{\gamma'}, \kStateS[\gamma']) \in \refinement^{\gamma'}$.
-As $\kModel \in \classKD$ by the Euclideaness of $\kAccessibilityA$ we have that $\kStateT_{\gamma'} \in \kSuccessorsA{\kStateT_\gamma}$.
+By hypothesis $\kStateT_{\gamma}, \kStateT_{\gamma'} \in \kSuccessorsA{\kStateS}$ and by the Euclideaness of $\kModel$ we have that $\kStateT_{\gamma'} \in \kSuccessorsA{\kStateT_\gamma}$.
 By construction $(\kStateT_{\gamma'}, \kStateSP_{\gamma'}) \in \refinement$.
 Suppose that $\agentB \neq \agentA$.
 Let $\kStateT[\gamma] \in \kSuccessorsPA{\kStateSP_\gamma}$.
@@ -1211,9 +1210,9 @@ We use these refinements to construct a single larger refinement to satisfy the 
 
 Let $\kPModelAndTupleP{\kStateSP}$ be a Kripke model where:
 \begin{eqnarray*}
-    \kStatesP &=& \{\kStateSP\} \cup \kStates \cup \bigcup_{\gamma \in \Gamma_\agentA} \kStates[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kStates[\kStateT]\\
+    \kStatesP &=& \{\kStateSP\} \cup \{\kStateSP_\gamma \mid \gamma \in \Gamma_\agentA\} \cup \{\kStateSP_{\kStateT} \mid \kStateT \in \kSuccessorsA{\kStateS}\} \cup \kStates \cup \bigcup_{\gamma \in \Gamma_\agentA} \kStates[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kStates[\kStateT]\\
     \kAccessibilityPA &=& \{(\kStateSP, \kStateSP_\gamma) \mid \gamma \in \Gamma_\agentA\} \cup \{(\kStateSP, \kStateSP_{\kStateT}) \mid \kStateT \in \kSuccessorsA{\kStateS}\} \cup \{(\kStateSP_x, \kStateSP_y) \mid x, y \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}\} \cup \\&&\quad \kAccessibilityA \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityA[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kAccessibilityA[\kStateT]\\
-    \kAccessibilityPB &=& \{(\kStateSP, \kStateT) \mid \kStateT \in \kSuccessorsB{\kStateS}\} \cup \{(\kStateSP_\gamma, \kStateT[\gamma]) \mid \gamma \in \Gamma_\agentA, \kStateT[\gamma] \in \kSuccessorsB[\gamma]{\kStateS[\gamma]}\} \cup \\&&\quad \kAccessibilityB \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityB[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kAccessibilityB[\kStateT] \text{ for } \agentB \in \agents \setminus \{\agentA\}\\
+    \kAccessibilityPB &=& \{(\kStateSP, \kStateT) \mid \kStateT \in \kSuccessorsB{\kStateS}\} \cup \{(\kStateSP_\gamma, \kStateT[\gamma]) \mid \gamma \in \Gamma_\agentA, \kStateT[\gamma] \in \kSuccessorsB[\gamma]{\kStateS[\gamma]}\} \cup \\&&\quad \{(\kStateSP_{\kStateT}, \kStateU[\kStateT]) \mid \kStateT \in \kSuccessorsB{\kStateS}, \kStateU[\kStateT] \in \kSuccessorsB[\gamma]{\kStateS[\kStateT]}\} \cup \kAccessibilityB \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityB[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kAccessibilityB[\kStateT] \text{ for } \agentB \in \agents \setminus \{\agentA\}\\
     \kValuationP(\atomP) &=& \overline{\{\kStateSP\}} \cup \kValuation(\atomP) \cup \bigcup_{\gamma \in \Gamma_\agentA} \kValuation[\gamma](\atomP) \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kValuation[\kStateT](\atomP)
 \end{eqnarray*}
 where $\kStateSP$, $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ and $\kStateSP_{\kStateT}$ for every $\kStateT \in \kSuccessorsA{\kStateS}$ are fresh states not appearing in $\kStates$, $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$ or $\kStates[\kStateT]$ for any $\kStateT \in \kSuccessorsA{\kStateS}$, $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise, for every $\gamma \in \Gamma_\agentA$: $\overline{\{\kStateSP_\gamma\}} = \{\kStateSP_\gamma\}$ if $\kStateS[\gamma] \in \kValuation[\gamma](\atomP)$ and $\overline{\{\kStateSP_\gamma\}} = \emptyset$ otherwise; and for every $\kStateT \in \kSuccessorsA{\kStateS}$: $\overline{\{\kStateSP_{\kStateT}\}} = \{\kStateSP_{\kStateT}\}$ if $\kStateS[\kStateT] \in \kValuation[\kStateT](\atomP)$ and $\overline{\{\kStateSP_{\kStateT}\}} = \emptyset$ otherwise
@@ -1244,7 +1243,7 @@ Consider $(\kStateT, \kStateSP_{\kStateT}) \in \refinement$ where $\kStateT \in 
 By construction $(\kStateT, \kStateS[\kStateT]) \in \refinement^{\kStateT}$.
 Then {\bf atoms-$\atomP$} for $\refinement$ follows from {\bf atoms-$\atomP$} for $\refinement^{\kStateT}$ ($\kPModel{\kStateT}$ and $\kPModel[\kStateT]{\kStateS[\kStateT]}$ have the same valuation) and by construction ($\kPModel[\kStateT]{\kStateS[\kStateT]}$ and $\kPModelP{\kStateSP_{\kStateT}}$ have the same valuation).
 
-Consider $(\kStateT, \kStateTP) \in \refinement$ where $(\kStateT, \kStateTP) \in \refinement^\gamma$ for some $\gamma \in \Gamma_\agentA$ or $(\kStateT, \kStateTP) \in \refinement^{\kStateT}$ for some $\kStateT \in \kSuccessorsA{\kStateS}$.
+Consider $(\kStateT, \kStateT[\gamma]) \in \refinement^\gamma \subseteq \refinement$ where $\gamma \in \Gamma_\agentA$ or $(\kStateU, \kStateU[\kStateT]) \in \refinement^{\kStateT} \subseteq \refinement$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
 Then {\bf atoms-$\atomP$} for $\refinement$ follows from {\bf atoms-$\atomP$} for $\refinement^\gamma$ and $\refinement^{\kStateT}$.
 
 \paragraph{forth-$\agentC$}
@@ -1258,9 +1257,9 @@ By construction $\kStateT \in \kSuccessorsPC{\kStateSP}$ and $(\kStateT, \kState
 
 Consider $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement$ where $\gamma \in \Gamma_\agentA$.
 Suppose that $\agentC = \agentA$.
-Let $\kStateT \in \kSuccessorsA{\kStateT_\gamma}$.
-By hypothesis $\kStateT, \kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $(\kStateT, \kStateS[\kStateT]) \in \refinement^{\kStateT}$.
-By construction $\kStateSP_{\kStateT} \in \kSuccessorsPA{\kStateSP_\gamma}$ and $(\kStateT, \kStateSP_{\kStateT}) \in \refinement$.
+Let $\kStateU \in \kSuccessorsA{\kStateT_\gamma}$.
+By hypothesis $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and by the Euclideaness of $\kModel$ we have that $\kStateU \in \kSuccessorsA{\kStateS}$.
+By construction $\kStateSP_{\kStateU} \in \kSuccessorsPA{\kStateSP_\gamma}$ and $(\kStateU, \kStateSP_{\kStateU}) \in \refinement$.
 Suppose that $\agentC \neq \agentA$.
 Let $\kStateU \in \kSuccessorsC{\kStateT_\gamma}$.
 By construction $(\kStateT_\gamma, \kStateS[\gamma]) \in \refinement^\gamma$.
@@ -1270,7 +1269,7 @@ By construction $\kStateU[\gamma] \in \kSuccessorsPC{\kStateSP_\gamma}$ and $(\k
 Consider $(\kStateT, \kStateSP_{\kStateT}) \in \refinement$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
 Suppose that $\agentC = \agentA$.
 Let $\kStateU \in \kSuccessorsA{\kStateT}$.
-By hypothesis $\kStateT, \kStateU \in \kSuccessorsA{\kStateS}$ and $(\kStateU, \kStateS[\kStateU]) \in \refinement^{\kStateU}$.
+By hypothesis $\kStateT \in \kSuccessorsA{\kStateS}$ and by the Euclideaness of $\kModel$ we have that $\kStateU \in \kSuccessorsA{\kStateS}$.
 By construction $\kStateSP_{\kStateU} \in \kSuccessorsPA{\kStateSP_{\kStateU}}$ and $(\kStateU, \kStateSP_{\kStateU}) \in \refinement$.
 Suppose that $\agentC \neq \agentA$.
 Let $\kStateU \in \kSuccessorsC{\kStateT}$.
@@ -1290,7 +1289,7 @@ By construction $\kStateU[\gamma] \in \kSuccessorsPC{\kStateT[\gamma]}$ and $(\k
 Consider $(\kStateU, \kStateU[\kStateT]) \in \refinement^{\kStateT} \subseteq \refinement$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
 Let $\kStateV \in \kSuccessorsC{\kStateU}$.
 By {\bf forth-$\agentC$} for $\refinement^{\kStateT}$ there exists $\kStateV[\kStateT] \in \kSuccessorsC[\kStateT]{\kStateU[\kStateT]}$ such that $(\kStateV, \kStateV[\kStateT]) \in \refinement^{\kStateT}$.
-By construction $\kStateV[\kStateT] \in \kSuccessorsPC{\kStateU[\kStateT]}$ and $(\kStateV, \kStateV[\gamma]) \in \refinement$.
+By construction $\kStateV[\kStateT] \in \kSuccessorsPC{\kStateU[\kStateT]}$ and $(\kStateV, \kStateV[\kStateT]) \in \refinement$.
 
 \paragraph{back-$\agentB$}
 
@@ -1307,12 +1306,10 @@ By construction $\kStateT \in \kSuccessorsB{\kStateS}$ and $(\kStateT, \kStateT)
 Consider $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement$ where $\gamma \in \Gamma_\agentA$.
 Suppose that $\agentB = \agentA$.
 Let $\kStateSP_{\gamma'} \in \kSuccessorsPA{\kStateSP_\gamma}$ where $\gamma' \in \Gamma_\agentA$.
-By hypothesis $\kStateT_{\gamma}, \kStateT_{\gamma'} \in \kSuccessorsA{\kStateS}$, and $(\kStateT_{\gamma'}, \kStateS[\gamma']) \in \refinement^{\gamma'}$.
-As $\kModel \in \classKD$ by the Euclideaness of $\kAccessibilityA$ we have that $\kStateT_{\gamma'} \in \kSuccessorsA{\kStateT_\gamma}$.
+By hypothesis $\kStateT_{\gamma}, \kStateT_{\gamma'} \in \kSuccessorsA{\kStateS}$, and by the Euclideaness of $\kModel$ we have that $\kStateT_{\gamma'} \in \kSuccessorsA{\kStateT_\gamma}$.
 By construction $(\kStateT_{\gamma'}, \kStateSP_{\gamma'}) \in \refinement$.
 Let $\kStateSP_{\kStateT} \in \kSuccessorsPA{\kStateSP_\gamma}$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
-By hypothesis $\kStateT, \kStateT_{\gamma} \in \kSuccessorsA{\kStateS}$, and $(\kStateT, \kStateS[\kStateT]) \in \refinement^{\kStateT}$.
-As $\kModel \in \classKD$ by the Euclideaness of $\kAccessibilityA$ we have that $\kStateT_{\gamma'} \in \kSuccessorsA{\kStateT_\gamma}$.
+By hypothesis $\kStateT, \kStateT_{\gamma} \in \kSuccessorsA{\kStateS}$, and by the Euclideaness of $\kModel$ we have that $\kStateT_{\gamma'} \in \kSuccessorsA{\kStateT_\gamma}$.
 By construction $(\kStateT, \kStateSP_{\kStateT}) \in \refinement$.
 Suppose that $\agentB \neq \agentA$.
 Let $\kStateT[\gamma] \in \kSuccessorsPA{\kStateSP_\gamma}$.
@@ -1323,12 +1320,10 @@ By construction $(\kStateU, \kStateT[\gamma]) \in \refinement$.
 Consider $(\kStateT_{\kStateT}, \kStateSP_{\kStateT}) \in \refinement$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
 Suppose that $\agentB = \agentA$.
 Let $\kStateSP_{\gamma} \in \kSuccessorsPA{\kStateSP_{\kStateT}}$ where $\gamma \in \Gamma_\agentA$.
-By hypothesis $\kStateT, \kStateT_{\gamma} \in \kSuccessorsA{\kStateS}$, and $(\kStateT_{\gamma}, \kStateS[\gamma]) \in \refinement^\gamma$.
-As $\kModel \in \classKD$ by the Euclideaness of $\kAccessibilityA$ we have that $\kStateT_{\gamma} \in \kSuccessorsA{\kStateT}$.
+By hypothesis $\kStateT, \kStateT_{\gamma} \in \kSuccessorsA{\kStateS}$, and by the Euclideaness of $\kModel$ we have that $\kStateT_{\gamma} \in \kSuccessorsA{\kStateT}$.
 By construction $(\kStateT_{\gamma}, \kStateSP_{\gamma}) \in \refinement$.
 Let $\kStateSP_{\kStateU} \in \kSuccessorsPA{\kStateSP_{\kStateT}}$ where $\kStateU \in \kSuccessorsA{\kStateS}$.
-By hypothesis $\kStateT, \kStateU \in \kSuccessorsA{\kStateS}$, and $(\kStateU, \kStateS[\kStateU]) \in \refinement^{\kStateU}$.
-As $\kModel \in \classKD$ by the Euclideaness of $\kAccessibilityA$ we have that $\kStateU \in \kSuccessorsA{\kStateT}$.
+By hypothesis $\kStateT, \kStateU \in \kSuccessorsA{\kStateS}$, and by the Euclideaness of $\kModel$ we have that $\kStateU \in \kSuccessorsA{\kStateT}$.
 By construction $(\kStateU, \kStateSP_{\kStateU}) \in \refinement$.
 Suppose that $\agentB \neq \agentA$.
 Let $\kStateU[\kStateT] \in \kSuccessorsPA{\kStateSP_{\kStateT}}$.

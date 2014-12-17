@@ -1505,6 +1505,67 @@ where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite s
 \end{definition}
 
 \begin{lemma}
+Let $\agentsB \subseteq \agents$ and $\kPModel{\kStateS}, \kPModelP{\kStateSP} \in \classS$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ via a $\agentsB$-refinement $\refinement \subseteq \kStates \times \kStatesP$.
+There exists $\kPModelPP{\kStateSPP} \in \classS$ such that $\kPModelP{\kStateSP} \bisimilar \kPModelPP{\kStateSPP}$ and $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$ via a $\agentsB$-refinement $\refinement' \subseteq \kStates \times \kStatesPP$ such that for every $\kStateTPP \in \kStatesPP$ there exists a unique $\kStateT \in \kStates$ such that $(\kStateT, \kStateTPP) \in \refinement'$.
+\end{lemma}
+
+\begin{proof}
+We define $\kPModelAndTuplePP{(\kStateS, \kStateSP)}$ where:
+\begin{eqnarray*}
+    \kStatesPP &=& \refinement\\
+    \kAccessibilityPPA &=& \{\big((\kStateT, \kStateTP), (\kStateU, \kStateUP)\big) \in \kStatesPP \times \kStatesPP \mid (\kStateT, \kStateU) \in \kAccessibilityA, (\kStateTP, \kStateUP) \in \kAccessibilityPA\}\\
+    \kValuationPP(\atomP) &=& \{(\kStateT, \kStateTP) \in \kStatesPP \mid \kStateTP \in \kValuationP(\atomP)\}
+\end{eqnarray*}
+We claim that $\kPModel{\kStateS} \simulatesBs \kPModelPP{(\kStateS, \kStateSP)}$ and $\kPModelP{\kStateSP} \bisimilar \kPModelPP{(\kStateS, \kStateSP)}$.
+
+We define $\refinement' \subseteq \kStates \times \kStatesPP$ where:
+$$
+\refinement' = \{(\kStateT, (\kStateT, \kStateTP)) \mid (\kStateT, \kStateTP) \in \refinement\}
+$$
+We note that for every $(\kStateT, \kStateTP) \in \kStatesPP$ there exists a unique $\kStateT \in \kStates$ such that $(\kStateT, (\kStateT, \kStateTP)) \in \refinement'$.
+We claim that $\refinement'$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelPP{(\kStateS, \kStateSP)}$.
+
+Let $\atomP \in \atoms$, $\agentA \in \agents$, $\agentC \in \agents \setminus \agentsB$, and $(\kStateT, (\kStateT, \kStateTP)) \in \refinement'$.
+
+\paragraph{atoms-$\atomP$}
+By {\bf atoms-$\atomP$} for $\refinement$, $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateTP \in \kValuationP(\atomP)$.
+By construction $\kStateTP \in \kValuationP(\atomP)$ if and only if $(\kStateT, \kStateTP) \in \kValuationPP(\atomP)$.
+
+\paragraph{forth-$\agentC$}
+Let $\kStateU \in \kSuccessorsC{\kStateT}$.
+By {\bf forth-$\agentC$} for $\refinement$ there exists $\kStateUP \in \kSuccessorsPC{\kStateTP}$ such that $(\kStateU, \kStateUP) \in \refinement$.
+By construction $(\kStateU, \kStateUP) \in \kSuccessorsPPC{(\kStateT, \kStateTP)}$ and $(\kStateU, (\kStateU, \kStateUP)) \in \refinement'$.
+
+\paragraph{back-$\agentA$}
+Let $(\kStateU, \kStateUP) \in \kSuccessorsPPA{(\kStateT, \kStateTP)}$.
+By construction $\kStateU \in \kSuccessorsA{\kStateT}$, $\kStateUP \in \kSuccessorsPA{\kStateTP}$, $(\kStateU, \kStateUP) \in \refinement$, and $(\kStateU, (\kStateU, \kStateUP)) \in \refinement'$.
+
+Therefore $\refinement'$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelPP{(\kStateS, \kStateSP)}$.
+
+We define $\bisimulation'' \subseteq \kStatesP \times \kStatesPP$ where:
+$$
+\bisimulation'' = \{(\kStateTP, (\kStateT, \kStateTP)) \mid (\kStateT, \kStateTP) \in \refinement\}
+$$
+We claim that $\bisimulation''$ is a bisimulation between $\kPModelP{\kStateSP}$ and $\kPModelPP{(\kStateS, \kStateSP)}$.
+
+Let $\atomP \in \atoms$, $\agentA \in \agents$, and $(\kStateTP, (\kStateT, \kStateTP)) \in \bisimulation''$.
+
+\paragraph{atoms-$\atomP$}
+By construction $\kStateTP \in \kValuationP(\atomP)$ if and only if $(\kStateT, \kStateTP) \in \kValuationPP(\atomP)$.
+
+\paragraph{forth-$\agentA$}
+Let $\kStateUP \in \kSuccessorsPA{\kStateTP}$.
+By {\bf back-$\agentA$} for $\refinement$ there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $(\kStateU, \kStateUP) \in \refinement$.
+By construction $(\kStateU, \kStateUP) \in \kSuccessorsPPA{(\kStateT, \kStateTP)}$ and $(\kStateU, (\kStateUP, \kStateUP)) \in \bisimulation''$.
+
+\paragraph{back-$\agentA$}
+Let $(\kStateU, \kStateUP) \in \kSuccessorsPPA{(\kStateT, \kStateTP)}$.
+By construction $\kStateUP \in \kSuccessorsPA{\kStateTP}$ and $(\kStateUP, (\kStateU, \kStateUP)) \in \bisimulation''$.
+
+Therefore $\bisimulation''$ is a bisimulation between $\kPModelP{\kStateSP}$ and $\kPModelPP{(\kStateS, \kStateSP)}$.
+\end{proof}
+
+\begin{lemma}
 The axiom {\bf RS5} is sound with respect to the semantics of the logic \logicRmlS{}.
 \end{lemma}
 

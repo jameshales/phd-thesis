@@ -1565,7 +1565,7 @@ By construction $\kStateUP \in \kSuccessorsPA{\kStateTP}$ and $(\kStateUP, (\kSt
 Therefore $\bisimulation''$ is a bisimulation between $\kPModelP{\kStateSP}$ and $\kPModelPP{(\kStateS, \kStateSP)}$.
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{rml-s5-rs5}
 The axiom {\bf RS5} is sound with respect to the semantics of the logic \logicRmlS{}.
 \end{lemma}
 
@@ -1592,13 +1592,13 @@ where $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ are fresh states 
 
 We note that by construction $\kModelP \in \classS$.
 
-We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA (\gamma_0 \land \Gamma_\agentA)$.
+We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP_{\gamma_0}}$ and $\kPModelP{\kStateSP_{\gamma_0}} \entails \coversA (\gamma_0 \land \Gamma_\agentA)$.
 
 We define $\refinement \subseteq \kStates \times \kStatesP$ where:
 $$
 \refinement = \{(\kStateT_\gamma, \kStateSP_\gamma) \mid \gamma \in \Gamma_\agentA\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \refinement^\gamma
 $$
-We claim that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
+We claim that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP_{\gamma_0}}$.
 
 Let $\atomP \in \atoms$, $\agentB \in \agents$, $\agentC \in \agents \setminus \agentsB$.
 
@@ -1732,6 +1732,100 @@ Therefore $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversA \Gam
 \begin{lemma}
 The axiom {\bf RComm} is sound with respect to the semantics of the logic \logicRmlS{}.
 \end{lemma}
+
+\begin{proof}
+($\Rightarrow$)
+Let $\kPModel{\kStateS} \in \classS$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
+Then we show that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ using the same reasoning as in the proof of soundness of {\bf RComm} in Lemma~\ref{rml-k-rcomm}.
+
+($\Leftarrow$)
+Let $\kPModelAndTuple{\kStateS} \in \classS$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
+For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classS$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
+For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\gamma \in \Gamma_\agentA$ and $\kPModelAndTuple[\kStateT]{\kStateS[\kStateT]} \in \classS$ such that $\kPModel{\kStateT} \simulatesBs \kPModel[\kStateT]{\kStateS[\kStateT]}$ and $\kPModel[\kStateT]{\kStateS[\kStateT]} \entails \gamma$.
+For notational consistency, for every $\kStateU \in \kSuccessorsA{\kStateS}$ we define $\kStateT_{\kStateU} = \kStateU$.
+By Lemma~\ref{refinement-functional}, without loss of generality we assume for every $\gamma \in \Gamma_\agentA$ that $\kPModel[\gamma]{\kStateS[\gamma]}$ is such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ via a $\agentsB$-refinement $\refinement^{\gamma} \subseteq \kStates \times \kStates[\gamma]$ where for every $\kStateT[\gamma] \in \kStates[\gamma]$ there exists a unique $\kStateT \in \kStates$ such that $(\kStateT, \kStateT[\gamma]) \in \refinement^{\gamma}$.
+Likewise without loss of generality we assume for every $\kStateT \in \kSuccessorsA{\kStateS}$ that $\kPModel[\kStateT]{\kStateS[\kStateT]}$ is such that $\kPModel{\kStateT} \simulatesBs \kPModel[\kStateT]{\kStateS[\kStateT]}$ via a $\agentsB$-refinement $\refinement^{\kStateT} \subseteq \kStates \times \kStates[\kStateT]$ where for every $\kStateU[\kStateT] \in \kStates[\kStateT]$ there exists a unique $\kStateU \in \kStates$ such that $(\kStateU, \kStateU[\kStateT]) \in \refinement^{\kStateT}$.
+As $\kPModel{\kStateS} \entails \somerefsBs \gamma_0$ and $\gamma_0 \in \Gamma_\agentA$, without loss of generality we assume that $\kStateT_{\gamma_0} = \kStateS$.
+We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RComm} equivalence.
+
+Let $\kPModelAndTupleP{\kStateSP_{\gamma_0}}$ be a Kripke model where:
+\begin{eqnarray*}
+    \kStatesP &=& \bigcup_{x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateT}} (\{\kStateSP_x\} \cup \kStates[x])\\
+    \kAccessibilityPA &=& \{(\kStateSP_x, \kStateSP_y) \mid x, y \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}\} \cup \bigcup_{x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateT}} \kStates[x]\\
+    \kAccessibilityPB &=& \bigcup_{x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}} (\{(\kStateSP_x, \kStateSP_x), (\kStateSP_x, \kStateT[x]), (\kStateT[x], \kStateSP_x) \mid \kStateT[x] \in \kSuccessorsB[x]{\kStateS[x]}\}\\
+    \kValuationP(\atomP) &=& \bigcup_{x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}} (\overline{\{\kStateSP_x\}} \cup \kValuation[x](\atomP))
+\end{eqnarray*}
+where $\kStateSP_x$ for every $x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}$ are fresh states not appearing in $\kStates[y]$ for any $y \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}$, and for every $x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}$: $\overline{\{\kStateSP_x\}} = \{\kStateSP_x\}$ if $\kStateS[x] \in \kValuation[x](\atomP)$ and $\overline{\{\kStateSP_x\}} = \emptyset$ otherwise.
+
+We note that by construction $\kModelP \in \classS$.
+
+We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP_{\gamma_0}}$ and $\kPModelP{\kStateSP_{\gamma_0}} \entails \coversA (\gamma_0 \land \Gamma_\agentA)$.
+
+We define $\refinement \subseteq \kStates \times \kStatesP$ where:
+$$
+\refinement = \bigcup_{x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}} (\{(\kStateT_x, \kStateS[x])\} \cup \refinement^x)
+$$
+We claim that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP_{\gamma_0}}$.
+
+Let $\atomP \in \atoms$, $\agentB \in \agents$, $\agentC \in \agents \setminus \agentsB$.
+
+\paragraph{atoms-$\atomP$}
+Consider $(\kStateT_x, \kStateSP_x) \in \refinement$ where $x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}$.
+By {\bf atoms-$\atomP$} for $\refinement^x$, $\kStateT_x \in \kValuation(\atomP)$ if and only if $\kStateS[x] \in \kValuation[x](\atomP)$.
+By construction $\kStateS[x] \in \kValuation[x](\atomP)$ if and only if $\kStateSP_x \in \kValuationP(\atomP)$.
+
+Consider $(\kStateT, \kStateT[x]) \in \refinement^x \subseteq \refinement$ where $x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}$.
+By {\bf atoms-$\atomP$} for $\refinement^x$, $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateT[x] \in \kValuation[x](\atomP)$.
+By construction $\kStateT[x] \in \kValuation[x](\atomP)$ if and only if $\kStateT[x] \in \kValuationP(\atomP)$.
+
+\paragraph{forth-$\agentC$}
+Consider $(\kStateT_x, \kStateSP_x) \in \refinement$ where $x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}$.
+Suppose that $\agentC = \agentA$.
+Let $\kStateU \in \kSuccessorsA{\kStateT_x}$.
+By the transitivity of $\kModel$ we have that $\kStateU \in \kSuccessorsA{\kStateS}$.
+By construction $\kStateSP_{\kStateU} \in \kSuccessorsPA{\kStateSP_x}$ and $(\kStateU, \kStateSP_{\kStateU}) \in \refinement$.
+Suppose that $\agentC \neq \agentA$.
+Let $\kStateU \in \kSuccessorsC{\kStateT_x}$.
+By hypothesis $(\kStateT_x, \kStateS[x]) \in \refinement^x$.
+By {\bf forth-$\agentC$} for $\refinement^x$ there exists $\kStateU[x] \in \kSuccessorsC[x]{\kStateS[x]} \subseteq \kSuccessorsPC{\kStateSP_x}$ such that $(\kStateU, \kStateU[x]) \in \refinement^x \subseteq \refinement$.
+
+Consider $(\kStateT, \kStateT[x]) \in \refinement^x \subseteq \refinement$ where $x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}$.
+Let $\kStateU \in \kSuccessorsC{\kStateT}$.
+By {\bf forth-$\agentC$} for $\refinement^x$ there exists $\kStateU[x] \in \kSuccessorsC[x]{\kStateT[x]} \subseteq \kSuccessorsPC{\kStateT[x]}$ such that $(\kStateU, \kStateU[x]) \in \refinement^x \subseteq \refinement$.
+
+\paragraph{back-$\agentB$}
+Consider $(\kStateT_x, \kStateSP_x) \in \refinement$ where $x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}$.
+Suppose that $\agentB = \agentA$.
+Let $\kStateSP_{x'} \in \kSuccessorsPA{\kStateSP_x}$ where $x' \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}$.
+By hypothesis $\kStateT_{x'} \in \kSuccessorsA{\kStateT_x}$.
+By construction $(\kStateT_{x'}, \kStateSP_{x'}) \in \refinement$.
+Suppose that $\agentB \neq \agentA$.
+Consider $\kStateSP_x \in \kSuccessorsPB{\kStateSP_x}$.
+By the reflexivity of $\kModel$ we have that $\kStateT_x \in \kSuccessorsB{\kStateT_x}$.
+By construction $(\kStateT_x, \kStateSP_x) \in \refinement$.
+Consider $\kStateT[x] \in \kSuccessorsB[x]{\kStateS[x]} \subseteq \kSuccessorsPB{\kStateSP_x}$.
+By hypothesis $(\kStateT_x, \kStateS[x]) \in \refinement^x$.
+By {\bf back-$\agentB$} for $\refinement^x$ there exists $\kStateU \in \kSuccessorsB{\kStateT_x}$ such that $(\kStateU, \kStateT[x]) \in \refinement^x \subseteq \refinement$.
+
+Consider $(\kStateT, \kStateT[x]) \in \refinement^x \subseteq \refinement$ where $x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}$.
+Suppose that $\agentB \neq \agentA$ and $\kStateSP_x \in \kSuccessorsPB{\kStateT[x]}$.
+Consider $\kStateSP_x \in \kSuccessorsPB{\kStateT[x]}$.
+By construction $\kStateS[x] \in \kSuccessorsB[x]{\kStateT[x]}$.
+By {\bf back-$\agentB$} for $\refinement^x$ there exists $\kStateU \in \kSuccessorsB{\kStateT_x}$ such that $(\kStateU, \kStateT[x]) \in \refinement^x$.
+By hypothesis there exists a unique $\kStateU \in \kStates$ such that $(\kStateU, \kStateT[x]) \in \refinement^x$.
+From above we have that $(\kStateT, \kStateT[x]), (\kStateU, \kStateT[x]) \in \refinement^x$ and therefore $\kStateU = \kStateT$.
+Therefore $\kStateT_x \in \kSuccessorsB{\kStateT}$ and $(\kStateT_x, \kStateS[x]) \in \refinement^x$.
+By construction $(\kStateT_x, \kStateSP_x) \in \refinement$.
+Otherwise, consider $\kStateU[x] \in \kSuccessorsB[x]{\kStateT[x]} \subseteq \kSuccessorsPB{\kStateT[x]}$.
+By {\bf back-$\agentB$} for $\refinement^x$ there exists $\kStateU \in \kSuccessorsB{\kStateT}$ such that $(\kStateU, \kStateU[x]) \in \refinement^x \subseteq \refinement$.
+
+Therefore $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP_{\gamma_0}}$.
+
+We claim for every $\gamma \in \Gamma_\agentA$ that $\kPModelP{\kStateSP_\gamma} \entails \gamma$ and for every $\kStateT \in \kSuccessorsA{\kStateS}$ that $\kPModelP{\kStateSP_{\kStateT}} \entails \bigvee_{\gamma \in \Gamma_\agentA}$.
+This follows from the same reasoning used in the proof of soundness of {\bf RS5} in Lemma~\ref{rml-s5-rs5}.
+Then $\kPModelP{\kStateSP_{\gamma_0}} \entails \gamma_0 \land \coversA \Gamma_\agentA$ follows from similar reasoning as used in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
+Therefore $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
+\end{proof}
 
 \begin{lemma}
 The axiom {\bf RDist} is sound with respect to the semantics of the logic \logicRmlS{}.

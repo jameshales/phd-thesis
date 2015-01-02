@@ -1937,7 +1937,7 @@ Then $\kPModelP{\kStateSP} \entails \bigwedge_{\agentC \in \agentsC} \coversC \G
 Therefore $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{rml-s5-soundness}
 The axiomatisation \axiomRmlS{} is sound with respect to the semantics of the logic \logicRmlS{}.
 \end{lemma}
 
@@ -2016,17 +2016,23 @@ As either $\proves \gamma'' \implies \delta$ or $\proves \gamma'' \implies \neg 
 Therefore $\chi'$ is an explicit formula, and $\phi$ is equivalent to a disjunction of explicit formulas.
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{rml-s5-ml-equivalent}
 Every refinement modal formula is equivalent to a modal formula under the semantics of the logic \logicRmlS{}.
 \end{lemma}
 
-\todo[inline]{Proof}
+\begin{proof}[Proof (Sketch)]
+We use similar reasoning as in the setting of \logicRmlK{} in Lemma~\ref{rml-k-ml-equivalent}.
+We convert subformulas to disjuncts of explicit formulas instead of disjunctive normal form, which ensures that the equivalences from Lemma~\ref{rml-s5-theorems} can be applied inductively to the subformula, by satisfying the relevant explicit formula requirements for the equivalences to hold.
+\end{proof}
 
 \begin{theorem}
 The axiomatisation \axiomRmlS{} is sound and strongly complete with respect to the semantics of the logic \logicRmlS{}.
 \end{theorem}
 
-\todo[inline]{Proof}
+\begin{proof}
+Soundness is shown in Lemma~\ref{rml-s5-soundness}.
+Strong completeness follows from similar reasoning used to show the strong completeness of \logicRmlK{} in Lemma~\ref{rml-k-sound-complete}.
+\end{proof}
 
 \begin{corollary}
 The logic \logicRmlS{} is expressively equivalent to the logic \logicS{}.

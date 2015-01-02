@@ -1479,7 +1479,7 @@ Let $\atomsQ, \atomsQ' \subseteq \atoms$ be finite sets of propositional atoms,
 let $\agentsB \subseteq \agents$ be a set of agents,
 for every $\agentB \in \agentsB$ let $\Gamma_\agentB \subseteq \langMl$ be a finite set of modal formulas,
 let $\gamma_0 \in \bigcap_{\agentB \in \agentsB} \Gamma_\agentB$ be a formula appearing in each of the sets $\Gamma_\agentB$, and
-let $\Delta = \{\delta \in \langMl \mid \agentB \in \agentsB, \gamma \in \Gamma_\agentB, \delta \leq \gamma\}$ be a set of subformulas of all of the formulas in each of the sets $\Gamma_\agentB$,
+let $\Delta = \{\delta \in \langMl \mid \agentB \in \agentsB, \gamma \in \Gamma_\agentB, \delta \leq \gamma\}$ be the set of subformulas of all of the formulas in each of the sets $\Gamma_\agentB$,
 such that the following conditions hold:
 \begin{enumerate}
     \item For every $\agentB \in \agentsB$, $\gamma \in \Gamma_\agentB$, $\delta \in \Delta$: either $\proves_\logicS \gamma \implies \delta$ or $\proves_\logicS \gamma \implies \lnot \delta$.
@@ -1822,7 +1822,7 @@ By {\bf back-$\agentB$} for $\refinement^x$ there exists $\kStateU \in \kSuccess
 
 Therefore $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP_{\gamma_0}}$.
 
-We claim for every $\gamma \in \Gamma_\agentA$ that $\kPModelP{\kStateSP_\gamma} \entails \gamma$ and for every $\kStateT \in \kSuccessorsA{\kStateS}$ that $\kPModelP{\kStateSP_{\kStateT}} \entails \bigvee_{\gamma \in \Gamma_\agentA}$.
+We claim for every $\gamma \in \Gamma_\agentA$ that $\kPModelP{\kStateSP_\gamma} \entails \gamma$ and for every $\kStateT \in \kSuccessorsA{\kStateS}$ that $\kPModelP{\kStateSP_{\kStateT}} \entails \bigvee_{\gamma \in \Gamma_\agentA} \gamma$.
 This follows from the same reasoning used in the proof of soundness of {\bf RS5} in Lemma~\ref{rml-s5-rs5}.
 Then $\kPModelP{\kStateSP_{\gamma_0}} \entails \gamma_0 \land \coversA \Gamma_\agentA$ follows from similar reasoning as used in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 Therefore $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
@@ -1942,10 +1942,79 @@ The axiomatisation \axiomRmlS{} is sound with respect to the semantics of the lo
 \end{lemma}
 
 \begin{lemma}
-Every modal formula is equivalent to an explicit formula under the semantics of the logic \logicS{}.
+Every modal formula is equivalent to a disjunction of explicit formulas under the semantics of the logic \logicS{}.
 \end{lemma}
 
-\todo[inline]{Proof}
+\begin{proof}
+Let $\phi \in \langMl$ be a modal formula.
+Without loss of generality, by Lemma~\ref{dnf-equivalent} we may assume that $\delta$ is in disjunctive normal form.
+Then $\phi$ is a disjunction of formulas of the form $\psi = \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB$.
+We need only show that every formula of this form is equivalent to a disjunction of explicit formulas.
+
+Let $\Delta = \{\delta \in \langMl \mid \agentB \in \agentsB, \gamma \in \Gamma_\agentB, \delta \leq \gamma\}$ be the set of subformulas of all of the formulas in each of the sets $\Gamma_\agentB$ appearing in $\psi$.
+By propositional reasoning we have:
+$$
+\proves \bigvee_{\Sigma \subseteq \Delta} \left( \bigwedge_{\delta \in \Sigma} \delta \land \bigwedge_{\delta \in \Delta \setminus \Sigma} \neg \delta \right) 
+$$
+And so we have:
+$$
+\proves \psi \iff \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \left\{ \bigvee_{\Sigma \subseteq \Delta} \left( \gamma \land \bigwedge_{\delta \in \Sigma} \delta \land \bigwedge_{\delta \in \Delta \setminus \Sigma} \neg \delta \right) \mid \gamma \in \Gamma_\agentB \right\}
+$$
+We pull the disjunctions within each cover operator up one level using the following equivalence:
+$$
+\entails \coversC (\{\psi \lor \chi\} \cup \Gamma) \iff \coversC (\{\psi\} \cup \Gamma) \lor \coversC (\{\chi\} \cup \Gamma) \lor \coversC (\{\psi, \chi\} \cup \Gamma)
+$$
+Then distributivity of conjunction over disjunction gives an equivalent formula of the form:
+$$
+\proves \psi \iff
+\bigvee_{(\Sigma_\agentB : \Gamma_\agentB \to \powerset(\Delta))_{\agentB \in \agentsB}} \left( \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma'_{\Sigma_\agentB} \right)
+$$
+where for every $\agentB \in \agentsB$, $\Gamma'_{\Sigma_\agentB} = \{\bigwedge_{\delta \in \Sigma_\agentB(\gamma) \cup \{\gamma\}} \delta \land \bigwedge_{\delta \in \Delta \setminus (\Sigma_\agentB(\gamma) \cup \{\gamma\})} \neg \delta \mid \gamma \in \Gamma_\agentB\}$.
+By reflexivity we have that:
+$$
+\proves \psi \iff
+\bigvee_{(\Sigma_\agentB : \Gamma_\agentB \to \powerset(\Delta))_{\agentB \in \agentsB}} \left( \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \left(\bigvee_{\gamma' \in \Gamma'_{\Sigma_\agentB}} \gamma' \land \coverB \Gamma'_{\Sigma_\agentB} \right) \right)
+$$
+By distributivity of conjunction over disjunction again we have:
+$$
+\proves \psi \iff
+\bigvee_{\substack{(\Sigma_\agentB : \Gamma_\agentB \to \powerset(\Delta))_{\agentB \in \agentsB}\\(\gamma'_\agentB \in \Gamma'_{\Sigma_\agentB})_{\agentB \in \agentsB}}}
+\left( \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \left(\gamma'_\agentB \land \coverB \Gamma'_{\Sigma_\agentB} \right) \right)
+$$
+Finally we remove the disjuncts that are themselves inconsistent.
+
+Consider the disjunct $\chi = \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \left(\gamma'_\agentB \land \coverB \Gamma'_{\Sigma_\agentB} \right)$ where for every $\agentB \in \agentsB$, $\Sigma_\agentB : \Gamma_\agentB \to \powerset(\Delta)$ and $\gamma'_\agentB \in \Gamma'_{\Sigma_\agentB}$.
+
+Let $\agentB, \agentC \in \agentsB$ and suppose that $\Sigma_\agentB(\gamma_\agentB) \neq \Sigma_\agentC(\gamma_\agentC)$.
+Then there exists $\delta \in \Sigma_\agentB(\gamma_\agentB)$ such that $\delta \notin \Sigma_\agentC(\gamma_\agentC)$ or
+there exists $\delta \in \Sigma_\agentC(\gamma_\agentC)$ such that $\delta \notin \Sigma_\agentB(\gamma_\agentB)$.
+Suppose that there exists $\delta \in \Sigma_\agentB(\gamma_\agentB)$ such that $\delta \notin \Sigma_\agentC(\gamma_\agentC)$.
+Then $\proves \gamma'_\agentB \implies \delta$ and $\proves \gamma'_\agentC \implies \neg \delta$, so $\proves \chi \implies \delta$ and $\proves \chi \implies \neg \delta$ and so $\chi$ is inconsistent.
+Suppose instead that there exists $\delta \in \Sigma_\agentC(\gamma_\agentC)$ such that $\delta \notin \Sigma_\agentB(\gamma_\agentB)$.
+Then likewise we can show that $\chi$ is inconsistent.
+By contrapositive for every $\agentB, \agentC \in \agentsB$ we have that if $\chi$ is consistent then $\Sigma_\agentB(\gamma_\agentB) \neq \Sigma_\agentC(\gamma_\agentC)$ and so $\gamma'_\agentB = \gamma'_\agentC$.
+
+Let $\chi' = \gamma_0 \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma'_{\Sigma_\agentB}$ where $\gamma_0 = \gamma_\agentB$ for every $\agentB \in \agentsB$.
+Then $\proves \chi \iff \chi'$.
+We claim that $\chi'$ is an explicit formula.
+
+Let $\agentB \in \agentsB$.
+As $\gamma_0 = \gamma_\agentB$ then $\gamma_0 \in \Gamma'_{\Sigma_\agentB}$.
+
+Let $\agentB \in \agentsB$, $\gamma' \in \Gamma'_{\Sigma_\agentB}$, and $\delta \in \Delta$.
+Suppose that $\delta \in \Sigma_\agentB(\gamma)$.
+Then $\gamma' = \gamma \land \bigwedge_{\delta \in \Sigma_\agentB(\gamma)} \delta \land \bigwedge_{\delta \in \Delta \setminus \Sigma_\agentB(\gamma)} \neg \delta$  where $\gamma \in \Gamma_\agentB$, and so $\proves \gamma' \implies \delta$.
+Suppose that $\delta \notin \Sigma_\agentB(\gamma)$.
+Then likewise we have that $\proves \gamma' \implies \neg \delta$.
+
+Let $\agentB \in \agentB$, $\gamma' \in \Gamma'_{\Sigma_\agentB}$, and $\necessaryB \delta \in \Delta$.
+Suppose that $\proves \gamma' \implies \necessaryB \delta$.
+Then we must have that $\coversB \Gamma'_{\Sigma_\agentB} \implies \necessaryB \delta$.
+Let $\gamma'' \in \Gamma'_{\Sigma_\agentB}$.
+As either $\proves \gamma'' \implies \delta$ or $\proves \gamma'' \implies \neg \delta$ and $\chi$ is not contradictory then we must have that $\proves \gamma'' \implies \delta$, as otherwise $\proves \gamma'' \implies \neg \delta$ would imply that $\coversB \Gamma'_{\Sigma_\agentB} \implies \neg \necessaryB \delta$.
+
+Therefore $\chi'$ is an explicit formula, and $\phi$ is equivalent to a disjunction of explicit formulas.
+\end{proof}
 
 \begin{lemma}
 Every refinement modal formula is equivalent to a modal formula under the semantics of the logic \logicRmlS{}.

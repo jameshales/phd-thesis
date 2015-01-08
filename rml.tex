@@ -27,12 +27,14 @@ We note that bisimulations are also refinements.
 Let $\agentsB \subseteq \agents$ be a set of agents. Then every bisimulation is a $\agentsB$-refinement.
 \end{proposition}
 
+This follows directly from the definition of refinements and bisimulations.
+
 \begin{corollary}\label{bisimilar-refinement}
 Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be Kripke models.
 If $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ then $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 \end{corollary}
 
-The refinement relation forms a preorder.
+The $\simulatesBs$ relation forms a preorder.
 
 \begin{proposition}\label{refinements-preorder}
 The relation $\simulatesBs$ is a preorder (reflexive and transitive) on Kripke models.
@@ -51,21 +53,21 @@ The relation $\simulatesBs$ is a preorder (reflexive and transitive) on Kripke m
     We show that the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentC$} and {\bf back-$\agentA$} hold.
 
     \paragraph{atoms-$\atomP$}
-    As $(\kStateS, \kStateSP) \in \refinement$ from {\bf atoms-$\atomP$} we have that $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
-    As $(\kStateSP, \kStateSPP) \in \refinement'$ from {\bf atoms-$\atomP$} we have that $\kStateSP \in \kValuationP(\atomP)$ if and only if $\kStateSPP \in \kValuationPP(\atomP)$.
+    As $(\kStateS, \kStateSP) \in \refinement$ from {\bf atoms-$\atomP$} for $\refinement$ we have that $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
+    As $(\kStateSP, \kStateSPP) \in \refinement'$ from {\bf atoms-$\atomP$} for $\refinement'$ we have that $\kStateSP \in \kValuationP(\atomP)$ if and only if $\kStateSPP \in \kValuationPP(\atomP)$.
     Therefore $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSPP \in \kValuationPP(\atomP)$.
 
     \paragraph{forth-$\agentC$}
     Let $\kStateT \in \kSuccessorsC{\kStateS}$.
-    As $(\kStateS, \kStateSP) \in \refinement$ from {\bf forth-$\agentC$} there exists $\kStateTP \in \kSuccessorsPC{\kStateSP}$ such that $(\kStateT, \kStateTP) \in \refinement$.
-    As $(\kStateSP, \kStateSPP) \in \refinement$ from {\bf forth-$\agentC$} there exists $\kStateTPP \in \kSuccessorsPPC{\kStateSPP}$ such that $(\kStateTP, \kStateTPP) \in \refinement'$.
+    As $(\kStateS, \kStateSP) \in \refinement$ from {\bf forth-$\agentC$} for $\refinement$ there exists $\kStateTP \in \kSuccessorsPC{\kStateSP}$ such that $(\kStateT, \kStateTP) \in \refinement$.
+    As $(\kStateSP, \kStateSPP) \in \refinement'$ from {\bf forth-$\agentC$} for $\refinement'$ there exists $\kStateTPP \in \kSuccessorsPPC{\kStateSPP}$ such that $(\kStateTP, \kStateTPP) \in \refinement'$.
     Therefore there exists $\kStateTPP \in \kSuccessorsPPC{\kStateSPP}$ such that $(\kStateT, \kStateTPP) \in \refinement''$.
 
     \paragraph{back-$\agentA$}
-    Let $\kStateT \in \kSuccessorsA{\kStateS}$.
-    As $(\kStateS, \kStateSP) \in \refinement$ from {\bf back-$\agentA$} there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $(\kStateT, \kStateTP) \in \refinement$.
-    As $(\kStateSP, \kStateSPP) \in \refinement$ from {\bf back-$\agentA$} there exists $\kStateTPP \in \kSuccessorsPPA{\kStateSPP}$ such that $(\kStateTP, \kStateTPP) \in \refinement'$.
-    Therefore there exists $\kStateTPP \in \kSuccessorsPPA{\kStateSPP}$ such that $(\kStateT, \kStateTPP) \in \refinement''$.
+    Let $\kStateTPP \in \kSuccessorsPPA{\kStateSPP}$.
+    As $(\kStateSP, \kStateSPP) \in \refinement'$ from {\bf back-$\agentA$} for $\refinement'$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $(\kStateTP, \kStateTPP) \in \refinement'$.
+    As $(\kStateS, \kStateSP) \in \refinement$ from {\bf back-$\agentA$} for $\refinement$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTP) \in \refinement$.
+    Therefore there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTPP) \in \refinement''$.
 
     Therefore $\refinement''$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$. 
 \end{proof}

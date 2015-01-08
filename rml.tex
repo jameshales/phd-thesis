@@ -101,23 +101,24 @@ As $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ there exists a $\agent
 We show for every $(\kStateT, \kStateTP) \in \refinement$ that $\kPModel{\kStateT} \entails \phi$ implies $\kPModelP{\kStateTP} \entails \phi$ by induction on the structure of $\phi$.
 Let $(\kStateT, \kStateTP) \in \refinement$.
 
-Suppose that $\phi = \atomP$ for $\atomP \in \atoms$ and suppose that $\kPModel{\kStateT} \entails \atomP$.
+Suppose that $\phi = \atomP$ where $\atomP \in \atoms$ and suppose that $\kPModel{\kStateT} \entails \atomP$.
 As $(\kStateT, \kStateTP) \in \refinement$ then by {\bf atoms-$\atomP$} we have that $\kPModelP{\kStateTP} \entails \atomP$.
 
-Suppose that $\phi = \lnot \atomP$ for $\atomP \in \atoms$ and suppose that $\kPModel{\kStateT} \entails \lnot \atomP$.
+Suppose that $\phi = \lnot \atomP$ where $\atomP \in \atoms$ and suppose that $\kPModel{\kStateT} \entails \lnot \atomP$.
 As $(\kStateT, \kStateTP) \in \refinement$ then by {\bf atoms-$\atomP$} we have that $\kPModelP{\kStateTP} \entails \lnot \atomP$.
 
-Suppose that $\phi = \psi \land \chi$ or $\phi = \psi \lor \chi$ for $\psi, \chi \in \langMlPlusBs$.
+Suppose that $\phi = \psi \land \chi$ or $\phi = \psi \lor \chi$ where $\psi, \chi \in \langMlPlusBs$.
 These follow directly from the induction hypothesis.
 
-Suppose that $\phi = \necessaryA \psi$ for $\agentA \in \agents$ and $\psi \langMlPlusBs$, and suppose that $\kPModel{\kStateT} \entails \necessaryA \psi$.
+Suppose that $\phi = \necessaryA \psi$ where $\agentA \in \agents$ and $\psi \in \langMlPlusBs$, and suppose that $\kPModel{\kStateT} \entails \necessaryA \psi$.
 Then $\kPModel{\kStateU} \entails \psi$ for every $\kStateU \in \kSuccessorsA{\kStateT}$.
 Let $\kStateUP \in \kSuccessorsPA{\kStateTP}$.
 As $(\kStateT, \kStateTP) \in \refinement$ then by {\bf back-$\agentA$} there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $(\kStateU, \kStateUP) \in \refinement$.
 As $(\kStateU, \kStateUP) \in \refinement$ and $\kPModel{\kStateU} \entails \psi$ then by the induction hypothesis we have $\kPModelP{\kStateUP} \entails \psi$.
+So for every $\kStateUP \in \kSuccessorsPA{\kStateTP}$ we have $\kPModelP{\kStateUP} \entails \psi$.
 Therefore $\kPModelP{\kStateTP} \entails \necessaryA \psi$.
 
-Suppose that $\phi = \possibleC \psi$ for $\agentC \in \agents \setminus \agentsB$ and $\psi \in \langMlPlusBs$, and suppose that $\kPModel{\kStateT} \entails \possibleC \psi$.
+Suppose that $\phi = \possibleC \psi$ where $\agentC \in \agents \setminus \agentsB$ and $\psi \in \langMlPlusBs$, and suppose that $\kPModel{\kStateT} \entails \possibleC \psi$.
 Then there exists $\kStateU \in \kSuccessorsC{\kStateT}$ such that $\kPModel{\kStateU} \entails \psi$.
 As $(\kStateT, \kStateTP) \in \refinement$ then by {\bf forth-$\agentC$} there exists $\kStateUP \in \kSuccessorsPC{\kStateTP}$ such that $(\kStateU, \kStateUP) \in \refinement$.
 As $(\kStateU, \kStateUP) \in \refinement$ and $\kPModel{\kStateU} \entails \psi$ then by the induction hypothesis we have $\kPModelP{\kStateUP} \entails \psi$.
@@ -139,8 +140,8 @@ We show that the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentC$} and {\bf
 
 \paragraph{atoms-$\atomP$}
 $\kStateT \in \kValuation(\atomP)$ if and only if $\kPModel{\kStateT} \entails \atomP$.
-As $\atomP \in \langMlPlusBs$ and $(\kStateT, \kStateTP) \in \refinement$ then $\kPModel{\kStateT} \entails \atomP$ if and only if $\kPModelP{\kStateTP} \entails \atomP$.
-$\kPModelP{\kStateTP} \entails \atomP$ if and only if $\kStateTP \in \kValuationP(\atomP)$
+As $\atomP \in \langMlPlusBs$ and $(\kStateT, \kStateTP) \in \refinement$ then $\kPModel{\kStateT} \entails \atomP$ if and only if $\kPModelP{\kStateTP} \entails \atomP$
+and $\kPModelP{\kStateTP} \entails \atomP$ if and only if $\kStateTP \in \kValuationP(\atomP)$.
 Therefore $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateTP \in \kValuationP(\atomP)$.
 
 \paragraph{forth-$\agentC$}
@@ -171,11 +172,11 @@ Then $\kPModel{\kStateS} \simulates \kPModel{\kStateS} \exec \aPModel{\aStateS}$
 Let $\kModel \exec \aModel = \kModelTupleP$ where:
 \begin{eqnarray*}
     \kStatesP &=& \{(\kStateT, \aStateT) \in \kStates \times \aStates \mid \kPModel{\kStateT} \entails \aPrecondition(\aStateT)\}\\
-    (\kStateT, \aStateT) \kAccessibilityPA (\kStateU, \aStateU) &\text{ iff }& \kStateT \kAccessibilityA \kStateU \text{ and } \aStateT \aAccessibilityA \aStateU\\
+    \kAccessibilityPA &=& \{((\kStateT, \aStateT), (\kStateU, \aStateU)) \in \kStatesP \times \kStatesP \mid (\kStateT, \kStateU) \in \kAccessibilityA, (\aStateT, \aStateU) \in \aAccessibilityA\}\\
     \kValuationP(\atomP) &=& \{(\kStateT, \aStateT) \in \kStatesP \mid \kStateT \in \kValuation(\atomP)\}
 \end{eqnarray*}
-and let $\refinement \subseteq \kStates \times \kStatesP$ be a relation such that $\kStateT \refinement (\kStateT, \aStateT)$ for every $(\kStateT, \aStateT) \in \kStatesP$.
-We claim that the $\refinement$ is a refinement and therefore $\kPModel{\kStateS} \simulates \kPModel{\kStateS} \exec \aPModel{\aStateS}$.
+and let $\refinement \subseteq \kStates \times \kStatesP$ be a relation such that $(\kStateT, (\kStateT, \aStateT)) \in \refinement$ for every $(\kStateT, \aStateT) \in \kStatesP$.
+We claim that $\refinement$ is a refinement and therefore $\kPModel{\kStateS} \simulates \kPModel{\kStateS} \exec \aPModel{\aStateS}$.
 Let $\atomP \in \atoms$, $\agentA \in \agents$ and $(\kStateT, (\kStateT, \aStateT)) \in \refinement'$.
 We show that the conditions {\bf atoms-$\atomP$} and {\bf back-$\agentA$} hold.
 
@@ -183,8 +184,8 @@ We show that the conditions {\bf atoms-$\atomP$} and {\bf back-$\agentA$} hold.
 By construction, $\kStateT \in \kValuation(\atomP)$ if and only if $(\kStateT, \aStateT) \in \kValuationP(\atomP)$.
 
 \paragraph{back-$\agentA$}
-Let $(\kStateU, \aStateU) \in \kAccessibilityPA{(\kStateT, \aStateT)}$.
-Then by construction $\kStateU \in \kAccessibilityA{\kStateT}$ and $\kStateU \refinement (\kStateU, \aStateU)$.
+Let $(\kStateU, \aStateU) \in \kSuccessorsPA{(\kStateT, \aStateT)}$.
+Then by construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $(\kStateU, (\kStateU, \aStateU)) \in \refinement $.
 
 Therefore $\refinement$ is a refinement and $\kPModel{\kStateS} \simulates \kPModel{\kStateS} \exec \aPModel{\aStateS}$.
 \end{proof}

@@ -642,6 +642,8 @@ where $\kStateSP$ is a fresh state not appearing in $\kStates$, $\kStates[\gamma
     \end{tikzpicture}
 \end{figure}
 
+\todo[inline]{Differences from RK construction}
+
 We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
 
 For every $\gamma \in \Gamma_\agentA$ let $\refinement^\gamma \subseteq \kStates \times \kStates[\gamma]$ be a $\agentsB$-refinement from $\kPModel{\kStateT_\gamma}$ to $\kPModel[\gamma]{\kStateS[\gamma]}$ and
@@ -1119,6 +1121,8 @@ Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
 \end{eqnarray*}
 where $\kStateSP$ and $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ are fresh states not appearing in $\kStates$ or $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$, $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise, and for every $\gamma \in \Gamma_\agentA$: $\overline{\{\kStateSP_\gamma\}} = \{\kStateSP_\gamma\}$ if $\kStateS[\gamma] \in \kValuation[\gamma](\atomP)$ and $\overline{\{\kStateSP_\gamma\}} = \emptyset$ otherwise.
 
+\todo[inline]{Differences from RK construction}
+
 We note that by construction $\kModelP \in \classKD$.
 
 We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
@@ -1228,6 +1232,8 @@ Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
     \kValuationP(\atomP) &=& \overline{\{\kStateSP\}} \cup \kValuation(\atomP) \cup \bigcup_{\gamma \in \Gamma_\agentA} \kValuation[\gamma](\atomP) \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kValuation[\kStateT](\atomP)
 \end{eqnarray*}
 where $\kStateSP$, $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ and $\kStateSP_{\kStateT}$ for every $\kStateT \in \kSuccessorsA{\kStateS}$ are fresh states not appearing in $\kStates$, $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$ or $\kStates[\kStateT]$ for any $\kStateT \in \kSuccessorsA{\kStateS}$, $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise, for every $\gamma \in \Gamma_\agentA$: $\overline{\{\kStateSP_\gamma\}} = \{\kStateSP_\gamma\}$ if $\kStateS[\gamma] \in \kValuation[\gamma](\atomP)$ and $\overline{\{\kStateSP_\gamma\}} = \emptyset$ otherwise; and for every $\kStateT \in \kSuccessorsA{\kStateS}$: $\overline{\{\kStateSP_{\kStateT}\}} = \{\kStateSP_{\kStateT}\}$ if $\kStateS[\kStateT] \in \kValuation[\kStateT](\atomP)$ and $\overline{\{\kStateSP_{\kStateT}\}} = \emptyset$ otherwise
+
+\todo[inline]{Differences from RKD45 construction}
 
 We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
 
@@ -1392,7 +1398,7 @@ The axiomatisation \axiomRmlKD{} is sound with respect to the semantics of the l
 \begin{proof}
 The soundness of the axioms and rules of \axiomKD{} with respect to the semantics of the logic \logicRmlKD{} follow from the same reasoning that they are sound in the logic \logicKD{}.
 The soundness of {\bf R}, {\bf RP} and {\bf NecR} follow from Proposition~\ref{rml-validities}.
-The soundness of {\bf RK}, {\bf RComm} and {\bf RDist} were shown in the previous lemmas.
+The soundness of {\bf RKD45}, {\bf RComm} and {\bf RDist} were shown in the previous lemmas.
 \end{proof}
 
 \begin{definition}[Alternating disjunctive normal form]
@@ -1452,6 +1458,8 @@ The following are theorems of \axiomRmlKD{}:
 where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
 \end{lemma}
 
+This result follows from similar reasoning as in the analogous Lemma~\ref{rml-k-theorems} for \axiomRmlK{}.
+
 \begin{lemma}
 Every refinement modal formula is equivalent to a modal formula under the semantics of the logic \logicRmlKD{}.
 \end{lemma}
@@ -1467,7 +1475,7 @@ The axiomatisation \axiomRmlKD{} is sound and strongly complete with respect to 
 
 \begin{proof}
 Soundness is shown in Lemma~\ref{rml-kd-sound}.
-Strong completeness follows from similar reasoning used to show the strong completeness of \axiomRmlK{} in Lemma~\ref{rml-k-sound-complete}.
+Strong completeness follows from similar reasoning as in the proof of strong completeness of \axiomRmlK{} in Lemma~\ref{rml-k-sound-complete}.
 \end{proof}
 
 \begin{corollary}
@@ -1584,7 +1592,7 @@ The axiom {\bf RS5} is sound with respect to the semantics of the logic \logicRm
 \begin{proof}
 ($\Rightarrow$) 
 Let $\kPModel{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
-Then we show that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ using similar reasoning as used in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
+Then we show that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ using similar reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 
 ($\Leftarrow$)
 Let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
@@ -1687,7 +1695,7 @@ Finally $\kStateT[\gamma] \in \kValuation[\gamma](\atomP)$ if and only if $\kPMo
 Suppose that $\delta = \lnot \phi$ or $\delta = \phi \land \psi$ where $\phi, \psi \in \Delta$.
 These cases follow directly from the induction hypothesis.
 
-Suppose that $\delta = \necessaryA \phi$ where $\phi \in \Delta$.
+Suppose that $\delta = \necessaryA \phi$ where $\phi \in \Delta$. 
 
 Suppose $\kPModelP{\kStateSP_\gamma} \entails \necessaryA \phi$.
 For every $\gamma' \in \Gamma_\agentA$ we have $\kPModelP{\kStateSP_{\gamma'}} \entails \phi$.
@@ -1701,7 +1709,8 @@ Suppose $\kPModel[\gamma]{\kStateS[\gamma]} \entails \necessaryA \phi$.
 As $\gamma_0 \land \coversA \Gamma_\agentA$ is an explicit formula then either $\proves \gamma \implies \necessaryA \phi$ or $\proves \gamma \implies \lnot \necessaryA \phi$.
 By hypothesis $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$ and from above $\kPModel[\gamma]{\kStateS[\gamma]} \entails \necessaryA \phi$ and so we must have $\proves \gamma \implies \necessaryA \phi$.
 As $\gamma_0 \land \coversA \Gamma_\agentA$ is an explicit formula and $\proves \gamma \implies \necessaryA \phi$ then for every $\gamma' \in \Gamma_\agentA$ we have $\proves \gamma' \implies \phi$.
-By hypothesis for every $\gamma' \in \Gamma_\agentA$ we have $\kPModel[\gamma']{\kStateS[\gamma']} \entails \phi$ and by the induction hypothesis $\kPModelP{\kStateSP_{\gamma'}} \entails \phi$.
+By hypothesis for every $\gamma' \in \Gamma_\agentA$ we have $\kPModel[\gamma']{\kStateS[\gamma']} \entails \gamma'$ and so $\kPModel[\gamma']{\kStateS[\gamma']} \entails \phi$.
+By the induction hypothesis $\kPModelP{\kStateSP_{\gamma'}} \entails \phi$.
 Therefore $\kPModelP{\kStateSP_\gamma} \entails \necessaryA \phi$.
 
 Suppose $\kPModelP{\kStateT[\gamma]} \entails \necessaryA \phi$.
@@ -1737,7 +1746,7 @@ By the induction hypothesis $\kPModelP{\kStateSP_\gamma} \entails \phi$.
 Therefore $\kPModelP{\kStateT[\gamma]} \entails \necessaryB \gamma$.
 
 Therefore for every $\gamma \in \Gamma_\agentA$ we have $\kPModelP{\kStateSP_\gamma} \entails \gamma$.
-Then $\kPModelP{\kStateSP_{\gamma_0}} \entails \gamma_0 \land \coversA \Gamma_\agentA$ follows from similar reasoning as used in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
+Then $\kPModelP{\kStateSP_{\gamma_0}} \entails \gamma_0 \land \coversA \Gamma_\agentA$ follows from similar reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 Therefore $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
 \end{proof}
 
@@ -1834,7 +1843,7 @@ Therefore $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to 
 
 We claim for every $\gamma \in \Gamma_\agentA$ that $\kPModelP{\kStateSP_\gamma} \entails \gamma$ and for every $\kStateT \in \kSuccessorsA{\kStateS}$ that $\kPModelP{\kStateSP_{\kStateT}} \entails \bigvee_{\gamma \in \Gamma_\agentA} \gamma$.
 This follows from the same reasoning used in the proof of soundness of {\bf RS5} in Lemma~\ref{rml-s5-rs5}.
-Then $\kPModelP{\kStateSP_{\gamma_0}} \entails \gamma_0 \land \coversA \Gamma_\agentA$ follows from similar reasoning as used in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
+Then $\kPModelP{\kStateSP_{\gamma_0}} \entails \gamma_0 \land \coversA \Gamma_\agentA$ follows from similar reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 Therefore $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
 \end{proof}
 
@@ -1942,7 +1951,7 @@ Then $(\kStateU, \kStateU[\agentC]) \in \refinement$.
 Therefore $\refinement$ is a $\agentsB$-refinement and as $(\kStateS, \kStateSP) \in \refinement$ we have that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 
 We claim for every $\agentC \in \agentsC$ that $\kPModelP{\kStateSP} \entails \coversC \Gamma_\agentC$.
-This follows from similar reasoning to that used in the proof of soundness of {\bf RS5} in Lemma~\ref{rml-s5-rs5}.
+This follows from similar reasoning as in the proof of soundness of {\bf RS5} in Lemma~\ref{rml-s5-rs5}.
 Then $\kPModelP{\kStateSP} \entails \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$ follows from the same reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 Therefore $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
 \end{proof}
@@ -1950,6 +1959,12 @@ Therefore $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agent
 \begin{lemma}\label{rml-s5-soundness}
 The axiomatisation \axiomRmlS{} is sound with respect to the semantics of the logic \logicRmlS{}.
 \end{lemma}
+
+\begin{proof}
+The soundness of the axioms and rules of \axiomS{} with respect to the semantics of the logic \logicRmlS{} follow from the same reasoning that they are sound in the logic \logicS{}.
+The soundness of {\bf R}, {\bf RP} and {\bf NecR} follow from Proposition~\ref{rml-validities}.
+The soundness of {\bf RS5}, {\bf RComm} and {\bf RDist} were shown in the previous lemmas.
+\end{proof}
 
 \begin{lemma}
 Every modal formula is equivalent to a disjunction of explicit formulas under the semantics of the logic \logicS{}.
@@ -1972,7 +1987,7 @@ $$
 $$
 We pull the disjunctions within each cover operator up one level using the following equivalence:
 $$
-\entails \coversC (\{\psi \lor \chi\} \cup \Gamma) \iff \coversC (\{\psi\} \cup \Gamma) \lor \coversC (\{\chi\} \cup \Gamma) \lor \coversC (\{\psi, \chi\} \cup \Gamma)
+\proves \coversC (\{\psi \lor \chi\} \cup \Gamma) \iff \coversC (\{\psi\} \cup \Gamma) \lor \coversC (\{\chi\} \cup \Gamma) \lor \coversC (\{\psi, \chi\} \cup \Gamma)
 $$
 Then distributivity of conjunction over disjunction gives an equivalent formula of the form:
 $$
@@ -2026,6 +2041,22 @@ As either $\proves \gamma'' \implies \delta$ or $\proves \gamma'' \implies \neg 
 Therefore $\chi'$ is an explicit formula, and $\phi$ is equivalent to a disjunction of explicit formulas.
 \end{proof}
 
+\begin{lemma}\label{rml-s5-theorems}
+The following are theorems of \axiomRmlS{}:
+\begin{align}
+    \proves & \somerefsBs (\phi \lor \psi) \iff (\somerefsBs \phi \lor \somerefsBs \psi) \label{rml-kd-or}\\
+    \proves & \displaystyle \somerefsBs (\gamma_0 \land \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \nonumber\\
+            & \displaystyle \quad
+            \somerefsBs \gamma_0 \land
+            \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land 
+            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \somerefsBs \gamma \land
+            \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} \label{rml-kd-cover}
+\end{align}
+where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite set of explicit formulas and $\gamma_0 \in \Gamma_\agentA$.
+\end{lemma}
+
+This result follows from similar reasoning as in the analogous Lemma~\ref{rml-k-theorems} for \axiomRmlK{}.
+
 \begin{lemma}\label{rml-s5-ml-equivalent}
 Every refinement modal formula is equivalent to a modal formula under the semantics of the logic \logicRmlS{}.
 \end{lemma}
@@ -2041,7 +2072,7 @@ The axiomatisation \axiomRmlS{} is sound and strongly complete with respect to t
 
 \begin{proof}
 Soundness is shown in Lemma~\ref{rml-s5-soundness}.
-Strong completeness follows from similar reasoning used to show the strong completeness of \logicRmlK{} in Lemma~\ref{rml-k-sound-complete}.
+Strong completeness follows from similar reasoning as in the proof of strong completeness of \logicRmlK{} in Lemma~\ref{rml-k-sound-complete}.
 \end{proof}
 
 \begin{corollary}

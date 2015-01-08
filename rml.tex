@@ -30,7 +30,7 @@ Let $\agentsB \subseteq \agents$ be a set of agents. Then every bisimulation is 
 This follows directly from the definition of refinements and bisimulations.
 
 \begin{corollary}\label{bisimilar-refinement}
-Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be Kripke models.
+Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models.
 If $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ then $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 \end{corollary}
 
@@ -41,11 +41,11 @@ The relation $\simulatesBs$ is a preorder (reflexive and transitive) on Kripke m
 \end{proposition}
 
 \begin{proof}
-    Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$ be a Kripke model.
+    Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$ be a pointed Kripke model.
     By Proposition~\ref{bisimulation-equivalence-relation} we have $\kPModel{\kStateS} \bisimilar \kPModel{\kStateS}$ and by Corollary~\ref{bisimilar-refinement} we have $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS}$.
     Therefore the relation $\simulatesBs$ is reflexive.
 
-    Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$, $\kPModelP{\kStateSP}$ and $\kPModelPP{\kStateSPP}$ be Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
+    Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$, $\kPModelP{\kStateSP}$ and $\kPModelPP{\kStateSPP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
     Then there exists $\agentsB$-refinements $\refinement \subseteq \kStates \times \kStatesP$ and $\refinement' \subseteq \kStatesP \times \kStatesPP$.
     We claim that the relation $\refinement'' = \refinement \circ \refinement' \subseteq \kStates \times \kStatesPP$ is a $\agentsB$-refinement and therefore $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$.
     Let $\atomP \in \atoms$, $\agentA \in \agents$, $\agentC \in \agents \setminus \agentsB$ and $(\kStateS, \kStateSPP) \in \refinement''$.
@@ -164,7 +164,7 @@ Therefore $\refinement$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simu
 \end{proof}
 
 \begin{proposition}
-Let $\kPModel{\kStateS}$ be a Kripke model and let $\aPModel{\aStateS}$ be an action model.
+Let $\kPModel{\kStateS}$ be a pointed Kripke model and let $\aPModel{\aStateS}$ be an action model.
 Then $\kPModel{\kStateS} \simulates \kPModel{\kStateS} \exec \aPModel{\aStateS}$.
 \end{proposition}
 
@@ -439,11 +439,12 @@ Therefore $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP
 \end{proof}
 
 \begin{proposition}
-The logics \logicRmlK{}, \logicRmlKF{}, \logicRmlKFF{}, \logicRmlKD{}, \logicRmlSF{} and \logicRmlS{} do not have uniform subsitution.
+The logics \logicRmlK{}, \logicRmlKF{}, \logicRmlKFF{}, \logicRmlKD{}, \logicRmlSF{} and \logicRmlS{} do not have uniform substitution.
 \end{proposition}
 
 \begin{proof}
 From Proposition~\ref{rml-validities} we have that $\entails \atomP \implies \allrefs \atomP$ but we do not have in general that $\entails \possibleB \atomP \implies \allrefs \possible \atomP$, as the successor state where $\atomP$ is valid may be removed in a refinement.
+\todo[inline]{Diagram of example}
 \end{proof}
 
 \begin{proposition}
@@ -478,18 +479,18 @@ The axiom {\bf RK} is sound with respect to the semantics of the logic \logicRml
 \end{lemma}
 
 \begin{proof}
-($\Rightarrow$) Let $\kPModelAndTuple{\kStateS} \in \classK$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
+($\Rightarrow$) Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 There exists $\kPModelAndTupleP{\kStateSP} \in \classK$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateTP_\gamma \in \kSuccessorsPA{\kStateSP}$ such that $\kPModelP{\kStateTP_\gamma} \entails \gamma$.
 From {\bf back-$\agentA$} there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModelP{\kStateTP_\gamma}$.
 Then $\kPModel{\kStateT_\gamma} \entails \somerefsBs \gamma$ and so $\kPModel{\kStateS} \entails \possibleA \somerefsBs \gamma$.
 Therefore $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
 
-($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classK$ be a Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
+($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classK$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RK} equivalence.
 
-Let $\kPModelAndTupleP{\kStateSP}$ be a Kripke model where:
+Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
 \begin{eqnarray*}
     \kStatesP &=& \{\kStateSP\} \cup \kStates \cup \bigcup_{\gamma \in \Gamma_\agentA} \kStates[\gamma]\\
     \kAccessibilityPA &=& \{(\kStateSP, \kStateS[\gamma]) \mid \gamma \in \Gamma_\agentA\} \cup \kAccessibilityA \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityA[\gamma]\\
@@ -593,7 +594,7 @@ The axiom {\bf RComm} is sound with respect to the semantics of the logic \logic
 \end{lemma}
 
 \begin{proof}
-($\Rightarrow$) Let $\kPModelAndTuple{\kStateS} \in \classK$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
+($\Rightarrow$) Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 There exists $\kPModelAndTupleP{\kStateSP} \in \classK$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateTP_\gamma \in \kSuccessorsPA{\kStateSP}$ such that $\kPModelP{\kStateTP_\gamma} \entails \gamma$.
 From {\bf back-$\agentA$} there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModelP{\kStateTP_\gamma}$.
@@ -603,12 +604,12 @@ As $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ then $\kPModelP{\kSta
 Then $\kPModel{\kStateT} \entails \bigvee_{\gamma \in \Gamma_\agentA} \somerefsBs \gamma$ and so $\kPModel{\kStateS} \entails \necessaryA \bigvee_{\gamma \in \Gamma_\agentA} \somerefsBs \gamma$.
 Therefore $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
 
-($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classK$ be a Kripke model such that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
+($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classK$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
 For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\gamma \in \Gamma_\agentA$ and $\kPModelAndTuple[\kStateT]{\kStateS[\kStateT]} \in \classK$ such that $\kPModel{\kStateT} \simulatesBs \kPModel[\kStateT]{\kStateS[\kStateT]}$ and $\kPModel[\kStateT]{\kStateS[\kStateT]} \entails \gamma$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RComm} equivalence.
 
-Let $\kPModelAndTupleP{\kStateSP}$ be a Kripke model where:
+Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
 \begin{eqnarray*}
     \kStatesP &=& \{\kStateSP\} \cup \kStates \cup \bigcup_{\gamma \in \Gamma_\agentA} \kStates[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kStates[\kStateT]\\
     \kAccessibilityPA &=& \{(\kStateSP, \kStateS[\gamma]) \mid \gamma \in \Gamma_\agentA\} \cup \{(\kStateSP, \kStateS[\kStateT]) \mid \kStateT \in \kSuccessorsA{\kStateS}\} \cup \kAccessibilityA \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityA[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kAccessibilityA[\kStateT]\\
@@ -722,16 +723,16 @@ The axiom {\bf RDist} is sound with respect to the semantics of the logic \logic
 \end{lemma}
 
 \begin{proof}
-($\Rightarrow$) Let $\kPModel{\kStateS} \in \classK$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
+($\Rightarrow$) Let $\kPModel{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
 There exists $\kPModelP{\kStateSP} \in \classK$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
 For every $\agentC \in \agentsC$ we have that $\kPModelP{\kStateSP} \entails \coversC \Gamma_\agentC$ and so $\kPModel{\kStateS} \entails \somerefsBs \coversC \Gamma_\agentC$.
 Therefore $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$.
 
-($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classK$ be a Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$.
+($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$.
 For every $\agentC \in \agentsC$ there exists $\kPModel[\agentC]{\kStateS[\agentC]} \in \classK$ such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentC]{\kStateS[\agentC]}$ and $\kPModel[\agentC]{\kStateS[\agentC]} \entails \coversC \Gamma_\agentC$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RDist} equivalence.
 
-Let $\kPModelAndTupleP{\kStateSP}$ be a Kripke model where:
+Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
 \begin{eqnarray*}
     \kStatesP &=& \{\kStateSP\} \cup \kStates \cup \bigcup_{\agentC \in \agentsC} \kStates[\agentC]\\
     \kAccessibilityC &=& \{(\kStateSP, \kStateT[\agentC]) \mid \kStateT[\agentC] \in \kSuccessorsC[\agentC]{\kStateS[\agentC]}\} \cup \kAccessibilityC \cup \bigcup_{\agentD \in \agentsC} \kAccessibilityC[\agentD] \text{ for } \agentC \in \agentsC\\
@@ -889,22 +890,22 @@ Let $\phi \in \langMl$ be a modal formula.
 Without loss of generality, by Lemma~\ref{nnf-equivalent} we may assume that $\phi$ is in negation normal form.
 We prove by induction on the modal depth of $\phi$ and the structure of $\phi$ that it is equivalent to a formula in disjunctive normal form.
 
-Suppose that $d(\phi) = 0$ and $\phi = \atomP$ or $\phi = \lnot \atomP$ for $\atomP \in \atoms$.
+Suppose that $\phi = \atomP$ or $\phi = \lnot \atomP$ for $\atomP \in \atoms$.
 Then $\phi$ is already in disjunctive normal form.
 
-Suppose that $d(\phi) > 0$ and $\phi = \psi \lor \chi$ for $\psi, \chi \in \langMl$ in negation normal form.
+Suppose that $\phi = \psi \lor \chi$ for $\psi, \chi \in \langMl$ in negation normal form.
 By the induction hypothesis there exists $\psi', \chi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$ and $\entails \chi \iff \chi'$.
 Then $\psi' \lor \chi'$ is in disjunctive normal form and $\entails (\psi \lor \chi) \iff (\psi' \lor \chi')$.
 
-Suppose that $d(\phi) > 0$ and $\phi = \necessaryA \psi$ for $\psi \in \langMl$ in negation normal form.
+Suppose that $\phi = \necessaryA \psi$ for $\psi \in \langMl$ in negation normal form.
 By the induction hypothesis there exists $\psi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$.
 Then $\coversA \{\phi'\} \lor \coversA \emptyset$ is in disjunctive normal form and $\entails \necessaryA \phi \iff (\coversA \{\phi'\} \lor \coversA \emptyset)$.
 
-Suppose that $d(\phi) > 0$ and $\phi = \possibleA \psi$ for $\psi \in \langMl$ in negation normal form.
+Suppose that $\phi = \possibleA \psi$ for $\psi \in \langMl$ in negation normal form.
 By the induction hypothesis there exists $\psi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$.
 Then $\coversA \{\phi', \top\}$ is in disjunctive normal form and $\entails \possibleA \phi \iff (\coversA \{\phi', \top\}$.
 
-Suppose that $d(\phi) > 0$ and $\phi = \psi \land \chi$ for $\psi, \chi \in \langMl$ in negation normal form.
+Suppose that $\phi = \psi \land \chi$ for $\psi, \chi \in \langMl$ in negation normal form.
 By the induction hypothesis there exists $\psi', \chi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$ and $\entails \chi \iff \chi'$.
 As $\psi'$ and $\chi'$ are in disjunctive normal form then $\psi' = \delta_0 \lor \cdots \lor \delta_m$ and $\chi' = \gamma_0 \lor \cdots \lor \gamma_n$ for $m, n \in \naturals$.
 We distribute the disjunctions over the conjunction using the following equivalence:
@@ -934,7 +935,7 @@ The following are theorems of \axiomRmlK{}:
     \proves & \displaystyle \somerefsBs (\bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \nonumber\\
             & \displaystyle \quad
             \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land 
-            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \somerefsBs \gamma \land
+            \bigwedge_{\substack{\agentC \in \agentsC \cap \agentsB\\\gamma \in \Gamma_\agentC}} \possibleC \somerefsBs \gamma \land
             \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} \label{rml-k-cover}
 \end{align}
 \end{lemma}
@@ -971,26 +972,28 @@ Every refinement modal formula is provably equivalent to a modal formula using t
 \begin{proof}
 Let $\phi \in \langRml$ be a refinement modal formula.
 Assume without loss of generality that all $\allrefsBs$~operators are expressed instead as $\somerefsBs$~operators.
-We show by induction on the number of $\somerefsBs$-operators in $\phi$ ($\somerefsBs$~operators for any $\agentsB \subseteq \agents$) that $\phi$ is provably equivalent to a modal formula.
+We show by induction on the number of $\somerefsBs$~operators in $\phi$ ($\somerefsBs$~operators for any $\agentsB \subseteq \agents$) that $\phi$ is provably equivalent to a modal formula.
 
-Suppose that $\phi$ has no $\somerefsBs$-operators.
+Suppose that $\phi$ has no $\somerefsBs$~operators.
 Then $\phi$ is already a modal formula.
 
-Suppose that $\phi$ has $n + 1$ $\somerefsBs$-operators.
+Suppose that $\phi$ has $n + 1$ $\somerefsBs$~operators.
 Let $\somerefsBs \psi$ be a subformula of $\phi$ such that $\psi \in \langMl$ is a modal formula.
 By Lemma~\ref{dnf-equivalent} there exists $\psi' \in \langMl$ in disjunctive normal form such that $\entails_\logicK{} \psi \iff \psi'$ under the semantics of the logic \logicK{}.
 By the completeness of the logic \logicK{}, we have that $\proves_\axiomK{} \psi \iff \psi'$ using the axiomatisation \axiomK{}.
-By Lemma~\ref{rml-k-ml-provability} we have that $\proves \psi \iff \psi'$ using the axiomatisation \axiomRmlK{}.
-By substitution of equivalents we have $\proves \somerefsBs \psi \iff \somerefsBs \psi'$.
+By Lemma~\ref{rml-k-ml-provability} we have that $\proves_\axiomRmlK \psi \iff \psi'$ using the axiomatisation \axiomRmlK{}.
+By substitution of equivalents we have $\proves_\axiomRmlK \somerefsBs \psi \iff \somerefsBs \psi'$.
 We show by induction on the structure of $\psi'$ that $\somerefsBs \psi'$ is provably equivalent to a modal formula.
 
 Suppose that $\psi' = \alpha \lor \beta$.
-By Lemma~\ref{rml-k-theorems} we have that $\proves \somerefsBs (\alpha \lor \beta) \iff (\somerefsBs \alpha \lor \somerefsBs \beta)$.
-By the induction hypothesis there exists $\alpha', \beta' \in \langMl$ such that $\proves \somerefsBs \alpha \iff \alpha'$ and $\proves \somerefsBs \beta \iff \beta'$.
-Therefore by substitution of equivalents we have that $\proves \somerefsBs (\alpha \lor \beta) \iff (\alpha' \lor \beta')$, where $\alpha' \lor \beta' \in \langMl$.
+By Lemma~\ref{rml-k-theorems} we have that $\proves_\axiomRmlK \somerefsBs (\alpha \lor \beta) \iff (\somerefsBs \alpha \lor \somerefsBs \beta)$.
+By the induction hypothesis there exists $\alpha', \beta' \in \langMl$ such that $\proves_\axiomRmlK \somerefsBs \alpha \iff \alpha'$ and $\proves_\axiomRmlK \somerefsBs \beta \iff \beta'$.
+Therefore by substitution of equivalents we have that $\proves_\axiomRmlK \somerefsBs (\alpha \lor \beta) \iff (\alpha' \lor \beta')$, where $\alpha' \lor \beta' \in \langMl$.
 
 Suppose that $\psi' = \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC$.
-We use similar reasoning to the case above to show that $\psi'$ is provably equivalent to a modal formula.
+By Lemma~\ref{rml-k-theorems} we have the equivalence (\ref{rml-k-cover}).
+By the induction hypothesis for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$ there exists $\gamma' \in \langMl$ such that $\proves_\axiomRmlK \somerefsBs \gamma \iff \gamma'$.
+Therefore by substitution of equivalents we may replace each occurrence of $\somerefsBs \gamma$ with the corresponding $\gamma'$ to yield an equivalent modal formula. 
 
 Therefore $\somerefsBs \psi'$ is provably equivalent to a modal formula $\psi''$.
 By substitution of equivalents, substiting $\psi''$ for $\somerefsBs \psi$ in $\phi$ yields a provably equivalent formula $\phi'$ with $n$ $\somerefsBs$~operators.
@@ -1005,16 +1008,16 @@ The axiomatisation \axiomRmlK{} is sound and strongly complete with respect to t
 Soundness is shown in Lemma~\ref{rml-k-sound}.
 
 Let $\Phi \subseteq \langRml$ be a set of formulas consistent according to the axiomatisation \axiomRmlK{}.
-By Lemma~\ref{rml-k-ml-equivalent}, for every $\phi \in \Phi$ there exists $\phi' \in \langMl$ such that $\proves \phi \iff \phi'$.
+By Lemma~\ref{rml-k-ml-equivalent}, for every $\phi \in \Phi$ there exists $\phi' \in \langMl$ such that $\proves_\axiomRmlK \phi \iff \phi'$.
 Let $\Phi' = \{\phi' \mid \phi \in \Phi\}$.
 Then $\Phi'$ is consistent according to the axiomatisation \axiomRmlK{}.
 As \axiomRmlK{} contains all of the axioms and rules of \axiomK{} then $\Phi'$ is also consistent according to the axiomatisation \axiomK{}.
 By the strong completeness of \axiomK{} it follows that $\Phi'$ is satisfiable with respect to the semantics of the logic \logicK{}.
 Suppose that $\kPModel{\kStateS} \in \classK$ is a Kripke model such that $\kPModel{\kStateS} \entails_\logicK{} \Phi'$.
-Then $\kPModel{\kStateS} \entails \Phi'$.
+Then $\kPModel{\kStateS} \entails_\logicRmlK{} \Phi'$.
 Let $\phi \in \Phi$.
-Then $\kPModel{\kStateS} \entails \phi'$, and as $\proves \phi \iff \phi'$ by the soundness of the axiomatisation \axiomRmlK{} it follows that $\entails \phi \iff \phi'$ and $\kPModel{\kStateS} \entails \phi$.
-Therefore $\kPModel{\kStateS} \entails \Phi$.
+Then $\kPModel{\kStateS} \entails_\logicRmlK{} \phi'$, and as $\proves_\axiomRmlK \phi \iff \phi'$ by the soundness of the axiomatisation \axiomRmlK{} it follows that $\entails_\logicRmlK{} \phi \iff \phi'$ and $\kPModel{\kStateS} \entails_\logicRmlK{} \phi$.
+Therefore $\kPModel{\kStateS} \entails_\logicRmlK{} \Phi$.
 Therefore $\Phi$ is satisfiable.
 \end{proof}
 
@@ -1100,14 +1103,14 @@ The axiom {\bf RKD45} is sound with respect to the semantics of the logic \logic
 \end{lemma}
 
 \begin{proof}
-($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKD$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
+($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKD$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 Then we show that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ using the same reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 
-($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKD$ be a Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
+($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKD$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classKD$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RKD45} equivalence.
 
-Let $\kPModelAndTupleP{\kStateSP}$ be a Kripke model where:
+Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
 \begin{eqnarray*}
     \kStatesP &=& \{\kStateSP\} \cup \{\kStateSP_\gamma \mid \gamma \in \Gamma_\agentA\} \cup \kStates \cup \bigcup_{\gamma \in \Gamma_\agentA} \kStates[\gamma]\\
     \kAccessibilityPA &=& \{(\kStateSP, \kStateSP_\gamma) \mid \gamma \in \Gamma_\agentA\} \cup \{(\kStateSP_\gamma, \kStateSP_{\gamma'}) \mid \gamma, \gamma' \in \Gamma_\agentA\} \cup \kAccessibilityA \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityA[\gamma]\\
@@ -1209,15 +1212,15 @@ The axiom {\bf RComm} is sound with respect to the semantics of the logic \logic
 \end{lemma}
 
 \begin{proof}
-($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKD$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
+($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKD$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 Then we show that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ using the same reasoning as in the proof of soundness of {\bf RComm} in Lemma~\ref{rml-k-rcomm}.
 
-($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKD$ be a Kripke model such that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
+($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKD$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classKD$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
 For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\gamma \in \Gamma_\agentA$ and $\kPModelAndTuple[\kStateT]{\kStateS[\kStateT]} \in \classKD$ such that $\kPModel{\kStateT} \simulatesBs \kPModel[\kStateT]{\kStateS[\kStateT]}$ and $\kPModel[\kStateT]{\kStateS[\kStateT]} \entails \gamma$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RComm} equivalence.
 
-Let $\kPModelAndTupleP{\kStateSP}$ be a Kripke model where:
+Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
 \begin{eqnarray*}
     \kStatesP &=& \{\kStateSP\} \cup \{\kStateSP_\gamma \mid \gamma \in \Gamma_\agentA\} \cup \{\kStateSP_{\kStateT} \mid \kStateT \in \kSuccessorsA{\kStateS}\} \cup \kStates \cup \bigcup_{\gamma \in \Gamma_\agentA} \kStates[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kStates[\kStateT]\\
     \kAccessibilityPA &=& \{(\kStateSP, \kStateSP_\gamma) \mid \gamma \in \Gamma_\agentA\} \cup \{(\kStateSP, \kStateSP_{\kStateT}) \mid \kStateT \in \kSuccessorsA{\kStateS}\} \cup \{(\kStateSP_x, \kStateSP_y) \mid x, y \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}\} \cup \\&&\quad \kAccessibilityA \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityA[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kAccessibilityA[\kStateT]\\
@@ -1373,10 +1376,10 @@ The axiom {\bf RDist} is sound with respect to the semantics of the logic \logic
 \end{lemma}
 
 \begin{proof}
-($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKD$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
+($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKD$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
 Then we show that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$ using the same reasoning as in the proof of soundness of {\bf RDist} in Lemma~\ref{rml-k-rcomm}.
 
-($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKD$ be a Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$.
+($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKD$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$.
 For every $\agentC \in \agentsC$ there exists $\kPModel[\agentC]{\kStateS[\agentC]} \in \classKD$ such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentC]{\kStateS[\agentC]}$ and $\kPModel[\agentC]{\kStateS[\agentC]} \entails \coversC \Gamma_\agentC$.
 Then we show that $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$ using the same reasoning as in the proof of soundness of {\bf RDist} in Lemma~\ref{rml-k-rcomm}.
 We note that since each of the refinements $\kPModel[\agentC]{\kStateS[\agentC]}$ are \classKD{} models then the construction used in Lemma~\ref{rml-k-rcomm} will produce a \classKD{} model as required.
@@ -1580,17 +1583,17 @@ The axiom {\bf RS5} is sound with respect to the semantics of the logic \logicRm
 
 \begin{proof}
 ($\Rightarrow$) 
-Let $\kPModel{\kStateS} \in \classS$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
+Let $\kPModel{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
 Then we show that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ using similar reasoning as used in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 
 ($\Leftarrow$)
-Let $\kPModelAndTuple{\kStateS} \in \classS$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
+Let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classS$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
 By Lemma~\ref{refinement-functional}, without loss of generality we assume for every $\gamma \in \Gamma_\agentA$ that $\kPModel[\gamma]{\kStateS[\gamma]}$ is such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ via a $\agentsB$-refinement $\refinement^{\gamma} \subseteq \kStates \times \kStates[\gamma]$ where for every $\kStateT[\gamma] \in \kStates[\gamma]$ there exists a unique $\kStateT \in \kStates$ such that $(\kStateT, \kStateT[\gamma]) \in \refinement^{\gamma}$.
 As $\kPModel{\kStateS} \entails \somerefsBs \gamma_0$ and $\gamma_0 \in \Gamma_\agentA$, without loss of generality we assume that $\kStateT_{\gamma_0} = \kStateS$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RS5} equivalence.
 
-Let $\kPModelAndTupleP{\kStateSP_{\gamma_0}}$ be a Kripke model where:
+Let $\kPModelAndTupleP{\kStateSP_{\gamma_0}}$ be a pointed Kripke model where:
 \begin{eqnarray*}
     \kStatesP &=& \bigcup_{\gamma \in \Gamma_\agentA} (\{\kStateSP_\gamma\} \cup \kStates[\gamma])\\
     \kAccessibilityPA &=& \{(\kStateSP_\gamma, \kStateSP_{\gamma'}) \mid \gamma, \gamma' \in \Gamma_\agentA\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \kStates[\gamma]\\
@@ -1744,11 +1747,11 @@ The axiom {\bf RComm} is sound with respect to the semantics of the logic \logic
 
 \begin{proof}
 ($\Rightarrow$)
-Let $\kPModel{\kStateS} \in \classS$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
+Let $\kPModel{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
 Then we show that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ using the same reasoning as in the proof of soundness of {\bf RComm} in Lemma~\ref{rml-k-rcomm}.
 
 ($\Leftarrow$)
-Let $\kPModelAndTuple{\kStateS} \in \classS$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
+Let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classS$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
 For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\gamma \in \Gamma_\agentA$ and $\kPModelAndTuple[\kStateT]{\kStateS[\kStateT]} \in \classS$ such that $\kPModel{\kStateT} \simulatesBs \kPModel[\kStateT]{\kStateS[\kStateT]}$ and $\kPModel[\kStateT]{\kStateS[\kStateT]} \entails \gamma$.
 For notational consistency, for every $\kStateU \in \kSuccessorsA{\kStateS}$ we define $\kStateT_{\kStateU} = \kStateU$.
@@ -1757,7 +1760,7 @@ Likewise without loss of generality we assume for every $\kStateT \in \kSuccesso
 As $\kPModel{\kStateS} \entails \somerefsBs \gamma_0$ and $\gamma_0 \in \Gamma_\agentA$, without loss of generality we assume that $\kStateT_{\gamma_0} = \kStateS$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RComm} equivalence.
 
-Let $\kPModelAndTupleP{\kStateSP_{\gamma_0}}$ be a Kripke model where:
+Let $\kPModelAndTupleP{\kStateSP_{\gamma_0}}$ be a pointed Kripke model where:
 \begin{eqnarray*}
     \kStatesP &=& \bigcup_{x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateT}} (\{\kStateSP_x\} \cup \kStates[x])\\
     \kAccessibilityPA &=& \{(\kStateSP_x, \kStateSP_y) \mid x, y \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}\} \cup \bigcup_{x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateT}} \kStates[x]\\
@@ -1841,18 +1844,18 @@ The axiom {\bf RDist} is sound with respect to the semantics of the logic \logic
 
 \begin{proof}
 ($\Rightarrow$)
-Let $\kPModel{\kStateS} \in \classS$ be a Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC)$.
+Let $\kPModel{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC)$.
 There exists $\kPModelP{\kStateSP} \in \classS$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \gamma_0 \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
 For every $\agentC \in \agentsC$ we have that $\kPModelP{\kStateSP} \entails \gamma_0 \land \coversC \Gamma_\agentC$ and so $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversC \Gamma_\agentC)$.
 Therefore $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs (\gamma_0 \land \coversC \Gamma_\agentC)$.
 
 ($\Leftarrow$)
-Let $\kPModelAndTuple{\kStateS} \in \classS$ be a Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs (\gamma_0 \land \coversC \Gamma_\agentC)$.
+Let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs (\gamma_0 \land \coversC \Gamma_\agentC)$.
 For every $\agentC \in \agentsC$ there exists $\kPModel[\agentC]{\kStateS[\agentC]} \in \classS$ such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentC]{\kStateS[\agentC]}$ and $\kPModel[\agentC]{\kStateS[\agentC]} \entails \gamma_0 \land \coversC \Gamma_\agentC$.
 By Lemma~\ref{refinement-functional}, without loss of generality we assume for every $\agentC \in \agentsC$ that $\kPModel[\agentsC]{\kStateS[\agentC]}$ is such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentC]{\kStateS[\agentC]}$ via a $\agentsB$-refinement $\refinement^{\agentC} \subseteq \kStates \times \kStates[\agentC]$ where for every $\kStateT[\agentC] \in \kStates[\agentC]$ there exists a unique $\kStateT \in \kStates$ such that $(\kStateT, \kStateT[\agentC]) \in \refinement^{\agentC}$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RDist} equivalence.
 
-Let $\kPModelAndTupleP{\kStateSP}$ be a Kripke model where:
+Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
 \begin{eqnarray*}
     \kStatesP &=& \{\kStateSP\} \cup \kStates \cup \bigcup_{\agentC \in \agentsC} \kStates[\agentC]\\
     \kAccessibilityC &=& \{(\kStateSP, \kStateSP), (\kStateSP, \kStateT[\agentC]), (\kStateT[\agentC], \kStateSP) \mid \kStateT[\agentC] \in \kSuccessorsC[\agentC]{\kStateS[\agentC]}\} \cup \kAccessibilityC \cup \bigcup_{\agentD \in \agentsC} \kAccessibilityC[\agentD] \text{ for } \agentC \in \agentsC\\

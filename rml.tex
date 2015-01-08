@@ -206,32 +206,32 @@ Then for every $\kStateT, \kStateU \in \kStates$ we have that $\kPModel{\kStateU
 We construct an action model $\aPModelAndTuple{\kStateSP}$ where:
 \begin{eqnarray*}
     \aStates &=& \kStatesP\\
-    \aAccessibilityA &=& \kAccessibilityA\\
+    \aAccessibilityA &=& \kAccessibilityPA\\
     \aPrecondition(\kStateTP) &=& \bigvee_{(\kStateT, \kStateTP) \in \refinement} \phi_{\kStateT}
 \end{eqnarray*}
 
 Let $\kModelAndTuplePP = \kModel \exec \aModel$. 
 We note that $(\kStateT, \kStateTP) \in \kStatesPP$ if and only if $(\kStateT, \kStateTP) \in \refinement$.
 
-Let $\bisimulation' \subseteq \kStatesP \times \kStatesPP$ such that $\kStateTP \bisimulation' (\kStateT, \kStateTP)$ for every $(\kStateT, \kStateTP) \in \refinement$.
+Let $\bisimulation' \subseteq \kStatesP \times \kStatesPP$ such that $(\kStateTP, (\kStateT, \kStateTP)) \in \bisimulation' $ for every $(\kStateT, \kStateTP) \in \refinement$.
 We claim that $\bisimulation'$ is a bisimulation.
 Let $\atomP \in \atoms$, $\agentA \in \agents$, and $(\kStateTP, (\kStateT, \kStateTP)) \in \bisimulation'$.
 We show that the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentA$} and {\bf back-$\agentA$} hold.
 
 \paragraph{atoms-$\atomP$}
-{\bf atom-$\atomP$} follows directly from $(\kStateT, \kStateTP) \in \refinement$ and {\bf atoms-$\atomP$} for $\refinement$.
+{\bf atoms-$\atomP$} follows directly from $(\kStateT, \kStateTP) \in \refinement$ and {\bf atoms-$\atomP$} for $\refinement$.
 
 \paragraph{forth-$\agentA$}
 Let $\kStateUP \in \kSuccessorsPA{\kStateTP}$.
 As $(\kStateT, \kStateTP) \in \refinement$ from {\bf back-$\agentA$} for $\refinement$ there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $(\kStateU, \kStateUP) \in \refinement$.
-Therefore $\kStateUP \bisimulation' (\kStateU, \kStateUP)$.
+Therefore $(\kStateUP, (\kStateU, \kStateUP)) \in \bisimulation'$.
 
 \paragraph{back-$\agentA$}
 Let $(\kStateU, \kStateUP) \in \kSuccessorsPPA{(\kStateT, \kStateTP)}$.
-Then by construction $\kStateUP \in \kSuccessorsPA{\kStateTP}$ and $\kStateUP \bisimulation' (\kStateU, \kStateUP)$.
+Then by construction $\kStateUP \in \kSuccessorsPA{\kStateTP}$ and $(\kStateUP, (\kStateU, \kStateUP)) \in \bisimulation'$.
 
 Therefore $\bisimulation'$ is a bisimulation.
-In particular we note as $(\kStateS, \kStateSP) \in \refinement$ then $\kStateSP \bisimulation' (\kStateS, \kStateSP)$ and so $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar \kPModelP{\kStateSP}$.
+In particular we note as $(\kStateS, \kStateSP) \in \refinement$ then $(\kStateSP, (\kStateS, \kStateSP)) \in \bisimulation'$ and so $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar \kPModelP{\kStateSP}$.
 \end{proof}
 
 \begin{lemma}\label{refinement-union}

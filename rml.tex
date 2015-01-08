@@ -1,17 +1,6 @@
 \chapter{Refinement modal logic}\label{rml}
 
-\begin{definition}[Language of refinement modal logic]
-The {\em language of refinement modal logic}, \langRml{}, is inductively defined as:
-$$
-\phi ::= 
-    \atomP \mid
-    \lnot \phi \mid
-    \phi \land \phi \mid
-    \necessaryA \phi \mid
-    \allrefsBs \phi
-$$
-where $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentsB \subseteq \agents$.
-\end{definition}
+\section{Refinements}
 
 \begin{definition}[Refinements]
 Let $\agentsB \subseteq \agents$ be a set of agents and let $\kModelAndTuple$ and $\kModelAndTupleP$ be Kripke models.
@@ -282,6 +271,21 @@ So $\refinement \subseteq \refinement_n$, and we have that $\refinement_n$ is no
 As $\refinement$ is the maximal $\agentsB$-refinement then $\refinement_n \subseteq \refinement$.
 Therefore $\refinement_n = \refinement$ and the above algorithm computes the maximal $\agentsB$-refinement.
 \end{proof}
+
+\section{Refinement modal logic}
+
+\begin{definition}[Language of refinement modal logic]
+The {\em language of refinement modal logic}, \langRml{}, is inductively defined as:
+$$
+\phi ::= 
+    \atomP \mid
+    \lnot \phi \mid
+    \phi \land \phi \mid
+    \necessaryA \phi \mid
+    \allrefsBs \phi
+$$
+where $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentsB \subseteq \agents$.
+\end{definition}
 
 \begin{definition}[Semantics of refinement modal logic]
 Let $\classC$ be a class of Kripke frames, let $\phi \in \langRml$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.

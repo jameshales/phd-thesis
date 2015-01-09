@@ -1,0 +1,83 @@
+\section{Arbitrary public announcement logic}\label{apal}
+
+We recall definitions and results from the public announcement logic of Balbiani, et al~\cite{balbiani:2008}.
+
+\begin{definition}[Language of arbitrary public announcement logic]
+The {\em language of arbitrary public announcement logic}, \langApal{}, is inductively defined as:
+$$
+\phi ::= 
+    \atomP \mid
+    \lnot \phi \mid
+    \phi \land \phi \mid
+    \necessaryA \phi \mid
+    \announceA{\phi} \phi \mid
+    \allpas \phi
+$$
+where $\atomP \in \atoms$ and $\agentA \in \agents$.
+\end{definition}
+
+We use all of the standard abbreviations from public announcement logic, in addition to the abbreviation $\somepas \phi ::= \lnot \allpas \lnot \phi$.
+
+The formula $\allpas \phi$ may be read as ``after any public announcement $\phi$ is true''.
+The formula $\somepas \phi$ may be read as ``after some public announcement $\phi$ is true''.
+
+\begin{definition}[Semantics of arbitrary public announcement logic]
+Let $\phi \in \langApal$ and let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model.
+The interpretation of the formula $\phi$ in the logic \logicApalS{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in public announcement logic, defined in Definition~\ref{pal-semantics}, with the additional inductive case:
+$$
+\begin{array}{lcl}
+    \kPModel{\kStateS} \entails \allpas \psi & \text{ iff } & \text{for every } \psi \in \langMl : \kPModel{\kStateS} \entails \announceA{\psi} \phi
+\end{array}
+$$
+\end{definition}
+
+\begin{definition}[Necessity and possibility forms]
+Consider a new symbol $\sharp$. The {\em necessity forms} are defined inductively as:
+$$\psi(\sharp) ::= \sharp \mid (\phi \implies \psi(\sharp)) \mid \announceA{\phi} \psi(\sharp) \mid \knows[\agentA] \psi(\sharp)$$
+where $\phi \in \langPapal$ and $\agentA \in \agents$.
+
+The {\em possibility forms} are defined inductively as:
+$$\psi(\sharp) ::= \sharp \mid (\phi \land \psi(\sharp)) \mid \announceE{\phi} \psi(\sharp) \mid \suspects[\agentA] \psi(\sharp)$$
+where $\phi \in \langPapal$ and $\agentA \in \agents$.
+\end{definition}
+
+A possibility form is the dual of a necessity form.
+Necessity and possibility forms contain a unique occurrence of the symbol $\sharp$.
+If $\psi(\sharp)$ is a necessity or possibility form and $\phi \in \langApal$ then $\psi(\phi) ::= \psi(\sharp)[\phi/\sharp]$, where $\psi(\sharp)[\phi/\sharp]$ is $\psi(\sharp)$ with the symbol $\sharp$ replaced with the formula $\phi$, and $\psi(\phi) \in \langApal$.
+
+\begin{definition}[Axiomatisation \axiomApalS{}]
+The axiomatisation \axiomApalS{} is a substitution schema consisting of the axioms and rules of \axiomPalS{} along with the following additional axioms and rules:
+$$
+\begin{array}{rl}
+    {\bf A+} & \proves \allpas \phi \implies \announceA{\psi} \phi \text{ where } \psi  \in \langMl\\
+    {\bf R+^\omega} & \text{From } \proves \nu(\announceA{\psi} \phi) \text{ for every } \psi \in \langMl \text{ infer } \nu(\allpas \phi)
+\end{array}
+$$
+where $\nu(\sharp)$ is a necessity form.
+\end{definition}
+
+\begin{proposition}
+The axiomatisation \axiomApalS{} is sound and strongly complete with respect to the semantics of the logic \logicApalS{}.
+\end{proposition}
+
+We note that the axiomatisation \axiomApalS{} is an infinitary axiomatisation, as the rule ${\bf R+^\omega}$ requires an infinite number of premises.
+As a consequence the axiomatisation is not recursively enumerable.
+The rule ${\bf R+^\omega}$ can be replaced with a finitary rule of the form:
+$$
+\begin{array}{rl}
+    {\bf R+^1} & \text{From } \proves \nu(\announceA{\atomP} \phi) \text{ infer } \nu(\allpas \phi)
+\end{array}
+$$
+where $\nu(\sharp)$ is a necessity form and $\atomP$ is a fresh atom.
+
+\begin{proposition}
+The axiomatisation \axiomApalS{} substituting the rule ${\bf R+^\omega}$ with the rule ${\bf R+^1}$ is sound and {\em weakly} complete with respect to the semantics of the logic \logicApalS{}.
+\end{proposition}
+
+\begin{proposition}
+The logic \logicApalS{} is strictly more expressive than the logic \logicPalS{}.
+\end{proposition}
+
+\begin{proposition}
+The logic \logicApalS{} is not compact.
+\end{proposition}

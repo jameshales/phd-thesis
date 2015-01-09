@@ -1,0 +1,87 @@
+\section{Public announcement logic}\label{pal}
+
+We recall definitions and results from the public announcement logic of Plaza~\cite{plaza:1989}.
+
+\begin{definition}[Language of public announcement logic]
+The {\em language of public announcement logic}, \langPal{}, is inductively defined as:
+$$
+\phi ::= 
+    \atomP \mid
+    \lnot \phi \mid
+    \phi \land \phi \mid
+    \necessaryA \phi \mid
+    \announceA{\phi} \phi
+$$
+where $\atomP \in \atoms$ and $\agentA \in \agents$.
+\end{definition}
+
+We use all of the standard abbreviations from modal logic, in addition to the abbreviation $\announceE{\phi} \psi ::= \lnot \announceA{\phi} \lnot \psi$.
+
+The formula $\announceA{\phi} \psi$ may be read as ``if $\phi$ is true then after publicly announcing that it is true, $\psi$ is true''.
+The formula $\announceE{\phi} \psi$ may be read as ``$\phi$ is true and after publicly announcing that it is true, $\psi$ is true''.
+
+As in modal logics, formulas of public announcement logic are interpreted over Kripke models.
+The act of publicly announcing that a statement is true is modelled as an operation on Kripke models, a model restriction, that gives a new Kripke model representing the knowledge of the agents after witnessing the public announcement.
+
+\begin{definition}[Model restriction]
+Let $\kModelAndTuple$ be a Kripke model and let $\kStatesT \subseteq \kStates$.
+We denote the {\em restriction of $\kModel$ to $\kStatesT$} by $\restrict{\kModel}{\kStatesT}$ and
+define it as $\restrict{\kModel}{\kStatesT} = (\kStatesT, \restrict{\kAccessibilityRel}{\kStatesT}, \restrict{\kValuation}{\kStatesT})$ where:
+\begin{eqnarray*}
+    \restrict{\kAccessibilityA}{\kStatesT} &=& \kAccessibilityA \cap (\kStatesT \times \kStatesT)\\
+    \restrict{\kValuation}{\kStatesT}(\atomP) &=& \kValuation(\atomP) \cap \kStatesT
+\end{eqnarray*}
+
+Let \lang{} be a logical language with an interpretation on $\kModel$, and let $\phi \in \lang$.
+We denote the {\em restriction of $\kModel$ to $\phi$} by $\restrict{\kModel}{\phi}$ and define it as $\restrict{\kModel}{\phi} = \restrict{\kModel}{\interpretation[\kModel]{\phi}}$.
+\end{definition}
+
+\todo[inline]{Explanation of public announcements and model restrictions}
+
+We thus define the semantics of public announcement logic using the notion of a model restriction.
+
+\begin{definition}[Semantics of public announcement logic]\label{pal-semantics}
+Let $\phi \in \langPal$ and let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model.
+The interpretation of the formula $\phi$ in the logic \logicPalS{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{ml-semantics}, with the additional inductive case:
+$$
+\begin{array}{lcl}
+\kPModel{\kStateS} \entails \announceA{\phi} \psi & \text{ iff } & \kPModel{\kStateS} \entails \phi \text{ implies } \restrict{\kPModel{\kStateS}}{\phi} \entails \psi
+\end{array}
+$$
+\end{definition}
+
+\todo[inline]{Remark on \classS{} specific semantics.}
+
+\begin{definition}[Axiomatisation \axiomPalS{}]
+The axiomatisation \axiomPalS{} is a substitution schema consisting of the axioms and rules of \axiomS{} along with the following additional axioms and rules:
+$$
+\begin{array}{rl}
+    {\bf AP} & \proves \announceA{\phi} \atomP \iff (\phi \implies \atomP)\\
+    {\bf AN} & \proves \announceA{\phi} \lnot \psi \iff (\phi \implies \lnot \announceA{\phi} \psi)\\
+    {\bf AC} & \proves \announceA{\phi} (\psi \land \chi) \iff (\announceA{\phi} \psi \land \announceA{\phi} \chi)\\
+    {\bf AK} & \proves \announceA{\phi} \necessaryA \psi \iff (\phi \implies \necessaryA \announceA{\phi} \psi)\\
+    {\bf AA} & \proves \announceA{\phi} \announceA{\psi} \chi \iff \announceA{\phi \land \announceA{\phi} \psi} \chi\\
+    {\bf NecA} & \text{From } \proves \phi \text{ infer } \proves \announceA{\psi} \phi
+\end{array}
+$$
+\end{definition}
+
+\begin{proposition}
+The axiomatisation \axiomPalS{} is sound and strongly complete with respect to the semantics of the logic \logicPalS{}.
+\end{proposition}
+
+\begin{proposition}
+The logic \logicPalS{} is expressively equivalent to the logic \logicS{}.
+\end{proposition}
+
+\begin{proposition}
+The logic \logicPalS{} is bisimulation invariant.
+\end{proposition}
+
+\begin{proposition}
+The logic \logicPalS{} is compact.
+\end{proposition}
+
+\begin{proposition}
+The satisfiability problem for the logic \logicPalS{} is decidable.
+\end{proposition}

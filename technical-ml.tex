@@ -1,0 +1,440 @@
+\section{Modal logic}\label{ml}
+
+We recall standard definitions and results from modal logic.
+For a comprehensive introduction to modal logic we direct the reader to the books by Blackburn, de~Rijke and Venema~\cite{blackburn:2001}, and Hughes and Cresswell~\cite{hughes:1996}.
+
+Let $\atoms$ be a non-empty, countable set of propositional atoms, and
+let $\agents$ be a non-empty, finite set of agents.
+
+\begin{definition}[Language of modal logic]
+The {\em language of modal logic}, \langMl{}, is inductively defined as:
+$$
+\phi ::= 
+    \atomP \mid
+    \lnot \phi \mid
+    \phi \land \phi \mid
+    \necessaryA \phi
+$$
+where $\atomP \in \atoms$ and $\agentA \in \agents$.
+\end{definition}
+
+We use all of the standard abbreviations from propositional logic:
+$\bot ::= \atomP \land \lnot \atomP$;
+$\top ::= \lnot \bot$;
+$\phi \lor \psi ::= \lnot (\lnot \phi \land \lnot \psi)$;
+$\phi \implies \psi ::= \lnot \phi \lor \psi$; and
+$\phi \iff \psi ::= (\phi \implies \psi) \land (\psi \implies \phi)$.
+We also use the abbreviation $\possibleA \phi ::= \lnot \necessaryA \lnot \phi$.
+When we are working in a single-agent setting we will write $\necessary$ and $\possible$ instead of $\necessaryA$ and $\possibleA$.
+
+The formula $\necessaryA \phi$ may be read as ``agent $\agentA$ {\em knows} that $\phi$ is true'', or ``agent $\agentA$ {\em believes} that $\phi$ is true'', depending on which terminology is appropriate for the setting we are working in.
+The formula $\possibleA \phi$ may be read as ``agent $\agentA$ considers it possible that $\phi$ is true''.
+This reading can be understood with respect to the definition of the $\possibleA$ operator as the dual of the $\necessaryA$ operator: if an agent doesn't know or believe that a statement is false, then the agent must be open to the possibility that the statement is true (and vice versa).
+
+\begin{example}\label{example-ml-formula}
+Suppose that Alice (agent $\agentA$) has flipped a coin and, being careful that Bob (agent $\agentB$) can't see it, she looks at the coin and sees that it has landed heads up (atom $\atomP$).
+Then the formula $\atomP$ may be read as ``the coin landed heads up'',
+the formula $\knowsA \atomP$ may be read as ``Alice knows that the coin landed heads up'',
+the formula $\lnot \knowsB \atomP$ may be read as ``Bob doesn't know that the coin landed heads up'',
+and the formula $\knowsA \lnot \knowsB \atomP$ may be read as ``Alice knows that Bob doesn't know that the coin landed heads up''.
+If Alice was not as careful when she looked at the coin we might write the formula $\possibleA \knowsB \atomP$, which may be read as ``Alice considers it possible that Bob knows that the coin landed heads up'', 
+or equivalently $\lnot \knowsA \lnot \knowsB \atomP$, which may be read as ``Alice doesn't know that Bob doesn't know that the coin landed heads up''.
+\end{example}
+
+Under the standard Kripke semantics for modal logics, modal formulas are interpreted over relational structures known as Kripke models~\cite{tarski:1941,kripke:1959,hintikka:1962}.
+In epistemic and doxastic logics, Kripke models are thought of as abstract models of the knowledge or beliefs of a set of agents.
+
+We first define Kripke frames, the relational components of Kripke models.
+
+\begin{definition}[Kripke frames]
+A {\em Kripke frame}, $\kFrameAndTuple$ consists of:
+a {\em domain} $\kStates$, which is a non-empty set of states; and
+an indexed set of {\em accessibility relations} $\kAccessibilityRel$, indexed on $\agents$, where for every $\agentA \in \agents$, $\kAccessibilityA \subseteq \kStates \times \kStates$ is a binary relation on states.
+\end{definition}
+
+We write $\kStateS \kAccessibilityA \kStateT$ to denote that $(\kStateS, \kStateT) \in \kAccessibilityA$.
+We write $\kSuccessorsA{\kStateS}$ to denote the set of successor states $\kSuccessorsA{\kStateS} = \{\kStateT \in \kStates \mid \kStateS \kAccessibilityA \kStateT\}$ and
+we write $\kPredecessorsA{\kStateT}$ to denote the set of predecessor states $\kPredecessorsA{\kStateT} = \{\kStateS \in \kStates \mid \kStateS \kAccessibilityA \kStateT\}$.
+
+We will be working with a variety of modal logics that are defined by relational properties on Kripke frames.
+We define those relational properties here.
+
+\begin{definition}[Relational properties]
+Let $\kStates$ be a set and let $\kAccessibilityRel \subseteq \kStates \times \kStates$ be a binary relation on $\kStates$. 
+Then we say that $\kAccessibilityRel$ is \ldots
+\begin{itemize}
+    \item \ldots {\em serial} if and only if for every $\kStateS \in \kStates$ there exists $\kStateT \in \kStates$ such that $\kStateS \kAccessibility{} \kStateT$.
+    \item \ldots {\em reflexive} if and only if for every $\kStateS \in \kStates$: $\kStateS \kAccessibility{} \kStateS$.
+    \item \ldots {\em transitive} if and only if for every $\kStateS, \kStateT, \kStateU \in \kStates$: if $\kStateS \kAccessibility{} \kStateT$ and $\kStateT \kAccessibility{} \kStateU$ then $\kStateS \kAccessibility{} \kStateU$.
+    \item \ldots {\em symmetric} if and only if for every $\kStateS, \kStateT \in \kStates$: if $\kStateS \kAccessibility{} \kStateT$ then $\kStateT \kAccessibility{} \kStateS$.
+    \item \ldots {\em Euclidean} if and only if for every $\kStateS, \kStateT, \kStateU \in \kStates$: if $\kStateS \kAccessibility{} \kStateT$ and $\kStateS \kAccessibility{} \kStateU$ then $\kStateT \kAccessibility{} \kStateU$.
+\end{itemize}
+\end{definition}
+
+When we ascribe relational properties to Kripke frames we actually ascribe those properties to each of the accessibility relations of the Kripke frame.
+So we say that a Kripke frame $\kFrameAndTuple$ is \{serial, reflexive, etc.\} if and only if for every $\agentA \in \agents$ the binary relation $\kAccessibilityA$ is \{serial, reflexive, etc.\}.
+
+We use these relational properties to define the classes of Kripke frames that we will be working with.
+
+\begin{definition}[Classes of Kripke frames]
+We define the following classes of Kripke frames:
+\begin{itemize}
+    \item The class \classK{} of all Kripke frames.
+    \item The class \classKF{} of all transitive Kripke frames.
+    \item The class \classKFF{} of all transitive and Euclidean Kripke frames.
+    \item The class \classKD{} of all serial, transitive and Euclidean Kripke frames.
+    \item The class \classSF{} of all reflexive and transitive Kripke frames.
+    \item The class \classS{} of all reflexive, transitive and Euclidean Kripke frames.
+\end{itemize}
+\end{definition}
+
+In order to interpret the validity of modal formulas containing propositional atoms we augment Kripke frames with valuations of propositional atoms.
+
+\begin{definition}[Kripke models]
+A {\em Kripke model}, $\kModelAndTuple$ consists of an underlying Kripke frame $\kFrameAndTuple$ along with a {\em valuation function} $\kValuation : \atoms \to \powerset(\kStates)$, which is a function from propositional atoms to sets of states.
+
+A {\em pointed Kripke model} $\kPModelAndTuple{\kStateS}$ consists of a Kripke model $\kModelAndTuple$ along with a designated state (the {\em real world}), $\kStateS \in \kStates$.
+A {\em multi-pointed Kripke model} $\kPModelAndTuple{\kStatesT}$ consists of a Kripke model $\kModelAndTuple$ along with a non-empty set of designated states, $\kStatesT \subseteq \kStates$.
+\end{definition}
+
+As we will usually work with Kripke models rather than frames we overload the notation for classes of Kripke frames to also refer to classes of Kripke models.
+When we ascribe relational properties or frame properties to a Kripke model we actually ascribe those properties to its underlying Kripke frame.
+We will sometimes treat a (single-)pointed Kripke model as though it were a multi-pointed Kripke model and we assume in this case that $\kPModel{\kStateS}$ is an abbreviation for $\kPModel{\{\kStateS\}}$.
+
+We now define the semantics of modal logic.
+We define the semantics in terms of a parameterised class of Kripke frames, \classC{}, which could stand for \classK{}, \classKF{}, \classKFF{}, etc. or for any other class of Kripke frames so defined.
+
+\begin{definition}[Semantics of modal logic]\label{ml-semantics}
+Let $\classC$ be a class of Kripke frames, let $\phi \in \langMl$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
+The interpretation of the formula $\phi$ in the logic \logicC{} on the pointed Kripke model $\kPModel{\kStateS}$ is defined inductively as:
+$$
+\begin{array}{lcl}
+\kPModel{\kStateS} \entails \atomP & \text{ iff } & \kStateS \in \kValuation(\atomP)\\
+\kPModel{\kStateS} \entails \lnot \phi & \text{ iff } & \kPModel{\kStateS} \nentails \phi\\
+\kPModel{\kStateS} \entails \phi \land \psi & \text{ iff } & \kPModel{\kStateS} \entails \phi \text{ and } \kPModel{\kStateS} \entails \psi\\
+\kPModel{\kStateS} \entails \necessaryA \phi & \text{ iff } & \text{for every } \kStateT \in \kSuccessorsA{\kStateS} : \kPModel{\kStateT} \entails \phi
+\end{array}
+$$
+\end{definition}
+
+In particular we are interested in the modal logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{} and \logicS{} for the respective classes of Kripke frames \classK{}, \classKF{}, \classKFF{}, \classKD{}, \classSF{} and \classS{}.
+
+Let $\kPModel{\kStateS} \in \classC$ be a pointed Kripke model,
+let $\kFrame \in \classC$ be a Kripke frame.
+If $\kPModel{\kStateS} \entails \phi$ then we say that $\phi$ is {\em valid} on $\kPModel{\kStateS}$.
+Let $\Phi \subseteq \langMl$ be a (possibly infinite) set of formulas.
+If $\kPModel{\kStateS} \entails \phi$ for every $\phi \in \Phi$ then we say that $\Phi$ is {\em valid} on $\kPModel{\kStateS}$ and we write $\kPModel{\kStateS} \entails \Phi$.
+If $\kPModel{\kStateS} \entails \Phi$ for every $\kStateS \in \kStates$ then we say that $\Phi$ is valid on $\kModel$ and we denote this by $\kModel \entails \Phi$.
+If $\kModel \entails \Phi$ for every $\kModel$ with the underlying Kripke frame $\kFrame$ then we say that $\Phi$ is valid on $\kFrame$ and we denote this by $\kFrame \entails \Phi$.
+If $\kFrame \entails \Phi$ for every $\kFrame \in \classC$ then we say that $\Phi$ is valid on \classC{} and we denote this by $\classC \entails \Phi$.
+When \classC{} is clear from context we may simply write $\entails \Phi$ instead of $\classC \entails \Phi$.
+If $\kStatesT \subseteq \kStates$ and there exists $\kStateS \in \kStatesT$ such that $\kPModel{\kStateS} \entails \Phi$ then we say that $\Phi$ is {\em satisfiable} in $\kPModel{\kStatesT}$.
+If $\Phi$ is satisfiable in $\kPModel{\kStates}$ then we say that $\Phi$ is satisfiable in $\kModel$.
+If $\Phi$ is satisfiable in $\kModel$ with the underlying Kripke frame $\kFrame$ then we say that $\Phi$ is satisfiable in $\kFrame$.
+If there exists $\kFrame \in \classC$ such that $\Phi$ is satisfiable in $\kFrame$ then we say that $\Phi$ is satisfiable in \classC{}.
+If every finite subset of $\Phi$ is satisfiable in \{$\kPModel{\kStatesT}$, $\kModel$, $\kFrame$, \classC{}\} then we say that $\Phi$ is {\em finitely satisfiable} in \{$\kPModel{\kStatesT}$, $\kModel$, $\kFrame$, \classC{}\}.
+
+We write $\interpretation[\kModel]{\phi}$ to denote the set of states where $\phi$ is valid, $\interpretation[\kModel]{\phi} = \{\kStateS \in \kStates \mid \kPModel{\kStateS} \entails \phi\}$.
+
+\begin{example}
+\begin{figure}
+    \caption{An example of a Kripke model.}\label{example-kripke-model}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+
+        \node[label=above left:{$\kStateS$}] (s) {\underline{$\{\atomP\}$}};
+        \node[label=above right:{$\kStateT$}] (t) [right of=s] {$\{\}$};
+
+      \path[every node/.style={font=\sffamily\small},<->]
+        (s) edge node {$\agentA$} (t)
+            edge [loop above] node {$\agentA, \agentB$} (s)
+        (t) edge [loop above] node {$\agentA, \agentB$} (t);
+    \end{tikzpicture}
+\end{figure}
+
+Let $\kPModelAndTuple{\kStateS}$ be a Kripke model where:
+\begin{eqnarray*}
+    \kStates &=& \{\kStateS, \kStateT, \kStateU, \kStateV\}\\
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
+    \kValuation(\atomP) &=& \{\kStateS\}
+\end{eqnarray*}
+This model is represented in Figure~\ref{example-kripke-model}, and can be thought of as a model for the situation described in Example~\ref{example-ml-formula}.
+
+As $\kStateS \in \kValuation(\atomP)$ then $\kPModel{\kStateS} \entails \atomP$.
+As $\kSuccessorsA{\kStateS} = \{\kStateS\}$ then $\kPModel{\kStateS} \entails \necessaryA \atomP$.
+However as $\kStateT \notin \kValuation(\atomP)$ then $\kPModel{\kStateT} \nentails \atomP$,
+and as $\kStateT \in \kSuccessorsB{\kStateS}$ then $\kPModel{\kStateS} \nentails \necessaryB \atomP$.
+Therefore we have $\kPModel{\kStateS} \entails \lnot \necessaryB \atomP$ and also $\kPModel{\kStateS} \entails \necessaryA \lnot \necessaryB \atomP$.
+
+\end{example}
+
+Next we recall definitions and results related to bisimilarity of Kripke models.
+Bisimilarity is an important concept in modal logics.
+Notably the modal logic \logicK{} corresponds to the bisimulation-invariant fragment of first-order logic~\cite{vanbenthem:1984}, and there is a partial correspondence between bisimilarity and equivalence under modal validity~\cite{goranko:2006}.
+
+\begin{definition}[Bisimulation]
+Let $\kModelAndTuple$ and $\kModelAndTupleP$ be Kripke models.
+A non-empty relation $\bisimulation \subseteq \kStates \times \kStatesP$ is a {\em bisimulation} if and only if for every $\atomP \in \atoms$, $\agentA \in \agents$ and $(\kStateS, \kStateSP) \in \bisimulation$ the following conditions, {\bf atoms-$\atomP$}, {\bf forth-$\agentA$} and {\bf back-$\agentA$} holds:
+
+\paragraph{atoms-$\atomP$}
+$\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
+
+\paragraph{forth-$\agentA$}
+For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $(\kStateT, \kStateTP) \in \bisimulation$.
+
+\paragraph{back-$\agentA$}
+For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTP) \in \bisimulation$.
+
+If there exists a bisimulation $\bisimulation$ such that $(\kStateS, \kStateSP) \in \bisimulation$ then we say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em bisimilar} and we denote this by $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
+\end{definition}
+
+Bisimulations were first developed by Milner~\cite{milner:1980} and Park~\cite{park:1981} to capture a notion of process equivalence in the process algebra for concurrent systems, and have appeared in the context of modal logics since van Benthem~\cite{vanbenthem:1984}.
+
+We first note that the bisimilarity relation forms an equivalence relation.
+
+\begin{proposition}\label{bisimulation-equivalence-relation}
+The relation $\bisimilar$ is an equivalence relation (reflexive, transitive and symmetric) on Kripke models.
+\end{proposition}
+
+Bisimilar Kripke models are equivalent under modal validity.
+
+\begin{proposition}\label{modal-bisimulation-invariance}
+Let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
+Then for every $\phi \in \langMl$:
+$\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
+\end{proposition}
+
+Not all modally equivalent Kripke models are bisimilar.
+However we can define a property of Kripke models that guarantees that modal equivalence implies bisimilarity.
+
+\begin{definition}
+Let $\kModelAndTuple$ be a Kripke model.
+We say that $\kModel$ is {\em modally saturated} if and only if for every $\agentA \in \agents$, $\kStateS \in \kStates$ and $\Phi \subseteq \langMl$: if $\Phi$ is finitely satisfiable in $\kPModel{\kSuccessorsA{\kStateS}}$ then $\Phi$ is satisfiable in $\kPModel{\kSuccessorsA{\kStateS}}$.
+\end{definition}
+
+For modally saturated Kripke models, modal equivalence implies bisimilarity.
+
+\begin{proposition}\label{modal-hennessy-milner}
+Let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMl$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
+Then $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
+\end{proposition}
+
+A notable class of modally saturated Kripke models are the finite and image-finite Kripke models.
+
+\begin{definition}[Finite Kripke models]
+Let $\kModelAndTuple$ be a Kripke model.
+We say that $\kModel$ is {\em finite} if and only if $\kStates$ is finite.
+\end{definition}
+
+\begin{definition}[Image-finiteness]
+Let $\kModelAndTuple$ be a Kripke model.
+We say that $\kModel$ is {\em image-finite} if and only if for every $\agentA \in \agents$ and $\kStateS \in \kStates$: $\kSuccessorsA{\kStateS}$ is finite.
+\end{definition}
+
+\begin{proposition}
+Every finite Kripke model is image-finite.
+\end{proposition}
+
+\begin{proposition}
+Every image-finite Kripke model is modally saturated.
+\end{proposition}
+
+Thus for image-finite Kripke models it is also the case that modal equivalence implies bisimilarity.
+
+Bisimulations can be computed in polynomial time for finite Kripke models.
+
+\begin{proposition}
+Let $\kModel$ and $\kModelP$ be Kripke models such that $\kModel \bisimilar \kModelP$.
+There is a unique, maximal bisimulation between $\kModel$ and $\kModelP$.
+\end{proposition}
+
+\begin{proposition}
+Let $\kModel$ and $\kModelP$ be finite Kripke models defined on a finite set of propositional atoms such that $\kModel \bisimilar \kModelP$.
+The maximal bisimulation between $\kModel$ and $\kModelP$ can be computed in polynomial time.
+\end{proposition}
+
+These results are shown by Goranko and Otto~\cite{goranko:2006}.
+
+We can define a bisimulation-minimal version of a Kripke model by `merging' bisimilar states as in the bisimulation contraction.
+
+\begin{definition}[Bisimulation contraction]
+Let $\kModelAndTuple$ be a Kripke model,
+let $\bisimulation \subseteq \kStates \times \kStates$ be the maximal bisimulation between $\kModel$ and itself,
+and let ${[\kStateS]} = \{\kStateT \in \kStates \mid (\kStateT, \kStateS\}) \in \bisimulation$.
+The {\em bisimulation contraction} of $\kModel$ is the quotient model $\kModelAndTupleP$ where:
+\begin{eqnarray*}
+    \kStatesP &=& \{{[\kStateS]} \mid \kStateS \in \kStates\}\\
+    {[\kStateS]} \kAccessibilityPA {[\kStateT]} &\text{ iff }& \text{there exists } \kStateSP \in {[\kStateS]}, \kStateTP \in {[\kStateT]} \text{ such that } \kStateS \kAccessibilityA \kStateT\\
+    \kValuationP(\atomP) &=& \{{[\kStateS]} \mid \kStateS \in \kValuation(\atomP)\}
+\end{eqnarray*}
+\end{definition}
+
+\begin{proposition}
+Let $\kModelAndTuple$ be a Kripke model and let $\kModelP$ be the bisimulation contraction of $\kModel$.
+Then for every $\kStateS, \kStateT \in \kStates$: $\kPModelP{[\kStateS]} \bisimilar \kPModelP{[\kStateT]}$ if and only if $[\kStateS] = [\kStateT]$.
+\end{proposition}
+
+\begin{proposition}
+Let $\kModelAndTuple$ be a Kripke model and let $\kModelP$ be the bisimulation contraction of $\kModel$.
+Then for every $\kStateS \in \kStates$: $\kPModel{\kStateS} \bisimilar \kPModelP{[\kStateS]}$.
+\end{proposition}
+
+We also consider a depth-limited notion of bisimulation.
+
+\begin{definition}[$n$-bisimulation]
+Let $\kModelAndTuple$ and $\kModelAndTupleP$ be Kripke models and let $n \in \naturals$.
+A list of non-empty relations $\bisimulation_0, \dots, \bisimulation_n$, where for $i = 0, \dots, n$ $\bisimulation_i \subseteq \kStates \times \kStatesP$, is an {\em $n$-bisimulation} if and only if for every $i = 0, \dots, n$, $\atomP \in \atoms$, $\agentA \in \agents$ and $(\kStateS, \kStateSP) \in \bisimulation_i$ the following conditions, {\bf atoms-$i$-$\atomP$}, {\bf forth-$i$-$\agentA$} and {\bf back-$i$-$\agentB$} holds:
+
+\paragraph{atoms-$i$-$\atomP$}
+If $i = 0$ then $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
+If $i > 0$ then $\kPModel{\kStateS} \bisimulation_{i-1} \kPModelP{\kStateSP}$.
+
+\paragraph{forth-$i$-$\agentA$}
+For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $(\kStateT, \kStateTP) \in \bisimulation_i$.
+
+\paragraph{back-$i$-$\agentA$}
+For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTP) \in \bisimulation_i$.
+
+If there exists an $n$-bisimulation $\bisimulation_0, \dots, \bisimulation_n$ such that $(\kStateS, \kStateSP) \in \bisimulation_n$ then we say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $n$-bisimilar} and we denote this by $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$.
+\end{definition}
+
+Similar to bisimilarity, there is a partial correspondence between $n$-bisimilarity and equivalence under depth-limited modal equivalence.
+
+\begin{proposition}
+The relation $\bisimilar[n]$ is an equivalence relation on Kripke models.
+\end{proposition}
+
+\begin{definition}[Modal depth]
+Let $\phi \in \langMl$.
+We denote the {\em modal depth of $\phi$} by $d(\phi)$ and define it inductively as:
+\begin{eqnarray*}
+    d(\atomP) &=& 0\\
+    d(\lnot \phi) &=& d(\phi)\\
+    d(\phi \land \psi) &=& max(d(\phi), d(\psi))\\
+    d(\necessaryA \phi) &=& d(\phi) + 1
+\end{eqnarray*}
+\end{definition}
+
+\begin{proposition}
+Let $n \in \naturals$ and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$.
+Then for every $\phi \in \langMl$ such that $d(\phi) \leq n$:
+$\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
+\end{proposition}
+
+\begin{proposition}
+Let $n \in \naturals$ and let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMl$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
+Then $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$.
+\end{proposition}
+
+We now introduce the proof theory for modal logics, first providing an axiomatisations for the logic \logicK{}.
+
+\begin{definition}[Axiomatisation \axiomK{}]
+The axiomatisation \axiomK{} is a substitution schema consisting of the following axioms and rules:
+$$
+\begin{array}{rl}
+    {\bf P}     & \text{All propositional tautologies}\\
+    {\bf K}     & \proves \necessaryA (\phi \implies \psi) \implies (\necessaryA \phi \implies \necessaryA \psi)\\
+    {\bf MP}    & \text{From } \proves \phi \implies \psi \text{ and } \proves \phi \text{ infer } \proves \psi\\
+    {\bf NecK}  & \text{From } \proves \phi \text{ infer } \proves \necessaryA \phi
+\end{array}
+$$
+\end{definition}
+
+If $\proves \phi$ is in the least set containing the axioms and closed under the rules of an axiomatisation then we say that $\phi$ is a {\em theorem} of the axiomatisation.
+Let $\Phi \subseteq \langMl$ be a (possibly infinite) set of formulas.
+If there exists $\phi_1, \dots, \phi_n \in \Phi$ such that $\proves (\phi_1 \land \cdots \land \phi_n) \implies \phi$ then we say that $\phi$ is {\em deducible} from $\Phi$ and we write $\Phi \proves \phi$.
+If $\Phi \proves \bot$ then we say that $\Phi$ is {\em inconsistent}, and if $\Phi \nproves \bot$ then we say that $\Phi$ is {\em consistent}.
+
+We also provide axiomatisations for the logics \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{}, and \logicS{}, by extending the axiomatisation \axiomK{} with additional axioms.
+
+\begin{definition}[Axiomatisations \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{}]
+We define the following axioms:
+$$
+\begin{array}{rl}
+    {\bf D}     & \proves \necessaryA \phi \implies \possibleA \phi\\
+    {\bf T}     & \proves \necessaryA \phi \implies \phi\\
+    {\bf 4}     & \proves \necessaryA \phi \implies \necessaryA \necessaryA \phi\\
+    {\bf 5}     & \proves \possibleA \phi \implies \necessaryA \possibleA \phi
+\end{array}
+$$
+
+Then the axiomatisations \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} consist of the axioms and rules of \axiomK{} along with the following respective additional axioms:
+\begin{itemize}
+    \item \axiomKF{}: {\bf 4}
+    \item \axiomKFF{}: {\bf 4} and {\bf 5}
+    \item \axiomKD{}: {\bf D}, {\bf 4} and {\bf 5}
+    \item \axiomSF{}: {\bf T} and {\bf 4}
+    \item \axiomS{}: {\bf T} and {\bf 5}
+\end{itemize}
+\end{definition}
+
+\todo[inline]{Citation}
+
+We are interested in properties of the proof theories of the logics we consider.
+
+\begin{definition}[Soundness and completeness]
+If every theorem of an axiomatisation is valid in the corresponding semantics then we say that the axiomatisation is {\em sound} with respect to the logic.
+If every formula valid in a semantics is a theorem of the corresponding axiomatisation then we say that the axiomatisation is {\em (weakly) complete} with respect to the semantics.
+If every set of formulas that is consistent according to an axiomatisation is satisfiable in the corresponding semantics then we say that the axiomatisation is {\em strongly complete} with respect to the semantics.
+\end{definition}
+
+\begin{proposition}
+The axiomatisations \axiomK{}, \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} are sound and strongly complete with respect to the semantics of the respective logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{}, and \logicS{}.
+\end{proposition}
+
+\todo[inline]{Citation}
+
+\begin{definition}[Substitution of equivalents]
+Let $\lang$ be a logical language defined on the propositional atoms $\atoms$.
+An axiomatisation allows {\em substitution of equivalents} if and only if for every $\phi, \psi, \psi' \in \lang$, and $\atomP \in \atoms$: $\proves \psi \iff \psi'$ implies $\proves \phi[\psi/\atomP] \iff \phi[\psi'/\atomP]$.
+\end{definition}
+
+\begin{proposition}
+The axiomatisations \axiomK{}, \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} allow substitution of equivalents.
+\end{proposition}
+
+We are also interested in properties of the logics themselves.
+
+\begin{definition}[Compactness]
+If every (possibly infinite) set of formulas that is finitely satisfiable according to the semantics of a logic is satisfiable then we say that the logic is {\em compact}.
+\end{definition}
+
+\begin{proposition}
+The logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{}, and \logicS{} are compact.
+\end{proposition}
+
+\todo[inline]{Citation}
+
+\begin{definition}[Model-checking problem]
+The {\em model-checking problem} for a logic is to determine for a given formula and a given finite pointed Kripke model whether the formula is valid on the pointed Kripke model.
+\end{definition}
+
+\begin{proposition}
+The model-checking problems for the logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{} and \logicS{} are decidable in polynomial time.
+\end{proposition}
+
+\todo[inline]{Citation}
+
+\begin{definition}[Satisfiability and provability problems]
+The {\em satisfiability problem} for a logic is to determine for a given formula whether the formula is satisfiable according to the semantics of the logic.
+The {\em provability problem} for a proof system such as an axiomatisation is to determine for a given formula whether the formula is provable according to the proof system.
+\end{definition}
+
+We note that for sound and complete proof systems the satisfiability and provability problems are dual problems (a formula is satisfiable if and only if its negation is not provable).
+
+\begin{proposition}
+The satisfiability problems for the logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{} and \logicS{} are decidable.
+For the logics \logicK{}, \logicKFF{}, \logicKD{} and \logicS{} the problem is PSPACE-complete.\todo{Double-check complexity} 
+\end{proposition}
+
+\todo[inline]{Citation}
+
+In the following sections and chapters we will compare the expressive power of the logics that we consider to other logics, often to an underlying modal logic.
+
+\begin{definition}[Expressivity]
+If a logic can express all of the semantic properties that another logic can then we say that the logic is {\em at least as expressive} as the other logic.
+If two logics are at least as expressive as each other then we say that the two logics are {\em expressively equivalent}.
+If a logic is at least as expressive as but not expressively equivalent to another logic then we say that the logic is {\em strictly less expressive} than the other logic.
+If two logics are neither at least as expressive as the other logic then we say that the two logics are {\em incomparable} in expressivity.
+\end{definition}

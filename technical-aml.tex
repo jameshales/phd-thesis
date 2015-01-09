@@ -1,0 +1,290 @@
+\section{Action model logic}\label{aml}
+
+We recall definitions and results from the action model logic of Baltag, Moss and Solecki~\cite{baltag:1998,baltag:2004}.
+
+\begin{definition}[Action models]
+Let \lang{} be a logical language.
+An {\em action model with preconditions defined on \lang{}}, $\aModelAndTuple$ consists of an underlying Kripke frame $\aFrameAndTuple$ along with a {\em precondition function} $\aPrecondition : \aStates \to \lang$, which is a function from actions to formulas.
+
+A {\em pointed action model} $\aPModelAndTuple{\aStateS}$ consists of an action model $\aModelAndTuple$ along with a designated action $\aStateS \in \aStates$.
+A {\em multi-pointed action model} $\aPModelAndTuple{\aStatesT}$ consists of an action model $\aModelAndTuple$ along with a non-empty set of designated action $\aStatesT \subseteq \aStates$.
+\end{definition}
+
+We use similar notation and terminology to Kripke models when discussing action models.
+Similar to Kripke models, when we ascribe relational properties or frame properties to an action model we actually ascribe those properties to its underlying Kripke frame.
+When the language that an action model is defined on is clear from context we will simply refer to an {\em action model}, without explicit reference to the language.
+
+\begin{definition}[Action signature]
+An {\em action signature}, $\aSignatureAndTuple$ consists of an underlying Kripke frame $\aFrameAndTuple$ along with a non-repeating list of {\em non-trivial actions}, $\aStateS_1, \dots, \aStateS_n \in \aStates$.
+Let $\lang$ be a logical language and let $\phi_1, \dots, \phi_n \in \lang$ be a list of formulas.
+Then we obtain an action model $\aSignature(\phi_1, \dots, \phi_n) = \aModelTuple$ where $\aPrecondition(\aStateS_i) = \phi_i$ for $i = 1, \dots, n$ and $\aPrecondition(\aStateS) = \top$ otherwise.
+The {\em trivial actions} are so named because their preconditions are always set to $\top$.
+\end{definition}
+
+When we ascribe relational or frame properties to an action model or signature we actually ascribe those properties to its underlying Kripke frame.
+As we will often work with action models and signatures rather than Kripke frames we overload the notation for classes of Kripke frames to also refer to classes of action models or signatures.
+
+\begin{definition}[Language of action model logic]
+Let \aSignatureFamily{} be a non-empty, countable set of action signatures.
+The {\em language of action model logic} with action signatures \aSignatureFamily{}, $\langAml(\aSignatureFamily)$, is inductively defined as:
+$$
+\phi ::=
+    \atomP \mid
+    \lnot \phi \mid
+    \phi \land \phi \mid
+    \necessaryA \phi \mid
+    \actionA{\aSignature \aStatesT, \phi, \dots, \phi} \phi\\
+$$
+where $\atomP \in \atoms$, $\agentA \in \agents$, $\aSignatureAndTuple \in \aSignatureFamily$, $\aStatesT \subseteq \aStates$, and the number of parameters to a given action signature $\aSignature$ is determined by the number of designated actions in the action signature.
+\end{definition}
+
+We use all of the standard abbreviations from modal logic, in addition to the abbreviations 
+$\actionA{\aPModel{\aStatesT}} \phi ::= \actionA{\aSignature \aStatesT, \phi_1, \dots, \phi_n} \phi$ where $\aModel = \aSignature(\phi_1, \dots, \phi_n)$ and 
+$\actionE{\aPModel{\aStatesT}} \phi ::= \lnot \actionA{\aPModel{\aStatesT}} \lnot \phi$.
+
+\begin{definition}[Semantics of action model logic]\label{aml-semantics}
+Let \classC{} be a class of Kripke models and let \aSignatureFamily{} be a non-empty, countable set of action signatures.
+We define the semantics of action model logic and the notion of action model execution simultaneously.
+
+Let $\kModelAndTuple \in \classC$ be a Kripke model and $\aModelAndTuple \in \classK$ be an action model with preconditions defined on $\langAml(\aSignatureFamily)$.
+We denote the result of executing the action model $\aModel$ on the Kripke model $\kModel$ as $\kModel \exec \aModel$ and define it as $\kModel \exec \aModel = \kModelTupleP$ where:
+\begin{eqnarray*}
+    \kStatesP &=& \{(\kStateS, \aStateS) \in \kStates \times \aStates \mid \kPModel{\kStateS} \entails \aPrecondition(\aStateS)\}\\
+    (\kStateS, \aStateS) \kAccessibilityPA (\kStateT, \aStateT) &\text{ iff }& \kStateS \kAccessibilityA \kStateT \text{ and } \aStateS \aAccessibilityA \aStateT\\
+    \kValuationP(\atomP) &=& \{(\kStateS, \aStateS) \in \kStatesP \mid \kStateS \in \kValuation(\atomP)\}
+\end{eqnarray*}
+We denote the result of executing the pointed action model $\aPModel{\aStateS}$ on the pointed Kripke model $\kPModel{\kStateS}$ as $\kPModel{\kStateS} \exec \aPModel{\aStateS}$ and define it as $\kPModel{\kStateS} \exec \aPModel{\aStateS} = (\kModel \exec \aModel, (\kStateS, \aStateS))$. Note that $\kPModel{\kStateS} \exec \aPModel{\aStateS}$ is undefined if $\kPModel{\kStateS} \nentails \aPrecondition(\aStateS)$ as then $(\kStateS, \aStateS) \notin \kStatesP$.
+
+Let $\phi \in \langAml(\aSignatureFamily)$ and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
+The interpretation of the formula $\phi$ in the logic \logicAmlC{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{ml-semantics}, with the additional inductive cases:
+$$
+\begin{array}{lcl}
+    \kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi & \text { iff } & \kPModel{\kStateS} \entails \aPrecondition(\aStateS) \text{ implies } \kPModel{\kStateS} \exec \aPModel{\aStateS} \entails \phi\\
+    \kPModel{\kStateS} \entails \actionA{\aPModel{\aStatesT}} \phi & \text { iff } & \text{for every } \aStateS \in \aStatesT: \kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}}
+\end{array}
+$$
+\end{definition}
+
+We are interested in the following variants of action model:
+\begin{itemize}
+    \item \logicAmlK{} interpreted over the class of \classK{} Kripke frames and the language of action model logic $\langAml(\classK)$ with action signatures defined on the class of finite \classK{} Kripke frames.
+    \item \logicAmlKFF{} interpreted over the class of \classKFF{} Kripke frames and the language of action model logic $\langAml(\classKFF)$ with action signatures defined on the class of finite \classKFF{} Kripke frames.
+    \item \logicAmlS{} interpreted over the class of \classS{} Kripke frames and the language of action model logic $\langAml(\classS)$ with action signatures defined on the class of finite \classS{} Kripke frames.
+\end{itemize}
+
+\begin{definition}[Skip and crash]
+    We define the action models \aSkip{} and \aCrash{} as follows:
+    \begin{eqnarray*}
+        \aSkip &=& ((\{\aStateS\}, \{(\aStateS, \aStateS)\}, \{(\aStateS, \top)\}), \aStateS)\\
+        \aCrash &=& ((\{\aStateS\}, \{(\aStateS, \aStateS)\}, \{(\aStateS, \bot)\}), \aStateS)
+    \end{eqnarray*}
+\end{definition}
+
+The action model \aSkip{} is intended to represent an epistemic update that always succeeds and has no effect,
+whereas the action model \aCrash{} is intended to represent an epistemic update that never succeeds.
+Indeed we note that $\entails \actionE{\aSkip} \top$, $\entails \actionA{\aSkip} \phi \iff \phi$ and $\entails \lnot \actionE{\aCrash} \top$.
+
+We note that as $\top$ and $\bot$ are in the language $\langAml(\aSignatureFamily)$ for any set of action signatures $\aSignatureFamily$, and so \aSkip{} and \aCrash{} are action models with preconditions defined on $\langAml(\aSignatureFamily)$.
+However a given $\aSignatureFamily$ may not contain any action signature that would allow one to construct \aSkip{} or \aCrash{}, so statements about \aSkip{} and \aCrash{} may not be allowed by the language $\langAml(\aSignatureFamily)$.
+
+\begin{definition}[Disjoint union]
+    Let $\aPModelAndTuple{\aStatesT}$ and $\aPModelAndTupleP{\aStatesTP}$ be action models.
+    We denote the {\em disjoint union of $\aPModel{\aStatesT}$ and $\aPModelP{\aStatesTP}$} as $\aPModel{\aStatesT} \choice \aPModelP{\aStatesTP}$ and define it as $\aPModel{\aStatesT} \choice \aPModelP{\aStatesTP} = \aPModelAndTuplePP{\aStatesTPP}$ where:
+    \begin{eqnarray*}
+        \aStatesPP &=& \aStates \cup \aStatesP\\
+        \aAccessibilityPPA &=& \aAccessibilityA \cup \aAccessibilityPA\\
+        \aPreconditionPP &=& \aPrecondition \cup \aPreconditionP\\
+        \aStatesTPP &=& \aStatesT \cup \aStatesTP
+    \end{eqnarray*}
+\end{definition}
+
+The operation of disjoint union of action models is intended to represent the epistemic update that is formed by the non-deterministic choice between two epistemic updates.
+Indeed we note that $\entails \actionA{\aPModel{\aStatesT} \choice \aPModelP{\aStatesTP}} \phi \iff (\actionA{\aPModel{\aStatesT}} \phi \land \actionA{\aPModelP{\aStatesTP}} \phi)$.
+
+We will sometimes take the `disjoint' union of two action models that are not actually disjoint and we assume in this case that we implicitly rename the actions in each action model so that the domains become disjoint before taking the disjoint union.
+
+\begin{definition}[Sequential composition]
+    Let $\aPModelAndTuple{\aStatesT}$ and $\aPModelAndTupleP{\aStatesTP}$ be action models.
+    We denote the {\em sequential composition of $\aPModel{\aStatesT}$ and $\aPModelP{\aStatesTP}$} as $\aPModel{\aStatesT} \compose \aPModelP{\aStatesTP}$ and define it as $\aPModel{\aStatesT} \compose \aPModelP{\aStatesTP} = \aPModelAndTuplePP{\aStatesTPP}$ where:
+    \begin{eqnarray*}
+        \aStatesPP &=& \aStates \times \aStatesP\\
+        (\aStateS, \aStateSP) \aAccessibilityPPA (\aStateT, \aStateTP) &\text{ iff }& \aStateS \aAccessibilityA \aStateT \text{ and } \aStateSP \aAccessibilityPA \aStateTP\\
+        \aPreconditionPP((\aStateS, \aStateSP)) &=& \aPrecondition(\aStateS) \land \actionA{\aPModel{\aStateS}} \aPreconditionP(\aStateSP)\\
+        \aStatesTPP &=& \aStatesT \times \aStatesTP
+    \end{eqnarray*}
+\end{definition}
+
+The operation of sequential composition of action models is intended to represent the epistemic update that is formed by sequentially performing two epistemic updates.
+Indeed we note that $\entails \actionA{\aPModel{\aStatesT} \compose \aPModelP{\aStatesTP}} \phi \iff \actionA{\aPModel{\aStatesT}} \actionA{\aPModelP{\aStatesTP}} \phi$.
+
+Using the \aSkip{} and \aCrash{} action models, along with the operations of disjoint union and sequential composition we may define an extended language of action model logic.
+
+\begin{definition}[Language of action model logic (extended)]
+Let \aSignatureFamily{} be a non-empty, countable set of action signatures.
+The {\em language of action model logic} with action signatures \aSignatureFamily{}, $\langAml(\aSignatureFamily)$, is inductively defined as:
+$$
+\phi ::=
+    \atomP \mid
+    \lnot \phi \mid
+    \phi \land \phi \mid
+    \necessaryA \phi \mid
+    \actionA{\alpha} \phi
+$$
+where $\atomP \in \atoms$, $\agentA \in \agents$, and the {\em language of action model logic actions} with action signatures \aSignatureFamily{}, $\langAmlAct(\aSignatureFamily)$, is inductively defined as:
+$$
+\alpha ::=
+    \aSkip \mid
+    \aCrash \mid
+    \aSignature \aStatesT, \phi, \dots, \phi \mid
+    \alpha \choice \alpha \mid
+    \alpha \compose \alpha
+$$
+where , $\aSignatureAndTuple \in \aSignatureFamily$, $\aStatesT \subseteq \aStates$, and the number of parameters to a given action signature $\aSignature$ is determined by the number of designated actions in the action signature.
+\end{definition}
+
+We use all of the standard abbreviations from action model logic.
+The semantics of formulas of this extended language should be obvious.
+We note that formulas of the extended language can be translated back into the basic language using the equivalences listed above.
+
+We note the following algebraic properties of action model logic actions:
+
+\begin{proposition}
+Let $\alpha, \beta, \gamma \in \langAmlAct$ and let $\phi \in \langAml$. Then:
+$$
+\begin{array}{l}
+    \entails \actionA{\alpha \choice \aCrash} \phi \iff \actionA{\alpha} \phi\\
+    \entails \actionA{\alpha \choice \beta} \phi \iff \actionA{\beta \choice \alpha} \phi\\
+    \entails \actionA{(\alpha \choice \beta) \choice \gamma} \phi \iff \actionA{\alpha \choice (\beta \choice \gamma)} \phi\\
+    \entails \actionA{\alpha \compose \aSkip} \phi \iff \actionA{\alpha} \phi\\
+    \entails \actionA{\aSkip \compose \alpha} \phi \iff \actionA{\alpha} \phi\\
+    \entails \actionA{(\alpha \compose \beta) \compose \gamma} \phi \iff \actionA{\alpha \compose (\beta \compose \gamma)} \phi\\
+    \entails \actionA{(\alpha \choice \beta) \compose \gamma} \phi \iff \actionA{(\alpha \compose \gamma) \choice (\beta \compose \gamma)} \phi
+\end{array}
+$$
+\end{proposition}
+
+Similar to Kripke models there is a notion of bisimilarity of action models.
+
+\begin{definition}[Bisimulation of action models]
+Let $\aModelAndTuple$ and $\aModelAndTupleP$ be action models.
+A non-empty relation $\bisimulation \subseteq \aStates \times \aStatesP$ is a {\em bisimulation} if and only if for every $\agentA \in \agents$ and $(\aStateS, \aStateSP) \in \bisimulation$ the following conditions, {\bf preconditions}, {\bf forth-$\agentA$} and {\bf back-$\agentB$} holds:
+
+\paragraph{preconditions}
+$\entails \aPrecondition(\aStateS) \iff \aPrecondition(\aStateSP)$.
+
+\paragraph{forth-$\agentA$}
+For every $\aStateT \in \aSuccessorsA{\aStateS}$ there exists $\aStateTP \in \aSuccessorsPA{\aStateSP}$ such that $\aStateT \bisimulation \aStateTP$.
+
+\paragraph{back-$\agentA$}
+For every $\aStateTP \in \aSuccessorsPA{\aStateSP}$ there exists $\aStateT \in \aSuccessorsA{\aStateS}$ such that $\aStateT \bisimulation \aStateTP$.
+
+If there exists a bisimulation $\bisimulation$ such that $\aStateS \bisimulation \aStateSP$ then we say that $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ are {\em bisimilar} and we denote this by $\aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
+\end{definition}
+
+\begin{proposition}
+The relation $\bisimilar$ is an equivalence relation on action models.
+\end{proposition}
+
+Bisimilar action models have bisimilar results on bisimilar Kripke models.
+
+\begin{proposition}\label{action-bisimulation-results}
+Let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ and
+let $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
+Then $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar \kPModelP{\kStateSP} \exec \aPModelP{\aStateSP}$.
+\end{proposition}
+
+In particular, due to Proposition~\ref{modal-bisimulation-invariance} and Proposition~\ref{action-bisimulation-results} we have:
+
+\begin{proposition}
+Let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ and
+let $\aPModel{\aStateS}$ be a pointed action model.
+Then for every $\phi \in \langAml$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
+\end{proposition}
+
+\begin{proposition}
+Let $\kPModel{\kStateS}$ be a pointed Kripke model and
+let $\aPModel{\aStateS}, \aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
+Then for every $\phi \in \langAml$: $\kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi$ if and only if $\kPModel{\kStateS} \entails \actionA{\aPModelP{\aStateSP}} \phi$.
+\end{proposition}
+
+We also have a notion of depth-limited bisimilarity of action models.
+
+\begin{definition}[$n$-bisimulation]
+Let $\aModelAndTuple$ and $\aModelAndTupleP$ be Kripke models and let $n \in \naturals$.
+A list of non-empty relations $\bisimulation_0, \dots, \bisimulation_n$, where for $i = 0, \dots, n$ $\bisimulation_i \subseteq \aStates \times \aStatesP$, is an {\em $n$-bisimulation} if and only if for every $i = 0, \dots, n$, $\atomP \in \atoms$, $\agentA \in \agents$ and $(\aStateS, \aStateSP) \in \bisimulation_i$ the following conditions, {\bf atoms-$i$-$\atomP$}, {\bf forth-$i$-$\agentA$} and {\bf back-$i$-$\agentB$} holds:
+
+\paragraph{preconditions-$i$}
+If $i = 0$ then $\entails \aPrecondition(\aStateS) \iff \aPreconditionP(\aStateSP)$.
+If $i > 0$ then $\aPModel{\aStateS} \bisimulation_{i-1} \aPModelP{\aStateSP}$.
+
+\paragraph{forth-$i$-$\agentA$}
+For every $\aStateT \in \aSuccessorsA{\aStateS}$ there exists $\aStateTP \in \aSuccessorsPA{\aStateSP}$ such that $\aStateT \bisimulation_i \aStateTP$.
+
+\paragraph{back-$i$-$\agentA$}
+For every $\aStateTP \in \aSuccessorsPA{\aStateSP}$ there exists $\aStateT \in \aSuccessorsA{\aStateS}$ such that $\aStateT \bisimulation_i \aStateTP$.
+
+If there exists an $n$-bisimulation $\bisimulation_0, \dots, \bisimulation_n$ such that $\aStateS \bisimulation_n \aStateSP$ then we say that $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ are {\em $n$-bisimilar} and we denote this by $\aPModel{\aStateS} \bisimilar[n] \aPModelP{\aStateSP}$.
+\end{definition}
+
+\begin{definition}[Modal depth]
+Let $\phi \in \langAml$.
+We denote the {\em modal depth of $\phi$} by $d(\phi)$ and define it inductively as:
+\begin{eqnarray*}
+    d(\atomP) &=& 0\\
+    d(\lnot \phi) &=& d(\phi)\\
+    d(\phi \land \psi) &=& max(d(\phi), d(\psi))\\
+    d(\necessaryA \phi) &=& d(\phi) + 1\\
+    d(\actionA{\aPModel{\aStateS}} \phi) &=& d(\phi)
+\end{eqnarray*}
+\end{definition}
+
+\begin{proposition}
+Let $n \in \naturals$,
+let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$ and
+let $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar[n] \aPModelP{\aStateSP}$.
+Then $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar[n] \kPModelP{\kStateSP} \exec \aPModelP{\aStateSP}$.
+\end{proposition}
+
+\begin{proposition}
+Let $n \in \naturals$,
+let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$ and
+let $\aPModel{\aStateS}$ be a pointed action model.
+Then for every $\phi \in \langAml$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
+\end{proposition}
+
+\begin{proposition}
+Let $n \in \naturals$,
+let $\kPModel{\kStateS}$ be a pointed Kripke model and
+let $\aPModel{\aStateS}, \aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar[n] \aPModelP{\aStateSP}$.
+Then for every $\phi \in \langAml$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi$ if and only if $\kPModel{\kStateS} \entails \actionA{\aPModelP{\aStateSP}} \phi$.
+\end{proposition}
+
+\begin{definition}[Axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{}]
+The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} are substitution schemas consisting of the respective axioms and rules of \axiomK{}, \axiomKFF{}, and \axiomS{} along with the following additional axioms and rules:
+$$
+\begin{array}{rl}
+    {\bf AP} & \proves \actionA{\aPModel{\aStateS}} \atomP \iff (\aPrecondition(\aStateS) \implies \atomP)\\
+    {\bf AN} & \proves \actionA{\aPModel{\aStateS}} \lnot \phi \iff (\aPrecondition(\aStateS) \implies \lnot \actionA{\aPModel{\aStateS}} \phi)\\
+    {\bf AC} & \proves \actionA{\aPModel{\aStateS}} (\phi \land \psi) \iff (\actionA{\aPModel{\aStateS}} \phi \land \actionA{\aPModel{\aStateS}} \psi)\\
+    {\bf AK} & \proves \actionA{\aPModel{\aStateS}} \necessaryA \phi \iff (\aPrecondition(\aStateS) \implies \necessaryA \bigwedge_{\aStateT \in \aSuccessorsA{\aStateS}} \actionA{\aPModel{\aStateT}} \phi)\\
+    {\bf AU} & \proves \actionA{\aPModel{\aStatesT}} \phi \iff \bigwedge_{\aStateT \in \aStatesT} \actionA{\aPModel{\aStateT}} \phi\\
+    {\bf NecA} & \text{From } \proves \phi \text{ infer } \proves \actionA{\aPModel{\aStatesT}} \phi
+\end{array}
+$$
+\end{definition}
+
+\begin{proposition}
+The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} are sound and strongly complete with respect to the semantics of the respective logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{}.
+\end{proposition}
+
+\begin{proposition}
+The logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are expressively equivalent to the respective logics \logicK{}, \logicKFF{}, and \logicS{}.
+\end{proposition}
+
+\begin{proposition}
+The logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are compact.
+\end{proposition}
+
+\begin{proposition}
+The satisfiability problems for the logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are decidable.
+\end{proposition}

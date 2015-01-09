@@ -21,13 +21,13 @@
 
 Let $\kPModelAndTuple{\kStateS} \in \classS$ be an epistemic model where $\kStates = \{\kStateS, \kStateT, \kStateU, \kStateV\}$, $\kStateS \kAccessibility{\agentA} \kStateT$, $\kStateU \kAccessibility{\agentA} \kStateV$, $\kStateS \kAccessibility{\agentB} \kStateU$ and $\kStateT \kAccessibility{\agentB} \kStateV$, $\kValuation(\atomP) = \{\kStateS, \kStateT\}$ and $\kValuation(\atomQ) = \{\kStateU, \kStateV\}$.
 This model is represented in Figure~\ref{example-epistemic-model}.
-The atomic proposition $\atomP$ is true in every possible world that agent $\agentA$ cannot distinguish from the real world, $\kStateS$, so we can say that ``agent $\agentA$ knows that $\atomP$ is true in the real world'', written as $\kPModel{\kStateS} \entails \knows[\agentA] \atomP$.
-However agent $\agentB$ cannot distinguish between the real world and a possible world where $\atomP$ is false, and so $\kPModel{\kStateS} \entails \neg \knows[\agentB] \atomP$. We also have that $\kPModel{\kStateT} \entails \neg \knows[\agentB] \atomP$, and so $\kPModel{\kStateS} \entails \knows[\agentA] \neg \knows[\agentB] \atomP$.
+The atomic proposition $\atomP$ is true in every possible world that agent $\agentA$ cannot distinguish from the real world, $\kStateS$, so we can say that ``agent $\agentA$ knows that $\atomP$ is true in the real world'', written as $\kPModel{\kStateS} \entails \knowsA \atomP$.
+However agent $\agentB$ cannot distinguish between the real world and a possible world where $\atomP$ is false, and so $\kPModel{\kStateS} \entails \neg \knowsB \atomP$. We also have that $\kPModel{\kStateT} \entails \neg \knowsB \atomP$, and so $\kPModel{\kStateS} \entails \knowsA \neg \knowsB \atomP$.
 \end{example}
 
 \begin{example}\label{example-pal}
 \begin{figure}
-    \caption{The result of publicly announcing $\knows[\agentA] \atomP$ in the epistemic model of Figure~\ref{example-epistemic-model}.}\label{example-public-announcement}
+    \caption{The result of publicly announcing $\knowsA \atomP$ in the epistemic model of Figure~\ref{example-epistemic-model}.}\label{example-public-announcement}
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
@@ -39,14 +39,14 @@ However agent $\agentB$ cannot distinguish between the real world and a possible
     \end{tikzpicture}
 \end{figure}
 Consider the epistemic model $\kPModel{\kStateS}$ from Example~\ref{example-el}.
-Then $\interpretation[\kModel]{\knows[\agentA] \atomP} = \{\kStateS, \kStateT\}$, and so $\restrict{\kPModel{\kStateS}}{\knows[\agentA] \atomP}$ is the model restriction of $\kPModel{\kStateS}$ to the states $\{\kStateS, \kStateT\}$, depicted in Figure~\ref{example-public-announcement}.  
-In the resulting model restriction we have that $\restrict{\kPModel{\kStateS}}{\knows[\agentA] \atomP} \entails \knows[\agentB] \atomP$, and so in the original model we therefore have $\kPModel{\kStateS} \entails \announceE{\knows[\agentA] \atomP} \knows[\agentB] \atomP$.
+Then $\interpretation[\kModel]{\knowsA \atomP} = \{\kStateS, \kStateT\}$, and so $\restrict{\kPModel{\kStateS}}{\knowsA \atomP}$ is the model restriction of $\kPModel{\kStateS}$ to the states $\{\kStateS, \kStateT\}$, depicted in Figure~\ref{example-public-announcement}.  
+In the resulting model restriction we have that $\restrict{\kPModel{\kStateS}}{\knowsA \atomP} \entails \knowsB \atomP$, and so in the original model we therefore have $\kPModel{\kStateS} \entails \announceE{\knowsA \atomP} \knowsB \atomP$.
 That is, agent $\agentB$ knows that $\atomP$ is true after it is publicly announced that agent $\agentA$ knows that $\atomP$ is true.
 \end{example}
 
 \begin{example}\label{example-apal}
 Consider the epistemic model $\kPModel{\kStateS}$ from Example~\ref{example-el}.
-In Example~\ref{example-pal} we showed that $\kPModel{\kStateS} \entails \announceE{\knows[\agentA] \atomP} \knows[\agentB] \atomP$ so it follows that $\kPModel{\kStateS} \entails \somepas \knows[\agentB] \atomP$.
+In Example~\ref{example-pal} we showed that $\kPModel{\kStateS} \entails \announceE{\knowsA \atomP} \knowsB \atomP$ so it follows that $\kPModel{\kStateS} \entails \somepas \knowsB \atomP$.
 \end{example}
 
 
@@ -61,7 +61,7 @@ $$
         \atomP \mid
         \neg \phi \mid
         \phi \land \phi \mid
-        \necessary[\agentA] \phi \mid
+        \necessaryA \phi \mid
         \announceA{\phi} \phi \mid
         \allppas \phi
 $$
@@ -79,8 +79,8 @@ The interpretation of $\phi \in \langPapal$ in the {\em positive announcement lo
 \end{definition}
 
 \begin{example}\label{example-papal}
-In Example~\ref{example-apal} we showed that $\kPModel{\kStateS} \entails \somepas \knows[\agentB] \atomP$, as $\kPModel{\kStateS} \entails \announceE{\knows[\agentA] \atomP} \knows[\agentB] \atomP$.
-As $\knows[\agentA] \atomP$ is a positive formula it follows also that $\kPModel{\kStateS} \entails \someppas \knows[\agentB] \atomP$.
+In Example~\ref{example-apal} we showed that $\kPModel{\kStateS} \entails \somepas \knowsB \atomP$, as $\kPModel{\kStateS} \entails \announceE{\knowsA \atomP} \knowsB \atomP$.
+As $\knowsA \atomP$ is a positive formula it follows also that $\kPModel{\kStateS} \entails \someppas \knowsB \atomP$.
 \end{example}
 
 An important observation is the partial correspondence between the results of positive announcements and model restrictions that are closed under refinements, a notion that we will define now.
@@ -142,8 +142,8 @@ We use these results to give an example of where public announcements and positi
 
 Consider $\kPModelAndTuple{\kStateS} \in \classS$, where $\kStates = \{\kStateS, \kStateT, \kStateU, \kStateV\}$, $\kStateS \kAccessibility{\agentA} \kStateT \kAccessibility{\agentA} \kStateU$, $\kStateU \kAccessibility{\agentB} \kStateV$, $\kValuation(\atomP) = \{\kStateS\}$ and $\kValuation(\atomQ) = \{\kStateS, \kStateV\}$.
 We note that $\kPModel{\kStateU} \simulates \kPModel{\kStateT}$, and so by Lemma~\ref{positive-announcements-refinement-closed} any positive announcement that preserves $\kStateU$ must also preserve $\kStateT$.
-Therefore we have that $\kPModel{\kStateS} \entails \allppas (\knows[\agentA] \suspects[\agentB] \atomQ \implies \knows[\agentA] \atomP)$, that is, any positive announcement that results in agent $\agentA$ knowing that agent $\agentB$ considers $\atomQ$ possible will also result in agent $\agentA$ knowing that $\atomP$ is true.
-However we note that $\kPModel{\kStateS} \entails \announceE{\suspects[\agentB] \atomQ} (\knows[\agentA] \suspects[\agentB] \atomQ \land \neg \knows[\agentA] \atomP)$ and so $\kPModel{\kStateS} \nentails \allpas (\knows[\agentA] \suspects[\agentB] \atomQ \implies \knows[\agentA] \atomP)$.
+Therefore we have that $\kPModel{\kStateS} \entails \allppas (\knowsA \suspectsB \atomQ \implies \knowsA \atomP)$, that is, any positive announcement that results in agent $\agentA$ knowing that agent $\agentB$ considers $\atomQ$ possible will also result in agent $\agentA$ knowing that $\atomP$ is true.
+However we note that $\kPModel{\kStateS} \entails \announceE{\suspectsB \atomQ} (\knowsA \suspectsB \atomQ \land \neg \knowsA \atomP)$ and so $\kPModel{\kStateS} \nentails \allpas (\knowsA \suspectsB \atomQ \implies \knowsA \atomP)$.
 \end{example}
 
 Similar reasoning can be used to show that, in contrast to public announcements, a sequence of positive announcements cannot generally be expressed as a single positive announcement.
@@ -163,9 +163,9 @@ Arbitrary positive announcements are not composable in \classS{}, i.e. it is not
       \node[label=above right:$\kStateU$] (u) [below of=t] {$\{\atomP\}$};
       \node[label=above left:$\kStateV$] (v) [below of=u] {$\{\atomP, \atomQ\}$};
       \node[label=above right:$\kStateW$] (w) [right of=u] {$\{\}$};
-      \node[label=above left:{$\kStateT[\prime]$}] (t') [below left of=s] {$\{\atomP, \atomQ\}$};
-      \node[label=above left:{$\kStateU[\prime]$}] (u') [below of=t'] {$\{\atomP\}$};
-      \node[label=above left:{$\kStateV[\prime]$}] (v') [below of=u'] {$\{\atomP, \atomQ\}$};
+      \node[label=above left:{$\kStateTP$}] (t') [below left of=s] {$\{\atomP, \atomQ\}$};
+      \node[label=above left:{$\kStateUP$}] (u') [below of=t'] {$\{\atomP\}$};
+      \node[label=above left:{$\kStateVP$}] (v') [below of=u'] {$\{\atomP, \atomQ\}$};
       \node () [left of=u'] {};
 
       \path[every node/.style={font=\sffamily\small}]
@@ -186,27 +186,27 @@ Arbitrary positive announcements are not composable in \classS{}, i.e. it is not
 We construct a counter-example.
 
 Let $\kModelAndTuple$ where 
-$\kStates = \{\kStateS, \kStateT, \kStateU, \kStateV, \kStateW, \kStateT[\prime], \kStateU[\prime], \kStateV[\prime]\}$,
-$\kStateS \kAccessibility{\agentA} \kStateT \kAccessibility{\agentA} \kStateT[\prime]$,
+$\kStates = \{\kStateS, \kStateT, \kStateU, \kStateV, \kStateW, \kStateTP, \kStateUP, \kStateVP\}$,
+$\kStateS \kAccessibility{\agentA} \kStateT \kAccessibility{\agentA} \kStateTP$,
 $\kStateU \kAccessibility{\agentA} \kStateV \kAccessibility{\agentA} \kStateW$,
-$\kStateU[\prime] \kAccessibility{\agentA} \kStateV[\prime]$,
+$\kStateUP \kAccessibility{\agentA} \kStateVP$,
 $\kStateT \kAccessibility{\agentB} \kStateU$,
-$\kStateT[\prime] \kAccessibility{\agentB} \kStateU[\prime]$,
-$\kValuation(\atomP) = \{\kStateS, \kStateT, \kStateU, \kStateV, \kStateT[\prime], \kStateU[\prime], \kStateV[\prime]\}$, and
-$\kValuation(\atomQ) = \{\kStateT, \kStateV, \kStateT[\prime] \kStateV[\prime]\}$.
+$\kStateTP \kAccessibility{\agentB} \kStateUP$,
+$\kValuation(\atomP) = \{\kStateS, \kStateT, \kStateU, \kStateV, \kStateTP, \kStateUP, \kStateVP\}$, and
+$\kValuation(\atomQ) = \{\kStateT, \kStateV, \kStateTP \kStateVP\}$.
 
 The model $\kModel$ is represented in Figure~\ref{composability-s5-1}.
 
-We claim that $\kPModel{\kStateS} \entails \someppas \someppas (\suspects[\agentA] \atomQ \land \knows[\agentA] (\knows[\agentB] \atomQ \lor \knows[\agentB] \neg \atomQ))$ but $\kPModel{\kStateS} \nentails \someppas (\suspects[\agentA] \atomQ \land \knows[\agentA] (\knows[\agentB] \atomQ \lor \knows[\agentB] \neg \atomQ))$.
+We claim that $\kPModel{\kStateS} \entails \someppas \someppas (\suspectsA \atomQ \land \knowsA (\knowsB \atomQ \lor \knowsB \neg \atomQ))$ but $\kPModel{\kStateS} \nentails \someppas (\suspectsA \atomQ \land \knowsA (\knowsB \atomQ \lor \knowsB \neg \atomQ))$.
 
-We note that $\restrict{\restrict{\kPModel{\kStateS}}{\knows[\agentA] \atomP}}{(\knows[\agentB] \atomQ \lor \knows[\agentB] \neg \atomQ)} \entails \suspects[\agentA] \atomQ \land \knows[\agentA] (\knows[\agentB] \atomQ \lor \knows[\agentB] \neg \atomQ)$ and so $\kPModel{\kStateS} \entails \someppas \someppas (\suspects[\agentA] \atomQ \land \knows[\agentA] (\knows[\agentB] \atomQ \lor \knows[\agentB] \neg \atomQ))$.
+We note that $\restrict{\restrict{\kPModel{\kStateS}}{\knowsA \atomP}}{(\knowsB \atomQ \lor \knowsB \neg \atomQ)} \entails \suspectsA \atomQ \land \knowsA (\knowsB \atomQ \lor \knowsB \neg \atomQ)$ and so $\kPModel{\kStateS} \entails \someppas \someppas (\suspectsA \atomQ \land \knowsA (\knowsB \atomQ \lor \knowsB \neg \atomQ))$.
 
-Let $\refinement = \{(\kStateX, \kStateX) \mid \kStateX \in \kStates\} \cup \{(\kStateT, \kStateT[\prime]), (\kStateU, \kStateU[\prime]), (\kStateV, \kStateV[\prime]), (\kStateT[\prime], \kStateV[\prime]), (\kStateS, \kStateU[\prime])\}$. 
+Let $\refinement = \{(\kStateX, \kStateX) \mid \kStateX \in \kStates\} \cup \{(\kStateT, \kStateTP), (\kStateU, \kStateUP), (\kStateV, \kStateVP), (\kStateTP, \kStateVP), (\kStateS, \kStateUP)\}$. 
 We note that $\refinement$ is a refinement.
 
-As $\kPModel{\kStateT} \simulates \kPModel{\kStateT[\prime]}$ then by Lemma~\ref{positive-announcements-refinement-closed} any positive announcement that preserves $\kStateT$ will also preserve $\kStateT[\prime]$ so any positive announcement that results in $\suspects[\agentA] \atomQ$ will preserve $\kStateT[\prime]$.
-As $\kPModel{\kStateS} \simulates \kPModel{\kStateU[\prime]}$ then by Lemma~\ref{positive-announcements-refinement-closed} any positive announcement will preserve $\kStateU[\prime]$, so any positive announcement that results in $\suspects[\agentA] \atomQ$ will also result in $\neg \knows[\agentA] (\knows[\agentB] \atomQ \lor \knows[\agentB] \neg \atomQ)$.
-Therefore $\kPModel{\kStateS} \entails \allppas (\suspects[\agentA] \atomQ \implies \neg \knows[\agentA] (\knows[\agentB] \atomQ \lor \knows[\agentB] \neg \atomQ))$ and so $\kPModel{\kStateS} \nentails \someppas (\suspects[\agentA] \atomQ \land \knows[\agentA] (\knows[\agentB] \atomQ \lor \knows[\agentB] \neg \atomQ))$.
+As $\kPModel{\kStateT} \simulates \kPModel{\kStateTP}$ then by Lemma~\ref{positive-announcements-refinement-closed} any positive announcement that preserves $\kStateT$ will also preserve $\kStateTP$ so any positive announcement that results in $\suspectsA \atomQ$ will preserve $\kStateTP$.
+As $\kPModel{\kStateS} \simulates \kPModel{\kStateUP}$ then by Lemma~\ref{positive-announcements-refinement-closed} any positive announcement will preserve $\kStateUP$, so any positive announcement that results in $\suspectsA \atomQ$ will also result in $\neg \knowsA (\knowsB \atomQ \lor \knowsB \neg \atomQ)$.
+Therefore $\kPModel{\kStateS} \entails \allppas (\suspectsA \atomQ \implies \neg \knowsA (\knowsB \atomQ \lor \knowsB \neg \atomQ))$ and so $\kPModel{\kStateS} \nentails \someppas (\suspectsA \atomQ \land \knowsA (\knowsB \atomQ \lor \knowsB \neg \atomQ))$.
 \end{proof}
 
 This lack of composability is interesting because it raises questions about what is possible with finite sequences of positive announcements of varying lengths.
@@ -273,7 +273,7 @@ A logic is {\em compact} if and only if every finitely satisfiable set of formul
 \end{proposition}
 
 This follows from the same reasoning used by Balbiani, et al.~\cite{balbiani:2008} to show that \logicApalS{} is not compact.
-Specifically, a set of formulas $\{\announceA{\psi} (\knows[\agentA] \atomP \implies \knows[\agentB] \knows[\agentA] \atomP) \mid \psi \in \langMlPlus\} \cup \{\neg \allppas (\knows[\agentA] \atomP \implies \knows[\agentB] \knows[\agentA] \atomP)\}$ is demonstrated which is finitely satisfiable but not satisfiable under the semantics of \logicPapalS{}.
+Specifically, a set of formulas $\{\announceA{\psi} (\knowsA \atomP \implies \knowsB \knowsA \atomP) \mid \psi \in \langMlPlus\} \cup \{\neg \allppas (\knowsA \atomP \implies \knowsB \knowsA \atomP)\}$ is demonstrated which is finitely satisfiable but not satisfiable under the semantics of \logicPapalS{}.
 
 \section{Model-checking}\label{model-checking}
 
@@ -282,8 +282,8 @@ The {\em model-checking problem} for \logicPapalS{} is to determine for a given 
 The model-checking procedure for \logicPapalS{} is a simple modification of the model-checking procedure for \logicApalS{} of Ågotnes, et al.~\cite{agotnes:2010} taking advantage of the characterisation of positive announcements of Lemma~\ref{positive-announcements-refinement-closed} and Lemma~\ref{refinement-closed-positive-announcements} as model restrictions that are closed under refinements.
 
 \begin{lemma}\label{maximal-refinement}
-Let $\kModelAndTuple, \kModelAndTuple[\prime] \in \classS$ be epistemic models.
-There is a unique, maximal refinement $\refinement \subseteq \kStates \times \kStates[\prime]$ from $\kModel$ to $\kModel[\prime]$ and it is computable in polynomial time.
+Let $\kModelAndTuple, \kModelAndTupleP \in \classS$ be epistemic models.
+There is a unique, maximal refinement $\refinement \subseteq \kStates \times \kStatesP$ from $\kModel$ to $\kModelP$ and it is computable in polynomial time.
 \end{lemma}
 
 This follows from similar reasoning and using a similar algorithm to the analogous result for bisimulations~\cite{goranko:2006}, relaxing the {\bf forth} condition appropriately.
@@ -390,7 +390,7 @@ We construct a new model $C(\kPModel[l]{\kStateS[l]},\kPModel[r]{\kStateS[r]}) =
             (1) edge node {$\agentB$} (2)
             (2) edge node {$\agentA$} (3);
         \end{tikzpicture}
-        \caption{The model $\kPModel[\prime]{0}$.}\label{expressivity-s5-2}
+        \caption{The model $\kPModelP{0}$.}\label{expressivity-s5-2}
     \end{subfigure}
     \begin{subfigure}[t]{\linewidth}
         \centering
@@ -411,34 +411,34 @@ We construct a new model $C(\kPModel[l]{\kStateS[l]},\kPModel[r]{\kStateS[r]}) =
 \end{figure}
 
 Let $\mathcal{B}$ be the class of pointed models $C(\kPModel[l]{\kStateS[l]},\kPModel[r]{\kStateS[r]})_{\kStateS}$ where $\kPModel[l]{\kStateS[l]}$ and $\kPModel[r]{\kStateS[r]}$ are agree on all epistemic formulas, and let $\overline{\mathcal{B}}$ be the class of models $C(\kPModel[l]{\kStateS[l]},\kPModel[r]{\kStateS[r]})_{\kStateS}$ where $\kPModel[l]{\kStateS[l]}$ and $\kPModel[r]{\kStateS[r]}$ do not agree on all epistemic formulas. 
-Then $\mathcal{B} \entails \allpas(\knows[\agentB] \knows[\agentA] \atomP \lor \knows[\agentB] \neg \knows[\agentA] \atomP)$.
+Then $\mathcal{B} \entails \allpas(\knowsB \knowsA \atomP \lor \knowsB \neg \knowsA \atomP)$.
 That is, any public announcement that removes $\kStateS[l]$ must also remove $\kStateS[r]$ and vice-versa. 
 This is a direct consequence of $\kStateS[l]$ and $\kStateS[r]$ agreeing on all epistemic formulas.
-Likewise, $\overline{\mathcal{B}} \nentails \allpas(\knows[\agentB] \knows[\agentA] \atomP \lor \knows[\agentB] \neg \knows[\agentA] \atomP)$.
+Likewise, $\overline{\mathcal{B}} \nentails \allpas(\knowsB \knowsA \atomP \lor \knowsB \neg \knowsA \atomP)$.
 That is, there is a public announcement that can remove $\kStateS[l]$ without removing $\kStateS[r]$ and vice-versa.
 This is a direct consequence of $\kStateS[l]$ and $\kStateS[r]$ {\em not} agreeing on all epistemic formulas.
 
 Let $\phi \in \langPapal$ be a formula of arbitrary positive announcement logic.
 
-We define the epistemic model $\kPModelAndTuple[\prime]{0}$ where:
+We define the epistemic model $\kPModelAndTupleP{0}$ where:
 \begin{eqnarray*}
-    \kStates[\prime] &=& \naturals\\
-    \kAccessibility[\prime]{\agentA} &=& \{(n, n), (n, n + 1), (n + 1, n), (n + 1, n + 1) \\&&\quad \mid n \in \naturals, n \text{ is even}\}\\
-    \kAccessibility[\prime]{\agentB} &=& \{(n, n), (n, n + 1), (n + 1, n), (n + 1, n + 1) \\&&\quad \mid n \in \naturals, n \text{ is odd}\}\\
-    \kValuation[\prime](\atomQ) &=& \{0\}
+    \kStatesP &=& \naturals\\
+    \kAccessibilityP{\agentA} &=& \{(n, n), (n, n + 1), (n + 1, n), (n + 1, n + 1) \\&&\quad \mid n \in \naturals, n \text{ is even}\}\\
+    \kAccessibilityP{\agentB} &=& \{(n, n), (n, n + 1), (n + 1, n), (n + 1, n + 1) \\&&\quad \mid n \in \naturals, n \text{ is odd}\}\\
+    \kValuationP(\atomQ) &=& \{0\}
 \end{eqnarray*}
 
-We also define the epistemic model $\kPModel[\prime\prime]{0} = \restrict{\kPModel[\prime]{0}}{\{n \in \naturals \mid n \leq d(\phi)\}}$, the restriction of $\kModel$ to states less than or equal to the modal depth of $\phi$.
+We also define the epistemic model $\kPModel[\prime\prime]{0} = \restrict{\kPModelP{0}}{\{n \in \naturals \mid n \leq d(\phi)\}}$, the restriction of $\kModel$ to states less than or equal to the modal depth of $\phi$.
 
-We note that $\kPModel[\prime]{0} \bisimilar[d(\phi)] \kPModel[\prime\prime]{0}$, so the two models agree on all epistemic formulas with modal depth less than or equal to $d(\phi)$.
-We also note for every $n \geq m > 0$ that $\kPModel[\prime]{n} \simulates \kPModel[\prime]{m}$ and for every $d(\phi) \geq n \geq m > 0$ that $\kPModel[\prime\prime]{n} \simulates \kPModel[\prime\prime]{m}$.
-So for both models the only non-trivial model restrictions that are closed under refinements is the restriction to $\{0\}$, where $\restrict{\kPModel[\prime]{0}}{\{0\}} \bisimilar \restrict{\kPModel[\prime\prime]{0}}{\{0\}}$, and the restriction to $\naturals \setminus \{0\}$ where $\restrict{\kPModel[\prime]{n}}{\naturals \setminus \{0\}} \bisimilar \restrict{\kPModel[\prime\prime]{n}}{\naturals \setminus \{0\}}$ for every $n \in \naturals$, so the interpretation of $\someppas$ and $\allppas$ operators must be the same in corresponding states of each model.
+We note that $\kPModelP{0} \bisimilar[d(\phi)] \kPModel[\prime\prime]{0}$, so the two models agree on all epistemic formulas with modal depth less than or equal to $d(\phi)$.
+We also note for every $n \geq m > 0$ that $\kPModelP{n} \simulates \kPModelP{m}$ and for every $d(\phi) \geq n \geq m > 0$ that $\kPModel[\prime\prime]{n} \simulates \kPModel[\prime\prime]{m}$.
+So for both models the only non-trivial model restrictions that are closed under refinements is the restriction to $\{0\}$, where $\restrict{\kPModelP{0}}{\{0\}} \bisimilar \restrict{\kPModel[\prime\prime]{0}}{\{0\}}$, and the restriction to $\naturals \setminus \{0\}$ where $\restrict{\kPModelP{n}}{\naturals \setminus \{0\}} \bisimilar \restrict{\kPModel[\prime\prime]{n}}{\naturals \setminus \{0\}}$ for every $n \in \naturals$, so the interpretation of $\someppas$ and $\allppas$ operators must be the same in corresponding states of each model.
 Therefore both models agree on all arbitrary positive announcement formulas with modal depth less than or equal to $d(\phi)$.
 
 However the two models do not agree on all epistemic formulas.
-In $\kModel[\prime\prime]$, every state can reach a state where $\atomQ$ is true in at most $d(\phi)$ steps, but this is not the case for $\kModel[\prime]$.
+In $\kModel[\prime\prime]$, every state can reach a state where $\atomQ$ is true in at most $d(\phi)$ steps, but this is not the case for $\kModelP$.
 
-Thus $C(\kPModel[\prime]{0}, \kPModel[\prime\prime]{0})_{\kStateS}$ satisfies $\phi$ if and only if $C(\kPModel[\prime]{0}, \kPModel[\prime]{0})_{\kStateS}$ satisfies $\phi$.
+Thus $C(\kPModelP{0}, \kPModel[\prime\prime]{0})_{\kStateS}$ satisfies $\phi$ if and only if $C(\kPModelP{0}, \kPModelP{0})_{\kStateS}$ satisfies $\phi$.
 It follows that $\phi$ cannot distinguish $\mathcal{B}$ from $\overline{\mathcal{B}}$ and therefore \logicPapalS{} not at least as expressive as \logicApalS{}.
 \end{proof}
 
@@ -450,9 +450,9 @@ In this section we provide a sound and complete axiomatisation for arbitrary pos
 The axiomatisation is essentially a modified version of the axiomatisation for arbitrary public announcement logic given by Balbiani, et al.~\cite{balbiani:2008,balbianietal.short:2014}, but with restrictions to positive announcements in appropriate axioms.
 
 \begin{definition}
-Consider a new symbol $\sharp$. The {\em necessity forms} are defined inductively as: $$\psi(\sharp) ::= \sharp \mid (\phi \implies \psi(\sharp)) \mid \announceA{\phi} \psi(\sharp) \mid \knows[\agentA] \psi(\sharp)$$ where $\phi \in \langPapal$ and $\agentA \in \agents$.
+Consider a new symbol $\sharp$. The {\em necessity forms} are defined inductively as: $$\psi(\sharp) ::= \sharp \mid (\phi \implies \psi(\sharp)) \mid \announceA{\phi} \psi(\sharp) \mid \knowsA \psi(\sharp)$$ where $\phi \in \langPapal$ and $\agentA \in \agents$.
 
-The {\em possibility forms} are defined inductively as: $$\psi(\sharp) ::= \sharp \mid (\phi \land \psi(\sharp)) \mid \announceE{\phi} \psi(\sharp) \mid \suspects[\agentA] \psi(\sharp)$$ where $\phi \in \langPapal$ and $\agentA \in \agents$.
+The {\em possibility forms} are defined inductively as: $$\psi(\sharp) ::= \sharp \mid (\phi \land \psi(\sharp)) \mid \announceE{\phi} \psi(\sharp) \mid \suspectsA \psi(\sharp)$$ where $\phi \in \langPapal$ and $\agentA \in \agents$.
 \end{definition}
 
 A possibility form is the dual of a necessity form. Necessity and possibility forms contain a unique occurrence of the symbol $\sharp$. If $\psi(\sharp)$ is a necessity or possibility form and $\phi \in \langPapal$, then $\psi(\phi)$ is $\psi(\sharp)[\phi/\sharp]$ and $\psi(\phi) \in \langPapal$.
@@ -464,18 +464,18 @@ The axiomatisation \axiomPapalS{} is a substitution schema consisting of the axi
 $$
 \begin{array}{ll}
     {\bf P} & \text{All propositional tautologies}\\
-    {\bf K} & \proves \knows[\agentA] (\phi \implies \psi) \implies (\knows[\agentA] \phi \implies \knows[\agentA] \psi)\\
-    {\bf T} & \proves \knows[\agentA] \phi \implies \phi\\
-    {\bf 4} & \proves \knows[\agentA] \phi \implies \knows[\agentA] \knows[\agentA] \phi\\
-    {\bf 5} & \proves \neg \knows[\agentA] \phi \implies \knows[\agentA] \neg \knows[\agentA] \phi\\
+    {\bf K} & \proves \knowsA (\phi \implies \psi) \implies (\knowsA \phi \implies \knowsA \psi)\\
+    {\bf T} & \proves \knowsA \phi \implies \phi\\
+    {\bf 4} & \proves \knowsA \phi \implies \knowsA \knowsA \phi\\
+    {\bf 5} & \proves \neg \knowsA \phi \implies \knowsA \neg \knowsA \phi\\
     {\bf AP} & \proves \announceA{\phi} \atomP \iff (\phi \implies \atomP)\\
     {\bf AN} & \proves \announceA{\phi} \neg \psi \iff (\phi \implies \neg \announceA{\phi} \psi)\\
     {\bf AC} & \proves \announceA{\phi} (\psi \land \chi) \iff (\announceA{\phi} \psi \land \announceA{\phi} \chi)\\
-    {\bf AK} & \proves \announceA{\phi} \knows[\agentA] \psi \iff (\phi \implies \knows[\agentA] \announceA{\phi} \psi)\\
+    {\bf AK} & \proves \announceA{\phi} \knowsA \psi \iff (\phi \implies \knowsA \announceA{\phi} \psi)\\
     {\bf AA} & \proves \announceA{\phi} \announceA{\psi} \chi \iff \announceA{\phi \land \announceA{\phi} \psi} \chi\\
     {\bf A+} & \proves \allppas \phi \implies \announceA{\psi} \phi \text{ where } \psi \in \langMlPlus\\
     {\bf MP} & \text{From } \proves \phi \text{ and } \proves \phi \implies \psi \text{ infer } \proves \psi\\
-    {\bf NecK} & \text{From } \proves \phi \text{ infer } \proves \knows[\agentA] \phi\\
+    {\bf NecK} & \text{From } \proves \phi \text{ infer } \proves \knowsA \phi\\
     {\bf NecA} & \text{From } \proves \phi \text{ infer } \proves \announceA{\psi} \phi\\
     {\bf R+^\omega} &\text{From } \proves \nu(\announceA{\psi} \phi) \text{ for every } \psi \in \langMlPlus \text{ infer } \nu(\allppas \phi)    \end{array}
 $$
@@ -501,7 +501,7 @@ For clarity we show these cases are indeed correct.
 
 The completeness proof is with a standard canonical model technique.
 The set of states $\kStates$ is defined to be the set of all maximally consistent sets of \langPapal{} formulas.
-The accessibility relations $\kAccessibility{\agentA}$ refer only to epistemic formulas $\knows[\agentA] \phi$ and not to the $\allppas$ operator.
+The accessibility relations $\kAccessibility{\agentA}$ refer only to epistemic formulas $\knowsA \phi$ and not to the $\allppas$ operator.
 To show completeness we must show the Truth Lemma holds: for every maximally consistent set of formulas $\kStateS \in \kStates$ and every $\phi \in \langPapal$, $\phi \in \kStateS$ if and only if $\kPModel{\kStateS} \entails \phi$.
 The Truth Lemma is shown by induction on the formula $\phi$.
 It uses a complexity measure $<^\text{Size}_d$ on formulas that we defined identically on \langPapal{} as on \langApal{}.
@@ -544,25 +544,25 @@ To do so we first show that if $\someppas \phi$ is satisfiable then so is $\anno
 \begin{lemma}\label{diamond-lemma}
 Let $\kPModelAndTuple{\kStateS} \in \classS$ be an epistemic model and
 let $\phi \in \langPapal$ be a formula such that $\kPModel{\kStateS} \entails \someppas \phi$.
-Then there exists $\kPModel[\prime]{\kStateS[\prime]} \in \classS$ such that $\kPModel[\prime]{\kStateS[\prime]} \entails \announceE{\atomP} \phi$ where $\atomP \in \atoms$ does not appear in $\phi$.
+Then there exists $\kPModelP{\kStateSP} \in \classS$ such that $\kPModelP{\kStateSP} \entails \announceE{\atomP} \phi$ where $\atomP \in \atoms$ does not appear in $\phi$.
 \end{lemma}
 
 \begin{proof}[(Sketch)]
 As $\kPModel{\kStateS} \entails \someppas \phi$ there exists $\psi \in \langMlPlus$ such that $\kPModel{\kStateS} \entails \announceE{\psi} \phi$.
 Let $\atomsQ = \{\atomQ_n \mid n \in \naturals\} \subseteq \atoms$ be an infinite set of atoms not appearing in $\phi$ or $\psi$.
-We define $\kModelAndTuple[\prime]$ where:
+We define $\kModelAndTupleP$ where:
 \begin{eqnarray*}
-    \kStates[\prime] &=& \{\top, \bot\} \times \kStates\\
-    \kAccessibility[\prime]{\agentA} &=& \{((x, \kStateS), (y, \kStateT)) \mid x, y \in \{\top, \bot\}, \kStateS, \kStateT \in \kStates, \kStateS \kAccessibility{\agentA} \kStateT \}\\
-    \kValuation[\prime](\atomQ_0) &=& \{\top\} \times \interpretation[\kModel]{\psi}\\
-    \kValuation[\prime](\atomQ_{n + 1}) &=&  \{\top, \bot\} \times \kValuation(\atomQ_n) \text{ for every } n \in \naturals\\
-    \kValuation[\prime](\atomP) &=& \{\top, \bot\} \times \kValuation(\atomP) \text{ for every } \atomP \in \atoms \setminus \atomsQ
+    \kStatesP &=& \{\top, \bot\} \times \kStates\\
+    \kAccessibilityP{\agentA} &=& \{((x, \kStateS), (y, \kStateT)) \mid x, y \in \{\top, \bot\}, \kStateS, \kStateT \in \kStates, \kStateS \kAccessibility{\agentA} \kStateT \}\\
+    \kValuationP(\atomQ_0) &=& \{\top\} \times \interpretation[\kModel]{\psi}\\
+    \kValuationP(\atomQ_{n + 1}) &=&  \{\top, \bot\} \times \kValuation(\atomQ_n) \text{ for every } n \in \naturals\\
+    \kValuationP(\atomP) &=& \{\top, \bot\} \times \kValuation(\atomP) \text{ for every } \atomP \in \atoms \setminus \atomsQ
 \end{eqnarray*}
 
-We claim that $\kPModel[\prime]{(\top, \kStateS)} \entails \announceE{\atomQ_0} \phi$.
-This follows from the fact that the model restriction $\restrict{\kPModel[\prime]{(\top, \kStateS)}}{\atomQ_0}$ is isomorphic to the model restriction $\restrict{\kPModel{\kStateS}}{\atomQ_0}$, but with the atoms in $\atomsQ$ renamed and a new atom $\atomQ_0$ introduced that is equivalent to $\top$.
+We claim that $\kPModelP{(\top, \kStateS)} \entails \announceE{\atomQ_0} \phi$.
+This follows from the fact that the model restriction $\restrict{\kPModelP{(\top, \kStateS)}}{\atomQ_0}$ is isomorphic to the model restriction $\restrict{\kPModel{\kStateS}}{\atomQ_0}$, but with the atoms in $\atomsQ$ renamed and a new atom $\atomQ_0$ introduced that is equivalent to $\top$.
 As the atoms in $\atomsQ$ do not appear in $\phi$ then the only effect that changing these variables can have in the interpretation of $\phi$ is in the positive announcements that are considered in interpreting the $\someppas$ and $\allppas$ operators of $\phi$.
-We note that any positive announcement available in $\restrict{\kPModel[\prime]{(\top, \kStateS)}}{\atomQ_0}$ has an equivalent positive announcement available in $\restrict{\kPModel{\kStateS}}{\atomQ_0}$, and vice-versa, found by renaming the variables in $\atomsQ$.
+We note that any positive announcement available in $\restrict{\kPModelP{(\top, \kStateS)}}{\atomQ_0}$ has an equivalent positive announcement available in $\restrict{\kPModel{\kStateS}}{\atomQ_0}$, and vice-versa, found by renaming the variables in $\atomsQ$.
 \end{proof}
 
 Lemma~\ref{diamond-lemma} can be generalised to possibility forms:
@@ -571,7 +571,7 @@ Lemma~\ref{diamond-lemma} can be generalised to possibility forms:
 Let $\kPModelAndTuple{\kStateS} \in \classS$ be an epistemic model,
 let $\phi \in \langPapal$, and
 let $\psi(\sharp)$ be a possibility form such that $\kPModel{\kStateS} \entails \psi(\someppas \phi)$.
-Then there exists $\kPModel[\prime]{\kStateS[\prime]} \in \classS$ such that $\kPModel[\prime]{\kStateS[\prime]} \entails \announceE{\atomP} \psi(\someppas \phi)$ where $\atomP \in \atoms$ does not appear in $\psi(\someppas \phi)$.
+Then there exists $\kPModelP{\kStateSP} \in \classS$ such that $\kPModelP{\kStateSP} \entails \announceE{\atomP} \psi(\someppas \phi)$ where $\atomP \in \atoms$ does not appear in $\psi(\someppas \phi)$.
 \end{lemma}
 
 As in the axiomatisation of \logicApalS{} by Balbiani, et al.~\cite{balbiani:2008} this allows us to form a sound and weakly complete {\em finitary} axiomatisation by replacing the infinitary rule ${\bf R+^\omega}$ in \axiomPapalS{} with a finitary alternative of the form:

@@ -21,7 +21,7 @@ $$
     \phi ::= \atomP \mid 
            \neg \phi \mid
            (\phi \land \phi) \mid
-           \necessary[\agentA] \phi \mid
+           \necessaryA \phi \mid
            \allacts{\alpha} \phi \mid
            \allrefs \phi
 $$
@@ -76,7 +76,7 @@ Let \classC{} be a class of Kripke models, let $\tau_\classC : \langAflAct \to \
 Then the interpretation of $\phi \in \langAafl$ in the logic $\logicAaflC$ is the same as its interpretation in modal logic given in Definition~\ref{ml-semantics}, with the additional inductive cases:
 \begin{eqnarray*}
     \kPModel{\kStateS} \entails \allacts{\alpha} \phi &\text{ iff }& \kPModel{\kStateS} \exec \tau_\classC(\alpha) \in \classC \text{ implies } \kPModel{\kStateS} \exec \tau_\classC(\alpha) \entails \phi\\
-    \kPModel{\kStateS} \entails \allrefs \phi &\text{ iff }& \text{for every } \kPModel[\prime]{\kStateS[\prime]} \in \classC \text{ such that } \kPModel[\prime]{\kStateS[\prime]} \refinement \kPModel{\kStateS}: \kPModel[\prime]{\kStateS[\prime]} \entails \phi
+    \kPModel{\kStateS} \entails \allrefs \phi &\text{ iff }& \text{for every } \kPModelP{\kStateSP} \in \classC \text{ such that } \kPModelP{\kStateSP} \refinement \kPModel{\kStateS}: \kPModelP{\kStateSP} \entails \phi
 \end{eqnarray*}
 where action model execution $\exec$ is as defined in Definition~\ref{aml-semantics} and the refinement relation is defined in Definition~\ref{refinements}.
 \end{definition}
@@ -219,7 +219,7 @@ Without using proxy states, if we wanted to include the state $\aStateTest$ in t
 As $\aStateSkip$ is an $\agentA$-successor of $\aStateTest$ in the action $\test{\phi}$, then this would mean that $\agentA$ would not be able to distinguish between the actions states $\aStateTest$ and $\aStateSkip$ and so the result of executing $\tau(\alpha)$ would be that $\agentA$ learns nothing.
 With the construction provided, the action $\learns_\agentA \test{\phi}$ gives the desired result that $\agentA$ learns that $\phi$ is true.
 
-We also note that the results presented in this paper for \classKFF{} can be extended to \classKD{} by modifying Definition~\ref{afl-kff-learning} so that $\aPrecondition(\aStateTest) = \bigwedge_{\agentA \in \agentsB} \bigvee_{\aStateT[\alpha] \in \aStatesT[\alpha]} \possible[\agentA] \aPrecondition[\alpha](\aStateT[\alpha])$, which guarantees that the result of successfully executing an action formula has the seriality property of \classKD{}.
+We also note that the results presented in this paper for \classKFF{} can be extended to \classKD{} by modifying Definition~\ref{afl-kff-learning} so that $\aPrecondition(\aStateTest) = \bigwedge_{\agentA \in \agentsB} \bigvee_{\aStateT[\alpha] \in \aStatesT[\alpha]} \possibleA \aPrecondition[\alpha](\aStateT[\alpha])$, which guarantees that the result of successfully executing an action formula has the seriality property of \classKD{}.
 
 \subsection{\classS{}}
 
@@ -281,8 +281,8 @@ $$
     {\bf LP} & \proves \allacts{\learns_\agentsB (\alpha, \beta)} \atomP \iff \atomP\\
     {\bf LN} & \proves \allacts{\learns_\agentsB (\alpha, \beta)} \neg \phi \iff \neg \allacts{\learns_\agentsB (\alpha, \beta)} \phi\\
     {\bf LC} & \proves \allacts{\learns_\agentsB (\alpha, \beta)} (\phi \land \psi) \iff (\allacts{\learns_\agentsB (\alpha, \beta)} \phi \land \allacts{\learns_\agentsB (\alpha, \beta)} \psi)\\
-    {\bf LK1} & \proves \allacts{\learns_\agentsB (\alpha, \beta)} \necessary[\agentA] \phi \iff \necessary[\agentA] \allacts{\alpha \choice \beta} \phi \text{ for } \agentA \in \agentsB\\
-    {\bf LK2} & \proves \allacts{\learns_\agentsB (\alpha, \beta)} \necessary[\agentA] \phi \iff \necessary[\agentA] \phi \text{ for } \agentA \notin \agentsB
+    {\bf LK1} & \proves \allacts{\learns_\agentsB (\alpha, \beta)} \necessaryA \phi \iff \necessaryA \allacts{\alpha \choice \beta} \phi \text{ for } \agentA \in \agentsB\\
+    {\bf LK2} & \proves \allacts{\learns_\agentsB (\alpha, \beta)} \necessaryA \phi \iff \necessaryA \phi \text{ for } \agentA \notin \agentsB
 \end{array}
 $$
 and the rule:
@@ -355,7 +355,7 @@ Therefore a consequence of successfully executing $\alpha$ is that James learns 
 The axiomatisation \axiomAflKFF{} is a substitution schema consisting of the rules and axioms of \axiomKFF{} along with the rules and axioms of \axiomAflK{}, but substituting the \axiomAflK{} axiom {\bf LK1} for the axiom:
 $$
 \begin{array}{rl}
-    {\bf LK1} & \proves \allacts{\learns_\agentsB (\alpha, \beta)} \necessary[\agentA] \chi \iff \necessary[\agentA] \allacts{\alpha \choice \beta} \chi \text{ for } \agentA \in \agentsB\\
+    {\bf LK1} & \proves \allacts{\learns_\agentsB (\alpha, \beta)} \necessaryA \chi \iff \necessaryA \allacts{\alpha \choice \beta} \chi \text{ for } \agentA \in \agentsB\\
 \end{array}
 $$
 and the rule:
@@ -383,7 +383,7 @@ The axiomatisation \axiomAflKFF{} is complete for the logic \logicAmlKFF{}.
 \end{proposition}
 
 We note that the axiomatisation \axiomAflKFF{} forms a set of reduction axioms that gives a provably correct translation from \langAfl{} to \lang{}.
-To translate a subformula $\allacts{\alpha} \phi$, where $\phi \in \lang$, we must first translate $\phi$ to the alternating disjunctive normal form of \cite{hales:2012}, which gives the property that for every subformula $\necessary[\agentA] \psi$, the formula $\psi$ is $(\agents \setminus \{\agentA\})$-restricted, and therefore {\bf LK1} is applicable.
+To translate a subformula $\allacts{\alpha} \phi$, where $\phi \in \lang$, we must first translate $\phi$ to the alternating disjunctive normal form of \cite{hales:2012}, which gives the property that for every subformula $\necessaryA \psi$, the formula $\psi$ is $(\agents \setminus \{\agentA\})$-restricted, and therefore {\bf LK1} is applicable.
 
 \subsection{\classS{}}
 
@@ -434,25 +434,25 @@ To begin we give two lemmas to simplify the construction that we will use for ou
 
 \begin{lemma}\label{afl-k-construction-test}
 Let $\phi \in \langAfl$ and $\aPModel{\aStateS} = \aPModelTuple{\aStateS} \in \classAmK$.
-Then let $\aPModel[\prime]{\aStateS[\prime]} = \aPModelTuple[\prime]{\aStateS[\prime]} \in \classAmK$ where:
+Then let $\aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP} \in \classAmK$ where:
 \begin{eqnarray*}
-    \aStates[\prime] &=& \aStates \cup \{\aStateS[\prime]\}\\
-    \aAccessibility[\prime]{\agentA} &=& \aAccessibility{\agentA} \cup \{(\aStateS[\prime], \aStateT) \mid \aStateT \in \aStateS \aAccessibility{\agentA}\} \text{ for } \agentA \in \agents\\
-    \aPrecondition[\prime] &=& \aPrecondition \cup \{(\aStateS[\prime], \phi \land \aPrecondition(\aStateS))\}
+    \aStatesP &=& \aStates \cup \{\aStateSP\}\\
+    \aAccessibilityP{\agentA} &=& \aAccessibility{\agentA} \cup \{(\aStateSP, \aStateT) \mid \aStateT \in \aStateS \aAccessibility{\agentA}\} \text{ for } \agentA \in \agents\\
+    \aPreconditionP &=& \aPrecondition \cup \{(\aStateSP, \phi \land \aPrecondition(\aStateS))\}
 \end{eqnarray*}
-Then $\tau(\test{\phi}) \exec \aPModel{\aStateS}  \bisimilar \aPModel[\prime]{\aStateS[\prime]}$.
+Then $\tau(\test{\phi}) \exec \aPModel{\aStateS}  \bisimilar \aPModelP{\aStateSP}$.
 \end{lemma}
 
 \begin{lemma}\label{afl-k-construction-learning}
 Let $\alpha \in \langAflAct$ where $\tau(\alpha) = \aPModel[\alpha]{\aStatesT[\alpha]} = \aPModelTuple[\alpha]{\aStatesT[\alpha]}$, $\agentA \in \agents$ and $\aPModel{\aStateS} = \aPModelTuple{\aStateS} \in \classAmK$ such that $\aStateS \aAccessibility{\agentA} = \{\aStateT\}$ for some $\aStateT \in \aStates$ and $\aStateT \aAccessibility{\agentA} = \{\aStateT\}$.
-Then let $\aPModel[\prime]{\aStateS[\prime]} = \aPModelTuple[\prime]{\aStateS[\prime]} \in \classAmK$ where:
+Then let $\aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP} \in \classAmK$ where:
 \begin{eqnarray*}
-    \aStates[\prime] &=& \aStates \cup \aStates[\alpha] \cup \{\aStateS[\prime]\}\\
-    \aAccessibility[\prime]{\agentA} &=& \aAccessibility{\agentA} \cup \aAccessibility[\alpha]{\agentA} \cup \{(\aStateS[\prime], \aStateT[\alpha]) \mid \aStateT[\alpha] \in \aStatesT[\alpha]\}\\
-    \aAccessibility[\prime]{\agentB} &=& \aAccessibility{\agentB} \cup \aAccessibility[\alpha]{\agentB} \cup \{(\aStateS[\prime], \aStateT) \mid \aStateT \in \aStateS \aAccessibility{\agentB}\} \text{ for } \agentB \in \agents \setminus \{\agentA\}\\
-    \aPrecondition[\prime] &=& \aPrecondition \cup \{(\aStateS[\prime], \aPrecondition(\aStateS))\}
+    \aStatesP &=& \aStates \cup \aStates[\alpha] \cup \{\aStateSP\}\\
+    \aAccessibilityP{\agentA} &=& \aAccessibility{\agentA} \cup \aAccessibility[\alpha]{\agentA} \cup \{(\aStateSP, \aStateT[\alpha]) \mid \aStateT[\alpha] \in \aStatesT[\alpha]\}\\
+    \aAccessibilityP{\agentB} &=& \aAccessibility{\agentB} \cup \aAccessibility[\alpha]{\agentB} \cup \{(\aStateSP, \aStateT) \mid \aStateT \in \aStateS \aAccessibility{\agentB}\} \text{ for } \agentB \in \agents \setminus \{\agentA\}\\
+    \aPreconditionP &=& \aPrecondition \cup \{(\aStateSP, \aPrecondition(\aStateS))\}
 \end{eqnarray*}
-Then $\tau(\learns_\agentA \alpha) \exec \aPModel{\aStateS} \bisimilar \aPModel[\prime]{\aStateS[\prime]}$.
+Then $\tau(\learns_\agentA \alpha) \exec \aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
 \end{lemma}
 
 \begin{proposition}\label{afl-k-correspondence}
@@ -464,31 +464,31 @@ Then there exists $\alpha \in \langAflAct$ such that $\aPModel{\aStateS} \bisimi
 By induction on $n$.
 
 Suppose that $n = 0$.
-Let $\alpha = \test{\aPrecondition(\aStateS)}$ and $\tau(\alpha) = \aPModel[\prime]{\aStateS[\prime]} = \aPModelTuple[\prime]{\aStateS[\prime]}$.
-From Definition~\ref{afl-k-test} we have that $\aPrecondition(\aStateS) = \aPrecondition[\prime](\aStateS[\prime])$, so $(\aPModel{\aStateS}, \aPModel[\prime]{\aStateS[\prime]})$ satisfies {\bf atoms} and therefore $\aPModel{\aStateS} \bisimilar[0] \aPModel[\prime]{\aStateS[\prime]}$.
+Let $\alpha = \test{\aPrecondition(\aStateS)}$ and $\tau(\alpha) = \aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP}$.
+From Definition~\ref{afl-k-test} we have that $\aPrecondition(\aStateS) = \aPreconditionP(\aStateSP)$, so $(\aPModel{\aStateS}, \aPModelP{\aStateSP})$ satisfies {\bf atoms} and therefore $\aPModel{\aStateS} \bisimilar[0] \aPModelP{\aStateSP}$.
 
 Suppose that $n > 0$. 
 By the induction hypothesis, for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ there exists $\alpha^{\agentA,\aStateT} \in \langAflAct$ such that $\aPModel{\aStateT} \bisimilar[(n - 1)] \tau(\alpha^{\agentA,\aStateT})$, where $\tau(\alpha^{\agentA,\aStateT}) \bisimilar \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]} = \aPModelTuple[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$.
 
 Let $\alpha = \test{\aPrecondition(\aStateS)} \compose \bigcompose_{\agentA \in \agents} \learns_\agentA (\bigchoice_{\aStateT \in \aStateS \aAccessibility{\agentA}} \alpha^{\aStateT})$. 
-Then from Lemmas~\ref{afl-k-construction-test} and~\ref{afl-k-construction-learning}: $\tau(\alpha) \bisimilar \aPModel[\prime]{\aStateS[\prime]} = \aPModelTuple[\prime]{\aStateS[\prime]}$ where:
+Then from Lemmas~\ref{afl-k-construction-test} and~\ref{afl-k-construction-learning}: $\tau(\alpha) \bisimilar \aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP}$ where:
 \begin{eqnarray*}
-    \aStates[\prime] &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aStates[\agentA,\aStateT]) \cup \{\aStateS[\prime]\}\\
-    \aAccessibility[\prime]{\agentA} &=& \bigcup_{\agentB \in \agents, \aStateT \in \aStateS \aAccessibility{\agentB}} (\aAccessibility[\agentB,\aStateT]{\agentA}) \cup \{(\aStateS[\prime], \aStateS[\agentA,\aStateT]) \mid \aStateT \in \aStateS \aAccessibility{\agentA}\} \text{ for } \agentA \in \agents\\
-    \aPrecondition[\prime] &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aPrecondition[\agentA,\aStateT]) \cup \{(\aStateS[\prime], \aPrecondition(\aStateS))\}
+    \aStatesP &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aStates[\agentA,\aStateT]) \cup \{\aStateSP\}\\
+    \aAccessibilityP{\agentA} &=& \bigcup_{\agentB \in \agents, \aStateT \in \aStateS \aAccessibility{\agentB}} (\aAccessibility[\agentB,\aStateT]{\agentA}) \cup \{(\aStateSP, \aStateS[\agentA,\aStateT]) \mid \aStateT \in \aStateS \aAccessibility{\agentA}\} \text{ for } \agentA \in \agents\\
+    \aPreconditionP &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aPrecondition[\agentA,\aStateT]) \cup \{(\aStateSP, \aPrecondition(\aStateS))\}
 \end{eqnarray*}
 
-We note for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ that $\aPModel[\prime]{\aStateS[\agentA,\aStateT]} \bisimilar \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$ as for every $\agentA \in \agents$, $\aStateU \in \aStates[\agentA,\aStateT]$ we have $\aStateU \aAccessibility[\prime]{\agentA} = \aStateU \aAccessibility[\agentA,\aStateT]{\agentA}$.
+We note for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ that $\aPModelP{\aStateS[\agentA,\aStateT]} \bisimilar \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$ as for every $\agentA \in \agents$, $\aStateU \in \aStates[\agentA,\aStateT]$ we have $\aStateU \aAccessibilityP{\agentA} = \aStateU \aAccessibility[\agentA,\aStateT]{\agentA}$.
 
-We show that $(\aPModel{\aStateS}, \aPModel[\prime]{\aStateS[\prime]})$ satisfies {\bf atoms}, {\bf forth-$n$-$\agentA$} and {\bf back-$n$-$\agentA$} for every $\agentA \in \agents$.
+We show that $(\aPModel{\aStateS}, \aPModelP{\aStateSP})$ satisfies {\bf atoms}, {\bf forth-$n$-$\agentA$} and {\bf back-$n$-$\agentA$} for every $\agentA \in \agents$.
 
 \paragraph{atoms} By construction
-$\aPrecondition[\prime](\aStateS[\prime]) = \aPrecondition(\aStateS)$.
+$\aPreconditionP(\aStateSP) = \aPrecondition(\aStateS)$.
 
 \paragraph{forth-$n$-$\agentA$} 
 Let $\aStateT \in \aStateS \aAccessibility{\agentA}$.
-By construction $\aStateS[\agentA,\aStateT] \in \aStateS[\prime] \aAccessibility[\prime]{\agentA}$, by the induction hypothesis $\aPModel{\aStateT} \bisimilar[(n - 1)] \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$ and from above $\aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]} \bisimilar \aPModel[\prime]{\aStateS[\agentA,\aStateT]}$.
-Therefore by transitivity $\aPModel{\aStateT} \bisimilar[(n - 1)] \aPModel[\prime]{\aStateS[\agentA,\aStateT]}$.
+By construction $\aStateS[\agentA,\aStateT] \in \aStateSP \aAccessibilityP{\agentA}$, by the induction hypothesis $\aPModel{\aStateT} \bisimilar[(n - 1)] \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$ and from above $\aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]} \bisimilar \aPModelP{\aStateS[\agentA,\aStateT]}$.
+Therefore by transitivity $\aPModel{\aStateT} \bisimilar[(n - 1)] \aPModelP{\aStateS[\agentA,\aStateT]}$.
 
 \paragraph{back-$n$-$\agentA$} Follows from similar reasoning to {\bf forth-$n$-$\agentA$}.
 
@@ -522,14 +522,14 @@ As in the previous subsection we give a lemma to simplify the construction that 
 
 \begin{lemma}\label{afl-kff-construction-learning}
 Let $\agentA \in \agents$, $\alpha \in \langAflAct$ where $\tau(\alpha) = \aPModel[\alpha]{\aStatesT[\alpha]} = \aPModelTuple[\alpha]{\aStatesT[\alpha]}$, and $\aPModel{\aStateS} = \aPModelTuple{\aStateS} \in \classAmK$ such that $\aStateS \aAccessibility{\agentA} = \{\aStateT\}$ for some $\aStateT \in \aStates$ and $\aStateT \aAccessibility{\agentA} = \{\aStateT\}$.
-Then let $\aPModel[\prime]{\aStateS[\prime]} = \aPModelTuple[\prime]{\aStateS[\prime]} \in \classAmK$ where:
+Then let $\aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP} \in \classAmK$ where:
 \begin{eqnarray*}
-    \aStates[\prime] &=& \aStates \cup \aStates[\alpha] \cup \{\aPStateT[\alpha] \mid \aStateT[\alpha] \in \aStatesT[\alpha]\} \cup \{\aStateS[\prime]\}\\
-    \aAccessibility[\prime]{\agentA} &=& \aAccessibility{\agentA} \cup \aAccessibility[\alpha]{\agentA} \cup \{(\aStateS[\prime], \aPStateT[\alpha]) \mid \aStateT[\alpha] \in \aStatesT[\alpha]\} \cup \{(\aPStateT[\alpha], \aPStateU[\alpha]) \mid \aStateT[\alpha], \aStateU[\alpha] \in \aStatesT[\alpha]\}\\
-    \aAccessibility[\prime]{\agentB} &=& \aAccessibility{\agentB} \cup \aAccessibility[\alpha]{\agentB} \cup \{(\aStateS[\prime], \aStateT) \mid \aStateT \in \aStateS \aAccessibility{\agentB}\} \text{ for } \agentB \in \agents \setminus \{\agentA\}\\
-    \aPrecondition[\prime] &=& \aPrecondition \cup \{(\aPStateT[\alpha], \aPrecondition[\alpha](\aStateT[\alpha])) \mid \aStateT[\alpha] \in \aStatesT[\alpha]\} \cup \{(\aStateS[\prime], \aPrecondition(\aStateS))\}
+    \aStatesP &=& \aStates \cup \aStates[\alpha] \cup \{\aPStateT[\alpha] \mid \aStateT[\alpha] \in \aStatesT[\alpha]\} \cup \{\aStateSP\}\\
+    \aAccessibilityP{\agentA} &=& \aAccessibility{\agentA} \cup \aAccessibility[\alpha]{\agentA} \cup \{(\aStateSP, \aPStateT[\alpha]) \mid \aStateT[\alpha] \in \aStatesT[\alpha]\} \cup \{(\aPStateT[\alpha], \aPStateU[\alpha]) \mid \aStateT[\alpha], \aStateU[\alpha] \in \aStatesT[\alpha]\}\\
+    \aAccessibilityP{\agentB} &=& \aAccessibility{\agentB} \cup \aAccessibility[\alpha]{\agentB} \cup \{(\aStateSP, \aStateT) \mid \aStateT \in \aStateS \aAccessibility{\agentB}\} \text{ for } \agentB \in \agents \setminus \{\agentA\}\\
+    \aPreconditionP &=& \aPrecondition \cup \{(\aPStateT[\alpha], \aPrecondition[\alpha](\aStateT[\alpha])) \mid \aStateT[\alpha] \in \aStatesT[\alpha]\} \cup \{(\aStateSP, \aPrecondition(\aStateS))\}
 \end{eqnarray*}
-Then $\tau(\learns_\agentA \alpha) \exec \aPModel{\aStateS} \bisimilar \aPModel[\prime]{\aStateS[\prime]}$.
+Then $\tau(\learns_\agentA \alpha) \exec \aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
 \end{lemma}
 
 \begin{proposition}\label{afl-kff-correspondence}
@@ -541,52 +541,52 @@ Then there exists $\alpha \in \langAflAct$ such that $\aPModel{\aStateS} \bisimi
 By induction on $n$.
 
 Suppose that $n = 0$. 
-Let $\alpha = \test{\aPrecondition(\aStateS)}$ and $\tau(\alpha) = \aPModel[\prime]{\aStateS[\prime]} = \aPModelTuple[\prime]{\aStateS[\prime]}$.
-From Definition~\ref{afl-kff-test} we have that $\aPrecondition(\aStateS) = \aPrecondition[\prime](\aStateS[\prime])$, so $(\aPModel{\aStateS}, \aPModel[\prime]{\aStateS[\prime]})$ satisfies {\bf atoms} and therefore $\aPModel{\aStateS} \bisimilar[0] \aPModel[\prime]{\aStateS[\prime]}$.
+Let $\alpha = \test{\aPrecondition(\aStateS)}$ and $\tau(\alpha) = \aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP}$.
+From Definition~\ref{afl-kff-test} we have that $\aPrecondition(\aStateS) = \aPreconditionP(\aStateSP)$, so $(\aPModel{\aStateS}, \aPModelP{\aStateSP})$ satisfies {\bf atoms} and therefore $\aPModel{\aStateS} \bisimilar[0] \aPModelP{\aStateSP}$.
 
 Suppose that $n > 0$. 
 By the induction hypothesis, for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ there exists $\alpha^{\agentA,\aStateT} \in \langAflAct$ such that $\aPModel{\aStateT} \bisimilar[(n - 1)] \tau(\alpha^{\agentA,\aStateT})$.
 For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ let $\tau(\alpha^{\agentA,\aStateT}) = \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]} = \aPModelTuple[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$.
 
 Let $\alpha = \test{\aPrecondition(\aStateS)} \compose \bigcompose_{\agentA \in \agents} \learns_\agentA (\bigchoice_{\aStateT \in \aStateS \aAccessibility{\agentA}} \alpha^{\agentA,\aStateT})$. 
-Then from Lemmas~\ref{afl-k-construction-test} and~\ref{afl-kff-construction-learning}: $\tau(\alpha) \bisimilar \aPModel[\prime]{\aStateS[\prime]} = \aPModelTuple[\prime]{\aStateS[\prime]}$ where:
+Then from Lemmas~\ref{afl-k-construction-test} and~\ref{afl-kff-construction-learning}: $\tau(\alpha) \bisimilar \aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP}$ where:
 \begin{eqnarray*}
-    \aStates[\prime] &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aStates[\agentA,\aStateT]) \cup \{\aPStateS[\agentA,\aStateT] \mid \agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{\aStateS[\prime]\}\\
-    \aAccessibility[\prime]{\agentA} &=& \bigcup_{\agentB \in \agents, \aStateT \in \aStateS \aAccessibility{\agentB}} (\aAccessibility[\agentB,\aStateT]{\agentA}) \cup \{(\aStateS[\prime], \aPStateS[\agentA, \aStateT]) \mid \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{(\aPStateS[\agentA, \aStateT], \aPStateS[\agentA, \aStateU]) \mid \aStateT, \aStateU \in \aStateS \aAccessibility{\agentA}\} \cup\\
+    \aStatesP &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aStates[\agentA,\aStateT]) \cup \{\aPStateS[\agentA,\aStateT] \mid \agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{\aStateSP\}\\
+    \aAccessibilityP{\agentA} &=& \bigcup_{\agentB \in \agents, \aStateT \in \aStateS \aAccessibility{\agentB}} (\aAccessibility[\agentB,\aStateT]{\agentA}) \cup \{(\aStateSP, \aPStateS[\agentA, \aStateT]) \mid \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{(\aPStateS[\agentA, \aStateT], \aPStateS[\agentA, \aStateU]) \mid \aStateT, \aStateU \in \aStateS \aAccessibility{\agentA}\} \cup\\
                                                &&\hspace{45pt}\{(\aPStateS[\agentB, \aStateT], \aStateU) \mid \agentB \in \agents \setminus \{\agentA\}, \aStateT \in \aStateS \aAccessibility{\agentB}, \aStateU \in \aStateS[\agentB,\aStateT] \aAccessibility[\agentB,\aStateT]{\agentA}\} \text{ for } \agentA \in \agents\\
-    \aPrecondition[\prime] &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aPrecondition[\agentA,\aStateT]) \cup \{(\aPStateS[\agentA, \aStateT], \aPrecondition[\agentA,\aStateT](\aStateS[\agentA,\aStateT])) \mid \agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{(\aStateS[\prime], \aPrecondition(\aStateS))\}
+    \aPreconditionP &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aPrecondition[\agentA,\aStateT]) \cup \{(\aPStateS[\agentA, \aStateT], \aPrecondition[\agentA,\aStateT](\aStateS[\agentA,\aStateT])) \mid \agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{(\aStateSP, \aPrecondition(\aStateS))\}
 \end{eqnarray*}
 
-As in the proof of Proposition~\ref{afl-k-correspondence}, we note for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ that $\aPModel[\prime]{\aStateS[\agentA,\aStateT]} \bisimilar \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$.
+As in the proof of Proposition~\ref{afl-k-correspondence}, we note for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ that $\aPModelP{\aStateS[\agentA,\aStateT]} \bisimilar \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$.
 
-We need to show that $(\aPModel{\aStateS}, \aPModel[\prime]{\aStateS[\prime]})$ satisfies {\bf atoms}, {\bf forth-$n$-$\agentA$} and {\bf back-$n$-$\agentA$} for every $\agentA \in \agents$.
-We use reasoning similar to the proof of Proposition~\ref{afl-k-correspondence}, however noting that the successors of $\aStateS[\prime]$ in $\aModel[\prime]$ are not the same as in the construction used previously.
+We need to show that $(\aPModel{\aStateS}, \aPModelP{\aStateSP})$ satisfies {\bf atoms}, {\bf forth-$n$-$\agentA$} and {\bf back-$n$-$\agentA$} for every $\agentA \in \agents$.
+We use reasoning similar to the proof of Proposition~\ref{afl-k-correspondence}, however noting that the successors of $\aStateSP$ in $\aModelP$ are not the same as in the construction used previously.
 We claim that each $\aPStateS[\agentA,\aStateT]$ state is $(n-1)$-bisimilar to the corresponding $\aStateS[\agentA,\aStateT]$ state.
-We show this by showing for every $0 \leq i \leq n - 1$, $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ that $\aPModel[\prime]{\aPStateS[\agentA,\aStateT]} \bisimilar[i] \aPModel[\prime]{\aStateS[\agentA,\aStateT]}$.
+We show this by showing for every $0 \leq i \leq n - 1$, $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ that $\aPModelP{\aPStateS[\agentA,\aStateT]} \bisimilar[i] \aPModelP{\aStateS[\agentA,\aStateT]}$.
 We proceed by induction on $i$.
 
-\paragraph{atoms} By construction $\aPrecondition[\prime](\aPStateS[\agentA, \aStateT]) = \aPrecondition[\prime](\aStateS[\agentA,\aStateT])$.
+\paragraph{atoms} By construction $\aPreconditionP(\aPStateS[\agentA, \aStateT]) = \aPreconditionP(\aStateS[\agentA,\aStateT])$.
 
-\paragraph{forth-$i$-$\agentB$} Suppose that $0 < i \leq n - 1$. Let $\aStateU \in \aPStateS[\agentA,\aStateT] \aAccessibility[\prime]{\agentB}$. 
+\paragraph{forth-$i$-$\agentB$} Suppose that $0 < i \leq n - 1$. Let $\aStateU \in \aPStateS[\agentA,\aStateT] \aAccessibilityP{\agentB}$. 
 
 Suppose that $\agentB = \agentA$. 
 By construction there exists $\aStateV \in \aStateS \aAccessibility{\agentA}$ such that $\aStateU = \aPStateS[\agentA,\aStateV]$.
-From above $\aPModel[\prime]{\aStateS[\agentA,\aStateT]} \bisimilar \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$ and $\aPModel[\prime]{\aStateS[\agentA,\aStateV]} \bisimilar \aPModel[\agentA,\aStateV]{\aStateS[\agentA,\aStateV]}$.
+From above $\aPModelP{\aStateS[\agentA,\aStateT]} \bisimilar \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$ and $\aPModelP{\aStateS[\agentA,\aStateV]} \bisimilar \aPModel[\agentA,\aStateV]{\aStateS[\agentA,\aStateV]}$.
 By the outer induction hypothesis $\aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]} \bisimilar[(n - 1)] \aPModel{\aStateT}$ and $\aPModel[\agentA,\aStateV]{\aStateS[\agentA,\aStateV]} \bisimilar[(n - 1)] \aPModel{\aStateV}$.
-By transitivity $\aPModel[\prime]{\aStateS[\agentA,\aStateT]} \bisimilar[(n - 1)] \aPModel{\aStateT}$ and $\aPModel[\prime]{\aStateS[\agentA,\aStateV]} \bisimilar[(n - 1)] \aPModel{\aStateV}$.
-As $\aStateV \in \aStateT \aAccessibility{\agentA}$ from {\bf back-$(n - 1)$-$\agentA$} there exists $\aStateW \in \aStateS[\agentA,\aStateT] \aAccessibility[\prime]{\agentA}$ such that $\aPModel[\prime]{\aStateW} \bisimilar[(n - 2)] \aPModel{\aStateV}$.
-By transitivity $\aPModel[\prime]{\aStateW} \bisimilar[(n - 2)] \aPModel[\prime]{\aStateS[\agentA,\aStateV]}$.
-By the induction hypothesis $\aPModel[\prime]{\aPStateS[\agentA,\aStateV]} \bisimilar[(i - 1)] \aPModel[\prime]{\aStateS[\agentA,\aStateV]}$.
-Therefore by transitivity $\aPModel[\prime]{\aPStateS[\agentA,\aStateV]} \bisimilar[(i - 1)] \aPModel[\prime]{\aStateW}$.
+By transitivity $\aPModelP{\aStateS[\agentA,\aStateT]} \bisimilar[(n - 1)] \aPModel{\aStateT}$ and $\aPModelP{\aStateS[\agentA,\aStateV]} \bisimilar[(n - 1)] \aPModel{\aStateV}$.
+As $\aStateV \in \aStateT \aAccessibility{\agentA}$ from {\bf back-$(n - 1)$-$\agentA$} there exists $\aStateW \in \aStateS[\agentA,\aStateT] \aAccessibilityP{\agentA}$ such that $\aPModelP{\aStateW} \bisimilar[(n - 2)] \aPModel{\aStateV}$.
+By transitivity $\aPModelP{\aStateW} \bisimilar[(n - 2)] \aPModelP{\aStateS[\agentA,\aStateV]}$.
+By the induction hypothesis $\aPModelP{\aPStateS[\agentA,\aStateV]} \bisimilar[(i - 1)] \aPModelP{\aStateS[\agentA,\aStateV]}$.
+Therefore by transitivity $\aPModelP{\aPStateS[\agentA,\aStateV]} \bisimilar[(i - 1)] \aPModelP{\aStateW}$.
 
 Suppose that $\agentB \neq \agentA$.
-By construction $\aPStateS[\agentA,\aStateT] \aAccessibility[\prime]{\agentB} = \aStateS[\agentA,\aStateT] \aAccessibility[\prime]{\agentB}$, so $\aStateU \in \aStateS[\agentA,\aStateT] \aAccessibility[\prime]{\agentB}$ and we trivially have that $\aPModel[\prime]{\aStateU} \bisimilar \aPModel[\prime]{\aStateU}$.
+By construction $\aPStateS[\agentA,\aStateT] \aAccessibilityP{\agentB} = \aStateS[\agentA,\aStateT] \aAccessibilityP{\agentB}$, so $\aStateU \in \aStateS[\agentA,\aStateT] \aAccessibilityP{\agentB}$ and we trivially have that $\aPModelP{\aStateU} \bisimilar \aPModelP{\aStateU}$.
 
 \paragraph{back-$i$-$\agentB$} Follows similar reasoning to {\bf forth-$i$-$\agentB$}.
 
-Therefore for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ we have that $\aPModel[\prime]{\aPStateS[\agentA,\aStateT]} \bisimilar[(n - 1)] \aPModel[\prime]{\aStateS[\agentA,\aStateT]}$.
+Therefore for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ we have that $\aPModelP{\aPStateS[\agentA,\aStateT]} \bisimilar[(n - 1)] \aPModelP{\aStateS[\agentA,\aStateT]}$.
 
-We can now show that $\aPModel{\aStateS} \bisimilar[n] \aPModel[\prime]{\aStateS[\prime]}$ by using the same reasoning as the proof for Proposition~\ref{afl-k-correspondence}, using the $(n - 1)$-bisimilar $\aPModel[\prime]{\aPStateS[\agentA,\aStateT]}$ states in place of corresponding $\aPModel[\prime]{\aStateS[\agentA,\aStateT]}$ states.
+We can now show that $\aPModel{\aStateS} \bisimilar[n] \aPModelP{\aStateSP}$ by using the same reasoning as the proof for Proposition~\ref{afl-k-correspondence}, using the $(n - 1)$-bisimilar $\aPModelP{\aPStateS[\agentA,\aStateT]}$ states in place of corresponding $\aPModelP{\aStateS[\agentA,\aStateT]}$ states.
 
 Therefore $\aPModel{\aStateS} \bisimilar[n] \tau(\alpha)$.
 \end{proof}
@@ -607,25 +607,25 @@ Once more we give two lemmas to simplify the construction that we will use.
 
 \begin{lemma}\label{afl-s-construction-test}
 Let $\phi \in \langAfl$ and $\aPModel{\aStateS} = \aPModelTuple{\aStateS} \in \classAmK$.
-Then let $\aPModel[\prime]{\aStateS} = \aPModelTuple[\prime]{\aStateS} \in \classAmK$ where:
+Then let $\aPModelP{\aStateS} = \aPModelTupleP{\aStateS} \in \classAmK$ where:
 \begin{eqnarray*}
-    \aStates[\prime] &=& \aStates\\
-    \aAccessibility[\prime]{\agentA} &=& \aAccessibility{\agentA} \text{ for } \agentA \in \agents\\
-    \aPrecondition[\prime] &=& \aPrecondition \setminus \{(\aStateS, \aPrecondition(\aStateS))\} \cup \{(\aStateS, \phi \land \aPrecondition(\aStateS))\}
+    \aStatesP &=& \aStates\\
+    \aAccessibilityP{\agentA} &=& \aAccessibility{\agentA} \text{ for } \agentA \in \agents\\
+    \aPreconditionP &=& \aPrecondition \setminus \{(\aStateS, \aPrecondition(\aStateS))\} \cup \{(\aStateS, \phi \land \aPrecondition(\aStateS))\}
 \end{eqnarray*}
-Then $\tau(\test{\phi}) \exec \aPModel{\aStateS} \bisimilar \aPModel[\prime]{\aStateS[\prime]}$.
+Then $\tau(\test{\phi}) \exec \aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
 \end{lemma}
 
 \begin{lemma}\label{afl-s-construction-learning}
 Let $\agentA \in \agents$, $\alpha \in \langAflAct$ where $\tau(\alpha) = \aPModel[\alpha]{\aStatesT[\alpha]} = \aPModelTuple[\alpha]{\aStatesT[\alpha]}$, and $\aPModel{\aStateS} = \aPModelTuple{\aStateS} \in \classAmK$ such that $\aStateS \aAccessibility{\agentA} = \{\aStateS\}$ and $\aPrecondition(\aStateS) = \top$.
-Then let $\aPModel[\prime]{\aStateS} = \aPModelTuple[\prime]{\aStateS} \in \classAmK$ where:
+Then let $\aPModelP{\aStateS} = \aPModelTupleP{\aStateS} \in \classAmK$ where:
 \begin{eqnarray*}
-    \aStates[\prime] &=& \aStates \cup \aStates[\alpha] \cup \{\aPStateT[\alpha] \mid \aStateT[\alpha] \in \aStatesT[\alpha]\}\\
-    \aAccessibility[\prime]{\agentA} &=& \aAccessibility{\agentA} \cup \aAccessibility[\alpha]{\agentA} \cup (\{\aStateS\} \cup \{\aPStateT[\alpha] \mid \aStateT[\alpha] \in \aStatesT[\alpha]\})^2\\
-    \aAccessibility[\prime]{\agentB} &=& \aAccessibility{\agentB} \cup \aAccessibility[\alpha]{\agentB} \cup (\{\aPStateT[\alpha]\} \cup \aStateT[\alpha] \aAccessibility[\alpha]{\agentB})^2 \text{ for } \agentB \in \agents \setminus \{\agentA\}\\
-    \aPrecondition[\prime] &=& \aPrecondition \cup \{(\aPStateT[\alpha], \aPrecondition[\alpha](\aStateT[\alpha])) \mid \aStateT[\alpha] \in \aStatesT[\alpha]\}
+    \aStatesP &=& \aStates \cup \aStates[\alpha] \cup \{\aPStateT[\alpha] \mid \aStateT[\alpha] \in \aStatesT[\alpha]\}\\
+    \aAccessibilityP{\agentA} &=& \aAccessibility{\agentA} \cup \aAccessibility[\alpha]{\agentA} \cup (\{\aStateS\} \cup \{\aPStateT[\alpha] \mid \aStateT[\alpha] \in \aStatesT[\alpha]\})^2\\
+    \aAccessibilityP{\agentB} &=& \aAccessibility{\agentB} \cup \aAccessibility[\alpha]{\agentB} \cup (\{\aPStateT[\alpha]\} \cup \aStateT[\alpha] \aAccessibility[\alpha]{\agentB})^2 \text{ for } \agentB \in \agents \setminus \{\agentA\}\\
+    \aPreconditionP &=& \aPrecondition \cup \{(\aPStateT[\alpha], \aPrecondition[\alpha](\aStateT[\alpha])) \mid \aStateT[\alpha] \in \aStatesT[\alpha]\}
 \end{eqnarray*}
-Then $\tau(\learns_\agentA (\test{\top}, \alpha)) \exec \aPModel{\aStateS} \bisimilar \aPModel[\prime]{\aStateS[\prime]}$.
+Then $\tau(\learns_\agentA (\test{\top}, \alpha)) \exec \aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
 \end{lemma}
 
 \begin{proposition}\label{afl-s-correspondence}
@@ -637,8 +637,8 @@ Then there exists $\alpha \in \langAflAct$ such that $\aPModel{\aStateS} \bisimi
 By induction on $n$.
 
 Suppose that $n = 0$. 
-Let $\alpha = \test{\aPrecondition(\aStateS)}$ and $\tau(\alpha) = \aPModel[\prime]{\aStateS[\prime]} = \aPModelTuple[\prime]{\aStateS[\prime]}$. 
-From Definition~\ref{afl-s-test} we have that $\aPrecondition(\aStateS) = \aPrecondition[\prime](\aStateS[\prime])$, so $(\aPModel{\aStateS}, \aPModel[\prime]{\aStateS[\prime]})$ satisfies {\bf atoms} and therefore $\aPModel{\aStateS} \bisimilar[0] \aPModel[\prime]{\aStateS[\prime]}$.
+Let $\alpha = \test{\aPrecondition(\aStateS)}$ and $\tau(\alpha) = \aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP}$. 
+From Definition~\ref{afl-s-test} we have that $\aPrecondition(\aStateS) = \aPreconditionP(\aStateSP)$, so $(\aPModel{\aStateS}, \aPModelP{\aStateSP})$ satisfies {\bf atoms} and therefore $\aPModel{\aStateS} \bisimilar[0] \aPModelP{\aStateSP}$.
 
 Suppose that $n > 0$. 
 By the induction hypothesis, for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ there exists $\alpha^{\agentA,\aStateT} \in \langAflAct$ such that 
@@ -646,116 +646,116 @@ $\aPModel{\aStateT} \bisimilar[(n - 1)] \tau(\alpha^{\agentA,\aStateT})$.
 For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ let $\tau(\alpha^{\agentA,\aStateT}) = \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]} = \aPModelTuple[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$.
 
 Let $\alpha = \test{\aPrecondition(\aStateS)} \compose \bigcompose_{\agentA \in \agents} \learns_\agentA (\test{\top}, \bigchoice_{\aStateT \in \aStateS \aAccessibility{\agentA}} \alpha^{\agentA,\aStateT})$.
-Then from Lemmas~\ref{afl-k-construction-test} and~\ref{afl-kff-construction-learning}: $\tau(\alpha) = \aPModel[\prime]{\aStateS[\prime]} =\aPModelTuple[\prime]{\aStateS[\prime]}$ where:
+Then from Lemmas~\ref{afl-k-construction-test} and~\ref{afl-kff-construction-learning}: $\tau(\alpha) = \aPModelP{\aStateSP} =\aPModelTupleP{\aStateSP}$ where:
 \begin{eqnarray*}
-    \aStates[\prime] &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aStates[\agentA,\aStateT]) \cup \{\aPStateS[\agentA,\aStateT] \mid \agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{\aStateS[\prime]\}\\
-    \aAccessibility[\prime]{\agentA} &=& \bigcup_{\agentB \in \agents, \aStateT \in \aStateS \aAccessibility{\agentB}} (\aAccessibility[\agentB,\aStateT]{\agentA}) \cup (\{\aStateS[\prime]\} \cup \{\aPStateS[\agentA,\aStateT] \mid \aStateT \in \aStateS \aAccessibility{\agentA}\})^2 \cup\\&&\quad\bigcup_{\agentB \in \agents \setminus \{\agentA\}, \aStateT \in \aAccessibility{\agentB}} (\{\aPStateS[\agentB,\aStateT]\} \cup \aStateS[\agentB,\aStateT] \aAccessibility[\agentB,\aStateT]{\agentA})^2 \text{ for } \agentA \in \agents\\
-    \aPrecondition[\prime] &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aPrecondition[\agentA,\aStateT]) \cup \{(\aPStateS[\agentA,\aStateT], \aPrecondition[\agentA,\aStateT](\aStateS[\agentA,\aStateT])) \mid \agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{(\aStateS[\prime], \aPrecondition(\aStateS))\}
+    \aStatesP &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aStates[\agentA,\aStateT]) \cup \{\aPStateS[\agentA,\aStateT] \mid \agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{\aStateSP\}\\
+    \aAccessibilityP{\agentA} &=& \bigcup_{\agentB \in \agents, \aStateT \in \aStateS \aAccessibility{\agentB}} (\aAccessibility[\agentB,\aStateT]{\agentA}) \cup (\{\aStateSP\} \cup \{\aPStateS[\agentA,\aStateT] \mid \aStateT \in \aStateS \aAccessibility{\agentA}\})^2 \cup\\&&\quad\bigcup_{\agentB \in \agents \setminus \{\agentA\}, \aStateT \in \aAccessibility{\agentB}} (\{\aPStateS[\agentB,\aStateT]\} \cup \aStateS[\agentB,\aStateT] \aAccessibility[\agentB,\aStateT]{\agentA})^2 \text{ for } \agentA \in \agents\\
+    \aPreconditionP &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aPrecondition[\agentA,\aStateT]) \cup \{(\aPStateS[\agentA,\aStateT], \aPrecondition[\agentA,\aStateT](\aStateS[\agentA,\aStateT])) \mid \agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{(\aStateSP, \aPrecondition(\aStateS))\}
 \end{eqnarray*}
 
-We note that unlike the constructions used for Proposition~\ref{afl-k-correspondence} and Proposition~\ref{afl-kff-correspondence}, this construction does not have $\aPModel[\prime]{\aStateU} \bisimilar \aPModel[\agentA,\aStateT]{\aStateU}$, as we do not have that 
-$\aStateS[\agentA,\aStateT] \aAccessibility[\prime]{\agentA} = \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentA}$.
+We note that unlike the constructions used for Proposition~\ref{afl-k-correspondence} and Proposition~\ref{afl-kff-correspondence}, this construction does not have $\aPModelP{\aStateU} \bisimilar \aPModel[\agentA,\aStateT]{\aStateU}$, as we do not have that 
+$\aStateS[\agentA,\aStateT] \aAccessibilityP{\agentA} = \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentA}$.
 Similar to the proof of Proposition~\ref{afl-kff-correspondence} we claim that each $\aPStateS[\agentA,\aStateT]$ state is $(n-1)$-bisimilar to the corresponding $\aStateS[\aStateT]$ state. 
 However in lieu of bisimilarity of $\aStates[\agentA,\aStateT]$ states we need another result for these states.
-We also need to consider the additional state $\aStateS[\prime]$, which due to reflexivity is also a successor of itself.
+We also need to consider the additional state $\aStateSP$, which due to reflexivity is also a successor of itself.
 
 We need to show for every $0 \leq i \leq n - 1$: 
 \begin{enumerate}
-    \item For every $\agentA \in \agents$: $\aPModel[\prime]{\aStateS[\prime]} \bisimilar[i] \aPModel[\prime]{\aPStateS[\agentA,\aStateS]}$.
-    \item For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$: $\aPModel[\prime]{\aPStateS[\agentA,\aStateT]} \bisimilar[i] \aPModel[\prime]{\aStateS[\agentA,\aStateT]}$.
-    \item For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$, $\aStateU \in \aStates[\agentA,\aStateT]$, $\aStateV \in \aStates$: if $\aPModel[\agentA,\aStateT]{\aStateU} \bisimilar[i] \aPModel{\aStateV}$ then $\aPModel[\prime]{\aStateU} \bisimilar[i] \aPModel{\aStateV}$.
+    \item For every $\agentA \in \agents$: $\aPModelP{\aStateSP} \bisimilar[i] \aPModelP{\aPStateS[\agentA,\aStateS]}$.
+    \item For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$: $\aPModelP{\aPStateS[\agentA,\aStateT]} \bisimilar[i] \aPModelP{\aStateS[\agentA,\aStateT]}$.
+    \item For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$, $\aStateU \in \aStates[\agentA,\aStateT]$, $\aStateV \in \aStates$: if $\aPModel[\agentA,\aStateT]{\aStateU} \bisimilar[i] \aPModel{\aStateV}$ then $\aPModelP{\aStateU} \bisimilar[i] \aPModel{\aStateV}$.
 \end{enumerate}
 
 We proceed by induction on $i$.
 
 \begin{enumerate}
     \item 
-        For every $\agentA \in \agents$: $\aPModel[\prime]{\aStateS[\prime]} \bisimilar[i] \aPModel[\prime]{\aPStateS[\agentA,\aStateS]}$.
+        For every $\agentA \in \agents$: $\aPModelP{\aStateSP} \bisimilar[i] \aPModelP{\aPStateS[\agentA,\aStateS]}$.
 
         \paragraph{atoms}
 
         By the outer induction hypothesis $\aPModel[\agentA,\aStateS]{\aStateS[\agentA,\aStateS]} \bisimilar[(n - 1)] \aPModel{\aStateS}$ and so $\proves \aPrecondition[\agentA,\aStateS](\aStateS[\agentA,\aStateS]) \iff \aPrecondition(\aStateS)$.
-        By construction $\aPrecondition[\prime](\aStateS[\prime]) = \aPrecondition(\aStateS)$ and $\aPrecondition[\prime](\aPStateS[\agentA,\aStateS]) = \aPrecondition[\agentA,\aStateS](\aStateS[\agentA,\aStateS])$ and therefore $\proves \aPrecondition[\prime](\aStateS[\prime]) \iff \aPrecondition[\agentA,\aStateS](\aPStateS[\agentA,\aStateS])$.
+        By construction $\aPreconditionP(\aStateSP) = \aPrecondition(\aStateS)$ and $\aPreconditionP(\aPStateS[\agentA,\aStateS]) = \aPrecondition[\agentA,\aStateS](\aStateS[\agentA,\aStateS])$ and therefore $\proves \aPreconditionP(\aStateSP) \iff \aPrecondition[\agentA,\aStateS](\aPStateS[\agentA,\aStateS])$.
 
-        \paragraph{forth-$i$-$\agentB$} Suppose that $0 < i \leq n - 1$. Let $\aStateU \in \aStateS[\prime] \aAccessibility[\prime]{\agentA}$. 
+        \paragraph{forth-$i$-$\agentB$} Suppose that $0 < i \leq n - 1$. Let $\aStateU \in \aStateSP \aAccessibilityP{\agentA}$. 
 
         Suppose that $\agentB = \agentA$.
-        By construction $\aStateS[\prime] \aAccessibility[\prime]{\agentA} = \aPStateS[\agentA,\aStateS] \aAccessibility[\prime]{\agentA}$ and we trivially have that $\aPModel[\prime]{\aStateU} \bisimilar \aPModel[\prime]{\aStateU}$.
+        By construction $\aStateSP \aAccessibilityP{\agentA} = \aPStateS[\agentA,\aStateS] \aAccessibilityP{\agentA}$ and we trivially have that $\aPModelP{\aStateU} \bisimilar \aPModelP{\aStateU}$.
 
         Suppose that $\agentB \neq \agentA$.
-        By construction $\aStateS[\prime] \aAccessibility[\prime]{\agentB} = \{\aPStateS[\agentB,\aStateT] \mid \aStateT \in \aStateS \aAccessibility{\agentB}\} \cup \{\aStateS[\prime]\}$ and $\aPStateS[\agentA,\aStateS] \aAccessibility[\prime]{\agentB} = \aStateS[\agentA,\aStateS] \aAccessibility[\agentA,\aStateS]{\agentB} \cup \{\aPStateS[\agentA,\aStateS]\}$. 
-        Suppose that $\aStateU = \aStateS[\prime]$. 
-        Then by the induction hypothesis $\aPModel[\prime]{\aStateS[\prime]} \bisimilar[(i-1)] \aPModel[\prime]{\aPStateS[\agentA,\aStateS]}$.
+        By construction $\aStateSP \aAccessibilityP{\agentB} = \{\aPStateS[\agentB,\aStateT] \mid \aStateT \in \aStateS \aAccessibility{\agentB}\} \cup \{\aStateSP\}$ and $\aPStateS[\agentA,\aStateS] \aAccessibilityP{\agentB} = \aStateS[\agentA,\aStateS] \aAccessibility[\agentA,\aStateS]{\agentB} \cup \{\aPStateS[\agentA,\aStateS]\}$. 
+        Suppose that $\aStateU = \aStateSP$. 
+        Then by the induction hypothesis $\aPModelP{\aStateSP} \bisimilar[(i-1)] \aPModelP{\aPStateS[\agentA,\aStateS]}$.
         Suppose that $\aStateU \in \{\aPStateS[\agentB,\aStateT] \mid \aStateT \in \aStateS \aAccessibility{\agentB}\}$. 
         Then there exists $\aStateT \in \aStateS \aAccessibility{\agentB}$ such that $\aStateU = \aPStateS[\agentB,\aStateT]$.
         By the outer induction hypothesis $\aPModel[\agentA,\aStateS]{\aStateS[\agentA,\aStateS]} \bisimilar[(n - 1)] \aPModel{\aStateS}$.
-        As $\aStateT \in \aStateS \aAccessibility{\agentB}$ then by {\bf back-$(n-1)$-$\agentB$} there exists $\aStateV \in \aStateS[\agentA,\aStateS] \aAccessibility[\agentA,\aStateS]{\agentB} \subseteq \aPStateS[\agentA,\aStateS] \aAccessibility[\prime]{\agentB}$ such that $\aPModel[\agentA,\aStateS]{\aStateV} \bisimilar[(n - 2)] \aPModel{\aStateT}$.
-        Then by the inner induction hypothesis this implies $\aPModel[\prime]{\aStateV} \bisimilar[(i - 1)] \aPModel{\aStateT}$.
-        By the inner induction hypothesis $\aPModel[\prime]{\aPStateS[\agentB,\aStateT]} \bisimilar[(i - 1)] \aPModel[\prime]{\aStateS[\agentB,\aStateT]} \bisimilar[(i - 1)] \aPModel[\agentB,\aStateT]{\aStateS[\agentB,\aStateT]}$ and by the outer induction hypothesis $\aPModel[\agentB,\aStateT]{\aStateS[\agentB,\aStateT]} \bisimilar[(n - 1)] \aPModel{\aStateT}$ so by transitivity $\aPModel[\prime]{\aPStateS[\agentB,\aStateT]} \bisimilar[(i - 1)] \aPModel{\aStateT}$.
-        Therefore by transitivity we have that $\aPModel[\prime]{\aPStateS[\agentB,\aStateT]} \bisimilar[(i - 1)] \aPModel[\prime]{\aStateV}$.
+        As $\aStateT \in \aStateS \aAccessibility{\agentB}$ then by {\bf back-$(n-1)$-$\agentB$} there exists $\aStateV \in \aStateS[\agentA,\aStateS] \aAccessibility[\agentA,\aStateS]{\agentB} \subseteq \aPStateS[\agentA,\aStateS] \aAccessibilityP{\agentB}$ such that $\aPModel[\agentA,\aStateS]{\aStateV} \bisimilar[(n - 2)] \aPModel{\aStateT}$.
+        Then by the inner induction hypothesis this implies $\aPModelP{\aStateV} \bisimilar[(i - 1)] \aPModel{\aStateT}$.
+        By the inner induction hypothesis $\aPModelP{\aPStateS[\agentB,\aStateT]} \bisimilar[(i - 1)] \aPModelP{\aStateS[\agentB,\aStateT]} \bisimilar[(i - 1)] \aPModel[\agentB,\aStateT]{\aStateS[\agentB,\aStateT]}$ and by the outer induction hypothesis $\aPModel[\agentB,\aStateT]{\aStateS[\agentB,\aStateT]} \bisimilar[(n - 1)] \aPModel{\aStateT}$ so by transitivity $\aPModelP{\aPStateS[\agentB,\aStateT]} \bisimilar[(i - 1)] \aPModel{\aStateT}$.
+        Therefore by transitivity we have that $\aPModelP{\aPStateS[\agentB,\aStateT]} \bisimilar[(i - 1)] \aPModelP{\aStateV}$.
 
         \paragraph{back-$i$-$\agentB$} Follows similar reasoning to {\bf forth-$i$-$\agentB$}.
 
     \item 
-        For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$: $\aPModel[\prime]{\aPStateS[\agentA,\aStateT]} \bisimilar[i] \aPModel[\prime]{\aStateS[\agentA,\aStateT]}$.
+        For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$: $\aPModelP{\aPStateS[\agentA,\aStateT]} \bisimilar[i] \aPModelP{\aStateS[\agentA,\aStateT]}$.
 
-        \paragraph{atoms} By construction $\aPrecondition[\prime](\aPStateS[\agentA,\aStateT]) = \aPrecondition[\prime](\aStateS[\agentA,\aStateT])$.
+        \paragraph{atoms} By construction $\aPreconditionP(\aPStateS[\agentA,\aStateT]) = \aPreconditionP(\aStateS[\agentA,\aStateT])$.
 
-        \paragraph{forth-$i$-$\agentB$} Suppose that $0 < i \leq n - 1$. Let $\aStateU \in \aPStateS[\agentA,\aStateT] \aAccessibility[\prime]{\agentA}$. 
+        \paragraph{forth-$i$-$\agentB$} Suppose that $0 < i \leq n - 1$. Let $\aStateU \in \aPStateS[\agentA,\aStateT] \aAccessibilityP{\agentA}$. 
 
         Suppose that $\agentB = \agentA$.
-        By construction $\aPStateS[\agentA,\aStateT] \aAccessibility[\prime]{\agentA} = \{\aPStateS[\agentA,\aStateV] \mid \aStateV \in \aStateT \aAccessibility{\agentA}\} \cup \{\aStateS[\prime]\}$. 
+        By construction $\aPStateS[\agentA,\aStateT] \aAccessibilityP{\agentA} = \{\aPStateS[\agentA,\aStateV] \mid \aStateV \in \aStateT \aAccessibility{\agentA}\} \cup \{\aStateSP\}$. 
         Suppose that $\aStateU \in \{\aPStateS[\agentA,\aStateV] \mid \aStateV \in \aStateT \aAccessibility{\agentA}\}$.
         Then there exists $\aStateV \in \aStateT \aAccessibility{\agentA}$ such that $\aStateU = \aPStateS[\agentA,\aStateV]$.
         By the outer induction hypothesis $\aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]} \bisimilar[(n - 1)] \aPModel{\aStateT}$.
-        As $\aStateV \in \aStateT \aAccessibility{\agentA}$ then by {\bf back-$(n-1)$-$\agentA$} there exists $\aStateW \in \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentA} \subseteq \aStateS[\agentA,\aStateT] \aAccessibility[\prime]{\agentA}$ such that $\aPModel[\agentA,\aStateT]{\aStateW} \bisimilar[(n - 2)] \aPModel{\aStateV}$.
-        Then by the inner induction hypothesis this implies $\aPModel[\prime]{\aStateW} \bisimilar[(i - 1)] \aPModel{\aStateV}$.
-        By the inner and outer induction hypothesis $\aPModel[\prime]{\aPStateS[\agentA,\aStateV]} \bisimilar[(i - 1)] \aPModel{\aStateV}$.
-        Therefore by transitivity we have that $\aPModel[\prime]{\aPStateS[\agentA,\aStateV]} \bisimilar[(i - 1)] \aPModel[\prime]{\aStateW}$.
-        Suppose that $\aStateU = \aStateS[\prime]$. 
-        Then from the inner induction hypothesis $\aPModel[\prime]{\aStateS[\prime]} \bisimilar[(i - 1)] \aPModel[\prime]{\aPStateS[\agentA,\aStateS]}$ and we can proceed using the same reasoning as in the case where $\aStateU = \aPStateS[\agentA,\aStateS] \in \{\aPStateS[\agentA,\aStateV] \mid \aStateV \in \aStateT \aAccessibility{\agentA}\}$.
+        As $\aStateV \in \aStateT \aAccessibility{\agentA}$ then by {\bf back-$(n-1)$-$\agentA$} there exists $\aStateW \in \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentA} \subseteq \aStateS[\agentA,\aStateT] \aAccessibilityP{\agentA}$ such that $\aPModel[\agentA,\aStateT]{\aStateW} \bisimilar[(n - 2)] \aPModel{\aStateV}$.
+        Then by the inner induction hypothesis this implies $\aPModelP{\aStateW} \bisimilar[(i - 1)] \aPModel{\aStateV}$.
+        By the inner and outer induction hypothesis $\aPModelP{\aPStateS[\agentA,\aStateV]} \bisimilar[(i - 1)] \aPModel{\aStateV}$.
+        Therefore by transitivity we have that $\aPModelP{\aPStateS[\agentA,\aStateV]} \bisimilar[(i - 1)] \aPModelP{\aStateW}$.
+        Suppose that $\aStateU = \aStateSP$. 
+        Then from the inner induction hypothesis $\aPModelP{\aStateSP} \bisimilar[(i - 1)] \aPModelP{\aPStateS[\agentA,\aStateS]}$ and we can proceed using the same reasoning as in the case where $\aStateU = \aPStateS[\agentA,\aStateS] \in \{\aPStateS[\agentA,\aStateV] \mid \aStateV \in \aStateT \aAccessibility{\agentA}\}$.
 
         Suppose that $\agentB \neq \agentA$.
-        By construction $\aPStateS[\agentB,\aStateT] \aAccessibility[\prime]{\agentB} = \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentB} \cup \{\aPStateS[\agentB,\aStateT]\}$. 
+        By construction $\aPStateS[\agentB,\aStateT] \aAccessibilityP{\agentB} = \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentB} \cup \{\aPStateS[\agentB,\aStateT]\}$. 
         Suppose that $\aStateU = \aPStateS[\agentB,\aStateT]$.
-        By construction $\aStateS[\agentA,\aStateT] \in \aStateS[\agentA,\aStateT] \aAccessibility[\prime]{\agentB}$ and by the induction hypothesis $\aPModel[\prime]{\aPStateS[\agentB,\aStateT]} \bisimilar[(i - 1)] \aPModel[\prime]{\aStateS[\agentA,\aStateT]}$.
-        Suppose that $\aStateU \in \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentB} \subseteq \aStateS[\agentA,\aStateT] \aAccessibility[\prime]{\agentB}$.
-        Then we trivially have that $\aPModel[\prime]{\aStateU} \bisimilar \aPModel[\prime]{\aStateU}$.
+        By construction $\aStateS[\agentA,\aStateT] \in \aStateS[\agentA,\aStateT] \aAccessibilityP{\agentB}$ and by the induction hypothesis $\aPModelP{\aPStateS[\agentB,\aStateT]} \bisimilar[(i - 1)] \aPModelP{\aStateS[\agentA,\aStateT]}$.
+        Suppose that $\aStateU \in \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentB} \subseteq \aStateS[\agentA,\aStateT] \aAccessibilityP{\agentB}$.
+        Then we trivially have that $\aPModelP{\aStateU} \bisimilar \aPModelP{\aStateU}$.
 
         \paragraph{back-$i$-$\agentB$} Follows similar reasoning to {\bf forth-$i$-$\agentB$}.
 
     \item 
-        For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$, $\aStateU \in \aStates[\agentA,\aStateT]$, $\aStateV \in \aStates$: if $\aPModel[\agentA,\aStateT]{\aStateU} \bisimilar[i] \aPModel{\aStateV}$ then $\aPModel[\prime]{\aStateU} \bisimilar[i] \aPModel{\aStateV}$.
+        For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$, $\aStateU \in \aStates[\agentA,\aStateT]$, $\aStateV \in \aStates$: if $\aPModel[\agentA,\aStateT]{\aStateU} \bisimilar[i] \aPModel{\aStateV}$ then $\aPModelP{\aStateU} \bisimilar[i] \aPModel{\aStateV}$.
 
         Suppose that $\aPModel[\agentA,\aStateT]{\aStateU} \bisimilar[i] \aPModel{\aStateV}$. 
 
         \paragraph{atoms}
 
         As $\aPModel[\agentA,\aStateT]{\aStateU} \bisimilar[i] \aPModel{\aStateV}$ then $\proves \aPrecondition[\agentA,\aStateT](\aStateU) \iff \aPrecondition(\aStateV)$. 
-        By construction $\aPrecondition[\prime](\aStateU) = \aPrecondition[\agentA,\aStateT](\aStateU)$ and therefore $\proves \aPrecondition[\prime](\aStateU) \iff \aPrecondition(\aStateV)$.
+        By construction $\aPreconditionP(\aStateU) = \aPrecondition[\agentA,\aStateT](\aStateU)$ and therefore $\proves \aPreconditionP(\aStateU) \iff \aPrecondition(\aStateV)$.
 
         \paragraph{forth-$i$-$\agentB$}
 
         Suppose that $0 < i \leq n - 1$.
-        Let $\aStateW \in \aStateU \aAccessibility[\prime]{\agentB}$.
+        Let $\aStateW \in \aStateU \aAccessibilityP{\agentB}$.
 
         Suppose that $\aStateU \neq \aStateS[\agentA,\aStateT]$ or $\agentB = \agentA$.
-        By construction $\aStateU \aAccessibility[\prime]{\agentA} = \aStateU \aAccessibility[\agentA,\aStateT]{\agentA}$ and so $\aStateW \in \aStateU \aAccessibility[\agentA,\aStateT]{\agentA}$. 
+        By construction $\aStateU \aAccessibilityP{\agentA} = \aStateU \aAccessibility[\agentA,\aStateT]{\agentA}$ and so $\aStateW \in \aStateU \aAccessibility[\agentA,\aStateT]{\agentA}$. 
         As $\aStateW \in \aStateU \aAccessibility[\agentA,\aStateT]{\agentA}$ then by {\bf forth-$i$-$\agentB$} there exists $\aStateX \in \aStateV \aAccessibility{\agentB}$ such that $\aPModel[\agentA,\aStateT]{\aStateW} \bisimilar[(i - 1)] \aPModel{\aStateX}$.
-        By the induction hypothesis $\aPModel[\prime]{\aStateW} \bisimilar[(i - 1)] \aPModel{\aStateX}$.
+        By the induction hypothesis $\aPModelP{\aStateW} \bisimilar[(i - 1)] \aPModel{\aStateX}$.
 
         Suppose that $\aStateU = \aStateS[\agentA,\aStateT]$ and $\agentB \neq \agentA$. 
-        By construction $\aStateS[\agentA,\aStateT] \aAccessibility[\prime]{\agentA} = \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentA} \cup \{\aPStateS[\agentA,\aStateT]\}$. 
+        By construction $\aStateS[\agentA,\aStateT] \aAccessibilityP{\agentA} = \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentA} \cup \{\aPStateS[\agentA,\aStateT]\}$. 
         Suppose that $\aStateW \in \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentA}$. 
         We proceed using the same reasoning as above, where $\aStateW \in \aStateU \aAccessibility[\agentA,\aStateT]{\agentA}$. 
         Suppose that $\aStateW = \aPStateS[\agentA,\aStateT]$.
-        By the induction hypothesis $\aPModel[\prime]{\aPStateS[\agentA,\aStateT]} \bisimilar[(i - 1)] \aPModel[\prime]{\aStateS[\agentA,\aStateT]}$ and we proceed using the same reasoning above, where $\aStateW = \aStateS[\agentA,\aStateT] \in \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentA}$.
+        By the induction hypothesis $\aPModelP{\aPStateS[\agentA,\aStateT]} \bisimilar[(i - 1)] \aPModelP{\aStateS[\agentA,\aStateT]}$ and we proceed using the same reasoning above, where $\aStateW = \aStateS[\agentA,\aStateT] \in \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentA}$.
 
         \paragraph{back-$i$-$\agentB$} Follows similar reasoning to {\bf forth-$i$-$\agentB$}.
 \end{enumerate}
 
-Therefore for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ we have that $\aPModel[\prime]{\aStateS[\prime]} \bisimilar[(n - 1)] \aPModel{\aStateS}$ and $\aPModel[\prime]{\aPStateS[\agentA,\aStateT]} \bisimilar[(n - 1)] \aPModel{\aStateT}$.
-We can now show that $\aPModel{\aStateS[\prime]} \bisimilar[n] \aPModel{\aStateS}$ by using the same reasoning as the proof for Proposition~\ref{afl-k-correspondence}, using the $(n-1)$-bisimilar $\aPModel[\prime]{\aPStateS[\agentA,\aStateT]}$ in place of corresponding $\aPModel[\prime]{\aStateS[\aStateT]}$ states.
+Therefore for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ we have that $\aPModelP{\aStateSP} \bisimilar[(n - 1)] \aPModel{\aStateS}$ and $\aPModelP{\aPStateS[\agentA,\aStateT]} \bisimilar[(n - 1)] \aPModel{\aStateT}$.
+We can now show that $\aPModel{\aStateSP} \bisimilar[n] \aPModel{\aStateS}$ by using the same reasoning as the proof for Proposition~\ref{afl-k-correspondence}, using the $(n-1)$-bisimilar $\aPModelP{\aPStateS[\agentA,\aStateT]}$ in place of corresponding $\aPModelP{\aStateS[\aStateT]}$ states.
 \end{proof}
 
 \begin{corollary}
@@ -919,25 +919,25 @@ We proceed by induction on $\psi$.
         Suppose that $\psi = \neg \chi$ or that $\psi = \chi_1 \land \chi_2$.
         These cases follow trivially from the induction hypothesis.
 
-        Suppose that $\psi = \necessary[\agentA] \chi$.
-        By construction $\aStateS \aAccessibility{\agentA} = \aPStateS[\agentA,\gamma^0] \aAccessibility{\agentA}$ and $\aPrecondition(\aStateS) = \aPrecondition(\aPStateS[\agentA,\gamma^0])$ and so $\proves \allacts{\aPModel{\aStateS}} \necessary[\agentA] \chi \iff \allacts{\aPModel{\aPStateS[\agentA,\gamma^0]}} \necessary[\agentA] \chi$ follows from {\bf AK} trivially.
+        Suppose that $\psi = \necessaryA \chi$.
+        By construction $\aStateS \aAccessibility{\agentA} = \aPStateS[\agentA,\gamma^0] \aAccessibility{\agentA}$ and $\aPrecondition(\aStateS) = \aPrecondition(\aPStateS[\agentA,\gamma^0])$ and so $\proves \allacts{\aPModel{\aStateS}} \necessaryA \chi \iff \allacts{\aPModel{\aPStateS[\agentA,\gamma^0]}} \necessaryA \chi$ follows from {\bf AK} trivially.
 
-        Suppose that $\psi = \necessary[\agentB] \chi$ where $\agentB \neq \agentA$. 
+        Suppose that $\psi = \necessaryB \chi$ where $\agentB \neq \agentA$. 
         By construction $\aStateS \aAccessibility{\agentB} = \{\aStateS\} \cup \aStateS[\agentB,\gamma^0] \aAccessibility{\agentB}$ and $\aPStateS[\agentA,\gamma^0] \aAccessibility{\agentB} = \{\aPStateS[\agentA,\gamma^0]\} \cup \aStateS[\agentA,\gamma^0] \aAccessibility[\agentA,\gamma^0]{\agentB}$.
-        As $\phi$ is an explicit formula and $\necessary[\agentB] \chi \in \Psi$ then either $\proves \gamma^0 \implies \necessary[\agentB] \chi$ or $\proves \gamma^0 \implies \neg \necessary[\agentB] \chi$.
-        Suppose that $\proves \gamma^0 \implies \necessary[\agentB] \chi$.
-        Then for every $\gamma \in \Gamma_\agentB$ we have $\proves \gamma \implies \necessary[\agentB] \chi$.
+        As $\phi$ is an explicit formula and $\necessaryB \chi \in \Psi$ then either $\proves \gamma^0 \implies \necessaryB \chi$ or $\proves \gamma^0 \implies \neg \necessaryB \chi$.
+        Suppose that $\proves \gamma^0 \implies \necessaryB \chi$.
+        Then for every $\gamma \in \Gamma_\agentB$ we have $\proves \gamma \implies \necessaryB \chi$.
         By the outer induction hypothesis $\proves \allacts{\aPModel[\agentB,\gamma]{\aStateS[\agentB,\gamma]}} \gamma$ and so $\proves \allacts{\aPModel[\agentB,\gamma]{\aStateS[\agentB,\gamma]}} \chi$.
         By the inner induction hypothesis $\proves \allacts{\aPModel{\aStateS[\agentB,\gamma]}} \chi$.
         As $\gamma^0 \in \Gamma_\agentB$ then $\proves \allacts{\aPModel{\aStateS[\agentB,\gamma^0]}} \chi$ and so by the inner induction hypothesis $\proves \allacts{\aPModel{\aStateS}} \chi$.
-        So $\proves \allacts{\aPModel{\aStateS \aAccessibility{\agentB}}} \chi$ and therefore $\proves \allacts{\aPModel{\aStateS}} \necessary[\agentB] \chi$ follows from {\bf AK}.
-        By the outer induction hypothesis $\proves \allacts{\aPModel[\agentA,\gamma^0]{\aStateS[\agentA,\gamma^0]}} \gamma^0$ and so $\proves \allacts{\aPModel[\agentA,\gamma^0]{\aStateS[\agentA,\gamma^0]}} \necessary[\agentB] \chi$.
-        From {\bf AK} we have $\proves \somerefs{\gamma^0} \implies \necessary[\agentB] \allacts{\aPModel[\agentA,\gamma^0]{\aStateS[\agentA,\gamma^0] \aAccessibility[\agentA,\gamma^0]{\agentB}}} \chi$.
+        So $\proves \allacts{\aPModel{\aStateS \aAccessibility{\agentB}}} \chi$ and therefore $\proves \allacts{\aPModel{\aStateS}} \necessaryB \chi$ follows from {\bf AK}.
+        By the outer induction hypothesis $\proves \allacts{\aPModel[\agentA,\gamma^0]{\aStateS[\agentA,\gamma^0]}} \gamma^0$ and so $\proves \allacts{\aPModel[\agentA,\gamma^0]{\aStateS[\agentA,\gamma^0]}} \necessaryB \chi$.
+        From {\bf AK} we have $\proves \somerefs{\gamma^0} \implies \necessaryB \allacts{\aPModel[\agentA,\gamma^0]{\aStateS[\agentA,\gamma^0] \aAccessibility[\agentA,\gamma^0]{\agentB}}} \chi$.
         By the inner induction hypothesis $\proves \allacts{\aPModel[\agentA,\gamma^0]{\aStateS[\agentA,\gamma^0] \aAccessibility[\agentA,\gamma^0]{\agentB}}} \chi \iff \allacts{\aPModel{\aStateS[\agentA,\gamma^0] \aAccessibility[\agentA,\gamma^0]{\agentB}}} \chi$ and as $\proves \allacts{\aPModel{\aStateS}} \chi$ then $\proves \allacts{\aPModel{\aPStateS[\agentA,\gamma^0]}} \chi$.
-        So we have $\proves \allacts{\aPModel[\agentA,\gamma^0]{\aStateS[\agentA,\gamma^0] \aAccessibility[\agentA,\gamma^0]{\agentB}}} \chi \iff \allacts{\aPModel{\aPStateS[\agentA,\gamma^0] \aAccessibility{\agentB}}} \chi$ and $\proves \somerefs{\gamma^0} \implies \necessary[\agentB] \allacts{\aPModel{\aPStateS[\agentA,\gamma^0] \aAccessibility{\agentB}}} \chi$ and so $\proves \allacts{\aPModel{\aPStateS[\agentA,\gamma^0]}} \necessary[\agentB]$ follows from {\bf AK}.
-        Therefore $\proves \allacts{\aPModel{\aStateS}} \necessary[\agentB] \chi \iff \allacts{\aPModel{\aPStateS[\agentA,\gamma^0]}} \necessary[\agentB] \chi$.
-        Suppose that $\proves \gamma^0 \implies \neg \necessary[\agentB] \chi$.
-        A dual argument can be used to show that $\proves \neg \allacts{\aPModel{\aStateS}} \necessary[\agentB] \chi$ and $\proves \neg \allacts{\aPModel{\aPStateS[\agentA,\gamma^0]}} \necessary[\agentB] \chi$ and therefore $\proves \allacts{\aPModel{\aStateS}} \necessary[\agentB] \chi \iff \allacts{\aPModel{\aPStateS[\agentA,\gamma^0]}} \necessary[\agentB] \chi$.
+        So we have $\proves \allacts{\aPModel[\agentA,\gamma^0]{\aStateS[\agentA,\gamma^0] \aAccessibility[\agentA,\gamma^0]{\agentB}}} \chi \iff \allacts{\aPModel{\aPStateS[\agentA,\gamma^0] \aAccessibility{\agentB}}} \chi$ and $\proves \somerefs{\gamma^0} \implies \necessaryB \allacts{\aPModel{\aPStateS[\agentA,\gamma^0] \aAccessibility{\agentB}}} \chi$ and so $\proves \allacts{\aPModel{\aPStateS[\agentA,\gamma^0]}} \necessaryB$ follows from {\bf AK}.
+        Therefore $\proves \allacts{\aPModel{\aStateS}} \necessaryB \chi \iff \allacts{\aPModel{\aPStateS[\agentA,\gamma^0]}} \necessaryB \chi$.
+        Suppose that $\proves \gamma^0 \implies \neg \necessaryB \chi$.
+        A dual argument can be used to show that $\proves \neg \allacts{\aPModel{\aStateS}} \necessaryB \chi$ and $\proves \neg \allacts{\aPModel{\aPStateS[\agentA,\gamma^0]}} \necessaryB \chi$ and therefore $\proves \allacts{\aPModel{\aStateS}} \necessaryB \chi \iff \allacts{\aPModel{\aPStateS[\agentA,\gamma^0]}} \necessaryB \chi$.
 
     \item For every $\agentA \in \agents$, $\gamma \in \Gamma_\agentA$: $\proves \allacts{\aPModel{\aPStateS[\agentA,\gamma]}} \psi \iff \allacts{\aPModel{\aStateS[\agentA,\gamma]}} \psi$.
 
@@ -946,25 +946,25 @@ We proceed by induction on $\psi$.
 
         Suppose that $\psi = \neg \chi$ or that $\psi = \chi_1 \land \chi_2$. These cases follow trivially from the induction hypothesis.
 
-        Suppose that $\psi = \necessary[\agentA] \chi$.
+        Suppose that $\psi = \necessaryA \chi$.
         By construction $\aPStateS[\agentA,\gamma] \aAccessibility{\agentA} = \{\aStateS\} \cup \{\aPStateS[\agentA,\gamma] \mid \delta \in \Gamma_\agentA\}$ and $\aStateS[\agentA,\gamma] \aAccessibility{\agentA} = \aStateS[\agentA,\gamma] \aAccessibility[\agentA,\gamma]{\agentA}$.
-        As $\phi$ is an explicit formula and $\necessary[\agentA] \chi \in \Psi$ then either $\proves \gamma \implies \necessary[\agentA] \chi$ or $\proves \gamma \implies \neg \necessary[\agentA] \chi$.
-        Suppose that $\proves \gamma \implies \necessary[\agentA] \chi$.
-        Then for every $\delta \in \Gamma_\agentA$ we have $\proves \delta \implies \necessary[\agentA] \chi$.
+        As $\phi$ is an explicit formula and $\necessaryA \chi \in \Psi$ then either $\proves \gamma \implies \necessaryA \chi$ or $\proves \gamma \implies \neg \necessaryA \chi$.
+        Suppose that $\proves \gamma \implies \necessaryA \chi$.
+        Then for every $\delta \in \Gamma_\agentA$ we have $\proves \delta \implies \necessaryA \chi$.
         By the outer induction hypothesis $\proves \allacts{\aPModel[\agentA,\delta]{\aStateS[\agentA,\delta]}} \delta$ and so $\proves \allacts{\aPModel[\agentA,\delta]{\aStateS[\agentA,\delta]}} \chi$.
         By the inner induction hypothesis $\proves \allacts{\aPModel{\aStateS[\agentA,\delta]}} \chi$ and $\proves \allacts{\aPModel{\aPStateS[\agentA,\delta]}} \chi$.
         As $\gamma^0 \in \Gamma_\agentA$ then $\proves \allacts{\aPModel{\aPStateS[\agentA,\gamma^0]}} \chi$ and by the inner induction hypothesis $\proves \allacts{\aPModel{\aStateS}} \chi$.
-        So $\proves \allacts{\aPModel{\aPStateS[\agentA,\gamma] \aAccessibility{\agentA}}} \chi$ and therefore $\proves \allacts{\aPModel{\aPStateS[\agentA,\gamma]}} \necessary[\agentA] \chi$ follows from {\bf AK}.
-        By the outer induction hypothesis $\proves \allacts{\aPModel[\agentA,\gamma]{\aStateS[\agentA,\gamma]}} \gamma$ and so $\proves \allacts{\aPModel[\agentA,\gamma]{\aStateS[\agentA,\gamma]}} \necessary[\agentA] \chi$.
-        From {\bf AK} we have $\proves \somerefs \gamma \implies \necessary[\agentA] \allacts{\aPModel[\agentA,\gamma]{\aStateS[\agentA,\gamma] \aAccessibility[\agentA,\gamma]{\agentA}}} \chi$.
-        By the inner induction hypothesis $\proves \allacts{\aPModel[\agentA,\gamma]{\aStateS[\agentA,\gamma] \aAccessibility[\agentA,\gamma]{\agentA}}} \chi \iff \allacts{\aPModel{\aStateS[\agentA,\gamma] \aAccessibility[\agentA,\gamma]{\agentA}}} \chi$ so $\proves \somerefs \gamma \implies \necessary[\agentA] \allacts{\aPModel{\aStateS[\agentA,\gamma] \aAccessibility{\agentA}}} \chi$ and so $\proves \allacts{\aPModel{\aStateS[\agentA,\gamma]}} \necessary[\agentA] \chi$ follows from {\bf AK}.
+        So $\proves \allacts{\aPModel{\aPStateS[\agentA,\gamma] \aAccessibility{\agentA}}} \chi$ and therefore $\proves \allacts{\aPModel{\aPStateS[\agentA,\gamma]}} \necessaryA \chi$ follows from {\bf AK}.
+        By the outer induction hypothesis $\proves \allacts{\aPModel[\agentA,\gamma]{\aStateS[\agentA,\gamma]}} \gamma$ and so $\proves \allacts{\aPModel[\agentA,\gamma]{\aStateS[\agentA,\gamma]}} \necessaryA \chi$.
+        From {\bf AK} we have $\proves \somerefs \gamma \implies \necessaryA \allacts{\aPModel[\agentA,\gamma]{\aStateS[\agentA,\gamma] \aAccessibility[\agentA,\gamma]{\agentA}}} \chi$.
+        By the inner induction hypothesis $\proves \allacts{\aPModel[\agentA,\gamma]{\aStateS[\agentA,\gamma] \aAccessibility[\agentA,\gamma]{\agentA}}} \chi \iff \allacts{\aPModel{\aStateS[\agentA,\gamma] \aAccessibility[\agentA,\gamma]{\agentA}}} \chi$ so $\proves \somerefs \gamma \implies \necessaryA \allacts{\aPModel{\aStateS[\agentA,\gamma] \aAccessibility{\agentA}}} \chi$ and so $\proves \allacts{\aPModel{\aStateS[\agentA,\gamma]}} \necessaryA \chi$ follows from {\bf AK}.
 
-        Suppose that $\proves \gamma \implies \neg \necessary[\agentB] \chi$ where $\agentB \neq \agentA$.
-        Therefore $\proves \allacts{\aPModel{\aPStateS[\agentA,\gamma]}} \necessary[\agentA] \chi \iff \allacts{\aPModel{\aStateS[\agentA,\gamma]}} \necessary[\agentA] \chi$.
-        A dual argument can be used to show that $\proves \neg \allacts{\aPModel{\aPStateS[\agentA,\gamma]}} \necessary[\agentA] \chi$ and $\proves \neg \allacts{\aPModel{\aStateS[\agentA,\gamma]}} \necessary[\agentA] \chi$ and therefore $\proves \allacts{\aPModel{\aPStateS[\agentA,\gamma]}} \necessary[\agentA] \chi \iff \allacts{\aPModel{\aStateS[\agentA,\gamma]}} \necessary[\agentA] \chi$.
+        Suppose that $\proves \gamma \implies \neg \necessaryB \chi$ where $\agentB \neq \agentA$.
+        Therefore $\proves \allacts{\aPModel{\aPStateS[\agentA,\gamma]}} \necessaryA \chi \iff \allacts{\aPModel{\aStateS[\agentA,\gamma]}} \necessaryA \chi$.
+        A dual argument can be used to show that $\proves \neg \allacts{\aPModel{\aPStateS[\agentA,\gamma]}} \necessaryA \chi$ and $\proves \neg \allacts{\aPModel{\aStateS[\agentA,\gamma]}} \necessaryA \chi$ and therefore $\proves \allacts{\aPModel{\aPStateS[\agentA,\gamma]}} \necessaryA \chi \iff \allacts{\aPModel{\aStateS[\agentA,\gamma]}} \necessaryA \chi$.
 
-        Suppose that $\psi = \necessary[\agentB] \chi$ where $\agentB \neq \agentA$.
-        By construction $\aPStateS[\agentA,\gamma] \aAccessibility{\agentB} = \aStateS[\agentA,\gamma] \aAccessibility{\agentB}$ and $\aPrecondition(\aPStateS[\agentA,\gamma]) = \aPrecondition(\aStateS[\agentA,\gamma])$ and so $\proves \allacts{\aPModel{\aPStateS[\agentA,\gamma]}} \necessary[\agentB] \chi \iff \allacts{\aPModel{\aStateS[\agentA,\gamma]}} \necessary[\agentB] \chi$ follows from {\bf AK} trivially.
+        Suppose that $\psi = \necessaryB \chi$ where $\agentB \neq \agentA$.
+        By construction $\aPStateS[\agentA,\gamma] \aAccessibility{\agentB} = \aStateS[\agentA,\gamma] \aAccessibility{\agentB}$ and $\aPrecondition(\aPStateS[\agentA,\gamma]) = \aPrecondition(\aStateS[\agentA,\gamma])$ and so $\proves \allacts{\aPModel{\aPStateS[\agentA,\gamma]}} \necessaryB \chi \iff \allacts{\aPModel{\aStateS[\agentA,\gamma]}} \necessaryB \chi$ follows from {\bf AK} trivially.
 
     \item For every $\agentA \in \agents$, $\gamma \in \Gamma_\agentA$, $\aStateU \in \aStates[\agentA,\gamma]$: $\proves \allacts{\aPModel{\aStateU}} \psi \iff \allacts{\aPModel[\agentA,\gamma]{\aStateU}} \psi$.
 
@@ -973,20 +973,20 @@ We proceed by induction on $\psi$.
 
         Suppose that $\psi = \neg \chi$ or that $\psi = \chi_1 \land \chi_2$. These cases follow trivially from the induction hypothesis.
 
-        Suppose that $\psi = \necessary[\agentA] \chi$.
-        By construction $\aStateU \aAccessibility{\agentA} = \aStateU \aAccessibility[\agentA,\gamma]{\agentA}$ and $\aPrecondition(\aStateU) = \aPrecondition[\agentA,\gamma](\aStateU)$ and so $\proves \allacts{\aPModel{\aStateU}} \necessary[\agentA] \chi \iff \allacts{\aPModel[\agentA,\gamma]{\aStateU}} \necessary[\agentA] \chi$ follows from {\bf AK} and the induction hypothesis trivially.
+        Suppose that $\psi = \necessaryA \chi$.
+        By construction $\aStateU \aAccessibility{\agentA} = \aStateU \aAccessibility[\agentA,\gamma]{\agentA}$ and $\aPrecondition(\aStateU) = \aPrecondition[\agentA,\gamma](\aStateU)$ and so $\proves \allacts{\aPModel{\aStateU}} \necessaryA \chi \iff \allacts{\aPModel[\agentA,\gamma]{\aStateU}} \necessaryA \chi$ follows from {\bf AK} and the induction hypothesis trivially.
 
-        Suppose that $\psi = \necessary[\agentB] \chi$ where $\agentB \neq \agentA$.
-        By construction $\aStateU \aAccessibility{\agentA} = \aStateU \aAccessibility[\agentA,\gamma]{\agentA}$ or $\aStateU \aAccessibility{\agentA} = \{\aPStateS[\agentA,\gamma]\} \cup \aStateU \aAccessibility[\agentA,\gamma]{\agentA}$ and $\aPrecondition(\aStateU) = \aPrecondition[\agentA,\gamma](\aStateU)$ and so $\proves \allacts{\aPModel{\aStateU}} \necessary[\agentB] \chi \iff \allacts{\aPModel[\agentA,\gamma]{\aStateU}} \necessary[\agentB] \chi$ follows from {\bf AK} and the induction hypothesis trivially.
+        Suppose that $\psi = \necessaryB \chi$ where $\agentB \neq \agentA$.
+        By construction $\aStateU \aAccessibility{\agentA} = \aStateU \aAccessibility[\agentA,\gamma]{\agentA}$ or $\aStateU \aAccessibility{\agentA} = \{\aPStateS[\agentA,\gamma]\} \cup \aStateU \aAccessibility[\agentA,\gamma]{\agentA}$ and $\aPrecondition(\aStateU) = \aPrecondition[\agentA,\gamma](\aStateU)$ and so $\proves \allacts{\aPModel{\aStateU}} \necessaryB \chi \iff \allacts{\aPModel[\agentA,\gamma]{\aStateU}} \necessaryB \chi$ follows from {\bf AK} and the induction hypothesis trivially.
 \end{enumerate}
 
 Therefore for every $\agentA \in \agents$, $\gamma \in \Gamma_\agentA$ we have that $\proves \allacts{\aPModel{\aStateS[\agentA,\gamma]}} \gamma$ and $\proves \allacts{\aPModel{\aStateS}} \gamma^0$.
-Therefore for every $\agentA \in \agents$ we have $\proves \allacts{\aPModel{\aStateS \aAccessibility{\agentA}}} \bigvee_{\gamma \in \Gamma_\agentA} \gamma$ and so from {\bf AK} we have that $\proves \allacts{\aPModel{\aStateS}} \necessary[\agentA] \bigvee_{\gamma \in \Gamma_\agentA} \gamma$.
+Therefore for every $\agentA \in \agents$ we have $\proves \allacts{\aPModel{\aStateS \aAccessibility{\agentA}}} \bigvee_{\gamma \in \Gamma_\agentA} \gamma$ and so from {\bf AK} we have that $\proves \allacts{\aPModel{\aStateS}} \necessaryA \bigvee_{\gamma \in \Gamma_\agentA} \gamma$.
 
-As $\phi$ is an explicit formula, from {\bf RDist}, {\bf RS5} and {\bf RComm} we have that $\somerefs \phi \implies \pi \land \bigwedge_{\agentA \in \agents, \gamma \in \Gamma_\agentA} \possible[\agentA] \somerefs \gamma$.
-By construction for every $\agentA \in \agents$, $\gamma \in \Gamma_\agentA$ we have $\aPrecondition(\aPStateS[\agentA,\gamma]) = \somerefs \gamma$ and from above we have $\proves \allacts{\aPModel{\aStateS[\agentA,\gamma]}} \gamma$ therefore $\proves \somerefs \phi \implies \pi \land \bigwedge_{\agentA \in \agents, \gamma \in \Gamma_\agentA} \possible[\agentA] \someacts{\aPModel{\aPStateS[\agentA,\gamma]}} \gamma$.
-Therefore by {\bf AK} we have $\proves \somerefs \phi \implies \someacts{\aPModel{\aStateS}} (\pi \land \bigwedge_{\agentA \in \agents, \gamma \in \Gamma_\agentA} \possible[\agentA] \gamma)$.
-From above we have $\proves \allacts{\aPModel{\aStateS}} \necessary[\agentA] \bigvee_{\gamma \in \Gamma_\agentA} \gamma$ and therefore $\proves \somerefs \phi \implies \allacts{\aPModel{\aStateS}} \phi$.
+As $\phi$ is an explicit formula, from {\bf RDist}, {\bf RS5} and {\bf RComm} we have that $\somerefs \phi \implies \pi \land \bigwedge_{\agentA \in \agents, \gamma \in \Gamma_\agentA} \possibleA \somerefs \gamma$.
+By construction for every $\agentA \in \agents$, $\gamma \in \Gamma_\agentA$ we have $\aPrecondition(\aPStateS[\agentA,\gamma]) = \somerefs \gamma$ and from above we have $\proves \allacts{\aPModel{\aStateS[\agentA,\gamma]}} \gamma$ therefore $\proves \somerefs \phi \implies \pi \land \bigwedge_{\agentA \in \agents, \gamma \in \Gamma_\agentA} \possibleA \someacts{\aPModel{\aPStateS[\agentA,\gamma]}} \gamma$.
+Therefore by {\bf AK} we have $\proves \somerefs \phi \implies \someacts{\aPModel{\aStateS}} (\pi \land \bigwedge_{\agentA \in \agents, \gamma \in \Gamma_\agentA} \possibleA \gamma)$.
+From above we have $\proves \allacts{\aPModel{\aStateS}} \necessaryA \bigvee_{\gamma \in \Gamma_\agentA} \gamma$ and therefore $\proves \somerefs \phi \implies \allacts{\aPModel{\aStateS}} \phi$.
 As $\proves \phi \implies \gamma^0$ then $\proves \somerefs \phi \implies \somerefs \gamma^0$ and so $\proves \somerefs \phi \implies \someacts{\aPModel{\aStateS}} \phi$.
 
 Let $\alpha' = \test{\somerefs \phi} \compose \alpha$.

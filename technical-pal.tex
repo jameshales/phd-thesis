@@ -36,9 +36,8 @@ Let \lang{} be a logical language with an interpretation on $\kModel$, and let $
 We denote the {\em restriction of $\kModel$ to $\phi$} by $\restrict{\kModel}{\phi}$ and define it as $\restrict{\kModel}{\phi} = \restrict{\kModel}{\interpretation[\kModel]{\phi}}$.
 \end{definition}
 
-\todo[inline]{Explanation of public announcements and model restrictions}
-
-We thus define the semantics of public announcement logic using the notion of a model restriction.
+The result of publicly announcing that a formula $\phi$ is true in an initial Kripke model $\kModel$ is represented by the model restriction $\restrict{\kModel}{\phi}$ of $\kModel$ to the states where $\phi$ was true in $\kModel$.
+We thus define the semantics of public announcement logic.
 
 \begin{definition}[Semantics of public announcement logic]\label{pal-semantics}
 Let $\phi \in \langPal$ and let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model.
@@ -50,7 +49,30 @@ $$
 $$
 \end{definition}
 
-\todo[inline]{Remark on \classS{} specific semantics.}
+We note that we only consider public announcement logic in the setting of \classS{}, as in the source material~\cite{plaza:1989}.
+
+\begin{example}\label{example-pal}
+\begin{figure}
+    \caption{The result of publicly announcing $\knowsA \atomP$ in the epistemic model of Figure~\ref{example-kripke-model}.}\label{example-public-announcement}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+
+        \node[label=left:{$\kStateS$}] (s) {\underline{$\{\atomP, \atomQ\}$}};
+        \node[label=right:{$\kStateT$}] (t) [right of=s] {$\{\atomP\}$};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (s) edge [loop above] node {$\agentA, \agentB$} (s)
+        (t) edge [loop above] node {$\agentA, \agentB$} (t)
+        (s) [<->] edge node {$\agentA$} (t);
+    \end{tikzpicture}
+\end{figure}
+Consider the epistemic model $\kPModel{\kStateS}$ from Example~\ref{example-ml}.
+Then $\interpretation[\kModel]{\knowsA \atomP} = \{\kStateS, \kStateT\}$, and so $\restrict{\kPModel{\kStateS}}{\knowsA \atomP}$ is the model restriction of $\kPModel{\kStateS}$ to the states $\{\kStateS, \kStateT\}$, depicted in Figure~\ref{example-public-announcement}.  
+In the resulting model restriction we have that $\restrict{\kPModel{\kStateS}}{\knowsA \atomP} \entails \knowsB \atomP$, and so in the original model we therefore have $\kPModel{\kStateS} \entails \announceE{\knowsA \atomP} \knowsB \atomP$.
+That is, agent $\agentB$ knows that $\atomP$ is true after it is publicly announced that agent $\agentA$ knows that $\atomP$ is true.
+\end{example}
+
+We provide an axiomatisation for the logic \logicPalS{}.
 
 \begin{definition}[Axiomatisation \axiomPalS{}]
 The axiomatisation \axiomPalS{} is a substitution schema consisting of the axioms and rules of \axiomS{} along with the following additional axioms and rules:
@@ -65,6 +87,8 @@ $$
 \end{array}
 $$
 \end{definition}
+
+We also restate some results about the \logicPalS{} and its proof theory.
 
 \begin{proposition}
 The axiomatisation \axiomPalS{} is sound and strongly complete with respect to the semantics of the logic \logicPalS{}.

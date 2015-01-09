@@ -21,6 +21,8 @@ We use all of the standard abbreviations from public announcement logic, in addi
 The formula $\allpas \phi$ may be read as ``after any public announcement $\phi$ is true''.
 The formula $\somepas \phi$ may be read as ``after some public announcement $\phi$ is true''.
 
+We thus define the semantics of arbitrary public announcement logic. 
+
 \begin{definition}[Semantics of arbitrary public announcement logic]
 Let $\phi \in \langApal$ and let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model.
 The interpretation of the formula $\phi$ in the logic \logicApalS{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in public announcement logic, defined in Definition~\ref{pal-semantics}, with the additional inductive case:
@@ -31,10 +33,19 @@ $$
 $$
 \end{definition}
 
+We only consider arbitrary public announcement logic in the setting of \classS{}, as in the source material~\cite{balbiani:2008} and as we did for public announcement logic.
+
+\begin{example}\label{example-apal}
+Consider the epistemic model $\kPModel{\kStateS}$ from Example~\ref{example-el}.
+In Example~\ref{example-pal} we showed that $\kPModel{\kStateS} \entails \announceE{\knowsA \atomP} \knowsB \atomP$ so it follows that $\kPModel{\kStateS} \entails \somepas \knowsB \atomP$.
+\end{example}
+
+We provide an axiomatisation for the logic \logicApalS{}.
+
 \begin{definition}[Necessity and possibility forms]
-Consider a new symbol $\sharp$. The {\em necessity forms} are defined inductively as:
-$$\psi(\sharp) ::= \sharp \mid (\phi \implies \psi(\sharp)) \mid \announceA{\phi} \psi(\sharp) \mid \knows[\agentA] \psi(\sharp)$$
-where $\phi \in \langPapal$ and $\agentA \in \agents$.
+Consider a new symbol $\sharp$.
+The {\em necessity forms} are defined inductively as:
+$$\psi(\sharp) ::= \sharp \mid (\phi \implies \psi(\sharp)) \mid \announceA{\phi} \psi(\sharp) \mid \knows[\agentA] \psi(\sharp)$$ where $\phi \in \langPapal$ and $\agentA \in \agents$.
 
 The {\em possibility forms} are defined inductively as:
 $$\psi(\sharp) ::= \sharp \mid (\phi \land \psi(\sharp)) \mid \announceE{\phi} \psi(\sharp) \mid \suspects[\agentA] \psi(\sharp)$$
@@ -69,6 +80,8 @@ $$
 \end{array}
 $$
 where $\nu(\sharp)$ is a necessity form and $\atomP$ is a fresh atom.
+
+We also restate some results about \logicApalS{} and its proof theory.
 
 \begin{proposition}
 The axiomatisation \axiomApalS{} substituting the rule ${\bf R+^\omega}$ with the rule ${\bf R+^1}$ is sound and {\em weakly} complete with respect to the semantics of the logic \logicApalS{}.

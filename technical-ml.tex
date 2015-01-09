@@ -3,6 +3,8 @@
 We recall standard definitions and results from modal logic.
 For a comprehensive introduction to modal logic we direct the reader to the books by Blackburn, de~Rijke and Venema~\cite{blackburn:2001}, and Hughes and Cresswell~\cite{hughes:1996}.
 
+\subsection{Syntax and semantics}
+
 Let $\atoms$ be a non-empty, countable set of propositional atoms, and
 let $\agents$ be a non-empty, finite set of agents.
 
@@ -136,38 +138,49 @@ If every finite subset of $\Phi$ is satisfiable in \{$\kPModel{\kStatesT}$, $\kM
 
 We write $\interpretation[\kModel]{\phi}$ to denote the set of states where $\phi$ is valid, $\interpretation[\kModel]{\phi} = \{\kStateS \in \kStates \mid \kPModel{\kStateS} \entails \phi\}$.
 
-\begin{example}
+\begin{example}\label{example-ml}
 \begin{figure}
     \caption{An example of a Kripke model.}\label{example-kripke-model}
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
-        \node[label=above left:{$\kStateS$}] (s) {\underline{$\{\atomP\}$}};
-        \node[label=above right:{$\kStateT$}] (t) [right of=s] {$\{\}$};
+        \node[label=left:{$\kStateS$}] (s) {\underline{$\{\atomP, \atomQ\}$}};
+        \node[label=right:{$\kStateT$}] (t) [right of=s] {$\{\atomP\}$};
+        \node[label=left:{$\kStateU$}] (u) [below of=s] {$\{\atomQ\}$};
+        \node[label=right:{$\kStateV$}] (v) [right of=u] {$\{\}$};
 
-      \path[every node/.style={font=\sffamily\small},<->]
-        (s) edge node {$\agentA$} (t)
-            edge [loop above] node {$\agentA, \agentB$} (s)
-        (t) edge [loop above] node {$\agentA, \agentB$} (t);
+      \path[every node/.style={font=\sffamily\small},->]
+        (s) edge [loop above] node {$\agentA, \agentB$} (s)
+        (t) edge [loop above] node {$\agentA, \agentB$} (t)
+        (u) edge [loop below] node {$\agentA, \agentB$} (u)
+        (v) edge [loop below] node {$\agentA, \agentB$} (v)
+        (s) [<->] edge node {$\agentA$} (t)
+        (u) [swap] edge node {$\agentA$} (v)
+        (s) edge node {$\agentB$} (u)
+        (t) [swap] edge node {$\agentB$} (v);
     \end{tikzpicture}
 \end{figure}
 
-Let $\kPModelAndTuple{\kStateS}$ be a Kripke model where:
+Let $\kPModelAndTuple{\kStateS} \in \classS$ be a Kripke model where:
+
 \begin{eqnarray*}
     \kStates &=& \{\kStateS, \kStateT, \kStateU, \kStateV\}\\
-    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
-    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
-    \kValuation(\atomP) &=& \{\kStateS\}
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU), (\kStateU, \kStateV), (\kStateV, \kStateU), (\kStateV, \kStateV)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU), (\kStateT, \kStateT), (\kStateT, \kStateV), (\kStateV, \kStateT), (\kStateV, \kStateV)\}\\
+    \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
+    \kValuation(\atomQ) &=& \{\kStateU, \kStateV\}
 \end{eqnarray*}
+
 This model is represented in Figure~\ref{example-kripke-model}, and can be thought of as a model for the situation described in Example~\ref{example-ml-formula}.
 
-As $\kStateS \in \kValuation(\atomP)$ then $\kPModel{\kStateS} \entails \atomP$.
-As $\kSuccessorsA{\kStateS} = \{\kStateS\}$ then $\kPModel{\kStateS} \entails \necessaryA \atomP$.
-However as $\kStateT \notin \kValuation(\atomP)$ then $\kPModel{\kStateT} \nentails \atomP$,
-and as $\kStateT \in \kSuccessorsB{\kStateS}$ then $\kPModel{\kStateS} \nentails \necessaryB \atomP$.
-Therefore we have $\kPModel{\kStateS} \entails \lnot \necessaryB \atomP$ and also $\kPModel{\kStateS} \entails \necessaryA \lnot \necessaryB \atomP$.
-
+As $\kStateS, \kStateT \in \kValuation(\atomP)$ then $\kPModel{\kStateS} \entails \atomP$ and $\kPModel{\kStateT} \entails \atomP$.
+As $\kSuccessorsA{\kStateS} = \{\kStateS, \kStateT\}$ then $\kPModel{\kStateS} \entails \necessaryA \atomP$.
+However as $\kStateU \notin \kValuation(\atomP)$ then $\kPModel{\kStateU} \nentails \atomP$,
+and as $\kStateU \in \kSuccessorsB{\kStateS}$ then $\kPModel{\kStateS} \nentails \necessaryB \atomP$.
+So we have $\kPModel{\kStateS} \entails \lnot \necessaryB \atomP$ and likewise $\kPModel{\kStateT} \entails \lnot \necessaryB \atomP$ therefore $\kPModel{\kStateS} \entails \necessaryA \lnot \necessaryB \atomP$.
 \end{example}
+
+\subsection{Bisimulations and bisimilarity}
 
 Next we recall definitions and results related to bisimilarity of Kripke models.
 Bisimilarity is an important concept in modal logics.
@@ -326,6 +339,8 @@ $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails
 Let $n \in \naturals$ and let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMl$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 Then $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$.
 \end{proposition}
+
+\subsection{Axiomatisations}
 
 We now introduce the proof theory for modal logics, first providing an axiomatisations for the logic \logicK{}.
 

@@ -1,55 +1,5 @@
 \chapter{Arbitrary positive announcement logic}\label{papal}
 
-\begin{example}\label{example-el}
-\begin{figure}
-    \caption{An example of an epistemic model.}\label{example-epistemic-model}
-    \centering
-    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
-
-        \node[label=above left:{$\kStateS$}] (s) {\underline{$\{\atomP, \atomQ\}$}};
-        \node[label=above right:{$\kStateT$}] (t) [right of=s] {$\{\atomP\}$};
-        \node[label=below left:{$\kStateU$}] (u) [below of=s] {$\{\atomQ\}$};
-        \node[label=below right:{$\kStateV$}] (v) [right of=u] {$\{\}$};
-
-      \path[every node/.style={font=\sffamily\small}]
-        (s) edge node {$\agentA$} (t)
-        (u) [swap] edge node {$\agentA$} (v)
-        (s) edge node {$\agentB$} (u)
-        (t) [swap] edge node {$\agentB$} (v);
-    \end{tikzpicture}
-\end{figure}
-
-Let $\kPModelAndTuple{\kStateS} \in \classS$ be an epistemic model where $\kStates = \{\kStateS, \kStateT, \kStateU, \kStateV\}$, $\kStateS \kAccessibility{\agentA} \kStateT$, $\kStateU \kAccessibility{\agentA} \kStateV$, $\kStateS \kAccessibility{\agentB} \kStateU$ and $\kStateT \kAccessibility{\agentB} \kStateV$, $\kValuation(\atomP) = \{\kStateS, \kStateT\}$ and $\kValuation(\atomQ) = \{\kStateU, \kStateV\}$.
-This model is represented in Figure~\ref{example-epistemic-model}.
-The atomic proposition $\atomP$ is true in every possible world that agent $\agentA$ cannot distinguish from the real world, $\kStateS$, so we can say that ``agent $\agentA$ knows that $\atomP$ is true in the real world'', written as $\kPModel{\kStateS} \entails \knowsA \atomP$.
-However agent $\agentB$ cannot distinguish between the real world and a possible world where $\atomP$ is false, and so $\kPModel{\kStateS} \entails \neg \knowsB \atomP$. We also have that $\kPModel{\kStateT} \entails \neg \knowsB \atomP$, and so $\kPModel{\kStateS} \entails \knowsA \neg \knowsB \atomP$.
-\end{example}
-
-\begin{example}\label{example-pal}
-\begin{figure}
-    \caption{The result of publicly announcing $\knowsA \atomP$ in the epistemic model of Figure~\ref{example-epistemic-model}.}\label{example-public-announcement}
-    \centering
-    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
-
-        \node[label=above:{$\kStateS$}] (s) {\underline{$\{\atomP, \atomQ\}$}};
-        \node[label=above:{$\kStateT$}] (t) [right of=s] {$\{\atomP\}$};
-
-      \path[every node/.style={font=\sffamily\small}]
-        (s) edge node {$\agentA$} (t);
-    \end{tikzpicture}
-\end{figure}
-Consider the epistemic model $\kPModel{\kStateS}$ from Example~\ref{example-el}.
-Then $\interpretation[\kModel]{\knowsA \atomP} = \{\kStateS, \kStateT\}$, and so $\restrict{\kPModel{\kStateS}}{\knowsA \atomP}$ is the model restriction of $\kPModel{\kStateS}$ to the states $\{\kStateS, \kStateT\}$, depicted in Figure~\ref{example-public-announcement}.  
-In the resulting model restriction we have that $\restrict{\kPModel{\kStateS}}{\knowsA \atomP} \entails \knowsB \atomP$, and so in the original model we therefore have $\kPModel{\kStateS} \entails \announceE{\knowsA \atomP} \knowsB \atomP$.
-That is, agent $\agentB$ knows that $\atomP$ is true after it is publicly announced that agent $\agentA$ knows that $\atomP$ is true.
-\end{example}
-
-\begin{example}\label{example-apal}
-Consider the epistemic model $\kPModel{\kStateS}$ from Example~\ref{example-el}.
-In Example~\ref{example-pal} we showed that $\kPModel{\kStateS} \entails \announceE{\knowsA \atomP} \knowsB \atomP$ so it follows that $\kPModel{\kStateS} \entails \somepas \knowsB \atomP$.
-\end{example}
-
-
 \section{Syntax and semantics}\label{syntax-semantics}
 
 In this section we give the syntax and semantics of \logicPapalS{}, and we provide some semantic results about the properties of positive announcements and the arbitrary positive announcement operators.

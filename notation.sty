@@ -58,6 +58,11 @@
 \newcommand{\kStatesU}[1][\empty]{\kState[#1]{U}}
 \newcommand{\kStatesV}[1][\empty]{\kState[#1]{V}}
 \newcommand{\kStatesW}[1][\empty]{\kState[#1]{W}}
+\newcommand{\kPStateS}[1][\empty]{\kState[#1]{\bar{s}}}
+\newcommand{\kPStateT}[1][\empty]{\kState[#1]{\bar{t}}}
+\newcommand{\kPStateU}[1][\empty]{\kState[#1]{\bar{u}}}
+\newcommand{\kPStateV}[1][\empty]{\kState[#1]{\bar{v}}}
+\newcommand{\kPStateW}[1][\empty]{\kState[#1]{\bar{w}}}
 
 % Kripke model components
 \newcommand{\kStates}[1][\empty]{\ensuremath{{S^{#1}}}}
@@ -111,6 +116,8 @@
 \newcommand{\aStateW}[1][\empty]{\aState[#1]{w}}
 \newcommand{\aStateX}[1][\empty]{\aState[#1]{x}}
 \newcommand{\aStateY}[1][\empty]{\aState[#1]{y}}
+\newcommand{\aStateTest}[1][\empty]{\aState[#1]{test}}
+\newcommand{\aStateSkip}[1][\empty]{\aState[#1]{skip}}
 \newcommand{\aStatesT}[1][\empty]{\aState[#1]{T}}
 \newcommand{\aStatesU}[1][\empty]{\aState[#1]{U}}
 \newcommand{\aStatesV}[1][\empty]{\aState[#1]{V}}
@@ -586,6 +593,7 @@
 % Modal classes, logics and axiomatisations
 \newcommand{\newmodalclass}[2]{%
 \expandafter\newcommandm\csname class#1\endcsname{{\mathpzc{#2}}}
+\expandafter\newcommandm\csname classAm#1\endcsname{{\mathpzc{#2}_{AM}}}
 \expandafter\newcommandm\csname logic#1\endcsname{{\textit{#2}}}
 \expandafter\newcommandm\csname logicMu#1\endcsname{{\@nameuse{logic#1}_\mu}}
 \expandafter\newcommandm\csname logicTangle#1\endcsname{{\@nameuse{logic#1}_\tangle}}

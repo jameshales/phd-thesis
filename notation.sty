@@ -551,6 +551,9 @@
 \newcommandm{\someppas}{\exists}
 \newcommandm{\allppas}{\forall}
 
+\newcommandm{\someppast}{{\exists^*}}
+\newcommandm{\allppast}{{\forall^*}}
+
 % Arbitrary action model operators
 \newcommandm{\someacts}{\exists}
 \newcommandm{\allacts}{\forall}
@@ -591,6 +594,7 @@
 \newcommandm{\langAaflAct}{\lang_\mathit{aafl}^\mathit{act}} % Arbitrary action formula logic actions
 
 % Modal classes, logics and axiomatisations
+\newcommandm{\logic}{\mathit{L}}
 \newcommand{\newmodalclass}[2]{%
 \expandafter\newcommandm\csname class#1\endcsname{{\mathpzc{#2}}}
 \expandafter\newcommandm\csname classAm#1\endcsname{{\mathpzc{#2}_{AM}}}
@@ -601,7 +605,7 @@
 \expandafter\newcommandm\csname logicAml#1\endcsname{\textit{AML}_\@nameuse{logic#1}}
 \expandafter\newcommandm\csname logicAfl#1\endcsname{\textit{AFL}_\@nameuse{logic#1}}
 \expandafter\newcommandm\csname logicApal#1\endcsname{\textit{APAL}_\@nameuse{logic#1}}
-\expandafter\newcommandm\csname logicPapal#1\endcsname{\textit{APAL^{+}}_\@nameuse{logic#1}}
+\expandafter\newcommandm\csname logicPapal#1\endcsname{\textit{APAL}^{+}_\@nameuse{logic#1}}
 \expandafter\newcommandm\csname logicRml#1\endcsname{\textit{RML}_\@nameuse{logic#1}}
 \expandafter\newcommandm\csname logicAaml#1\endcsname{\textit{AAML}_\@nameuse{logic#1}}
 \expandafter\newcommandm\csname logicAafl#1\endcsname{\textit{AAFL}_\@nameuse{logic#1}}

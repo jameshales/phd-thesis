@@ -41,35 +41,35 @@ The relation $\simulatesBs$ is a preorder (reflexive and transitive) on Kripke m
 \end{proposition}
 
 \begin{proof}
-    Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$ be a pointed Kripke model.
-    By Proposition~\ref{bisimulation-equivalence-relation} we have $\kPModel{\kStateS} \bisimilar \kPModel{\kStateS}$ and by Corollary~\ref{bisimilar-refinement} we have $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS}$.
-    Therefore the relation $\simulatesBs$ is reflexive.
+Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$ be a pointed Kripke model.
+By Proposition~\ref{bisimulation-equivalence-relation} we have $\kPModel{\kStateS} \bisimilar \kPModel{\kStateS}$ and by Corollary~\ref{bisimilar-refinement} we have $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS}$.
+Therefore the relation $\simulatesBs$ is reflexive.
 
-    Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$, $\kPModelP{\kStateSP}$ and $\kPModelPP{\kStateSPP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
-    Then there exists $\agentsB$-refinements $\refinement \subseteq \kStates \times \kStatesP$ and $\refinement' \subseteq \kStatesP \times \kStatesPP$.
-    We claim that the relation $\refinement'' = \refinement \circ \refinement' \subseteq \kStates \times \kStatesPP$ is a $\agentsB$-refinement and therefore $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$.
-    Let $\atomP \in \atoms$, $\agentA \in \agents$, $\agentC \in \agents \setminus \agentsB$ and $(\kStateS, \kStateSPP) \in \refinement''$.
-    We note that $(\kStateS, \kStateSPP) \in \refinement''$ if and only if there exists $\kStateSP \in \kStatesP$ such that $(\kStateS, \kStateSP) \in \refinement$ and $(\kStateSP, \kStateSPP) \in \refinement'$.
-    We show that the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentC$} and {\bf back-$\agentA$} hold.
+Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$, $\kPModelP{\kStateSP}$ and $\kPModelPP{\kStateSPP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
+Then there exists $\agentsB$-refinements $\refinement \subseteq \kStates \times \kStatesP$ and $\refinement' \subseteq \kStatesP \times \kStatesPP$.
+We claim that the relation $\refinement'' = \refinement \circ \refinement' \subseteq \kStates \times \kStatesPP$ is a $\agentsB$-refinement and therefore $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$.
+Let $\atomP \in \atoms$, $\agentA \in \agents$, $\agentC \in \agents \setminus \agentsB$ and $(\kStateS, \kStateSPP) \in \refinement''$.
+We note that $(\kStateS, \kStateSPP) \in \refinement''$ if and only if there exists $\kStateSP \in \kStatesP$ such that $(\kStateS, \kStateSP) \in \refinement$ and $(\kStateSP, \kStateSPP) \in \refinement'$.
+We show that the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentC$} and {\bf back-$\agentA$} hold.
 
-    \paragraph{atoms-$\atomP$}
-    As $(\kStateS, \kStateSP) \in \refinement$ from {\bf atoms-$\atomP$} for $\refinement$ we have that $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
-    As $(\kStateSP, \kStateSPP) \in \refinement'$ from {\bf atoms-$\atomP$} for $\refinement'$ we have that $\kStateSP \in \kValuationP(\atomP)$ if and only if $\kStateSPP \in \kValuationPP(\atomP)$.
-    Therefore $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSPP \in \kValuationPP(\atomP)$.
+\paragraph{atoms-$\atomP$}
+As $(\kStateS, \kStateSP) \in \refinement$ from {\bf atoms-$\atomP$} for $\refinement$ we have that $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
+As $(\kStateSP, \kStateSPP) \in \refinement'$ from {\bf atoms-$\atomP$} for $\refinement'$ we have that $\kStateSP \in \kValuationP(\atomP)$ if and only if $\kStateSPP \in \kValuationPP(\atomP)$.
+Therefore $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSPP \in \kValuationPP(\atomP)$.
 
-    \paragraph{forth-$\agentC$}
-    Let $\kStateT \in \kSuccessorsC{\kStateS}$.
-    As $(\kStateS, \kStateSP) \in \refinement$ from {\bf forth-$\agentC$} for $\refinement$ there exists $\kStateTP \in \kSuccessorsPC{\kStateSP}$ such that $(\kStateT, \kStateTP) \in \refinement$.
-    As $(\kStateSP, \kStateSPP) \in \refinement'$ from {\bf forth-$\agentC$} for $\refinement'$ there exists $\kStateTPP \in \kSuccessorsPPC{\kStateSPP}$ such that $(\kStateTP, \kStateTPP) \in \refinement'$.
-    Therefore there exists $\kStateTPP \in \kSuccessorsPPC{\kStateSPP}$ such that $(\kStateT, \kStateTPP) \in \refinement''$.
+\paragraph{forth-$\agentC$}
+Let $\kStateT \in \kSuccessorsC{\kStateS}$.
+As $(\kStateS, \kStateSP) \in \refinement$ from {\bf forth-$\agentC$} for $\refinement$ there exists $\kStateTP \in \kSuccessorsPC{\kStateSP}$ such that $(\kStateT, \kStateTP) \in \refinement$.
+As $(\kStateSP, \kStateSPP) \in \refinement'$ from {\bf forth-$\agentC$} for $\refinement'$ there exists $\kStateTPP \in \kSuccessorsPPC{\kStateSPP}$ such that $(\kStateTP, \kStateTPP) \in \refinement'$.
+Therefore there exists $\kStateTPP \in \kSuccessorsPPC{\kStateSPP}$ such that $(\kStateT, \kStateTPP) \in \refinement''$.
 
-    \paragraph{back-$\agentA$}
-    Let $\kStateTPP \in \kSuccessorsPPA{\kStateSPP}$.
-    As $(\kStateSP, \kStateSPP) \in \refinement'$ from {\bf back-$\agentA$} for $\refinement'$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $(\kStateTP, \kStateTPP) \in \refinement'$.
-    As $(\kStateS, \kStateSP) \in \refinement$ from {\bf back-$\agentA$} for $\refinement$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTP) \in \refinement$.
-    Therefore there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTPP) \in \refinement''$.
+\paragraph{back-$\agentA$}
+Let $\kStateTPP \in \kSuccessorsPPA{\kStateSPP}$.
+As $(\kStateSP, \kStateSPP) \in \refinement'$ from {\bf back-$\agentA$} for $\refinement'$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $(\kStateTP, \kStateTPP) \in \refinement'$.
+As $(\kStateS, \kStateSP) \in \refinement$ from {\bf back-$\agentA$} for $\refinement$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTP) \in \refinement$.
+Therefore there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTPP) \in \refinement''$.
 
-    Therefore $\refinement''$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$. 
+Therefore $\refinement''$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$. 
 \end{proof}
 
 Refinements preserve the validity of positive formulas.
@@ -127,7 +127,7 @@ Therefore $\kPModel{\kStateTP} \entails \possibleC \psi$.
 Therefore if $\kPModel{\kStateS} \entails \phi$ then $\kPModel{\kStateSP} \entails \phi$.
 \end{proof}
 
-\begin{proposition}
+\begin{proposition}\label{refinements-hennessy-milner}
 Let $\agentsB \subseteq \agents$ be a set of agents and let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMlPlusBs$ if $\kPModel{\kStateS} \entails \phi$ then $\kPModelP{\kStateSP} \entails \phi$.
 Then $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 \end{proposition}
@@ -2230,69 +2230,64 @@ $\kPModel{\omega} \nentails \somerefs (\possible \top \land \necessary \possible
 \end{proof}
 
 \begin{definition}[$n$-mutual refinements]
-    Let $\kPModelAndTuple{\kStateS} \in \classK$ and $\kPModelAndTupleP{\kStateSP} \in \classK$ be pointed Kripke models.
-    We say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $0$-mutual refinements}
-    and we write $\kPModel{\kStateS} \bisimref[0] \kPModelP{\kStateSP}$
-    if and only if for every $\emptyset \subset \agentsB \subseteq \agents$: 
-    $\kPModel{\kStateS} \refinesBs \kPModelP{\kStateSP}$ 
-    and $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
-    We say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $n$-mutual refinements}
-    for some $n \in \naturals$
-    and we write $\kPModel{\kStateS} \bisimref[n] \kPModelP{\kStateSP}$
-    if and only if for every $\agentA \in \agents$
-    the following, {\bf mutual refinements}, {\bf forth-$\agentA$} and {\bf back-$\agentA$} hold:
-    
-    \paragraph{mutual refinements} 
-    For every $\emptyset \subset \agentsB \subseteq \agents$:
-    $\kPModel{\kStateS} \refinesBs \kPModelP{\kStateSP}$ 
-    and $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ 
+Let $\kPModelAndTuple{\kStateS} \in \classK$ and $\kPModelAndTupleP{\kStateSP} \in \classK$ be pointed Kripke models.
+We say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $0$-mutual refinements}
+and we write $\kPModel{\kStateS} \bisimref[0] \kPModelP{\kStateSP}$
+if and only if for every $\emptyset \subset \agentsB \subseteq \agents$: 
+$\kPModel{\kStateS} \refinesBs \kPModelP{\kStateSP}$ 
+and $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
+We say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $n$-mutual refinements}
+for some $n \in \naturals$
+and we write $\kPModel{\kStateS} \bisimref[n] \kPModelP{\kStateSP}$
+if and only if for every $\agentA \in \agents$
+the following, {\bf mutual refinements}, {\bf forth-$\agentA$} and {\bf back-$\agentA$} hold:
 
-    \paragraph{forth-$a$} For every $\kStateT \in \kStateS \kAccessibility{\agentA}$ 
-    there exists $\kStateTP \in \kStateSP \kAccessibilityP{\agentA}$
-    such that $\kPModel{\kStateT} \bisimref[n-1] \kPModelP{\kStateTP}$.
+\paragraph{mutual refinements} 
+For every $\emptyset \subset \agentsB \subseteq \agents$:
+$\kPModel{\kStateS} \refinesBs \kPModelP{\kStateSP}$ 
+and $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ 
 
-    \paragraph{back-$a$} For every $\kStateTP \in \kStateSP \kAccessibilityP{\agentA}$
-    there exists $\kStateT \in \kStateS \kAccessibility{\agentA}$ 
-    such that $\kPModel{\kStateT} \bisimref[n-1] \kPModelP{\kStateTP}$.
+\paragraph{forth-$a$} For every $\kStateT \in \kStateS \kAccessibility{\agentA}$ 
+there exists $\kStateTP \in \kStateSP \kAccessibilityP{\agentA}$
+such that $\kPModel{\kStateT} \bisimref[n-1] \kPModelP{\kStateTP}$.
+
+\paragraph{back-$a$} For every $\kStateTP \in \kStateSP \kAccessibilityP{\agentA}$
+there exists $\kStateT \in \kStateS \kAccessibility{\agentA}$ 
+such that $\kPModel{\kStateT} \bisimref[n-1] \kPModelP{\kStateTP}$.
 \end{definition}
 
 \begin{lemma}
-    Let $\classC$ be a class of Kripke frames,
-    let $n \in \naturals$,
-    let $\phi \in \langRml$ such that $d(\phi) \leq n$
-    and let $\kPModelAndTuple{\kStateS}, \kPModelAndTupleP{\kStateSP} \in \classC$ be pointed Kripke models
-    such that $\kPModel{\kStateS} \bisimref[n] \kPModelP{\kStateSP}$.
-    Then $\kPModel{\kStateS} \entails_\logicRmlC \phi$ if and only if $\kPModelP{\kStateSP} \entails_\logicRmlC \phi$.
+Let $\classC$ be a class of Kripke frames,
+let $n \in \naturals$,
+let $\phi \in \langRml$ such that $d(\phi) \leq n$
+and let $\kPModelAndTuple{\kStateS}, \kPModelAndTupleP{\kStateSP} \in \classC$ be pointed Kripke models
+such that $\kPModel{\kStateS} \bisimref[n] \kPModelP{\kStateSP}$.
+Then $\kPModel{\kStateS} \entails_\logicRmlC \phi$ if and only if $\kPModelP{\kStateSP} \entails_\logicRmlC \phi$.
 \end{lemma}
 
 \begin{proof}
-    We proceed by induction on the modal depth and structure of $\phi$.
+We proceed by induction on the modal depth and structure of $\phi$.
 
-    Suppose that $\phi = \atomP$ where $\atomP \in \atoms$. 
-    As $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are $n$-mutual refinements
-    then $\kPModel{\kStateS} \refines \kPModelP{\kStateSP}$ 
-    and from {\bf atoms-$\atomP$} we have that $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$
-    and therefore $\kPModel{\kStateS} \entails \atomP$ if and only if $\kPModelP{\kStateSP} \entails \atomP$.
+Suppose that $\phi = \atomP$ where $\atomP \in \atoms$. 
+As $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are $n$-mutual refinements then $\kPModel{\kStateS} \refines \kPModelP{\kStateSP}$ and from {\bf atoms-$\atomP$} we have that $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$ and therefore $\kPModel{\kStateS} \entails \atomP$ if and only if $\kPModelP{\kStateSP} \entails \atomP$.
 
-    Suppose that $\phi = \neg \psi$ or $\phi = \psi \land \chi$.
-    These cases follow directly from the induction hypothesis.
+Suppose that $\phi = \neg \psi$ or $\phi = \psi \land \chi$.
+These cases follow directly from the induction hypothesis.
 
-    Suppose that $\phi = \necessaryA \psi$ and $\kPModel{\kStateS} \entails \necessaryA \psi$.
-    Then for every $\kStateT \in \kStateS \kAccessibility{\agentA}$ we have $\kPModel{\kStateT} \entails \psi$.
-    Let $\kStateTP \in \kStateSP \kAccessibility{\agentA}$.
-    By {\bf back-$\agentA$} there exists $\kStateT \in \kStateS \kAccessibility{\agentA}$ 
-    such that $\kPModel{\kStateT}$ is $(n-1)$-mutual refinements to $\kPModelP{\kStateTP}$.
-    As $\kPModel{\kStateT} \entails \psi$ and $d(\psi) \leq n - 1$ then
-    by the induction hypothesis we have that $\kPModelP{\kStateTP} \entails \psi$.
-    So for every $\kStateTP \in \kSuccessorsA{\kStateSP}$ we have $\kPModelP{\kStateTP} \entails \psi$.
-    Therefore $\kPModelP{\kStateSP} \entails \necessaryA \psi$.
-    The converse follows from symmetrical reasoning.
+Suppose that $\phi = \necessaryA \psi$ and $\kPModel{\kStateS} \entails \necessaryA \psi$.
+Then for every $\kStateT \in \kStateS \kAccessibility{\agentA}$ we have $\kPModel{\kStateT} \entails \psi$.
+Let $\kStateTP \in \kStateSP \kAccessibility{\agentA}$.
+By {\bf back-$\agentA$} there exists $\kStateT \in \kStateS \kAccessibility{\agentA}$ such that $\kPModel{\kStateT}$ is $(n-1)$-mutual refinements to $\kPModelP{\kStateTP}$.
+As $\kPModel{\kStateT} \entails \psi$ and $d(\psi) \leq n - 1$ then by the induction hypothesis we have that $\kPModelP{\kStateTP} \entails \psi$.
+So for every $\kStateTP \in \kSuccessorsA{\kStateSP}$ we have $\kPModelP{\kStateTP} \entails \psi$.
+Therefore $\kPModelP{\kStateSP} \entails \necessaryA \psi$.
+The converse follows from symmetrical reasoning.
 
-    Suppose that $\phi = \allrefsBs \psi$ and $\kPModel{\kStateS} \entails \allrefsBs \psi$.
-    Then there exists $\kPModelPP{\kStateSPP} \in \classC$ such that $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateS} \entails \psi$.
-    As $\kPModelP{\kStateSP} \simulatesBs \kPModel{\kStateS}$ then by Lemma~\ref{refinements-preorder} we have that $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
-    Therefore $\kPModelP{\kStateSP} \entails \allrefsBs \psi$.
-    The converse follows from symmetrical reasoning.
+Suppose that $\phi = \allrefsBs \psi$ and $\kPModel{\kStateS} \entails \allrefsBs \psi$.
+Then there exists $\kPModelPP{\kStateSPP} \in \classC$ such that $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateS} \entails \psi$.
+As $\kPModelP{\kStateSP} \simulatesBs \kPModel{\kStateS}$ then by Lemma~\ref{refinements-preorder} we have that $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
+Therefore $\kPModelP{\kStateSP} \entails \allrefsBs \psi$.
+The converse follows from symmetrical reasoning.
 \end{proof}
 
 \begin{theorem}
@@ -2421,16 +2416,18 @@ To do so we show the following intermediate results:
     By induction on $n \in \naturals$.
 
     Suppose that $n = 0$. 
-    From above, $\kPModel{i} \refines \kPModel{0} \refines \kPModel{j}$
-    and $\kPModel{i} \simulates \kPModel{0} \simulates \kPModel{j}$
-    so we have that $\kPModel{i} \bisimref[0] \kPModel{j}$.
+    From above, $\kPModel{i} \refines \kPModel{0} \refines \kPModel{j}$ and $\kPModel{i} \simulates \kPModel{0} \simulates \kPModel{j}$ so we have that $\kPModel{i} \bisimref[0] \kPModel{j}$.
 
     Suppose that $n > 0$.
 
-    \paragraph{mutual refinements} From above, $\kPModel{i} \refines \kPModel{0} \refines \kPModel{j}$
+    \paragraph{mutual refinements}
+
+    From above, $\kPModel{i} \refines \kPModel{0} \refines \kPModel{j}$
     and $\kPModel{i} \simulates \kPModel{0} \simulates \kPModel{j}$.
 
-    \paragraph{forth} Let $k^* \in \kSuccessors{}{i}$.
+    \paragraph{forth}
+
+    Let $k^* \in \kSuccessors{}{i}$.
     Suppose that $k^* = k$ where $k \in \naturals$ and $k \geq n - 1$.
     Then from the induction hypothesis $\kPModel{k} \bisimilar [n-1] \kPModel{j - 1}$.
     Suppose that $k^* = k$ where $k \in \naturals$ and $k < n - 1$.
@@ -2441,29 +2438,33 @@ To do so we show the following intermediate results:
     Then $j^+ \in \kSuccessors{}{j}$ and as $j \geq n > 0$ we trivially have that $\kPModel{k^+} \bisimilar \kPModel{k^+}$.
     Suppose that $k^* = k^-$ for $k \in \naturals$. This follows from similar reasoning to the case where $k^* = k^+$.
 
-    \paragraph{back} Symmetrical reasoning to {\bf forth}.
+    \paragraph{back}
+
+    Symmetrical reasoning to {\bf forth}.
 
     \item $\kPModel{n} \bisimref[n] \kPModel{\omega'}$ for $n \in \naturals$.
 
     By induction on $n$.
 
     Suppose that $n = 0$. 
-    From above, $\kPModel{n} \refines \kPModel{0} \refines \kPModel{\omega'}$
-    and $\kPModel{n} \simulates \kPModel{\omega'}$
-    so we have that $\kPModel{0} \bisimref[0] \kPModel{\omega'}$.
+    From above, $\kPModel{n} \refines \kPModel{0} \refines \kPModel{\omega'}$ and $\kPModel{n} \simulates \kPModel{\omega'}$ so we have that $\kPModel{0} \bisimref[0] \kPModel{\omega'}$.
 
     Suppose that $n > 0$.
 
-    \paragraph{mutual refinements} From above, $\kPModel{n} \refines \kPModel{0} \refines \kPModel{\omega'}$
-    and $\kPModel{n} \simulates \kPModel{\omega'}$.
+    \paragraph{mutual refinements}
 
-    \paragraph{forth} Let $k \in \kSuccessors{}{n}$. 
+    From above, $\kPModel{n} \refines \kPModel{0} \refines \kPModel{\omega'}$ and $\kPModel{n} \simulates \kPModel{\omega'}$.
+
+    \paragraph{forth}
+
+    Let $k \in \kSuccessors{}{n}$. 
     Then $k \in \kSuccessors{}{\omega'}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
 
-    \paragraph{back} Let $k \in \kSuccessors{}{\omega'}$. 
+    \paragraph{back}
+
+    Let $k \in \kSuccessors{}{\omega'}$. 
     Suppose that $k = \omega'$. 
-    Then $n - 1 \in \kSuccessors{}{n}$ 
-    and by the induction hypothesis $\kPModel{n - 1} \bisimilar{n - 1} \kPModel{\omega'}$.
+    Then $n - 1 \in \kSuccessors{}{n}$ and by the induction hypothesis $\kPModel{n - 1} \bisimilar{n - 1} \kPModel{\omega'}$.
     Suppose that $k \neq \omega'$ and $k < n$. Then $k \in \kSuccessors{}{n}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
     Suppose that $k \geq n$. Then $n - 1 \in \kSuccessors{}{n}$ and from above we have that $\kPModel{k} \bisimref[n - 1] \kPModel{n - 1}$.
     
@@ -2472,32 +2473,32 @@ To do so we show the following intermediate results:
     By induction on $n$.
 
     Suppose that $n = 0$. 
-    From above $\kPModel{\omega} \refines \kPModel{\omega'}$
-    and  $\kPModel{\omega} \simulates \kPModel{\omega'}$
-    so we have that $\kPModel{\omega} \bisimref[0] \kPModel{\omega'}$.
+    From above $\kPModel{\omega} \refines \kPModel{\omega'}$ and  $\kPModel{\omega} \simulates \kPModel{\omega'}$ so we have that $\kPModel{\omega} \bisimref[0] \kPModel{\omega'}$.
 
     Suppose that $n > 0$.
 
-    \paragraph{mutual refinements} From above $\kPModel{\omega} \refines \kPModel{\omega'}$
-    and  $\kPModel{\omega} \simulates \kPModel{\omega'}$.
+    \paragraph{mutual refinements}
 
-    \paragraph{forth} Let $k \in \kSuccessors{}{\omega}$.
+    From above $\kPModel{\omega} \refines \kPModel{\omega'}$ and  $\kPModel{\omega} \simulates \kPModel{\omega'}$.
+
+    \paragraph{forth}
+
+    Let $k \in \kSuccessors{}{\omega}$.
     Then $k \in \kSuccessors{}{\omega'}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
 
-    \paragraph{back} Let $k \in \kSuccessors{}{\omega'}$.
+    \paragraph{back}
+
+    Let $k \in \kSuccessors{}{\omega'}$.
     Suppose that $k = \omega'$.
     Then $n - 1 \in \kSuccessors{}{\omega}$ and from above we have that $\kPModel{n - 1} \bisimref[n - 1] \kPModel{\omega'}$.
     Suppose that $k \neq \omega'$.
     Then $k \in \kSuccessors{}{\omega}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
 \end{enumerate}
 
-Therefore $\kPModel{\omega} \bisimref[n] \kPModel{\omega'}$ for every $n \in \naturals$
-and so $\kPModel{\omega}$ and $\kPModel{\omega'}$ are indistinguishable to refinement modal logic.
+Therefore $\kPModel{\omega} \bisimref[n] \kPModel{\omega'}$ for every $n \in \naturals$ and so $\kPModel{\omega}$ and $\kPModel{\omega'}$ are indistinguishable to refinement modal logic.
 
-We next show that the states $\kPModel{\omega}$ and $\kPModel{\omega'}$ are distinguishable by the tangled modal logic formula
-$\tangle \{\possible \necessary \atomP, \possible \necessary \neg \atomP\}$.
-We first note that in the modal $\mu$-calculus we have that 
-$\tangle \{\possible \necessary \atomP, \possible \necessary \neg \atomP\} \equiv \gfp{\varX} (\possible (\varX \land \possible \necessary \atomP) \land \possible (\varX \land \possible \necessary \neg \atomP))$.
+We next show that the states $\kPModel{\omega}$ and $\kPModel{\omega'}$ are distinguishable by the tangled modal logic formula $\tangle \{\possible \necessary \atomP, \possible \necessary \neg \atomP\}$.
+We first note that in the modal $\mu$-calculus we have that $\tangle \{\possible \necessary \atomP, \possible \necessary \neg \atomP\} \equiv \gfp{\varX} (\possible (\varX \land \possible \necessary \atomP) \land \possible (\varX \land \possible \necessary \neg \atomP))$.
 We proceed with model checking using the modal $\mu$-calculus.
 
 For any assignment $\kAssignment$ we have the following:

@@ -1,5 +1,76 @@
 \chapter{Arbitrary positive announcement logic}\label{papal}
 
+\begin{example}\label{example-el}
+    \begin{figure}
+        \caption{An example of an epistemic model.}\label{example-epistemic-model}
+        \centering
+        \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+
+            \node[label=above left:{$\kStateS$}] (s) {\underline{$\{\atomP, \atomQ\}$}};
+            \node[label=above right:{$\kStateT$}] (t) [right of=s] {$\{\atomP\}$};
+            \node[label=below left:{$\kStateU$}] (u) [below of=s] {$\{\atomQ\}$};
+            \node[label=below right:{$\kStateV$}] (v) [right of=u] {$\{\}$};
+
+          \path[every node/.style={font=\sffamily\small}]
+            (s) edge node {$\agentA$} (t)
+            (u) [swap] edge node {$\agentA$} (v)
+            (s) edge node {$\agentB$} (u)
+            (t) [swap] edge node {$\agentB$} (v);
+        \end{tikzpicture}
+    \end{figure}
+
+    Let $\kPModelAndTuple{\kStateS} \in \classS$ be an epistemic model where
+    $\kStates = \{\kStateS, \kStateT, \kStateU, \kStateV\}$,
+    $\kStateS \kAccessibility{\agentA} \kStateT$, $\kStateU \kAccessibility{\agentA} \kStateV$, $\kStateS \kAccessibility{\agentB} \kStateU$ and $\kStateT \kAccessibility{\agentB} \kStateV$,
+    $\kValuation(\atomP) = \{\kStateS, \kStateT\}$ and $\kValuation(\atomQ) = \{\kStateU, \kStateV\}$.
+    This model is represented in Figure~\ref{example-epistemic-model}.
+    The atomic proposition $\atomP$ is true in every possible world that agent
+    $\agentA$ cannot distinguish from the real world, $\kStateS$, so we can say
+    that ``agent $\agentA$ knows that $\atomP$ is true in the real world'',
+    written as $\kPModel{\kStateS} \entails \knows[\agentA] \atomP$.
+    However agent $\agentB$ cannot distinguish between the real world and a
+    possible world where $\atomP$ is false, and so $\kPModel{\kStateS}
+    \entails \neg \knows[\agentB] \atomP$. We also have that
+    $\kPModel{\kStateT} \entails \neg \knows[\agentB] \atomP$, and so
+    $\kPModel{\kStateS} \entails \knows[\agentA] \neg \knows[\agentB]
+    \atomP$.
+\end{example}
+
+\begin{example}\label{example-pal}
+    \begin{figure}
+        \caption{The result of publicly announcing $\knows[\agentA] \atomP$ in the epistemic model of Figure~\ref{example-epistemic-model}.}\label{example-public-announcement}
+        \centering
+        \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+
+            \node[label=above:{$\kStateS$}] (s) {\underline{$\{\atomP, \atomQ\}$}};
+            \node[label=above:{$\kStateT$}] (t) [right of=s] {$\{\atomP\}$};
+
+          \path[every node/.style={font=\sffamily\small}]
+            (s) edge node {$\agentA$} (t);
+        \end{tikzpicture}
+    \end{figure}
+    Consider the epistemic model $\kPModel{\kStateS}$ from Example~\ref{example-el}.
+    Then $\interpretation[\kModel]{\knows[\agentA] \atomP} = \{\kStateS, \kStateT\}$,
+    and so $\restrict{\kPModel{\kStateS}}{\knows[\agentA] \atomP}$ 
+    is the model restriction of $\kPModel{\kStateS}$ 
+    to the states $\{\kStateS, \kStateT\}$, depicted in Figure~\ref{example-public-announcement}.  
+    In the resulting model restriction we have that
+    $\restrict{\kPModel{\kStateS}}{\knows[\agentA] \atomP} \entails \knows[\agentB] \atomP$,
+    and so in the original model we therefore have
+    $\kPModel{\kStateS} \entails \announceE{\knows[\agentA] \atomP} \knows[\agentB] \atomP$.
+    That is, agent $\agentB$ knows that $\atomP$ is true after it is publicly
+    announced that agent $\agentA$ knows that $\atomP$ is true.
+\end{example}
+
+\begin{example}\label{example-apal}
+    Consider the epistemic model $\kPModel{\kStateS}$ from Example~\ref{example-el}.
+    In Example~\ref{example-pal} we showed that 
+    $\kPModel{\kStateS} \entails \announceE{\knows[\agentA] \atomP} \knows[\agentB] \atomP$
+    so it follows that
+    $\kPModel{\kStateS} \entails \somepas \knows[\agentB] \atomP$.
+\end{example}
+
+
 \section{Syntax and semantics}\label{syntax-semantics}
 
 In this section we give the syntax and semantics of \logicPapalS{}, and we provide some semantic results about the properties of positive announcements and the arbitrary positive announcement operators.
@@ -51,7 +122,7 @@ An important observation is the partial correspondence between the results of po
     let $\phi \in \langMlPlus$.
     Suppose that $\kStateS, \kStateT \in \kStates$ such that $\kStateS \in \interpretation[\kModel]{\phi}$ and $\kPModel{\kStateS} \simulates \kPModel{\kStateT}$.
     Then $\kPModel{\kStateS} \entails \phi$.
-    As $\kPModel{\kStateS} \simulates \kPModel{\kStateT}$ and $\phi \in \langMlPlus$ then by Lemma~\ref{refinement-preserves} we have $\kPModel{\kStateT} \entails \phi$.
+    As $\kPModel{\kStateS} \simulates \kPModel{\kStateT}$ and $\phi \in \langMlPlus$ then by Lemma~\ref{refinements-preserve-positive} we have $\kPModel{\kStateT} \entails \phi$.
     So $\kStateT \in \interpretation[\kModel]{\phi}$ and therefore $\restrict{\kModel}{\phi}$ is closed under refinements.
 \end{proof}
 
@@ -62,7 +133,7 @@ An important observation is the partial correspondence between the results of po
 \begin{proof}
     Let $\kModelAndTuple \in \classS$ be an epistemic model and
     let $\kStatesT \subseteq \kStates$ be a set of states such that $\restrict{\kModel}{\kStatesT}$ is closed under refinements.
-    Then for every $\kStateS \in \kStatesT$ and $\kStateT \in \kStates \setminus \kStatesT$ we have that $\kStateS \not\simulates \kStateT$ and as $\kModel$ is finite then by Lemma~\ref{refinement-hennessy-milner} there exists $\phi_{\kStateS,\kStateT} \in \langMlPlus$ such that $\kPModel{\kStateS} \entails \phi_{\kStateS,\kStateT}$ but $\kPModel{\kStateT} \nentails \phi_{\kStateS,\kStateT}$.
+    Then for every $\kStateS \in \kStatesT$ and $\kStateT \in \kStates \setminus \kStatesT$ we have that $\kStateS \not\simulates \kStateT$ and as $\kModel$ is finite then by Lemma~\ref{refinements-hennessy-milner} there exists $\phi_{\kStateS,\kStateT} \in \langMlPlus$ such that $\kPModel{\kStateS} \entails \phi_{\kStateS,\kStateT}$ but $\kPModel{\kStateT} \nentails \phi_{\kStateS,\kStateT}$.
     Let $\phi = \bigvee_{\kStateS \in \kStatesT} \bigwedge_{\kStateT \in \kStates \setminus \kStatesT} \phi_{\kStateS, \kStateT}$.
     Then $\phi \in \langMlPlus$; 
     for every $\kStateS \in \kStatesT$: $\kPModel{\kStateS} \entails \phi$; 
@@ -166,7 +237,7 @@ We could also introduce an operator $\someppast$ for finite sequences of positiv
 We currently do not know whether this adds expressivity or complexity to the logic.
 
 We continue, with the results that positive announcements have the Church-Rosser and McKinsey properties.
-The proofs by Balbiani, et al.~\cite{balbianietal:2008} of these properties for public announcements are not valid for positive announcements, so we present alternative reasoning.
+The proofs by Balbiani, et al.~\cite{balbiani:2008} of these properties for public announcements are not valid for positive announcements, so we present alternative reasoning.
 
 \begin{lemma}\label{q-label}
     Let $\atomsQ \subseteq \atoms$ be a set of propositional atoms
@@ -222,29 +293,29 @@ A logic is {\em compact} if and only if every finitely satisfiable set of formul
     \logicPapalS{} is not compact.
 \end{proposition}
 
-This follows from the same reasoning used by Balbiani, et al.~\cite{balbianietal:2008} to show that \logicApalS{} is not compact.
+This follows from the same reasoning used by Balbiani, et al.~\cite{balbiani:2008} to show that \logicApalS{} is not compact.
 Specifically, a set of formulas $\{\announceA{\psi} (\knows[\agentA] \atomP \implies \knows[\agentB] \knows[\agentA] \atomP) \mid \psi \in \langMlPlus\} \cup \{\neg \allppas (\knows[\agentA] \atomP \implies \knows[\agentB] \knows[\agentA] \atomP)\}$ is demonstrated which is finitely satisfiable but not satisfiable under the semantics of \logicPapalS{}.
 
 \section{Model-checking}\label{model-checking}
 
 In this section we show that the model-checking problem for \logicPapalS{} is PSPACE-complete.
 The {\em model-checking problem} for \logicPapalS{} is to determine for a given formula $\phi \in \langPapal$ and epistemic model $\kPModel{\kStateS} \in \classS$ whether $\kPModel{\kStateS} \entails \phi$.
-The model-checking procedure for \logicPapalS{} is a simple modification of the model-checking procedure for \logicApalS{} of Ågotnes, et al.~\cite{agotnesetal.jal:2010} taking advantage of the characterisation of positive announcements of Lemma~\ref{positive-announcements-refinement-closed} and Lemma~\ref{refinement-closed-positive-announcements} as model restrictions that are closed under refinements.
+The model-checking procedure for \logicPapalS{} is a simple modification of the model-checking procedure for \logicApalS{} of Ågotnes, et al.~\cite{agotnes:2010} taking advantage of the characterisation of positive announcements of Lemma~\ref{positive-announcements-refinement-closed} and Lemma~\ref{refinement-closed-positive-announcements} as model restrictions that are closed under refinements.
 
 \begin{lemma}\label{maximal-refinement}
     Let $\kModelAndTuple, \kModelAndTuple[\prime] \in \classS$ be epistemic models.
     There is a unique, maximal refinement $\refinement \subseteq \kStates \times \kStates[\prime]$ from $\kModel$ to $\kModel[\prime]$ and it is computable in polynomial time.
 \end{lemma}
 
-This follows from similar reasoning and using a similar algorithm to the analogous result for bisimulations~\cite{gorankootto:2006}, relaxing the {\bf forth} condition appropriately.
+This follows from similar reasoning and using a similar algorithm to the analogous result for bisimulations~\cite{goranko:2006}, relaxing the {\bf forth} condition appropriately.
 
 \begin{theorem}\label{papal-model-checking-pspace}
     The model-checking problem for \logicPapalS{} is in PSPACE.
 \end{theorem}
 
 \begin{proof}{(Sketch)}
-    We note that PSPACE=APTIME~\cite{CKS81}.
-    We adapt the APTIME model-checking procedure for \logicApalS{} of Ågotnes, et al.~\cite{agotnesetal.jal:2010}.
+    We note that PSPACE=APTIME~\cite{chandra:1981}.
+    We adapt the APTIME model-checking procedure for \logicApalS{} of Ågotnes, et al.~\cite{agotnes:2010}.
     The only modification required is that when we non-deterministically choose a model restriction we must ensure that it corresponds to a positive announcement.
     From Lemma~\ref{positive-announcements-refinement-closed} and Lemma~\ref{refinement-closed-positive-announcements}, on finite epistemic models the results of positive announcements correspond exactly to those model restrictions that are closed under refinements.
     By Lemma~\ref{maximal-refinement} we can compute the maximal refinement from a model to itself and determine whether a model restriction is closed under refinements in polynomial time.
@@ -258,7 +329,7 @@ We note that if we extend \logicPapalS{} with the $\someppast$ operator for fini
 \end{theorem}
 
 \begin{proof}{(Sketch)}
-    This follows from the same reasoning used by Ågotnes, et al.~\cite{agotnesetal.jal:2010} in the setting of \logicApalS{}, showing that instances of the QBF-SAT problem can be solved through model-checking a \langPapal{} formula on an appropriately constructed model.
+    This follows from the same reasoning used by Ågotnes, et al.~\cite{agotnes:2010} in the setting of \logicApalS{}, showing that instances of the QBF-SAT problem can be solved through model-checking a \langPapal{} formula on an appropriately constructed model.
     We note that the model is constructed such that each state has a unique valuation, so any restriction of the model is closed under refinements and is definable as the result of a positive announcement (actually a propositional announcement).
     Therefore the result of any public announcement on this model is also the result of a positive announcement, and the interpretation of $\allppas$ and $\allpas$ is the same on this model.
 \end{proof}
@@ -280,7 +351,7 @@ If $\logic_1$ and $\logic_2$ are neither at least as expressive than the other t
     \logicPapalS{} is strictly more expressive than \logicPalS{} for multiple agents.
 \end{theorem}
 
-These results follows from the same reasoning to that used by Balbiani, et al.~\cite{balbianietal:2008} to show analogous results for \logicApalS{}.
+These results follows from the same reasoning to that used by Balbiani, et al.~\cite{balbiani:2008} to show analogous results for \logicApalS{}.
 It follows that \logicPapalS{} is expressively equivalent to \logicApalS{} for a single agent, however for multiple agents there is a different story.
 
 \begin{theorem}\label{expressivity-s5}
@@ -394,10 +465,10 @@ It follows that \logicPapalS{} is expressively equivalent to \logicApalS{} for a
 
 We conjecture that \logicPapalS{} is incomparable to \logicApalS{}.
 
-\section{Axiomatisation}\label{axiomatisation}
+\section{Axiomatisation}\label{papal-axiomatisation}
 
 In this section we provide a sound and complete axiomatisation for arbitrary positive announcement logic.
-The axiomatisation is essentially a modified version of the axiomatisation for arbitrary public announcement logic given by Balbiani, et al.~\cite{balbianietal:2008,balbianietal.short:2014}, but with restrictions to positive announcements in appropriate axioms.
+The axiomatisation is essentially a modified version of the axiomatisation for arbitrary public announcement logic given by Balbiani, et al.~\cite{balbiani:2008,balbianietal.short:2014}, but with restrictions to positive announcements in appropriate axioms.
 
 \begin{definition}
     Consider a new symbol $\sharp$. The {\em necessity forms} are defined inductively as: $$\psi(\sharp) ::= \sharp \mid (\phi \implies \psi(\sharp)) \mid \announceA{\phi} \psi(\sharp) \mid \knows[\agentA] \psi(\sharp)$$ where $\phi \in \langPapal$ and $\agentA \in \agents$.
@@ -488,7 +559,7 @@ If every set of formulas that is consistent according to an axiomatisation for a
 \end{proof}
 
 We note that \axiomPapalS{} is an infinitary axiomatisation, as the rule ${\bf R+^\omega}$ requires an infinite number of premises.
-As in the axiomatisation of Balbiani, et al.~\cite{balbianietal:2008} we can simplify this rule to a finitary rule.
+As in the axiomatisation of Balbiani, et al.~\cite{balbiani:2008} we can simplify this rule to a finitary rule.
 To do so we first show that if $\someppas \phi$ is satisfiable then so is $\announceE{\atomP} \phi$ for some fresh atom $\atomP$. 
 
 \begin{lemma}\label{diamond-lemma}
@@ -524,7 +595,7 @@ Lemma~\ref{diamond-lemma} can be generalised to possibility forms:
     Then there exists $\kPModel[\prime]{\kStateS[\prime]} \in \classS$ such that $\kPModel[\prime]{\kStateS[\prime]} \entails \announceE{\atomP} \psi(\someppas \phi)$ where $\atomP \in \atoms$ does not appear in $\psi(\someppas \phi)$.
 \end{lemma}
 
-As in the axiomatisation of \logicApalS{} by Balbiani, et al.~\cite{balbianietal:2008} this allows us to form a sound and weakly complete {\em finitary} axiomatisation by replacing the infinitary rule ${\bf R+^\omega}$ in \axiomPapalS{} with a finitary alternative of the form:
+As in the axiomatisation of \logicApalS{} by Balbiani, et al.~\cite{balbiani:2008} this allows us to form a sound and weakly complete {\em finitary} axiomatisation by replacing the infinitary rule ${\bf R+^\omega}$ in \axiomPapalS{} with a finitary alternative of the form:
 $$
 \begin{array}{ll}
     {\bf R+^1} & \text{From } \nu(\announceA{\atomP} \phi) \text{ infer } \nu(\allppas \phi)
@@ -532,7 +603,7 @@ $$
 $$
 where $\nu(\sharp)$ is a necessity form and $\atomP$ is a fresh atom.  
 
-The soundness of ${\bf R+^1}$ follows from Lemma~\ref{possibility-lemma}, and the weak completeness of the resulting finitary axiomatisation follows from the same reasoning as in Balbiani, et al.~\cite{balbianietal:2008}.
+The soundness of ${\bf R+^1}$ follows from Lemma~\ref{possibility-lemma}, and the weak completeness of the resulting finitary axiomatisation follows from the same reasoning as in Balbiani, et al.~\cite{balbiani:2008}.
 As the resulting axiomatisation is a finitary axiomatisation, it is recursively enumerable.
 
 \section{Future work}\label{future-work}
@@ -545,7 +616,7 @@ While we have shown that \logicPapalS{} is not at least as expressive as \logicA
 We also have yet to consider in depth the addition of the $\someppast$ operator for finite sequences of positive announcements to the logic, and particularly, how the operator effects the expressivity, decidability and complexity of the logic.
 
 We conjecture that the satisfiability problem for \logicPapalS{} is decidable and that \logicPapalS{} is incomparable in expressivity to \logicApalS{}.
-The main justification for these conjectures is related to the reason that the proof of undecidability for \logicApalS{}~\cite{frenchetal:2008} would not work directly for \logicPapalS{}.
+The main justification for these conjectures is related to the reason that the proof of undecidability for \logicApalS{}~\cite{french:2008} would not work directly for \logicPapalS{}.
 The proof that \logicApalS{} is undecidable relies on the ability to express as a \langApal{} formula that two states of an epistemic model agree on all epistemic formulas.
 This is possible essentially because the $\allpas$ operator quantifies over all epistemic formulas.
 In \logicPapalS{} however the $\allppas$ operator is only able to quantify over positive formulas, enough to express that a state agrees with all of the positive formulas of another state, but not enough to express agreement on all epistemic formulas.

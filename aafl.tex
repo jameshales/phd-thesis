@@ -85,7 +85,7 @@ We note that the semantics of arbitrary action formula logic \logicAaflC{} are v
 We generalise the semantics to the classes of \classK{}, \classKFF{} and \classS{} by introducing the parameterised class \classC{} and restricting successful updates to those that result in \classC{} models as in the approach of Balbiani, et al~\cite{balbiani:2012}.
 The difference is that as actions are specified in \langAafl{} formulae as action formulae, then the semantics must first translate the action formulae into action models before performing action model execution.
 As such there is a semantically correct translation from \langAafl{} formulae to \langAaml{} formulae (by replacing occurrences of $\alpha$ with $\tau_\classC(\alpha)$), and any validities, axioms or results from arbitrary action model logic also apply in this setting if the language is restricted to action models that are defineable by action formulae.
-Therefore for the current section and the following sections concering the axiomatisations (Section~\ref{axiomatisation}) and correspondence results (Section~\ref{correspondence}), we will deal only with the action formula logic, rather than the full arbitrary action formula logic, focussing on the differences and correspondences between action formulae and action models, rather than getting distracted by the refinement quantifiers which behave identically between each logic.
+Therefore for the current section and the following sections concering the axiomatisations (Section~\ref{aafl-axiomatisation}) and correspondence results (Section~\ref{correspondence}), we will deal only with the action formula logic, rather than the full arbitrary action formula logic, focussing on the differences and correspondences between action formulae and action models, rather than getting distracted by the refinement quantifiers which behave identically between each logic.
 We return to the full arbitrary action formula logic in Section~\ref{synthesis} for the synthesis results.
 
 We give the following general result.
@@ -263,7 +263,7 @@ As discussed earlier this is because in the setting of \classS{}, in an action w
 Unlike in the settings of \classK{} and \classKFF{} we have distinguished between the actions $\alpha$ and $\beta$, designating that $\alpha$ is the action that has actually occurred.
 We also note that the definition of $\tau$ for test operators is different from that used in \classK{} and \classKFF{}, simply to account for the additional frame constraints of \classS{}.
 
-\section{Axiomatisation}\label{axiomatisation}
+\section{Axiomatisation}\label{aafl-axiomatisation}
 
 In the following subsections we give sound and complete axiomatisations for the action formulae logic in the settings of \classK{} and \classKFF{}.
 In the setting of \classS{} we provide a sound but not complete axiomatisation, and comment on the difficulty of giving a complete axiomatisation and the possible alternatives.

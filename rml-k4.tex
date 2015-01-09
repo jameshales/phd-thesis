@@ -1,0 +1,465 @@
+\section{K4}
+
+\begin{lemma}\label{refinements-infinite-paths}
+Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulates \kPModelP{\kStateSP}$.
+If there exists an infinite path of states in $\kModelP$ starting from the state $\kStateSP$ then there exists an infinte path of states in $\kModel$ starting from the state $\kStateS$.
+\end{lemma}
+
+\begin{proof}
+Suppose that there exists an infinite path of states in $\kModelP$ starting from the state $\kStateSP$.
+Then there exists infinite sequence of states $(\kStateTP_0, \kStateTP_1, \dots) \in \kStatesP^\naturals$ such that $\kStateTP_0 = \kStateSP$ and for every $i \in \naturals$: $\kStateTP_{i + 1} \in \kSuccessorsP{}{\kStateTP_i}$.
+As $\kPModel{\kStateS} \simulates \kPModelP{\kStateSP}$ then there exists a refinement relation $\refinement \subseteq \kStates \times \kStatesP$ such that $(\kStateS, \kStateSP) \in \refinement$.
+We inductively construct an infinite sequence of states $(\kStateT_0, \kStateT_1, \dots) \in \kStates^\naturals$ such that $\kStateT_0 = \kStateS$ and for every $i \in \naturals$: $\kStateT_{i + 1} \in \kSuccessors{}{\kStateT_{i + 1}}$ and $(\kStateT_i, \kStateTP_i) \in \refinement$.
+
+Let $\kStateT_0 = \kStateS$ and for every $i \in \naturals$, as $(\kStateT_i, \kStateTP_i) \in \refinement$ and $\kStateTP_{i + 1} \in \kSuccessorsP{}{\kStateTP_{i + 1}}$ then from {\bf back} there exists $\kStateU \in \kSuccessors{}{\kStateT_i}$ such that $(\kStateU, \kStateTP_{i + 1}) \in \refinement$, so we let $\kStateTP_{i + 1} = \kStateU$.
+Therefore there exists an infinite path of states in $\kModel$ starting from the state $\kStateS$.
+\end{proof}
+
+\begin{lemma}\label{refinements-infinite-paths-formula}
+Let $\kPModel{\kStateS} \in \classKF$ be a pointed Kripke model.
+Then $\kPModel{\kStateS} \entails \somerefs(\possible \top \land \necessary \possible \top)$ if and only if there exists an infinite path in $\kModel$ starting from $\kStateS$.
+\end{lemma}
+
+\begin{proof}
+Suppose that $\kPModel{\kStateS} \entails \somerefs (\possible \top \land \necessary \possible \top)$.
+Then there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \simulates \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \possible \top \land \necessary \possible \top$.
+We inductively construct an infinite sequence of states $(\kStateTP_0, \kStateTP_1, \dots) \in \kStatesP^\naturals$ such that $\kStateTP_0 = \kStateSP$ and for every $i \in \naturals$: $\kStateTP_{i + 1} \in \kSuccessorsP{}{\kStateTP_i}$ and $\kStateTP_{i + 1} \in \kSuccessorsP{}{\kStateSP}$.
+Let $\kStateTP_0 = \kStateSP$.
+As $\kPModelP{\kStateSP} \entails \possible \top$ then there exists $\kStateUP \in \kSuccessorsP{}{\kStateSP}$, so we let $\kStateTP_1 = \kStateUP$.
+For every $i \in \naturals$ such that $i \geq 1$, as $\kStateTP_i \in \kSuccessorsP{}{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \necessary \possible \top$ then $\kPModelP{\kStateTP_i} \entails \possible \top$, so there exists $\kStateUP \in \kSuccessorsP{}{\kStateTP_i}$, so we let $\kStateTP_{i + 1} = \kStateUP$, and note by the transitivity of $\kModelP$ that $\kStateTP_{i + 1} \in \kSuccessorsP{}{\kStateSP}$.
+Therefore there exists an infinite path of states in $\kModelP$ starting from the state $\kStateSP$.
+By Lemma~\ref{refinements-infinite-paths} there exists an infinite path of states in $\kModel$ starting from the state $\kStateS$.
+
+Conversely, suppose that there exists an infinite path of states in $\kModel$ starting from the state $\kStateS$.
+Then we can construct a model $\kModelP{\kStateS}$ by restricting $\kPModel{\kStateS}$ to only the states appearing in the infinite path.
+Then we trivially have that $\kPModel{\kStateS} \simulates \kPModelP{\kStateS}$ and $\kPModelP{\kStateS} \entails \possible \top \land \necessary \possible \top$.
+\end{proof}
+
+\begin{theorem}
+The logic \logicRmlKF{} is strictly more expressive than \logicKF{}.
+\end{theorem}
+
+\begin{proof}
+Let $\kModelAndTuple$ be a Kripke model where:
+\begin{eqnarray*}
+\kStateS &=& \naturals \cup \{\omega, \omega'\}\\
+\kAccessibility{} &=& \{(m, n), (\omega, n), (\omega', n) \mid m, n \in \naturals, m > n\} \cup \{(\omega', \omega')\}\\
+\kValuation(\atomP) &=& \emptyset
+\end{eqnarray*}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+
+      \node (0) {0};
+      \node (1) [right of=0] {1};
+      \node (2) [right of=1] {2};
+      \node (3) [right of=2] {\ldots};
+      \node (omega) [above right of=3] {$\omega$};
+      \node (omega') [below right of=3] {$\omega'$};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (1) edge node {} (0)
+        (2) edge node {} (1)
+        (3) edge node {} (2)
+        (omega) edge node {} (3)
+        (omega') edge node {} (3)
+            edge [loop right] node {} (omega');
+    \end{tikzpicture}
+    \caption{The model $\kModel$, omitting implied transitive edges.}\label{model-naturals}
+\end{figure}
+
+The model $\kModel$ is represented in Figure~\ref{model-naturals}.
+We note that $\kModel \in \classKFF$.
+
+We claim that $\kPModel{\omega}$ is modally indistinguishable from $\kPModel{\omega'}$.
+To show this we show the following intermediate results:
+\begin{enumerate}
+    \item $\kPModel{i} \bisimilar[n] \kPModel{j}$ for $i, j, n \in \naturals$ where $i, j \geq n$.
+
+        We proceed by induction on $n \in \naturals$.
+
+        Suppose that $n = 0$. Then we trivially have that $\kPModel{i} \bisimilar[0] \kPModel{j}$.
+
+        Suppose that $n > 0$.
+
+        \paragraph{atoms} Trivial.
+
+        \paragraph{forth} Let $k \in \kSuccessors{}{i}$.
+        Suppose that $k \geq n - 1$. Then from the induction hypothesis $\kPModel{k} \bisimilar [n-1] \kPModel{j - 1}$.
+        Suppose that $k < n - 1$. Then $k < n - 1 < j$ and $k \in \kSuccessors{}{j}$, so we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+
+        \paragraph{back} Symmetrical reasoning to {\bf forth}.
+
+    \item $\kPModel{n} \bisimilar[n] \kPModel{\omega'}$ for $n \in \naturals$
+
+        We proceed by induction on $n \in \naturals$.
+
+        Suppose that $n = 0$. Then we trivially have that $\kPModel{0} \bisimilar[0] \kPModel{\omega'}$.
+
+        Suppose that $n > 0$.
+
+        \paragraph{atoms} Trivial.
+
+        \paragraph{forth} Let $k \in \kSuccessors{}{n}$. Then $k \in \kSuccessors{}{\omega'}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+
+        \paragraph{back} Let $k \in \kSuccessors{}{\omega'}$. 
+        Suppose that $k = \omega'$. Then $n - 1 \in \kSuccessors{}{n}$ and by the induction hypothesis $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{\omega'}$. 
+        Suppose that $k \neq \omega'$ and $k < n$. Then $k \in \kSuccessors{}{n}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+        Suppose that $k \neq \omega'$ and $k \geq n$. Then $n - 1 \in \kSuccessors{}{n}$ and from above $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{k}$.
+
+    \item $\kPModel{\omega} \bisimilar[n] \kPModel{\omega'}$ for $n \in \naturals$
+
+        We proceed by induction on $n \in \naturals$.
+
+        Suppose that $n = 0$. Then we trivially have that $\kPModel{\omega} \bisimilar[0] \kPModel{\omega'}$.
+
+        Suppose that $n > 0$.
+
+        \paragraph{atoms} Trivial.
+
+        \paragraph{forth} Let $k \in \kSuccessors{}{\omega}$. Then $k \in \kSuccessors{}{\omega'}$ and from above we have that $\kPModel{k} \bisimilar \kPModelP{k}$.
+
+        \paragraph{back} Let $k \in \kSuccessors{}{\omega'}$.
+        Suppose that $k = \omega'$. Then $n - 1 \in \kSuccessors{}{\omega}$ and from above $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{\omega'}$.
+        Suppose that $k \neq \omega'$. Then $k \in \kSuccessors{}{\omega}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+\end{enumerate}
+
+Therefore $\kPModel{\omega} \bisimilar[n] \kPModel{\omega'}$ for every $n \in \naturals$, and so $\kPModel{\omega}$ is modally indistinguishable from $\kPModel{\omega'}$.
+
+However $\kPModel{\omega}$ is refinement modally distinguishable from $\kPModel{\omega'}$ 
+through the refinement modal formula $\somerefs (\possible \top \land \necessary \possible \top)$. 
+As $\omega'$ has a reflexive edge, 
+then there is an infinite path in $\kModel$ starting from $\omega'$, 
+and from Lemma~\ref{refinements-infinite-paths-formula} this implies that 
+$\kPModel{\omega'} \entails \somerefs (\possible \top \land \necessary \possible \top)$.
+As any successor $n$ of $\omega$ has a maximum of $n$ steps until the terminal state $0$
+then there is no infinite path in $\kModel$ starting from $\omega$,
+and from Lemma~\ref{refinements-infinite-paths-formula} this implies that 
+$\kPModel{\omega} \nentails \somerefs (\possible \top \land \necessary \possible \top)$.
+\end{proof}
+
+\begin{definition}[$n$-mutual refinements]
+Let $\kPModelAndTuple{\kStateS} \in \classK$ and $\kPModelAndTupleP{\kStateSP} \in \classK$ be pointed Kripke models.
+We say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $0$-mutual refinements}
+and we write $\kPModel{\kStateS} \bisimref[0] \kPModelP{\kStateSP}$
+if and only if for every $\emptyset \subset \agentsB \subseteq \agents$: 
+$\kPModel{\kStateS} \refinesBs \kPModelP{\kStateSP}$ 
+and $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
+We say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $n$-mutual refinements}
+for some $n \in \naturals$
+and we write $\kPModel{\kStateS} \bisimref[n] \kPModelP{\kStateSP}$
+if and only if for every $\agentA \in \agents$
+the following, {\bf mutual refinements}, {\bf forth-$\agentA$} and {\bf back-$\agentA$} hold:
+
+\paragraph{mutual refinements} 
+For every $\emptyset \subset \agentsB \subseteq \agents$:
+$\kPModel{\kStateS} \refinesBs \kPModelP{\kStateSP}$ 
+and $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ 
+
+\paragraph{forth-$a$} For every $\kStateT \in \kStateS \kAccessibility{\agentA}$ 
+there exists $\kStateTP \in \kStateSP \kAccessibilityP{\agentA}$
+such that $\kPModel{\kStateT} \bisimref[n-1] \kPModelP{\kStateTP}$.
+
+\paragraph{back-$a$} For every $\kStateTP \in \kStateSP \kAccessibilityP{\agentA}$
+there exists $\kStateT \in \kStateS \kAccessibility{\agentA}$ 
+such that $\kPModel{\kStateT} \bisimref[n-1] \kPModelP{\kStateTP}$.
+\end{definition}
+
+\begin{lemma}
+Let $\classC$ be a class of Kripke frames,
+let $n \in \naturals$,
+let $\phi \in \langRml$ such that $d(\phi) \leq n$
+and let $\kPModelAndTuple{\kStateS}, \kPModelAndTupleP{\kStateSP} \in \classC$ be pointed Kripke models
+such that $\kPModel{\kStateS} \bisimref[n] \kPModelP{\kStateSP}$.
+Then $\kPModel{\kStateS} \entails_\logicRmlC \phi$ if and only if $\kPModelP{\kStateSP} \entails_\logicRmlC \phi$.
+\end{lemma}
+
+\begin{proof}
+We proceed by induction on the modal depth and structure of $\phi$.
+
+Suppose that $\phi = \atomP$ where $\atomP \in \atoms$. 
+As $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are $n$-mutual refinements then $\kPModel{\kStateS} \refines \kPModelP{\kStateSP}$ and from {\bf atoms-$\atomP$} we have that $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$ and therefore $\kPModel{\kStateS} \entails \atomP$ if and only if $\kPModelP{\kStateSP} \entails \atomP$.
+
+Suppose that $\phi = \neg \psi$ or $\phi = \psi \land \chi$.
+These cases follow directly from the induction hypothesis.
+
+Suppose that $\phi = \necessaryA \psi$ and $\kPModel{\kStateS} \entails \necessaryA \psi$.
+Then for every $\kStateT \in \kStateS \kAccessibility{\agentA}$ we have $\kPModel{\kStateT} \entails \psi$.
+Let $\kStateTP \in \kStateSP \kAccessibility{\agentA}$.
+By {\bf back-$\agentA$} there exists $\kStateT \in \kStateS \kAccessibility{\agentA}$ such that $\kPModel{\kStateT}$ is $(n-1)$-mutual refinements to $\kPModelP{\kStateTP}$.
+As $\kPModel{\kStateT} \entails \psi$ and $d(\psi) \leq n - 1$ then by the induction hypothesis we have that $\kPModelP{\kStateTP} \entails \psi$.
+So for every $\kStateTP \in \kSuccessorsA{\kStateSP}$ we have $\kPModelP{\kStateTP} \entails \psi$.
+Therefore $\kPModelP{\kStateSP} \entails \necessaryA \psi$.
+The converse follows from symmetrical reasoning.
+
+Suppose that $\phi = \allrefsBs \psi$ and $\kPModel{\kStateS} \entails \allrefsBs \psi$.
+Then there exists $\kPModelPP{\kStateSPP} \in \classC$ such that $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateS} \entails \psi$.
+As $\kPModelP{\kStateSP} \simulatesBs \kPModel{\kStateS}$ then by Lemma~\ref{refinements-preorder} we have that $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
+Therefore $\kPModelP{\kStateSP} \entails \allrefsBs \psi$.
+The converse follows from symmetrical reasoning.
+\end{proof}
+
+\begin{theorem}
+The logic \logicRmlKF{} is strictly less expressive than \logicTangleKF{}.
+\end{theorem}
+
+\begin{proof}
+Let $\kModelAndTuple$ be a Kripke model where:
+\begin{eqnarray*}
+    \kStates &=& \{n, n^+, n^- \mid n \in \naturals\} \cup \{\omega, \omega'\}\\
+    \kAccessibility{} &=& \{(n, m), (n, m^+), (n, m^-), (n, n^+), \\&&\quad(n, n^-), (n^+, n^+), (n^-, n^-) \mid n, m \in \naturals, n > m\} \\&&
+        \cup \{0, 0^+, 0^-\} \times \{0^+, 0^-\}
+        \cup \{(0, 0)\} \\&&
+        \cup \{\omega, \omega'\} \times \{n, n^+, n^- \mid n \in \naturals\}
+        \cup \{(\omega', \omega')\}\\
+    \kValuation(\atomP) &=& \{n, n^+ \mid n \in \naturals\} \cup \{\omega, \omega'\}
+\end{eqnarray*}
+The model $\kModel$ is represented in Figure~\ref{model-caterpillar}.
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+
+      \node (0) {$0$};
+      \node (0+) [above left of=0] {$0^+$};
+      \node (0-) [below left of=0] {$0^-$};
+      \node (1) [right of=0] {$1$};
+      \node (1+) [above left of=1] {$1^+$};
+      \node (1-) [below left of=1] {$1^-$};
+      \node (2) [right of=1] {$2$};
+      \node (2+) [above left of=2] {$2^+$};
+      \node (2-) [below left of=2] {$2^-$};
+      \node (3) [right of=2] {\ldots};
+      \node (omega) [above right of=3] {$\omega$};
+      \node (omega') [below right of=3] {$\omega'$};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (0) edge [loop left] node {} (0)
+            edge node {} (0+)
+            edge node {} (0-)
+        (0+) edge [loop above] node  {} (0+)
+            edge [<->,bend right] node {} (0-)
+        (0-) edge [loop below] node  {} (0-)
+        (1) edge node {} (0)
+            edge node {} (1+)
+            edge node {} (1-)
+        (1+) edge [loop above] node {} (1+)
+        (1-) edge [loop below] node {} (1-)
+        (2) edge node {} (1)
+            edge node {} (2+)
+            edge node {} (2-)
+        (2+) edge [loop above] node {} (2+)
+        (2-) edge [loop below] node {} (2-)
+        (3) edge node {} (2)
+        (omega) edge node {} (3)
+        (omega') edge node {} (3)
+            edge [loop right] node {} (omega');
+    \end{tikzpicture}
+    \caption{The model $\kModel$, omitting implied transitive edges.}\label{model-caterpillar}
+\end{figure}
+
+To show that $\kPModel{\omega}$ and $\kPModel{\omega'}$ are indistinguishable by the refinement modal logic we show that $\kPModel{\omega} \bisimref[n] \kPModel{\omega'}$ for all $n \in \naturals$. To do so we first show that $\kPModel{\omega}$ and $\kPModel{\omega'}$ are mutual refinements.
+
+That $\kPModel{\omega} \refines \kPModel{\omega'}$ is trivial, as $\omega$ is the same as $\omega'$ except for the reflexive edge, so we need only show that $\kPModel{\omega'} \refines \kPModel{\omega}$.
+
+Let $\refinement \subseteq \kStates \times \kStates$ be defined as follows:
+$$
+\refinement = \{(\kStateS, \kStateS) \mid \kStateS \in \kStates\} \cup
+\{(0, n), (n, 0), (0^+, n^+), (0^-, n^-), (\omega, n), (\omega', n) \mid n \in \naturals\} \cup
+\{(0, \omega), (0, \omega'), (\omega, \omega')\}
+$$
+
+% TODO
+We show that $\refinement$ satisfies {\bf atoms-$\atomP$} and {\bf back} for every $(\kStateS, \kStateSP) \in \refinement$.
+
+\paragraph{atoms}
+Trivial.
+
+\paragraph{back-$a$}
+Consider $(\kStateS, \kStateS) \in \refinement$ and let $\kStateT \in \kSuccessors{}{\kStateS}$. Then $(\kStateT, \kStateT) \in \refinement$.
+
+Consider $(0, n) \in \refinement$ and let $\kStateT \in \kSuccessors{}{n}$. 
+Suppose that $\kStateT = m$ for $m \in \naturals$. 
+Then $0 \in \kSuccessors{}{0}$ and $(0, m) \in \refinement$.
+Suppose that $\kStateT = m^+$ for $m \in \naturals$.
+Then $0^+ \in \kSuccessors{}{0}$ and $(0^+, m^+) \in \refinement$.
+Suppose that $\kStateT = m^-$ for $m \in \naturals$.
+Then $0^- \in \kSuccessors{}{0}$ and $(0^-, m^-) \in \refinement$.
+
+Consider $(n, 0) \in \refinement$ and let $\kStateT \in \kSuccessors{}{0}$.
+Then $\kStateT \in \kSuccessors{}{n}$ and $(\kStateT, \kStateT) \in \refinement$.
+
+Consider $(0^+, n^+) \in \refinement$ and let $\kStateT \in \kSuccessors{}{n^+}$. 
+Then $t = n^+$, $0^+ \in \kSuccessors{}{0^+}$ and $(0^+, n^+) \in \refinement$.
+
+Consider $(0^-, n^-) \in \refinement$ and let $\kStateT \in \kSuccessors{}{n^-}$. 
+Then $t = n^-$, $0^- \in \kSuccessors{}{0^-}$ and $(0^-, n^-) \in \refinement$.
+
+Consider $(0, \omega) \in \refinement$ and let $\kStateT \in \kSuccessors{}{\omega}$. 
+This case follows the same reasoning as for the case for $(0, n) \in \refinement$.
+
+Consider $(0, \omega') \in \refinement$ and let $\kStateT \in \kSuccessors{}{\omega}$. 
+Suppose that $t \neq \omega'$. 
+This case follows the same reasoning as for the case for $(0, n) \in \refinement$. 
+Suppose that $t = \omega'$. 
+Then $0 \in \kSuccessors{}{0}$ and $(0, \omega') \in \refinement$.
+
+Consider $(\omega, \omega') \in \refinement$ and let $\kStateT \in \kSuccessors{}{\omega'}$. 
+Suppose that $t \neq \omega'$. 
+Then $t \in \kSuccessors{}{\omega}$ and $(t, t) \in \refinement$. 
+Suppose that $t = \omega'$. 
+Then $0 \in \kSuccessors{}{\omega}$ and $(0, \omega') \in \refinement$.
+
+Consider $(\omega, n) \in \refinement$ and let $\kStateT \in \kSuccessors{}{n}$.
+Then $\kStateT \in \kSuccessors{}{\omega}$ and $(t, t) \in \refinement$.
+
+Consider $(\omega', n) \in \refinement$ and let $\kStateT \in \kSuccessors{}{n}$.
+Then $\kStateT \in \kSuccessors{}{\omega'}$ and $(t, t) \in \refinement$.
+
+We show that $\kPModel{\omega} \bisimref[n] \kPModel{\omega'}$ for every $n \in \naturals$. 
+To do so we show the following intermediate results:
+
+\begin{enumerate}
+    \item $\kPModel{i} \bisimref[n] \kPModel{j}$ for $i, j, n \in \naturals$ where $i, j \geq n$.
+
+    By induction on $n \in \naturals$.
+
+    Suppose that $n = 0$. 
+    From above, $\kPModel{i} \refines \kPModel{0} \refines \kPModel{j}$ and $\kPModel{i} \simulates \kPModel{0} \simulates \kPModel{j}$ so we have that $\kPModel{i} \bisimref[0] \kPModel{j}$.
+
+    Suppose that $n > 0$.
+
+    \paragraph{mutual refinements}
+
+    From above, $\kPModel{i} \refines \kPModel{0} \refines \kPModel{j}$
+    and $\kPModel{i} \simulates \kPModel{0} \simulates \kPModel{j}$.
+
+    \paragraph{forth}
+
+    Let $k^* \in \kSuccessors{}{i}$.
+    Suppose that $k^* = k$ where $k \in \naturals$ and $k \geq n - 1$.
+    Then from the induction hypothesis $\kPModel{k} \bisimilar [n-1] \kPModel{j - 1}$.
+    Suppose that $k^* = k$ where $k \in \naturals$ and $k < n - 1$.
+    Then $k < n - 1 < j$ so $k \in \kSuccessors{}{j}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+    Suppose that $k^* = 0^+$.
+    Then $0^+ \in \kSuccessors{}{j}$ and we trivially have that $\kPModel{0^+} \bisimilar \kPModel{0^+}$.
+    Suppose that $k^* = k^+$ where $k \in \naturals$ and $k > 0$.
+    Then $j^+ \in \kSuccessors{}{j}$ and as $j \geq n > 0$ we trivially have that $\kPModel{k^+} \bisimilar \kPModel{k^+}$.
+    Suppose that $k^* = k^-$ for $k \in \naturals$. This follows from similar reasoning to the case where $k^* = k^+$.
+
+    \paragraph{back}
+
+    Symmetrical reasoning to {\bf forth}.
+
+    \item $\kPModel{n} \bisimref[n] \kPModel{\omega'}$ for $n \in \naturals$.
+
+    By induction on $n$.
+
+    Suppose that $n = 0$. 
+    From above, $\kPModel{n} \refines \kPModel{0} \refines \kPModel{\omega'}$ and $\kPModel{n} \simulates \kPModel{\omega'}$ so we have that $\kPModel{0} \bisimref[0] \kPModel{\omega'}$.
+
+    Suppose that $n > 0$.
+
+    \paragraph{mutual refinements}
+
+    From above, $\kPModel{n} \refines \kPModel{0} \refines \kPModel{\omega'}$ and $\kPModel{n} \simulates \kPModel{\omega'}$.
+
+    \paragraph{forth}
+
+    Let $k \in \kSuccessors{}{n}$. 
+    Then $k \in \kSuccessors{}{\omega'}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+
+    \paragraph{back}
+
+    Let $k \in \kSuccessors{}{\omega'}$. 
+    Suppose that $k = \omega'$. 
+    Then $n - 1 \in \kSuccessors{}{n}$ and by the induction hypothesis $\kPModel{n - 1} \bisimilar{n - 1} \kPModel{\omega'}$.
+    Suppose that $k \neq \omega'$ and $k < n$. Then $k \in \kSuccessors{}{n}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+    Suppose that $k \geq n$. Then $n - 1 \in \kSuccessors{}{n}$ and from above we have that $\kPModel{k} \bisimref[n - 1] \kPModel{n - 1}$.
+    
+    \item $\kPModel{\omega} \bisimref[n] \kPModel{\omega'}$ for $n \in \naturals$.
+
+    By induction on $n$.
+
+    Suppose that $n = 0$. 
+    From above $\kPModel{\omega} \refines \kPModel{\omega'}$ and  $\kPModel{\omega} \simulates \kPModel{\omega'}$ so we have that $\kPModel{\omega} \bisimref[0] \kPModel{\omega'}$.
+
+    Suppose that $n > 0$.
+
+    \paragraph{mutual refinements}
+
+    From above $\kPModel{\omega} \refines \kPModel{\omega'}$ and  $\kPModel{\omega} \simulates \kPModel{\omega'}$.
+
+    \paragraph{forth}
+
+    Let $k \in \kSuccessors{}{\omega}$.
+    Then $k \in \kSuccessors{}{\omega'}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+
+    \paragraph{back}
+
+    Let $k \in \kSuccessors{}{\omega'}$.
+    Suppose that $k = \omega'$.
+    Then $n - 1 \in \kSuccessors{}{\omega}$ and from above we have that $\kPModel{n - 1} \bisimref[n - 1] \kPModel{\omega'}$.
+    Suppose that $k \neq \omega'$.
+    Then $k \in \kSuccessors{}{\omega}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+\end{enumerate}
+
+Therefore $\kPModel{\omega} \bisimref[n] \kPModel{\omega'}$ for every $n \in \naturals$ and so $\kPModel{\omega}$ and $\kPModel{\omega'}$ are indistinguishable to refinement modal logic.
+
+We next show that the states $\kPModel{\omega}$ and $\kPModel{\omega'}$ are distinguishable by the tangled modal logic formula $\tangle \{\possible \necessary \atomP, \possible \necessary \neg \atomP\}$.
+We first note that in the modal $\mu$-calculus we have that $\tangle \{\possible \necessary \atomP, \possible \necessary \neg \atomP\} \equiv \gfp{\varX} (\possible (\varX \land \possible \necessary \atomP) \land \possible (\varX \land \possible \necessary \neg \atomP))$.
+We proceed with model checking using the modal $\mu$-calculus.
+
+For any assignment $\kAssignment$ we have the following:
+\begin{eqnarray*}
+    \interpretation[\kAssignment]{\atomP} &=& \{n, n^+ \mid n \in \naturals\} \cup \{\omega, \omega'\}\\
+    \interpretation[\kAssignment]{\necessary \atomP} &=& \{n^+ \mid n \in \naturals, n > 0\}\\
+    \interpretation[\kAssignment]{\possible \necessary \atomP} &=& \{n, n^+ \mid n \in \naturals, n > 0\} \cup \{\omega, \omega'\}\\
+    \interpretation[\kAssignment]{\neg \atomP} &=& \{n^- \mid n \in \naturals\}\\
+    \interpretation[\kAssignment]{\necessary \neg \atomP} &=& \{n^- \mid n \in \naturals, n > 0\}\\
+    \interpretation[\kAssignment]{\possible \necessary \neg \atomP} &=& \{n, n^- \mid n \in \naturals, n > 0\} \cup \{\omega, \omega'\}
+\end{eqnarray*}
+
+For any assignment $\kAssignment$ where $\kAssignment(\varX) = \kStates$ we have the following:
+\begin{eqnarray*}
+    \interpretation[\kAssignment]{\varX} &=& \kStates\\
+    \interpretation[\kAssignment]{\varX \land \possible \necessary \atomP} &=& \{n, n^+ \mid n \in \naturals, n > 0\} \cup \{\omega, \omega'\}\\
+    \interpretation[\kAssignment]{\possible (\varX \land \possible \necessary \atomP)} &=& \{n, n^+ \mid n \in \naturals, n > 0\} \cup \{\omega, \omega'\}\\
+    \interpretation[\kAssignment]{\varX \land \possible \necessary \neg \atomP} &=& \{n, n^- \mid n \in \naturals, n > 0\} \cup \{\omega, \omega'\}\\
+    \interpretation[\kAssignment]{\possible (\varX \land \possible \necessary \neg \atomP)} &=& \{n, n^- \mid n \in \naturals, n > 0\} \cup \{\omega, \omega'\}\\
+    \interpretation[\kAssignment]{\possible (\varX \land \possible \necessary \atomP) \land \possible (\varX \land \possible \necessary \neg \atomP)} &=& \{n \mid n \in \naturals, n > 0\} \cup \{\omega, \omega'\}
+\end{eqnarray*}
+
+For any assignment $\kAssignment$ where $\kAssignment(\varX) = \{n \mid n \in \naturals, n > m\} \cup \{\omega, \omega'\}$ for some $m \in \naturals$ we have the following:
+\begin{eqnarray*}
+    \interpretation[\kAssignment]{\varX} &=& \{n \mid n \in \naturals, n > m\} \cup \{\omega, \omega'\}\\
+    \interpretation[\kAssignment]{\varX \land \possible \necessary \atomP} &=& \{n \mid n \in \naturals, n > m\} \cup \{\omega, \omega'\}\\
+    \interpretation[\kAssignment]{\possible (\varX \land \possible \necessary \atomP)} &=& \{n \mid n \in \naturals, n > m + 1\} \cup \{\omega, \omega'\}\\
+    \interpretation[\kAssignment]{\varX \land \possible \necessary \neg \atomP} &=& \{n \mid n \in \naturals, n > m\} \cup \{\omega, \omega'\}\\
+    \interpretation[\kAssignment]{\possible (\varX \land \possible \necessary \neg \atomP)} &=& \{n \mid n \in \naturals, n > m + 1\} \cup \{\omega, \omega'\}\\
+    \interpretation[\kAssignment]{\possible (\varX \land \possible \necessary \atomP) \land \possible (\varX \land \possible \necessary \neg \atomP)} &=& \{n \mid n \in \naturals, n > m + 1\} \cup \{\omega, \omega'\}
+\end{eqnarray*}
+
+For any assignment $\kAssignment$ where $\kAssignment(\varX) = \{\omega, \omega'\}$ for some $m \in \naturals$ we have the following:
+\begin{eqnarray*}
+    \interpretation[\kAssignment]{\varX} &=& \{\omega, \omega'\}\\
+    \interpretation[\kAssignment]{\varX \land \possible \necessary \atomP} &=& \{\omega, \omega'\}\\
+    \interpretation[\kAssignment]{\possible (\varX \land \possible \necessary \atomP)} &=& \{\omega'\}\\
+    \interpretation[\kAssignment]{\varX \land \possible \necessary \neg \atomP} &=& \{\omega, \omega'\}\\
+    \interpretation[\kAssignment]{\possible (\varX \land \possible \necessary \neg \atomP)} &=& \{\omega'\}\\
+    \interpretation[\kAssignment]{\possible (\varX \land \possible \necessary \atomP) \land \possible (\varX \land \possible \necessary \neg \atomP)} &=& \{\omega'\}
+\end{eqnarray*}
+
+Therefore for any assignment $\kAssignment$ we have that: $$\interpretation[\kAssignment]{\gfp{\varX} (\possible (\varX \land \possible \necessary \atomP) \land \possible (\varX \land \possible \necessary \neg \atomP))} = \{\omega'\}$$
+
+Therefore $\kPModel{\omega'} \entails \gfp{\varX} (\possible (\varX \land \possible \necessary \atomP) \land \possible (\varX \land \possible \necessary \neg \atomP))$, 
+but $\kPModel{\omega} \nentails \gfp{\varX} (\possible (\varX \land \possible \necessary \atomP) \land \possible (\varX \land \possible \necessary \neg \atomP))$
+and so $\kPModel{\omega}$ and $\kPModel{\omega'}$ are distinguishable by the tangled modal logic.
+
+\end{proof}
+
+\begin{corollary}
+The logic \logicRmlKF{} is strictly less expressive than \logicMuKF{}.
+\end{corollary}
+

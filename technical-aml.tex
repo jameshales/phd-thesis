@@ -60,7 +60,7 @@ The interpretation of the formula $\phi$ in the logic \logicAmlC{} on the pointe
 $$
 \begin{array}{lcl}
     \kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi & \text { iff } & \kPModel{\kStateS} \entails \aPrecondition(\aStateS) \text{ implies } \kPModel{\kStateS} \exec \aPModel{\aStateS} \entails \phi\\
-    \kPModel{\kStateS} \entails \actionA{\aPModel{\aStatesT}} \phi & \text { iff } & \text{for every } \aStateS \in \aStatesT: \kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}}
+    \kPModel{\kStateS} \entails \actionA{\aPModel{\aStatesT}} \phi & \text { iff } & \text{for every } \aStateS \in \aStatesT: \kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi
 \end{array}
 $$
 \end{definition}

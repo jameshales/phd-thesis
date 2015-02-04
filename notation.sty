@@ -561,7 +561,10 @@
 % Action formula operators
 \newcommand{\test}[1]{?{#1}}
 \newcommand{\announce}[1]{!{#1}}
-\newcommand{\learns}{L}
+
+\newcommand{\learns}[1][\empty]{{L_{#1}}}
+
+
 \newcommand{\choice}{\sqcup}
 \newcommand{\bigchoice}{\bigsqcup}
 \newcommand{\compose}{\otimes}
@@ -570,6 +573,14 @@
 %\newcommand{\compose}{;}
 \newcommand{\lchoice}{!}
 \newcommand{\rchoice}{\text{!`}}
+
+\newcommand{\learnsA}{\learns[\agentA]}
+\newcommand{\learnsB}{\learns[\agentB]}
+\newcommand{\learnsC}{\learns[\agentC]}
+\newcommand{\learnsD}{\learns[\agentD]}
+\newcommand{\learnsBs}{\learns[\agentsB]}
+\newcommand{\learnsCs}{\learns[\agentsC]}
+\newcommand{\learnsDs}{\learns[\agentsD]}
 
 %%%% Logics %%%%
 

@@ -1,9 +1,667 @@
 \chapter{Action formula logic}
 
-\section{Syntax}
+\section{Syntax and semantics}
+
+\begin{definition}[Language of action formula logic]
+The language \langAfl{} of action formula logic is inductively defined as:
+$$
+\phi ::= \atomP \mid 
+       \neg \phi \mid
+       (\phi \land \phi) \mid
+       \necessaryA \phi \mid
+       \actionA{\alpha} \phi
+$$
+where $\atomP \in \atoms$, $\agentA \in \agents$ and $\alpha \in \langAflAct{}$, and where the language \langAflAct{} of action formulae is inductively as:
+$$
+\alpha ::= \test{\phi} \mid
+       \alpha \choice \alpha \mid
+       \alpha \compose \alpha \mid
+       \learnsBs (\alpha, \alpha)
+$$
+where $\phi \in \langAfl{}$ and $\emptyset \subset \agentsB \subseteq \agents$.
+\end{definition}
+
+We use all of the standard abbreviations from modal logic, in addition to the abbreviations $\actionE{\alpha} \phi ::= \lnot \actionA{\alpha} \lnot \phi$, $\learnsBs \alpha ::= \learnsBs (\alpha, \alpha)$ and $\learnsA (\alpha, \beta) ::= \learns[{\{\agentA\}}] (\alpha, \beta)$.
+
+\begin{definition}[Semantics of action formula logic]
+Let \classC{} be a class of Kripke frames, let $\tau : \langAflAct \to \classAmK$ be a function from action formulae to multi-pointed action models, let $\phi \in \langAfl$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
+The interpetation of the formula $\phi$ in the logic \logicAflC{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{ml-semantics}, with the additional inductive cases:
+$$
+\begin{array}{lcl}
+    \kPModel{\kStateS} \entails \actionA{\alpha} \phi & \text { iff } & \kPModel{\kStateS} \entails \aPrecondition(\aStateS) \text{ implies } \kPModel{\kStateS} \exec \aPModel{\aStateS} \entails \phi\\
+    \kPModel{\kStateS} \entails \actionA{\beta} \phi & \text { iff } & \text{for every } \aStateSP \in \aStatesTP: \kPModel{\kStateSP} \entails \actionA{\aPModelP{\aStateSP}} \phi
+\end{array}
+$$
+where $\tau(\alpha) = \aPModel{\aStateS}$ is a single-pointed action model, $\tau(\beta) = \aPModelP{\aStatesTP}$ is a multi-pointed action model, and action model execution $\exec$ is as defined in Definition~\ref{aml-semantics}.
+\end{definition}
+
+\begin{proposition}
+Let \classC{} be a class of Kripke frames, let $\tau : \langAflAct \to \classAmK$ be a function from action formulae to finite multi-pointed action models, and let \aSignatureFamily{} be the set of all finite action signatures.
+For every $\phi \in \langAfl$ there exists $\phi' \in \langAml(\aSignatureFamily)$ such that for every $\kPModel{\kStateS} \in \classC$, $\kPModel{\kStateS} \entails_\logicAflC \phi$ if and only if $\kPModel{\kStateS} \entails \phi'$.
+\end{proposition}
+
+\begin{definition}[Non-deterministic choice]\label{afl-choice}
+Let $\alpha, \beta \in \langAflAct$ where $\tau(\alpha) = \aPModel[\alpha]{\aStatesT[\alpha]} = \aPModelTuple[\alpha]{\aStatesT[\alpha]}$ and $\tau(\beta) = \aPModel[\beta]{\aStatesT[\beta]} = \aPModelTuple[\beta]{\aStatesT[\beta]}$ such that $\aStates[\alpha]$ and $\aStates[\beta]$ are disjoint.
+We define $\tau(\alpha \choice \beta) = \aPModel{\aStatesT} = \aPModelTuple{\aStatesT}$ where:
+\begin{eqnarray*}
+    \aStates &=& \aStates[\alpha] \cup \aStates[\beta]\\
+    \aAccessibility{\agentA} &=& \aAccessibility[\alpha]{\agentA} \cup \aAccessibility[\beta]{\agentA} \text{ for } \agentA \in \agents\\
+    \aPrecondition &=& \aPrecondition[\alpha] \cup \aPrecondition[\beta]\\
+    \aStatesT &=& \aStatesT[\alpha] \cup \aStatesT[\beta]
+\end{eqnarray*}
+\end{definition}
+
+\begin{definition}[Sequential execution]\label{afl-sequential}
+Let $\alpha, \beta \in \langAflAct$ where $\tau(\alpha) = \aPModel[\alpha]{\aStatesT[\alpha]} = \aPModelTuple[\alpha]{\aStatesT[\alpha]}$ and $\tau(\beta) = \aPModel[\beta]{\aStatesT[\beta]} = \aPModelTuple[\beta]{\aStatesT[\beta]}$.
+We define $\tau(\alpha \compose \beta) = \aPModel[\alpha]{\aStatesT[\alpha]} \exec \aPModel[\beta]{\aStatesT[\beta]}$.
+\end{definition}
+
+\begin{proposition}\label{afl-choice-sequential-validities}
+Let \classC{} be a class of Kripke frames, let $\alpha, \beta, \gamma \in \langAflAct$ and let $\phi \in \langAfl$. Then the following are valid in \logicAflC{}.
+\begin{eqnarray*}
+    &&\entails \actionA{\alpha \choice \beta} \phi \iff (\actionA{\alpha} \phi \land \actionA{\beta} \phi) \label{afl-axiom-choice}\\
+    &&\entails \actionA{\alpha \compose \beta} \phi \iff \actionA{\alpha} \actionA{\beta} \phi \label{afl-axiom-sequential}\\
+    &&\entails \actionA{\alpha \choice \alpha} \phi \iff \actionA{\alpha} \phi\\
+    &&\entails \actionA{\alpha \choice \beta} \phi \iff \actionA{\beta \choice \alpha} \phi\\
+    &&\entails \actionA{(\alpha \choice \beta) \choice \gamma} \phi \iff \actionA{\alpha \choice (\beta \choice \gamma)} \phi\\
+    &&\entails \actionA{(\alpha \compose \beta) \compose \gamma} \phi \iff \actionA{\alpha \compose (\beta \compose \gamma)} \phi\\
+    &&\entails \actionA{(\alpha \choice \beta) \compose \gamma} \phi \iff \actionA{(\alpha \compose \gamma) \choice (\beta \compose \gamma)} \phi
+\end{eqnarray*}
+\end{proposition}
 
 \section{K}
 
+\subsection{Semantics}
+
+\begin{definition}[Test]\label{afl-k-test}
+Let $\phi \in \langAfl$. 
+We define $\tau(\test{\phi}) = \aPModel{\aStatesT} = \aPModelTuple{\aStatesT}$ where:
+\begin{eqnarray*}
+    \aStates &=& \{\aStateTest, \aStateSkip\}\\
+    \aAccessibility{\agentA} &=& \{(\aStateTest, \aStateSkip), (\aStateSkip, \aStateSkip)\} \text{ for } \agentA \in \agents\\
+    \aPrecondition &=& \{(\aStateTest, \phi), (\aStateSkip, \top)\}\\
+    \aStatesT &=& \{\aStateTest\}
+\end{eqnarray*}
+\end{definition}
+
+\begin{definition}[Learning]\label{afl-k-learning}
+Let $\alpha \in \langAflAct$ where $\tau(\alpha) = \aPModel[\alpha]{\aStatesT[\alpha]} = \aPModelTuple[\alpha]{\aStatesT[\alpha]}$.
+Let $\aStateTest$ and $\aStateSkip$ be new states not appearing in $\aStates[\alpha]$.
+We define $\tau(\learnsBs (\alpha, \alpha)) = \aPModel{\aStatesT} = \aPModelTuple{\aStatesT}$ where:
+\begin{eqnarray*}
+    \aStates &=& \aStates[\alpha] \cup \{\aStateTest, \aStateSkip\}\\
+    \aAccessibility{\agentA} &=& \aAccessibility[\alpha]{\agentA} \cup \{(\aStateSkip, \aStateSkip)\} \cup \{(\aStateTest, \aStateT[\alpha]) \mid \aStateT[\alpha] \in \aStatesT[\alpha]\} \text{ for } \agentA \in \agentsB\\
+    \aAccessibility{\agentA} &=& \aAccessibility[\alpha]{\agentA} \cup \{(\aStateTest, \aStateSkip), (\aStateSkip, \aStateSkip)\} \text{ for } \agentA \notin \agentsB\\
+    \aPrecondition &=& \aPrecondition[\alpha] \cup \{(\aStateTest, \top), (\aStateSkip, \top)\}\\
+    \aStatesT &=& \{\aStateTest\}
+\end{eqnarray*}
+
+We define $\tau(\learnsBs (\alpha, \beta)) = \tau(\learnsBs (\alpha \choice \beta, \alpha \choice \beta))$.
+\end{definition}
+
+\subsection{Axiomatisation}
+
+\begin{definition}[Axiomatisation \axiomAflK{}]\label{afl-k-axioms}
+The axiomatisation \axiomAflK{} is a substitution schema consisting of the rules and axioms of \axiomK{} along with the axioms:
+$$
+\begin{array}{rl}
+    {\bf LT} & \proves \actionA{\test{\phi}} \psi \iff (\phi \implies \psi) \text{ for } \psi \in \lang\\
+    {\bf LU} & \proves \actionA{\alpha \choice \beta} \phi \iff (\actionA{\alpha} \phi \land \actionA{\beta} \phi)\\
+    {\bf LS} & \proves \actionA{\alpha \compose \beta} \phi \iff \actionA{\alpha} \actionA{\beta} \phi\\
+    {\bf LP} & \proves \actionA{\learnsBs (\alpha, \beta)} \atomP \iff \atomP\\
+    {\bf LN} & \proves \actionA{\learnsBs (\alpha, \beta)} \neg \phi \iff \neg \actionA{\learnsBs (\alpha, \beta)} \phi\\
+    {\bf LC} & \proves \actionA{\learnsBs (\alpha, \beta)} (\phi \land \psi) \iff (\actionA{\learnsBs (\alpha, \beta)} \phi \land \actionA{\learnsBs (\alpha, \beta)} \psi)\\
+    {\bf LK1} & \proves \actionA{\learnsBs (\alpha, \beta)} \necessaryA \phi \iff \necessaryA \actionA{\alpha \choice \beta} \phi \text{ for } \agentA \in \agentsB\\
+    {\bf LK2} & \proves \actionA{\learnsBs (\alpha, \beta)} \necessaryA \phi \iff \necessaryA \phi \text{ for } \agentA \notin \agentsB
+\end{array}
+$$
+and the rule:
+$$
+\begin{array}{rl}
+    {\bf NecL} & \text{From $\proves \phi$ infer $\proves \actionA{\alpha} \phi$}
+\end{array}
+$$
+\end{definition}
+
+\begin{proposition}\label{afl-k-axioms-soundness}
+The axiomatisation \axiomAflK{} is sound in the logic \logicAmlK{}.
+\end{proposition}
+
+\begin{proof}
+{\bf LT} follows from applying the reduction axioms of \axiomAmlK{} inductively to $\actionA{\test{\phi}} \psi$.
+
+{\bf LU} and {\bf LS} follow from Proposition~\ref{afl-choice-sequential-validities}.
+
+Let $\tau(\learnsB (\alpha, \beta)) = \aPModel{\aStateS} = \aPModelTuple{\aStateS}$.
+{\bf LP}, {\bf LN} and {\bf LC} follow trivially from the \axiomAmlK{} axioms {\bf AP}, {\bf AN} and {\bf AC} respectively, noting from Definition~\ref{afl-k-learning} that $\aPrecondition(\aStateS) = \top$.
+{\bf LK1} follows trivially from the \axiomAmlK{} axiom {\bf AK}, noting from Definition~\ref{afl-k-learning} that as $\agentA \in \agents$ then $\aPModel{\aStateS \aAccessibility{\agentA}} \bisimilar \tau(\alpha \choice \beta)$.
+{\bf NecL} follows trivially from the \axiomAmlK{} rule {\bf NecA}.
+{\bf LK2} follows trivially from the \axiomAmlK{} axiom {\bf AK}, noting from Definition~\ref{afl-k-learning} that as $\agentA \notin \agents$ then $\aPModel{\aStateS \aAccessibility{\agentA}} \bisimilar \tau(\test{\top})$.
+\end{proof}
+
+\begin{proposition}\label{afl-k-axioms-completeness}
+The axiomatisation \axiomAflK{} is complete for the logic \logicAmlK{}.
+\end{proposition}
+
+We note that the axiomatisation \axiomAflK{} forms a set of reduction axioms that gives a provably correct translation from \langAfl{} to \lang{}.
+
+\begin{example}\label{grant-example-derivation}
+We give an example derivation that the action formula $\alpha$ given in Example~\ref{grant-example-formula} does indeed satisfy (part of) the epistemic goal stated in Example~\ref{grant-example}.
+\begin{eqnarray}
+    &\proves& \actionA{\test{\atomP}} \atomP \iff (\atomP \implies \atomP)\label{grant-example-derivation-1}\\
+    &\proves& \actionA{\test{\atomP}} \atomP\label{grant-example-derivation-2}\\
+    &\proves& \necessary[Ed] \actionA{\test{\atomP}} \atomP\label{grant-example-derivation-3}\\
+    &\proves& \actionA{\learns[Ed] \test{\atomP}} \necessary[Ed] \atomP\label{grant-example-derivation-4}
+\end{eqnarray}
+(\ref{grant-example-derivation-1}) follows from {\bf LT},
+(\ref{grant-example-derivation-3}) follows from {\bf NecK} and
+(\ref{grant-example-derivation-4}) follows from {\bf LK1}.
+
+Similarly we have:
+\begin{eqnarray*}
+    &\proves& \actionA{\learns[Ed] \test{\neg \atomP}} \necessary[Ed] \neg \atomP\\
+    &\proves& \actionA{\learns[Tim] \test{\atomP}} \necessary[Tim] \atomP\\
+    &\proves& \actionA{\learns[Tim] \test{\neg \atomP}} \necessary[Tim] \neg \atomP
+\end{eqnarray*}
+
+Let $\phi = \necessary[Ed] \atomP \lor  \necessary[Ed] \neg \atomP \lor \necessary[Tim] \atomP \lor \necessary[Tim] \neg \atomP$. Then:
+\begin{eqnarray}
+    &\proves& \actionA{\learns[Ed] \test{\atomP} \choice \learns[Ed] \test{\neg \atomP} \choice \learns[Tim] \test{\atomP} \choice \learns[Tim] \test{\neg \atomP}} \phi\label{grant-example-derivation-5}\\
+    &\proves& \necessary[James] \actionA{\learns[Ed] \test{\atomP} \choice \learns[Ed] \test{\neg \atomP} \choice \learns[Tim] \test{\atomP} \choice \learns[Tim] \test{\neg \atomP}} \phi\label{grant-example-derivation-6}\\
+    &\proves& \actionA{\learns[James] (\learns[Ed] \test{\atomP} \choice \learns[Ed] \test{\neg \atomP} \choice \learns[Tim] \test{\atomP} \choice \learns[Tim] \test{\neg \atomP})} \necessary[James] \phi\label{grant-example-derivation-7}\\
+    &\proves& \actionA{\alpha} \necessary[James] \phi\label{grant-example-derivation-8}
+\end{eqnarray}
+(\ref{grant-example-derivation-5}) follows from {\bf LU},
+(\ref{grant-example-derivation-6}) follows from {\bf NecK} and
+(\ref{grant-example-derivation-7}) follows from {\bf LK1}.
+(\ref{grant-example-derivation-8}) follows from {\bf LS} and {\bf LK2}.
+
+Therefore a consequence of successfully executing $\alpha$ is that James learns that Ed or Tim knows whether the grant application was successful.
+\end{example}
+
+\subsection{Correspondence}
+
+To begin we give two lemmas to simplify the construction that we will use for our correspondence result in \classK{}.
+
+\begin{lemma}\label{afl-k-construction-test}
+Let $\phi \in \langAfl$ and $\aPModel{\aStateS} = \aPModelTuple{\aStateS} \in \classAmK$.
+Then let $\aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP} \in \classAmK$ where:
+\begin{eqnarray*}
+    \aStatesP &=& \aStates \cup \{\aStateSP\}\\
+    \aAccessibilityP{\agentA} &=& \aAccessibility{\agentA} \cup \{(\aStateSP, \aStateT) \mid \aStateT \in \aStateS \aAccessibility{\agentA}\} \text{ for } \agentA \in \agents\\
+    \aPreconditionP &=& \aPrecondition \cup \{(\aStateSP, \phi \land \aPrecondition(\aStateS))\}
+\end{eqnarray*}
+Then $\tau(\test{\phi}) \exec \aPModel{\aStateS}  \bisimilar \aPModelP{\aStateSP}$.
+\end{lemma}
+
+\begin{lemma}\label{afl-k-construction-learning}
+Let $\alpha \in \langAflAct$ where $\tau(\alpha) = \aPModel[\alpha]{\aStatesT[\alpha]} = \aPModelTuple[\alpha]{\aStatesT[\alpha]}$, $\agentA \in \agents$ and $\aPModel{\aStateS} = \aPModelTuple{\aStateS} \in \classAmK$ such that $\aStateS \aAccessibility{\agentA} = \{\aStateT\}$ for some $\aStateT \in \aStates$ and $\aStateT \aAccessibility{\agentA} = \{\aStateT\}$.
+Then let $\aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP} \in \classAmK$ where:
+\begin{eqnarray*}
+    \aStatesP &=& \aStates \cup \aStates[\alpha] \cup \{\aStateSP\}\\
+    \aAccessibilityP{\agentA} &=& \aAccessibility{\agentA} \cup \aAccessibility[\alpha]{\agentA} \cup \{(\aStateSP, \aStateT[\alpha]) \mid \aStateT[\alpha] \in \aStatesT[\alpha]\}\\
+    \aAccessibilityP{\agentB} &=& \aAccessibility{\agentB} \cup \aAccessibility[\alpha]{\agentB} \cup \{(\aStateSP, \aStateT) \mid \aStateT \in \aStateS \aAccessibility{\agentB}\} \text{ for } \agentB \in \agents \setminus \{\agentA\}\\
+    \aPreconditionP &=& \aPrecondition \cup \{(\aStateSP, \aPrecondition(\aStateS))\}
+\end{eqnarray*}
+Then $\tau(\learnsA \alpha) \exec \aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
+\end{lemma}
+
+\begin{proposition}\label{afl-k-correspondence}
+Let $\aPModel{\aStateS} \in \classAmK$ and let $n \in \mathbb{N}$. 
+Then there exists $\alpha \in \langAflAct$ such that $\aPModel{\aStateS} \bisimilar[n] \tau(\alpha)$.
+\end{proposition}
+
+\begin{proof}
+By induction on $n$.
+
+Suppose that $n = 0$.
+Let $\alpha = \test{\aPrecondition(\aStateS)}$ and $\tau(\alpha) = \aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP}$.
+From Definition~\ref{afl-k-test} we have that $\aPrecondition(\aStateS) = \aPreconditionP(\aStateSP)$, so $(\aPModel{\aStateS}, \aPModelP{\aStateSP})$ satisfies {\bf atoms} and therefore $\aPModel{\aStateS} \bisimilar[0] \aPModelP{\aStateSP}$.
+
+Suppose that $n > 0$. 
+By the induction hypothesis, for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ there exists $\alpha^{\agentA,\aStateT} \in \langAflAct$ such that $\aPModel{\aStateT} \bisimilar[(n - 1)] \tau(\alpha^{\agentA,\aStateT})$, where $\tau(\alpha^{\agentA,\aStateT}) \bisimilar \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]} = \aPModelTuple[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$.
+
+Let $\alpha = \test{\aPrecondition(\aStateS)} \compose \bigcompose_{\agentA \in \agents} \learnsA (\bigchoice_{\aStateT \in \aStateS \aAccessibility{\agentA}} \alpha^{\aStateT})$. 
+Then from Lemmas~\ref{afl-k-construction-test} and~\ref{afl-k-construction-learning}: $\tau(\alpha) \bisimilar \aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP}$ where:
+\begin{eqnarray*}
+    \aStatesP &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aStates[\agentA,\aStateT]) \cup \{\aStateSP\}\\
+    \aAccessibilityP{\agentA} &=& \bigcup_{\agentB \in \agents, \aStateT \in \aStateS \aAccessibility{\agentB}} (\aAccessibility[\agentB,\aStateT]{\agentA}) \cup \{(\aStateSP, \aStateS[\agentA,\aStateT]) \mid \aStateT \in \aStateS \aAccessibility{\agentA}\} \text{ for } \agentA \in \agents\\
+    \aPreconditionP &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aPrecondition[\agentA,\aStateT]) \cup \{(\aStateSP, \aPrecondition(\aStateS))\}
+\end{eqnarray*}
+
+We note for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ that $\aPModelP{\aStateS[\agentA,\aStateT]} \bisimilar \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$ as for every $\agentA \in \agents$, $\aStateU \in \aStates[\agentA,\aStateT]$ we have $\aStateU \aAccessibilityP{\agentA} = \aStateU \aAccessibility[\agentA,\aStateT]{\agentA}$.
+
+We show that $(\aPModel{\aStateS}, \aPModelP{\aStateSP})$ satisfies {\bf atoms}, {\bf forth-$n$-$\agentA$} and {\bf back-$n$-$\agentA$} for every $\agentA \in \agents$.
+
+\paragraph{atoms} By construction
+$\aPreconditionP(\aStateSP) = \aPrecondition(\aStateS)$.
+
+\paragraph{forth-$n$-$\agentA$} 
+Let $\aStateT \in \aStateS \aAccessibility{\agentA}$.
+By construction $\aStateS[\agentA,\aStateT] \in \aStateSP \aAccessibilityP{\agentA}$, by the induction hypothesis $\aPModel{\aStateT} \bisimilar[(n - 1)] \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$ and from above $\aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]} \bisimilar \aPModelP{\aStateS[\agentA,\aStateT]}$.
+Therefore by transitivity $\aPModel{\aStateT} \bisimilar[(n - 1)] \aPModelP{\aStateS[\agentA,\aStateT]}$.
+
+\paragraph{back-$n$-$\agentA$} Follows from similar reasoning to {\bf forth-$n$-$\agentA$}.
+
+Therefore $\aPModel{\aStateS} \bisimilar[n] \tau(\alpha)$.
+\end{proof}
+
+\begin{corollary}\label{afl-k-correspondence-aml-allacts}
+Let $\aPModel{\aStateS} \in \classAmK$.
+Then for every $\phi \in \langAml$ there exists $\alpha \in \langAflAct$ such that $\entails_\logicAmlK{} \actionA{\aPModel{\aStateS}} \phi \iff \actionA{\tau(\alpha)} \phi$.
+\end{corollary}
+
+\begin{proof}
+Suppose that $d(\phi) = n$.
+From Proposition~\ref{afl-k-correspondence} there exists $\alpha \in \langAflAct$ such that $\aPModel{\aStateS} \bisimilar[n] \tau(\alpha)$.
+Therefore for every $\kPModel{\aStateS} \in \classK$ we have $\kPModel{\aStateS} \exec \aPModel{\aStateS} \bisimilar[n] \kPModel{\aStateS} \exec \tau(\alpha)$ and so $\kPModel{\aStateS} \exec \aPModel{\aStateS} \entails_\logicAmlK{} \phi$ if and only if $\kPModel{\aStateS} \exec \tau(\alpha) \entails_\logicAmlK{} \phi$.
+Therefore $\kPModel{\aStateS} \entails_\logicAmlK{} \actionA{\aPModel{\aStateS}}  \phi$ if and only if $\kPModel{\aStateS} \entails_\logicAmlK{} \actionA{\tau(\alpha)}  \phi$.
+\end{proof}
+
+\begin{corollary}\label{afl-k-correspondence-afl-aml}
+Let $\phi \in \langAml$. 
+Then there exists $\phi' \in \langAfl$ such that for every $\kPModel{\kStateS} \in \classK$: $\kPModel{\kStateS} \entails_\logicAmlK{} \phi$ if and only if $\kPModel{\kStateS} \entails_\logicAflK{} \phi'$.
+\end{corollary}
+
+\begin{proof}[Sketch]
+Given Corollary~\ref{afl-k-correspondence-aml-allacts} we can replace all occurrences of $\actionA{\aPModel{\aStateS}} \psi$ within $\phi$ with an equivalent $\actionA{\alpha} \psi$ where $\alpha \in \langAflAct$.
+\end{proof}
+
 \section{K45}
 
+\subsection{Semantics}
+
+\begin{definition}[Test]\label{afl-kff-test}
+Let $\phi \in \langAfl$.
+We define $\tau(\test{\phi})$ as in Definition~\ref{afl-k-test} for \classK{}.
+\end{definition}
+
+\begin{definition}[Learning]\label{afl-kff-learning}
+Let $\alpha \in \langAflAct$ where $\tau(\alpha) = \aPModel[\alpha]{\aStatesT[\alpha]} = \aPModelTuple[\alpha]{\aStatesT[\alpha]}$.
+Let $\aStateTest$ and $\aStateSkip$ be new states not appearing in $\aStates[\alpha]$.
+For every $\aStateT[\alpha] \in \aStatesT[\alpha]$ let $\aPStateT[\alpha]$ be a new state not appearing in $\aStates[\alpha]$.
+We call each $\aPStateT[\alpha]$ a {\em proxy state} for $\aStateT[\alpha]$.
+We define $\tau(\learnsBs (\alpha, \alpha)) = \aPModel{\aStatesT} = \aPModelTuple{\aStatesT}$ where:
+\begin{eqnarray*}
+    \aStates &=& \aStates[\alpha] \cup \{\aStateTest, \aStateSkip\} \cup \{\aPStateT[\alpha] \mid \aStateT[\alpha] \in \aStatesT[\alpha]\}\\
+    \aAccessibility{\agentA} &=& \aAccessibility[\alpha]{\agentA} \cup \{(\aStateSkip, \aStateSkip)\} \cup \{(\aStateTest, \aPStateT[\alpha]) \mid \aStateT[\alpha] \in \aStatesT[\alpha]\} \cup \\&& \quad \{(\aPStateT[\alpha], \aPStateU[\alpha]) \mid \aStateT[\alpha], \aStateU[\alpha] \in \aStatesT[\alpha]\} \text{ for } \agentA \in \agentsB\\
+    \aAccessibility{\agentA} &=& \aAccessibility[\alpha]{\agentA} \cup \{(\aStateTest, \aStateSkip), (\aStateSkip, \aStateSkip)\} \cup\\&& \quad \{(\aPStateT[\alpha], \aStateU[\alpha]) \mid \aStateT[\alpha] \in \aStatesT[\alpha], \aStateU[\alpha] \in \aStateT[\alpha] \aAccessibility[\alpha]{\agentA} \} \text{ for } \agentA \notin \agentsB\\
+    \aPrecondition &=& \aPrecondition[\alpha] \cup \{(\aStateTest, \top), (\aStateSkip, \top)\} \cup \{(\aPStateT[\alpha], \aPrecondition[\alpha](\aStateT[\alpha])) \mid \aStateT[\alpha] \in \aStatesT[\alpha]\}\\
+    \aStatesT &=& \{\aStateTest\}
+\end{eqnarray*}
+
+As in Definition~\ref{afl-k-learning}, we define $\tau(\learnsBs (\alpha, \beta)) = \tau(\learnsBs (\alpha \choice \beta, \alpha \choice \beta))$.
+\end{definition}
+
+\begin{lemma}\label{afl-kff-structure}
+Let $\alpha \in \langAflAct$. Then $\tau(\alpha) \in \classAmKFF$.
+\end{lemma}
+
+\begin{lemma}\label{afl-kff-exec}
+Let $\alpha \in \langAflAct$ and let $\kPModel{\kStatesT} \in \classKFF$.
+Then $\kPModel{\kStatesT} \exec \tau(\alpha) \in \classKFF$.
+\end{lemma}
+
+\subsection{Axiomatisation}
+
+\begin{definition}[Axiomatisation \axiomAflKFF{}]\label{afl-kff-axioms}
+The axiomatisation \axiomAflKFF{} is a substitution schema consisting of the rules and axioms of \axiomKFF{} along with the rules and axioms of \axiomAflK{}, but substituting the \axiomAflK{} axiom {\bf LK1} for the axiom:
+$$
+\begin{array}{rl}
+    {\bf LK1} & \proves \actionA{\learnsBs (\alpha, \beta)} \necessaryA \chi \iff \necessaryA \actionA{\alpha \choice \beta} \chi \text{ for } \agentA \in \agentsB\\
+\end{array}
+$$
+and the rule:
+$$
+\begin{array}{rl}
+    {\bf NecL} & \text{From $\proves \phi$ infer $\proves \actionA{\alpha} \phi$}
+\end{array}
+$$
+where $\chi$ is a $(\agents \setminus \{\agentA\})$-restricted formula.
+\end{definition}
+
+\begin{proposition}\label{afl-kff-axioms-soundness}
+The axiomatisation \axiomAflKFF{} is sound in the logic \logicAmlKFF{}.
+\end{proposition}
+
+\begin{proof}
+Soundness of {\bf LT}, {\bf LU}, {\bf LS}, {\bf LP}, {\bf LN}, {\bf LC}, {\bf LK2} and {\bf NecL} follow from the same reasoning as in the proof of Proposition~\ref{afl-k-axioms-soundness}.
+
+{\bf LK1} follows from the \axiomAmlKFF{} axiom {\bf AK}.
+We note that as $\agentA \in \agentsB$, from Definition~\ref{afl-kff-learning} we have $\aPModel{\aStateS \aAccessibility{\agentA}} \bisimilar[(\agents \setminus \{\agentA\})] \tau(\alpha \choice \beta)$, and as $\chi$ is $(\agents \setminus \{\agentA\})$-restricted formula then $\entails \actionA{\aPModel{\aStateS \aAccessibility{\agentA}}} \chi \iff \actionA{\tau(\alpha \choice \beta)} \chi$.
+\end{proof}
+
+\begin{proposition}\label{afl-kff-axioms-completeness}
+The axiomatisation \axiomAflKFF{} is complete for the logic \logicAmlKFF{}.
+\end{proposition}
+
+We note that the axiomatisation \axiomAflKFF{} forms a set of reduction axioms that gives a provably correct translation from \langAfl{} to \lang{}.
+To translate a subformula $\actionA{\alpha} \phi$, where $\phi \in \lang$, we must first translate $\phi$ to the alternating disjunctive normal form of \cite{hales:2012}, which gives the property that for every subformula $\necessaryA \psi$, the formula $\psi$ is $(\agents \setminus \{\agentA\})$-restricted, and therefore {\bf LK1} is applicable.
+
+\subsection{Correspondence}
+
+As in the previous subsection we give a lemma to simplify the construction that we will use, although as the definition of $\tau(\test{\phi})$ is the same between \classK{} and \classKFF{} we simply reuse Lemma~\ref{afl-k-construction-test} from the previous subsection.
+
+\begin{lemma}\label{afl-kff-construction-learning}
+Let $\agentA \in \agents$, $\alpha \in \langAflAct$ where $\tau(\alpha) = \aPModel[\alpha]{\aStatesT[\alpha]} = \aPModelTuple[\alpha]{\aStatesT[\alpha]}$, and $\aPModel{\aStateS} = \aPModelTuple{\aStateS} \in \classAmK$ such that $\aStateS \aAccessibility{\agentA} = \{\aStateT\}$ for some $\aStateT \in \aStates$ and $\aStateT \aAccessibility{\agentA} = \{\aStateT\}$.
+Then let $\aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP} \in \classAmK$ where:
+\begin{eqnarray*}
+    \aStatesP &=& \aStates \cup \aStates[\alpha] \cup \{\aPStateT[\alpha] \mid \aStateT[\alpha] \in \aStatesT[\alpha]\} \cup \{\aStateSP\}\\
+    \aAccessibilityP{\agentA} &=& \aAccessibility{\agentA} \cup \aAccessibility[\alpha]{\agentA} \cup \{(\aStateSP, \aPStateT[\alpha]) \mid \aStateT[\alpha] \in \aStatesT[\alpha]\} \cup \{(\aPStateT[\alpha], \aPStateU[\alpha]) \mid \aStateT[\alpha], \aStateU[\alpha] \in \aStatesT[\alpha]\}\\
+    \aAccessibilityP{\agentB} &=& \aAccessibility{\agentB} \cup \aAccessibility[\alpha]{\agentB} \cup \{(\aStateSP, \aStateT) \mid \aStateT \in \aStateS \aAccessibility{\agentB}\} \text{ for } \agentB \in \agents \setminus \{\agentA\}\\
+    \aPreconditionP &=& \aPrecondition \cup \{(\aPStateT[\alpha], \aPrecondition[\alpha](\aStateT[\alpha])) \mid \aStateT[\alpha] \in \aStatesT[\alpha]\} \cup \{(\aStateSP, \aPrecondition(\aStateS))\}
+\end{eqnarray*}
+Then $\tau(\learnsA \alpha) \exec \aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
+\end{lemma}
+
+\begin{proposition}\label{afl-kff-correspondence}
+Let $\aPModel{\aStateS} \in \classAmKFF$ and let $n \in \mathbb{N}$. 
+Then there exists $\alpha \in \langAflAct$ such that $\aPModel{\aStateS} \bisimilar[n] \tau(\alpha)$.
+\end{proposition}
+
+\begin{proof}
+By induction on $n$.
+
+Suppose that $n = 0$. 
+Let $\alpha = \test{\aPrecondition(\aStateS)}$ and $\tau(\alpha) = \aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP}$.
+From Definition~\ref{afl-kff-test} we have that $\aPrecondition(\aStateS) = \aPreconditionP(\aStateSP)$, so $(\aPModel{\aStateS}, \aPModelP{\aStateSP})$ satisfies {\bf atoms} and therefore $\aPModel{\aStateS} \bisimilar[0] \aPModelP{\aStateSP}$.
+
+Suppose that $n > 0$. 
+By the induction hypothesis, for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ there exists $\alpha^{\agentA,\aStateT} \in \langAflAct$ such that $\aPModel{\aStateT} \bisimilar[(n - 1)] \tau(\alpha^{\agentA,\aStateT})$.
+For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ let $\tau(\alpha^{\agentA,\aStateT}) = \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]} = \aPModelTuple[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$.
+
+Let $\alpha = \test{\aPrecondition(\aStateS)} \compose \bigcompose_{\agentA \in \agents} \learnsA (\bigchoice_{\aStateT \in \aStateS \aAccessibility{\agentA}} \alpha^{\agentA,\aStateT})$. 
+Then from Lemmas~\ref{afl-k-construction-test} and~\ref{afl-kff-construction-learning}: $\tau(\alpha) \bisimilar \aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP}$ where:
+\begin{eqnarray*}
+    \aStatesP &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aStates[\agentA,\aStateT]) \cup \{\aPStateS[\agentA,\aStateT] \mid \agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{\aStateSP\}\\
+    \aAccessibilityP{\agentA} &=& \bigcup_{\agentB \in \agents, \aStateT \in \aStateS \aAccessibility{\agentB}} (\aAccessibility[\agentB,\aStateT]{\agentA}) \cup \{(\aStateSP, \aPStateS[\agentA, \aStateT]) \mid \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{(\aPStateS[\agentA, \aStateT], \aPStateS[\agentA, \aStateU]) \mid \aStateT, \aStateU \in \aStateS \aAccessibility{\agentA}\} \cup\\
+                                               &&\hspace{45pt}\{(\aPStateS[\agentB, \aStateT], \aStateU) \mid \agentB \in \agents \setminus \{\agentA\}, \aStateT \in \aStateS \aAccessibility{\agentB}, \aStateU \in \aStateS[\agentB,\aStateT] \aAccessibility[\agentB,\aStateT]{\agentA}\} \text{ for } \agentA \in \agents\\
+    \aPreconditionP &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aPrecondition[\agentA,\aStateT]) \cup \{(\aPStateS[\agentA, \aStateT], \aPrecondition[\agentA,\aStateT](\aStateS[\agentA,\aStateT])) \mid \agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{(\aStateSP, \aPrecondition(\aStateS))\}
+\end{eqnarray*}
+
+As in the proof of Proposition~\ref{afl-k-correspondence}, we note for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ that $\aPModelP{\aStateS[\agentA,\aStateT]} \bisimilar \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$.
+
+We need to show that $(\aPModel{\aStateS}, \aPModelP{\aStateSP})$ satisfies {\bf atoms}, {\bf forth-$n$-$\agentA$} and {\bf back-$n$-$\agentA$} for every $\agentA \in \agents$.
+We use reasoning similar to the proof of Proposition~\ref{afl-k-correspondence}, however noting that the successors of $\aStateSP$ in $\aModelP$ are not the same as in the construction used previously.
+We claim that each $\aPStateS[\agentA,\aStateT]$ state is $(n-1)$-bisimilar to the corresponding $\aStateS[\agentA,\aStateT]$ state.
+We show this by showing for every $0 \leq i \leq n - 1$, $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ that $\aPModelP{\aPStateS[\agentA,\aStateT]} \bisimilar[i] \aPModelP{\aStateS[\agentA,\aStateT]}$.
+We proceed by induction on $i$.
+
+\paragraph{atoms} By construction $\aPreconditionP(\aPStateS[\agentA, \aStateT]) = \aPreconditionP(\aStateS[\agentA,\aStateT])$.
+
+\paragraph{forth-$i$-$\agentB$} Suppose that $0 < i \leq n - 1$. Let $\aStateU \in \aPStateS[\agentA,\aStateT] \aAccessibilityP{\agentB}$. 
+
+Suppose that $\agentB = \agentA$. 
+By construction there exists $\aStateV \in \aStateS \aAccessibility{\agentA}$ such that $\aStateU = \aPStateS[\agentA,\aStateV]$.
+From above $\aPModelP{\aStateS[\agentA,\aStateT]} \bisimilar \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$ and $\aPModelP{\aStateS[\agentA,\aStateV]} \bisimilar \aPModel[\agentA,\aStateV]{\aStateS[\agentA,\aStateV]}$.
+By the outer induction hypothesis $\aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]} \bisimilar[(n - 1)] \aPModel{\aStateT}$ and $\aPModel[\agentA,\aStateV]{\aStateS[\agentA,\aStateV]} \bisimilar[(n - 1)] \aPModel{\aStateV}$.
+By transitivity $\aPModelP{\aStateS[\agentA,\aStateT]} \bisimilar[(n - 1)] \aPModel{\aStateT}$ and $\aPModelP{\aStateS[\agentA,\aStateV]} \bisimilar[(n - 1)] \aPModel{\aStateV}$.
+As $\aStateV \in \aStateT \aAccessibility{\agentA}$ from {\bf back-$(n - 1)$-$\agentA$} there exists $\aStateW \in \aStateS[\agentA,\aStateT] \aAccessibilityP{\agentA}$ such that $\aPModelP{\aStateW} \bisimilar[(n - 2)] \aPModel{\aStateV}$.
+By transitivity $\aPModelP{\aStateW} \bisimilar[(n - 2)] \aPModelP{\aStateS[\agentA,\aStateV]}$.
+By the induction hypothesis $\aPModelP{\aPStateS[\agentA,\aStateV]} \bisimilar[(i - 1)] \aPModelP{\aStateS[\agentA,\aStateV]}$.
+Therefore by transitivity $\aPModelP{\aPStateS[\agentA,\aStateV]} \bisimilar[(i - 1)] \aPModelP{\aStateW}$.
+
+Suppose that $\agentB \neq \agentA$.
+By construction $\aPStateS[\agentA,\aStateT] \aAccessibilityP{\agentB} = \aStateS[\agentA,\aStateT] \aAccessibilityP{\agentB}$, so $\aStateU \in \aStateS[\agentA,\aStateT] \aAccessibilityP{\agentB}$ and we trivially have that $\aPModelP{\aStateU} \bisimilar \aPModelP{\aStateU}$.
+
+\paragraph{back-$i$-$\agentB$} Follows similar reasoning to {\bf forth-$i$-$\agentB$}.
+
+Therefore for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ we have that $\aPModelP{\aPStateS[\agentA,\aStateT]} \bisimilar[(n - 1)] \aPModelP{\aStateS[\agentA,\aStateT]}$.
+
+We can now show that $\aPModel{\aStateS} \bisimilar[n] \aPModelP{\aStateSP}$ by using the same reasoning as the proof for Proposition~\ref{afl-k-correspondence}, using the $(n - 1)$-bisimilar $\aPModelP{\aPStateS[\agentA,\aStateT]}$ states in place of corresponding $\aPModelP{\aStateS[\agentA,\aStateT]}$ states.
+
+Therefore $\aPModel{\aStateS} \bisimilar[n] \tau(\alpha)$.
+\end{proof}
+
+\begin{corollary}
+Let $\aPModel{\aStateS} \in \classAmKFF$.
+Then for every $\phi \in \langAml$ there exists $\alpha \in \langAflAct$ such that $\entails_\logicAmlKFF{} \actionA{\aPModel{\aStateS}} \phi \iff \actionA{\tau(\alpha)} \phi$.
+\end{corollary}
+
+\begin{corollary}
+Let $\phi \in \langAml$. 
+Then there exists $\phi' \in \langAfl$ such that for every $\kPModel{\kStateS} \in \classKFF$: $\kPModel{\kStateS} \entails_\logicAmlKFF{} \phi$ if and only if $\kPModel{\kStateS} \entails_\logicAflKFF{} \phi'$.
+\end{corollary}
+
 \section{S5}
+
+\subsection{Semantics}
+
+\begin{definition}[Test]\label{afl-s-test}
+Let $\phi \in \langAfl$. 
+We define $\tau(\test{\phi}) = \aPModel{\aStatesT} = \aPModelTuple{\aStatesT}$ where:
+\begin{eqnarray*}
+    \aStates &=& \{\aStateTest, \aStateSkip\}\\
+    \aAccessibility{\agentA} &=& \aStates^2 \text{ for } \agentA \in \agents\\
+    \aPrecondition &=& \{(\aStateTest, \phi), (\aStateSkip, \top)\}\\
+    \aStatesT &=& \{\aStateTest\}
+\end{eqnarray*}
+\end{definition}
+
+\begin{definition}[Learning]\label{afl-s-learning}
+Let $\alpha, \beta \in \langAflAct$ where $\tau(\alpha) = \aPModel[\alpha]{\aStatesT[\alpha]} = \aPModelTuple[\alpha]{\aStatesT[\alpha]}$ and $\tau(\beta) = \aPModel[\beta]{\aStatesT[\beta]} = \aPModelTuple[\beta]{\aStatesT[\beta]}$.
+For every $\aStateT \in \aStatesT[\alpha] \cup \aStatesT[\beta]$ let $\aPStateT$ be a new state not appearing in $\aStates[\alpha] \cup \aStates[\beta]$.
+We define $\tau(\learnsBs (\alpha, \beta)) = \aPModel{\aStatesT} = \aPModelTuple{\aStatesT}$ where:
+\begin{eqnarray*}
+    \aStates &=& \aStates[\alpha] \cup \aStates[\beta] \cup \{\aPStateT \mid \aStateT \in \aStatesT[\alpha] \cup \aStatesT[\beta]\}\\
+    \aAccessibility{\agentA} &=& \aAccessibility[\alpha]{\agentA} \cup \aAccessibility[\beta]{\agentA} \cup \{(\aPStateT, \aPStateU) \mid \aStateT, \aStateU \in \aStatesT[\alpha] \cup \aStatesT[\beta]\} \text{ for } \agentA \in \agentsB\\
+    \aAccessibility{\agentA} &=& \aAccessibility[\alpha]{\agentA} \cup \aAccessibility[\beta]{\agentA} \cup \bigcup_{\aStateT \in \aStatesT[\alpha] \cup \aStatesT[\beta]} (\{\aPStateT\} \cup \aStateT (\aAccessibility[\alpha]{\agentA} \cup \aAccessibility[\beta]{\agentA}))^2 \text{ for } \agentA \notin \agentsB\\
+    \aPrecondition &=& \aPrecondition[\alpha] \cup \aPrecondition[\beta] \cup \{(\aPStateT, (\aPrecondition[\alpha] \cup \aPrecondition[\beta])(\aStateT)) \mid \aStateT \in \aStatesT[\alpha] \cup \aStatesT[\beta]\}\\
+    \aStatesT &=& \{\aPStateT \mid \aStateT \in \aStatesT[\alpha]\}
+\end{eqnarray*}
+\end{definition}
+
+\begin{lemma}\label{afl-s-structure}
+Let $\alpha \in \langAflAct$. Then $\tau(\alpha) \in \classAmS$.
+\end{lemma}
+
+\begin{lemma}\label{afl-s-exec}
+Let $\alpha \in \langAflAct$ and 
+let $\kPModel{\kStatesT} \in \classS$.
+Then $\kPModel{\kStatesT} \exec \tau(\alpha) \in \classS$.
+\end{lemma}
+
+\subsection{Axiomatisation}
+
+\begin{definition}[Axiomatisation \axiomAflS{}]\label{afl-s-axioms}
+The axiomatisation \axiomAflS{} is a substitution schema consisting of the rules and axioms of \axiomS{} along with the axioms:
+$$
+\begin{array}{rl}
+    {\bf LT} & \proves \actionA{\test{\phi}} \psi \iff (\phi \implies \psi) \text{ for } \psi \in \lang\\
+    {\bf LU} & \proves \actionA{\alpha \choice \beta} \phi \iff (\actionA{\alpha} \phi \land \actionA{\beta} \phi)\\
+    {\bf LS} & \proves \actionA{\alpha \compose \beta} \phi \iff \actionA{\alpha} \actionA{\beta} \phi\\
+    {\bf LP} & \proves \actionA{\learnsBs (\alpha, \beta)} \atomP \iff \atomP\\
+    {\bf LN} & \proves \actionA{\learnsBs (\alpha, \beta)} \neg \phi \iff \neg \actionA{\learnsBs (\alpha, \beta)} \phi\\
+    {\bf LC} & \proves \actionA{\learnsBs (\alpha, \beta)} (\phi \land \psi) \iff (\actionA{\learnsBs (\alpha, \beta)} \phi \land \actionA{\learnsBs (\alpha, \beta)} \psi)\\
+\end{array}
+$$
+and the rule:
+$$
+\begin{array}{rl}
+    {\bf NecL} & \text{From $\proves \phi$ infer $\proves \actionA{\alpha} \phi$}
+\end{array}
+$$
+where $\chi$ is a $(\agents \setminus \{\agentA\})$-restricted formula.
+\end{definition}
+
+\begin{proposition}\label{afl-s-axioms-soundness}
+The axiomatisation \axiomAflS{} is sound in the logic \logicAmlS{}.
+\end{proposition}
+
+\begin{proof}
+Soundness of {\bf LT}, {\bf LU}, {\bf LS}, {\bf LP}, {\bf LN}, {\bf LC} and {\bf NecL} follow from the same reasoning as in the proof of Proposition~\ref{afl-k-axioms-soundness}.
+\end{proof}
+
+We note that we do not have axioms in \logicAflS{} corresponding to the axioms {\bf LK1} and {\bf LK2} from \axiomAflK{} and \axiomAflKFF{}.
+{\bf LK1} works in the setting of \classK{} because the $\agentsB$-successors of the root state of $\tau(\learnsBs \alpha)$ are bisimilar to the root states of $\tau(\alpha)$, and so the consequences of executing $\tau(\alpha)$ are the same as the consequences of executing the $\agentsB$-successors of $\tau(\learnsBs \alpha)$.
+In the setting of \classKFF{} this is not the case, however we do have the restricted property of $\agentsB$-bisimilarity, giving us that the $\agentsB$-restricted consequences are the same.
+In the setting of \classS{} we do not know of such a property to relate the consequences of the $\agentsB$-successors of $\tau(\learnsBs (\alpha, \beta))$ to the consequences of $\tau(\alpha \choice \beta)$.
+Given the correspondence results of the previous section, it should be possible to construct an action formula that is $n$-bisimilar to the $\agentsB$-successors of $\tau(\learnsBs (\alpha, \beta))$, where $d(\phi) = n$, and define axioms for {\bf LK1} and {\bf LK2} in terms of this action formula and not $\alpha \choice \beta$.
+However translating $\langAfl$ formulae into $\langAml$ formulae and then using the axiomatisation \axiomAmlS{} would certainly be simpler.
+
+\subsection{Correspondence}
+
+Once more we give two lemmas to simplify the construction that we will use.
+
+\begin{lemma}\label{afl-s-construction-test}
+Let $\phi \in \langAfl$ and $\aPModel{\aStateS} = \aPModelTuple{\aStateS} \in \classAmK$.
+Then let $\aPModelP{\aStateS} = \aPModelTupleP{\aStateS} \in \classAmK$ where:
+\begin{eqnarray*}
+    \aStatesP &=& \aStates\\
+    \aAccessibilityP{\agentA} &=& \aAccessibility{\agentA} \text{ for } \agentA \in \agents\\
+    \aPreconditionP &=& \aPrecondition \setminus \{(\aStateS, \aPrecondition(\aStateS))\} \cup \{(\aStateS, \phi \land \aPrecondition(\aStateS))\}
+\end{eqnarray*}
+Then $\tau(\test{\phi}) \exec \aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
+\end{lemma}
+
+\begin{lemma}\label{afl-s-construction-learning}
+Let $\agentA \in \agents$, $\alpha \in \langAflAct$ where $\tau(\alpha) = \aPModel[\alpha]{\aStatesT[\alpha]} = \aPModelTuple[\alpha]{\aStatesT[\alpha]}$, and $\aPModel{\aStateS} = \aPModelTuple{\aStateS} \in \classAmK$ such that $\aStateS \aAccessibility{\agentA} = \{\aStateS\}$ and $\aPrecondition(\aStateS) = \top$.
+Then let $\aPModelP{\aStateS} = \aPModelTupleP{\aStateS} \in \classAmK$ where:
+\begin{eqnarray*}
+    \aStatesP &=& \aStates \cup \aStates[\alpha] \cup \{\aPStateT[\alpha] \mid \aStateT[\alpha] \in \aStatesT[\alpha]\}\\
+    \aAccessibilityP{\agentA} &=& \aAccessibility{\agentA} \cup \aAccessibility[\alpha]{\agentA} \cup (\{\aStateS\} \cup \{\aPStateT[\alpha] \mid \aStateT[\alpha] \in \aStatesT[\alpha]\})^2\\
+    \aAccessibilityP{\agentB} &=& \aAccessibility{\agentB} \cup \aAccessibility[\alpha]{\agentB} \cup (\{\aPStateT[\alpha]\} \cup \aStateT[\alpha] \aAccessibility[\alpha]{\agentB})^2 \text{ for } \agentB \in \agents \setminus \{\agentA\}\\
+    \aPreconditionP &=& \aPrecondition \cup \{(\aPStateT[\alpha], \aPrecondition[\alpha](\aStateT[\alpha])) \mid \aStateT[\alpha] \in \aStatesT[\alpha]\}
+\end{eqnarray*}
+Then $\tau(\learnsA (\test{\top}, \alpha)) \exec \aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
+\end{lemma}
+
+\begin{proposition}\label{afl-s-correspondence}
+Let $\aPModel{\aStateS} \in \classAmS$ and let $n \in \mathbb{N}$. 
+Then there exists $\alpha \in \langAflAct$ such that $\aPModel{\aStateS} \bisimilar[n] \tau(\alpha)$.
+\end{proposition}
+
+\begin{proof}
+By induction on $n$.
+
+Suppose that $n = 0$. 
+Let $\alpha = \test{\aPrecondition(\aStateS)}$ and $\tau(\alpha) = \aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP}$. 
+From Definition~\ref{afl-s-test} we have that $\aPrecondition(\aStateS) = \aPreconditionP(\aStateSP)$, so $(\aPModel{\aStateS}, \aPModelP{\aStateSP})$ satisfies {\bf atoms} and therefore $\aPModel{\aStateS} \bisimilar[0] \aPModelP{\aStateSP}$.
+
+Suppose that $n > 0$. 
+By the induction hypothesis, for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ there exists $\alpha^{\agentA,\aStateT} \in \langAflAct$ such that 
+$\aPModel{\aStateT} \bisimilar[(n - 1)] \tau(\alpha^{\agentA,\aStateT})$. 
+For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ let $\tau(\alpha^{\agentA,\aStateT}) = \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]} = \aPModelTuple[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$.
+
+Let $\alpha = \test{\aPrecondition(\aStateS)} \compose \bigcompose_{\agentA \in \agents} \learnsA (\test{\top}, \bigchoice_{\aStateT \in \aStateS \aAccessibility{\agentA}} \alpha^{\agentA,\aStateT})$.
+Then from Lemmas~\ref{afl-k-construction-test} and~\ref{afl-kff-construction-learning}: $\tau(\alpha) = \aPModelP{\aStateSP} =\aPModelTupleP{\aStateSP}$ where:
+\begin{eqnarray*}
+    \aStatesP &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aStates[\agentA,\aStateT]) \cup \{\aPStateS[\agentA,\aStateT] \mid \agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{\aStateSP\}\\
+    \aAccessibilityP{\agentA} &=& \bigcup_{\agentB \in \agents, \aStateT \in \aStateS \aAccessibility{\agentB}} (\aAccessibility[\agentB,\aStateT]{\agentA}) \cup (\{\aStateSP\} \cup \{\aPStateS[\agentA,\aStateT] \mid \aStateT \in \aStateS \aAccessibility{\agentA}\})^2 \cup\\&&\quad\bigcup_{\agentB \in \agents \setminus \{\agentA\}, \aStateT \in \aAccessibility{\agentB}} (\{\aPStateS[\agentB,\aStateT]\} \cup \aStateS[\agentB,\aStateT] \aAccessibility[\agentB,\aStateT]{\agentA})^2 \text{ for } \agentA \in \agents\\
+    \aPreconditionP &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} (\aPrecondition[\agentA,\aStateT]) \cup \{(\aPStateS[\agentA,\aStateT], \aPrecondition[\agentA,\aStateT](\aStateS[\agentA,\aStateT])) \mid \agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{(\aStateSP, \aPrecondition(\aStateS))\}
+\end{eqnarray*}
+
+We note that unlike the constructions used for Proposition~\ref{afl-k-correspondence} and Proposition~\ref{afl-kff-correspondence}, this construction does not have $\aPModelP{\aStateU} \bisimilar \aPModel[\agentA,\aStateT]{\aStateU}$, as we do not have that 
+$\aStateS[\agentA,\aStateT] \aAccessibilityP{\agentA} = \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentA}$.
+Similar to the proof of Proposition~\ref{afl-kff-correspondence} we claim that each $\aPStateS[\agentA,\aStateT]$ state is $(n-1)$-bisimilar to the corresponding $\aStateS[\aStateT]$ state. 
+However in lieu of bisimilarity of $\aStates[\agentA,\aStateT]$ states we need another result for these states.
+We also need to consider the additional state $\aStateSP$, which due to reflexivity is also a successor of itself.
+
+We need to show for every $0 \leq i \leq n - 1$: 
+\begin{enumerate}
+    \item For every $\agentA \in \agents$: $\aPModelP{\aStateSP} \bisimilar[i] \aPModelP{\aPStateS[\agentA,\aStateS]}$.
+    \item For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$: $\aPModelP{\aPStateS[\agentA,\aStateT]} \bisimilar[i] \aPModelP{\aStateS[\agentA,\aStateT]}$.
+    \item For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$, $\aStateU \in \aStates[\agentA,\aStateT]$, $\aStateV \in \aStates$: if $\aPModel[\agentA,\aStateT]{\aStateU} \bisimilar[i] \aPModel{\aStateV}$ then $\aPModelP{\aStateU} \bisimilar[i] \aPModel{\aStateV}$.
+\end{enumerate}
+
+We proceed by induction on $i$.
+
+\begin{enumerate}
+    \item 
+        For every $\agentA \in \agents$: $\aPModelP{\aStateSP} \bisimilar[i] \aPModelP{\aPStateS[\agentA,\aStateS]}$.
+
+        \paragraph{atoms}
+
+        By the outer induction hypothesis $\aPModel[\agentA,\aStateS]{\aStateS[\agentA,\aStateS]} \bisimilar[(n - 1)] \aPModel{\aStateS}$ and so $\proves \aPrecondition[\agentA,\aStateS](\aStateS[\agentA,\aStateS]) \iff \aPrecondition(\aStateS)$.
+        By construction $\aPreconditionP(\aStateSP) = \aPrecondition(\aStateS)$ and $\aPreconditionP(\aPStateS[\agentA,\aStateS]) = \aPrecondition[\agentA,\aStateS](\aStateS[\agentA,\aStateS])$ and therefore $\proves \aPreconditionP(\aStateSP) \iff \aPrecondition[\agentA,\aStateS](\aPStateS[\agentA,\aStateS])$.
+
+        \paragraph{forth-$i$-$\agentB$} Suppose that $0 < i \leq n - 1$. Let $\aStateU \in \aStateSP \aAccessibilityP{\agentA}$. 
+
+        Suppose that $\agentB = \agentA$.
+        By construction $\aStateSP \aAccessibilityP{\agentA} = \aPStateS[\agentA,\aStateS] \aAccessibilityP{\agentA}$ and we trivially have that $\aPModelP{\aStateU} \bisimilar \aPModelP{\aStateU}$.
+
+        Suppose that $\agentB \neq \agentA$.
+        By construction $\aStateSP \aAccessibilityP{\agentB} = \{\aPStateS[\agentB,\aStateT] \mid \aStateT \in \aStateS \aAccessibility{\agentB}\} \cup \{\aStateSP\}$ and $\aPStateS[\agentA,\aStateS] \aAccessibilityP{\agentB} = \aStateS[\agentA,\aStateS] \aAccessibility[\agentA,\aStateS]{\agentB} \cup \{\aPStateS[\agentA,\aStateS]\}$. 
+        Suppose that $\aStateU = \aStateSP$. 
+        Then by the induction hypothesis $\aPModelP{\aStateSP} \bisimilar[(i-1)] \aPModelP{\aPStateS[\agentA,\aStateS]}$.
+        Suppose that $\aStateU \in \{\aPStateS[\agentB,\aStateT] \mid \aStateT \in \aStateS \aAccessibility{\agentB}\}$. 
+        Then there exists $\aStateT \in \aStateS \aAccessibility{\agentB}$ such that $\aStateU = \aPStateS[\agentB,\aStateT]$.
+        By the outer induction hypothesis $\aPModel[\agentA,\aStateS]{\aStateS[\agentA,\aStateS]} \bisimilar[(n - 1)] \aPModel{\aStateS}$.
+        As $\aStateT \in \aStateS \aAccessibility{\agentB}$ then by {\bf back-$(n-1)$-$\agentB$} there exists $\aStateV \in \aStateS[\agentA,\aStateS] \aAccessibility[\agentA,\aStateS]{\agentB} \subseteq \aPStateS[\agentA,\aStateS] \aAccessibilityP{\agentB}$ such that $\aPModel[\agentA,\aStateS]{\aStateV} \bisimilar[(n - 2)] \aPModel{\aStateT}$.
+        Then by the inner induction hypothesis this implies $\aPModelP{\aStateV} \bisimilar[(i - 1)] \aPModel{\aStateT}$.
+        By the inner induction hypothesis $\aPModelP{\aPStateS[\agentB,\aStateT]} \bisimilar[(i - 1)] \aPModelP{\aStateS[\agentB,\aStateT]} \bisimilar[(i - 1)] \aPModel[\agentB,\aStateT]{\aStateS[\agentB,\aStateT]}$ and by the outer induction hypothesis $\aPModel[\agentB,\aStateT]{\aStateS[\agentB,\aStateT]} \bisimilar[(n - 1)] \aPModel{\aStateT}$ so by transitivity $\aPModelP{\aPStateS[\agentB,\aStateT]} \bisimilar[(i - 1)] \aPModel{\aStateT}$.
+        Therefore by transitivity we have that $\aPModelP{\aPStateS[\agentB,\aStateT]} \bisimilar[(i - 1)] \aPModelP{\aStateV}$.
+
+        \paragraph{back-$i$-$\agentB$} Follows similar reasoning to {\bf forth-$i$-$\agentB$}.
+
+    \item 
+        For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$: $\aPModelP{\aPStateS[\agentA,\aStateT]} \bisimilar[i] \aPModelP{\aStateS[\agentA,\aStateT]}$.
+
+        \paragraph{atoms} By construction $\aPreconditionP(\aPStateS[\agentA,\aStateT]) = \aPreconditionP(\aStateS[\agentA,\aStateT])$.
+
+        \paragraph{forth-$i$-$\agentB$} Suppose that $0 < i \leq n - 1$. Let $\aStateU \in \aPStateS[\agentA,\aStateT] \aAccessibilityP{\agentA}$. 
+
+        Suppose that $\agentB = \agentA$.
+        By construction $\aPStateS[\agentA,\aStateT] \aAccessibilityP{\agentA} = \{\aPStateS[\agentA,\aStateV] \mid \aStateV \in \aStateT \aAccessibility{\agentA}\} \cup \{\aStateSP\}$. 
+        Suppose that $\aStateU \in \{\aPStateS[\agentA,\aStateV] \mid \aStateV \in \aStateT \aAccessibility{\agentA}\}$.
+        Then there exists $\aStateV \in \aStateT \aAccessibility{\agentA}$ such that $\aStateU = \aPStateS[\agentA,\aStateV]$.
+        By the outer induction hypothesis $\aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]} \bisimilar[(n - 1)] \aPModel{\aStateT}$.
+        As $\aStateV \in \aStateT \aAccessibility{\agentA}$ then by {\bf back-$(n-1)$-$\agentA$} there exists $\aStateW \in \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentA} \subseteq \aStateS[\agentA,\aStateT] \aAccessibilityP{\agentA}$ such that $\aPModel[\agentA,\aStateT]{\aStateW} \bisimilar[(n - 2)] \aPModel{\aStateV}$.
+        Then by the inner induction hypothesis this implies $\aPModelP{\aStateW} \bisimilar[(i - 1)] \aPModel{\aStateV}$.
+        By the inner and outer induction hypothesis $\aPModelP{\aPStateS[\agentA,\aStateV]} \bisimilar[(i - 1)] \aPModel{\aStateV}$.
+        Therefore by transitivity we have that $\aPModelP{\aPStateS[\agentA,\aStateV]} \bisimilar[(i - 1)] \aPModelP{\aStateW}$.
+        Suppose that $\aStateU = \aStateSP$. 
+        Then from the inner induction hypothesis $\aPModelP{\aStateSP} \bisimilar[(i - 1)] \aPModelP{\aPStateS[\agentA,\aStateS]}$ and we can proceed using the same reasoning as in the case where $\aStateU = \aPStateS[\agentA,\aStateS] \in \{\aPStateS[\agentA,\aStateV] \mid \aStateV \in \aStateT \aAccessibility{\agentA}\}$.
+
+        Suppose that $\agentB \neq \agentA$.
+        By construction $\aPStateS[\agentB,\aStateT] \aAccessibilityP{\agentB} = \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentB} \cup \{\aPStateS[\agentB,\aStateT]\}$. 
+        Suppose that $\aStateU = \aPStateS[\agentB,\aStateT]$.
+        By construction $\aStateS[\agentA,\aStateT] \in \aStateS[\agentA,\aStateT] \aAccessibilityP{\agentB}$ and by the induction hypothesis $\aPModelP{\aPStateS[\agentB,\aStateT]} \bisimilar[(i - 1)] \aPModelP{\aStateS[\agentA,\aStateT]}$.
+        Suppose that $\aStateU \in \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentB} \subseteq \aStateS[\agentA,\aStateT] \aAccessibilityP{\agentB}$.
+        Then we trivially have that $\aPModelP{\aStateU} \bisimilar \aPModelP{\aStateU}$.
+
+        \paragraph{back-$i$-$\agentB$} Follows similar reasoning to {\bf forth-$i$-$\agentB$}.
+
+    \item 
+        For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$, $\aStateU \in \aStates[\agentA,\aStateT]$, $\aStateV \in \aStates$: if $\aPModel[\agentA,\aStateT]{\aStateU} \bisimilar[i] \aPModel{\aStateV}$ then $\aPModelP{\aStateU} \bisimilar[i] \aPModel{\aStateV}$.
+
+        Suppose that $\aPModel[\agentA,\aStateT]{\aStateU} \bisimilar[i] \aPModel{\aStateV}$. 
+
+        \paragraph{atoms}
+
+        As $\aPModel[\agentA,\aStateT]{\aStateU} \bisimilar[i] \aPModel{\aStateV}$ then $\proves \aPrecondition[\agentA,\aStateT](\aStateU) \iff \aPrecondition(\aStateV)$. 
+        By construction $\aPreconditionP(\aStateU) = \aPrecondition[\agentA,\aStateT](\aStateU)$ and therefore $\proves \aPreconditionP(\aStateU) \iff \aPrecondition(\aStateV)$.
+
+        \paragraph{forth-$i$-$\agentB$}
+
+        Suppose that $0 < i \leq n - 1$.
+        Let $\aStateW \in \aStateU \aAccessibilityP{\agentB}$.
+
+        Suppose that $\aStateU \neq \aStateS[\agentA,\aStateT]$ or $\agentB = \agentA$.
+        By construction $\aStateU \aAccessibilityP{\agentA} = \aStateU \aAccessibility[\agentA,\aStateT]{\agentA}$ and so $\aStateW \in \aStateU \aAccessibility[\agentA,\aStateT]{\agentA}$. 
+        As $\aStateW \in \aStateU \aAccessibility[\agentA,\aStateT]{\agentA}$ then by {\bf forth-$i$-$\agentB$} there exists $\aStateX \in \aStateV \aAccessibility{\agentB}$ such that $\aPModel[\agentA,\aStateT]{\aStateW} \bisimilar[(i - 1)] \aPModel{\aStateX}$.
+        By the induction hypothesis $\aPModelP{\aStateW} \bisimilar[(i - 1)] \aPModel{\aStateX}$.
+
+        Suppose that $\aStateU = \aStateS[\agentA,\aStateT]$ and $\agentB \neq \agentA$. 
+        By construction $\aStateS[\agentA,\aStateT] \aAccessibilityP{\agentA} = \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentA} \cup \{\aPStateS[\agentA,\aStateT]\}$. 
+        Suppose that $\aStateW \in \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentA}$. 
+        We proceed using the same reasoning as above, where $\aStateW \in \aStateU \aAccessibility[\agentA,\aStateT]{\agentA}$. 
+        Suppose that $\aStateW = \aPStateS[\agentA,\aStateT]$.
+        By the induction hypothesis $\aPModelP{\aPStateS[\agentA,\aStateT]} \bisimilar[(i - 1)] \aPModelP{\aStateS[\agentA,\aStateT]}$ and we proceed using the same reasoning above, where $\aStateW = \aStateS[\agentA,\aStateT] \in \aStateS[\agentA,\aStateT] \aAccessibility[\agentA,\aStateT]{\agentA}$.
+
+        \paragraph{back-$i$-$\agentB$} Follows similar reasoning to {\bf forth-$i$-$\agentB$}.
+\end{enumerate}
+
+Therefore for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ we have that $\aPModelP{\aStateSP} \bisimilar[(n - 1)] \aPModel{\aStateS}$ and $\aPModelP{\aPStateS[\agentA,\aStateT]} \bisimilar[(n - 1)] \aPModel{\aStateT}$.
+We can now show that $\aPModel{\aStateSP} \bisimilar[n] \aPModel{\aStateS}$ by using the same reasoning as the proof for Proposition~\ref{afl-k-correspondence}, using the $(n-1)$-bisimilar $\aPModelP{\aPStateS[\agentA,\aStateT]}$ in place of corresponding $\aPModelP{\aStateS[\aStateT]}$ states.
+\end{proof}
+
+\begin{corollary}
+Let $\aPModel{\aStateS} \in \classAmS$.
+Then for every $\phi \in \langAml$ there exists $\alpha \in \langAflAct$ such that $\entails_\logicAmlS{} \actionA{\aPModel{\aStateS}} \phi \iff \actionA{\tau(\alpha)} \phi$.
+\end{corollary}
+
+\begin{corollary}
+Let $\phi \in \langAml$. 
+Then there exists $\phi' \in \langAfl$ such that for every $\kPModel{\kStateS} \in \classS$: $\kPModel{\kStateS} \entails_\logicAmlS{} \phi$ if and only if $\kPModel{\kStateS} \entails_\logicAflS{} \phi'$.
+\end{corollary}

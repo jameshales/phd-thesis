@@ -433,24 +433,24 @@ Let $\phi \in \langMl$ be a modal formula.
 Without loss of generality, by Lemma~\ref{nnf-equivalent} we may assume that $\phi$ is in negation normal form.
 We prove by induction on the modal depth of $\phi$ and the structure of $\phi$ that it is equivalent to a formula in disjunctive normal form.
 
-Suppose that $\phi = \atomP$ or $\phi = \lnot \atomP$ for $\atomP \in \atoms$.
+Suppose that $\phi = \atomP$ or $\phi = \lnot \atomP$ where $\atomP \in \atoms$.
 Then $\phi$ is already in disjunctive normal form.
 
-Suppose that $\phi = \psi \lor \chi$ for $\psi, \chi \in \langMl$ in negation normal form.
+Suppose that $\phi = \psi \lor \chi$ where $\psi, \chi \in \langMl$ in negation normal form.
 By the induction hypothesis there exists $\psi', \chi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$ and $\entails \chi \iff \chi'$.
 Then $\psi' \lor \chi'$ is in disjunctive normal form and $\entails (\psi \lor \chi) \iff (\psi' \lor \chi')$.
 
-Suppose that $\phi = \necessaryA \psi$ for $\psi \in \langMl$ in negation normal form.
+Suppose that $\phi = \necessaryA \psi$ where $\psi \in \langMl$ in negation normal form.
 By the induction hypothesis there exists $\psi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$.
 Then $\coversA \{\phi'\} \lor \coversA \emptyset$ is in disjunctive normal form and $\entails \necessaryA \phi \iff (\coversA \{\phi'\} \lor \coversA \emptyset)$.
 
-Suppose that $\phi = \possibleA \psi$ for $\psi \in \langMl$ in negation normal form.
+Suppose that $\phi = \possibleA \psi$ where $\psi \in \langMl$ in negation normal form.
 By the induction hypothesis there exists $\psi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$.
 Then $\coversA \{\phi', \top\}$ is in disjunctive normal form and $\entails \possibleA \phi \iff (\coversA \{\phi', \top\}$.
 
-Suppose that $\phi = \psi \land \chi$ for $\psi, \chi \in \langMl$ in negation normal form.
+Suppose that $\phi = \psi \land \chi$ where $\psi, \chi \in \langMl$ in negation normal form.
 By the induction hypothesis there exists $\psi', \chi' \in \langMl$ in disjunctive normal form such that $\entails \psi \iff \psi'$ and $\entails \chi \iff \chi'$.
-As $\psi'$ and $\chi'$ are in disjunctive normal form then $\psi' = \delta_0 \lor \cdots \lor \delta_m$ and $\chi' = \gamma_0 \lor \cdots \lor \gamma_n$ for $m, n \in \naturals$.
+As $\psi'$ and $\chi'$ are in disjunctive normal form then $\psi' = \delta_0 \lor \cdots \lor \delta_m$ and $\chi' = \gamma_0 \lor \cdots \lor \gamma_n$ where $m, n \in \naturals$.
 We distribute the disjunctions over the conjunction using the following equivalence:
 $$
 \entails (\psi \land \chi) \iff (\psi' \land \chi') \iff \bigwedge_{\substack{0 \leq i \leq m\\0 \leq j \leq n}} (\delta_i \land \gamma_i)

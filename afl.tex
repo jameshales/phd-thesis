@@ -24,7 +24,7 @@ where $\phi \in \langAfl{}$ and $\emptyset \subset \agentsB \subseteq \agents$.
 We use all of the standard abbreviations from modal logic, in addition to the abbreviations $\actionE{\alpha} \phi ::= \lnot \actionA{\alpha} \lnot \phi$, $\learnsBs \alpha ::= \learnsBs (\alpha, \alpha)$ and $\learnsA (\alpha, \beta) ::= \learns[{\{\agentA\}}] (\alpha, \beta)$.
 
 \begin{definition}[Semantics of action formula logic]
-Let \classC{} be a class of Kripke frames, let $\tau : \langAflAct \to \classAmK$ be a function from action formulae to multi-pointed action models, let $\phi \in \langAfl$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
+Let \classC{} be a class of Kripke frames, let $\tau : \langAflAct \to \classAmK$ be a function from action formulae to multi-pointed action models with preconditions defined on \langAfl{}, let $\phi \in \langAfl$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
 The interpetation of the formula $\phi$ in the logic \logicAflC{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{ml-semantics}, with the additional inductive cases:
 $$
 \begin{array}{lcl}
@@ -39,6 +39,33 @@ where $\tau(\alpha) = \aPModel{\aStateS}$ is a single-pointed action model, $\ta
 Let \classC{} be a class of Kripke frames, let $\tau : \langAflAct \to \classAmK$ be a function from action formulae to finite multi-pointed action models, and let \aSignatureFamily{} be the set of all finite action signatures.
 For every $\phi \in \langAfl$ there exists $\phi' \in \langAml(\aSignatureFamily)$ such that for every $\kPModel{\kStateS} \in \classC$, $\kPModel{\kStateS} \entails_\logicAflC \phi$ if and only if $\kPModel{\kStateS} \entails \phi'$.
 \end{proposition}
+
+\begin{proof}
+We proceed by induction on the structure of $\phi$.
+
+Suppose that $\phi = \atomP$ where $\atomP \in \atoms$ and let $\kPModel{\kStateS} \in \classC$.
+Then $\kPModel{\kStateS} \entails_\logicAflC \atomP$ if and only if $\kStateS \in \kValuation(\atomP)$ if and only if $\kPModel{\kStateS} \entails_\logicAmlC \atomP$.
+
+Suppose that $\phi = \lnot \psi$ or $\phi = \psi \land \chi$ where $\psi, \chi \in \langAfl$.
+These cases follow directly from the induction hypothesis.
+
+Suppose that $\phi = \necessaryA \psi$ where $\psi \in \langAfl$ and let $\kPModel{\kStateS} \in \classC$.
+Then $\kPModel{\kStateS} \entails_\logicAflC \necessaryA \psi$ if and only if for every $\kStateT \in \kSuccessorsA{\kStateS}$ we have $\kPModel{\kStateT} \entails_\logicAflC \psi$.
+By the induction hypothesis there exists $\psi' \in \langAml$ such that for every $\kPModelP{\kStateSP} \in \classC$ we have $\kPModelP{\kStateSP} \entails_\logicAflC \psi$ if and only if $\kPModelP{\kStateSP} \entails_\logicAmlC \psi'$.
+Therefore for every $\kStateT \in \kSuccessorsA{\kStateS}$ we have that $\kPModel{\kStateT} \entails_\logicAflC \psi$ if and only if $\kPModel{\kStateT} \entails_\logicAmlC \psi'$.
+Therefore $\kPModel{\kStateS} \entails_\logicAflC \necessaryA \psi$ if and only if $\kPModel{\kStateS} \entails_\logicAmlC \necessaryA \psi'$.
+
+Suppose that $\phi = \actionA{\alpha} \psi$ where $\alpha \in \langAflAct$ and $\psi \in \langAfl$, and let $\kPModel{\kStateS} \in \classC$.
+Suppose that $\tau(\alpha) = \aPModelAndTuple{\aStateS}$ is a single-pointed action model with preconditions defined on \langAfl{}.
+Then $\kPModel{\kStateS} \entails_\logicAflC \actionA{\alpha} \psi$ if and only if $\kPModel{\kStateS} \entails_\logicAflC \aPrecondition(\aStateS)$ implies $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_\logicAflC \psi$.
+By the induction hypothesis there exists $\psi' \in \langAml$ such that for every $\kPModelP{\kStateSP} \in \classC$ we have $\kPModelP{\kStateSP} \entails_\logicAflC \psi$ if and only if $\kPModelP{\kStateSP} \entails_\logicAmlC \psi'$.
+Likewise by the induction hypothesis, for every $\aStateT \in \aStates$ there exists $\chi' \in \langAml$ such that for every $\kPModelP{\kStateSP} \in \classC$ we have $\kPModelP{\kStateSP} \entails_\logicAflC \aPrecondition(\aStateT)$ if and only if $\kPModelP{\kStateSP} \entails_\logicAmlC \chi'$.
+Let $\aPModelP{\aStateS} = ((\aStates, \aAccessibility{}, \aPreconditionP), \aStateS)$ be an action model with preconditions defined on \langAml{} where for every $\aStateT \in \aStates$ we define $\aPreconditionP(\aStateT)$ to be a \langAml{} formula equivalent to $\aPrecondition(\aStateT)$.
+Then $\kPModel{\kStateS} \entails_\logicAflC \aPrecondition(\aStateS)$ if and only if $\kPModel{\kStateS} \entails_\logicAmlC \aPreconditionP(\aStateS)$, $\kPModel{\kStateS} \exec \aPModel{\aStateS} = \kPModel{\kStateS} \exec \aPModelP{\kStateS}$, and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_\logicAflC \psi$ if and only if $\kPModel{\kStateS} \exec \aPModelP{\aStateS} \entails_\logicAmlC \psi'$.
+Therefore $\kPModel{\kStateS} \entails_\logicAflC \actionA{\alpha} \psi$ if and only if $\kPModel{\kStateS} \entails_\logicAmlC \actionA{\aPModel{\aStateSP}} \psi'$.
+Suppose that $\tau(\alpha) = \aPModel{\aStatesT}$ is a multi-pointed action model with preconditions defined on \langAfl{}.
+Then we proceed as above, except that the constructed equivalent action model is multi-pointed instead of single-pointed.
+\end{proof}
 
 \begin{definition}[Non-deterministic choice]\label{afl-choice}
 Let $\alpha, \beta \in \langAflAct$ where $\tau(\alpha) = \aPModel[\alpha]{\aStatesT[\alpha]} = \aPModelTuple[\alpha]{\aStatesT[\alpha]}$ and $\tau(\beta) = \aPModel[\beta]{\aStatesT[\beta]} = \aPModelTuple[\beta]{\aStatesT[\beta]}$ such that $\aStates[\alpha]$ and $\aStates[\beta]$ are disjoint.

@@ -25,7 +25,7 @@ $$
            \actionA{\alpha} \phi \mid
            \allrefs \phi
 $$
-where $\atomP \in \atoms$, $\agentA \in \agents$ and $\alpha \in \langAaflAct{}$, and where the language \langAaflAct{} of arbitrary action formulae is inductively as:
+where $\atomP \in \atoms$, $\agentA \in \agents$ and $\alpha \in \langAaflAct{}$, and where the language \langAaflAct{} of arbitrary action formulas is inductively as:
 $$
     \alpha ::= \test{\phi} \mid
            \alpha \choice \alpha \mid
@@ -37,16 +37,16 @@ where $\phi \in \langAafl{}$ and $\emptyset \subset \agentsB \subseteq \agents$.
 
 We use all of the standard abbreviations for arbitrary action model logic, in addition to the abbreviations $\learnsBs \alpha ::= \learnsBs (\alpha, \alpha)$ and $\learnsA (\alpha, \beta) ::= \learns[{\{\agentA\}}] (\alpha, \beta)$.
 
-We denote non-deterministic choice ($\choice$) over a finite set of action formula $\Delta \subseteq \langAaflAct$ by $\bigchoice \Delta$ and we denote sequential execution ($\compose$) of a finite, non-empty sequence of action formulae $(\alpha_i)_{i=0}^{n} \in \mathbb{N}^\langAaflAct$ by $\bigcompose (\alpha_i)_{i=0}^{n}$ and define them in the obvious way.
+We denote non-deterministic choice ($\choice$) over a finite set of action formula $\Delta \subseteq \langAaflAct$ by $\bigchoice \Delta$ and we denote sequential execution ($\compose$) of a finite, non-empty sequence of action formulas $(\alpha_i)_{i=0}^{n} \in \mathbb{N}^\langAaflAct$ by $\bigcompose (\alpha_i)_{i=0}^{n}$ and define them in the obvious way.
 
-We refer to the languages \langAfl{} of action formula logic and \langAflAct{} of action formulae, which are \langAafl{} and \langAaflAct{} respectively, both without the $\allrefs$ operator, 
+We refer to the languages \langAfl{} of action formula logic and \langAflAct{} of action formulas, which are \langAafl{} and \langAaflAct{} respectively, both without the $\allrefs$ operator, 
 
 As in the action model logic~\cite{baltag:2004}, the intended meaning of the operator $\actionA{\alpha} \phi$ is that ``$\phi$ is true in the result of any successful execution of the action $\alpha$''.
 In the following section we define the semantics of the action formula logic in terms of action model execution.
-For each setting of \classK{}, \classKFF{} and \classS{} we provide a function $\tau_\classC : \langAflAct \to \classAmK$ of translating action formulae from \langAflAct{} into action models.
+For each setting of \classK{}, \classKFF{} and \classS{} we provide a function $\tau_\classC : \langAflAct \to \classAmK$ of translating action formulas from \langAflAct{} into action models.
 The result of executing an action $\alpha \in \langAflAct{}$ is determined by translating $\alpha$ into an action model $\tau_\classC(\alpha) \in \classAmC$, and then executing the action model in the usual way.
 
-In each setting we have attempted to define the translation from action formulae into action models in such a way that the action formulae carry an intuitive description of the action that is performed by the corresponding action model.
+In each setting we have attempted to define the translation from action formulas into action models in such a way that the action formulas carry an intuitive description of the action that is performed by the corresponding action model.
 We call the $\test{}$ operator the test operator, and describe the action $\test{\phi}$ as a test for $\phi$.
 A test is intended to restrict the states in which an action can successfully execute to states where the condition $\phi$ is true initially, but otherwise leaves the state unchanged. 
 We call the $\choice$ operator the non-deterministic choice operator, and describe the action $\alpha \choice \beta$ as a non-deterministic choice between $\alpha$ and $\beta$.
@@ -54,7 +54,7 @@ We call the $\compose$ operator the sequential execution operator, and describe 
 Finally we call $\learnsBs$ the learning operator, and describe the action $\learnsBs (\alpha, \beta)$ as the agents in $\agentsB$ learning that the actions $\alpha$ or $\beta$ occurred.
 This action is intended to result in the agents $\agentsB$ knowing or believing what would be true if $\alpha$ or $\beta$ were executed.
 For example, if a consequence of executing $\alpha$ is that $\phi$ is true in the result, then the intention is that a consequence of executing $\learnsA (\alpha, \alpha)$ is that $\knows_\agentA \phi$ is true in the result.
-As we will see, this property is generally true in \logicAflK{}, however due to the extra frame conditions of \classKFF{} and \classS{} it is only true for some formulae $\phi$ in \logicAflKFF{} and \logicAflS{}.
+As we will see, this property is generally true in \logicAflK{}, however due to the extra frame conditions of \classKFF{} and \classS{} it is only true for some formulas $\phi$ in \logicAflKFF{} and \logicAflS{}.
 
 \begin{example}\label{grant-example-formula}
 If $\atomP$ stands for the proposition ``the grant application was successful'' then the action described in Example~\ref{grant-example} might be written in the form of an action formula as:
@@ -66,12 +66,12 @@ If $\atomP$ stands for the proposition ``the grant application was successful'' 
 \end{example}
 
 We now define the semantics of arbitrary action formula logic.
-As mentioned earlier, the semantics are defined by translating action formulae into action models.
+As mentioned earlier, the semantics are defined by translating action formulas into action models.
 The translation used varies in each class of \classK{}, \classKFF{} and \classS{} that we work in, according to the frame conditions in each class.
 Therefore our semantics are parameterised by a function $\tau_\classC: \langAflAct \to \classAmK$ that will vary according to the class of Kripke models.
 
 \begin{definition}[Semantics of arbitrary action formula logic]
-Let \classC{} be a class of Kripke models, let $\tau : \langAflAct \to \classAmK$ be a function from action formulae to multi-pointed action models, and let $\kModel = \kModelTuple \in \classC$ be a Kripke model.
+Let \classC{} be a class of Kripke models, let $\tau : \langAflAct \to \classAmK$ be a function from action formulas to multi-pointed action models, and let $\kModel = \kModelTuple \in \classC$ be a Kripke model.
 
 Then the interpretation of $\phi \in \langAafl$ in the logic $\logicAaflC$ is the same as its interpretation in modal logic given in Definition~\ref{ml-semantics}, with the additional inductive cases:
 \begin{eqnarray*}
@@ -82,7 +82,7 @@ where the refinement relation is defined in Definition~\ref{refinements}.
 
 \section{Synthesis}\label{synthesis}
 
-In the following subsections we give a computational method for synthesising action formulae to achieve epistemic goals, whenever those goals are achievable.
+In the following subsections we give a computational method for synthesising action formulas to achieve epistemic goals, whenever those goals are achievable.
 We note that the notion of when an epistemic goal is achievable is captured by the refinement quantifiers of refinement modal logic~\cite{vanditmarsch:2009,bozzelli:2014b}, which are also included in the arbitrary action formula logic, and so in this section we will refer to the full arbitrary action formula logic, keeping in mind the correspondence with arbitrary action model logic mentioned in Section~\ref{aafl-semantics}.
 
 \subsection{\classK{}}
@@ -196,7 +196,7 @@ For every $\phi \in \langAfl$ there exists $\alpha \in \langAflAct$ such that $\
 \end{proposition}
 
 \begin{proof}
-Without loss of generality, assume that $\phi$ is a disjunction of explicit formulae.
+Without loss of generality, assume that $\phi$ is a disjunction of explicit formulas.
 We proceed by induction on the structure of $\phi$.
 
 Suppose that $\phi = \psi \lor \chi$. We use the same reasoning as in the proof of Proposition~\ref{afl-k-synthesis}.
@@ -323,7 +323,7 @@ The atoms of these programs are action models, so the approach is still inherent
 The logic is unable to decompose the program beyond the level of the atoms, which themselves may be complex semantic objects.
 
 The relational actions of van Ditmarsch~\cite{vanditmarsch:2000} provides a syntactic mechanism for describing an epistemic action, and provides the foundation for a lot of the work presented in this paper.
-The relational actions are constructed using essentially the same operators as in the language of action formulae.
+The relational actions are constructed using essentially the same operators as in the language of action formulas.
 While the language is very similar, the semantics given are quite different~\cite{vanditmarsch:2007}.
 In the logic of epistemic actions the semantics are given in such a way that worlds in a model are specified with respect to subsets of agents, so that the model is restricted to agents for whom the epistemic action was applied.
 The semantics were also specific to \classS{}, and non-trivial to generalise to other epistemic logics.

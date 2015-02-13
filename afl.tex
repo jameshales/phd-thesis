@@ -11,7 +11,7 @@ $$
        \necessaryA \phi \mid
        \actionA{\alpha} \phi
 $$
-where $\atomP \in \atoms$, $\agentA \in \agents$ and $\alpha \in \langAflAct{}$, and where the language \langAflAct{} of action formulae is inductively as:
+where $\atomP \in \atoms$, $\agentA \in \agents$ and $\alpha \in \langAflAct{}$, and where the language \langAflAct{} of action formulas is inductively as:
 $$
 \alpha ::= \test{\phi} \mid
        \alpha \choice \alpha \mid
@@ -24,7 +24,7 @@ where $\phi \in \langAfl{}$ and $\emptyset \subset \agentsB \subseteq \agents$.
 We use all of the standard abbreviations from modal logic, in addition to the abbreviations $\actionE{\alpha} \phi ::= \lnot \actionA{\alpha} \lnot \phi$, $\learnsBs \alpha ::= \learnsBs (\alpha, \alpha)$ and $\learnsA (\alpha, \beta) ::= \learns[{\{\agentA\}}] (\alpha, \beta)$.
 
 \begin{definition}[Semantics of action formula logic]
-Let \classC{} be a class of Kripke frames, let $\tau : \langAflAct \to \classAmK$ be a function from action formulae to multi-pointed action models with preconditions defined on \langAfl{}, let $\phi \in \langAfl$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
+Let \classC{} be a class of Kripke frames, let $\tau : \langAflAct \to \classAmK$ be a function from action formulas to multi-pointed action models with preconditions defined on \langAfl{}, let $\phi \in \langAfl$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
 The interpetation of the formula $\phi$ in the logic \logicAflC{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{ml-semantics}, with the additional inductive cases:
 $$
 \begin{array}{lcl}
@@ -36,7 +36,7 @@ where $\tau(\alpha) = \aPModel{\aStateS}$ is a single-pointed action model, $\ta
 \end{definition}
 
 \begin{proposition}
-Let \classC{} be a class of Kripke frames, let $\tau : \langAflAct \to \classAmK$ be a function from action formulae to finite multi-pointed action models, and let \aSignatureFamily{} be the set of all finite action signatures.
+Let \classC{} be a class of Kripke frames, let $\tau : \langAflAct \to \classAmK$ be a function from action formulas to finite multi-pointed action models, and let \aSignatureFamily{} be the set of all finite action signatures.
 For every $\phi \in \langAfl$ there exists $\phi' \in \langAml(\aSignatureFamily)$ such that for every $\kPModel{\kStateS} \in \classC$, $\kPModel{\kStateS} \entails_\logicAflC \phi$ if and only if $\kPModel{\kStateS} \entails \phi'$.
 \end{proposition}
 
@@ -524,7 +524,7 @@ We note that we do not have axioms in \logicAflS{} corresponding to the axioms {
 In the setting of \classKFF{} this is not the case, however we do have the restricted property of $\agentsB$-bisimilarity, giving us that the $\agentsB$-restricted consequences are the same.
 In the setting of \classS{} we do not know of such a property to relate the consequences of the $\agentsB$-successors of $\tau(\learnsBs (\alpha, \beta))$ to the consequences of $\tau(\alpha \choice \beta)$.
 Given the correspondence results of the previous section, it should be possible to construct an action formula that is $n$-bisimilar to the $\agentsB$-successors of $\tau(\learnsBs (\alpha, \beta))$, where $d(\phi) = n$, and define axioms for {\bf LK1} and {\bf LK2} in terms of this action formula and not $\alpha \choice \beta$.
-However translating $\langAfl$ formulae into $\langAml$ formulae and then using the axiomatisation \axiomAmlS{} would certainly be simpler.
+However translating $\langAfl$ formulas into $\langAml$ formulas and then using the axiomatisation \axiomAmlS{} would certainly be simpler.
 
 \subsection{Correspondence}
 

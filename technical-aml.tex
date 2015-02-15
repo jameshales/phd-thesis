@@ -139,7 +139,7 @@ $$
     \alpha \choice \alpha \mid
     \alpha \compose \alpha
 $$
-where , $\aSignatureAndTuple \in \aSignatureFamily$, $\aStatesT \subseteq \aStates$, and the number of parameters to a given action signature $\aSignature$ is determined by the number of designated actions in the action signature.
+where $\aSignatureAndTuple \in \aSignatureFamily$, $\aStatesT \subseteq \aStates$, and the number of parameters to a given action signature $\aSignature$ is determined by the number of designated actions in the action signature.
 \end{definition}
 
 We use all of the standard abbreviations from action model logic.
@@ -149,16 +149,23 @@ We note that formulas of the extended language can be translated back into the b
 We note the following algebraic properties of action model logic actions:
 
 \begin{proposition}
-Let $\alpha, \beta, \gamma \in \langAmlAct$ and let $\phi \in \langAml$. Then:
+Let $\alpha, \beta, \gamma \in \langAmlAct$ and let $\phi \in \langAml$. Then the following are valid in \logicAmlC{}.
 $$
 \begin{array}{l}
-    \entails \actionA{\alpha \choice \aCrash} \phi \iff \actionA{\alpha} \phi\\
+    \entails \actionA{\alpha \choice \beta} \phi \iff (\actionA{\alpha} \phi \land \actionA{\beta} \phi) \label{afl-axiom-choice}\\
+    \entails \actionA{\alpha \choice \alpha} \phi \iff \actionA{\alpha} \phi\\
     \entails \actionA{\alpha \choice \beta} \phi \iff \actionA{\beta \choice \alpha} \phi\\
     \entails \actionA{(\alpha \choice \beta) \choice \gamma} \phi \iff \actionA{\alpha \choice (\beta \choice \gamma)} \phi\\
+    \entails \actionA{\alpha \compose \beta} \phi \iff \actionA{\alpha} \actionA{\beta} \phi \label{afl-axiom-sequential}\\
+    \entails \actionA{(\alpha \compose \beta) \compose \gamma} \phi \iff \actionA{\alpha \compose (\beta \compose \gamma)} \phi\\
+    \entails \actionA{(\alpha \choice \beta) \compose \gamma} \phi \iff \actionA{(\alpha \compose \gamma) \choice (\beta \compose \gamma)} \phi\\
+    \entails \phi \iff \actionE{\aSkip} \phi\\
     \entails \actionA{\alpha \compose \aSkip} \phi \iff \actionA{\alpha} \phi\\
     \entails \actionA{\aSkip \compose \alpha} \phi \iff \actionA{\alpha} \phi\\
-    \entails \actionA{(\alpha \compose \beta) \compose \gamma} \phi \iff \actionA{\alpha \compose (\beta \compose \gamma)} \phi\\
-    \entails \actionA{(\alpha \choice \beta) \compose \gamma} \phi \iff \actionA{(\alpha \compose \gamma) \choice (\beta \compose \gamma)} \phi
+    \entails \actionA{\aCrash} \bot\\
+    \entails \actionA{\alpha \choice \aCrash} \phi \iff \actionA{\alpha} \phi\\
+    \entails \actionA{\alpha \compose \aCrash} \bot\\
+    \entails \actionA{\aCrash \compose \alpha} \bot
 \end{array}
 $$
 \end{proposition}
@@ -167,9 +174,9 @@ Similar to Kripke models there is a notion of bisimilarity of action models.
 
 \begin{definition}[Bisimulation of action models]
 Let $\aModelAndTuple$ and $\aModelAndTupleP$ be action models.
-A non-empty relation $\bisimulation \subseteq \aStates \times \aStatesP$ is a {\em bisimulation} if and only if for every $\agentA \in \agents$ and $(\aStateS, \aStateSP) \in \bisimulation$ the following conditions, {\bf preconditions}, {\bf forth-$\agentA$} and {\bf back-$\agentB$} holds:
+A non-empty relation $\bisimulation \subseteq \aStates \times \aStatesP$ is a {\em bisimulation} if and only if for every $\agentA \in \agents$ and $(\aStateS, \aStateSP) \in \bisimulation$ the following conditions, {\bf pre}, {\bf forth-$\agentA$} and {\bf back-$\agentB$} holds:
 
-\paragraph{preconditions}
+\paragraph{pre}
 $\entails \aPrecondition(\aStateS) \iff \aPrecondition(\aStateSP)$.
 
 \paragraph{forth-$\agentA$}
@@ -211,9 +218,9 @@ We also have a notion of depth-limited bisimilarity of action models.
 
 \begin{definition}[$n$-bisimulation]
 Let $\aModelAndTuple$ and $\aModelAndTupleP$ be Kripke models and let $n \in \naturals$.
-A list of non-empty relations $\bisimulation_0, \dots, \bisimulation_n$, where for $i = 0, \dots, n$ $\bisimulation_i \subseteq \aStates \times \aStatesP$, is an {\em $n$-bisimulation} if and only if for every $i = 0, \dots, n$, $\atomP \in \atoms$, $\agentA \in \agents$ and $(\aStateS, \aStateSP) \in \bisimulation_i$ the following conditions, {\bf atoms-$i$-$\atomP$}, {\bf forth-$i$-$\agentA$} and {\bf back-$i$-$\agentB$} holds:
+A list of non-empty relations $\bisimulation_0, \dots, \bisimulation_n$, where for $i = 0, \dots, n$ $\bisimulation_i \subseteq \aStates \times \aStatesP$, is an {\em $n$-bisimulation} if and only if for every $i = 0, \dots, n$, $\atomP \in \atoms$, $\agentA \in \agents$ and $(\aStateS, \aStateSP) \in \bisimulation_i$ the following conditions, {\bf pre-$i$-$\atomP$}, {\bf forth-$i$-$\agentA$} and {\bf back-$i$-$\agentB$} holds:
 
-\paragraph{preconditions-$i$}
+\paragraph{pre-$i$}
 If $i = 0$ then $\entails \aPrecondition(\aStateS) \iff \aPreconditionP(\aStateSP)$.
 If $i > 0$ then $\aPModel{\aStateS} \bisimulation_{i-1} \aPModelP{\aStateSP}$.
 
@@ -277,7 +284,7 @@ $$
 The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} are sound and strongly complete with respect to the semantics of the respective logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{}.
 \end{proposition}
 
-\begin{proposition}
+\begin{proposition}\label{aml-expressive-equivalence}
 The logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are expressively equivalent to the respective logics \logicK{}, \logicKFF{}, and \logicS{}.
 \end{proposition}
 

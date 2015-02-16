@@ -107,7 +107,7 @@ Let $\phi \in \langAfl$.
 We define $\tau(\test{\phi}) = \aPModel{\aStatesT} = \aPModelTuple{\aStatesT}$ where:
 \begin{eqnarray*}
     \aStates &=& \{\aStateTest, \aStateSkip\}\\
-    \aAccessibility{\agentA} &=& \aStates^2 \text{ for } \agentA \in \agents\\
+    \aAccessibility{\agentA} &=& \{(\aStateTest, \aStateSkip), (\aStateSkip, \aStateSkip)\} \text{ for } \agentA \in \agents\\
     \aPrecondition &=& \{(\aStateTest, \phi), (\aStateSkip, \top)\}\\
     \aStatesT &=& \{\aStateTest\}
 \end{eqnarray*}
@@ -227,6 +227,61 @@ Therefore a consequence of successfully executing $\alpha$ is that James learns 
 
 \subsection{Correspondence}
 
+\begin{lemma}\label{afl-k-construction-test}
+Let $\aPModelAndTuple{\aStateS} \in \classAmK$ be a single-pointed action model, let $\phi \in \langAfl$ and let $\aPModelAndTupleP{\aStateSP}$ be an action model where:
+\begin{eqnarray*}
+    \aStatesP &=& \aStates \cup \{\aStateSP\}\\
+    \aAccessibilityPA &=& \aAccessibilityA \cup \{(\aStateSP, \aStateT) \mid \aStateT \in \aSuccessorsA{\aStateS}\}\\
+    \aPreconditionP &=& \aPrecondition \cup \{(\aStateSP, \phi \land \aPrecondition(\aStateS)\}
+\end{eqnarray*}
+Then $\tau(\test{\phi}) \exec \aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
+\end{lemma}
+
+\begin{proof}
+Without loss of generality, by the expressive equivalence of \logicAmlK{} and \logicK{} (Proposition~\ref{aml-expressive-equivalence}) we assume that $\aPModel{\aStateS}$ has preconditions defined on \langMl{}.
+
+Let $\test{\phi} = \aPModelAndTuplePP{\aStateTestPP}$ as defined in Definition~\ref{afl-k-test}, and let $\test{\phi} \exec \aPModel{\aStateS} = \aPModelAndTuplePPP{(\aStateTestPP, \aStateS)}$ as defined in Definition~\ref{aml-composition}.
+Let $\bisimulation \subseteq \aStatesPPP \times \aStatesP$ where:
+$$
+\bisimulation = \{((\aStateTestPP, \aStateS), \aStateSP)\} \cup \{((\aStateSkipPP, \aStateT), \aStateT) \mid \aStateT \in \aStates\}
+$$
+We claim that $\bisimulation$ is a bisimulation between $\aPModelPPP{(\aStateTestPP, \aStateS)}$ and $\aPModelP{\aStateSP}$.
+
+\paragraph{pre}
+Consider $((\aStateTestPP, \aStateS), \aStateSP) \in \bisimulation$.
+Then $\aPreconditionPPP((\aStateTestPP, \aStateS)) = \aPreconditionPP(\aStateTestPP) \land \actionA{\aPModelPP{\aStateTestPP}} \aPrecondition(\aStateS)$ and $\aPreconditionP(\aStateSP) = \phi \land \aPrecondition(\aStateS)$.
+From axiom {\bf LP} from \axiomAflK{} we have that $\entails \actionA{\test{\phi}} \aPrecondition(\aStateS) \iff (\phi \implies \aPrecondition(\aStateS))$ and so $\actionA{\aPModelPP{\aStateTestPP}} \aPrecondition(\aStateS) \iff (\phi \implies \aPrecondition(\aStateS))$.
+Therefore $\entails \aPreconditionPP(\aStateTestPP) \land \actionA{\aPModelPP{\aStateTestPP}} \aPrecondition(\aStateS) \iff \phi \land \aPrecondition(\aStateS)$.
+
+Consider $((\aStateSkipPP, \aStateT), \aStateT) \in \bisimulation$ where $\aStateT \in \aStates$.
+Then $\aPreconditionPPP((\aStateSkipPP, \aStateS)) = \aPreconditionPP(\aStateSkipPP) \land \actionA{\aPModelPP{\aStateSkipPP}} \aPrecondition(\aStateT)$.
+We note that $\aPModelPP{\aStateSkipPP} \bisimilar \tau(\test(\phi))$ and so $\entails \actionA{\aPModelPP{\aStateSkipPP}} \aPrecondition(\aStateT) \iff \aPrecondition(\aStateT)$.
+
+\paragraph{forth-$\agentA$}
+Consider $((\aStateTestPP, \aStateS), \aStateSP) \in \bisimulation$.
+Let $(\aStateTPP, \aStateT) \in \aSuccessorsPPPA{(\aStateTestPP, \aStateS)}$.
+By construction $\aStateTPP \in \aSuccessorsPPA{\aStateTestPP} = \{\aStateSkipPP\}$ and $\aStateT \in \aSuccessorsA{\aStateS} \subseteq \aStates$, so $\aStateTPP = \aStateSkipPP$ and $\aStateT \in \aStates$.
+By construction $((\aStateSkipPP, \aStateT), \aStateT) \in \bisimulation$.
+
+Consider $((\aStateSkipPP, \aStateT), \aStateT) \in \bisimulation$ where $\aStateT \in \aStates$.
+Let $(\aStateUPP, \aStateU) \in \aSuccessorsPPPA{(\aStateSkipPP, \aStateT)}$.
+By construction $\aStateUPP \in \aSuccessorsPPA{\aStateSkipPP} = \{\aStateSkipPP\}$ and $\aStateU \in \aSuccessorsA{\aStateT} \subseteq \aStates$, so $\aStateUPP = \aStateSkipPP$ and $\aStateU \in \aStates$.
+By construction $((\aStateSkipPP, \aStateU), \aStateU) \in \bisimulation$.
+
+\paragraph{back-$\agentA$}
+Consider $((\aStateTestPP, \aStateS), \aStateSP) \in \bisimulation$.
+Let $\aStateT \in \aSuccessorsPA{\aStateSP} = \aSuccessorsA{\aStateS} \subseteq \aStates$.
+By construction $\aStateSkipPP \in \aSuccessorsPPA{\aStateTestPP}$ and so $(\aStateSkipPP, \aStateT) \in \aSuccessorsPPA{(\aStateTestPP, \aStateS)}$.
+By construction $((\aStateSkipPP, \aStateT), \aStateT) \in \bisimulation$.
+
+Consider $((\aStateSkipPP, \aStateT), \aStateT) \in \bisimulation$ where $\aStateT \in \aStates$.
+Let $\aStateU \in \aSuccessorsPA{\aStateT} = \aSuccessorsA{\aStateS} \subseteq \aStates$.
+By construction $\aStateSkipPP \in \aSuccessorsPPA{\aStateSkipPP}$ and so $(\aStateSkipPP, \aStateU) \in \aSuccessorsPPA{(\aStateSkipPP, \aStateT)}$.
+By construction $((\aStateSkipPP, \aStateU), \aStateU) \in \bisimulation$.
+
+Therefore $\tau(\test{\phi}) \exec \aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
+\end{proof}
+
 \begin{theorem}\label{afl-k-correspondence}
 Let $\aPModel{\aStateS} \in \classAmK$ and let $n \in \mathbb{N}$. 
 Then there exists $\alpha \in \langAflAct$ such that $\aPModel{\aStateS} \bisimilar[n] \tau(\alpha)$.
@@ -245,7 +300,7 @@ Suppose that $n > 0$.
 By the induction hypothesis, for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ there exists $\alpha^{\agentA,\aStateT} \in \langAflAct$ such that $\aPModel{\aStateT} \bisimilar[(n - 1)] \tau(\alpha^{\agentA,\aStateT})$, where $\tau(\alpha^{\agentA,\aStateT}) \bisimilar \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]} = \aPModelTuple[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$.
 
 Let $\alpha = \test{\aPrecondition(\aStateS)} \compose \learns \{\bigchoice_{\aStateT \in \aStateS \aAccessibility{\agentA}} \alpha^{\agentA,\aStateT} \mid \agentA \in \agents\}$.
-Then $\tau(\alpha) \bisimilar \aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP}$ where:
+Then by Lemma~\ref{afl-k-construction-test} we have that $\tau(\alpha) \bisimilar \aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP}$ where:
 \begin{eqnarray*}
     \aStatesP &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} \aStates[\agentA,\aStateT] \cup \{\aStateSP\}\\
     \aAccessibilityP{\agentA} &=& \bigcup_{\agentB \in \agents, \aStateT \in \aStateS \aAccessibility{\agentB}} \aAccessibility[\agentB,\aStateT]{\agentA} \cup \{(\aStateSP, \aStateS[\agentA,\aStateT]) \mid \aStateT \in \aStateS \aAccessibility{\agentA}\} \text{ for } \agentA \in \agents\\
@@ -381,7 +436,7 @@ By the induction hypothesis, for every $\agentA \in \agents$, $\aStateT \in \aSt
 For every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ let $\tau(\alpha^{\agentA,\aStateT}) = \aPModel[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]} = \aPModelTuple[\agentA,\aStateT]{\aStateS[\agentA,\aStateT]}$.
 
 Let $\alpha = \test{\aPrecondition(\aStateS)} \compose \learns \{\bigchoice_{\aStateT \in \aStateS \aAccessibility{\agentA}} \alpha^{\agentA,\aStateT} \mid \agentA \in \agents\}$. 
-Then $\tau(\alpha) \bisimilar \aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP}$ where:
+Then by Lemma~\ref{afl-k-construction-test} we have that $\tau(\alpha) \bisimilar \aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP}$ where:
 \begin{eqnarray*}
     \aStatesP &=& \bigcup_{\agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}} \aStates[\agentA,\aStateT] \cup \{\aPStateS[\agentA,\aStateT] \mid \agentA \in \agents, \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{\aStateSP\}\\
     \aAccessibilityP{\agentA} &=& \bigcup_{\agentB \in \agents, \aStateT \in \aStateS \aAccessibility{\agentB}} \aAccessibility[\agentB,\aStateT]{\agentA} \cup \{(\aStateSP, \aPStateS[\agentA, \aStateT]) \mid \aStateT \in \aStateS \aAccessibility{\agentA}\} \cup \{(\aPStateS[\agentA, \aStateT], \aPStateS[\agentA, \aStateU]) \mid \aStateT, \aStateU \in \aStateS \aAccessibility{\agentA}\} \cup\\
@@ -432,9 +487,15 @@ Then for every $\phi \in \langAml$ there exists $\alpha \in \langAflAct$ such th
 
 \subsection{Semantics}
 
-\begin{definition}[Test]\label{afl-kff-test}
-Let $\phi \in \langAfl$.
-We define $\tau(\test{\phi})$ as in Definition~\ref{afl-k-test} for \classK{}.
+\begin{definition}[Test]\label{afl-s-test}
+Let $\phi \in \langAfl$. 
+We define $\tau(\test{\phi}) = \aPModel{\aStatesT} = \aPModelTuple{\aStatesT}$ where:
+\begin{eqnarray*}
+    \aStates &=& \{\aStateTest, \aStateSkip\}\\
+    \aAccessibility{\agentA} &=& \aStates^2 \text{ for } \agentA \in \agents\\
+    \aPrecondition &=& \{(\aStateTest, \phi), (\aStateSkip, \top)\}\\
+    \aStatesT &=& \{\aStateTest\}
+\end{eqnarray*}
 \end{definition}
 
 \begin{definition}[Learning]\label{afl-s-learning}
@@ -482,7 +543,7 @@ By induction on $n$.
 
 Suppose that $n = 0$. 
 Let $\alpha = \test{\aPrecondition(\aStateS)}$ and $\tau(\alpha) = \aPModelP{\aStateSP} = \aPModelTupleP{\aStateSP}$. 
-From Definition~\ref{afl-k-test} we have that $\aPrecondition(\aStateS) = \aPreconditionP(\aStateSP)$, so $(\aPModel{\aStateS}, \aPModelP{\aStateSP})$ satisfies {\bf pre} and therefore $\aPModel{\aStateS} \bisimilar[0] \aPModelP{\aStateSP}$.
+From Definition~\ref{afl-s-test} we have that $\aPrecondition(\aStateS) = \aPreconditionP(\aStateSP)$, so $(\aPModel{\aStateS}, \aPModelP{\aStateSP})$ satisfies {\bf pre} and therefore $\aPModel{\aStateS} \bisimilar[0] \aPModelP{\aStateSP}$.
 
 Suppose that $n > 0$. 
 By the induction hypothesis, for every $\agentA \in \agents$, $\aStateT \in \aStateS \aAccessibility{\agentA}$ there exists $\alpha^{\agentA,\aStateT} \in \langAflAct$ such that 

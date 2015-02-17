@@ -624,8 +624,24 @@
 \newcommandm{\allppast}{{\forall^*}}
 
 % Arbitrary action model operators
-\newcommandm{\someacts}{\exists}
-\newcommandm{\allacts}{\forall}
+\newcommand{\someacts}[1][\empty]{{\exists_{#1}}}
+\newcommand{\allacts}[1][\empty]{{\forall_{#1}}}
+
+\newcommand{\someactsA}{\someacts[\agentA]}
+\newcommand{\someactsB}{\someacts[\agentB]}
+\newcommand{\someactsC}{\someacts[\agentC]}
+\newcommand{\someactsD}{\someacts[\agentD]}
+\newcommand{\someactsBs}{\someacts[\agentsB]}
+\newcommand{\someactsCs}{\someacts[\agentsC]}
+\newcommand{\someactsDs}{\someacts[\agentsD]}
+
+\newcommand{\allactsA}{\allacts[\agentA]}
+\newcommand{\allactsB}{\allacts[\agentB]}
+\newcommand{\allactsC}{\allacts[\agentC]}
+\newcommand{\allactsD}{\allacts[\agentD]}
+\newcommand{\allactsBs}{\allacts[\agentsB]}
+\newcommand{\allactsCs}{\allacts[\agentsC]}
+\newcommand{\allactsDs}{\allacts[\agentsD]}
 
 % Action formula operators
 \newcommand{\test}[1]{?{#1}}

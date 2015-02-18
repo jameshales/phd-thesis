@@ -16,7 +16,7 @@ Likewise the axioms of \axiomRmlK{} form a set of reduction axioms that can be u
 These methods can be combined to provably translate any formula containing action model operators and refinement quantifiers into an equivalent modal formula, by iteratively translating subformulas containing action model operators but not refinement quantifiers using the former method, and subformulas containing refinement quantifiers but not action model operators using the latter method.
 \end{proof}
 
-\begin{corollary}
+\begin{corollary}\label{aaml-k-expressive-equivalence}
 The logic \logicAamlK{} is expressively equivalent to the logic \logicK{}.
 \end{corollary}
 
@@ -28,10 +28,10 @@ The logic \logicAamlK{} is compact.
 The satisfiability problem for the logic \logicAamlK{} is decidable.
 \end{corollary}
 
-\begin{lemma}
+\begin{lemma}\label{aaml-k-choice}
 Let $\agentsB \subseteq \agents$, 
 let $\phi = \alpha \lor \beta \in \langAaml$, and 
-let $\aPModelAndTuple[\alpha]{\aStatesT[\alpha]} \in \classAmK$ and $\aPModelAndTuple[\beta]{\aStatesT[\beta]} \in \classAmK$ be $\agentsB$-restricted action models such that 
+let $\aPModel[\alpha]{\aStatesT[\alpha]} \in \classAmK$ and $\aPModel[\beta]{\aStatesT[\beta]} \in \classAmK$ be $\agentsB$-restricted action models such that 
 $\entails \actionA{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha$, 
 $\entails \actionE{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha \iff \someactsBs \alpha$, 
 $\entails \actionA{\aPModel[\beta]{\aStatesT[\beta]}} \beta$, and 
@@ -41,7 +41,53 @@ $\entails \actionA{\aPModel{\aStatesT}} \phi$, and
 $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
 \end{lemma}
 
-\begin{lemma}
+\begin{proof}
+Without loss of generality we assume that $\aModel[\alpha]$ and $\aModel[\beta]$ are disjoint.
+We construct the action model $\aPModel{\aStatesT} = \aPModel[\alpha]{\aStatesT[\alpha]} \choice \aPModel[\beta]{\aStatesT[\beta]} = \aPModelTuple{\aStatesT}$ where the disjoint union of action models is defined in Definition~\ref{aml-choice}.  
+As $\aModel$ is formed by the disjoint union of $\aModel[\alpha]$ and $\aModel[\beta]$ we note that each state of $\aModel[\alpha]$ and $\aModel[\beta]$ is bisimilar to the corresponding state in $\aModel$.
+
+We first show that $\aModel$ is a $\agentsB$-restricted action model.
+Let $\kModel \in \classK$.
+By hypothesis $\aModel[\alpha]$ and $\aModel[\beta]$ are $\agentsB$-restricted action models, so $\kModel \simulatesBs \kModel \exec \aModel[\alpha]$ and $\kModel \simulatesBs \kModel \exec \aModel[\beta]$.
+From above we have that $\aPModel[\alpha]{\aStates[\alpha]} \bisimilar \aPModel{\aStates[\alpha]}$ and $\aPModel[\beta]{\aStates[\beta]} \bisimilar \aPModel{\aStates[\beta]}$, so from Proposition~\ref{action-bisimulation-results} we have that $\kModel \exec \aModel[\alpha] \bisimilar \kModel \exec \aPModel{\aStates[\alpha]}$ and $\kModel \exec \aModel[\beta] \bisimilar \kModel \exec \aPModel{\aStates[\beta]}$.
+From Corollary~\ref{bisimilar-refinement} and Proposition~\ref{refinements-preorder} we have that 
+$\kModel \simulatesBs \kModel \exec \aPModel{\aStates[\alpha]}$ and $\kModel \simulatesBs \kModel \exec \aPModel{\aStates[\beta]}$.
+From Lemma~\ref{refinement-union} we have that $\kModel \simulatesBs \kModel \exec \aModel$.
+
+We next show that $\entails \actionA{\aPModel{\aStatesT}} \phi$.
+\begin{eqnarray}
+    &&\entails \actionA{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha \land \actionA{\aPModel[\beta]{\aStatesT[\beta]}} \beta \label{aaml-k-choice-1}\\
+    &&\entails \actionA{\aPModel{\aStatesT[\alpha]}} \alpha \land \actionA{\aPModel{\aStatesT[\beta]}} \beta \label{aaml-k-choice-2}\\
+    &&\entails \actionA{\aPModel{\aStatesT[\alpha]}} (\alpha \lor \beta) \land \actionA{\aPModel{\aStatesT[\beta]}} (\alpha \lor \beta) \label{aaml-k-choice-3}\\
+    &&\entails \actionA{\aPModel{\aStatesT}} (\alpha \lor \beta) \label{aaml-k-choice-4}
+\end{eqnarray}
+(\ref{aaml-k-choice-1}) follows from hypothesis;
+(\ref{aaml-k-choice-2}) follows from the above note that $\aPModel[\alpha]{\aStatesT[\alpha]} \bisimilar \aPModel{\aStatesT[\alpha]}$ and $\aPModel[\beta]{\aStatesT[\beta]} \bisimilar \aPModel{\aStatesT[\beta]}$ and Proposition~\ref{aml-bisimilar-actions};
+(\ref{aaml-k-choice-3}) follows from propositional disjunction introduction; and
+(\ref{aaml-k-choice-4}) follows from \axiomAamlK{} axiom {\bf AU}, as $\aStatesT = \aStatesT[\alpha] \cup \aStatesT[\beta]$.
+
+Finally we show that $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
+\begin{eqnarray}
+    &&\entails \someactsBs (\alpha \lor \beta) \implies (\someactsBs \alpha \lor \someactsBs \beta) \label{aaml-k-choice-5}\\
+    &&\entails \someactsBs (\alpha \lor \beta) \implies (\actionE{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha \land \actionE{\aPModel[\beta]{\aStatesT[\beta]}} \beta) \label{aaml-k-choice-6}\\
+    &&\entails \someactsBs (\alpha \lor \beta) \implies (\actionE{\aPModel{\aStatesT[\alpha]}} \alpha \land \actionE{\aPModel{\aStatesT[\beta]}} \beta) \label{aaml-k-choice-7}\\
+    &&\entails \someactsBs (\alpha \lor \beta) \implies (\actionE{\aPModel{\aStatesT[\alpha]}} (\alpha \lor \beta) \land \actionE{\aPModel{\aStatesT[\beta]}} (\alpha \lor \beta)) \label{aaml-k-choice-8}\\
+    &&\entails \someactsBs (\alpha \lor \beta) \implies \actionE{\aPModel{\aStatesT}} (\alpha \lor \beta) \label{aaml-k-choice-9}
+\end{eqnarray}
+(\ref{aaml-k-choice-5}) follows from \axiomAamlK{} axiom {\bf R};
+(\ref{aaml-k-choice-6}) follows from hypothesis;
+(\ref{aaml-k-choice-7}) follows from the above note that $\aPModel[\alpha]{\aStatesT[\alpha]} \bisimilar \aPModel{\aStatesT[\alpha]}$ and $\aPModel[\beta]{\aStatesT[\beta]} \bisimilar \aPModel{\aStatesT[\beta]}$ and Proposition~\ref{aml-bisimilar-actions};
+(\ref{aaml-k-choice-8}) follows from propositional disjunction introduction; and
+(\ref{aaml-k-choice-9}) follows from \axiomAamlK{} axiom {\bf AU}, as $\aStatesT = \aStatesT[\alpha] \cup \aStatesT[\beta]$.
+
+The converse, that $\entails \actionE{\aPModel{\aStatesT}} \phi \implies \someactsBs \phi$ follows from a simple semantic argument.
+Let $\kPModel{\kStateS} \in \classK$ and suppose that $\kPModel{\kStateS} \entails \actionE{\aPModel{\aStatesT}} \phi$.
+Then there exists $\aStateS \in \aStatesT$ such that $\kPModel{\kStateS} \entails \aPrecondition(\aStateS)$ and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails \phi$.
+From above, $\aModel$ is a $\agentsB$-restricted action model, so $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}$ and so $\kPModel{\kStateS} \entails \someactsBs \phi$.
+Therefore $\entails \actionE{\aPModel{\aStatesT}} \phi \implies \someactsBs \phi$
+\end{proof}
+
+\begin{lemma}\label{aaml-k-covers}
 Let $\agentsB, \agentsC \subseteq \agents$, 
 let $\phi = \pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC \in \langAaml$ where $\pi \in \langPl$, and 
 for every $\agentC \in \agentsC$, $\gamma \in \agentsC$
@@ -53,13 +99,264 @@ $\entails \actionA{\aPModel{\aStatesT}} \phi$, and
 $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
 \end{lemma}
 
-\begin{theorem}
+\begin{proof}
+Without loss of generality we assume that each $\aModel[\gamma]$ for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$ is disjoint.
+
+We construct the action model $\aPModelAndTuple{\aStateTest}$ where:
+\begin{eqnarray*}
+    \aStates &=& \{\aStateTest, \aStateSkip\} \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aStates[\gamma]\\
+    \aAccessibilityA &=& \{(\aStateTest, \aStateT[\gamma]) \mid \gamma \in \Gamma_\agentA, \aStateT[\gamma] \in \aStatesT[\gamma]\} \cup \{(\aStateSkip, \aStateSkip)\} \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aAccessibilityA[\gamma] \text{ for } \agentA \in \agentsC\\
+    \aAccessibilityA &=& \{(\aStateTest, \aStateSkip), (\aStateSkip, \aStateSkip)\} \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aAccessibilityA[\gamma] \text{ for } \agentA \in \agents \setminus \agentsC\\
+    \aPrecondition &=& \{(\aStateTest, \someactsBs \phi), (\aStateSkip, \top)\} \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aPrecondition[\gamma]
+\end{eqnarray*}
+
+As $\aModel$ contains the disjoint union of each $\aModel[\gamma]$, and the only edges added to states in each $\aModel[\gamma]$ are inward facing edges, then we note that each state of $\aModel[\gamma]$ is bisimilar to the corresponding state in $\aModel$.
+
+We first show that $\aModel$ is a $\agentsB$-restricted action model.
+Let $\kModel \in \classK$.
+Let $\kModelAndTupleP = \kModel \exec \aModel$ and for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$ let $\kModelAndTuple[\gamma] = \kModel \exec \aModel[\gamma]$.
+By hypothesis, for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$ we have that $\aModel[\gamma]$ is a $\agentsB$-restricted action model, so $\kModel \simulatesBs \kModel[\gamma]$, via some $\agentsB$-refinement $\refinement^\gamma$.
+From above we have that $\aModel[\gamma] \bisimilar \aPModel{\aStates[\gamma]}$, so from Proposition~\ref{action-bisimulation-results} we have that $\kModel[\gamma] \bisimilar \kModel \exec \aPModel{\aStates[\gamma]}$.
+From Corollary~\ref{bisimilar-refinement} and Proposition~\ref{refinements-preorder} we have that $\kModel \simulatesBs \kModel \exec \aPModel{\aStates[\gamma]}$ (say, via a $\agentsB$-refinement $\refinement^\gamma : \kStates \times \kStates[\gamma]$).
+We define $\refinement \subseteq \kStates \times \kStatesP$ where:
+$$
+\refinement = \{(\kStateT, (\kStateT, \aStateTest)) \mid \kStateT \in \kStates, \kPModel{\kStateT} \entails \aPrecondition(\aStateTest)\} \cup \{(\kStateT, (\kStateT, \aStateSkip)) \mid \kStateT \in \kStates\} \cup \bigcup_{\agentC \in \agents, \gamma \in \Gamma_\agentC} \refinement^\gamma
+$$
+We claim that $\refinement$ is a $\agentsB$-refinement from $\kModel$ to $\kModel \exec \aModel$.
+Let $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentD \in \agents \setminus \agentsB$.
+
+\paragraph{atoms-$\atomP$}
+Consider $(\kStateT, (\kStateT, \aStateTest)) \in \refinement$ where $\kStateT \in \kStatesT$ and $\kPModel{\kStateT} \entails \aPrecondition(\aStateTest)$.
+By construction $\atomP \in \kValuation(\kStateT)$ if and only if $\atomP \in \kValuationP((\kStateT, \aStateTest))$.
+
+Consider $(\kStateT, (\aStateSkip, \kStateT)) \in \refinement$ where $\kStateT \in \kStatesT$.
+By construction $\atomP \in \kValuation(\kStateT)$ if and only if $\atomP \in \kValuationP((\kStateT, \aStateSkip))$.
+
+Consider $(\kStateT, \kStateTP) \in \refinement^\gamma \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$.
+Then {\bf atoms-$\atomP$} for $\refinement$ follows from {\bf atoms-$\atomP$} for $\refinement^\gamma$.
+
+\paragraph{forth-$\agentD$}
+Consider $(\kStateT, (\kStateT, \aStateTest)) \in \refinement$ where $\kStateT \in \kStatesT$ and $\kPModel{\kStateT} \entails \aPrecondition(\aStateTest)$.
+
+Suppose that $\agentD \in \agentsC$ and $\Gamma_\agentD = \emptyset$.
+As $\kPModel{\kStateT} \entails \someactsBs \phi$ then in particular we have that $\kPModel{\kStateT} \entails \someactsBs \coversD \emptyset$.
+From \axiomAamlK{} axiom {\bf RComm} we have that $\kPModel{\kStateT} \entails \coversD \emptyset$, so $\kSuccessorsD{\kStateT} = \emptyset$.
+Then {\bf forth-$\agentD$} follows vacuously.
+
+Suppose that $\agentD \in \agentsC$ and $\Gamma_\agentD \neq \emptyset$.
+Let $\kStateU \in \kSuccessorsD{\kStateT}$.
+As $\kPModel{\kStateT} \entails \someactsBs \phi$ then in particular we have that $\kPModel{\kStateT} \entails \someactsBs \coversD \Gamma_\agentD$.
+From \axiomAamlK{} axiom {\bf RComm} we have that $\kPModel{\kStateT} \entails \someactsBs \coversD \{\someactsBs \gamma \mid \gamma \in \Gamma_\agentD\}$ so $\kPModel{\kStateU} \bigwedge_{\gamma \in \Gamma_\agentD} \someactsBs \gamma$.
+Let $\gamma \in \Gamma_\agentD$ such that $\kPModel{\kStateU} \entails \someactsBs \gamma$.
+By construction as $\aStateS[\gamma] \in \aStatesT[\gamma]$ we have that $\aStateS[\gamma] \in \aSuccessorsD{\aStateTest}$.
+By hypothesis $\entails \someactsBs \gamma \implies \actionE{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma$ so there exists $\aStateS[\gamma] \in \aStatesT[\gamma]$ such that $\entails \someactsBs \gamma \implies \aPrecondition[\gamma](\aStateS[\gamma])$.
+Then $\kPModel{\kStateU} \entails \aPrecondition(\aStateS[\gamma])$, so $(\kStateU, \aStateS[\gamma]) \in \kStates[\gamma] \subseteq \kStatesP$ and $(\kStateU, (\kStateU, \aStateS[\gamma])) \in \refinement^\gamma \subseteq \refinement$.
+
+Suppose that $\agentD \notin \agentsC$.
+Let $\kStateU \in \kSuccessorsD{\kStateT}$.
+By construction $\aStateSkip \in \aSuccessorsD{\aStateTest}$, so $(\kStateU, \aStateSkip) \in \kSuccessorsPD{(\kStateT, \aStateTest)}$.
+By construction $\aPrecondition(\aStateSkip) = \top$, so $\kPModel{\kStateU} \entails \aPrecondition(\aStateSkip)$.
+Therefore $(\kStateU, (\kStateU, \aStateSkip)) \in \refinement$.
+
+Consider $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$ where $\kStateT \in \kStatesT$.
+Let $\kStateU \in \kSuccessorsD{\kStateT}$.
+By construction $\aStateSkip \in \aSuccessorsD{\aStateSkip}$, so $(\kStateU, \aStateSkip) \in \kSuccessorsPD{(\kStateT, \aStateSkip)}$.
+By construction $(\kStateU, (\kStateU, \aStateSkip)) \in \refinement$.
+
+Consider $(\kStateT, (\kStateV, \aStateV)) \in \refinement^\gamma \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$.
+Let $\kStateU \in \kSuccessorsD{\kStateT}$.
+By {\bf forth-$\agentD$} for $\refinement^\gamma$ there exists $(\kStateW, \aStateW) \in \kSuccessorsD[\gamma]{(\kStateV, \aStateV)}$ such that $(\kStateW, \aStateW) \in \refinement^\gamma \subseteq \refinement$.
+By construction $\kStateW \in \kSuccessorsD{\kStateV}$ and $\aStateW \in \aSuccessorsD[\gamma]{\aStateV} = \aSuccessorsD{\aStateV}$, so $(\kStateW, \aStateW) \in \kSuccessorsD{(\kStateV, \aStateV)}$.
+
+\paragraph{back-$\agentA$}
+Consider $(\kStateT, (\kStateT, \aStateTest)) \in \refinement$ where $\kStateT \in \kStatesT$ and $\kPModel{\kStateT} \entails \aPrecondition(\aStateTest)$.
+
+Suppose that $\agentA \in \agentsC$.
+Let $(\kStateU, \aStateU) \in \kSuccessorsPA{(\kStateT, \aStateTest)}$.
+By construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $\aStateU \in \aStatesT[\gamma]$ for some $\gamma \in \Gamma_\agentA$.
+As $(\kStateU, \aStateU) \in \kStatesP$ then we have $\kPModel{\kStateU} \entails \aPrecondition(\aStateU)$.
+By construction $\aPrecondition(\aStateU) = \aPrecondition[\gamma](\aStateU)$ so $\kPModel{\kStateU} \entails \aPrecondition[\gamma](\aStateU)$ and $(\kStateU, \aStateU) \in \kStates[\gamma]$.
+From {\bf back-$\agentA$} for $\refinement^\gamma$ there exists $\kStateV \in \kSuccessorsA{\kStateT}$ such that $(\kStateV, (\kStateU, \aStateU)) \in \refinement^\gamma \subseteq \refinement$.
+
+Suppose that $\agentA \notin \agentsC$.
+Let $(\kStateU, \aStateU) \in \kSuccessorsPA{(\kStateT, \aStateTest)}$.
+By construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $\aStateU = \aStateSkip$ so by construction $(\kStateU, (\kStateU, \aStateSkip)) \in \refinement$.
+
+Consider $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$ where $\kStateT \in \kStatesT$.
+Let $(\kStateU, \aStateU) \in \kSuccessorsPA{(\kStateT, \aStateSkip)}$.
+By construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $\aStateU = \aStateSkip$ so by construction $(\kStateU, (\kStateU, \aStateSkip)) \in \refinement$.
+
+Consider $(\kStateT, (\kStateV, \aStateV)) \in \refinement^\gamma \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$.
+Let $(\kStateW, \aStateW) \in \kSuccessorsPA{(\kStateV, \aStateV)}$.
+By construction $\kStateW \in \kSuccessorsA{\kStateV}$ and $\aStateW \in \aSuccessorsA{\aStateV} = \aSuccessorsA[\gamma]{\aStateV}$ so by construction $(\kStateW, \aStateW) \in \kSuccessorsA[\gamma]{(\kStateV, \aStateV)}$.
+From {\bf back-$\agentA$} for $\refinement^\gamma$ there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $(\kStateU, (\kStateW, \aStateW)) \in \refinement^\gamma \subseteq \refinement$.
+
+Therefore $\refinement$ is a $\agentsB$-refinement and as $\refinement$ is a total relation we have that $\kModel \simulatesBs \kModel \exec \aModel$.
+
+We next show that $\entails \actionA{\aPModel{\aStateTest}} \phi$, in several parts.
+We note that from the definition of the cover operator:
+$$
+\phi = \pi \land \bigwedge_{\agentC \in \agentsC} (\necessaryC \bigvee_{\gamma \in \Gamma_\agentC} \gamma \land \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \gamma)
+$$
+Thus we will show individually that:
+\begin{enumerate}
+\item $\entails \actionA{\aPModel{\aStateTest}} \pi$
+\item $\entails \actionA{\aPModel{\aStateTest}} \necessaryC \bigvee_{\gamma \in \Gamma_\agentC} \gamma$, for every $\agentC \in \agentsC$
+\item $\entails \actionA{\aPModel{\aStateTest}} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \gamma$, for every $\agentC \in \agentsC$
+\end{enumerate}
+
+First we show that $\entails \actionA{\aPModel{\aStateTest}} \pi$.
+\begin{eqnarray}
+    && \entails \phi \implies \pi \label{aaml-covers-1}\\
+    && \entails \lnot \pi \implies \lnot \phi \label{aaml-covers-2}\\
+    && \entails  \allactsBs (\lnot \pi \implies \lnot \phi) \label{aaml-covers-3}\\
+    && \entails  \allactsBs \lnot \pi \implies \allactsBs \lnot \phi \label{aaml-covers-4}\\
+    && \entails  \someactsBs \phi \implies \someactsBs \pi \label{aaml-covers-5}\\
+    && \entails  \aPrecondition(\aStateTest) \implies \pi \label{aaml-covers-6}\\
+    && \entails  \actionA{\aPModel{\aStateTest}} \pi \label{aaml-covers-7}
+\end{eqnarray}
+(\ref{aaml-covers-1}) and
+(\ref{aaml-covers-2}) follow from propositional reasoning;
+(\ref{aaml-covers-3}) follows from \axiomAamlK{} rule {\bf NecR};
+(\ref{aaml-covers-4}) follows from \axiomAamlK{} axiom {\bf R};
+(\ref{aaml-covers-5}) follows from the definition of $\someactsBs$;
+(\ref{aaml-covers-6}) follows from the construction of $\aPModel{\aStateTest}$; and
+(\ref{aaml-covers-7}) follows from \axiomAamlK{} axiom {\bf AP}.
+
+Next we show that $\entails \actionA{\aPModel{\aStateTest}} \necessaryC \bigvee_{\gamma \in \Gamma_\agentC} \gamma$, for every $\agentC \in \agentsC$.
+Let $\agentC \in \agentsC$.
+\begin{eqnarray}
+    && \entails \actionA{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \text{ for every } \gamma \in \Gamma_\agentC \label{aaml-covers-8}\\
+    && \entails \actionA{\aPModel{\aStatesT[\gamma]}} \gamma \text{ for every } \gamma \in \Gamma_\agentC \label{aaml-covers-9}\\
+    && \entails \bigwedge_{\aStateT \in \aStatesT[\gamma]} \actionA{\aPModel[\gamma]{\aStateT}} \gamma \text{ for every } \gamma \in \Gamma_\agentC \label{aaml-covers-10}\\
+    && \entails \necessaryC \bigwedge_{\aStateT \in \aStatesT[\gamma]} \actionA{\aPModel[\gamma]{\aStateT}} \gamma \text{ for every } \gamma \in \Gamma_\agentC \label{aaml-covers-11}\\
+    && \entails \bigwedge_{\gamma \in \Gamma_\agentC} \necessaryC \bigwedge_{\aStateT \in \aStatesT[\gamma]} \actionA{\aPModel[\gamma]{\aStateT}} \gamma \label{aaml-covers-12}\\
+    && \entails \bigwedge_{\gamma \in \Gamma_\agentC} \bigwedge_{\aStateT \in \aStatesT[\gamma]} \necessaryC \actionA{\aPModel[\gamma]{\aStateT}} \gamma \label{aaml-covers-13}\\
+    && \entails \bigwedge_{\gamma \in \Gamma_\agentC} \bigwedge_{\aStateT \in \aStatesT[\gamma]} \necessaryC \actionA{\aPModel[\gamma]{\aStateT}} \bigvee_{\gamma' \in \Gamma_\agentC} \gamma' \label{aaml-covers-14}\\
+    && \entails \bigwedge_{\aStateT \in \aSuccessorsC{\aStateTest}} \necessaryC \actionA{\aPModel[\gamma]{\aStateT}} \bigvee_{\gamma \in \Gamma_\agentC} \gamma \label{aaml-covers-15}\\
+    && \entails \aPrecondition(\aStateTest) \implies \bigwedge_{\aStateT \in \aSuccessorsC{\aStateTest}} \necessaryC \actionA{\aPModel{\aStateT}} \bigvee_{\gamma \in \Gamma_\agentC} \gamma \label{aaml-covers-16}\\
+    && \entails \actionA{\aPModel{\aStateTest}} \necessaryC \bigvee_{\gamma \in \Gamma_\agentC} \gamma \label{aaml-covers-17}
+\end{eqnarray}
+(\ref{aaml-covers-8}) follows from hypothesis;
+(\ref{aaml-covers-9}) follows from the above note that $\aModel[\gamma]{\aStateT[\gamma]} \bisimilar \aPModel{\aStateT[\gamma]}$;
+(\ref{aaml-covers-10}) follows from \axiomAamlK{} axiom {\bf AU};
+(\ref{aaml-covers-14}) follows from propositional disjunction introduction;
+(\ref{aaml-covers-15}) follows from the construction of $\aModel$; and
+(\ref{aaml-covers-17}) follows from \axiomAamlK{} axiom {\bf AK}.
+
+Finally we show that $\entails \actionA{\aPModel{\aStateTest}} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \gamma$, for every $\agentC \in \agentsC$.
+Let $\agentC \in \agentsC$.
+
+Suppose that $\agentC \in \agentsB$.
+Then:
+\begin{eqnarray}
+    &&\entails \someactsBs \phi \implies \someactsBs \coversC \Gamma_\agentC \label{aaml-covers-18}\\
+    &&\entails \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \someactsBs \gamma \label{aaml-covers-19}
+\end{eqnarray}
+(\ref{aaml-covers-18}) follows from \axiomAamlK{} axiom {\bf R} and rule {\bf NecR}; and
+(\ref{aaml-covers-19}) follows from \axiomAamlK{} axiom {\bf RK}.
+
+Suppose that $\agentC \notin \agentsB$.
+Then:
+\begin{eqnarray}
+    &&\entails \someactsBs \phi \implies \someactsBs \coversC \Gamma_\agentC \label{aaml-covers-20}\\
+    &&\entails \someactsBs \phi \implies \coversC \{\someactsBs \gamma \mid \gamma \in \Gamma_\agentC \}\label{aaml-covers-21}\\
+    &&\entails \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \someactsBs \gamma \label{aaml-covers-22}
+\end{eqnarray}
+(\ref{aaml-covers-20}) follows from \axiomAamlK{} axiom {\bf R} and rule {\bf NecR};
+(\ref{aaml-covers-21}) follows from \axiomAamlK{} axiom {\bf RComm}; and
+(\ref{aaml-covers-22}) follows from the definition of the cover operator.
+
+So we have that $\entails \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \gamma$.
+Then:
+\begin{eqnarray}
+    && \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \someactsBs \gamma \label{aaml-covers-23}\\
+    && \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \actionE{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \label{aaml-covers-24}\\
+    && \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \actionE{\aPModel{\aStatesT[\gamma]}} \gamma \label{aaml-covers-25}\\
+    && \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \bigvee_{\aStateT \in \aStatesT[\gamma]} \actionE{\aPModel{\aStateT}} \gamma \label{aaml-covers-26}\\
+    && \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \bigvee_{\aStateT \in \aSuccessorsC{\aStateTest}} \actionE{\aPModel{\aStateT}} \gamma \label{aaml-covers-27}\\
+    && \bigwedge_{\gamma \in \Gamma_\agentC} \left(\someactsBs \phi \implies \possibleC \bigvee_{\aStateT \in \aSuccessorsC{\aStateTest}} \actionE{\aPModel{\aStateT}} \gamma\right) \label{aaml-covers-28}\\
+    && \bigwedge_{\gamma \in \Gamma_\agentC} \actionA{\aPModel{\aStateTest}} \possibleC \gamma \label{aaml-covers-29}
+\end{eqnarray}
+(\ref{aaml-covers-23}) follows from above;
+(\ref{aaml-covers-24}) follows from hypothesis;
+(\ref{aaml-covers-25}) follows from the above note that $\aModel[\gamma]{\aStateT[\gamma]} \bisimilar \aPModel{\aStateT[\gamma]}$;
+(\ref{aaml-covers-26}) follows from \axiomAamlK{} axiom {\bf AU};
+(\ref{aaml-covers-27}) follows from the construction of $\aModel$ and propositional disjunction introduction;
+(\ref{aaml-covers-28}) follows from propositional reasoning; and
+(\ref{aaml-covers-29}) follows from \axiomAamlK{} axiom {\bf AK}.
+
+Therefore $\entails \actionA{\aPModel{\aStateTest}} \phi$.
+
+Finally we show that $\entails \actionE{\aPModel{\aStateTest}} \phi \iff \someactsBs \phi$. 
+This is straight-forward, given what we have shown above.
+\begin{eqnarray}
+    && \entails \actionE{\aPModel{\aStateTest}} \phi \iff (\aPrecondition(\aStateTest) \land \actionA{\aPModel{\aStateTest}} \phi) \label{aaml-covers-30}\\
+    && \entails \actionE{\aPModel{\aStateTest}} \phi \iff \aPrecondition(\aStateTest) \label{aaml-covers-31}\\
+    && \entails \actionE{\aPModel{\aStateTest}} \phi \iff \someactsBs \phi \label{aaml-covers-32}
+\end{eqnarray}
+(\ref{aaml-covers-30}) follows from the definition of $\actionE{}$;
+(\ref{aaml-covers-31}) follows from $\entails \actionA{\aPModel{\aStateTest}} \phi$ above;
+(\ref{aaml-covers-32}) follows from the construction of $\aModel$.
+\end{proof}
+
+\begin{theorem}\label{aaml-k-synthesis}
 Let $\agentsB \subseteq \agents$ and let $\phi \in \langAaml$.
 There exists a $\agentsB$-restricted action model $\aPModel{\aStatesT} \in \classAmK$ such that 
 $\entails \actionA{\aPModel{\aStatesT}} \phi$, and 
 $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
 \end{theorem}
 
+\begin{proof}
+Without loss of generality, by Corollary~\ref{aaml-k-expressive-equivalence} we may assume that $\phi \in \langMl$ and by Lemma~\ref{dnf-equivalent} we may further assume that $\phi$ is in disjunctive normal form.
+Then we proceed by induction on the structure of $\phi$.  
+Suppose that $\phi = \pi \land \bigwedge_{\agentC \in \agentsC} \Gamma_\agentC$ where $\pi \in \langPl$, $\agentsC \subseteq \agents$ and for every $\agentC \in \agentsC$, $\Gamma_\agentC \subseteq \langMl$ is a finite set of modal formulas.
+We note that the base case for the induction occurs when for every $\agentC \in \agentsC$, $\Gamma_\agentC = \emptyset$.
+By the induction hypothesis for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$ there exists 
+a $\agentsB$-restricted action model $\aPModel[\gamma]{\aStatesT[\gamma]} \in \classAmK$ such that
+$\entails \actionA{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma$, and 
+$\entails \actionE{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \iff \someactsBs \gamma$.
+By Lemma~\ref{aaml-k-covers} there exists a $\agentsB$-restricted action model $\aPModel{\aStatesT} \in \classAmK$ such that 
+$\entails \actionA{\aPModel{\aStatesT}} \phi$, and 
+$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
+
+Suppose that $\phi = \alpha \lor \beta$ where $\alpha, \beta \in \langMl$.
+By the induction hypothesis there exists $\agentsB$-restricted action models
+$\aPModel[\alpha]{\aStatesT[\alpha]} \in \classAmK$ and $\aPModel[\beta]{\aStatesT[\beta]} \in \classAmK$ such that 
+$\entails \actionA{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha$, 
+$\entails \actionE{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha \iff \someactsBs \alpha$, 
+$\entails \actionA{\aPModel[\beta]{\aStatesT[\beta]}} \beta$, and 
+$\entails \actionE{\aPModel[\beta]{\aStatesT[\beta]}} \beta \iff \someactsBs \beta$.
+By Lemma~\ref{aaml-k-choice} there exists a $\agentsB$-restricted action model $\aPModel{\aStatesT} \in \classAmK$ such that 
+$\entails \actionA{\aPModel{\aStatesT}} \phi$, and 
+$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
+\end{proof}
+
 \begin{corollary}
 The semantics of \logicAamlK{} as defined in Definition~\ref{aaml-semantics} and the alternative semantics of Definition~\ref{aaml-semantics-alt} are equivalent.
 \end{corollary}
+
+\begin{proof}
+For convenience we will use the notation $\kPModel{\kStateS} \entails_\exec \phi$ to denote that $\kPModel{\kStateS} \entails \phi$ according to the semantics of Definition~\ref{aaml-semantics} and the notation $\kPModel{\kStateS} \entails_{\simulates} \phi$ to denote that $\kPModel{\kStateS} \entails \phi$ according to the semantics of Definition~\ref{aaml-semantics-alt}.
+
+Let $\phi \in \langAaml$.
+We show by induction on the structure of $\phi$ that for every $\kPModel{\kStateS} \in \classK$, $\kPModel{\kStateS} \entails_\exec \phi$ if and only $\kPModel{\kStateS} \entails_{\simulates} \phi$.
+The cases where $\phi = \atomP$, $\phi = \lnot \psi$,  $\phi = \psi \land \chi$, $\phi = \necessaryA \psi$ or $\phi = \actionA{\aPModel{\aStateS}} \psi$ where $\atomP \in \atoms$ and $\psi, \chi \in \langAaml$ are straight-forward as these cases are handled identically for the two definitions of the semantics.
+
+Suppose that $\phi = \someactsBs \psi$ where $\psi \in \langAaml$.
+
+Suppose that $\kPModel{\kStateS} \entails_\exec \someactsBs \psi$.
+Then there exists a $\agentsB$-restricted action model $\aPModel{\aStateS} \in \aSignatureFamily_\agentsB$ such that $\kPModel{\kStateS} \entails_\exec \actionE{\aPModel{\aStateS}} \psi$ 
+As $\kPModel{\kStateS} \entails_\exec \actionE{\aPModel{\aStateS}} \psi$ then we have that $\kPModel{\kStateS} \entails_\exec \aPrecondition(\aStateS)$ and 
+$\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_\exec \psi$.
+By the induction hypothesis we have $\kPModel{\kStateS} \entails_{\simulates} \aPrecondition(\aStateS)$ and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_{\simulates} \psi$.
+As $\aPModel{\aStateS}$ is $\agentsB$-restricted then $\kPModel \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}$.
+Therefore $\kPModel{\kStateS} \entails_{\simulates} \someactsBs \psi$.
+
+Suppose that $\kPModel{\kStateS} \entails_{\simulates} \someactsBs \psi$.
+From Theorem~\ref{aaml-k-synthesis} there exists a $\agentsB$-restricted action model $\aPModel{\aStatesT} \in \classAmK$ such that $\entails_{\simulates} \actionE{\aPModel{\aStatesT}} \psi \iff \someactsBs \psi$.
+Without loss of generality, by Corollary~\ref{aaml-k-expressive-equivalence} we assume that $\aPModel{\aStatesT}$ has preconditions defined on \langMl{}.
+Therefore $\kPModel{\kStateS} \entails_{\simulates} \actionE{\aPModel{\aStatesT}} \psi$ so $\kPModel{\kStateS} \entails_{\simulates} \aPrecondition(\aStatesT)$ and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_{\simulates} \psi$.
+As $\aPrecondition(\aStatesT) \in \langMl$ then $\kPModel{\kStateS} \entails_\exec \aPrecondition(\aStatesT)$ and by the induction hypothesis $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_{\simulates} \psi$, so $\kPModel{\kStateS} \entails_\exec \actionE{\aPModel{\aStatesT}} \psi$. 
+Therefore $\kPModel{\kStateS} \entails_\exec \someactsBs \psi$.
+\end{proof}

@@ -18,7 +18,7 @@ Let $\classC$ be a class of Kripke frames, let $\phi \in \langRml$, and let $\kP
 The interpretation of the formula $\phi$ in the logic \logicRmlC{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{ml-semantics}, with the additional inductive case:
 $$
 \begin{array}{lcl}
-    \kPModel{\kStateS} \entails \allrefsBs \phi & \text{ iff } & \text{for every } \kPModelP{\kStateSP} \in \classC \text{ if } \kPModelP{\kStateSP} \refinesBs \kPModel{\kStateS} \text{ then } \kPModelP{\kStateSP} \entails \phi
+    \kPModel{\kStateS} \entails \allrefsBs \phi & \text{ iff } & \text{for every } \kPModelP{\kStateSP} \in \classC \text{ if } \kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP} \text{ then } \kPModelP{\kStateSP} \entails \phi
 \end{array}
 $$
 \end{definition}

@@ -27,3 +27,39 @@ The logic \logicAamlK{} is compact.
 \begin{corollary}
 The satisfiability problem for the logic \logicAamlK{} is decidable.
 \end{corollary}
+
+\begin{lemma}
+Let $\agentsB \subseteq \agents$, 
+let $\phi = \alpha \lor \beta \in \langAaml$, and 
+let $\aPModelAndTuple[\alpha]{\aStatesT[\alpha]} \in \classAmK$ and $\aPModelAndTuple[\beta]{\aStatesT[\beta]} \in \classAmK$ be $\agentsB$-restricted action models such that 
+$\entails \actionA{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha$, 
+$\entails \actionE{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha \iff \someactsBs \alpha$, 
+$\entails \actionA{\aPModel[\beta]{\aStatesT[\beta]}} \beta$, and 
+$\entails \actionE{\aPModel[\beta]{\aStatesT[\beta]}} \beta \iff \someactsBs \beta$.
+Then there exists a $\agentsB$-restricted action model $\aPModel{\aStatesT} \in \classAmK$ such that 
+$\entails \actionA{\aPModel{\aStatesT}} \phi$, and 
+$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
+\end{lemma}
+
+\begin{lemma}
+Let $\agentsB, \agentsC \subseteq \agents$, 
+let $\phi = \pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC \in \langAaml$ where $\pi \in \langPl$, and 
+for every $\agentC \in \agentsC$, $\gamma \in \agentsC$
+let $\aPModelAndTuple[\gamma]{\aStatesT[\gamma]} \in \classAmK$ be a $\agentsB$-restricted action model such that 
+$\entails \actionA{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma$, and 
+$\entails \actionE{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \iff \someactsBs \gamma$.
+Then there exists a $\agentsB$-restricted action model $\aPModel{\aStatesT} \in \classAmK$ such that 
+$\entails \actionA{\aPModel{\aStatesT}} \phi$, and 
+$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
+\end{lemma}
+
+\begin{theorem}
+Let $\agentsB \subseteq \agents$ and let $\phi \in \langAaml$.
+There exists a $\agentsB$-restricted action model $\aPModel{\aStatesT} \in \classAmK$ such that 
+$\entails \actionA{\aPModel{\aStatesT}} \phi$, and 
+$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
+\end{theorem}
+
+\begin{corollary}
+The semantics of \logicAamlK{} as defined in Definition~\ref{aaml-semantics} and the alternative semantics of Definition~\ref{aaml-semantics-alt} are equivalent.
+\end{corollary}

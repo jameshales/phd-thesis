@@ -13,6 +13,7 @@ For every $\kStateT \in \kSuccessorsC{\kStateS}$ there exists $\kStateTP \in \kS
 \paragraph{back-$\agentA$}
 For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTP) \in \refinement$.
 
+If there exists a $\agentsB$-refinement $\refinement$ that is a total relation between $\kStates$ and $\kStatesP$ then we say that $\kModelP$ is a $\agentsB$-refinement of $\kModel$ and we denote this by $\kModelP \refinesBs \kModel$ or equivalently $\kModel \simulatesBs \kModelP$.
 If there exists a $\agentsB$-refinement $\refinement$ such that $(\kStateS, \kStateSP) \in \refinement$ then we say that $\kPModelP{\kStateSP}$ is a $\agentsB$-refinement of $\kPModel{\kStateS}$ and we denote this by $\kPModelP{\kStateSP} \refinesBs \kPModel{\kStateS}$ or equivalently $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 \end{definition}
 

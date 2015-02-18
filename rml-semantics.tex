@@ -27,11 +27,11 @@ $$
 Let $\classC$ be a class of Kripke frames. Then:
 $$
 \begin{array}{l}
-    \classC \entails_\logicRmlC \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
-    \classC \entails_\logicRmlC \phi \text{ implies } \classC \entails \allrefsBs \phi\\
-    \classC \entails_\logicRmlC \allrefsBs \phi \implies \phi\\
-    \classC \entails_\logicRmlC \allrefsBs \phi \implies \allrefsBs \allrefsBs \phi\\
-    \classC \entails_\logicRmlC \phi^+ \implies \allrefsBs \phi^+
+    \entails_\logicRmlC \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
+    \entails_\logicRmlC \phi \text{ implies } \entails_\logicRmlC \allrefsBs \phi\\
+    \entails_\logicRmlC \allrefsBs \phi \implies \phi\\
+    \entails_\logicRmlC \allrefsBs \phi \implies \allrefsBs \allrefsBs \phi\\
+    \entails_\logicRmlC \phi^+ \implies \allrefsBs \phi^+
 \end{array}
 $$
 where $\agentsB \subseteq \agents$, $\phi, \psi \in \langRml$ and $\phi^+ \in \langMlPlus$.
@@ -48,9 +48,9 @@ Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}, \kPModelPP{\kStateSPP} \in \class
         Therefore $\kPModel{\kStateS} \entails \allrefsBs \psi$
         and $\kPModel{\kStateS} \entails \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)$.
     \item
-        Suppose that $\classC \entails \phi$. 
+        Suppose that $\entails \phi$. 
         Then $\kPModelP{\kStateSP} \entails \phi$ and so $\kPModel{\kStateS} \entails \allrefsBs \phi$.
-        Therefore $\classC \entails \allrefsBs \phi$
+        Therefore $\entails \allrefsBs \phi$
     \item
         Suppose that $\kPModel{\kStateS} \entails \allrefsBs \phi$.
         By Proposition~\ref{refinements-preorder} we have that $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS}$ and so $\kPModel{\kStateS} \entails \phi$.
@@ -70,8 +70,8 @@ Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}, \kPModelPP{\kStateSPP} \in \class
 Let $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classSF, \classS\}$. Then:
 $$
 \begin{array}{l}
-    \classC \entails_\logicRmlC \allrefsBs \somerefsBs \phi \implies \somerefsBs \allrefsBs \phi\\
-    \classC \entails_\logicRmlC (\allrefsBs \somerefsBs \phi \land \allrefsBs \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi)
+    \entails_\logicRmlC \allrefsBs \somerefsBs \phi \implies \somerefsBs \allrefsBs \phi\\
+    \entails_\logicRmlC (\allrefsBs \somerefsBs \phi \land \allrefsBs \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi)
 \end{array}
 $$
 where $\agentsB \subseteq \agents$ and $\phi, \psi \in \langRml$.
@@ -92,14 +92,14 @@ Therefore $\kPModelP{\kStateS} \entails \phi$ and $\kPModelP{\kStateS} \entails 
 A similar argument holds for $\classC \in \{\classSF, \classS\}$ by constructing a refinement where the only $\agentsB$-edges are the reflexive edges,
 and for $\classKD$ by constructing a refinement where each state and each $\agentB \in \agentsB$ has only a single $\agentsB$-successor.
 
-A similar argument shows that $\classC \entails_\logicRmlC (\allrefsBs \somerefsBs \phi \land \allrefsBs \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi)$ for $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classSF, \classS\}$.
+A similar argument shows that $\entails_\logicRmlC (\allrefsBs \somerefsBs \phi \land \allrefsBs \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi)$ for $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classSF, \classS\}$.
 \end{proof}
 
-\begin{proposition}
+\begin{proposition}\label{rml-church-rosser}
 Let $\classC \in \{\classK, \classKF, \classKFF, \classSF, \classS\}$. Then:
 $$
 \begin{array}{l}
-    \classC \entails_\logicRmlC \somerefsBs \allrefsBs \phi \implies \allrefsBs \somerefsBs \phi
+    \entails_\logicRmlC \somerefsBs \allrefsBs \phi \implies \allrefsBs \somerefsBs \phi
 \end{array}
 $$
 where $\agentsB \subseteq \agents$ and $\phi \in \langRml$.

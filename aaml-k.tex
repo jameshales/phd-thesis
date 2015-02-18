@@ -1,1 +1,29 @@
 \section{K}
+
+\begin{definition}[Axiomatisation \axiomAamlK{}]
+The axiomatisation \axiomAamlK{} is a substitution schema consisting of the axioms and rules of \axiomAmlK{} and the axioms and rules of \axiomRmlK{}.
+\end{definition}
+
+\begin{theorem}\label{aaml-k-sound-complete}
+The axiomatisation \axiomRmlK{} is sound and strongly complete with respect to the semantics of the logic \logicAamlK{}.
+\end{theorem}
+
+\begin{proof}[Proof (Sketch)]
+Soundness of the axioms and rules from \axiomAmlK{} and \axiomRmlK{} follow from the same reasoning used to show that they are sound in \logicAmlK{} and \logicRmlK{} respectively.
+Strong completeness follows from similar reasoning as in the proof of strong completeness of \axiomRmlK{} in Lemma~\ref{rml-k-sound-complete}.
+We note that the axioms of \axiomAmlK{} form a set of reduction axioms that can be used to provably translate any formula containing action model operators but not refinement quantifiers into an equivalent modal formula.
+Likewise the axioms of \axiomRmlK{} form a set of reduction axioms that can be used to provably translate any formula containing refinement quantifiers but not action model operators into an equivalent modal formula.
+These methods can be combined to provably translate any formula containing action model operators and refinement quantifiers into an equivalent modal formula, by iteratively translating subformulas containing action model operators but not refinement quantifiers using the former method, and subformulas containing refinement quantifiers but not action model operators using the latter method.
+\end{proof}
+
+\begin{corollary}
+The logic \logicAamlK{} is expressively equivalent to the logic \logicK{}.
+\end{corollary}
+
+\begin{corollary}
+The logic \logicAamlK{} is compact.
+\end{corollary}
+
+\begin{corollary}
+The satisfiability problem for the logic \logicAamlK{} is decidable.
+\end{corollary}

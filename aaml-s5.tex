@@ -1,1 +1,26 @@
 \section{S5}
+
+\begin{definition}[Axiomatisation \axiomAamlS{}]
+The axiomatisation \axiomAamlS{} is a substitution schema consisting of the axioms and rules of \axiomAmlS{} and the axioms and rules of \axiomRmlS{}.
+\end{definition}
+
+\begin{theorem}
+The axiomatisation \axiomRmlS{} is sound and strongly complete with respect to the semantics of the logic \logicAamlS{}.
+\end{theorem}
+
+\begin{proof}
+Soundness of the axioms and rules from \axiomAmlS{} and \axiomRmlS{} follow from the same reasoning used to show that they are sound in \logicAmlS{} and \logicRmlS{} respectively.
+Strong completeness follows from similar reasoning as in the proof of strong completeness of \axiomAamlK{} in Theorem~\ref{aaml-k-sound-complete}.
+\end{proof}
+
+\begin{corollary}
+The logic \logicAamlS{} is expressively equivalent to the logic \logicS{}.
+\end{corollary}
+
+\begin{corollary}
+The logic \logicAamlS{} is compact.
+\end{corollary}
+
+\begin{corollary}
+The satisfiability problem for the logic \logicAamlS{} is decidable.
+\end{corollary}

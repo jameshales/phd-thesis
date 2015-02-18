@@ -1,1 +1,26 @@
-\section{K45 and KD45}
+\section{K45}
+
+\begin{definition}[Axiomatisation \axiomAamlKFF{}]
+The axiomatisation \axiomAamlKFF{} is a substitution schema consisting of the axioms and rules of \axiomAmlKFF{} and the axioms and rules of \axiomRmlKFF{}.
+\end{definition}
+
+\begin{theorem}
+The axiomatisation \axiomRmlKFF{} is sound and strongly complete with respect to the semantics of the logic \logicAamlKFF{}.
+\end{theorem}
+
+\begin{proof}
+Soundness of the axioms and rules from \axiomAmlKFF{} and \axiomRmlKFF{} follow from the same reasoning used to show that they are sound in \logicAmlKFF{} and \logicRmlKFF{} respectively.
+Strong completeness follows from similar reasoning as in the proof of strong completeness of \axiomAamlK{} in Theorem~\ref{aaml-k-sound-complete}.
+\end{proof}
+
+\begin{corollary}
+The logic \logicAamlKFF{} is expressively equivalent to the logic \logicKFF{}.
+\end{corollary}
+
+\begin{corollary}
+The logic \logicAamlKFF{} is compact.
+\end{corollary}
+
+\begin{corollary}
+The satisfiability problem for the logic \logicAamlKFF{} is decidable.
+\end{corollary}

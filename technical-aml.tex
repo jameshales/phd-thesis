@@ -72,6 +72,14 @@ We are interested in the following variants of action model logic:
     \item \logicAmlS{} interpreted over the class of \classS{} Kripke frames and the language of action model logic $\langAml(\classS)$ with action signatures defined on the class of finite \classS{} Kripke frames.
 \end{itemize}
 
+\begin{proposition}
+    Let $\kModel \in \classKFF$ and $\aModel \in \classKFF$. Then $\kModel \exec \aModel \in \classKFF$.
+\end{proposition}
+
+\begin{proposition}
+    Let $\kModel \in \classS$ and $\aModel \in \classS$. Then $\kModel \exec \aModel \in \classS$.
+\end{proposition}
+
 \begin{definition}[Skip and crash]
     We define the action models \aSkip{} and \aCrash{} as follows:
     \begin{eqnarray*}
@@ -205,13 +213,12 @@ In particular, due to Proposition~\ref{modal-bisimulation-invariance} and Propos
 \begin{proposition}
 Let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ and
 let $\aPModel{\aStateS}$ be a pointed action model.
-Then for every $\phi \in \langAml$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
+Then for every $\phi \in \langAml$: $\kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi$ if and only if $\kPModelP{\kStateSP} \entails \actionA{\aPModel{\aStateS}} \phi$.
 \end{proposition}
 
 \begin{proposition}
-Let $\kPModel{\kStateS}$ be a pointed Kripke model and
-let $\aPModel{\aStateS}, \aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar \aPModelP{\aStateSP}$.
-Then for every $\phi \in \langAml$: $\kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi$ if and only if $\kPModel{\kStateS} \entails \actionA{\aPModelP{\aStateSP}} \phi$.
+Let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
+Then for every $\phi \in \langAml$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 \end{proposition}
 
 We also have a notion of depth-limited bisimilarity of action models.

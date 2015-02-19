@@ -46,6 +46,7 @@
 
 % Kripke states
 \newcommand{\kState}[2][\empty]{{#2}^{#1}}
+\newcommand{\kPState}[2][\empty]{\kPState[#1]{\overline{#2}}}
 \newcommand{\kStateS}[1][\empty]{\kState[#1]{s}}
 \newcommand{\kStateT}[1][\empty]{\kState[#1]{t}}
 \newcommand{\kStateU}[1][\empty]{\kState[#1]{u}}
@@ -58,11 +59,11 @@
 \newcommand{\kStatesU}[1][\empty]{\kState[#1]{U}}
 \newcommand{\kStatesV}[1][\empty]{\kState[#1]{V}}
 \newcommand{\kStatesW}[1][\empty]{\kState[#1]{W}}
-\newcommand{\kPStateS}[1][\empty]{\kState[#1]{\bar{s}}}
-\newcommand{\kPStateT}[1][\empty]{\kState[#1]{\bar{t}}}
-\newcommand{\kPStateU}[1][\empty]{\kState[#1]{\bar{u}}}
-\newcommand{\kPStateV}[1][\empty]{\kState[#1]{\bar{v}}}
-\newcommand{\kPStateW}[1][\empty]{\kState[#1]{\bar{w}}}
+\newcommand{\kPStateS}[1][\empty]{\kPState[#1]{s}}
+\newcommand{\kPStateT}[1][\empty]{\kPState[#1]{t}}
+\newcommand{\kPStateU}[1][\empty]{\kPState[#1]{u}}
+\newcommand{\kPStateV}[1][\empty]{\kPState[#1]{v}}
+\newcommand{\kPStateW}[1][\empty]{\kPState[#1]{w}}
 
 % Kripke model components
 \newcommand{\kStates}[1][\empty]{\ensuremath{{S^{#1}}}}
@@ -109,6 +110,7 @@
 
 % Action states
 \newcommand{\aState}[2][\empty]{{\mathsf{{#2}}^{#1}}}
+\newcommand{\aPState}[2][\empty]{\aState[#1]{\overline{#2}}}
 \newcommand{\aStateS}[1][\empty]{\aState[#1]{s}}
 \newcommand{\aStateT}[1][\empty]{\aState[#1]{t}}
 \newcommand{\aStateU}[1][\empty]{\aState[#1]{u}}
@@ -123,11 +125,15 @@
 \newcommand{\aStatesU}[1][\empty]{\aState[#1]{U}}
 \newcommand{\aStatesV}[1][\empty]{\aState[#1]{V}}
 \newcommand{\aStatesW}[1][\empty]{\aState[#1]{W}}
-\newcommand{\aPStateS}[1][\empty]{\aState[#1]{\bar{s}}}
-\newcommand{\aPStateT}[1][\empty]{\aState[#1]{\bar{t}}}
-\newcommand{\aPStateU}[1][\empty]{\aState[#1]{\bar{u}}}
-\newcommand{\aPStateV}[1][\empty]{\aState[#1]{\bar{v}}}
-\newcommand{\aPStateW}[1][\empty]{\aState[#1]{\bar{w}}}
+\newcommand{\aPStateS}[1][\empty]{\aPState[#1]{s}}
+\newcommand{\aPStateT}[1][\empty]{\aPState[#1]{t}}
+\newcommand{\aPStateU}[1][\empty]{\aPState[#1]{u}}
+\newcommand{\aPStateV}[1][\empty]{\aPState[#1]{v}}
+\newcommand{\aPStateW}[1][\empty]{\aPState[#1]{w}}
+\newcommand{\aPStatesT}[1][\empty]{\aPState[#1]{T}}
+\newcommand{\aPStatesU}[1][\empty]{\aPState[#1]{U}}
+\newcommand{\aPStatesV}[1][\empty]{\aPState[#1]{V}}
+\newcommand{\aPStatesW}[1][\empty]{\aPState[#1]{W}}
 
 % Action model components
 \newcommand{\aStates}[1][\empty]{\ensuremath{{\mathsf{S}^{#1}}}}
@@ -314,6 +320,61 @@
 \newcommand{\kPModelTuplePP}{\kPModelTuple[\prime\prime]}
 \newcommand{\kPModelAndTuplePP}{\kPModelAndTuple[\prime\prime]}
 
+%%%% Kripke models (with three '\prime's) %%%%
+
+% Kripke states
+\newcommand{\kStateSPPP}{\kStateS[\prime\prime\prime]}
+\newcommand{\kStateTPPP}{\kStateT[\prime\prime\prime]}
+\newcommand{\kStateUPPP}{\kStateU[\prime\prime\prime]}
+\newcommand{\kStateVPPP}{\kStateV[\prime\prime\prime]}
+\newcommand{\kStateWPPP}{\kStateW[\prime\prime\prime]}
+\newcommand{\kStateXPPP}{\kStateX[\prime\prime\prime]}
+\newcommand{\kStateYPPP}{\kStateY[\prime\prime\prime]}
+\newcommand{\kStateZPPP}{\kStateZ[\prime\prime\prime]}
+\newcommand{\kStatesTPPP}{\kStatesT[\prime\prime\prime]}
+\newcommand{\kStatesUPPP}{\kStatesU[\prime\prime\prime]}
+\newcommand{\kStatesVPPP}{\kStatesV[\prime\prime\prime]}
+\newcommand{\kStatesWPPP}{\kStatesW[\prime\prime\prime]}
+
+% Kripke model components
+\newcommand{\kStatesPPP}{\kStates[\prime\prime\prime]}
+\newcommand{\kAccessibilityPPP}{\kAccessibility[\prime\prime\prime]}
+\newcommand{\kAccessibilityRelPPP}{\kAccessibilityRel[\prime\prime\prime]}
+\newcommand{\kValuationPPP}{\kValuation[\prime\prime\prime]}
+\newcommand{\kSuccessorsPPP}{\kSuccessors[\prime\prime\prime]}
+\newcommand{\kPredecessorsPPP}{\kPredecessors[\prime\prime\prime]}
+
+\newcommand{\kAccessibilityPPPA}{\kAccessibilityPPP{\agentA}}
+\newcommand{\kSuccessorsPPPA}{\kSuccessorsPPP{\agentA}}
+\newcommand{\kPredecessorsPPPA}{\kPredecessorsPPP{\agentA}}
+
+\newcommand{\kAccessibilityPPPB}{\kAccessibilityPPP{\agentB}}
+\newcommand{\kSuccessorsPPPB}{\kSuccessorsPPP{\agentB}}
+\newcommand{\kPredecessorsPPPB}{\kPredecessorsPPP{\agentB}}
+
+\newcommand{\kAccessibilityPPPC}{\kAccessibilityPPP{\agentC}}
+\newcommand{\kSuccessorsPPPC}{\kSuccessorsPPP{\agentC}}
+\newcommand{\kPredecessorsPPPC}{\kPredecessorsPPP{\agentC}}
+
+\newcommand{\kAccessibilityPPPD}{\kAccessibilityPPP{\agentD}}
+\newcommand{\kSuccessorsPPPD}{\kSuccessorsPPP{\agentD}}
+\newcommand{\kPredecessorsPPPD}{\kPredecessorsPPP{\agentD}}
+
+% Kripke frames
+\newcommand{\kFramePPP}{\kFrame[\prime\prime\prime]}
+\newcommand{\kFrameTuplePPP}{\kFrameTuple[\prime\prime\prime]}
+\newcommand{\kFrameAndTuplePPP}{\kFrameAndTuple[\prime\prime\prime]}
+
+% Kripke models
+\newcommand{\kModelPPP}{\kModel[\prime\prime\prime]}
+\newcommand{\kModelTuplePPP}{\kModelTuple[\prime\prime\prime]}
+\newcommand{\kModelAndTuplePPP}{\kModelAndTuple[\prime\prime\prime]}
+
+% Pointed Kripke models
+\newcommand{\kPModelPPP}{\kPModel[\prime\prime\prime]}
+\newcommand{\kPModelTuplePPP}{\kPModelTuple[\prime\prime\prime]}
+\newcommand{\kPModelAndTuplePPP}{\kPModelAndTuple[\prime\prime\prime]}
+
 %%%% Action models (with a '\prime') %%%%
 
 % Action states
@@ -336,6 +397,10 @@
 \newcommand{\aPStateUP}{\aPStateU[\prime]}
 \newcommand{\aPStateVP}{\aPStateV[\prime]}
 \newcommand{\aPStateWP}{\aPStateW[\prime]}
+\newcommand{\aPStatesTP}{\aPStatesT[\prime]}
+\newcommand{\aPStatesUP}{\aPStatesU[\prime]}
+\newcommand{\aPStatesVP}{\aPStatesV[\prime]}
+\newcommand{\aPStatesWP}{\aPStatesW[\prime]}
 
 % Action model components
 \newcommand{\aStatesP}{\aStates[\prime]}
@@ -398,6 +463,10 @@
 \newcommand{\aPStateUPP}{\aPStateU[\prime\prime]}
 \newcommand{\aPStateVPP}{\aPStateV[\prime\prime]}
 \newcommand{\aPStateWPP}{\aPStateW[\prime\prime]}
+\newcommand{\aPStatesTPP}{\aPStatesT[\prime\prime]}
+\newcommand{\aPStatesUPP}{\aPStatesU[\prime\prime]}
+\newcommand{\aPStatesVPP}{\aPStatesV[\prime\prime]}
+\newcommand{\aPStatesWPP}{\aPStatesW[\prime\prime]}
 
 % Action model components
 \newcommand{\aStatesPP}{\aStates[\prime\prime]}
@@ -460,6 +529,10 @@
 \newcommand{\aPStateUPPP}{\aPStateU[\prime\prime\prime]}
 \newcommand{\aPStateVPPP}{\aPStateV[\prime\prime\prime]}
 \newcommand{\aPStateWPPP}{\aPStateW[\prime\prime\prime]}
+\newcommand{\aPStatesTPPP}{\aPStatesT[\prime\prime\prime]}
+\newcommand{\aPStatesUPPP}{\aPStatesU[\prime\prime\prime]}
+\newcommand{\aPStatesVPPP}{\aPStatesV[\prime\prime\prime]}
+\newcommand{\aPStatesWPPP}{\aPStatesW[\prime\prime\prime]}
 
 % Action model components
 \newcommand{\aStatesPPP}{\aStates[\prime\prime\prime]}

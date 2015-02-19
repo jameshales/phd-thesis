@@ -227,7 +227,7 @@ Let $\kPModel{\kStateS} \in \classK$ such that $\kPModel{\kStateS} \entails \aPr
 For every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kSuccessorsC{\kStateS}$ such that $\kPModel{\kStateT} \entails \aPrecondition[\agentC,\gamma](\aStateT[\agentC,\gamma])$ we have that $\kPModel{\kStateT} \simulatesBs \kPModel{\kStateT} \exec \aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]}$.
 From above $\aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \bisimilar \aPModel{\aStateT[\agentC, \gamma]}$ and so by 
 Proposition~\ref{action-bisimulation-results} we have that $\kPModel{\kStateT} \exec \aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \bisimilar \kPModel{\kStateT} \exec \aPModel{\aStateT[\agentC, \gamma]}$.
-From Corollary~\ref{bisimilar-refinement} and Proposition~\ref{refinements-preorder} we have that $\kPModel{\kStateT} \simulatesBs \kPModel{\kStateT} \exec \aPModel{\aStateT[\agentC, \gamma]}$ (say via a $\agentsB$-refinement $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$.
+From Corollary~\ref{bisimilar-refinement} and Proposition~\ref{refinements-preorder} we have that $\kPModel{\kStateT} \simulatesBs \kPModel{\kStateT} \exec \aPModel{\aStateT[\agentC, \gamma]}$ (say via a $\agentsB$-refinement $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$).
 
 Let $\kPModelP{(\kStateS, \aStateTest)} = \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
 We define $\refinement \subseteq \kStates \times \kStatesP$ where:
@@ -235,7 +235,7 @@ We define $\refinement \subseteq \kStates \times \kStatesP$ where:
 \refinement &=& 
 \{(\kStateS, (\kStateS, \aStateTest))\} \cup 
 \{(\kStateT, (\kStateT, \aStateSkip)) \mid \kStateT \in \kStates\}  \\&&\quad \cup
-\bigcup \{\{(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma]))\} \cup \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \mid \agentC \in \agentsC, \gamma \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma], \kStateT \in \kSuccessorsC{\kStateT}, \kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])\}
+\bigcup \{\refinement^{\kStateT, \aStateT[\agentC, \gamma]} \mid \agentC \in \agentsC, \gamma \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma], \kStateT \in \kSuccessorsC{\kStateT}, \kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])\}
 \end{eqnarray*}
 
 We claim that $\refinement$ is a $\agentsB$-refinement from $\kModel{\kStateS}$ to $\kModelP{(\kStateS, \aStateTest)}$.
@@ -247,9 +247,6 @@ By construction $\kStateS \in \kValuation(\atomP)$ if and only if $(\kStateS, \a
 
 Consider $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$ where $\kStateT \in \kStates$.
 By construction $\kStateT \in \kValuation(\atomP)$ if and only if $(\kStateT, \aStateSkip) \in \kValuationP(\atomP)$.
-
-Consider $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma])) \in \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
-By construction $\kStateT \in \kValuation(\atomP)$ if and only if $(\kStateT, \aStateT[\agentC, \gamma]) \in \kValuationP(\atomP)$.
 
 Consider $(\kStateT, \kStateTP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
 From {\bf atoms-$\atomP$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ we have that $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateTP \in \kValuationP(\atomP)$.
@@ -269,11 +266,6 @@ Consider $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$ where $\kStateT \
 Let $\kStateU \in \kSuccessorsD{\kStateT}$.
 By construction $\aStateSkip \in \aSuccessorsD{\aStateSkip}$ so $(\kStateU, \aStateSkip) \in \kSuccessorsPD{(\kStateT, \aStateSkip)}$ and $(\kStateU, (\kStateU, \aStateSkip)) \in \refinement$.
 
-Consider $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma])) \in \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
-Let $\kStateU \in \kSuccessorsD{\kStateT}$.
-As $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$ then by hypothesis $(\kStateT, (\kStateT, \aStateT[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]}$.
-By {\bf forth-$\agentD$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $(\kStateV, \aStateV[\agentC, \gamma]) \in \kSuccessorsPD{(\kStateT, \aStateT[\agentC, \gamma])}$ such that $(\kStateU, (\kStateV, \aStateV[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
-
 Consider $(\kStateT, \kStateTP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
 Let $\kStateU \in \kSuccessorsD{\kStateT}$.
 By {\bf forth-$\agentD$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $\kStateUP \in \kSuccessorsPD{\kStateTP}$ such that $(\kStateU, \kStateUP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
@@ -290,12 +282,6 @@ By construction $\kStateT \in \kSuccessorsA{\kStateS}$ and $(\kStateT, (\kStateT
 Consider $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$ where $\kStateT \in \kStates$.
 Let $(\kStateU, \aStateSkip) \in \kSuccessorsPA{(\kStateT, \aStateSkip)}$.
 By construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $(\kStateU, (\kStateU, \aStateSkip)) \in \refinement$.
-
-Consider $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma])) \in \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
-Let $(\kStateU, \aStateU[\agentC, \gamma]) \in \kSuccessorsPA{(\kStateT, \aPStateT[\agentC, \gamma])}$ where $\aStateU[\agentC, \gamma] \in \aSuccessorsA{\aStateT[\agentC, \gamma]} = \aSuccessorsA{\aPStateT[\agentC, \gamma]}$.
-
-As $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$ then by hypothesis $(\kStateT, (\kStateT, \aStateT[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]}$.
-By {\bf back-$\agentA$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $\kStateV \in \kSuccessorsA{\kStateT}$ such that $(\kStateV, (\kStateU, \aStateU[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
 
 Consider $(\kStateT, \kStateTP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
 Let $\kStateUP \in \kSuccessorsPA{\kStateTP}$.

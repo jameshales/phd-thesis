@@ -14,13 +14,16 @@ where $\atomP \in \atoms$, $\agentB \in \agentsB$ and $\psi \in \langMl$.
 
 \begin{definition}[$\agentsB$-bisimilarity]
 Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateSP}$ be pointed Kripke models.
-Then $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are $\agentsB$-bisimilar and we write $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ if and only if:
-\begin{enumerate}
-    \item For every $\atomP \in \atoms$, $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
-    \item For every $\agentB \in \agentsB$, $\kStateT \kSuccessorsB{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPB{\kStateSP}$ such that $\kPModel{\kStateT} \bisimilar \kPModelP{\kStateTP}$.
-    \item For every $\agentB \in \agentsB$, $\kStateTP \kSuccessorsPB{\kStateSP}$ there exists $\kStateT \in \kSuccessorsB{\kStateS}$ such that $\kPModel{\kStateT} \bisimilar \kPModelP{\kStateTP}$.
-\end{enumerate}
+Then $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are $\agentsB$-bisimilar and we write $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ if and only if for every $\atomP \in \atoms$ and $\agentB \in \agentsB$ the following conditions, {\bf atoms-$\atomP$}, {\bf forth-$\agentB$} and {\bf back-$\agentB$} holds:
 
+\paragraph{atoms-$\atomP$}
+$\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
+
+\paragraph{forth-$\agentB$}
+For every $\kStateT \in \kSuccessorsB{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPB{\kStateSP}$ such that $\kPModel{\kStateT} \bisimilar \kPModelP{\kStateTP}$.
+
+\paragraph{back-$\agentB$}
+For every $\kStateTP \in \kSuccessorsPB{\kStateSP}$ there exists $\kStateT \in \kSuccessorsB{\kStateS}$ such that $\kPModel{\kStateT} \bisimilar \kPModelP{\kStateTP}$.
 \end{definition}
 
 \begin{lemma}\label{b-restricted-invariance}
@@ -373,7 +376,7 @@ $$
 where $\atomsQ, \atomsQ' \subseteq \atoms$ are finite sets of propositional atoms, $\agentsC \subseteq \agentsB$, and for every $\agentC \in \agentsC$, $\Gamma_\agentC$ is a finite set of formulas in $(\agents \setminus \{\agentC\})$-alternating disjunctive normal form.
 \end{definition}
 
-\begin{lemma}
+\begin{lemma}\label{adnf-equivalent}
 Let $\agentsB \subseteq \agents$ be a set of agents.
 Every $\agentsB$-restricted modal formula is equivalent to a formula in $\agentsB$-alternating cover disjunctive normal form under the semantics of the logic \logicKD{}.
 \end{lemma}

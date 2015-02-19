@@ -256,15 +256,15 @@ Consider $(\kStateS, (\kStateS, \aStateTest)) \in \refinement$.
 Let $\kStateT \in \kSuccessorsD{\kStateS}$.
 Suppose that $\agentD \in \agentsC$.
 By hypothesis $\kPModel{\kStateS} \entails \someactsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC)$, and in particular $\kPModel{\kStateS} \entails \someactsBs \coversD \Gamma_\agentD$.
-By the \axiomAamlK{} axiom {\bf RComm} we have that $\kPModel{\kStateS} \entails \coversD \{\someactsBs \gamma' \mid \gamma' \in \Gamma_\agentD\}$ and by the definition of the cover operator we have that $\necessaryD \bigvee_{\gamma' \in \Gamma_\agentD} \someactsBs \gamma'$ so there exists $\gamma' \in \Gamma_\agentD$ such that $\kPModel{\kStateT} \entails \someactsBs \gamma'$.
+As $\agentD \neq \agentsB$, by the \axiomAamlK{} axiom {\bf RComm} we have that $\kPModel{\kStateS} \entails \coversD \{\someactsBs \gamma' \mid \gamma' \in \Gamma_\agentD\}$ and by the definition of the cover operator we have that $\kPModel{\kStateS} \entails \necessaryD \bigvee_{\gamma' \in \Gamma_\agentD} \someactsBs \gamma'$ so there exists $\gamma' \in \Gamma_\agentD$ such that $\kPModel{\kStateT} \entails \someactsBs \gamma'$.
 By hypothesis $\entails \someactsBs \gamma' \implies \actionE{\aPModel[\agentC, \gamma']{\aStatesT[\agentC, \gamma']}} \gamma'$ so there exists $\aStateT[\agentC, \gamma'] \in \aStatesT[\agentC, \gamma']$ such that $\kPModel{\kStateT} \entails \aPrecondition[\agentC, \gamma'](\aStateT[\agentC, \gamma'])$.
 By construction $\aStateT[\agentC, \gamma'] \in \aSuccessorsD{\aStateTest}$ and $\aPrecondition(\aStateT[\agentC, \gamma']) = \aPrecondition[\agentC, \gamma'](\aStateT[\agentC, \gamma'])$ so $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma'])$, $(\kStateT, \aStateT[\agentC, \gamma']) \in \kSuccessorsPD{(\kStateS, \aStateTest)}$, and $(\kStateT, (\kStateT, \aStateT[\agentC, \gamma'])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma']} \subseteq \refinement$.
 Suppose that $\agentD \notin \agentsC$.
-By construction $\aStateSkip \in \aSuccessorsD{\aStateTest}$ so $(\kStateT, \aStateSkip) \in \kSuccessorsPD{(\kStateS, \aStateTest)}$ and $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$.
+By construction $\aStateSkip \in \aSuccessorsD{\aStateTest}$ and $\kPModel{\kStateT} \entails \aPrecondition(\aStateSkip)$, so $(\kStateT, \aStateSkip) \in \kSuccessorsPD{(\kStateS, \aStateTest)}$ and $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$.
 
 Consider $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$ where $\kStateT \in \kStates$.
 Let $\kStateU \in \kSuccessorsD{\kStateT}$.
-By construction $\aStateSkip \in \aSuccessorsD{\aStateSkip}$ so $(\kStateU, \aStateSkip) \in \kSuccessorsPD{(\kStateT, \aStateSkip)}$ and $(\kStateU, (\kStateU, \aStateSkip)) \in \refinement$.
+By construction $\aStateSkip \in \aSuccessorsD{\aStateSkip}$ and $\kPModel{\kStateU} \entails \aPrecondition(\aStateSkip)$, so $(\kStateU, \aStateSkip) \in \kSuccessorsPD{(\kStateT, \aStateSkip)}$ and $(\kStateU, (\kStateU, \aStateSkip)) \in \refinement$.
 
 Consider $(\kStateT, \kStateTP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
 Let $\kStateU \in \kSuccessorsD{\kStateT}$.
@@ -329,7 +329,7 @@ $\entails \actionE{\aPModel{\aStateS}} \phi \iff \someactsBs \phi$, and
 for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{proof}
 
-\begin{corollary}
+\begin{corollary}\label{aaml-k-semantics-equivalent}
 The semantics of \logicAamlK{} as defined in Definition~\ref{aaml-semantics} and the alternative semantics of Definition~\ref{aaml-semantics-alt} are equivalent.
 \end{corollary}
 

@@ -25,38 +25,224 @@ The logic \logicAamlKFF{} is compact.
 The satisfiability problem for the logic \logicAamlKFF{} is decidable.
 \end{corollary}
 
-\begin{lemma}
-Let $\agentsB \subseteq \agents$, 
-let $\phi = \alpha \lor \beta \in \langAaml$, and 
-let $\aPModelAndTuple[\alpha]{\aStatesT[\alpha]} \in \classAmKFF$ and $\aPModelAndTuple[\beta]{\aStatesT[\beta]} \in \classAmKFF$ be $\agentsB$-restricted action models such that 
-$\entails \actionA{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha$, 
-$\entails \actionE{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha \iff \someactsBs \alpha$, 
-$\entails \actionA{\aPModel[\beta]{\aStatesT[\beta]}} \beta$, and 
-$\entails \actionE{\aPModel[\beta]{\aStatesT[\beta]}} \beta \iff \someactsBs \beta$.
-Then there exists a $\agentsB$-restricted action model $\aPModel{\aStatesT} \in \classAmKFF$ such that 
-$\entails \actionA{\aPModel{\aStatesT}} \phi$, and 
-$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
-\end{lemma}
+\begin{definition}[$\agentsB$-bisimilarity of action models]
+Let $\agentsB \subseteq \agents$ be a set of agents and let $\aPModelAndTuple{\aStateS}$ and $\aPModelAndTupleP{\aStateSP}$ be pointed action models.
+Then $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ are $\agentsB$-bisimilar and we write $\aPModel{\aStateS} \bisimilar[\agentsB] \aPModelP{\aStateSP}$ if and only if for every $\agentB \in \agentsB$ the following conditions, {\bf pre}, {\bf forth-$\agentB$} and {\bf back-$\agentB$} holds:
+
+\paragraph{pre}
+$\entails \aPrecondition(\aStateS) \iff \aPreconditionP(\aStateSP)$.
+
+\paragraph{forth-$\agentB$}
+For every $\aStateT \in \aSuccessorsB{\aStateS}$ there exists $\aStateTP \in \aSuccessorsPB{\aStateSP}$ such that $\aPModel{\aStateT} \bisimilar \aPModelP{\aStateTP}$.
+
+\paragraph{back-$\agentB$}
+For every $\aStateTP \in \aSuccessorsPB{\aStateSP}$ there exists $\aStateT \in \aSuccessorsB{\aStateS}$ such that $\aPModel{\aStateT} \bisimilar \aPModelP{\aStateTP}$.
+\end{definition}
 
 \begin{lemma}
+Let $\agentsB \subseteq \agents$ be a set of agents, let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ and let $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar[\agentsB] \aPModelP{\aStateSP}$.
+Then $\kPModel{\kStateS} \entails \aPrecondition(\aStateS)$ if and only if $\kPModelP{\kStateSP} \entails \aPreconditionP(\aStateSP)$ and (when they are defined) $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP} \exec \aPModelP{\aStateSP}$.
+\end{lemma}
+
+\begin{proof}
+As $\aPModel{\aStateS} \bisimilar[\agentsB] \aPModelP{\aStateSP}$ from {\bf pre} we have that $\entails \aPrecondition(\aStateS) \iff \aPreconditionP(\aStateSP)$.
+As $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ from Lemma~\ref{b-restricted-invariance} we have that $\kPModel{\kStateS} \entails \aPrecondition(\aStateS)$ if and only if $\kPModelP{\kStateSP} \entails \aPreconditionP(\aStateSP)$.
+
+Suppose that $\kPModel{\kStateS} \entails \aPrecondition(\aStateS)$ and $\kPModelP{\kStateSP} \entails \aPreconditionP(\aStateSP)$.
+Let $\kPModelPP{(\kStateS, \aStateS)} = \kPModel{\kStateS} \exec \aPModel{\aStateS}$ and let $\kPModelPPP{(\kStateSP, \aStateSP))} = \kPModelP{\kStateSP} \exec \aPModelP{\aStateSP}$.
+We show that $\kPModelPP{(\kStateS, \aStateS)} \bisimilar[\agentsB] \kPModelPPP{(\kStateSP, \aStateSP))}$.
+Let $\atomP \in \atoms$ and $\agentB \in \agentsB$.
+
+\paragraph{atoms-$\atomP$}
+By construction $(\kStateS, \aStateS) \in \kValuationPP(\atomP)$ if and only if $\kStateS \in \kValuation(\atomP)$.
+As $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ from {\bf atoms-$\atomP$} we have that $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
+By construction $\kStateSP \in \kValuationP(\atomP)$ if and only if $(\kStateSP, \aStateSP) \in \kValuationPPP(\atomP)$.
+
+\paragraph{forth-$\agentB$}
+Let $(\kStateT, \aStateT) \in \kSuccessorsPPB{(\kStateS, \aStateS)}$.
+By construction $\kStateT \in \kSuccessorsB{\kStateS}$, $\aStateT \in \aSuccessorsB{\aStateS}$ and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT)$.
+As $\aPModel{\aStateS} \bisimilar[\agentsB] \aPModelP{\aStateSP}$ from {\bf forth-$\agentB$} there exists $\aStateTP \in \aSuccessorsPB{\aStateSP}$ such that $\aPModel{\aStateT} \bisimilar \aPModelP{\aStateTP}$ and from {\bf pre} we have that $\entails \aPrecondition(\aStateT) \iff \aPreconditionP(\aStateTP)$.
+As $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ from {\bf forth-$\agentB$} there exists $\kStateTP \in \kSuccessorsPB{\kStateSP}$ such that $\kPModel{\kStateT} \bisimilar \kPModelP{\kStateTP}$ and from Proposition~\ref{modal-bisimulation-invariance} as $\kPModel{\kStateT} \entails \aPrecondition(\aStateT)$ then $\kPModelP{\kStateTP} \entails \aPreconditionP(\aStateTP)$.
+Therefore $(\kStateTP, \aStateTP) \in \kSuccessorsPPPB{(\kStateSP, \aStateSP)}$ and $\kPModelPP{(\kStateT, \aStateT)} \bisimilar \kPModelPPP{(\kStateTP, \aStateTP)}$.
+
+\paragraph{back-$\agentB$}
+Follows from symmetric reasoning to {\bf forth-$\agentB$}.
+\end{proof}
+
+\begin{corollary}
+Let $\agentsB \subseteq \agents$ be a set of agents and let $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar[\agentsB] \aPModelP{\aStateSP}$.
+Then for every pointed Kripke model $\kPModel{\kStateS}$ and every $\agentsB$-restricted modal formula $\phi \in \langAaml$ we have that $\kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi$ if and only if $\kPModel{\kStateS} \entails \actionA{\aPModelP{\aStateSP}} \phi$.
+\end{corollary}
+
+\begin{lemma}\label{aaml-kff-choice}
+Let $\agentsB \subseteq \agents$, 
+let $\phi = \alpha \lor \beta \in \langAaml$, and 
+let $\aPModel[\alpha]{\aStatesT[\alpha]} \in \classAmKFF$ and $\aPModel[\beta]{\aStatesT[\beta]} \in \classAmKFF$ be action models such that 
+$\entails \actionA{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha$, 
+$\entails \actionE{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha \iff \someactsBs \alpha$, 
+$\entails \actionA{\aPModel[\beta]{\aStatesT[\beta]}} \beta$,
+$\entails \actionE{\aPModel[\beta]{\aStatesT[\beta]}} \beta \iff \someactsBs \beta$,
+for every $\aStateT[\alpha] \in \aStatesT[\alpha]$, $\kPModel{\kStateS} \in \classKFF$ if $\kPModel{\kStateS} \entails \aPrecondition[\alpha](\aStateT[\alpha])$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel[\alpha]{\aStateT[\alpha]}$, and
+for every $\aStateT[\beta] \in \aStatesT[\beta]$, $\kPModel{\kStateS} \in \classKFF$ if $\kPModel{\kStateS} \entails \aPrecondition[\beta](\aStateT[\beta])$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel[\beta]{\aStateT[\beta]}$.
+Then there exists an action model $\aPModel{\aStatesT} \in \classAmKFF$ such that 
+$\entails \actionA{\aPModel{\aStatesT}} \phi$,
+$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$, and
+for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classKFF$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
+\end{lemma}
+
+\begin{proof}[Proof (Sketch)]
+We use the same construction and reasoning as in the proof of Lemma~\ref{aaml-k-choice}, noting additionally that the disjoint union of two $\classAmKFF$ action models is also a $\classAmKFF$ action model.
+\end{proof}
+
+\begin{lemma}\label{aaml-kff-covers}
 Let $\agentsB, \agentsC \subseteq \agents$, 
 let $\phi = \pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC \in \langAaml$ where $\pi \in \langPl$, and 
 for every $\agentC \in \agentsC$, $\gamma \in \agentsC$
-let $\aPModelAndTuple[\gamma]{\aStatesT[\gamma]} \in \classAmKFF$ be a $\agentsB$-restricted action model such that 
-$\entails \actionA{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma$, and 
-$\entails \actionE{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \iff \someactsBs \gamma$.
-Then there exists a $\agentsB$-restricted action model $\aPModel{\aStatesT} \in \classAmKFF$ such that 
+let $\aPModelAndTuple[\gamma]{\aStatesT[\gamma]} \in \classAmKFF$ be a $\agentsB$-action model such that 
+$\entails \actionA{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma$,
+$\entails \actionE{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \iff \someactsBs \gamma$, and
+for every $\aStateT[\gamma] \in \aStatesT[\gamma]$, $\kPModel{\kStateS} \in \classKFF$ if $\kPModel{\kStateS} \entails \aPrecondition[\gamma](\aStateT[\gamma])$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel[\gamma]{\aStateT[\gamma]}$.
+Then there exists a $\agentsB$-action model $\aPModel{\aStatesT} \in \classAmKFF$ such that 
 $\entails \actionA{\aPModel{\aStatesT}} \phi$, and 
 $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
+for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classKFF$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{lemma}
 
-\begin{theorem}
+\begin{proof}
+Without loss of generality we assume that each $\aModel[\agentC, \gamma]$ for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$ is disjoint.
+
+We construct the action model $\aPModelAndTuple{\aStateTest}$ where:
+\begin{eqnarray*}
+    \aStates &=& \{\aStateTest, \aStateSkip\} \cup \{\aPStateT[\agentC, \gamma] \mid \agentC \in \agentsC, \gamma \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]\} \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aStates[\agentC, \gamma]\\
+    \aAccessibilityA &=& \{(\aStateTest, \aPStateT[\agentA, \gamma]) \mid \gamma \in \Gamma_\agentA, \aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]\} \cup \{(\aStateSkip, \aStateSkip)\} \\&&\quad \cup \{(\aPStateT[\agentA, \gamma], \aPStateU[\agentA, \gamma']) \mid \gamma, \gamma' \in \Gamma_\agentA, \aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma], \aStateU[\agentA, \gamma'] \in \aStatesT[\agentA, \gamma']\} \\&& \quad \cup \{(\aPStateT[\agentC, \gamma], \aStateU[\agentC, \gamma]) \mid \agentC \in \agentsC \setminus \{\agentA\}, \gamma \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma], \aStateU[\agentC, \gamma] \in \aSuccessorsA[\agentC, \gamma]{\aStateT[\agentC, \gamma]}\}  \\&& \quad \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aAccessibilityA[\agentC, \gamma] \text{ for } \agentA \in \agentsC\\
+    \aAccessibilityA &=& \{(\aStateTest, \aStateSkip), (\aStateSkip, \aStateSkip)\} \\&& \quad \cup \{(\aPStateT[\agentC, \gamma], \aStateU[\agentC, \gamma]) \mid \agentC \in \agentsC, \gamma \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma], \aStateU[\agentC, \gamma] \in \aSuccessorsA[\agentC, \gamma]{\aStateT[\agentC, \gamma]}\} \\&&\quad \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aAccessibilityA[\agentC, \gamma] \text{ for } \agentA \in \agents \setminus \agentsC\\
+    \aPrecondition &=& \{(\aStateTest, \someactsBs \phi), (\aStateSkip, \top)\} \\&&\quad \cup \{(\aPStateT[\agentC, \gamma], \aPrecondition[\agentC, \gamma](\aStateT[\agentC, \gamma])) \mid \agentC \in \agentsC, \gamma \in \Gamma_\agentsC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]\} \\&&\quad \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aPrecondition[\agentC, \gamma]
+\end{eqnarray*}
+
+We note that by construction $\aModel \in \classAmKFF$.
+
+We note for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateS[\agentC, \gamma] \in \aStates[\agentC, \gamma]$ that $\aPModel{\aStateS[\agentC, \gamma]} \bisimilar \aPModel[\agentC, \gamma]{\aStateS[\agentC, \gamma]}$, as by construction $\aModel$ contains the disjoint union of each $\aModel[\agentC, \gamma]$ and no outward-facing edges are added to any state from $\aStates[\agentC, \gamma]$ in $\aModel$.
+
+We further note for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$ that $\aPModel{\aPStateT[\agentC, \gamma]} \bisimilar[(\agents \setminus \{\agentC\})] \aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]}$, as by construction the precondition and $(\agents \setminus \{\agentC\})$-successors of $\aPStateT[\agentC, \gamma]$ are the same as $\aStateT[\agentC, \gamma]$.
+As $\gamma$ is a $(\agents \setminus \{\agentC\})$-restricted modal formula then if we let $\aPStatesT[\agentC, \gamma] = \{\aPStateT[\agentC, \gamma] \mid \aStateT[\agentC, \gamma]\}$ we have that
+$\entails \actionA{\aPModel{\aPStatesT[\agentC, \gamma]}} \gamma$, and
+$\entails \actionE{\aPModel{\aPStatesT[\agentC, \gamma]}} \gamma \iff \someactsBs \gamma$.
+
+We show that
+$\entails \actionA{\aPModel{\aStateTest}} \phi$, and 
+$\entails \actionE{\aPModel{\aStateTest}} \phi \iff \someactsBs \phi$
+by using the same reasoning as in the proof of Lemma~\ref{aaml-k-covers},
+but substituting occurrences of $\aPModel{\aPStatesT[\agentC, \gamma]}$ with $\aPModel{\aStatesT[\agentC, \gamma]}$, noting from above that these states have the same required properties.
+
+Finally we show that for every $\kPModel{\kStateS} \in \classKFF$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateTest)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
+Let $\kPModel{\kStateS} \in \classKFF$ such that $\kPModel{\kStateS} \entails \aPrecondition(\aStateTest)$.
+For every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kSuccessorsC{\kStateS}$ such that $\kPModel{\kStateT} \entails \aPrecondition[\agentC,\gamma](\aStateT[\agentC,\gamma])$ we have that $\kPModel{\kStateT} \simulatesBs \kPModel{\kStateT} \exec \aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]}$.
+From above $\aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \bisimilar \aPModel{\aStateT[\agentC, \gamma]}$ and so by 
+Proposition~\ref{action-bisimulation-results} we have that $\kPModel{\kStateT} \exec \aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \bisimilar \kPModel{\kStateT} \exec \aPModel{\aStateT[\agentC, \gamma]}$.
+From Corollary~\ref{bisimilar-refinement} and Proposition~\ref{refinements-preorder} we have that $\kPModel{\kStateT} \simulatesBs \kPModel{\kStateT} \exec \aPModel{\aStateT[\agentC, \gamma]}$ (say via a $\agentsB$-refinement $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$).
+
+Let $\kPModelP{(\kStateS, \aStateTest)} = \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
+We define $\refinement \subseteq \kStates \times \kStatesP$ where:
+\begin{eqnarray*}
+\refinement &=& 
+\{(\kStateS, (\kStateS, \aStateTest))\} \cup 
+\{(\kStateT, (\kStateT, \aStateSkip)) \mid \kStateT \in \kStates\}  \\&&\quad \cup
+\bigcup \{\{(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma]))\} \cup \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \mid \agentC \in \agentsC, \gamma \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma], \kStateT \in \kSuccessorsC{\kStateT}, \kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])\}
+\end{eqnarray*}
+
+We claim that $\refinement$ is a $\agentsB$-refinement from $\kModel{\kStateS}$ to $\kModelP{(\kStateS, \aStateTest)}$.
+Let $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentD \in \agents \setminus \agentsB$.
+
+\paragraph{atoms-$\atomP$}
+Consider $(\kStateS, (\kStateS, \aStateTest)) \in \refinement$.
+By construction $\kStateS \in \kValuation(\atomP)$ if and only if $(\kStateS, \aStateTest) \in \kValuationP(\atomP)$.
+
+Consider $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$ where $\kStateT \in \kStates$.
+By construction $\kStateT \in \kValuation(\atomP)$ if and only if $(\kStateT, \aStateSkip) \in \kValuationP(\atomP)$.
+
+Consider $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma])) \in \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
+By construction $\kStateT \in \kValuation(\atomP)$ if and only if $(\kStateT, \aStateT[\agentC, \gamma]) \in \kValuationP(\atomP)$.
+
+Consider $(\kStateT, \kStateTP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
+From {\bf atoms-$\atomP$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ we have that $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateTP \in \kValuationP(\atomP)$.
+
+\paragraph{forth-$\agentD$}
+Consider $(\kStateS, (\kStateS, \aStateTest)) \in \refinement$.
+Let $\kStateT \in \kSuccessorsD{\kStateS}$.
+Suppose that $\agentD \in \agentsC$.
+By hypothesis $\kPModel{\kStateS} \entails \someactsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC)$, and in particular $\kPModel{\kStateS} \entails \someactsBs \coversD \Gamma_\agentD$.
+As $\agentD \neq \agentsB$, by the \axiomAamlKFF{} axiom {\bf RComm} we have that $\kPModel{\kStateS} \entails \coversD \{\someactsBs \gamma' \mid \gamma' \in \Gamma_\agentD\}$ and by the definition of the cover operator we have that $\kPModel{\kStateS} \entails \necessaryD \bigvee_{\gamma' \in \Gamma_\agentD} \someactsBs \gamma'$ so there exists $\gamma' \in \Gamma_\agentD$ such that $\kPModel{\kStateT} \entails \someactsBs \gamma'$.
+By hypothesis $\entails \someactsBs \gamma' \implies \actionE{\aPModel[\agentC, \gamma']{\aStatesT[\agentC, \gamma']}} \gamma'$ so there exists $\aStateT[\agentC, \gamma'] \in \aStatesT[\agentC, \gamma']$ such that $\kPModel{\kStateT} \entails \aPrecondition[\agentC, \gamma'](\aStateT[\agentC, \gamma'])$.
+By construction $\aPStateT[\agentC, \gamma'] \in \aSuccessorsD{\aStateTest}$ and $\aPrecondition(\aPStateT[\agentC, \gamma']) = \aPrecondition[\agentC, \gamma'](\aStateT[\agentC, \gamma'])$ so $\kPModel{\kStateT} \entails \aPrecondition(\aPStateT[\agentC, \gamma'])$, $(\kStateT, \aPStateT[\agentC, \gamma']) \in \kSuccessorsPD{(\kStateS, \aStateTest)}$, and $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma'])) \in \refinement$.
+Suppose that $\agentD \notin \agentsC$.
+By construction $\aStateSkip \in \aSuccessorsD{\aStateTest}$ and $\kPModel{\kStateT} \entails \aPrecondition(\aStateSkip)$, so $(\kStateT, \aStateSkip) \in \kSuccessorsPD{(\kStateS, \aStateTest)}$ and $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$.
+
+Consider $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$ where $\kStateT \in \kStates$.
+Let $\kStateU \in \kSuccessorsD{\kStateT}$.
+By construction $\aStateSkip \in \aSuccessorsD{\aStateSkip}$ and $\kPModel{\kStateU} \entails \aPrecondition(\aStateSkip)$, so $(\kStateU, \aStateSkip) \in \kSuccessorsPD{(\kStateT, \aStateSkip)}$ and $(\kStateU, (\kStateU, \aStateSkip)) \in \refinement$.
+
+Consider $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma])) \in \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
+Suppose that $\agentD = \agentC$.
+Let $\kStateU \in \kSuccessorsD{\kStateT}$.
+As $\kModel \in \classKFF$ then by transitivity $\kStateU \in \kSuccessorsD{\kStateS}$.
+By hypothesis $\kPModel{\kStateS} \entails \someactsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC)$, and in particular $\kPModel{\kStateS} \entails \someactsBs \coversD \Gamma_\agentD$.
+As $\agentD \neq \agentsB$, by the \axiomAamlKFF{} axiom {\bf RComm} we have that $\kPModel{\kStateS} \entails \coversD \{\someactsBs \gamma' \mid \gamma' \in \Gamma_\agentD\}$ and by the definition of the cover operator we have that $\kPModel{\kStateS} \entails \necessaryD \bigvee_{\gamma' \in \Gamma_\agentD} \someactsBs \gamma'$ so there exists $\gamma' \in \Gamma_\agentD$ such that $\kPModel{\kStateU} \entails \someactsBs \gamma'$.
+By hypothesis $\entails \someactsBs \gamma' \implies \actionE{\aPModel[\agentC, \gamma']{\aStatesT[\agentC, \gamma']}} \gamma'$ so there exists $\aStateU[\agentC, \gamma'] \in \aStatesT[\agentC, \gamma']$ such that $\kPModel{\kStateU} \entails \aPrecondition[\agentC, \gamma'](\aStateU[\agentC, \gamma'])$.
+By construction $\aPStateU[\agentC, \gamma'] \in \aSuccessorsD{\aPStateT[\agentC, \gamma]}$ and $\aPrecondition(\aPStateU[\agentC, \gamma']) = \aPrecondition[\agentC, \gamma'](\aStateU[\agentC, \gamma'])$ so $\kPModel{\kStateU} \entails \aPrecondition(\aPStateU[\agentC, \gamma'])$, $(\kStateU, \aPStateU[\agentC, \gamma']) \in \kSuccessorsPD{(\kStateT, \aPStateT[\agentC, \gamma])}$, and $(\kStateU, (\kStateU, \aPStateU[\agentC, \gamma'])) \in \refinement$.
+Suppose that $\agentD \neq \agentC$.
+Let $\kStateU \in \kSuccessorsD{\kStateT}$.
+As $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$ then by hypothesis $(\kStateT, (\kStateT, \aStateT[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]}$.
+By {\bf forth-$\agentD$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $(\kStateV, \aStateV[\agentC, \gamma]) \in \kSuccessorsPD{(\kStateT, \aStateT[\agentC, \gamma])} = \kSuccessorsPD{(\kStateT, \aPStateT[\agentC, \gamma])}$ such that $(\kStateU, (\kStateV, \aStateV[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
+
+Consider $(\kStateT, \kStateTP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
+Let $\kStateU \in \kSuccessorsD{\kStateT}$.
+By {\bf forth-$\agentD$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $\kStateUP \in \kSuccessorsPD{\kStateTP}$ such that $(\kStateU, \kStateUP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
+
+\paragraph{back-$\agentA$}
+Consider $(\kStateS, (\kStateS, \aStateTest)) \in \refinement$.
+Suppose that $\agentA \in \agentsC$.
+Let $(\kStateT, \aPStateT[\agentA, \gamma]) \in \kSuccessorsPA{(\kStateS, \aStateTest)}$ where $\gamma \in \Gamma_\agentA$ and $\aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]$.
+By construction $\kStateT \in \kSuccessorsA{\kStateS}$ and $\kPModel{\kStateT} \entails \aPrecondition(\aPStateT[\agentA, \gamma])$ so by construction $(\kStateT, (\kStateT, \aPStateT[\agentA, \gamma])) \in \refinement$.
+Suppose that $\agentA \notin \agentsC$.
+Let $(\kStateT, \aStateSkip) \in \kSuccessorsPA{(\kStateS, \aStateTest)}$.
+By construction $\kStateT \in \kSuccessorsA{\kStateS}$ and $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$.
+
+Consider $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$ where $\kStateT \in \kStates$.
+Let $(\kStateU, \aStateSkip) \in \kSuccessorsPA{(\kStateT, \aStateSkip)}$.
+By construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $(\kStateU, (\kStateU, \aStateSkip)) \in \refinement$.
+
+Consider $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma])) \in \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
+Suppose that $\agentA = \agentsC$.
+Let $(\kStateU, \aPStateU[\agentC, \gamma']) \in \kSuccessorsPA{(\kStateT, \aPStateT[\agentC, \gamma])}$ where $\gamma' \in \Gamma_\agentC$ and $\aPStateU[\agentC, \gamma'] \in \aStatesT[\agentC, \gamma']$.
+As $\kModel \in \classKFF$ then by transitivity $\kStateU \in \kSuccessorsD{\kStateS}$.
+As $(\kStateU, \aPStateU[\agentC, \gamma']) \in \kStatesP$ then $\kPModel{\kStateU} \entails \aPrecondition(\aPStateU[\agentC, \gamma'])$ so by construction $(\kStateU, (\kStateU, \aPStateU[\agentC, \gamma'])) \in \refinement$.
+Suppose that $\agentA \neg \agentsC$.
+Let $(\kStateU, \aStateU[\agentC, \gamma]) \in \kSuccessorsPA{(\kStateT, \aPStateT[\agentC, \gamma])}$ where $\aStateU[\agentC, \gamma] \in \aSuccessorsA{\aStateT[\agentC, \gamma]} = \aSuccessorsA{\aPStateT[\agentC, \gamma]}$.
+As $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$ then by hypothesis $(\kStateT, (\kStateT, \aStateT[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]}$.
+By {\bf back-$\agentA$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $\kStateV \in \kSuccessorsA{\kStateT}$ such that $(\kStateV, (\kStateU, \aStateU[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
+
+Consider $(\kStateT, \kStateTP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
+Let $\kStateUP \in \kSuccessorsPA{\kStateTP}$.
+By {\bf back-$\agentA$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $(\kStateU, \kStateUP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
+
+Therefore $\refinement$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
+\end{proof}
+
+\begin{theorem}\label{aaml-kff-synthesis}
 Let $\agentsB \subseteq \agents$ and let $\phi \in \langAaml$.
-There exists a $\agentsB$-restricted action model $\aPModel{\aStatesT} \in \classAmKFF$ such that 
-$\entails \actionA{\aPModel{\aStatesT}} \phi$, and 
-$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
+There exists an action model $\aPModelAndTuple{\aStatesT} \in \classAmK$ such that 
+$\entails \actionA{\aPModel{\aStatesT}} \phi$,
+$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$, and
+for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{theorem}
 
-\begin{corollary}
-The semantics of \logicAamlK{} as defined in Definition~\ref{aaml-semantics} and the alternative semantics of Definition~\ref{aaml-semantics-alt} are equivalent.
+\begin{proof}[Proof (Sketch)]
+We use similar reasoning to the proof of Theorem~\ref{aaml-k-synthesis}, using Lemma~\ref{aaml-kff-choice} and Lemma~\ref{aaml-kff-covers} to inductively construct an action model.
+We convert the formula to alternating disjunctive normal form instead of disjunctive normal form, which ensures that the construction from Lemma~\ref{aaml-kff-covers} can be applied inductively to the formula, by satisfying the requirement that $\coversC$~operators are only applied to sets of $(\agents \setminus \{\agentC\})$-restricted modal formulas.
+\end{proof}
+
+\begin{corollary}\label{aaml-kff-semantics-equivalent}
+The semantics of \logicAamlKFF{} as defined in Definition~\ref{aaml-semantics} and the alternative semantics of Definition~\ref{aaml-semantics-alt} are equivalent.
 \end{corollary}
+
+This follows from the same reasoning as used by Corollary~\ref{aaml-k-semantics-equivalent}.

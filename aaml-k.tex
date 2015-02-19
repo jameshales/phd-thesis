@@ -116,7 +116,113 @@ We construct the action model $\aPModelAndTuple{\aStateTest}$ where:
 
 We note for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateS[\gamma] \in \aStates[\gamma]$ that $\aPModel{\aStateS[\gamma]} \bisimilar \aPModel[\gamma]{\aStateS[\gamma]}$, as by construction $\aModel$ contains the disjoint union of each $\aModel[\gamma]$ and no outward-facing edges are added to any state from $\aStates[\gamma]$ in $\aModel$.
 
-We first show that for every $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateTest)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
+We first show that $\entails \actionA{\aPModel{\aStateTest}} \phi$, in several parts.
+We note that from the definition of the cover operator:
+$$
+\phi = \pi \land \bigwedge_{\agentC \in \agentsC} (\necessaryC \bigvee_{\gamma \in \Gamma_\agentC} \gamma \land \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \gamma)
+$$
+Thus we will show individually that:
+\begin{enumerate}
+\item $\entails \actionA{\aPModel{\aStateTest}} \pi$
+\item $\entails \actionA{\aPModel{\aStateTest}} \necessaryC \bigvee_{\gamma \in \Gamma_\agentC} \gamma$, for every $\agentC \in \agentsC$
+\item $\entails \actionA{\aPModel{\aStateTest}} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \gamma$, for every $\agentC \in \agentsC$
+\end{enumerate}
+
+We show that $\entails \actionA{\aPModel{\aStateTest}} \pi$.
+\begin{eqnarray}
+    && \entails \phi \implies \pi \label{aaml-covers-1}\\
+    && \entails \lnot \pi \implies \lnot \phi \label{aaml-covers-2}\\
+    && \entails  \allactsBs (\lnot \pi \implies \lnot \phi) \label{aaml-covers-3}\\
+    && \entails  \allactsBs \lnot \pi \implies \allactsBs \lnot \phi \label{aaml-covers-4}\\
+    && \entails  \someactsBs \phi \implies \someactsBs \pi \label{aaml-covers-5}\\
+    && \entails  \aPrecondition(\aStateTest) \implies \pi \label{aaml-covers-6}\\
+    && \entails  \actionA{\aPModel{\aStateTest}} \pi \label{aaml-covers-7}
+\end{eqnarray}
+(\ref{aaml-covers-1}) and
+(\ref{aaml-covers-2}) follow from propositional reasoning;
+(\ref{aaml-covers-3}) follows from \axiomAamlK{} rule {\bf NecR};
+(\ref{aaml-covers-4}) follows from \axiomAamlK{} axiom {\bf R};
+(\ref{aaml-covers-5}) follows from the definition of $\someactsBs$;
+(\ref{aaml-covers-6}) follows from the construction of $\aPModel{\aStateTest}$; and
+(\ref{aaml-covers-7}) follows from \axiomAamlK{} axiom {\bf AP}.
+
+We show that $\entails \actionA{\aPModel{\aStateTest}} \necessaryC \bigvee_{\gamma \in \Gamma_\agentC} \gamma$, for every $\agentC \in \agentsC$.
+Let $\agentC \in \agentsC$.
+\begin{eqnarray}
+    && \entails \actionA{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \text{ for every } \gamma \in \Gamma_\agentC \label{aaml-covers-8}\\
+    && \entails \actionA{\aPModel{\aStatesT[\gamma]}} \gamma \text{ for every } \gamma \in \Gamma_\agentC \label{aaml-covers-9}\\
+    && \entails \bigwedge_{\aStateT \in \aStatesT[\gamma]} \actionA{\aPModel[\gamma]{\aStateT}} \gamma \text{ for every } \gamma \in \Gamma_\agentC \label{aaml-covers-10}\\
+    && \entails \necessaryC \bigwedge_{\aStateT \in \aStatesT[\gamma]} \actionA{\aPModel[\gamma]{\aStateT}} \gamma \text{ for every } \gamma \in \Gamma_\agentC \label{aaml-covers-11}\\
+    && \entails \bigwedge_{\gamma \in \Gamma_\agentC} \necessaryC \bigwedge_{\aStateT \in \aStatesT[\gamma]} \actionA{\aPModel[\gamma]{\aStateT}} \gamma \label{aaml-covers-12}\\
+    && \entails \bigwedge_{\gamma \in \Gamma_\agentC} \bigwedge_{\aStateT \in \aStatesT[\gamma]} \necessaryC \actionA{\aPModel[\gamma]{\aStateT}} \gamma \label{aaml-covers-13}\\
+    && \entails \bigwedge_{\gamma \in \Gamma_\agentC} \bigwedge_{\aStateT \in \aStatesT[\gamma]} \necessaryC \actionA{\aPModel[\gamma]{\aStateT}} \bigvee_{\gamma' \in \Gamma_\agentC} \gamma' \label{aaml-covers-14}\\
+    && \entails \bigwedge_{\aStateT \in \aSuccessorsC{\aStateTest}} \necessaryC \actionA{\aPModel[\gamma]{\aStateT}} \bigvee_{\gamma \in \Gamma_\agentC} \gamma \label{aaml-covers-15}\\
+    && \entails \aPrecondition(\aStateTest) \implies \bigwedge_{\aStateT \in \aSuccessorsC{\aStateTest}} \necessaryC \actionA{\aPModel{\aStateT}} \bigvee_{\gamma \in \Gamma_\agentC} \gamma \label{aaml-covers-16}\\
+    && \entails \actionA{\aPModel{\aStateTest}} \necessaryC \bigvee_{\gamma \in \Gamma_\agentC} \gamma \label{aaml-covers-17}
+\end{eqnarray}
+(\ref{aaml-covers-8}) follows from hypothesis;
+(\ref{aaml-covers-9}) follows from the above note that $\aModel[\gamma]{\aStateT[\gamma]} \bisimilar \aPModel{\aStateT[\gamma]}$;
+(\ref{aaml-covers-10}) follows from \axiomAamlK{} axiom {\bf AU};
+(\ref{aaml-covers-14}) follows from propositional disjunction introduction;
+(\ref{aaml-covers-15}) follows from the construction of $\aModel$; and
+(\ref{aaml-covers-17}) follows from \axiomAamlK{} axiom {\bf AK}.
+
+We show that $\entails \actionA{\aPModel{\aStateTest}} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \gamma$, for every $\agentC \in \agentsC$.
+Let $\agentC \in \agentsC$.
+
+Suppose that $\agentC \in \agentsB$.
+Then:
+\begin{eqnarray}
+    &&\entails \someactsBs \phi \implies \someactsBs \coversC \Gamma_\agentC \label{aaml-covers-18}\\
+    &&\entails \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \someactsBs \gamma \label{aaml-covers-19}
+\end{eqnarray}
+(\ref{aaml-covers-18}) follows from \axiomAamlK{} axiom {\bf R} and rule {\bf NecR}; and
+(\ref{aaml-covers-19}) follows from \axiomAamlK{} axiom {\bf RK}.
+
+Suppose that $\agentC \notin \agentsB$.
+Then:
+\begin{eqnarray}
+    &&\entails \someactsBs \phi \implies \someactsBs \coversC \Gamma_\agentC \label{aaml-covers-20}\\
+    &&\entails \someactsBs \phi \implies \coversC \{\someactsBs \gamma \mid \gamma \in \Gamma_\agentC \}\label{aaml-covers-21}\\
+    &&\entails \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \someactsBs \gamma \label{aaml-covers-22}
+\end{eqnarray}
+(\ref{aaml-covers-20}) follows from \axiomAamlK{} axiom {\bf R} and rule {\bf NecR};
+(\ref{aaml-covers-21}) follows from \axiomAamlK{} axiom {\bf RComm}; and
+(\ref{aaml-covers-22}) follows from the definition of the cover operator.
+
+So we have that $\entails \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \gamma$.
+Then:
+\begin{eqnarray}
+    && \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \someactsBs \gamma \label{aaml-covers-23}\\
+    && \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \actionE{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \label{aaml-covers-24}\\
+    && \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \actionE{\aPModel{\aStatesT[\gamma]}} \gamma \label{aaml-covers-25}\\
+    && \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \bigvee_{\aStateT \in \aStatesT[\gamma]} \actionE{\aPModel{\aStateT}} \gamma \label{aaml-covers-26}\\
+    && \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \bigvee_{\aStateT \in \aSuccessorsC{\aStateTest}} \actionE{\aPModel{\aStateT}} \gamma \label{aaml-covers-27}\\
+    && \bigwedge_{\gamma \in \Gamma_\agentC} \left(\someactsBs \phi \implies \possibleC \bigvee_{\aStateT \in \aSuccessorsC{\aStateTest}} \actionE{\aPModel{\aStateT}} \gamma\right) \label{aaml-covers-28}\\
+    && \bigwedge_{\gamma \in \Gamma_\agentC} \actionA{\aPModel{\aStateTest}} \possibleC \gamma \label{aaml-covers-29}
+\end{eqnarray}
+(\ref{aaml-covers-23}) follows from above;
+(\ref{aaml-covers-24}) follows from hypothesis;
+(\ref{aaml-covers-25}) follows from the above note that $\aModel[\gamma]{\aStateT[\gamma]} \bisimilar \aPModel{\aStateT[\gamma]}$;
+(\ref{aaml-covers-26}) follows from \axiomAamlK{} axiom {\bf AU};
+(\ref{aaml-covers-27}) follows from the construction of $\aModel$ and propositional disjunction introduction;
+(\ref{aaml-covers-28}) follows from propositional reasoning; and
+(\ref{aaml-covers-29}) follows from \axiomAamlK{} axiom {\bf AK}.
+
+Therefore $\entails \actionA{\aPModel{\aStateTest}} \phi$.
+
+Next we show that $\entails \actionE{\aPModel{\aStateTest}} \phi \iff \someactsBs \phi$. 
+This is straight-forward, given what we have shown above.
+\begin{eqnarray}
+    && \entails \actionE{\aPModel{\aStateTest}} \phi \iff (\aPrecondition(\aStateTest) \land \actionA{\aPModel{\aStateTest}} \phi) \label{aaml-covers-30}\\
+    && \entails \actionE{\aPModel{\aStateTest}} \phi \iff \aPrecondition(\aStateTest) \label{aaml-covers-31}\\
+    && \entails \actionE{\aPModel{\aStateTest}} \phi \iff \someactsBs \phi \label{aaml-covers-32}
+\end{eqnarray}
+(\ref{aaml-covers-30}) follows from the definition of $\actionE{}$;
+(\ref{aaml-covers-31}) follows from $\entails \actionA{\aPModel{\aStateTest}} \phi$ above;
+(\ref{aaml-covers-32}) follows from the construction of $\aModel$.
+
+Finally we show that for every $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateTest)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
 Let $\kPModel{\kStateS} \in \classK$ such that $\kPModel{\kStateS} \entails \aPrecondition(\aStateTest)$.
 For every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kSuccessorsC{\kStateS}$ such that $\kPModel{\kStateT} \entails \aPrecondition[\agentC,\gamma](\aStateT[\agentC,\gamma])$ we have that $\kPModel{\kStateT} \simulatesBs \kPModel{\kStateT} \exec \aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]}$.
 From above $\aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \bisimilar \aPModel{\aStateT[\agentC, \gamma]}$ and so by 
@@ -197,111 +303,6 @@ By {\bf back-$\agentA$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ 
 
 Therefore $\refinement$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
 
-We next show that $\entails \actionA{\aPModel{\aStateTest}} \phi$, in several parts.
-We note that from the definition of the cover operator:
-$$
-\phi = \pi \land \bigwedge_{\agentC \in \agentsC} (\necessaryC \bigvee_{\gamma \in \Gamma_\agentC} \gamma \land \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \gamma)
-$$
-Thus we will show individually that:
-\begin{enumerate}
-\item $\entails \actionA{\aPModel{\aStateTest}} \pi$
-\item $\entails \actionA{\aPModel{\aStateTest}} \necessaryC \bigvee_{\gamma \in \Gamma_\agentC} \gamma$, for every $\agentC \in \agentsC$
-\item $\entails \actionA{\aPModel{\aStateTest}} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \gamma$, for every $\agentC \in \agentsC$
-\end{enumerate}
-
-First we show that $\entails \actionA{\aPModel{\aStateTest}} \pi$.
-\begin{eqnarray}
-    && \entails \phi \implies \pi \label{aaml-covers-1}\\
-    && \entails \lnot \pi \implies \lnot \phi \label{aaml-covers-2}\\
-    && \entails  \allactsBs (\lnot \pi \implies \lnot \phi) \label{aaml-covers-3}\\
-    && \entails  \allactsBs \lnot \pi \implies \allactsBs \lnot \phi \label{aaml-covers-4}\\
-    && \entails  \someactsBs \phi \implies \someactsBs \pi \label{aaml-covers-5}\\
-    && \entails  \aPrecondition(\aStateTest) \implies \pi \label{aaml-covers-6}\\
-    && \entails  \actionA{\aPModel{\aStateTest}} \pi \label{aaml-covers-7}
-\end{eqnarray}
-(\ref{aaml-covers-1}) and
-(\ref{aaml-covers-2}) follow from propositional reasoning;
-(\ref{aaml-covers-3}) follows from \axiomAamlK{} rule {\bf NecR};
-(\ref{aaml-covers-4}) follows from \axiomAamlK{} axiom {\bf R};
-(\ref{aaml-covers-5}) follows from the definition of $\someactsBs$;
-(\ref{aaml-covers-6}) follows from the construction of $\aPModel{\aStateTest}$; and
-(\ref{aaml-covers-7}) follows from \axiomAamlK{} axiom {\bf AP}.
-
-Next we show that $\entails \actionA{\aPModel{\aStateTest}} \necessaryC \bigvee_{\gamma \in \Gamma_\agentC} \gamma$, for every $\agentC \in \agentsC$.
-Let $\agentC \in \agentsC$.
-\begin{eqnarray}
-    && \entails \actionA{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \text{ for every } \gamma \in \Gamma_\agentC \label{aaml-covers-8}\\
-    && \entails \actionA{\aPModel{\aStatesT[\gamma]}} \gamma \text{ for every } \gamma \in \Gamma_\agentC \label{aaml-covers-9}\\
-    && \entails \bigwedge_{\aStateT \in \aStatesT[\gamma]} \actionA{\aPModel[\gamma]{\aStateT}} \gamma \text{ for every } \gamma \in \Gamma_\agentC \label{aaml-covers-10}\\
-    && \entails \necessaryC \bigwedge_{\aStateT \in \aStatesT[\gamma]} \actionA{\aPModel[\gamma]{\aStateT}} \gamma \text{ for every } \gamma \in \Gamma_\agentC \label{aaml-covers-11}\\
-    && \entails \bigwedge_{\gamma \in \Gamma_\agentC} \necessaryC \bigwedge_{\aStateT \in \aStatesT[\gamma]} \actionA{\aPModel[\gamma]{\aStateT}} \gamma \label{aaml-covers-12}\\
-    && \entails \bigwedge_{\gamma \in \Gamma_\agentC} \bigwedge_{\aStateT \in \aStatesT[\gamma]} \necessaryC \actionA{\aPModel[\gamma]{\aStateT}} \gamma \label{aaml-covers-13}\\
-    && \entails \bigwedge_{\gamma \in \Gamma_\agentC} \bigwedge_{\aStateT \in \aStatesT[\gamma]} \necessaryC \actionA{\aPModel[\gamma]{\aStateT}} \bigvee_{\gamma' \in \Gamma_\agentC} \gamma' \label{aaml-covers-14}\\
-    && \entails \bigwedge_{\aStateT \in \aSuccessorsC{\aStateTest}} \necessaryC \actionA{\aPModel[\gamma]{\aStateT}} \bigvee_{\gamma \in \Gamma_\agentC} \gamma \label{aaml-covers-15}\\
-    && \entails \aPrecondition(\aStateTest) \implies \bigwedge_{\aStateT \in \aSuccessorsC{\aStateTest}} \necessaryC \actionA{\aPModel{\aStateT}} \bigvee_{\gamma \in \Gamma_\agentC} \gamma \label{aaml-covers-16}\\
-    && \entails \actionA{\aPModel{\aStateTest}} \necessaryC \bigvee_{\gamma \in \Gamma_\agentC} \gamma \label{aaml-covers-17}
-\end{eqnarray}
-(\ref{aaml-covers-8}) follows from hypothesis;
-(\ref{aaml-covers-9}) follows from the above note that $\aModel[\gamma]{\aStateT[\gamma]} \bisimilar \aPModel{\aStateT[\gamma]}$;
-(\ref{aaml-covers-10}) follows from \axiomAamlK{} axiom {\bf AU};
-(\ref{aaml-covers-14}) follows from propositional disjunction introduction;
-(\ref{aaml-covers-15}) follows from the construction of $\aModel$; and
-(\ref{aaml-covers-17}) follows from \axiomAamlK{} axiom {\bf AK}.
-
-Finally we show that $\entails \actionA{\aPModel{\aStateTest}} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \gamma$, for every $\agentC \in \agentsC$.
-Let $\agentC \in \agentsC$.
-
-Suppose that $\agentC \in \agentsB$.
-Then:
-\begin{eqnarray}
-    &&\entails \someactsBs \phi \implies \someactsBs \coversC \Gamma_\agentC \label{aaml-covers-18}\\
-    &&\entails \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \someactsBs \gamma \label{aaml-covers-19}
-\end{eqnarray}
-(\ref{aaml-covers-18}) follows from \axiomAamlK{} axiom {\bf R} and rule {\bf NecR}; and
-(\ref{aaml-covers-19}) follows from \axiomAamlK{} axiom {\bf RK}.
-
-Suppose that $\agentC \notin \agentsB$.
-Then:
-\begin{eqnarray}
-    &&\entails \someactsBs \phi \implies \someactsBs \coversC \Gamma_\agentC \label{aaml-covers-20}\\
-    &&\entails \someactsBs \phi \implies \coversC \{\someactsBs \gamma \mid \gamma \in \Gamma_\agentC \}\label{aaml-covers-21}\\
-    &&\entails \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \someactsBs \gamma \label{aaml-covers-22}
-\end{eqnarray}
-(\ref{aaml-covers-20}) follows from \axiomAamlK{} axiom {\bf R} and rule {\bf NecR};
-(\ref{aaml-covers-21}) follows from \axiomAamlK{} axiom {\bf RComm}; and
-(\ref{aaml-covers-22}) follows from the definition of the cover operator.
-
-So we have that $\entails \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \gamma$.
-Then:
-\begin{eqnarray}
-    && \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \someactsBs \gamma \label{aaml-covers-23}\\
-    && \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \actionE{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \label{aaml-covers-24}\\
-    && \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \actionE{\aPModel{\aStatesT[\gamma]}} \gamma \label{aaml-covers-25}\\
-    && \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \bigvee_{\aStateT \in \aStatesT[\gamma]} \actionE{\aPModel{\aStateT}} \gamma \label{aaml-covers-26}\\
-    && \someactsBs \phi \implies \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \bigvee_{\aStateT \in \aSuccessorsC{\aStateTest}} \actionE{\aPModel{\aStateT}} \gamma \label{aaml-covers-27}\\
-    && \bigwedge_{\gamma \in \Gamma_\agentC} \left(\someactsBs \phi \implies \possibleC \bigvee_{\aStateT \in \aSuccessorsC{\aStateTest}} \actionE{\aPModel{\aStateT}} \gamma\right) \label{aaml-covers-28}\\
-    && \bigwedge_{\gamma \in \Gamma_\agentC} \actionA{\aPModel{\aStateTest}} \possibleC \gamma \label{aaml-covers-29}
-\end{eqnarray}
-(\ref{aaml-covers-23}) follows from above;
-(\ref{aaml-covers-24}) follows from hypothesis;
-(\ref{aaml-covers-25}) follows from the above note that $\aModel[\gamma]{\aStateT[\gamma]} \bisimilar \aPModel{\aStateT[\gamma]}$;
-(\ref{aaml-covers-26}) follows from \axiomAamlK{} axiom {\bf AU};
-(\ref{aaml-covers-27}) follows from the construction of $\aModel$ and propositional disjunction introduction;
-(\ref{aaml-covers-28}) follows from propositional reasoning; and
-(\ref{aaml-covers-29}) follows from \axiomAamlK{} axiom {\bf AK}.
-
-Therefore $\entails \actionA{\aPModel{\aStateTest}} \phi$.
-
-Finally we show that $\entails \actionE{\aPModel{\aStateTest}} \phi \iff \someactsBs \phi$. 
-This is straight-forward, given what we have shown above.
-\begin{eqnarray}
-    && \entails \actionE{\aPModel{\aStateTest}} \phi \iff (\aPrecondition(\aStateTest) \land \actionA{\aPModel{\aStateTest}} \phi) \label{aaml-covers-30}\\
-    && \entails \actionE{\aPModel{\aStateTest}} \phi \iff \aPrecondition(\aStateTest) \label{aaml-covers-31}\\
-    && \entails \actionE{\aPModel{\aStateTest}} \phi \iff \someactsBs \phi \label{aaml-covers-32}
-\end{eqnarray}
-(\ref{aaml-covers-30}) follows from the definition of $\actionE{}$;
-(\ref{aaml-covers-31}) follows from $\entails \actionA{\aPModel{\aStateTest}} \phi$ above;
-(\ref{aaml-covers-32}) follows from the construction of $\aModel$.
 \end{proof}
 
 \begin{theorem}\label{aaml-k-synthesis}

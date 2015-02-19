@@ -85,8 +85,8 @@ Finally we show that $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someacts
 The converse, that $\entails \actionE{\aPModel{\aStatesT}} \phi \implies \someactsBs \phi$ follows from a simple semantic argument.
 Let $\kPModel{\kStateS} \in \classK$ and suppose that $\kPModel{\kStateS} \entails \actionE{\aPModel{\aStatesT}} \phi$.
 Then there exists $\aStateS \in \aStatesT$ such that $\kPModel{\kStateS} \entails \aPrecondition(\aStateS)$ and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails \phi$.
-From above, $\aModel$ is a $\agentsB$-action model, so $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}$ and so $\kPModel{\kStateS} \entails \someactsBs \phi$.
-Therefore $\entails \actionE{\aPModel{\aStatesT}} \phi \implies \someactsBs \phi$
+From above, $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}$, so $\kPModel{\kStateS} \entails \someactsBs \phi$.
+Therefore $\entails \actionE{\aPModel{\aStatesT}} \phi \implies \someactsBs \phi$.
 \end{proof}
 
 \begin{lemma}\label{aaml-k-covers}
@@ -319,23 +319,28 @@ Then we proceed by induction on the structure of $\phi$.
 Suppose that $\phi = \pi \land \bigwedge_{\agentC \in \agentsC} \Gamma_\agentC$ where $\pi \in \langPl$, $\agentsC \subseteq \agents$ and for every $\agentC \in \agentsC$, $\Gamma_\agentC \subseteq \langMl$ is a finite set of modal formulas.
 We note that the base case for the induction occurs when for every $\agentC \in \agentsC$, $\Gamma_\agentC = \emptyset$.
 By the induction hypothesis for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$ there exists 
-a $\agentsB$-action model $\aPModel[\gamma]{\aStatesT[\gamma]} \in \classAmK$ such that
-$\entails \actionA{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma$, and 
-$\entails \actionE{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \iff \someactsBs \gamma$.
+an action model $\aPModel[\gamma]{\aStatesT[\gamma]} \in \classAmK$ such that
+$\entails \actionA{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma$,
+$\entails \actionE{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \iff \someactsBs \gamma$, and
+for every $\aStateT[\gamma] \in \aStatesT[\gamma]$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition[\gamma](\aStateT[\gamma])$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel[\gamma]{\aStateT[\gamma]}$.
 By Lemma~\ref{aaml-k-covers} there exists a $\agentsB$-action model $\aPModel{\aStatesT} \in \classAmK$ such that 
-$\entails \actionA{\aPModel{\aStatesT}} \phi$, and 
-$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
+$\entails \actionA{\aPModel{\aStatesT}} \phi$,
+$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$, and
+for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 
 Suppose that $\phi = \alpha \lor \beta$ where $\alpha, \beta \in \langMl$.
 By the induction hypothesis there exists $\agentsB$-action models
 $\aPModel[\alpha]{\aStatesT[\alpha]} \in \classAmK$ and $\aPModel[\beta]{\aStatesT[\beta]} \in \classAmK$ such that 
 $\entails \actionA{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha$, 
 $\entails \actionE{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha \iff \someactsBs \alpha$, 
-$\entails \actionA{\aPModel[\beta]{\aStatesT[\beta]}} \beta$, and 
-$\entails \actionE{\aPModel[\beta]{\aStatesT[\beta]}} \beta \iff \someactsBs \beta$.
+$\entails \actionA{\aPModel[\beta]{\aStatesT[\beta]}} \beta$,
+$\entails \actionE{\aPModel[\beta]{\aStatesT[\beta]}} \beta \iff \someactsBs \beta$,
+for every $\aStateT[\alpha] \in \aStatesT[\alpha]$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition[\alpha](\aStateT[\alpha])$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel[\alpha]{\aStateT[\alpha]}$, and
+for every $\aStateT[\beta] \in \aStatesT[\beta]$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition[\beta](\aStateT[\beta])$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel[\beta]{\aStateT[\beta]}$.
 By Lemma~\ref{aaml-k-choice} there exists a $\agentsB$-action model $\aPModel{\aStatesT} \in \classAmK$ such that 
-$\entails \actionA{\aPModel{\aStateS}} \phi$, and 
-$\entails \actionE{\aPModel{\aStateS}} \phi \iff \someactsBs \phi$.
+$\entails \actionA{\aPModel{\aStateS}} \phi$,
+$\entails \actionE{\aPModel{\aStateS}} \phi \iff \someactsBs \phi$, and
+for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{proof}
 
 \begin{corollary}
@@ -352,17 +357,18 @@ The cases where $\phi = \atomP$, $\phi = \lnot \psi$,  $\phi = \psi \land \chi$,
 Suppose that $\phi = \someactsBs \psi$ where $\psi \in \langAaml$.
 
 Suppose that $\kPModel{\kStateS} \entails_\exec \someactsBs \psi$.
-Then there exists a $\agentsB$-action model $\aPModel{\aStateS} \in \aSignatureFamily_\agentsB$ such that $\kPModel{\kStateS} \entails_\exec \actionE{\aPModel{\aStateS}} \psi$ 
-As $\kPModel{\kStateS} \entails_\exec \actionE{\aPModel{\aStateS}} \psi$ then we have that $\kPModel{\kStateS} \entails_\exec \aPrecondition(\aStateS)$ and 
-$\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_\exec \psi$.
+Then there exists an action model $\aPModelAndTuple{\aStateS} \in \aSignatureFamily$ such that $\kPModel{\kStateS} \entails_\exec \aPrecondition(\aStateS)$, $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}$, and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_\exec \psi$.
 By the induction hypothesis we have $\kPModel{\kStateS} \entails_{\simulates} \aPrecondition(\aStateS)$ and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_{\simulates} \psi$.
-As $\aPModel{\aStateS}$ is a $\agentsB$-action model then $\kPModel \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}$.
-Therefore $\kPModel{\kStateS} \entails_{\simulates} \someactsBs \psi$.
+As $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}$ then $\kPModel{\kStateS} \entails_{\simulates} \someactsBs \psi$.
 
 Suppose that $\kPModel{\kStateS} \entails_{\simulates} \someactsBs \psi$.
-From Theorem~\ref{aaml-k-synthesis} there exists a $\agentsB$-action model $\aPModel{\aStatesT} \in \classAmK$ such that $\entails_{\simulates} \actionE{\aPModel{\aStatesT}} \psi \iff \someactsBs \psi$.
+From Theorem~\ref{aaml-k-synthesis} there exists an action model $\aPModel{\aStatesT} \in \classAmK$ such that 
+$\entails_{\simulates} \actionA{\aPModel{\aStatesT}} \psi$,
+$\entails_{\simulates} \actionE{\aPModel{\aStatesT}} \psi \iff \someactsBs \psi$, and
+for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails_{\simulates} \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 Without loss of generality, by Corollary~\ref{aaml-k-expressive-equivalence} we assume that $\aPModel{\aStatesT}$ has preconditions defined on \langMl{}.
-Therefore $\kPModel{\kStateS} \entails_{\simulates} \actionE{\aPModel{\aStatesT}} \psi$ so $\kPModel{\kStateS} \entails_{\simulates} \aPrecondition(\aStatesT)$ and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_{\simulates} \psi$.
-As $\aPrecondition(\aStatesT) \in \langMl$ then $\kPModel{\kStateS} \entails_\exec \aPrecondition(\aStatesT)$ and by the induction hypothesis $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_{\simulates} \psi$, so $\kPModel{\kStateS} \entails_\exec \actionE{\aPModel{\aStatesT}} \psi$. 
+Then $\kPModel{\kStateS} \entails_{\simulates} \actionE{\aPModel{\aStatesT}} \psi$ and so there exists $\aStateT \in \aStatesT$ such that $\kPModel{\kStateS} \entails_{\simulates} \aPrecondition(\aStateT)$, $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$, and $\kPModel{\kStateS} \exec \aPModel{\aStateT} \entails_{\simulates} \psi$.
+As $\aPrecondition(\aStateT) \in \langMl$ then $\kPModel{\kStateS} \entails_{\exec} \aPrecondition(\aStateT)$
+By the induction hypothesis $\kPModel{\kStateS} \exec \aPModel{\aStateT} \entails_{\exec} \psi$.
 Therefore $\kPModel{\kStateS} \entails_\exec \someactsBs \psi$.
 \end{proof}

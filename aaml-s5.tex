@@ -25,38 +25,50 @@ The logic \logicAamlS{} is compact.
 The satisfiability problem for the logic \logicAamlS{} is decidable.
 \end{corollary}
 
-\begin{lemma}
+\begin{lemma}\label{aaml-s-choice}
 Let $\agentsB \subseteq \agents$, 
 let $\phi = \alpha \lor \beta \in \langAaml$, and 
-let $\aPModelAndTuple[\alpha]{\aStatesT[\alpha]} \in \classAmS$ and $\aPModelAndTuple[\beta]{\aStatesT[\beta]} \in \classAmS$ be $\agentsB$-restricted action models such that 
+let $\aPModel[\alpha]{\aStatesT[\alpha]} \in \classAmS$ and $\aPModel[\beta]{\aStatesT[\beta]} \in \classAmS$ be action models such that 
 $\entails \actionA{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha$, 
 $\entails \actionE{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha \iff \someactsBs \alpha$, 
-$\entails \actionA{\aPModel[\beta]{\aStatesT[\beta]}} \beta$, and 
-$\entails \actionE{\aPModel[\beta]{\aStatesT[\beta]}} \beta \iff \someactsBs \beta$.
-Then there exists a $\agentsB$-restricted action model $\aPModel{\aStatesT} \in \classAmS$ such that 
-$\entails \actionA{\aPModel{\aStatesT}} \phi$, and 
-$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
+$\entails \actionA{\aPModel[\beta]{\aStatesT[\beta]}} \beta$,
+$\entails \actionE{\aPModel[\beta]{\aStatesT[\beta]}} \beta \iff \someactsBs \beta$,
+for every $\aStateT[\alpha] \in \aStatesT[\alpha]$, $\kPModel{\kStateS} \in \classS$ if $\kPModel{\kStateS} \entails \aPrecondition[\alpha](\aStateT[\alpha])$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel[\alpha]{\aStateT[\alpha]}$, and
+for every $\aStateT[\beta] \in \aStatesT[\beta]$, $\kPModel{\kStateS} \in \classS$ if $\kPModel{\kStateS} \entails \aPrecondition[\beta](\aStateT[\beta])$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel[\beta]{\aStateT[\beta]}$.
+Then there exists an action model $\aPModel{\aStatesT} \in \classAmS$ such that 
+$\entails \actionA{\aPModel{\aStatesT}} \phi$,
+$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$, and
+for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classS$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{lemma}
 
-\begin{lemma}
+\begin{proof}[Proof (Sketch)]
+We use the same construction and reasoning as in the proof of Lemma~\ref{aaml-k-choice}, noting additionally that the disjoint union of two $\classAmS$ action models is also a $\classAmS$ action model.
+\end{proof}
+
+\begin{lemma}\label{aaml-s-covers}
 Let $\agentsB, \agentsC \subseteq \agents$, 
-let $\phi = \pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC \in \langAaml$ where $\pi \in \langPl$, and 
+let $\phi = \gamma_0 \land \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverA \Gamma_\agentA \in \langMl$ be an explicit formula where $\atomsQ, \atomsQ' \subseteq \atoms$, and 
 for every $\agentC \in \agentsC$, $\gamma \in \agentsC$
-let $\aPModelAndTuple[\gamma]{\aStatesT[\gamma]} \in \classAmS$ be a $\agentsB$-restricted action model such that 
-$\entails \actionA{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma$, and 
-$\entails \actionE{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \iff \someactsBs \gamma$.
-Then there exists a $\agentsB$-restricted action model $\aPModel{\aStatesT} \in \classAmS$ such that 
+let $\aPModelAndTuple[\gamma]{\aStatesT[\gamma]} \in \classAmS$ be an action model such that 
+$\entails \actionA{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma$,
+$\entails \actionE{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \iff \someactsBs \gamma$, and
+for every $\aStateT[\gamma] \in \aStatesT[\gamma]$, $\kPModel{\kStateS} \in \classS$ if $\kPModel{\kStateS} \entails \aPrecondition[\gamma](\aStateT[\gamma])$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel[\gamma]{\aStateT[\gamma]}$.
+Then there exists a action model $\aPModel{\aStatesT} \in \classAmS$ such that 
 $\entails \actionA{\aPModel{\aStatesT}} \phi$, and 
 $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
+for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classS$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{lemma}
 
-\begin{theorem}
+\begin{theorem}\label{aaml-s-synthesis}
 Let $\agentsB \subseteq \agents$ and let $\phi \in \langAaml$.
-There exists a $\agentsB$-restricted action model $\aPModel{\aStatesT} \in \classAmS$ such that 
-$\entails \actionA{\aPModel{\aStatesT}} \phi$, and 
-$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
+There exists an action model $\aPModelAndTuple{\aStatesT} \in \classAmK$ such that 
+$\entails \actionA{\aPModel{\aStatesT}} \phi$,
+$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$, and
+for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{theorem}
 
-\begin{corollary}
-The semantics of \logicAamlK{} as defined in Definition~\ref{aaml-semantics} and the alternative semantics of Definition~\ref{aaml-semantics-alt} are equivalent.
+\begin{corollary}\label{aaml-s-semantics-equivalent}
+The semantics of \logicAamlS{} as defined in Definition~\ref{aaml-semantics} and the alternative semantics of Definition~\ref{aaml-semantics-alt} are equivalent.
 \end{corollary}
+
+This follows from the same reasoning as used by Corollary~\ref{aaml-k-semantics-equivalent}.

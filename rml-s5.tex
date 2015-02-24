@@ -599,12 +599,12 @@ Therefore $\chi'$ is an explicit formula, and $\phi$ is equivalent to a disjunct
 The following are theorems of \axiomRmlS{}:
 \begin{align}
     \proves & \somerefsBs (\phi \lor \psi) \iff (\somerefsBs \phi \lor \somerefsBs \psi)\\
-    \proves & \displaystyle \somerefsBs (\gamma_0 \land \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \nonumber\\
+    \proves & \displaystyle \somerefsBs (\gamma_0 \land \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentA \in \agents} \coverC \Gamma_\agentC) \iff \nonumber\\
             & \displaystyle \quad
             \somerefsBs \gamma_0 \land
             \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land 
-            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \somerefsBs \gamma \land
-            \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\}
+            \bigwedge_{\agentA \in \agents \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \somerefsBs \gamma \land
+            \bigwedge_{\agentA \in \agents \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\}
 \end{align}
 where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite set of explicit formulas and $\gamma_0 \in \Gamma_\agentA$.
 \end{lemma}

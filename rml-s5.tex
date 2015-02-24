@@ -25,7 +25,7 @@ $$
     {\bf RP} & \proves \allrefsBs \atomP \iff \atomP\\
     {\bf RS5} & \proves \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA) \iff \somerefsBs \gamma_0 \land \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma \text{ where } \agentA \in \agentsB\\
     {\bf RComm} & \proves \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA) \iff \somerefsBs \gamma_0 \land \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \text{ where } \agentA \notin \agentsB\\
-    {\bf RDist} & \proves \somerefsBs (\gamma_0 \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC) \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs (\gamma_0 \land \coversC \Gamma_\agentC)\\
+    {\bf RDist} & \proves \somerefsBs (\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA) \iff \bigwedge_{\agentA \in \agents} \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)\\
     {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
 \end{array}
 $$
@@ -222,10 +222,19 @@ By the induction hypothesis $\kPModelP{\kStateSP_{\gamma'}} \entails \phi$.
 Therefore $\kPModelP{\kStateSP_\gamma} \entails \necessaryA \phi$.
 
 Suppose $\kPModelP{\kStateT[\gamma]} \entails \necessaryA \phi$.
-For every $\kStateU[\gamma] \in \kSuccessorsA[\gamma]{\kStateT[\gamma]} = \kSuccessorsPA{\kStateT[\gamma]}$ we have $\kPModel[\gamma]{\kStateU[\gamma]} \entails \phi$.
-By the induction hypothesis $\kPModel[\gamma]{\kStateU[\gamma]} \entails \phi$.
+For every $\kStateU[\gamma] \in \kSuccessorsA[\gamma]{\kStateT[\gamma]} \subseteq \kSuccessorsPA{\kStateT[\gamma]}$ we have $\kPModelP{\kStateU[\gamma]} \entails \phi$.
+By the induction hypothesis for every $\kStateU[\gamma] \in \kSuccessorsA[\gamma]{\kStateT[\gamma]}$ we have $\kPModel[\gamma]{\kStateU[\gamma]} \entails \phi$.
 Therefore $\kPModel[\gamma]{\kStateT[\gamma]} \entails \necessaryA \phi$.
-The converse follows from symmetric reasoning.
+
+Suppose $\kPModel[\gamma]{\kStateT[\gamma]} \entails \necessaryA \phi$.
+For every $\kStateU[\gamma] \in \kSuccessorsA[\gamma]{\kStateT[\gamma]}$ we have $\kPModel[\gamma]{\kStateU[\gamma]} \entails \phi$.
+By the induction hypothesis for every $\kStateU[\gamma] \in \kSuccessorsA[\gamma]{\kStateT[\gamma]}$ we have $\kPModelP{\kStateU[\gamma]} \entails \phi$.
+By construction $\kSuccessorsPA{\kStateT[\gamma]} = \{\kStateSP_\gamma\} \cup \kSuccessorsA[\gamma]{\kStateT[\gamma]}$ or $\kSuccessorsPA{\kStateT[\gamma]} = \kSuccessorsA[\gamma]{\kStateT[\gamma]}$.
+Suppose that $\kStateSP_\gamma \notin \kSuccessorsPA{\kStateT[\gamma]}$.
+Then $\kPModelP{\kStateT[\gamma]} \entails \necessaryA \phi$.
+Suppose that $\kStateSP_\gamma \in \kSuccessorsPA{\kStateT[\gamma]}$.
+Then $\kStateS[\gamma] \in \kSuccessorsA[\gamma]{\kStateT[\gamma]}$ so from above $\kPModel[\gamma]{\kStateS[\gamma]} \entails \phi$ and by the induction hypothesis $\kPModelP{\kStateSP_\gamma} \entails \phi$.
+Therefore $\kPModelP{\kStateT[\gamma]} \entails \necessaryA \phi$.
 
 Suppose that $\delta = \necessaryB \phi$ where $\agentB \neq \agentA$ and $\phi \in \Delta$.
 
@@ -361,34 +370,33 @@ The axiom {\bf RDist} is sound with respect to the semantics of the logic \logic
 
 \begin{proof}
 ($\Rightarrow$)
-Let $\kPModel{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC)$.
-There exists $\kPModelP{\kStateSP} \in \classS$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \gamma_0 \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
-For every $\agentC \in \agentsC$ we have that $\kPModelP{\kStateSP} \entails \gamma_0 \land \coversC \Gamma_\agentC$ and so $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversC \Gamma_\agentC)$.
-Therefore $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs (\gamma_0 \land \coversC \Gamma_\agentC)$.
+Let $\kPModel{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA)$.
+There exists $\kPModelP{\kStateSP} \in \classS$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA$.
+For every $\agentA \in \agents$ we have that $\kPModelP{\kStateSP} \entails \gamma_0 \land \coversA \Gamma_\agentA$ and so $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
+Therefore $\kPModel{\kStateS} \entails \bigwedge_{\agentA \in \agents} \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
 
 ($\Leftarrow$)
-Let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs (\gamma_0 \land \coversC \Gamma_\agentC)$.
-For every $\agentC \in \agentsC$ there exists $\kPModel[\agentC]{\kStateS[\agentC]} \in \classS$ such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentC]{\kStateS[\agentC]}$ and $\kPModel[\agentC]{\kStateS[\agentC]} \entails \gamma_0 \land \coversC \Gamma_\agentC$.
-By Lemma~\ref{refinement-functional}, without loss of generality we assume for every $\agentC \in \agentsC$ that $\kPModel[\agentsC]{\kStateS[\agentC]}$ is such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentC]{\kStateS[\agentC]}$ via a $\agentsB$-refinement $\refinement^{\agentC} \subseteq \kStates \times \kStates[\agentC]$ where for every $\kStateT[\agentC] \in \kStates[\agentC]$ there exists a unique $\kStateT \in \kStates$ such that $(\kStateT, \kStateT[\agentC]) \in \refinement^{\agentC}$.
+Let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentA \in \agents} \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
+For every $\agentA \in \agents$ there exists $\kPModel[\agentA]{\kStateS[\agentA]} \in \classS$ such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentA]{\kStateS[\agentA]}$ and $\kPModel[\agentA]{\kStateS[\agentA]} \entails \gamma_0 \land \coversA \Gamma_\agentA$.
+By Lemma~\ref{refinement-functional}, without loss of generality we assume for every $\agentA \in \agents$ that $\kPModel[\agentA]{\kStateS[\agentA]}$ is such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentA]{\kStateS[\agentA]}$ via a $\agentsB$-refinement $\refinement^{\agentA} \subseteq \kStates \times \kStates[\agentA]$ where for every $\kStateT[\agentA] \in \kStates[\agentA]$ there exists a unique $\kStateT \in \kStates$ such that $(\kStateT, \kStateT[\agentA]) \in \refinement^{\agentA}$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RDist} equivalence.
 
 Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
 \begin{eqnarray*}
-    \kStatesP &=& \{\kStateSP\} \cup \kStates \cup \bigcup_{\agentC \in \agentsC} \kStates[\agentC]\\
-    \kAccessibilityC &=& \{(\kStateSP, \kStateSP), (\kStateSP, \kStateT[\agentC]), (\kStateT[\agentC], \kStateSP) \mid \kStateT[\agentC] \in \kSuccessorsC[\agentC]{\kStateS[\agentC]}\} \cup \kAccessibilityC \cup \bigcup_{\agentD \in \agentsC} \kAccessibilityC[\agentD] \text{ for } \agentC \in \agentsC\\
-    \kAccessibilityB &=& \{(\kStateSP, \kStateSP), (\kStateSP, \kStateT), (\kStateT, \kStateSP) \mid \kStateT \in \kSuccessorsB{\kStateS}\} \cup \kAccessibilityB \cup \bigcup_{\agentC \in \agentsC} \kAccessibilityB[\agentC] \text{ for } \agentB \notin \agentsC\\
-    \kValuation(\atomP) &=& \overline{\{\kStateSP\}} \cup \kValuation(\atomP) \cup \bigcup_{\agentC \in \agentsC} \kValuation[\agentC](\atomP)
+    \kStatesP &=& \{\kStateSP\} \cup \bigcup_{\agentA \in \agents} \kStates[\agentA]\\
+    \kAccessibilityA &=& (\{\kStateSP\} \cup \kSuccessorsA[\agentA]{\kStateS[\agentA]})^2 \cup \bigcup_{\agentD \in \agents} \kAccessibilityA[\agentD] \text{ for } \agentA \in \agents\\
+    \kValuation(\atomP) &=& \overline{\{\kStateSP\}} \cup \bigcup_{\agentA \in \agents} \kValuation[\agentA](\atomP)
 \end{eqnarray*}
-where $\kStateSP$ is a fresh state not appearing in $\kStates$ or $\kStates[\agentC]$ for any $\agentC \in \Gamma_\agentA$, and $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise.
+where $\kStateSP$ is a fresh state not appearing in $\kStates$ or $\kStates[\agentA]$ for any $\agentA \in \Gamma_\agentA$, and $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise.
 
 We note that by construction $\kModelP \in \classS$.
 
-We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \somerefsBs (\gamma_0 \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC)$.
+We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \somerefsBs (\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA)$.
 
-For every $\agentC \in \agentsC$ let $\refinement^\agentC \subseteq \kStates \times \kStates[\agentC]$ be a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModel[\agentC]{\kStateS[\agentC]}$.
+For every $\agentA \in \agents$ let $\refinement^\agentA \subseteq \kStates \times \kStates[\agentA]$ be a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModel[\agentA]{\kStateS[\agentA]}$.
 We define $\refinement \subseteq \kStates \times \kStatesP$ where:
 $$
-\refinement = \{(\kStateS, \kStateSP)\} \cup \{(\kStateT, \kStateT) \mid \kStateT \in \kStates\} \cup \bigcup_{\agentC \in \agentsC} \refinement^\agentC
+\refinement = \{(\kStateS, \kStateSP)\} \cup \{(\kStateT, \kStateT) \mid \kStateT \in \kStates\} \cup \bigcup_{\agentA \in \agents} \refinement^\agentA
 $$
 We claim that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
 
@@ -398,32 +406,27 @@ Let $\atomP \in \atoms$, $\agentB \in \agents$, $\agentD \in \agents \setminus \
 Consider $(\kStateS, \kStateSP) \in \refinement$ or $(\kStateT, \kStateT) \in \refinement$ where $\kStateT \in \kStates$.
 Then {\bf atoms-$\atomP$} follows by construction.
 
-Consider $(\kStateT, \kStateT[\agentC]) \in \refinement^\agentC \subseteq \refinement$ where $\agentC \in \agentsC$.
-Then {\bf atoms-$\atomP$} for $\refinement$ follows from {\bf atoms-$\atomP$} for $\refinement^\agentC$.
+Consider $(\kStateT, \kStateT[\agentA]) \in \refinement^\agentA \subseteq \refinement$ where $\agentA \in \agents$.
+Then {\bf atoms-$\atomP$} for $\refinement$ follows from {\bf atoms-$\atomP$} for $\refinement^\agentA$.
 
 {\bf forth-$\agentD$}
 Consider $(\kStateS, \kStateSP) \in \refinement$.
-Suppose that $\agentD \in \agentsC$.
 Let $\kStateT \in \kSuccessorsD{\kStateS}$.
 By hypothesis $(\kStateS, \kStateS[\agentD]) \in \refinement^\agentD$.
 By {\bf forth-$\agentD$} for $\refinement^\agentD$ there exists $\kStateT[\agentD] \in \kSuccessorsD{\kStateS[\agentD]}$ such that $(\kStateT, \kStateT[\agentD]) \in \refinement^\agentD$.
 By construction $\kStateT[\agentD] \in \kSuccessorsPD{\kStateSP}$ and $(\kStateT, \kStateT[\agentD]) \in \refinement$.
-Suppose that $\agentD \notin \agentsC$.
-Let $\kStateT \in \kSuccessorsD{\kStateS}$.
-By construction $\kStateT \in \kSuccessorsPD{\kStateSP}$ and $(\kStateT, \kStateT) \in \refinement$.
 
 Consider $(\kStateT, \kStateT) \in \refinement$ where $\kStateT \in \kStates$.
 Let $\kStateU \in \kSuccessorsD{\kStateT}$.
 By construction $\kStateU \in \kSuccessorsPD{\kStateT}$ and $(\kStateU, \kStateU) \in \refinement$.
 
-Consider $(\kStateT, \kStateT[\agentC]) \in \refinement^\agentC \subseteq \refinement$ where $\agentC \in \agentsC$.
+Consider $(\kStateT, \kStateT[\agentA]) \in \refinement^\agentA \subseteq \refinement$ where $\agentA \in \agents$.
 Let $\kStateU \in \kSuccessorsD{\kStateT}$.
-By {\bf forth-$\agentD$} for $\refinement^\agentC$ there exists $\kStateU[\agentC] \in \kSuccessorsD[\agentC]{\kStateT[\agentC]}$ such that $(\kStateU, \kStateU[\agentC]) \in \refinement^\agentC$.
-By construction $\kStateU[\agentC] \in \kSuccessorsPD{\kStateT}$ and $(\kStateU, \kStateU[\agentC]) \in \refinement$.
+By {\bf forth-$\agentD$} for $\refinement^\agentA$ there exists $\kStateU[\agentA] \in \kSuccessorsD[\agentA]{\kStateT[\agentA]}$ such that $(\kStateU, \kStateU[\agentA]) \in \refinement^\agentA$.
+By construction $\kStateU[\agentA] \in \kSuccessorsPD{\kStateT}$ and $(\kStateU, \kStateU[\agentA]) \in \refinement$.
 
 \paragraph{back-$\agentB$}
 Consider $(\kStateS, \kStateSP) \in \refinement$.
-Suppose that $\agentB \in \agentsC$.
 Consider $\kStateSP \in \kSuccessorsPB{\kStateSP}$.
 By the reflexivity of $\kModel$ we have $\kStateS \in \kSuccessorsB{\kStateS}$.
 By construction $(\kStateS, \kStateSP) \in \refinement$.
@@ -431,12 +434,6 @@ Consider $\kStateT[\agentB] \in \kSuccessorsB[\agentB]{\kStateS[\agentB]} \subse
 By hypothesis $(\kStateS, \kStateS[\agentB]) \in \refinement^\agentB$.
 By {\bf back-$\agentB$} for $\refinement^\agentB$ there exists $\kStateT \in \kSuccessorsB{\kStateS}$ such that $(\kStateT, \kStateT[\agentB]) \in \refinement^\agentB$.
 Then $(\kStateT, \kStateT[\agentB]) \in \refinement$.
-Suppose that $\agentB \notin \agentsC$.
-Consider $\kStateSP \in \kSuccessorsPB{\kStateSP}$.
-By the reflexivity of $\kModel$ we have $\kStateS \in \kSuccessorsB{\kStateS}$.
-By construction $(\kStateS, \kStateSP) \in \refinement$.
-Consider $\kStateT \in \kSuccessorsB{\kStateS} \subseteq \kSuccessorsPB{\kStateSP}$.
-By construction $\kStateT \in \kSuccessorsB{\kStateS}$ and $(\kStateT, \kStateT) \in \refinement$.
 
 Consider $(\kStateT, \kStateT) \in \refinement$ where $\kStateT \in \kStates$.
 Consider $\kStateSP \in \kSuccessorsPB{\kStateT}$.
@@ -444,24 +441,73 @@ By construction $\kStateS \in \kSuccessorsB{\kStateT}$ and $(\kStateS, \kStateS)
 Consider $\kStateU \in \kSuccessorsB{\kStateS} \subseteq \kSuccessorsPB{\kStateT}$.
 By construction $\kStateU \in \kSuccessorsB{\kStateT}$ and $(\kStateU, \kStateU) \in \refinement$.
 
-Consider $(\kStateT, \kStateT[\agentC]) \in \refinement^\agentC \subseteq \refinement$ where $\agentC \in \agentsC$.
-Consider $\kStateSP \in \kSuccessorsPB{\kStateT[\agentC]}$.
-By construction $\kStateS[\agentC] \in \kSuccessorsB[\agentC]{\kStateT[\agentC]}$.
-By {\bf back-$\agentB$} for $\refinement^\agentC$ there exists $\kStateU \in \kSuccessorsB{\kStateT}$ such that $(\kStateU, \kStateS[\agentB]) \in \refinement^\agentC$.
-By hypothesis $(\kStateS, \kStateS[\agentC]) \in \refinement^\agentC$ and there exists a unique $\kStateU \in \kStates$ such that $(\kStateU, \kStateT[\agentC]) \in \refinement^\agentC$ and so $\kStateU = \kStateS$.
+Consider $(\kStateT, \kStateT[\agentA]) \in \refinement^\agentA \subseteq \refinement$ where $\agentA \in \agents$.
+Consider $\kStateSP \in \kSuccessorsPB{\kStateT[\agentA]}$.
+By construction $\kStateS[\agentA] \in \kSuccessorsB[\agentA]{\kStateT[\agentA]}$.
+By {\bf back-$\agentB$} for $\refinement^\agentA$ there exists $\kStateU \in \kSuccessorsB{\kStateT}$ such that $(\kStateU, \kStateS[\agentB]) \in \refinement^\agentA$.
+By hypothesis $(\kStateS, \kStateS[\agentA]) \in \refinement^\agentA$ and there exists a unique $\kStateU \in \kStates$ such that $(\kStateU, \kStateT[\agentA]) \in \refinement^\agentA$ and so $\kStateU = \kStateS$.
 Therefore $\kStateS \in \kSuccessorsA{\kStateT}$.
 By construction $(\kStateS, \kStateSP) \in \refinement$.
-Consider $\kStateU[\agentC] \in \kSuccessorsPB{\kStateT[\agentC]}$.
-By construction $\kStateU[\agentC] \in \kSuccessorsB[\agentC]{\kStateT[\agentC]}$.
-By {\bf back-$\agentB$} for $\refinement^\agentC$ there exists $\kStateU \in \kSuccessorsB{\kStateT}$ such that $(\kStateU, \kStateU[\agentC]) \in \refinement^\agentC$.
-Then $(\kStateU, \kStateU[\agentC]) \in \refinement$.
+Consider $\kStateU[\agentA] \in \kSuccessorsPB{\kStateT[\agentA]}$.
+By construction $\kStateU[\agentA] \in \kSuccessorsB[\agentA]{\kStateT[\agentA]}$.
+By {\bf back-$\agentB$} for $\refinement^\agentA$ there exists $\kStateU \in \kSuccessorsB{\kStateT}$ such that $(\kStateU, \kStateU[\agentA]) \in \refinement^\agentA$.
+Then $(\kStateU, \kStateU[\agentA]) \in \refinement$.
 
 Therefore $\refinement$ is a $\agentsB$-refinement and as $(\kStateS, \kStateSP) \in \refinement$ we have that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 
-We claim for every $\agentC \in \agentsC$ that $\kPModelP{\kStateSP} \entails \coversC \Gamma_\agentC$.
-This follows from similar reasoning as in the proof of soundness of {\bf RS5} in Lemma~\ref{rml-s5-rs5}.
-Then $\kPModelP{\kStateSP} \entails \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$ follows from the same reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
-Therefore $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
+%We claim for every $\agentA \in \agents$ that $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
+%This follows from similar reasoning as in the proof of soundness of {\bf RS5} in Lemma~\ref{rml-s5-rs5}.
+
+Let $\Delta = \{\delta \in \langMl \mid \agentA \in \agents, \gamma \in \Gamma_\agentA, \delta \subseteq \gamma\}$.
+By induction on the structure of formulas in $\Delta$ we show for every $\delta \in \Delta$, $\agentA \in \agentA$ that:
+\begin{enumerate}
+    \item $\kPModelP{\kStateSP} \entails \delta$ if and only if $\kPModel[\agentA]{\kStateS[\agentA]} \entails \delta$
+    \item For every $\kStateT[\agentA] \in \kStates[\agentA]$: $\kPModelP{\kStateT[\agentA]} \entails \delta$ if and only if $\kPModel[\agentA]{\kStateT[\agentA]} \entails \delta$
+\end{enumerate}
+
+Let $\delta \in \Delta$, $\agentA \in \agents$.
+
+Suppose that $\delta = \atomP$ where $\atomP \in \atoms$.
+Then $\kPModelP{\kStateSP} \entails \atomP$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
+By construction $\kStateSP \in \kValuationP(\atomP)$ if and only if $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateS[\agentA] \in \kValuation[\agentA](\atomP)$.
+Finally $\kStateS[\agentA] \in \kValuation[\agentA](\atomP)$ if and only if $\kPModel[\agentA]{\kStateS[\agentA]} \entails \atomP$.
+
+Also $\kPModelP{\kStateT[\agentA]} \entails \atomP$ if and only if $\kStateT[\agentA] \in \kValuationP(\atomP)$.
+By construction $\kStateT[\agentA] \in \kValuationP(\atomP)$ if and only if $\kStateT[\agentA] \in \kValuation[\agentA](\atomP)$.
+Finally $\kStateT[\agentA] \in \kValuation[\agentA](\atomP)$ if and only if $\kPModel[\agentA]{\kStateT[\agentA]} \entails \atomP$.
+
+Suppose that $\delta = \lnot \phi$ or $\delta = \phi \land \psi$ where $\phi, \psi \in \Delta$.
+These cases follow directly from the induction hypothesis.
+
+Suppose that $\delta = \necessaryB \phi$ where $\phi \in \Delta$. 
+
+Suppose $\kPModelP{\kStateSP} \entails \necessaryB \phi$.
+For every $\kStateT[\agentB] \in \kSuccessorsB[\agentB]{\kStateS[\agentB]} \subseteq \kSuccessorsPB{\kStateSP}$ we have $\kPModelP{\kStateT[\agentB]} \entails \phi$.
+By the induction hypothesis for every $\kStateT[\agentB] \in \kSuccessorsB[\agentB]{\kStateS[\agentB]}$ we have $\kPModel[\agentB]{\kStateT[\agentB]} \entails \phi$.
+Therefore $\kPModel[\agentB]{\kStateS[\agentB]} \entails \necessaryB \phi$.
+
+Suppose $\kPModel[\agentB]{\kStateS[\agentB]} \entails \necessaryB \phi$.
+For every $\kStateT[\agentB] \in \kSuccessorsB[\agentB]{\kStateS[\agentB]}$ we have $\kPModel[\agentB]{\kStateT[\agentB]} \entails \phi$.
+By the induction hypothesis we have $\kPModelP{\kStateSP} \entails \phi$ and for every $\kStateT[\agentB] \in \kSuccessorsB[\agentB]{\kStateS[\agentB]}$ we have $\kPModelP{\kStateT[\agentB]} \entails \phi$.
+Therefore $\kPModelP{\kStateSP} \entails \necessaryB \phi$.
+
+Suppose $\kPModelP{\kStateT[\agentA]} \entails \necessaryB \phi$.
+For every $\kStateU[\agentA] \in \kSuccessorsB[\agentA]{\kStateT[\agentA]} \subseteq \kSuccessorsPB{\kStateT[\agentA]}$ we have $\kPModelP{\kStateU[\agentA]} \entails \phi$.
+By the induction hypothesis for every $\kStateU[\agentA] \in \kSuccessorsB[\agentA]{\kStateT[\agentA]}$ we have $\kPModel[\agentA]{\kStateU[\agentA]} \entails \phi$.
+Therefore $\kPModel[\agentA]{\kStateT[\agentA]} \entails \necessaryB \phi$.
+
+Suppose $\kPModel[\agentA]{\kStateT[\agentA]} \entails \necessaryB \phi$.
+For every $\kStateU[\agentA] \in \kSuccessorsB[\agentA]{\kStateT[\agentA]}$ we have $\kPModel[\agentA]{\kStateU[\agentA]} \entails \phi$.
+By the induction hypothesis for every $\kStateU[\agentA] \in \kSuccessorsB[\agentA]{\kStateT[\agentA]}$ we have $\kPModelP{\kStateU[\agentA]} \entails \phi$.
+By construction $\kSuccessorsPB{\kStateT[\agentA]} = \{\kStateSP\} \cup \kSuccessorsB[\agentA]{\kStateT[\agentA]}$ or $\kSuccessorsPB{\kStateT[\agentA]} = \kSuccessorsB[\agentA]{\kStateT[\agentA]}$.
+Suppose that $\kStateSP \notin \kSuccessorsPB{\kStateT[\agentA]}$.
+Then $\kPModelP{\kStateT[\agentA]} \entails \necessaryB \phi$.
+Suppose that $\kStateSP \in \kSuccessorsPB{\kStateT[\agentA]}$.
+Then $\kStateS[\agentA] \in \kSuccessorsB[\agentA]{\kStateT[\agentA]}$ so from above $\kPModel[\agentA]{\kStateS[\agentA]} \entails \phi$ and by the induction hypothesis $\kPModelP{\kStateSP} \entails \phi$.
+Therefore $\kPModelP{\kStateT[\agentA]} \entails \necessaryB \phi$.
+
+Then $\kPModelP{\kStateSP} \entails \gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA$ follows from similar reasoning to the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
+Therefore $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA)$.
 \end{proof}
 
 \begin{lemma}\label{rml-s5-soundness}

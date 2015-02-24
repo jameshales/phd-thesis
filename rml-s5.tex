@@ -485,8 +485,12 @@ Suppose $\kPModelP{\kStateSP} \entails \necessaryB \phi$.
 For every $\kStateT[\agentB] \in \kSuccessorsB[\agentB]{\kStateS[\agentB]} \subseteq \kSuccessorsPB{\kStateSP}$ we have $\kPModelP{\kStateT[\agentB]} \entails \phi$.
 By the induction hypothesis for every $\kStateT[\agentB] \in \kSuccessorsB[\agentB]{\kStateS[\agentB]}$ we have $\kPModel[\agentB]{\kStateT[\agentB]} \entails \phi$.
 Therefore $\kPModel[\agentB]{\kStateS[\agentB]} \entails \necessaryB \phi$.
+By hypothesis $\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA$ is an explicit formula so $\proves \gamma_0 \implies \necessaryB \phi$ or $\proves \gamma_0 \implies \lnot \necessaryB \phi$.
+By hypothesis $\kPModel[\agentB]{\kStateS[\agentB]} \entails \gamma_0$ and from above $\kPModel[\agentB]{\kStateS[\agentB]} \entails \necessaryB \phi$ so we must have $\proves \gamma_0 \implies \necessaryB \phi$.
+By hypothesis $\kPModel[\agentA]{\kStateS[\agentA]} \entails \gamma_0$ and from above $\proves \gamma_0 \implies \necessaryB \phi$ therefore $\kPModel[\agentA]{\kStateS[\agentA]} \entails \necessaryB \phi$.
 
-Suppose $\kPModel[\agentB]{\kStateS[\agentB]} \entails \necessaryB \phi$.
+Suppose $\kPModel[\agentA]{\kStateS[\agentA]} \entails \necessaryB \phi$.
+From the same reasoning as above we must have $\kPModel[\agentB]{\kStateS[\agentB]} \entails \necessaryB \phi$.
 For every $\kStateT[\agentB] \in \kSuccessorsB[\agentB]{\kStateS[\agentB]}$ we have $\kPModel[\agentB]{\kStateT[\agentB]} \entails \phi$.
 By the induction hypothesis we have $\kPModelP{\kStateSP} \entails \phi$ and for every $\kStateT[\agentB] \in \kSuccessorsB[\agentB]{\kStateS[\agentB]}$ we have $\kPModelP{\kStateT[\agentB]} \entails \phi$.
 Therefore $\kPModelP{\kStateSP} \entails \necessaryB \phi$.

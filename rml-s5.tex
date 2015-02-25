@@ -29,7 +29,7 @@ $$
     {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
 \end{array}
 $$
-where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite set of explicit formulas and $\gamma_0 \in \Gamma_\agentA$.
+where $\gamma_0 \land \coversA \Gamma_\agentA$ and $\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA$ are explicit formulas.
 \end{definition}
 
 \begin{lemma}\label{refinement-functional}

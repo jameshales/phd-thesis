@@ -193,24 +193,17 @@ Therefore $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessary
 
 Therefore for every $\agentA \in \agents$ we have $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \gamma_0 \implies \actionA{\aPModel{\aStateTest}} \gamma_0$ and
 for every $\gamma \in \Gamma_\agentA$ we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma]}} \gamma \iff \actionA{\aPModel[\agentA, \gamma]{\aStatesT[\agentA, \gamma]}} \gamma$.
-
-We claim that for every $\agentA \in \agents$ we have $\entails \actionA{\aPModel{\aStateTest}} \necessaryA \bigvee_{\gamma \in \Gamma_\agentA} \gamma$.
-Let $\agentA \in \agents$.
-By hypothesis we have $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \gamma_0$ so from above we have $\entails \actionA{\aPModel{\aStateTest}} \gamma_0$ and as $\gamma_0 \in \Gamma_\agentA$ we have $\entails \actionA{\aPModel{\aStateTest}} \bigvee_{\gamma \in \Gamma_\agentA} \gamma$.
-For every $\gamma' \in \Gamma_\agentA$ by hypothesis we have $\entails \actionA{\aPModel[\agentA, \gamma']{\aStatesT[\agentA, \gamma']}} \gamma'$ so from above we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma']}} \gamma'$ and $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma']}}  \bigvee_{\gamma \in \Gamma_\agentA} \gamma$.
-Then $\entails \aPrecondition(\aStateTest) \implies \necessaryA (\actionA{\aPModel{\aStateTest}} \bigvee_{\gamma \in \Gamma_\agentA} \gamma \land \bigwedge_{\gamma' \in \Gamma_\agentA} \actionA{\aPModel{\aPStatesT[\agentA, \gamma']}} \bigvee_{\gamma \in \Gamma_\agentA} \gamma)$.
-Therefore by {\bf AK} we have $\entails \actionA{\aPModel{\aStateTest}} \necessaryA \bigvee_{\gamma \in \Gamma_\agentA} \gamma$.
-
-We also claim that for every $\agentA \in \agents$, $\gamma \in \Gamma_\agentA$ we have $\entails \actionA{\aPModel{\aStateTest}} \possibleA \gamma$.
-Let $\agentA \in \agents$ and $\gamma \in \Gamma_\agentA$.
+By hypothesis we have $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \gamma_0$ so from above we have $\entails \actionA{\aPModel{\aStateTest}} \gamma_0$.
+For every $\gamma' \in \Gamma_\agentA$ by hypothesis we have $\entails \actionA{\aPModel[\agentA, \gamma']{\aStatesT[\agentA, \gamma']}} \gamma'$ so from above we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma']}} \gamma'$.
 By construction $\entails \actionE{\aPModel{\aPStatesT[\agentA, \gamma]}} \top \iff \actionE{\aPModel[\agentA, \gamma]{\aStatesT[\agentA, \gamma]}} \top \iff \someactsBs \gamma$ and
 from above we have that $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma]}} \gamma$
 so $\entails \actionE{\aPModel{\aPStatesT[\agentA, \gamma]}} \gamma \iff \someactsBs \gamma$.
-Then as $\entails \someactsBs \gamma \implies \actionE{\aPModel{\aPStatesT[\agentA, \gamma]}} \gamma$
-we have $\entails \possibleA \someactsBs \gamma \implies \possibleA \actionE{\aPModel{\aPStatesT[\agentA, \gamma]}} \gamma$.
-By Lemma~\ref{rml-s5-theorems} we have $\entails \someactsBs \phi \implies \possibleA \someactsBs \gamma$ so $\entails \someactsBs \phi \implies \possibleA \actionE{\aPModel{\aPStatesT[\agentA, \gamma]}} \gamma$.
-By {\bf AK} we have $\entails \actionA{\aPModel{\aStateTest}} \possibleA \gamma \iff (\someactsBs \phi \implies (\possibleA \actionE{\aPModel{\aStateTest}} \gamma \lor \bigvee_{\gamma' \in \Gamma_\agentA} \possibleA \actionE{\aPModel{\aPStatesT[\agentA, \gamma']}} \gamma))$.
-As $\entails \someactsBs \phi \implies \possibleA \actionE{\aPModel{\aPStatesT[\agentA, \gamma]}} \gamma$ then $\entails \actionA{\aPModel{\aStateTest}} \possibleA \gamma$.
+
+We show that
+$\entails \actionA{\aPModel{\aStateTest}} \phi$, and 
+$\entails \actionE{\aPModel{\aStateTest}} \phi \iff \someactsBs \phi$
+by using similar reasoning to the proof of Lemma~\ref{aaml-k-covers},
+but substituting occurrences of $\aPModel{\aPStatesT[\agentC, \gamma]}$ with $\aPModel{\aStatesT[\agentC, \gamma]}$, noting from above that these states have the same required properties, and noting that as $\entails \actionA{\aPModel{\aStateTest}} \gamma_0$ handles the reflexive case in showing that $\entails \actionA{\aPModel{\aStateTest}} \necessaryA \bigvee_{\gamma \in \Gamma_\agentA} \gamma$.
 
 Finally we show that for every $\kPModel{\kStateS} \in \classS$ if $\kPModel{\kStateS} \entails \aPreconditionP(\aStateTest)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModelP{\aStateTest}$.
 Let $\kPModel{\kStateS} \in \classS$ such that $\kPModel{\kStateS} \entails \aPrecondition(\aStateTest)$.
@@ -296,15 +289,15 @@ Therefore $\refinement$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simu
 
 \begin{theorem}\label{aaml-s-synthesis}
 Let $\agentsB \subseteq \agents$ and let $\phi \in \langAaml$.
-There exists an action model $\aPModelAndTuple{\aStatesT} \in \classAmK$ such that 
+There exists an action model $\aPModelAndTuple{\aStatesT} \in \classAmS$ such that 
 $\entails \actionA{\aPModel{\aStatesT}} \phi$,
 $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$, and
 for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{theorem}
 
 \begin{proof}[Proof (Sketch)]
-We use similar reasoning to the proof of Theorem~\ref{aaml-k-synthesis}, using Lemma~\ref{aaml-kff-choice} and Lemma~\ref{aaml-kff-covers} to inductively construct an action model.
-We convert the formula to alternating disjunctive normal form instead of disjunctive normal form, which ensures that the construction from Lemma~\ref{aaml-kff-covers} can be applied inductively to the formula, by satisfying the requirement that $\coversC$~operators are only applied to sets of $(\agents \setminus \{\agentC\})$-restricted modal formulas.
+We use similar reasoning to the proof of Theorem~\ref{aaml-k-synthesis}, using Lemma~\ref{aaml-s5-choice} and Lemma~\ref{aaml-s5-covers} to inductively construct an action model.
+We convert the formula to alternating disjunctive normal form instead of disjunctive normal form, which ensures that the construction from Lemma~\ref{aaml-s5-covers} can be applied inductively to the formula, by satisfying the requirement that $\coversC$~operators are only applied to sets of $(\agents \setminus \{\agentC\})$-restricted modal formulas.
 \end{proof}
 
 \begin{corollary}\label{aaml-s-semantics-equivalent}

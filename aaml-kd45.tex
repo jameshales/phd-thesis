@@ -231,7 +231,7 @@ Therefore $\refinement$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simu
 
 \begin{theorem}\label{aaml-kff-synthesis}
 Let $\agentsB \subseteq \agents$ and let $\phi \in \langAaml$.
-There exists an action model $\aPModelAndTuple{\aStatesT} \in \classAmK$ such that 
+There exists an action model $\aPModelAndTuple{\aStatesT} \in \classAmKFF$ such that 
 $\entails \actionA{\aPModel{\aStatesT}} \phi$,
 $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$, and
 for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.

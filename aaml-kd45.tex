@@ -99,10 +99,10 @@ Let $\agentsB, \agentsC \subseteq \agents$,
 let $\phi = \pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC \in \langAaml$ where $\pi \in \langPl$, and 
 for every $\agentC \in \agentsC$, $\gamma \in \agentsC$
 let $\gamma$ be a $(\agents \setminus \{\agentC\})$-restricted modal formula, and
-let $\aPModelAndTuple[\gamma]{\aStatesT[\gamma]} \in \classAmKFF$ be an action model such that 
-$\entails \actionA{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma$,
-$\entails \actionE{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \iff \someactsBs \gamma$, and
-for every $\aStateT[\gamma] \in \aStatesT[\gamma]$, $\kPModel{\kStateS} \in \classKFF$ if $\kPModel{\kStateS} \entails \aPrecondition[\gamma](\aStateT[\gamma])$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel[\gamma]{\aStateT[\gamma]}$.
+let $\aPModelAndTuple[\agentC, \gamma]{\aStatesT[\agentC, \gamma]} \in \classAmKFF$ be an action model such that 
+$\entails \actionA{\aPModel[\agentC, \gamma]{\aStatesT[\agentC, \gamma]}} \gamma$,
+$\entails \actionE{\aPModel[\agentC, \gamma]{\aStatesT[\agentC, \gamma]}} \gamma \iff \someactsBs \gamma$, and
+for every $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kPModel{\kStateS} \in \classKFF$ if $\kPModel{\kStateS} \entails \aPrecondition[\agentC, \gamma](\aStateT[\agentC, \gamma])$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]}$.
 Then there exists an action model $\aPModel{\aStatesT} \in \classAmKFF$ such that 
 $\entails \actionA{\aPModel{\aStatesT}} \phi$, and 
 $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.

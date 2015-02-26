@@ -459,13 +459,13 @@ Therefore $\refinement$ is a $\agentsB$-refinement and as $(\kStateS, \kStateSP)
 %This follows from similar reasoning as in the proof of soundness of {\bf RS5} in Lemma~\ref{rml-s5-rs5}.
 
 Let $\Delta = \{\delta \in \langMl \mid \agentA \in \agents, \gamma \in \Gamma_\agentA, \delta \subseteq \gamma\}$.
-By induction on the structure of formulas in $\Delta$ we show for every $\delta \in \Delta$, $\agentA \in \agentA$ that:
+By induction on the structure of formulas in $\Delta$ we show for every $\delta \in \Delta$ that:
 \begin{enumerate}
-    \item $\kPModelP{\kStateSP} \entails \delta$ if and only if $\kPModel[\agentA]{\kStateS[\agentA]} \entails \delta$
-    \item For every $\kStateT[\agentA] \in \kStates[\agentA]$: $\kPModelP{\kStateT[\agentA]} \entails \delta$ if and only if $\kPModel[\agentA]{\kStateT[\agentA]} \entails \delta$
+    \item For every $\agentA \in \agents$: $\kPModelP{\kStateSP} \entails \delta$ if and only if $\kPModel[\agentA]{\kStateS[\agentA]} \entails \delta$
+    \item For every $\agentA \in \agents$, $\kStateT[\agentA] \in \kStates[\agentA]$: $\kPModelP{\kStateT[\agentA]} \entails \delta$ if and only if $\kPModel[\agentA]{\kStateT[\agentA]} \entails \delta$
 \end{enumerate}
 
-Let $\delta \in \Delta$, $\agentA \in \agents$.
+Let $\delta \in \Delta$, $\agentA \in \agents$, and $\kStateT[\agentA] \in \kStates[\agentA]$.
 
 Suppose that $\delta = \atomP$ where $\atomP \in \atoms$.
 Then $\kPModelP{\kStateSP} \entails \atomP$ if and only if $\kStateSP \in \kValuationP(\atomP)$.

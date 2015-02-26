@@ -151,7 +151,7 @@ We define $\refinement \subseteq \kStates \times \kStatesP$ where:
 \bigcup \{\{(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma]))\} \cup \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \mid \agentC \in \agentsC, \gamma \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma], \kStateT \in \kSuccessorsC{\kStateT}, \kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])\}
 \end{eqnarray*}
 
-We claim that $\refinement$ is a $\agentsB$-refinement from $\kModel{\kStateS}$ to $\kModelP{(\kStateS, \aStateTest)}$.
+We claim that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{(\kStateS, \aStateTest)}$.
 Let $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentD \in \agents \setminus \agentsB$.
 
 \paragraph{atoms-$\atomP$}
@@ -172,7 +172,7 @@ Consider $(\kStateS, (\kStateS, \aStateTest)) \in \refinement$.
 Let $\kStateT \in \kSuccessorsD{\kStateS}$.
 Suppose that $\agentD \in \agentsC$.
 By hypothesis $\kPModel{\kStateS} \entails \someactsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC)$, and in particular $\kPModel{\kStateS} \entails \someactsBs \coversD \Gamma_\agentD$.
-As $\agentD \neq \agentsB$, by the \axiomAamlKFF{} axiom {\bf RComm} we have that $\kPModel{\kStateS} \entails \coversD \{\someactsBs \gamma' \mid \gamma' \in \Gamma_\agentD\}$ and by the definition of the cover operator we have that $\kPModel{\kStateS} \entails \necessaryD \bigvee_{\gamma' \in \Gamma_\agentD} \someactsBs \gamma'$ so there exists $\gamma' \in \Gamma_\agentD$ such that $\kPModel{\kStateT} \entails \someactsBs \gamma'$.
+As $\agentD \notin \agentsB$, by the \axiomAamlKFF{} axiom {\bf RComm} we have that $\kPModel{\kStateS} \entails \coversD \{\someactsBs \gamma' \mid \gamma' \in \Gamma_\agentD\}$ and by the definition of the cover operator we have that $\kPModel{\kStateS} \entails \necessaryD \bigvee_{\gamma' \in \Gamma_\agentD} \someactsBs \gamma'$ so there exists $\gamma' \in \Gamma_\agentD$ such that $\kPModel{\kStateT} \entails \someactsBs \gamma'$.
 By hypothesis $\entails \someactsBs \gamma' \implies \actionE{\aPModel[\agentC, \gamma']{\aStatesT[\agentC, \gamma']}} \gamma'$ so there exists $\aStateT[\agentC, \gamma'] \in \aStatesT[\agentC, \gamma']$ such that $\kPModel{\kStateT} \entails \aPrecondition[\agentC, \gamma'](\aStateT[\agentC, \gamma'])$.
 By construction $\aPStateT[\agentC, \gamma'] \in \aSuccessorsD{\aStateTest}$ and $\aPrecondition(\aPStateT[\agentC, \gamma']) = \aPrecondition[\agentC, \gamma'](\aStateT[\agentC, \gamma'])$ so $\kPModel{\kStateT} \entails \aPrecondition(\aPStateT[\agentC, \gamma'])$, $(\kStateT, \aPStateT[\agentC, \gamma']) \in \kSuccessorsPD{(\kStateS, \aStateTest)}$, and $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma'])) \in \refinement$.
 Suppose that $\agentD \notin \agentsC$.
@@ -187,7 +187,7 @@ Suppose that $\agentD = \agentC$.
 Let $\kStateU \in \kSuccessorsD{\kStateT}$.
 As $\kModel \in \classKFF$ then by transitivity $\kStateU \in \kSuccessorsD{\kStateS}$.
 By hypothesis $\kPModel{\kStateS} \entails \someactsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC)$, and in particular $\kPModel{\kStateS} \entails \someactsBs \coversD \Gamma_\agentD$.
-As $\agentD \neq \agentsB$, by the \axiomAamlKFF{} axiom {\bf RComm} we have that $\kPModel{\kStateS} \entails \coversD \{\someactsBs \gamma' \mid \gamma' \in \Gamma_\agentD\}$ and by the definition of the cover operator we have that $\kPModel{\kStateS} \entails \necessaryD \bigvee_{\gamma' \in \Gamma_\agentD} \someactsBs \gamma'$ so there exists $\gamma' \in \Gamma_\agentD$ such that $\kPModel{\kStateU} \entails \someactsBs \gamma'$.
+As $\agentD \notin \agentsB$, by the \axiomAamlKFF{} axiom {\bf RComm} we have that $\kPModel{\kStateS} \entails \coversD \{\someactsBs \gamma' \mid \gamma' \in \Gamma_\agentD\}$ and by the definition of the cover operator we have that $\kPModel{\kStateS} \entails \necessaryD \bigvee_{\gamma' \in \Gamma_\agentD} \someactsBs \gamma'$ so there exists $\gamma' \in \Gamma_\agentD$ such that $\kPModel{\kStateU} \entails \someactsBs \gamma'$.
 By hypothesis $\entails \someactsBs \gamma' \implies \actionE{\aPModel[\agentC, \gamma']{\aStatesT[\agentC, \gamma']}} \gamma'$ so there exists $\aStateU[\agentC, \gamma'] \in \aStatesT[\agentC, \gamma']$ such that $\kPModel{\kStateU} \entails \aPrecondition[\agentC, \gamma'](\aStateU[\agentC, \gamma'])$.
 By construction $\aPStateU[\agentC, \gamma'] \in \aSuccessorsD{\aPStateT[\agentC, \gamma]}$ and $\aPrecondition(\aPStateU[\agentC, \gamma']) = \aPrecondition[\agentC, \gamma'](\aStateU[\agentC, \gamma'])$ so $\kPModel{\kStateU} \entails \aPrecondition(\aPStateU[\agentC, \gamma'])$, $(\kStateU, \aPStateU[\agentC, \gamma']) \in \kSuccessorsPD{(\kStateT, \aPStateT[\agentC, \gamma])}$, and $(\kStateU, (\kStateU, \aPStateU[\agentC, \gamma'])) \in \refinement$.
 Suppose that $\agentD \neq \agentC$.

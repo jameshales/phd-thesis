@@ -25,7 +25,7 @@ The logic \logicAamlS{} is compact.
 The satisfiability problem for the logic \logicAamlS{} is decidable.
 \end{corollary}
 
-\begin{lemma}\label{aaml-s-choice}
+\begin{lemma}\label{aaml-s5-choice}
 Let $\agentsB \subseteq \agents$, 
 let $\phi = \alpha \lor \beta \in \langAaml$, and 
 let $\aPModel[\alpha]{\aStatesT[\alpha]} \in \classAmS$ and $\aPModel[\beta]{\aStatesT[\beta]} \in \classAmS$ be action models such that 
@@ -45,7 +45,7 @@ for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classS$ if $\kPMode
 We use the same construction and reasoning as in the proof of Lemma~\ref{aaml-k-choice}, noting additionally that the disjoint union of two $\classAmS$ action models is also a $\classAmS$ action model.
 \end{proof}
 
-\begin{lemma}\label{aaml-s-covers}
+\begin{lemma}\label{aaml-s5-covers}
 Let $\agentsB \subseteq \agents$, 
 let $\phi = \gamma_0 \land \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentA \in \agents} \coverA \Gamma_\agentA \in \langMl$ be an explicit formula where $\atomsQ, \atomsQ' \subseteq \atoms$, and 
 for every $\agentA \in \agents$, $\gamma \in \agents$
@@ -287,7 +287,7 @@ Therefore $\refinement$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simu
 
 \end{proof}
 
-\begin{theorem}\label{aaml-s-synthesis}
+\begin{theorem}\label{aaml-s5-synthesis}
 Let $\agentsB \subseteq \agents$ and let $\phi \in \langAaml$.
 There exists an action model $\aPModelAndTuple{\aStatesT} \in \classAmS$ such that 
 $\entails \actionA{\aPModel{\aStatesT}} \phi$,
@@ -300,7 +300,7 @@ We use similar reasoning to the proof of Theorem~\ref{aaml-k-synthesis}, using L
 We convert the formula to alternating disjunctive normal form instead of disjunctive normal form, which ensures that the construction from Lemma~\ref{aaml-s5-covers} can be applied inductively to the formula, by satisfying the requirement that $\coversC$~operators are only applied to sets of $(\agents \setminus \{\agentC\})$-restricted modal formulas.
 \end{proof}
 
-\begin{corollary}\label{aaml-s-semantics-equivalent}
+\begin{corollary}\label{aaml-s5-semantics-equivalent}
 The semantics of \logicAamlS{} as defined in Definition~\ref{aaml-semantics} and the alternative semantics of Definition~\ref{aaml-semantics-alt} are equivalent.
 \end{corollary}
 

@@ -469,12 +469,7 @@ class report.cls by Cara MacNish August 1999/September 2000 and James Hales Nove
                                 \normalfont\bfseries #1}
 \newenvironment{abstract}
 	{\chapter*{Abstract}}
-	{\vfill
-	\noindent
-	{\bf Keywords:} \@keywords \\
-	{\bf CR Categories:} \@categories
-	\addcontentsline{toc}{chapter}{Abstract}
-	}
+	{\addcontentsline{toc}{chapter}{Abstract}}
 
 \newenvironment{acknowledgements}
 	{\chapter*{Acknowledgements}}

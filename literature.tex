@@ -2,13 +2,12 @@
 
 Dynamic epistemic logics are logics of change of knowledge used to reason about how knowledge changes in response to epistemic updates.
 Often the effects of epistemic updates on knowledge can be unintuitive or surprising: sometimes announcing a true statement makes it become false, as in Fitch's knowability paradox~\cite{fitch:1963}; sometimes repeating a statement can provide different information each time it is repeated, as in the muddy children puzzle~\cite{barwise:1981, vanditmarsch:2007}. 
-Being able to reason about changes of knowledge has applications in a range of areas:
+Being able to reason about changes in knowledge has applications in a range of areas:
 in artificial intelligence and information science we want to represent and reason about updates in knowledge bases and ontologies;
-in the study of network protocols and computer security we want to ensure that information communicated through a network results in the desired knowledge-based goals
- and that information that is communicated doesn't result in the leaking of sensitive information; and
+in the study of network protocols and computer security we want to ensure that information communicated through a network results in the desired knowledge-based goals and doesn't result in the leaking of sensitive information; and
 in economics and game theory we want to reason about processes or games with imperfect knowledge, where actions may provide players with additional information that's required to inform their decisions.
 For some applications it's useful to know the effects of specific epistemic updates~\cite{plaza:1989,baltag:1998}, such as when a robot updates its internal knowledge base with with new sensor information, when a participant in a network protocol sends or receives a message containing new information, or a player in a game performs an action that reveals additional information about the game state.
-At other times it's useful to reason about arbitrary epistemic updates in a goal-directed fashion~\cite{balbiani:2007,agotnes:2010,vanditmarsch:2009}, such as when a robot must sense enough of its environment to navigate an area, when a protocol designer must design a protocol that achieves desired knowledge-based goals whilst remaining secure, or when a player in a game must choose a strategy that maximises the information available in order to better inform their decisions.
+At other times it's useful to reason about arbitrary epistemic updates, quantifying over epistemic updates in a goal-directed fashion~\cite{balbiani:2007,agotnes:2010,vanditmarsch:2009}, such as when a robot must sense enough of its environment to navigate an area, when a protocol designer must design a protocol that achieves desired knowledge-based goals without leaking sensitive information, or when a player in a game must choose a strategy that increases the information available in order to better inform their decisions.
 Formal logics of knowledge have existed for many decades~\cite{vonwright:1951,hintikka:1957,hintikka:1961,hintikka:1962}, whilst logics for reasoning about the effects of specific epistemic updates have only arisen relatively recently~\cite{plaza:1989,gerbrandy:1997,baltag:1998}. 
 Much more recently logics for reasoning about arbitrary epistemic updates have been considered~\cite{balbiani:2007,vanditmarsch:2009,agotnes:2010}, and logics of this variety are the focus of our research.
 This review summarises the development of logics of knowledge, logics of specific epistemic updates and finally logics of arbitrary epistemic updates.  
@@ -23,12 +22,15 @@ Modal operators may also be nested, allowing us to make statements about an agen
 For example, we could say ``Alice knows that Alice knows that the coin has landed heads up'', or ``Bob doesn't know that Alice knows that the coin has landed heads up''.
 
 The semantics for many modal logics, including epistemic logic, are based in relational structures known as Kripke models~\cite{kripke:1963,blackburn:2001}.
-A Kripke model is a labelled graph over a set of worlds, where each world has a set of propositional atoms that are true at that world, and each agent has an accessibility relation defined over the worlds.
-At a particular world, an agent considers another world to be ``possible'' if that world is accessible from the given world through the agent's accessibility relation in the Kripke model.
-An agent is said to ``know'' that a statement is true in a given world if that statement is true on each of the worlds that the agent considers possible.
+A Kripke model is a relational structure over a set of ``worlds'', where each world has a set of propositional atoms that are true at that world, and each agent has an accessibility relation defined over the worlds.
+The worlds of a Kripke model can be seen as representing the possible ways that the ``real'' world could be.
+An agent considers another world to be ``possible'' from a given world if that world is accessible from the given world through the agent's accessibility relation in the Kripke model.
+An agent may consider multiple worlds to be possible, representing the agent's uncertainty as to which world is the real world.
+An agent is said to ``know'' that a statement is true in a given world if that statement is true on each of the worlds that the agent considers possible from the given world.
+Generally speaking, the more worlds that an agent considers possible, the less the agent knows.
 
 Variants of modal logic may attribute different intuitive meanings to its modal operators, often depending on properties required of the Kripke models that are under consideration.
-For example epistemic logics usually require that agents always consider the current, real, world to be possible, as otherwise the agent might ``know'' a statement that is actually false in the real world.
+For example epistemic logics usually require that agents always consider the real world to be possible, as otherwise the agent might ``know'' a statement that is actually false in the real world.
 By contrast, doxastic logics, which are logics of belief, often relax this constraint as it's reasonable for an agent to ``believe'' a statement that is actually false in the real world.
 
 \subsection{Modal and epistemic logics}
@@ -86,7 +88,8 @@ For example, after flipping a coin, if Alice were to tell Bob ``The coin has lan
 However the act of Alice flipping the coin would not be purely informative, as it has an effect outside of Alice and Bob's knowledge, specifically on the truth of the statement that ``The coin has landed heads up''.
 We also assume that epistemic updates provide additional information monotonically, so they may not cause agents to forget or revise information.
 For example, if Alice wasn't wearing her glasses when she looked at the coin she might look again and tell Bob that actually the coin landed tails up, causing Bob to revise the information he was previously offered.
-If Alice looks again she might tell Bob that she's now unsure about whether the coin has landed heads up, causing Bob to forget the information he was previously offered, as it was possibly unreliable.
+If Alice looks yet again she might tell Bob that she's now unsure about whether the coin has landed heads up, causing Bob to forget the information he was previously offered, as it was possibly unreliable.
+There are models for epistemic updates that permit propositional change~\cite{vanbenthem:2006} or that that permit revision of information~\cite{alchourron:1985}, however they are not the focus of the present work.
 
 Previous work in dynamic epistemic logic has considered how knowledge changes in response to specific epistemic updates.
 These logics typically extend epistemic logic with operators that denote that a specific epistemic update results in a statement becoming true.
@@ -94,51 +97,55 @@ For example, we can say that ``After Alice tells Bob that the coin has landed he
 Logics of this form have been considered for a number of different models for epistemic updates.
 Often epistemic updates are modelled as operations on Kripke models, but there are examples of logics where this is not the case.
 
-Notable logics for reasoning about specific epistemic updates include the logic of belief revision of Alchourr{\'o}n, G{\"a}rdenfors and Makinson~\cite{alchourron:1985}, the logic of public announcements of Plaza~\cite{plaza:1989} and Gerbrandy and Groenvald~\cite{gerbrandy:1997}, the logic of epistemic actions of van Ditmarsch~\cite{vanditmarsch:1999, vanditmarsch:2000, vanditmarsch:2002} and the logic of action models of Baltag, Moss and Solecki~\cite{baltag:1999, baltag:2004}.
-A survey of these logics and related areas is given in the book by van Ditmarsch, van der Hoek and Kooi~\cite{vanditmarsch:2007}.
+Notable logics for reasoning about specific epistemic updates include the logic of belief revision of Alchourr{\'o}n, G{\"a}rdenfors and Makinson~\cite{alchourron:1985}, the logic of public announcements of Plaza~\cite{plaza:1989} and Gerbrandy and Groenvald~\cite{gerbrandy:1997}, the arrow update logic of Kooi and Renne~\cite{kooi:2011a}, the logic of epistemic actions of van Ditmarsch~\cite{vanditmarsch:1999, vanditmarsch:2000, vanditmarsch:2002} and the logic of action models of Baltag, Moss and Solecki~\cite{baltag:1999, baltag:2004}.
+A survey of some of these logics and related areas is given in the book by van Ditmarsch, van der Hoek and Kooi~\cite{vanditmarsch:2007}.
 
 \subsection{Public announcement logic}
 
-The public announcement logic was introduced by Plaza~\cite{plaza:1989}, and Gerbrandy and Groenvald~\cite{gerbrandy:1997}.
-A public announcement is a simple epistemic update involving a true statement being publicly announced to all agents at once.
+Public announcements are simple epistemic updates that consist of a true statement being publicly announced to all agents at once.
 The public nature of the announcement means that every agent receives the announcement, every agent knows that every agent receives the announcement, every agents knows that every agents knows that every agent receives the announcement, and so on. 
-The effect of publicly announcing a statement is often that the statement becomes common knowledge amongst agents. 
-For example, if Alice, Bob and Carol are in a room and Alice publicly announces that ``The coin has landed heads up'' then as a result not only does Bob now know that the coin has landed heads up, Carol knows it as well, and because Bob witnessed Carol receiving the same information, Bob knows that Carol knows, and vice versa.
-Public announcement logic extends epistemic logic with an operator that denotes that publicly announcing a true statement results in another statement becoming true.
-Public announcements are modelled as an operation on Kripke models by restricting the worlds of the Kripke models to those worlds where the publicly announced statement is true, removing those worlds where the statement is false.
+The effect of publicly announcing a true statement is often that the statement becomes common knowledge amongst agents. 
+For example, if Alice, Bob and Carol are in a room and Alice publicly announces that ``The coin has landed heads up'', then this statement becomes common knowledge amongst Alice, Bob and Carol.
+Not only does Bob now know that the coin has landed heads up, Carol knows, Bob knows that Carol knows, Carol knows that Bob knows, and so on.
+However there are examples where public announcements of true statements do not result in common knowledge, such as the Moore sentence ``The coin has landed heads up but Bob doesn't know that the coin has landed heads up''.
+If Bob knew that this statement was true, then Bob would know that the coin has landed heads up, but this would contradict the second part of the statement, that says that Bob doesn't know that the coin has landed heads up.
 
+The public announcement logic was introduced by Plaza~\cite{plaza:1989}, and Gerbrandy and Groenvald~\cite{gerbrandy:1997}.
+Public announcement logic extends epistemic logic with an operator that denotes that publicly announcing a true statement results in another statement becoming true.
+Public announcements may be modelled as operations on Kripke models by restricting the worlds of the Kripke models to those worlds where the publicly announced statement is true, removing those worlds where the statement is false, as in the treatment by Plaza~\cite{plaza:1989}.
+Alternatively public announcements may be modelled as operations on Kripke models by restricting the accessibility relations of the Kripke models so that agents only consider worlds possible if those worlds satisfy the publicly announced statement, as in the treatment by Gerbrandy and Groenvald~\cite{gerbrandy:1997}.
 Plaza~\cite{plaza:1989} formulated and axiomatised a multi-agent public announcement logic with common knowledge operators, but without introspection of knowledge, i.e.  agents cannot reason about their own knowledge. 
 Gerbrandy and Groenvald~\cite{gerbrandy:1997} formulated and axiomatised a multi-agent public announcement logic without common knowledge operators, but with introspection of knowledge.
 Baltag, Moss and Solecki~\cite{baltag:1998,baltag:2004} provided a sound and complete axiomatisation of the public announcement logic with common knowledge operators and introspection of knowledge as a special case of their action model logic with common knowledge.
 
 Public announcements are a very simple form of epistemic update, as the information communicated by a public announcement must be communicated publicly to all agents.
 Public announcements cannot model epistemic updates that provide information to only some of the agents in the system, or that provides different information to each agent.
-Public announcements are however suited to some interesting problems; for example, Fitch's knowability paradox~\cite{fitch:1963} can be adequately modelled and reasoned about with the public announcement logic, as can the muddy children puzzle~\cite{barwise:1981, vanditmarsch:2007}.
+However public announcements are suited to some interesting problems; for example, Fitch's knowability paradox~\cite{fitch:1963} can be adequately modelled and reasoned about with the public announcement logic, as can the muddy children puzzle~\cite{barwise:1981, vanditmarsch:2007}.
 
 \subsection{Action model logic}
 
-Action models capture a more general notion of epistemic updates than public announcements.
-Compared to public announcements, action models are able to represent epistemic updates that provide information privately to some of the agents in the system and provide different information to each agent in the system.
+Action models are a very general notion of epistemic updates that generalise public announcements.
+Unlike public announcements, action models are able to represent epistemic updates that provide information privately to some of the agents in the system and provide different information to each agent in the system.
 When considering epistemic updates that communicate information privately to some agents, there are a number of ways in which the other agents in the system can interpret that epistemic update. 
 For example, suppose that after flipping a coin, Alice looks at the coin so that Bob sees Alice looking at the coin, but Bob can't see the coin himself. Then Bob would know that either Alice knows that the coin has landed heads up or Alice knows that the coin has landed tails up, but Bob himself doesn't know which is actually the case.
 If instead Alice were to sneakily look at the coin so that Bob doesn't see her looking, then Alice would know that the coin has landed heads up, but Bob wouldn't know that Alice knows.
 
-Action models are relational structures similar to Kripke models, but nodes in the structure are labelled with epistemic formulas, called preconditions, instead of sets of propositional atoms.
-The execution of an action model is represented as an operation that take a Kripke model and an action model, and produces a new Kripke model.
-The operation essentially consists of a product between the relational structures of the Kripke model, followed by a restriction of the worlds in the resulting Kripke model, based on the satisfaction of the action models preconditions in worlds of the original Kripke model.
-The nodes of the action model and their preconditions can be seen as representing a possible ``action'', an epistemic update that communicates the information in the precondition in some way.
-The accessibility relation in the action model is used to represent uncertainty from the point of view of the agents as to which epistemic update actually took place.
-Similar to the concept of possible worlds in a Kripke model, in an action model there is a concept of possible actions.
-For example, when Alice looks at the coin after flipping it, she only considers one epistemic update to have been possible, where she learns that the coin has landed heads up, whereas Bob considers two epistemic updates to have been possible, one where Alice learns that the coin has landed heads up, and one where Alice learns that the coin has landed tails up.
+Action models are relational structures similar to Kripke models.
+An action model is a relational structure over a set of ``actions'', where each action has a precondition determining when the action can take place, and each agent has an accessibility relation defined over the actions.
+The actions of an action model can be seen as representing the possible epistemic updates that may have occurred.
+As in a Kripke model, agents may consider actions to be ``possible'', and an agent considering multiple actions possible represents the agent's uncertainty as to which epistemic update has actually occurred.
+For example, when Alice looks at the coin after flipping it, she only considers one epistemic update to have been possible: where she learns that the coin has landed heads up; Bob however considers two epistemic updates to have been possible: one where Alice learns that the coin has landed heads up, and one where Alice learns that the coin has landed tails up.
 This uncertainty is represented in an action model by having separate actions in the action model, one representing Alice learning that the coin has landed heads up and one representing Alice learning that the coin has landed tails up, and giving Alice and Bob different accessibility relations over the actions, so that Alice only considers one action possible, but Bob considers both actions possible.
 
 The action model logic was introduced by Baltag, Solecki and Moss~\cite{baltag:1998, baltag:1999}.
 Action model logic extends epistemic logic with an operator that denotes that executing a specific action model results in a statement becoming true.
+The execution of an action model may be modelled as an operations on Kripke models, by taking a sort of ``product'' with the action model, followed by a restriction of the resulting Kripke model according to the satisfaction of the preconditions in the action model.
+This can be seen as a generalisation of the world-restricting model of public announcements used by Plaza~\cite{plaza:1989}.
 Baltag, Solecki and Moss~\cite{baltag:1998} provided a sound and complete axiomatisation for the logic with and without common knowledge operators.
 Later work by Baltag and Moss~\cite{baltag:2004} emphasised the generality of the action model approach, providing many examples of action models representing various kinds of epistemic updates, including public announcements.
 Baltag and Moss~\cite{baltag:2004} introduced the notion of an action signature, representing a class of action models that have the same relational structure but which have different formulas as preconditions.
 They show that sublanguages of the action model logic can be defined by restricting the possible action models to those corresponding to sets of action signatures, and that the resulting sublanguages have a sound and complete axiomatisation.
-This gives for example a sound and complete axiomatisation for the public announcement logic of Gerbrandy and Groenvald~\cite{gerbrandy:1997}, the logic of completely private announcements to groups and the logic of common knowledge of alternatives.
+This gives for example a sound and complete axiomatisation for the public announcement logic, the logic of completely private announcements to groups and the logic of common knowledge of alternatives.
 
 Although the notion of information change that the action model logic captures is intuitively explained in a setting of knowledge, the formulation that Baltag, Moss and Solecki~\cite{baltag:1998} provide is in a more general modal setting that can be applied not only to epistemic logic, but to other modal logics, such as doxastic logics.
 Whereas public announcements can only represent true epistemic updates, where the information that is communicated must actually be true in the real world, there is no such restriction for action models.
@@ -149,6 +156,22 @@ It is also possible for action models to represent unintentionally false epistem
 However action models are not capable of {\em revising} beliefs.
 That is, after Bob has been lead to believe that the coin has landed tails up, it is not possible to convince him otherwise using an action model.
 Action models represent in some sense a monotonic change of knowledge or belief.
+
+\subsection{Arrow update logic}
+
+Arrow updates are another generalisation of public announcements.
+Unlike public announcements, arrow updates are able to represent epistemic updates that provide different information to each agent in the system.
+The base system of arrow updates assumes that the effects of an arrow update are common knowledge to the agents in a system, and so arrow updates cannot represent epistemic updates that provide information privately to agents~\cite{kooi:2011a}.
+However generalised arrow updates are able to represent such epistemic updates, and in fact every action model is update-equivalent to a generalised arrow update, and vice versa~\cite{kooi:2011b}.
+
+The arrow update logic was introduced by Kooi and Renne~\cite{kooi:2011a}.
+Arrow update logic extends epistemic logic with an operator that denotes that executing a finite set of arrow updates results in a statement becoming true.
+An arrow update consists of a statement, called the source condition, an agent, and another statement, called the target condition.
+The execution of an individual arrow update may be modelled as an operation on Kripke models by restricting the edges in the given agent's accessibility relation so that worlds that satisfy the given source condition only have edges to worlds that satisfy the given target condition.
+The execution of a finite set of arrow updates may be modelled by restricting the edges in the Kripke model's accessibility relations to those edges that are preserved as a result of executing any of the arrow updates in the set individually.
+Whereas action models may be seen as a generalisation of the world-restricting model of public announcements used by Plaza~\cite{plaza:1989}, arrow updates may be seen as a generalisation of the edge-restricting model of public announcements used by Gerbrandy and Groenvald~\cite{gerbrandy:1997}.
+Kooi and Renne~\cite{kooi:2011a} provide a sound and complete axiomatisation for the logic, and compare arrow updates to action models, showing that arrow updates may be represented as action models, but are sometimes exponentially more succinct than action models.
+Arrow updates are less general than action models, however Kooi and Renne~\cite{kooi:2011b} also consider a generalised arrow update that can represent any action model up to update-equivalence.
 
 \subsection{Belief revision}
 
@@ -203,7 +226,7 @@ For example, in the development of network protocols, if a protocol exists that 
 \subsection{Arbitrary public announcement logic}
 
 Early considerations of arbitrary epistemic updates were in relation to the concept of knowability.
-A true statement is knowable by an agent if it is possible for the agent to know that it is true.
+A true statement is knowable by an agent if it is possible for the agent to know that it is true as a result of an epistemic update.
 An example of an unknowable statement was given by Moore (see Hintikka~\cite{hintikka:1962}) which takes the form of ``The coin has landed heads up but Bob doesn't know that the coin has landed heads up''.
 If Bob knew that this statement was true, then Bob would know that the coin has landed heads up, but this would contradict the second part of the statement, that says that Bob doesn't know that the coin has landed heads up.
 Knowability was considered by Fitch~\cite{fitch:1963} in relation to the verification principle, which says that ``every true statement is knowable''.
@@ -215,10 +238,12 @@ For example, if Bob were to be told that the coin has landed heads up then he wo
 All successful statements are knowable, and so the previous example of an unknowable statement is also an example of an unsuccessful statement; after telling Bob that ``the coin has landed heads up and Bob doesn't know that the coin has landed heads up'', Bob does not know that this statement is true because its truth has been invalidated by telling it to Bob.
 These treatments of knowable and successful statements introduce an informal syntactic notion of ``what can be known'' that bears some similarity to quantifiers over epistemic updates.
 
-Fitch's knowability paradox partially motivated the work by Balbiani et al.~\cite{balbiani:2007} on the arbitrary public announcement logic.
-Arbitrary public announcement logic extends public announcement logic with quantifiers that denote either that every public announcement or some public announcement results in a statement becoming true, allowing one to make statements such as ``there exists a public announcement that results in a statement becoming known'', corresponding to the notion of knowability.
-Balbiani et al.~\cite{balbiani:2007} provided a number of semantic results for the arbitrary public announcement logic, along with a sound and complete axiomatisation, however the logic was shown to be undecidable in the setting of multiple agents by French and van Ditmarsch~\cite{french:2008}.
-Balbiani et al.~\cite{balbiani:2007} also suggested a generalisation of the arbitrary public announcement logic to quantify over more general classes of epistemic updates, such as action models.
+
+The arbitrary public announcement logic (\logicApal{}) was introduced by Balbiani et al.~\cite{balbiani:2007}.
+\logicApal{} extends public announcement logic with quantifiers that denote either that every public announcement or some public announcement results in a statement becoming true.
+This work was partially motivated by Fitch's knowability paradox, and the concept of knowability may be encoded using the quantifiers introduced by the logic.
+Balbiani et al.~\cite{balbiani:2007} provided a number of semantic results for the \logicApal{}, along with a sound and complete axiomatisation, however the logic was shown to be undecidable in the setting of multiple agents by French and van Ditmarsch~\cite{french:2008}.
+Balbiani et al.~\cite{balbiani:2007} also suggested a generalisation of the \logicApal{} to quantify over more general classes of epistemic updates, such as action models.
 
 %\begin{enumerate}
     %\item Moore (see Hintikka 1962) - $K(\phi \land \neg K \phi)$~\cite{hintikka:1962}
@@ -232,14 +257,14 @@ Balbiani et al.~\cite{balbiani:2007} also suggested a generalisation of the arbi
 
 \subsection{Group announcement and coalition announcement logic}
 
-Two logics related to the arbitrary public announcement logic are the group announcement and coalition announcement logics of {\AA}gotnes and van Ditmarsch~\cite{agotnes:2008,agotnes:2010}. 
-Compared to the quantifiers of arbitrary public announcement logic, group announcement logic restricts the public announcements that are quantified over to group announcements.
+Two logics related to \logicApal{} are the group announcement logic (\logicGal{}) and the coalition announcement logic (\logicCal{}) of {\AA}gotnes and van Ditmarsch~\cite{agotnes:2008,agotnes:2010}. 
+Compared to \logicApal{} the quantifiers of \logicGal{} restrict the public announcements that are quantified over to group announcements.
 A group announcement consists of a public announcement that each agent in a group knows a particular statement is true.
-Each agent may only announce statements that they actually know to be true.
-Group announcement logic extends public announcement logic with quantifiers that denote, for a given group of agents, either that every group announcement or some group announcement that can be made by the group results in a statement becoming true.
-Coalition announcements is similar, but differs from group announcements in that agents outside of the coalition are also able to make public announcements that may sabotage whatever the coalition of agents is attempting to achieve through its announcements.
-{\AA}gotnes et al.~\cite{agotnes:2010} provide a sound and complete axiomatisation of the group announcement logic, along with expressivity results and a complexity result for model checking, and {\AA}gotnes, van Ditmarsch and French~\cite{agotnes:2014} showed that group announcement logic is undecidable.
-It is yet unknown whether the group announcement logic and coalition announcement logic are expressively equivalent.
+Each agent may only announce statements that they know to be true.
+\logicGal{} extends public announcement logic with quantifiers that denote, for a given group of agents, either that every group announcement or some group announcement that can be made by the group results in a statement becoming true.
+Coalition announcements are similar, but differ from group announcements in that agents outside of the coalition are also able to make public announcements that may sabotage whatever the coalition of agents is attempting to achieve through its announcements.
+{\AA}gotnes et al.~\cite{agotnes:2010} provide a sound and complete axiomatisation of \logicGal{}, along with expressivity results and a complexity result for model checking, and {\AA}gotnes, van Ditmarsch and French~\cite{agotnes:2014} showed that \logicGal{} is undecidable.
+It is yet unknown whether \logicGal{} and \logicCal{} are expressively equivalent.
 
 %\begin{enumerate}
     %\item {\AA}gotnes et al.~\cite{agotnes:2010} - group announcement logic
@@ -250,20 +275,35 @@ It is yet unknown whether the group announcement logic and coalition announcemen
 
 \subsection{Refinement modal logic}
 
-Whereas group announcement and coalition announcement logics of {\AA}gotnes and van Ditmarsch~\cite{agotnes:2008} restricted the epistemic updates that are quantified over, compared to arbitrary announcement logic, the refinement modal logic of van Ditmarsch and French~\cite{vanditmarsch:2009} introduces quantifiers quantify over a much more general class of epistemic updates.
-Refinement modal logic is related to the bisimulation quantified modal logic of French~\cite{french:2006}, which introduces an operator for quantifying over the pointed Kripke models that are bisimilar to the pointed Kripke model currently being considered, except for the value of a propositional atom that is allowed to vary.
+Whereas \logicGal{} and \logicCal{} restrict the epistemic updates that are quantified over relative to \logicApal{}, the refinement modal logic (\logicRml{}) of van Ditmarsch and French~\cite{vanditmarsch:2009} introduces quantifiers quantify over a much more general class of epistemic updates.
+\logicRml{} is related to the bisimulation quantified modal logic of French~\cite{french:2006}, which introduces an operator for quantifying over the pointed Kripke models that are bisimilar to the pointed Kripke model currently being considered, except for the value of a propositional atom that is allowed to vary.
 Bisimulations are an important concept in the semantics of modal logics, that correspond to a notion of equivalence of Kripke models: if two pointed Kripke models are bisimilar then they are indistinguishable to any modal formula.
 For two Kripke models to be considered bisimilar there must exist a bisimulation relation that satisfies the three conditions known as {\bf atoms}, {\bf forth} and {\bf back}.
 Refinements are related to bisimulations: for a Kripke model to be a refinement of another Kripke model, there must exist a refinement relation that satisfies {\bf atoms} and {\bf forth}.
 Refinements can be seen as one direction of a bisimulation; whereas bisimulation corresponds to an equivalence relation, refinement corresponds to a partial ordering.
 The refinement modal logic of van Ditmarsch and French~\cite{vanditmarsch:2009} quantifies over the pointed Kripke models that are refinements of the pointed Kripke model currently being considered.
-Whereas the quantifier in the bisimulation quantified modal logic of French~\cite{french:2006} binds a propositional atom as a variable, the quantifier in refinement modal logic binds no variables.
+Whereas the quantifier in the bisimulation quantified modal logic of French~\cite{french:2006} binds a propositional atom as a variable, the quantifier in \logicRml{} binds no variables.
 van Ditmarsch and French~\cite{vanditmarsch:2009} provide several semantic results to justify that refinements correspond to a very general notion of epistemic updates.
 In particular, the result of executing any action model on a Kripke model is a refinement of the original Kripke model, and any refinement of a finite Kripke model corresponds to the result of executing some action model~\cite{vanditmarsch:2009}.
-van Ditmarsch and French~\cite{vanditmarsch:2009} also compare their refinement modal logic to the arbitrary action model logic suggested by Balbiani et al.~\cite{balbiani:2007}, conjecturing that adding the operator from the action model logic to the refinement modal logic yields a logic equivalent to the arbitrary action model logic.
+van Ditmarsch and French~\cite{vanditmarsch:2009} also compare \logicRml{} to the arbitrary action model logic suggested by Balbiani et al.~\cite{balbiani:2007}, conjecturing that adding the operator from the action model logic to the \logicRml{} yields a logic equivalent to the arbitrary action model logic.
 
-Refinement modal logic is considered in further detail by van Ditmarsch, French and Pinchinat~\cite{vanditmarsch:2010}, who provide a sound and complete axiomatisation for the single agent refinement modal logic over the class of all Kripke models.
-The axiomatisation given for refinement modal logic have the form of reduction axioms, allowing formulas containing refinement quantifiers to be translated into modal formulas without refinement quantifiers.
-A consequence of this is that single agent refinement modal logic over the class of all Kripke models is expressively equivalent to the single agent modal logic over the class of all Kripke models, and that the logic is decidable.
+\logicRml{} considered in further detail by van Ditmarsch, French and Pinchinat~\cite{vanditmarsch:2010}, who provide a sound and complete axiomatisation for the single agent \logicRml{} over the class of all Kripke models.
+The axiomatisation given for \logicRml{} have the form of reduction axioms, allowing formulas containing refinement quantifiers to be translated into modal formulas without refinement quantifiers.
+A consequence of this is that single agent \logicRml{} over the class of all Kripke models is expressively equivalent to the single agent modal logic over the class of all Kripke models, and that the logic is decidable.
 
-In addition to axiomatisations, decidability and expressivity results, van Ditmarsch, French and Pinchinat~\cite{vanditmarsch:2010} provided results for refinement modal $\mu$-calculus, which adds a refinement quantifier to the modal $\mu$-calculus, Bozzelli, van Ditmarsch and Pinchinat~\cite{bozzelli:2014a} showed complexity and succinctness results for the single-agent refinement modal logic over the \classK{} of all Kripke models, and Achilleos and Lampis~\cite{achilleos:2013} provided tighter complexity results for the decision problem and showed that the model-checking problem is PSPACE-complete.
+In addition to axiomatisations, decidability and expressivity results, van Ditmarsch, French and Pinchinat~\cite{vanditmarsch:2010} provided results for refinement modal $\mu$-calculus, which adds a refinement quantifier to the modal $\mu$-calculus, Bozzelli, van Ditmarsch and Pinchinat~\cite{bozzelli:2014a} showed complexity and succinctness results for the single-agent \logicRml{} over the \classK{} of all Kripke models, and Achilleos and Lampis~\cite{achilleos:2013} provided tighter complexity results for the decision problem and showed that the model-checking problem is PSPACE-complete.
+
+\subsection{Other related logics}
+
+The subset space logic of Dabrowski, Moss and Parikh~\cite{dabrowski:1996} associates with each Kripke model a topology of non-empty subsets of the worlds in the Kripke model, and introduces quantifiers that quantify over these subsets of worlds.
+Whereas \logicApal{} quantifiers over public announcements, essentially the modally definable subsets of the worlds in a Kripke model, the subset space logic may quantify over subsets that are not modally definable.
+Recent work by W{\'a}ng and {\AA}gotnes~\cite{wang:2013a,wang:2013b} has extended the subset space logic to multiple agents, and shown that the subset space logic may be used as the basis of an alternative semantics for the public announcement logic, and recent work by Balbiani, van Ditmarsch and Kudinov~\cite{balbiani:2013} has demonstrated that the subset space logic may be used as the basis of an alternative semantics for reasoning about arbitrary public announcements.
+
+The arbitrary arrow update logic (\logicAaul{}) was recently proposed by van Ditmarsch, van der Hoek and Kooi~\cite{vanditmarsch:2014}.
+\logicAaul{} extends arrow update logic with quantifiers that denote either that every arrow update or some arrow update results in a statement becoming true. 
+van Ditmarsch, van der Hoek and Kooi~\cite{vanditmarsch:2014} have presented preliminary results focussing on the relative expressivity of \logicAaul{} with epistemic logic, epistemic logic with common knowledge operators, and \logicApal{}.
+
+The alternative logic for knowability of Wen, Liu and Huang~\cite{wen:2011} introduces quantifiers that quantify over subrelations of the accessibility relations of Kripke models.
+Whereas \logicAaul{} quantifies over arrow updates, essentially a form of modally definable subrelations of a Kripke model, the alternative logic for knowability may quantify over subrelations that are not modally definable.
+Subrelations are less general than refinements, which may duplicate states as well as remove edges from accessibility relations.
+Wen, Liu and Huang~\cite{wen:2011} discuss this logic in the context of knowability, with comparisons to \logicApal{}, and demonstrate that in the single-agent case the logic is equivalent to \logicApal{}, and in the multi-agent case the logic is equivalent to the subset space logic on the class of downward closed multi-agent subset frames.

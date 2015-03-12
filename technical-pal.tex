@@ -1,6 +1,7 @@
 \section{Public announcement logic}\label{pal}
 
 We recall definitions and results from the public announcement logic of Plaza~\cite{plaza:1989}.
+For a comprehensive introduction to public announcement logic we direct the reader to the book by van Ditmarsch, van der Hoek and Kooi~\cite{vanditmarsch:2007}.
 
 \begin{definition}[Language of public announcement logic]
 The {\em language of public announcement logic}, \langPal{}, is inductively defined as:
@@ -36,7 +37,7 @@ Let \lang{} be a logical language with an interpretation on $\kModel$, and let $
 We denote the {\em restriction of $\kModel$ to $\phi$} by $\restrict{\kModel}{\phi}$ and define it as $\restrict{\kModel}{\phi} = \restrict{\kModel}{\interpretation[\kModel]{\phi}}$.
 \end{definition}
 
-The result of publicly announcing that a formula $\phi$ is true in an initial Kripke model $\kModel$ is represented by the model restriction $\restrict{\kModel}{\phi}$ of $\kModel$ to the states where $\phi$ was true in $\kModel$.
+We model the public announcement that a formula $\phi$ is true in an initial Kripke model $\kModel$ as a restriction $\restriction{\kModel}{\phi}$ of $\kModel$ to the states where $\phi$ was true in $\kModel$.
 We thus define the semantics of public announcement logic.
 
 \begin{definition}[Semantics of public announcement logic]\label{pal-semantics}
@@ -88,7 +89,9 @@ $$
 $$
 \end{definition}
 
-We also restate some results about the \logicPalS{} and its proof theory.
+We note that the axiomatisation \axiomPalS{} forms a set of reduction axioms, admitting a provably correct translation from the language \langPal{} of public announcement logic to the language \langMl{} of modal logic.
+This works as the axioms {\bf AN}, {\bf AC}, {\bf AK}, and {\bf AA} may be applied to ``push'' the public announcement operators past negations, conjunctions, modalities and other public announcement operators, until they are applied only to propositional atoms, where the axiom {\bf AP} may be applied to replace the formula with a modal formula.
+Therefore we have that \logicPalS{} is expressively equivalent to \logicS{} and so we get other results for the logic from the corresponding results for \logicS{}.
 
 \begin{proposition}
 The axiomatisation \axiomPalS{} is sound and strongly complete with respect to the semantics of the logic \logicPalS{}.

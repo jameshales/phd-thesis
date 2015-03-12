@@ -93,7 +93,7 @@ We define the following classes of Kripke frames:
 In order to interpret the validity of modal formulas containing propositional atoms we augment Kripke frames with valuations of propositional atoms.
 
 \begin{definition}[Kripke models]
-A {\em Kripke model}, $\kModelAndTuple$ consists of an underlying Kripke frame $\kFrameAndTuple$ along with a {\em valuation function} $\kValuation : \atoms \to \powerset(\kStates)$, which is a function from propositional atoms to sets of states.
+A {\em Kripke model}, $\kModelAndTuple$ consists of an {\em underlying Kripke frame} $\kFrameAndTuple$ along with a {\em valuation function} $\kValuation : \atoms \to \powerset(\kStates)$, which is a function from propositional atoms to sets of states.
 
 A {\em pointed Kripke model} $\kPModelAndTuple{\kStateS}$ consists of a Kripke model $\kModelAndTuple$ along with a designated state (the {\em real world}), $\kStateS \in \kStates$.
 A {\em multi-pointed Kripke model} $\kPModelAndTuple{\kStatesT}$ consists of a Kripke model $\kModelAndTuple$ along with a non-empty set of designated states, $\kStatesT \subseteq \kStates$.
@@ -199,7 +199,6 @@ For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\kStateTP \in \kS
 \paragraph{back-$\agentA$}
 For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTP) \in \bisimulation$.
 
-If there exists a bisimulation $\bisimulation$ that is a total relation between $\kStates$ and $\kStatesP$ then we say that $\kModel$ and $\kModelP$ are {\em bisimilar} and we denote this by $\kModel \bisimilar \kModelP$.
 If there exists a bisimulation $\bisimulation$ such that $(\kStateS, \kStateSP) \in \bisimulation$ then we say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em bisimilar} and we denote this by $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
 \end{definition}
 
@@ -214,6 +213,7 @@ The relation $\bisimilar$ is an equivalence relation (reflexive, transitive and 
 Bisimilar Kripke models are equivalent under modal validity.
 
 \begin{proposition}\label{modal-bisimulation-invariance}
+\todo{Citation}
 Let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
 Then for every $\phi \in \langMl$:
 $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
@@ -230,6 +230,7 @@ We say that $\kModel$ is {\em modally saturated} if and only if for every $\agen
 For modally saturated Kripke models, modal equivalence implies bisimilarity.
 
 \begin{proposition}\label{modal-hennessy-milner}
+\todo{Citation}
 Let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMl$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 Then $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
 \end{proposition}
@@ -251,26 +252,29 @@ Every finite Kripke model is image-finite.
 \end{proposition}
 
 \begin{proposition}
+\todo{Citation}
 Every image-finite Kripke model is modally saturated.
 \end{proposition}
 
-Thus for image-finite Kripke models it is also the case that modal equivalence implies bisimilarity.
+Thus for finite or image-finite Kripke models it is also the case that modal equivalence implies bisimilarity.
 
 Bisimulations can be computed in polynomial time for finite Kripke models.
 
 \begin{proposition}
+\todo{Citation}
 Let $\kModel$ and $\kModelP$ be Kripke models such that $\kModel \bisimilar \kModelP$.
 There is a unique, maximal bisimulation between $\kModel$ and $\kModelP$.
 \end{proposition}
 
 \begin{proposition}
+\todo{Citation}
 Let $\kModel$ and $\kModelP$ be finite Kripke models defined on a finite set of propositional atoms such that $\kModel \bisimilar \kModelP$.
 The maximal bisimulation between $\kModel$ and $\kModelP$ can be computed in polynomial time.
 \end{proposition}
 
-These results are shown by Goranko and Otto~\cite{goranko:2006}.
+These results are shown by Goranko and Otto~\cite[pp. 273-274]{goranko:2006}.
 
-We can define a bisimulation-minimal version of a Kripke model by `merging' bisimilar states as in the bisimulation contraction.
+We can define a bisimulation-minimal version of a Kripke model by `merging' bisimilar states as in the bisimulation contraction, resulting in a Kripke model where no two states are bisimilar.
 
 \begin{definition}[Bisimulation contraction]
 Let $\kModelAndTuple$ be a Kripke model,
@@ -285,11 +289,13 @@ The {\em bisimulation contraction} of $\kModel$ is the quotient model $\kModelAn
 \end{definition}
 
 \begin{proposition}
+\todo{Citation}
 Let $\kModelAndTuple$ be a Kripke model and let $\kModelP$ be the bisimulation contraction of $\kModel$.
 Then for every $\kStateS, \kStateT \in \kStates$: $\kPModelP{[\kStateS]} \bisimilar \kPModelP{[\kStateT]}$ if and only if $[\kStateS] = [\kStateT]$.
 \end{proposition}
 
 \begin{proposition}
+\todo{Citation}
 Let $\kModelAndTuple$ be a Kripke model and let $\kModelP$ be the bisimulation contraction of $\kModel$.
 Then for every $\kStateS \in \kStates$: $\kPModel{\kStateS} \bisimilar \kPModelP{[\kStateS]}$.
 \end{proposition}
@@ -341,6 +347,8 @@ $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails
 Let $n \in \naturals$ and let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMl$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 Then $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$.
 \end{proposition}
+
+These results follow from similar reasoning to the corresponding results for bisimilarity.
 
 \subsection{Axiomatisations}
 
@@ -397,6 +405,7 @@ If every set of formulas that is consistent according to an axiomatisation is sa
 \end{definition}
 
 \begin{proposition}
+\todo{Citation}
 The axiomatisations \axiomK{}, \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} are sound and strongly complete with respect to the semantics of the respective logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{}, and \logicS{}.
 \end{proposition}
 
@@ -408,6 +417,7 @@ An axiomatisation allows {\em substitution of equivalents} if and only if for ev
 \end{definition}
 
 \begin{proposition}
+\todo{Citation}
 The axiomatisations \axiomK{}, \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} allow substitution of equivalents.
 \end{proposition}
 
@@ -418,20 +428,18 @@ If every (possibly infinite) set of formulas that is finitely satisfiable accord
 \end{definition}
 
 \begin{proposition}
+\todo{Citation}
 The logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{}, and \logicS{} are compact.
 \end{proposition}
-
-\todo[inline]{Citation}
 
 \begin{definition}[Model-checking problem]
 The {\em model-checking problem} for a logic is to determine for a given formula and a given finite pointed Kripke model whether the formula is valid on the pointed Kripke model.
 \end{definition}
 
 \begin{proposition}
+\todo{Citation}
 The model-checking problems for the logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{} and \logicS{} are decidable in polynomial time.
 \end{proposition}
-
-\todo[inline]{Citation}
 
 \begin{definition}[Satisfiability and provability problems]
 The {\em satisfiability problem} for a logic is to determine for a given formula whether the formula is satisfiable according to the semantics of the logic.
@@ -441,6 +449,7 @@ The {\em provability problem} for a proof system such as an axiomatisation is to
 We note that for sound and complete proof systems the satisfiability and provability problems are dual problems (a formula is satisfiable if and only if its negation is not provable).
 
 \begin{proposition}
+\todo{Citation}
 The satisfiability problems for the logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{} and \logicS{} are decidable.
 For the logics \logicK{}, \logicKFF{}, \logicKD{} and \logicS{} the problem is PSPACE-complete.\todo{Double-check complexity} 
 \end{proposition}

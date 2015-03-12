@@ -273,25 +273,9 @@ It is yet unknown whether \logicGal{} and \logicCal{} are expressively equivalen
     %\item {\AA}gotnes and van Ditmarsch~\cite{aagotnes:2008b} - Coalitions and announcements ???
 %\end{enumerate}
 
-\subsection{Refinement modal logic}
+\subsection{DEL-sequents}
 
-Whereas \logicGal{} and \logicCal{} restrict the epistemic updates that are quantified over relative to \logicApal{}, the refinement modal logic (\logicRml{}) of van Ditmarsch and French~\cite{vanditmarsch:2009} introduces quantifiers quantify over a much more general class of epistemic updates.
-\logicRml{} is related to the bisimulation quantified modal logic of French~\cite{french:2006}, which introduces an operator for quantifying over the pointed Kripke models that are bisimilar to the pointed Kripke model currently being considered, except for the value of a propositional atom that is allowed to vary.
-Bisimulations are an important concept in the semantics of modal logics, that correspond to a notion of equivalence of Kripke models: if two pointed Kripke models are bisimilar then they are indistinguishable to any modal formula.
-For two Kripke models to be considered bisimilar there must exist a bisimulation relation that satisfies the three conditions known as {\bf atoms}, {\bf forth} and {\bf back}.
-Refinements are related to bisimulations: for a Kripke model to be a refinement of another Kripke model, there must exist a refinement relation that satisfies {\bf atoms} and {\bf forth}.
-Refinements can be seen as one direction of a bisimulation; whereas bisimulation corresponds to an equivalence relation, refinement corresponds to a partial ordering.
-The refinement modal logic of van Ditmarsch and French~\cite{vanditmarsch:2009} quantifies over the pointed Kripke models that are refinements of the pointed Kripke model currently being considered.
-Whereas the quantifier in the bisimulation quantified modal logic of French~\cite{french:2006} binds a propositional atom as a variable, the quantifier in \logicRml{} binds no variables.
-van Ditmarsch and French~\cite{vanditmarsch:2009} provide several semantic results to justify that refinements correspond to a very general notion of epistemic updates.
-In particular, the result of executing any action model on a Kripke model is a refinement of the original Kripke model, and any refinement of a finite Kripke model corresponds to the result of executing some action model~\cite{vanditmarsch:2009}.
-van Ditmarsch and French~\cite{vanditmarsch:2009} also compare \logicRml{} to the arbitrary action model logic suggested by Balbiani et al.~\cite{balbiani:2007}, conjecturing that adding the operator from the action model logic to the \logicRml{} yields a logic equivalent to the arbitrary action model logic.
-
-\logicRml{} considered in further detail by van Ditmarsch, French and Pinchinat~\cite{vanditmarsch:2010}, who provide a sound and complete axiomatisation for the single agent \logicRml{} over the class of all Kripke models.
-The axiomatisation given for \logicRml{} have the form of reduction axioms, allowing formulas containing refinement quantifiers to be translated into modal formulas without refinement quantifiers.
-A consequence of this is that single agent \logicRml{} over the class of all Kripke models is expressively equivalent to the single agent modal logic over the class of all Kripke models, and that the logic is decidable.
-
-In addition to axiomatisations, decidability and expressivity results, van Ditmarsch, French and Pinchinat~\cite{vanditmarsch:2010} provided results for refinement modal $\mu$-calculus, which adds a refinement quantifier to the modal $\mu$-calculus, Bozzelli, van Ditmarsch and Pinchinat~\cite{bozzelli:2014a} showed complexity and succinctness results for the single-agent \logicRml{} over the \classK{} of all Kripke models, and Achilleos and Lampis~\cite{achilleos:2013} provided tighter complexity results for the decision problem and showed that the model-checking problem is PSPACE-complete.
+% TODO
 
 \subsection{Other related logics}
 
@@ -307,3 +291,20 @@ The alternative logic for knowability of Wen, Liu and Huang~\cite{wen:2011} intr
 Whereas \logicAaul{} quantifies over arrow updates, essentially a form of modally definable subrelations of a Kripke model, the alternative logic for knowability may quantify over subrelations that are not modally definable.
 Subrelations are less general than refinements, which may duplicate states as well as remove edges from accessibility relations.
 Wen, Liu and Huang~\cite{wen:2011} discuss this logic in the context of knowability, with comparisons to \logicApal{}, and demonstrate that in the single-agent case the logic is equivalent to \logicApal{}, and in the multi-agent case the logic is equivalent to the subset space logic on the class of downward closed multi-agent subset frames.
+
+\subsection{Refinement modal logic}
+
+The refinement modal logic (\logicRml{}) of van Ditmarsch and French~\cite{vanditmarsch:2009} introduces quantifiers over a much more general class of epistemic updates than the logics considered previously.
+\logicRml{} is related to the bisimulation quantified modal logic of French~\cite{french:2006}, which introduces an operator for quantifying over the pointed Kripke models that are bisimilar to the pointed Kripke model currently being considered, except for the value of a propositional atom that is allowed to vary.
+Bisimulations are an important concept in the semantics of modal logics, that correspond to a notion of equivalence of Kripke models: if two pointed Kripke models are bisimilar then they are indistinguishable to any modal formula.
+For two Kripke models to be considered bisimilar there must exist a bisimulation relation that satisfies the three conditions known as {\bf atoms}, {\bf forth} and {\bf back}.
+Refinements are related to bisimulations: for a Kripke model to be a refinement of another Kripke model, there must exist a relation from one Kripke model to the other that satisfies {\bf atoms} and {\bf forth}.
+Refinements can be seen as one direction of a bisimulation; whereas bisimulation corresponds is an equivalence relation, refinement are a partial ordering.
+The refinement modal logic of van Ditmarsch and French~\cite{vanditmarsch:2009} quantifies over the pointed Kripke models that are refinements of the pointed Kripke model currently being considered.
+Whereas the quantifier in the bisimulation quantified modal logic of French~\cite{french:2006} binds a propositional atom as a variable, the quantifier in \logicRml{} binds no variables.
+van Ditmarsch and French~\cite{vanditmarsch:2009} provide semantic results to justify the view that refinements correspond to a very general notion of epistemic updates, in particular that the result of executing an action model on a Kripke model is a refinement of the original Kripke model, and any refinement of a finite Kripke model corresponds to the result of executing an action model.
+van Ditmarsch and French~\cite{vanditmarsch:2009} also compare \logicRml{} to the arbitrary action model logic suggested by Balbiani et al.~\cite{balbiani:2007}, conjecturing that adding the operator from the action model logic to the \logicRml{} yields a logic equivalent to the arbitrary action model logic.
+In subsequent work van Ditmarsch, French and Pinchinat~\cite{vanditmarsch:2010} provide a sound and complete axiomatisation for the single agent variant of \logicRml{} over the class of all Kripke models.
+The axiomatisation takes the form of reduction axioms, admitting a provably correct translation from \logicRml{} to the underlying modal logic, and as a corollory means that the logic is decidable.
+van Ditmarsch, French and Pinchinat~\cite{vanditmarsch:2010} also considered a variant of \logicRml{} that extends the modal $\mu$-calculus.
+Later work by Bozzelli, van Ditmarsch and Pinchinat~\cite{bozzelli:2014a} gave succinctness results and complexity bounds for the decision problem for the single-agent \logicRml{} over the class of all Kripke models, and Achilleos and Lampis~\cite{achilleos:2013} provided complexity results for the model-checking problem in addition to tighter complexity bounds for the decision problem.

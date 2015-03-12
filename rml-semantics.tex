@@ -1,5 +1,12 @@
 \section{Syntax and semantics}\label{rml-semantics}
 
+In this section we introduce the syntax and semantics of the refinement modal logics.
+Compared to previous treatments of \logicRml{}, which considered \logicRml{} specifically in the setting of \classK{}, our treatment considers \logicRml{} in different settings, including \classK{}, \classKFF{}, \classKD{}, \classS{}, and \classKF{}.
+The definitions that we give here generalise to these different settings, and the semantic results that we give here are common to all or most of the settings that we consider.
+In the following chapters we consider these settings in more detail, providing results specific to each setting.
+
+We begin with a definition of the syntax of \logicRml{}.
+
 \begin{definition}[Language of refinement modal logic]
 The {\em language of refinement modal logic}, \langRml{}, is inductively defined as:
 $$
@@ -13,6 +20,13 @@ $$
 where $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentsB \subseteq \agents$.
 \end{definition}
 
+We use all of the standard abbreviations from modal logic, in addition to the abbreviation $\somerefsBs \phi ::= \lnot \allrefsBs \lnot \phi$.
+
+The formula $\allrefsBs \phi$ may be read as ``in every $\agentsB$-refinement $\phi$ is true'' and the formula $\somerefsBs \phi$ may be read as ``in some $\agentsB$-refinement $\phi$ is true''.
+
+We define the semantics of \logicRml{}.
+As in modal logic, the semantics are defined in terms of a parameterised class of Kripke frames, \classC{}.
+
 \begin{definition}[Semantics of refinement modal logic]
 Let $\classC$ be a class of Kripke frames, let $\phi \in \langRml$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
 The interpretation of the formula $\phi$ in the logic \logicRmlC{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{ml-semantics}, with the additional inductive case:
@@ -23,19 +37,32 @@ $$
 $$
 \end{definition}
 
+Whereas in modal logic the parameterised class of Kripke frames restricts the Kripke models that modal formulas are interpeted on, in \logicRml{} the parameterised class of Kripke frames also restricts the refinements that are considered by the refinement quantifiers.
+The motivation for this can be understood in the epistemic setting, where we consider refinements to correspond to the results of epistemic updates.
+In the epistemic logic \logicS{}, the frame conditions of \classS{} correspond to rules about knowledge, such as the truth of knowledge, and positive and negative introspection of knowledge.
+Intuitively we'd expect that epistemic updates should be able to change knowledge, but not the rules about knowledge itself, so we'd expect that epistemic updates should take us from \classS{} Kripke models to \classS{} Kripke models.
+In the refinement modal logic \logicRmlS{}, the restriction on refinement quantifiers ensures that the only refinements that are considered are \classS{} refinements, satisfying our intuition about epistemic updates.
+
+We now show some semantic properties of \logicRml{} that hold regardless of setting.
+
 \begin{proposition}\label{rml-validities}
 Let $\classC$ be a class of Kripke frames. Then:
-$$
-\begin{array}{l}
-    \entails_\logicRmlC \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
-    \entails_\logicRmlC \phi \text{ implies } \entails_\logicRmlC \allrefsBs \phi\\
-    \entails_\logicRmlC \allrefsBs \phi \implies \phi\\
-    \entails_\logicRmlC \allrefsBs \phi \implies \allrefsBs \allrefsBs \phi\\
-    \entails_\logicRmlC \phi^+ \implies \allrefsBs \phi^+
-\end{array}
-$$
+\begin{eqnarray}
+    &&\entails_\logicRmlC \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi) \label{rml-validity-r}\\
+    &&\entails_\logicRmlC \phi \text{ implies } \entails_\logicRmlC \allrefsBs \phi \label{rml-validity-necr}\\
+    &&\entails_\logicRmlC \allrefsBs \phi \implies \phi \label{rml-validity-t}\\
+    &&\entails_\logicRmlC \allrefsBs \phi \implies \allrefsBs \allrefsBs \phi \label{rml-validity-4}\\
+    &&\entails_\logicRmlC \phi^+ \implies \allrefsBs \phi^+ \label{rml-validity-rp}
+\end{eqnarray}
 where $\agentsB \subseteq \agents$, $\phi, \psi \in \langRml$ and $\phi^+ \in \langMlPlus$.
 \end{proposition}
+
+First some remarks on these properties:
+(\ref{rml-validity-r}) corresponds to the modal axiom {\bf K};
+(\ref{rml-validity-necr}) corresponds to the modal rule {\bf NecK};
+(\ref{rml-validity-t}) corresponds to the modal rule {\bf T}; and
+(\ref{rml-validity-4}) corresponds to the modal rule {\bf 4}.
+This gives the $\allrefsBs$ all of the appearances of a modal operator, however we note that it is not a normal modal operator, due to validity (\ref{rml-validity-rp}), which corresponds to the notion that refinements preserve positive formulas.
 
 \begin{proof}
 Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}, \kPModelPP{\kStateSPP} \in \classC$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.

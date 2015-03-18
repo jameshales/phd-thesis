@@ -177,6 +177,10 @@ We recall from Corollary~\ref{refinement-subrelations} that refinements may be c
 The related Proposition~\ref{refinement-decomposition} shows that we can remove the edges for each set of agents in turn, by using an intermediate refinement.
 Then it is sufficient to show that duplicating the states and relationships of a \classC{} Kripke frame results in another \classC{} Kripke frame, and that the frame conditions of \classC{} permit modifying the accessibility relations of one set of agents without regard to the accessibility relations of the remaining agents.
 We don't show this in detail but we note that this is the case for \classK{}, \classKF{}, \classKFF{}, \classKD{} and \classS{}.
+We can imagine settings where these results do not hold.
+For example, if the frame conditions require that two agents, $\agentA$ and $\agentB$ have the same accessibility relations, then there may be permissible $\{\agentA, \agentB\}$-refinements that cannot be reached through an $\agentA$-refinement followed by an $\agentB$-refinement, or vice versa.
+If the frame conditions require that the accessibility relation of agent, $\agentA$, be a subrelation of the accessibility relation of another agent, $\agentB$, then there may be $\{\agentA, \agentB\}$-refinements that can be reached through an $\agentA$-refinement followed by an $\agentB$-refinement, but not vice versa.
+However we do not consider such settings in detail in the present work.
 
 We now show some semantic properties of \logicRml{} that hold regardless of setting.
 

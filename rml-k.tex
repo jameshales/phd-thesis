@@ -1,12 +1,23 @@
 \chapter{Refinement modal logic: \classK{}}\label{rml-k}
 
+In this chapter we consider in greater detail \logicRmlK{} in the setting of \classK{}.
+The main result of this chapter is a sound and complete axiomatisation of \logicRmlK{}.
+The axiomatisation forms a set of reduction axioms, admitting a provably correct translation from \logicRmlK{} to the underlying modal logic \logicK{}.
+We use this provably correct translation to show the completeness of the axiomatisation, to show that \logicRmlK{} is expressively equivalent to \logicK{}, and to show that \logicRmlK{} is compact and decidable.
+Whereas in the previous chapter we provided definitions and results common to all or most of the settings that we consider, the results in this chapter are specific to \logicRmlK{} and do not trivially generalise to other settings.
+However in Chapter~\ref{rml-kd45} and Chapter~\ref{rml-s5} we provide sound and complete axiomatisations, and the same accompanying results for \logicRmlKFF{}, \logicRmlKD{} and \logicRmlS{}, results which build upon the techniques developed in this chapter.
+
+We recall the cover operator, which is defined by the syntactic abbreviation $\coversA \Gamma ::= \necessaryA \bigvee_{\gamma \in \Gamma} \gamma \land \bigwedge_{\gamma \in \Gamma} \possibleA \gamma$.
+The cover operator forms the basis of our axiomatisations of \logicRmlK{}, \logicRmlKFF{}, \logicRmlKD{}, and \logicRmlS{}.
+We now present our axiomatisation for \logicRmlK{} and discuss its features, particularly the use of the cover operator.
+
 \begin{definition}[Axiomatisation \axiomRmlK{}]
     The axiomatisation \axiomRmlK{} is a substitution schema consisting of the axioms and rules of \axiomK{} along with the following additional axioms and rules:
 $$
 \begin{array}{rl}
     {\bf R} & \proves \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
     {\bf RP} & \proves \allrefsBs \atomP \iff \atomP\\
-    {\bf RK} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma \text{ where } \agentA \in \agentsB\\
+    {\bf RK} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \cup \{\top\}) \text{ where } \agentA \in \agentsB\\
     {\bf RComm} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \text{ where } \agentA \notin \agentsB\\
     {\bf RDist} & \proves \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC\\
     {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
@@ -15,19 +26,59 @@ $$
 where $\phi, \psi \in \langRml$, $\atomP \in \atoms$, $\agentA \in \agents$, $\agentsB, \agentsC \subseteq \agents$, and for every $\agentA \in \agents$: $\Gamma_\agentA \subseteq \langRml$ is a finite set of formulas.
 \end{definition}
 
+We note that the axioms {\bf R} and {\bf RP}, and the rule {\bf NecR} are validities established for all variants of \logicRml{} in the previous chapter, in Proposition~\ref{rml-validities}.
+We also note that although reflexivity and transitivity are important properties of the relational operator $\simulatesBs$ for refinements, the validities from Proposition~\ref{rml-validities} corresponding to these properties do not feature in this axiomatisation, as we will see that they are not necessary in order to show the completeness of the axiomatisation.
+In the remaining axioms, {\bf RK}, {\bf RComm}, and {\bf RDist}, the cover operator features prominently.
+These axioms describe the interaction between existential refinement quantifiers and conjunctions of modalities, and here the cover operator is used as a convenient notation for a conjunction of modalities.
+
+We must consider conjunctions of modalities specifically, because it is not sufficient to have separate axioms describing the interaction between existential refinement quantifiers and modalities and axioms describing the interaction between refinement quantifiers and conjunctions.
+For example, determining whether $\entails \somerefsA (\necessaryA \phi \land \possibleA \psi)$ is not functional on whether $\entails \somerefsA \necessaryA \phi$ and whether $\entails \somerefsA \possibleA \psi$.
+Clearly if $\entails \somerefsA (\necessaryA \phi \land \possibleA \psi)$ then we must have $\entails \somerefsA \necessaryA \phi$ and $\entails \somerefsA \possibleA \psi$.
+It is a simple matter to show that in general we have $\entails \somerefsA \necessaryA \phi$, as we can get $\necessaryA \phi$ from an $\agentA$-refinement by removing all $\agentA$-successors.
+We can also show that $\entails \possibleA \lnot \phi \implies \somerefsA \possibleA \lnot \phi$, as any Kripke model is an $\agentA$-refinement of itself.
+So we have that $\possibleA \lnot \phi \entails \somerefsA \necessaryA \phi$ and $\possibleA \lnot \phi \entails \somerefsA \possibleA \lnot \phi$.
+However $\entails \lnot (\necessaryA \phi \land \possibleA \lnot \phi)$, so by {\bf NecR} (which is already known to be sound by Proposition~\ref{rml-validities}) we have that $\entails \allrefsA \lnot (\necessaryA \phi \land \possibleA \lnot \phi)$ and therefore $\entails \lnot \somerefsA (\necessaryA \phi \land \possibleA \lnot \phi)$.
+Clearly whether $\entails \somerefsA (\necessaryA \phi \land \possibleA \psi)$ depends on the interaction between $\phi$ and $\psi$, and so these concerns should not be separated.
+The cover operators, together with a disjunctive normal form defined using cover operators, allows us to handle all cases involving the interaction between existential refinement quantifiers and conjunctions of modalities.
+We note that if we consider universal refinement quantifiers instead of existential quantifiers we come across similar issues, but instead with disjunctions of modalities.
+
+In the following sections we show that the axiomatisation \axiomRmlK{} is sound and complete for the logic \logicRmlK{}.
+In Section~\ref{rml-k-soundness} we show that the axiomatisation is sound, using constructive proofs.
+In Section~\ref{rml-k-completeness} we show that the axiomatisation is complete via a provably correct translation from \logicRmlK{} to \logicK{}.
+This provably correct translation uses a disjunctive normal form for modal logic defined using cover operators, followed by applications of the reduction axioms in \axiomRmlK{}.
+As a result of this provably correct translation we have as corollaries that \logicRmlK{} is expressively equivalent to \logicK{}, and that \logicRml{} is compact and decidable.
+
+\section{Soundness}\label{rml-k-soundness}
+
+In this section we show that the axiomatisation \axiomRmlK{} is sound.
+The axioms {\bf R} and {\bf RP}, and the rule {\bf NecR} are already known to be sound as they were established for all variants of \logicRml{} in the previous chapter, in Proposition~\ref{rml-validities}.
+What remains to be shown is that the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} are sound.
+Each of these axioms share the general form of equivalences, where the left hand side posits the existence of a single refinement that satisfies a given formula, whilst the right hand side posits the existence of multiple refinements that satisfy subformulas of the given formula.
+Accordingly the proof of soundness for each of these axioms share the same general technique.
+For the left-to-right direction of the equivalence, we show that if we have the refinement described on the left hand side of the equivalence, then this same refinement satisfies all that we need for the right hand side of the equivalence.
+Conversely, for the right-to-left direction of the equivalence, we show that if we have all of the refinements described on the right hand side of the equivalence, then these refinements can be combined into a larger refinement that satisfies the left hand side of the equivalence.
+The left-to-right direction is simple to show, whereas the right-to-left direction is more involved, requiring a relatively complex construction to combine the refinements on the right hand side of the equivalence into one that satisfies the left hand side of the equivalence.
+
+We begin by showing that the axiom {\bf RK} is sound.
+Recall that the axiom {\bf RK} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ where $\agentA \in \agentsB$.
+
 \begin{lemma}\label{rml-k-rk}
 The axiom {\bf RK} is sound with respect to the semantics of the logic \logicRmlK{}.
 \end{lemma}
 
 \begin{proof}
-($\Rightarrow$) Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
+($\Rightarrow$) 
+We show that $\entails \somerefsBs \coversA \Gamma_\agentA \implies \coversA (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \cup \{\top\})$ where $\agentA \in \agentsB$.
+Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 There exists $\kPModelAndTupleP{\kStateSP} \in \classK$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateTP_\gamma \in \kSuccessorsPA{\kStateSP}$ such that $\kPModelP{\kStateTP_\gamma} \entails \gamma$.
 From {\bf back-$\agentA$} there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModelP{\kStateTP_\gamma}$.
 Then $\kPModel{\kStateT_\gamma} \entails \somerefsBs \gamma$ and so $\kPModel{\kStateS} \entails \possibleA \somerefsBs \gamma$.
-Therefore $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
+Therefore $\kPModel{\kStateS} \entails \coversA (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \cup \{\top\})$.
 
-($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
+($\Leftarrow$) 
+We show that $\entails \coversA (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \cup \{\top\}) \implies \somerefsBs \coversA \Gamma_\agentA$ where $\agentA \in \agentsB$.
+Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \coversA (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \cup \{\top\})$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classK$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RK} equivalence.
 
@@ -36,42 +87,55 @@ Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
     \kStatesP &=& \{\kStateSP\} \cup \kStates \cup \bigcup_{\gamma \in \Gamma_\agentA} \kStates[\gamma]\\
     \kAccessibilityPA &=& \{(\kStateSP, \kStateS[\gamma]) \mid \gamma \in \Gamma_\agentA\} \cup \kAccessibilityA \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityA[\gamma]\\
     \kAccessibilityPB &=& \{(\kStateSP, \kStateT) \mid \kStateT \in \kSuccessorsB{\kStateS}\} \cup \kAccessibilityB \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityB[\gamma] \text{ for } \agentB \in \agents \setminus \{\agentA\}\\
-    \kValuationP(\atomP) &=& \overline{\{\kStateSP\}} \cup \kValuation(\atomP) \cup \bigcup_{\gamma \in \Gamma_\agentA} \kValuation[\gamma](\atomP)
+    \kValuationP(\atomP) &=& \{\kStateSP \mid \kStateS \in \kValuation(\atomP)\} \cup \kValuation(\atomP) \cup \bigcup_{\gamma \in \Gamma_\agentA} \kValuation[\gamma](\atomP)
 \end{eqnarray*}
-where $\kStateSP$ is a fresh state not appearing in $\kStates$ or $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$, and $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise.
+where $\kStateSP$ is a fresh state not appearing in $\kStates$ or $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$.
 
 \begin{figure}
     \caption{A schematic of the construction used to show soundness of {\bf RK}.}\label{rml-k-rk-construction}
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
-        \node (sp) {\underline{$\kStateSP \entails \coversA \{\gamma_1, \dots, \gamma_n\}$}};
-        \node (mg1) [above left of=s,node distance={sqrt(2 * 7em^2)}] {$\kPModel[\gamma_1]{\kStateS[\gamma_1]} \entails \gamma_1$};
-        \node (mgd) [above of=s] {$\cdots$};
-        \node (mgn) [above right of=s,node distance={sqrt(2 * 7em^2)}] {$\kPModel[\gamma_n]{\kStateS[\gamma_n]} \entails \gamma_n$};
-        \node (mtd) [above of=mgd] {$\cdots$};
-        \node (ms) [above of=mtd] {$\kStateS \entails \possibleA \somerefsBs \gamma_1 \land \cdots \land \somerefsBs \gamma_n$};
-        \node (mt1) [below left of=ms,node distance={sqrt(2 * 7em^2)}] {$\kPModel{\kStateT_{\gamma_1}} \entails \somerefsBs \gamma_1$};
-        \node (mtn) [below right of=ms,node distance={sqrt(2 * 7em^2)}] {$\kPModel{\kStateT_{\gamma_n}} \entails \somerefsBs \gamma_n$};
+        \node (sp) {\underline{$\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$}};
+        \node (mgn) [above of=sp] {$\kPModel[\gamma_n]{\kStateS[\gamma_n]} \entails \gamma_n$};
+        \node (mgd) [left of=mgn,node distance=3.5em] {$\cdots$};
+        \node (mg1) [left of=mgd,node distance=3.5em] {$\kPModel[\gamma_1]{\kStateS[\gamma_1]} \entails \gamma_1$};
+        \node (mtn) [above of=mgn] {$\kPModel{\kStateT_{\gamma_n}} \entails \somerefsBs \gamma_n$};
+        \node (mtd) [left of=mtn,node distance=3.5em] {$\cdots$};
+        \node (mt1) [left of=mtd,node distance=3.5em] {$\kPModel{\kStateT_{\gamma_1}} \entails \somerefsBs \gamma_1$};
+        \node (mtd2) [right of=mtn,node distance=3.5em] {$\cdots$};
+        \node (mtr) [right of=mtd2,node distance=3.5em] {$\kPModel{\kStateT} \entails \top$};
+        \node (ms) [above of=mtn] {$\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma_1, \dots, \somerefsBs \gamma_n, \top\}$};
 
       \path[every node/.style={font=\sffamily\small},->]
         (mt1) edge [swap,dashed] node {$\simulatesBs$} (mg1)
         (mtn) edge [dashed] node {$\simulatesBs$} (mgn)
+        (ms) edge [dashed,bend left=90,min distance=10em] node {$\simulatesBs$} (sp)
+        (ms) edge [draw=none,dashed,bend right=90,min distance=10em] node {} (sp)
         (sp) edge node {$\agentA$} (mg1)
              edge [swap] node {$\agentA$} (mgn)
         (ms) edge [swap] node {$\agentA$} (mt1)
+             edge node {$\agentA$} (mtr)
              edge node {$\agentA$} (mtn);
     \end{tikzpicture}
 \end{figure}
 
-We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
+A schematic of the Kripke model $\kPModelP{\kStateSP}$ and an overview of our construction is shown in Figure~\ref{rml-k-rk-construction}.
+Here we can see that each of the $\agentsB$-refinements at successors, $\kPModel[\gamma_1]{\kStateT[\gamma_1]}, \dots, \kPModel[\gamma_n]{\kStateT[\gamma_n]}$, are combined into the larger Kripke model $\kPModelP{\kStateSP}$.
+From this schematic representation we can clearly see that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$.
+We note that there are $\agentA$-successors of $\kPModel{\kStateS}$ that do not satisfy any $\somerefsBs \gamma_i$ and do not correspond to any $\agentsB$-refinement $\kPModel[\gamma_i]{\kStateT[\gamma_i]}$.
+This is permissible as $\agentA \notin \agentsB$ and so {\bf forth-$\agentA$} is not required in order for $\kPModelP{\kStateSP}$ to be a $\agentsB$-refinement of $\kPModel{\kStateS}$.
+
+To show that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$ we will show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
+
+We first show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 
 For every $\gamma \in \Gamma_\agentA$ let $\refinement^\gamma \subseteq \kStates \times \kStates[\gamma]$ be a $\agentsB$-refinement from $\kPModel{\kStateT_\gamma}$ to $\kPModel[\gamma]{\kStateS[\gamma]}$.
 We define $\refinement \subseteq \kStates \times \kStatesP$ where:
 $$
 \refinement = \{(\kStateS, \kStateSP)\} \cup \{(\kStateT, \kStateT) \mid \kStateT \in \kStates\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \refinement^\gamma
 $$
-We claim that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
+We show that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
 
 Let $\atomP \in \atoms$, $\agentB \in \agents$, $\agentC \in \agents \setminus \agentsB$.
 
@@ -118,7 +182,7 @@ By {\bf back-$\agentB$} for $\refinement^\gamma$ there exists $\kStateU \in \kSu
 
 Therefore $\refinement$ is a $\agentsB$-refinement and as $(\kStateS, \kStateSP) \in \refinement$ we have that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 
-We show that $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
+We finally show that $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
 
 Let $\gamma \in \Gamma_\agentA$.
 We note that $\kPModel[\gamma]{\kStateS[\gamma]} \bisimilar \kPModelP{\kStateS[\gamma]}$ as by construction the valuations and successors of states of $\kModel[\gamma]$ are left unchanged in $\kModelP$.
@@ -130,12 +194,22 @@ For every $\kStateS[\gamma] \in \kSuccessorsPA{\kStateSP}$ we have that $\kPMode
 Therefore $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ and $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 \end{proof}
 
+We next show that the axiom {\bf RComm} is sound.
+Recall that the axiom {\bf RComm} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ where $\agentA \notin \agentsB$.
+The axiom {\bf RComm} is similar to the axiom {\bf RK}, and the proof strategy is also similar.
+Whereas for {\bf RK} we have that $\agentA \in \agentsB$, and therefore a $\agentsB$-refinement need not satisfy {\bf forth-$\agentA$}, for {\bf RComm} we have that $\agentA \notin \agentsB$ and so {\bf forth-$\agentA$} is required.
+Accordingly for {\bf RK} our constructed model need not satisfy {\bf forth-$\agentA$} in order to be a $\agentsB$-refinement, so we do not require that every $\agentA$-successor of the original model have a refinement satisfying some $\gamma$.
+However for {\bf RComm} our constructed model does require {\bf forth-$\agentA$} in order to be a $\agentsB$-refinement, so we require every $\agentA$-successor of the original model to have a refinement satisfying some $\gamma$.
+The difference between {\bf RComm} and {\bf RK} accounts for this additional requirement, ensuring that we can construct an appropriate $\agentsB$-refinement.
+
 \begin{lemma}\label{rml-k-rcomm}
 The axiom {\bf RComm} is sound with respect to the semantics of the logic \logicRmlK{}.
 \end{lemma}
 
 \begin{proof}
-($\Rightarrow$) Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
+($\Rightarrow$) 
+We show that $\entails \somerefsBs \coversA \Gamma_\agentA \implies \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
+Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 There exists $\kPModelAndTupleP{\kStateSP} \in \classK$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateTP_\gamma \in \kSuccessorsPA{\kStateSP}$ such that $\kPModelP{\kStateTP_\gamma} \entails \gamma$.
 From {\bf back-$\agentA$} there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModelP{\kStateTP_\gamma}$.
@@ -145,7 +219,9 @@ As $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ then $\kPModelP{\kSta
 Then $\kPModel{\kStateT} \entails \bigvee_{\gamma \in \Gamma_\agentA} \somerefsBs \gamma$ and so $\kPModel{\kStateS} \entails \necessaryA \bigvee_{\gamma \in \Gamma_\agentA} \somerefsBs \gamma$.
 Therefore $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
 
-($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
+($\Leftarrow$)
+We show that $\entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \implies \somerefsBs \coversA \Gamma_\agentA$.
+Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classK$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
 For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\gamma \in \Gamma_\agentA$ and $\kPModelAndTuple[\kStateT]{\kStateS[\kStateT]} \in \classK$ such that $\kPModel{\kStateT} \simulatesBs \kPModel[\kStateT]{\kStateS[\kStateT]}$ and $\kPModel[\kStateT]{\kStateS[\kStateT]} \entails \gamma$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RComm} equivalence.
@@ -155,37 +231,52 @@ Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
     \kStatesP &=& \{\kStateSP\} \cup \kStates \cup \bigcup_{\gamma \in \Gamma_\agentA} \kStates[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kStates[\kStateT]\\
     \kAccessibilityPA &=& \{(\kStateSP, \kStateS[\gamma]) \mid \gamma \in \Gamma_\agentA\} \cup \{(\kStateSP, \kStateS[\kStateT]) \mid \kStateT \in \kSuccessorsA{\kStateS}\} \cup \kAccessibilityA \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityA[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kAccessibilityA[\kStateT]\\
     \kAccessibilityPB &=& \{(\kStateSP, \kStateT) \mid \kStateT \in \kSuccessorsB{\kStateS}\} \cup \kAccessibilityB \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityB[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kAccessibilityB[\kStateT] \text{ for } \agentB \in \agents \setminus \{\agentA\}\\
-    \kValuationP(\atomP) &=& \overline{\{\kStateSP\}} \cup \kValuation(\atomP) \cup \bigcup_{\gamma \in \Gamma_\agentA} \kValuation[\gamma](\atomP) \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kValuation[\kStateT](\atomP)
+    \kValuationP(\atomP) &=& \{\kStateSP \mid \kStateS \in \kValuation(\atomP)\} \cup \kValuation(\atomP) \cup \bigcup_{\gamma \in \Gamma_\agentA} \kValuation[\gamma](\atomP) \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kValuation[\kStateT](\atomP)
 \end{eqnarray*}
-where $\kStateSP$ is a fresh state not appearing in $\kStates$, $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$ or $\kStates[\kStateT]$ for any $\kStateT \in \kSuccessorsA{\kStateS}$, and $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise.
+where $\kStateSP$ is a fresh state not appearing in $\kStates$, $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$ or $\kStates[\kStateT]$ for any $\kStateT \in \kSuccessorsA{\kStateS}$.
 
 \begin{figure}
     \caption{A schematic of the construction used to show soundness of {\bf RComm}.}\label{rml-k-rcomm-construction}
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
-        \node (sp) {\underline{$\kStateSP \entails \coversA \{\gamma_1, \dots, \gamma_n\}$}};
-        \node (mg1) [above left of=s,node distance={sqrt(2 * 7em^2)}] {$\kPModel[\gamma_1]{\kStateS[\gamma_1]} \entails \gamma_1$};
-        \node (mgd) [above of=s] {$\cdots$};
-        \node (mgn) [above right of=s,node distance={sqrt(2 * 7em^2)}] {$\kPModel[\gamma_n]{\kStateS[\gamma_n]} \entails \gamma_n$};
-        \node (mtd) [above of=mgd] {$\cdots$};
-        \node (ms) [above of=mtd] {$\kStateS \entails \coversA \{\somerefsBs \gamma_1, \dots, \somerefsBs \gamma_n\}$};
-        \node (mt1) [below left of=ms,node distance={sqrt(2 * 7em^2)}] {$\kPModel{\kStateT_{\gamma_1}} \entails \somerefsBs \gamma_1$};
-        \node (mtn) [below right of=ms,node distance={sqrt(2 * 7em^2)}] {$\kPModel{\kStateT_{\gamma_n}} \entails \somerefsBs \gamma_n$};
+        \node (sp) {\underline{$\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$}};
+        \node (mgn) [above of=sp] {$\kPModel[\gamma_n]{\kStateS[\gamma_n]} \entails \gamma_n$};
+        \node (mgd) [left of=mgn,node distance=3.5em] {$\cdots$};
+        \node (mg1) [left of=mgd,node distance=3.5em] {$\kPModel[\gamma_1]{\kStateS[\gamma_1]} \entails \gamma_1$};
+        \node (mgd) [right of=mgn,node distance=3.5em] {$\cdots$};
+        \node (mgr) [right of=mgd,node distance=3.5em] {$\kPModel[\kStateT]{\kStateS[\kStateT]} \entails \bigvee \Gamma_\agentA$};
+        \node (mtn) [above of=mgn] {$\kPModel{\kStateT_{\gamma_n}} \entails \somerefsBs \gamma_n$};
+        \node (mtd) [left of=mtn,node distance=3.5em] {$\cdots$};
+        \node (mt1) [left of=mtd,node distance=3.5em] {$\kPModel{\kStateT_{\gamma_1}} \entails \somerefsBs \gamma_1$};
+        \node (mtd2) [right of=mtn,node distance=3.5em] {$\cdots$};
+        \node (mtr) [right of=mtd2,node distance=3.5em] {$\kPModel{\kStateT} \entails \bigvee \somerefsBs \Gamma_\agentA$};
+        \node (ms) [above of=mtn] {$\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma_1, \dots, \somerefsBs \gamma_n\}$};
 
       \path[every node/.style={font=\sffamily\small},->]
         (mt1) edge [swap,dashed] node {$\simulatesBs$} (mg1)
         (mtn) edge [dashed] node {$\simulatesBs$} (mgn)
+        (mtr) edge [dashed] node {$\simulatesBs$} (mgr)
+        (ms) edge [dashed,bend left=90,min distance=10em] node {$\simulatesBs$} (sp)
+        (ms) edge [draw=none,dashed,bend right=90,min distance=10em] node {} (sp)
         (sp) edge node {$\agentA$} (mg1)
              edge [swap] node {$\agentA$} (mgn)
+             edge [swap] node {$\agentA$} (mgr)
         (ms) edge [swap] node {$\agentA$} (mt1)
+             edge node {$\agentA$} (mtr)
              edge node {$\agentA$} (mtn);
     \end{tikzpicture}
 \end{figure}
 
-\todo[inline]{Differences from RK construction}
+A schematic of the Kripke model $\kPModelP{\kStateSP}$ and an overview of our construction is shown in Figure~\ref{rml-k-rcomm-construction}.
+As in the construction used for {\bf RK} we can see that each of the $\agentsB$-refinements at successors, $\kPModel[\gamma_1]{\kStateT[\gamma_1]}, \dots, \kPModel[\gamma_n]{\kStateT[\gamma_n]}$, are combined into the larger Kripke model $\kPModelP{\kStateSP}$.
+However in contrast to the construction used for {\bf RK} we note that here every $\agentA$-successor of $\kPModel{\kStateS}$ satisfies $\somerefsBs \gamma$ for some $\gamma \in \Gamma_\agentA$, and corresponds to some $\agentsB$-refinement $\kPModel[\kStateT]{\kStateS[\kStateT]}$.
+This is required as $\agentA \in \agentsB$ and so {\bf forth-$\agentA$} is required in order for $\kPModelP{\kStateSP}$ to be a $\agentsB$-refinement of $\kPModel{\kStateS}$.
+From this schematic representation we can clearly see that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$.
 
-We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
+To show that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$ we will show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
+
+We first show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 
 For every $\gamma \in \Gamma_\agentA$ let $\refinement^\gamma \subseteq \kStates \times \kStates[\gamma]$ be a $\agentsB$-refinement from $\kPModel{\kStateT_\gamma}$ to $\kPModel[\gamma]{\kStateS[\gamma]}$ and
 for every $\kStateT \in \kSuccessorsA{\kStateS}$ let $\refinement^{\kStateT} \subseteq \kStates \times \kStates[\kStateT]$ be a $\agentsB$-refinement from $\kPModel{\kStateT}$ to $\kPModel[\kStateT]{\kStateS[\kStateT]}$.
@@ -193,7 +284,7 @@ We define $\refinement \subseteq \kStates \times \kStatesP$ where:
 $$
 \refinement = \{(\kStateS, \kStateSP)\} \cup \{(\kStateT, \kStateT) \mid \kStateT \in \kStates\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \refinement^\gamma \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \refinement^{\kStateT}
 $$
-We claim that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
+We show that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
 
 Let $\atomP \in \atoms$, $\agentB \in \agents$, $\agentC \in \agents \setminus \agentsB$.
 
@@ -256,10 +347,12 @@ Then $(\kStateV, \kStateV[\kStateT]) \in \refinement$.
 
 Therefore $\refinement$ is a $\agentsB$-refinement and as $(\kStateS, \kStateSP) \in \refinement$ we have that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 
-Then $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ follows from the same reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
+Finally $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ follows from the same reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 Therefore $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
-
 \end{proof}
+
+Next we show that the axiom {\bf RDist} is sound.
+Recall that the axiom {\bf RDist} takes the form of $\proves \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$.
 
 \begin{lemma}
 The axiom {\bf RDist} is sound with respect to the semantics of the logic \logicRmlK{}.
@@ -289,40 +382,48 @@ where $\kStateSP$ is a fresh state not appearing in $\kStates$ or $\kStates[\age
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
-        \node (sp) {\underline{$\kStateSP \entails \somerefsBs (\covers[\agentA_1] \Gamma_{\agentA_1} \land \cdots \land \covers[\agentA_n] \Gamma_{\agentA_n})$}};
-        \node (mt11) [below left of=mt1,node distance={sqrt(2 * 7em^2) / 1.5}] {$\kStateT[\agentA_1]_1$};
-        \node (mt1d) [below of=mt1,node distance={7em / 1.5}] {$\cdots$};
-        \node (mt1m) [below right of=mt1,node distance={sqrt(2 * 7em^2) / 1.5}] {$\kStateT[\agentA_1]_m$};
-        \node (mtn1) [below left of=mtn,node distance={sqrt(2 * 7em^2) / 1.5}] {$\kStateT[\agentA_n]_1$};
-        \node (mtnd) [below of=mtn,node distance={7em / 1.5}] {$\cdots$};
-        \node (mtnm) [below right of=mtn,node distance={sqrt(2 * 7em^2) / 1.5}] {$\kStateT[\agentA_n]_m$};
-        \node (mtd) [above of=mgd] {$\cdots$};
-        \node (ms) [above of=mtd] {$\kStateS \entails \somerefsBs \covers[\agentA_1] \Gamma_{\agentA_1} \land \cdots \land \somerefsBs \covers[\agentA_n] \Gamma_{\agentA_n}$};
-        \node (mt1) [below left of=ms,node distance={sqrt(2 * 7em^2)}] {$\kPModel[\agentA_1]{\kStateS[\agentA_1]} \entails \covers[\agentA_1] \Gamma_{\agentA_1}$};
-        \node (mtn) [below right of=ms,node distance={sqrt(2 * 7em^2)}] {$\kPModel[\agentA_n]{\kStateS[\agentA_n]} \entails \covers[\agentA_n] \Gamma_{\agentA_n}$};
+        \node (sp) {\underline{$\kStateSP \entails \somerefsBs (\covers[\agentC_1] \Gamma_{\agentC_1} \land \cdots \land \covers[\agentC_n] \Gamma_{\agentC_n})$}};
+        \node (mtid) [above of=sp] {};
+        \node (mt1m) [left of=mtid,node distance=3.5em] {$\kStateT[\agentC_1]_m$};
+        \node (mt1d) [left of=mt1m,node distance=3.5em] {$\cdots$};
+        \node (mt11) [left of=mt1d,node distance=3.5em] {$\kStateT[\agentC_1]_1$};
+        \node (mtn1) [right of=mtid,node distance=3.5em] {$\kStateT[\agentC_n]_1$};
+        \node (mtnd) [right of=mtn1,node distance=3.5em] {$\cdots$};
+        \node (mtnm) [right of=mtnd,node distance=3.5em] {$\kStateT[\agentC_n]_m$};
+        \node (mtd) [above of=mtid] {$\cdots$};
+        \node (ms) [above of=mtd] {$\kStateS \entails \somerefsBs \covers[\agentC_1] \Gamma_{\agentC_1} \land \cdots \land \somerefsBs \covers[\agentC_n] \Gamma_{\agentC_n}$};
+        \node (mt1) [left of=mtd] {$\kPModel[\agentC_1]{\kStateS[\agentC_1]} \entails \covers[\agentC_1] \Gamma_{\agentC_1}$};
+        \node (mtn) [right of=mtd] {$\kPModel[\agentC_n]{\kStateS[\agentC_n]} \entails \covers[\agentC_n] \Gamma_{\agentC_n}$};
 
       \path[every node/.style={font=\sffamily\small},->]
-        (mt1) edge [swap] node {$\agentA_1$} (mt11)
-              edge node {$\agentA_1$} (mt1m)
-        (mtn) edge [swap] node {$\agentA_n$} (mtn1)
-              edge node {$\agentA_n$} (mtnm)
-        (sp) edge node {$\agentA_1$} (mt11)
-             edge node {$\agentA_1$} (mt1m)
-             edge [swap] node {$\agentA_n$} (mtn1)
-             edge [swap] node {$\agentA_n$} (mtnm)
+        (mt1) edge [swap] node {$\agentC_1$} (mt11)
+              edge node {$\agentC_1$} (mt1m)
+        (mtn) edge [swap] node {$\agentC_n$} (mtn1)
+              edge node {$\agentC_n$} (mtnm)
+        (sp) edge node {$\agentC_1$} (mt11)
+             edge node {$\agentC_1$} (mt1m)
+             edge [swap] node {$\agentC_n$} (mtn1)
+             edge [swap] node {$\agentC_n$} (mtnm)
         (ms) edge [swap,dashed] node {$\simulatesBs$} (mt1)
              edge [dashed]node {$\simulatesBs$} (mtn);
     \end{tikzpicture}
 \end{figure}
 
-We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
+A schematic of the Kripke model $\kPModelP{\kStateSP}$ and an overview of our construction is shown in Figure~\ref{rml-k-rdist-construction}.
+Here we can see that the $\kPModelP{\kStateSP}$ is formed by taking the $\agentC$-successors for each respective $\agentsB$-refinement $\kPModel[\agentC]{\kStateS[\agentC]}$ and combining them into a single model.
+From this schematic representation we can clearly see that  and $\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$.
+It is less clear that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$, but it is straight-forward to show this by using combining the refinements $\refinement^\agentC$.
+
+To show that $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$ we will show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
+
+We first show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 
 For every $\agentC \in \agentsC$ let $\refinement^\agentC \subseteq \kStates \times \kStates[\agentC]$ be a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModel[\agentC]{\kStateS[\agentC]}$.
 We define $\refinement \subseteq \kStates \times \kStatesP$ where:
 $$
 \refinement = \{(\kStateS, \kStateSP)\} \cup \{(\kStateT, \kStateT) \mid \kStateT \in \kStates\} \cup \bigcup_{\agentC \in \agentsC} \refinement^\agentC
 $$
-We claim that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
+We show that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
 
 Let $\atomP \in \atoms$, $\agentB \in \agents$, $\agentD \in \agents \setminus \agentsB$.
 
@@ -376,9 +477,11 @@ Then $(\kStateU, \kStateU[\agentC]) \in \refinement$.
 
 Therefore $\refinement$ is a $\agentsB$-refinement and as $(\kStateS, \kStateSP) \in \refinement$ we have that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 
-Then $\kPModelP{\kStateSP} \entails \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$ follows from the same reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
+Finally $\kPModelP{\kStateSP} \entails \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$ follows from the similar reasoning to the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 Therefore $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
 \end{proof}
+
+Finally we show that the axiomatisation \axiomRmlK{} is sound.
 
 \begin{lemma}\label{rml-k-sound}
 The axiomatisation \axiomRmlK{} is sound with respect to the semantics of the logic \logicRmlK{}.
@@ -389,6 +492,8 @@ The soundness of the axioms and rules of \axiomK{} with respect to the semantics
 The soundness of {\bf R}, {\bf RP} and {\bf NecR} follow from Proposition~\ref{rml-validities}.
 The soundness of {\bf RK}, {\bf RComm} and {\bf RDist} were shown in the previous lemmas.
 \end{proof}
+
+\section{Completeness}\label{rml-k-completeness}
 
 \begin{definition}[Negation normal form]
 A formula in {\em negation normal form} is inductively defined as:

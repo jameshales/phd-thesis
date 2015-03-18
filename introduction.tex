@@ -9,7 +9,7 @@ For example, your knowledge may change as a result of reading this dissertation,
 Dynamic epistemic logics are logics of change of knowledge, used to reason about how knowledge changes in response to epistemic updates, events that provide agents with additional information.
 Examples of epistemic updates include the direct observation of information by an agent, communication of information between agents, and epistemic protocols formed by composing simpler epistemic updates sequentially or concurrently.
 For our purposes, when we discuss epistemic updates we assume that they are purely informative in nature, so they may cause knowledge to change, but not the truth of the propositional atoms that the knowledge is about.
-We also assume that epistemic updates provide additional information monotonically, so they may not cause agents to forget or revise information.
+We also assume that epistemic updates increase certainty about information monotonically, so they may not cause agents to forget or revise information that they were previously certain of. 
 
 Previous work in dynamic epistemic logic has considered how knowledge changes in response to specific epistemic updates.
 Notable works include the public announcement logic of Plaza~\cite{plaza:1989} and Gerbrandy and Groenveld~\cite{gerbrandy:1997}, and the action model logic of Baltag, Moss and Solecki~\cite{baltag:1998,baltag:2004}, which each introduce models for epistemic updates and logics for reasoning about the effects of specific epistemic updates using these models.
@@ -27,16 +27,16 @@ However although both of these logics have model-checking procedures~\cite{agotn
 In the present work we introduce several decidable logics for quantifying over epistemic updates, in the same style as \logicApal{} and GAL, but quantifying over different models for epistemic updates: refinement modal logic, arbitrary action model logic, and arbitrary positive announcement logic.
 
 Refinement modal logic (\logicRml{}) is an extension of epistemic logic that introduces quantifiers over {\em refinements} of Kripke models.
-Refinements correspond to the results of a very general notion of epistemic updates, in accordance with our informal understanding of epistemic updates as purely informative and monotonically increasing information.
+Refinements correspond to the results of a very general notion of epistemic updates, in accordance with our informal understanding of epistemic updates as purely informative and monotonically increasing certainty of information.
 The refinements of a Kripke model partially correspond to the results of action models, but are more general.
 However unlike public announcements or action models, refinements in general are not backed by a model or operation for epistemic updates that produces the results.
 We consider \logicRml{} in a variety of modal settings, including \classK{}, \classKF{}, \classKFF{}, \classKD{} and \classS{}.
-In the settings of \classK{}, \classKFF{}, \classKD{} and \classS{} we provide sound and complete axiomatisations, we show that \logicRml{} is decidable and that RML is expressively equivalent to modal logic.
+In the settings of \classK{}, \classKFF{}, \classKD{} and \classS{} we provide sound and complete axiomatisations for \logicRml{}, we show that \logicRml{} is decidable and that \logicRml{} is expressively equivalent to modal logic.
 In the setting of \classKF{} we show that \logicRml{} is decidable, and that its expressivity lies strictly between that of modal logic and the modal $\mu$-calculus.
 
 Arbitrary action model logic (\logicAaml{}) is an extension of action model logic that introduces quantifiers over action models.
 Like \logicRml{}, we consider \logicAaml{} in a variety of settings, including \classK{}, \classKFF{} and \classS{}.
-In these settings we show provide sound and complete axiomatisations, we show that \logicAaml{} is decidable and that \logicAaml{} is expressively equivalent to modal logic.
+In these settings we provide sound and complete axiomatisations, we show that \logicAaml{} is decidable and that \logicAaml{} is expressively equivalent to modal logic.
 Moreover we show that action model quantification is equivalent to refinement quantification and we provide a synthesis procedure that constructs a specific action model that results in a desired change in knowledge whenever such an action model exists.
 
 Arbitrary positive announcement logic (\logicPapal{}) is an extension of public announcement logic and a variant of \logicApal{} that introduces quantifiers over public announcements of positive formulas.

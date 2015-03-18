@@ -69,8 +69,8 @@ We note that we only consider public announcement logic in the setting of \class
 \end{figure}
 Consider the epistemic model $\kPModel{\kStateS}$ from Example~\ref{example-ml}.
 Then $\interpretation[\kModel]{\knowsA \atomP} = \{\kStateS, \kStateT\}$, and so $\restrict{\kPModel{\kStateS}}{\knowsA \atomP}$ is the model restriction of $\kPModel{\kStateS}$ to the states $\{\kStateS, \kStateT\}$, depicted in Figure~\ref{example-public-announcement}.  
-In the resulting model restriction we have that $\restrict{\kPModel{\kStateS}}{\knowsA \atomP} \entails \knowsB \atomP$, and so in the original model we therefore have $\kPModel{\kStateS} \entails \announceE{\knowsA \atomP} \knowsB \atomP$.
-That is, agent $\agentB$ knows that $\atomP$ is true after it is publicly announced that agent $\agentA$ knows that $\atomP$ is true.
+In the resulting model restriction we have that $\restrict{\kPModel{\kStateS}}{\knowsA \atomP} \entails \knowsB \atomQ$, and so in the original model we therefore have $\kPModel{\kStateS} \entails \announceE{\knowsA \atomP} \knowsB \atomQ$.
+That is, agent $\agentB$ knows that $\atomQ$ is true after it is publicly announced that agent $\agentA$ knows that $\atomP$ is true.
 \end{example}
 
 We provide an axiomatisation for the logic \logicPalS{}.

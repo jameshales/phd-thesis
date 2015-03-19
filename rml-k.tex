@@ -14,7 +14,7 @@ In Section~\ref{rml-k-completeness} we show that the axiomatisation is complete 
 This provably correct translation uses a disjunctive normal form for modal logic defined using cover operators, followed by applications of the reduction axioms in \axiomRmlK{}.
 As a result of this provably correct translation we have as corollaries that \logicRmlK{} is expressively equivalent to \logicK{}, and that \logicRml{} is compact and decidable.
 
-\section{Axiomatisation}
+\section{Axiomatisation}\label{rml-k-axiomatisation}
 
 We recall the cover operator, which is defined by the syntactic abbreviation $\coversA \Gamma ::= \necessaryA \bigvee_{\gamma \in \Gamma} \gamma \land \bigwedge_{\gamma \in \Gamma} \possibleA \gamma$.
 The cover operator forms the basis of our axiomatisations of \logicRmlK{}, \logicRmlKFF{}, \logicRmlKD{}, and \logicRmlS{}.
@@ -780,7 +780,7 @@ where $\pi \in \langPl$, $\phi, \psi \in \langRml$, $\agentsB \subseteq \agents$
     \end{description}
 \end{proof}
 
-We can now clearly recognise that the equivalences (\ref{rml-k-or}) and (\ref{rml-k-covers}) are reduction axioms that can be used to push refinement quantifiers past propositional connectives and modalities in formulas in disjunctive normal form.
+We can now clearly recognise that the equivalences (\ref{rml-k-or}) and (\ref{rml-k-cover}) are reduction axioms that can be used to push refinement quantifiers past propositional connectives and modalities in formulas in disjunctive normal form.
 These equivalences form the basis of our provably correct translation from \langRml{} to \langMl{}.
 
 Before we give our provably correct translation we give two lemmas.

@@ -1,7 +1,7 @@
 \section{Public announcement logic}\label{pal}
 
 We recall definitions and results from the public announcement logic of Plaza~\cite{plaza:1989}.
-For a comprehensive introduction to public announcement logic we direct the reader to the book by van Ditmarsch, van der Hoek and Kooi~\cite{vanditmarsch:2007}.
+For an introductory text on public announcement logic we direct the reader to the book by van Ditmarsch, van der Hoek and Kooi~\cite{vanditmarsch:2007}.
 
 \begin{definition}[Language of public announcement logic]
 The {\em language of public announcement logic}, \langPal{}, is inductively defined as:
@@ -52,25 +52,94 @@ $$
 
 We note that we only consider public announcement logic in the setting of \classS{}, as in the source material~\cite{plaza:1989}.
 
-\begin{example}\label{example-pal}
+\begin{example}\label{example-pal-ml}
 \begin{figure}
-    \caption{The result of publicly announcing $\knowsA \atomP$ in the epistemic model of Figure~\ref{example-kripke-model}.}\label{example-public-announcement}
+    \caption{An example of a Kripke model and the result of publicly announcing $\lnot \knowsB \atomP$ in that Kripke model.}\label{example-pal-ml-figure}
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
-        \node[label=left:{$\kStateS$}] (s) {\underline{$\{\atomP, \atomQ\}$}};
-        \node[label=right:{$\kStateT$}] (t) [right of=s] {$\{\atomP\}$};
+      \node[label=above left:{$\kStateS$}] (s) {\underline{$\{\atomP\}$}};
+      \node[label=above left:{$\kStateT$}] (t) [above of=s] {$\{\}$};
+      \node[label=above left:{$\kStateU$}] (u) [below of=s] {$\{\atomP\}$};
+      \node[label=above:{$\kPModel{\kStateS}$},draw=black, fit=(s) (t) (u), inner sep=3.5em, dashed, rounded corners] {};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (s) edge [loop left] node {$\agentA, \agentB$} (s)
+        (t) edge [loop left] node {$\agentA, \agentB$} (t)
+        (u) edge [loop left] node {$\agentA, \agentB$} (u)
+        (s) [<->] edge node {$\agentB$} (t)
+        (s) edge node {$\agentA$} (u);
+
+      \node[label=above right:{$\kStateS$}] (s') [right=11em of s]{\underline{$\{\atomP\}$}};
+      \node[label=above right:{$\kStateT$}] (t') [above of=s'] {$\{\}$};
+      \node[label=above:{$\kPModelP{\kStateS}$},draw=black, fit=(s') (t'), inner sep=3.5em, dashed, rounded corners] {};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (s') edge [loop right] node {$\agentA, \agentB$} (s')
+        (t') edge [loop right] node {$\agentA, \agentB$} (t')
+        (s') [<->] edge node {$\agentB$} (t');
+    \end{tikzpicture}
+\end{figure}
+We recall the Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ given in Example~\ref{example-ml}.
+The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are shown in Figure~\ref{example-pal-ml-figure}.
+
+The Kripke model $\kPModelP{\kStateS}$ models the situation where Alice has looked at the coin, and considers it possible that Bob saw the coin.
+Supposing that Bob were to publicly announce that he didn't see the coin, then $\kPModel{\kStateS}$ would model the result of this public announcement.
+We can see this as $\interpretation[\kModelP]{\lnot \knowsB \atomP} = \{\kStateS, \kStateT\}$ and so $\kPModel{\kStateS} = \restrict{\kPModelP{\kStateS}}{\lnot \knowsB \atomP}$.
+From Example~\ref{example-ml} we have that $\kPModelP{\kStateS} \entails \lnot \knowsA \lnot \knowsB \atomP$ and $\kPModel{\kStateS} \entails \knowsA \lnot \knowsB \atomP$.
+Therefore we have that $\kPModelP{\kStateS} \entails \announceE{\lnot \knowsB \atomP} \knowsA \lnot \knowsB \atomP$.
+So although initially Alice considers it possible that Bob saw the coin, after Bob publicly announces that he didn't, she knows that Bob didn't see the coin.
+\end{example}
+
+\begin{example}\label{example-pal}
+\begin{figure}
+    \caption{An example of a Kripke model and the result of publicly announcing $\knowsA \atomP$ in that Kripke model.}\label{example-pal-figure}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+
+      \node[label=above right:{$\kStateS$}] (s) {\underline{$\{\atomP, \atomQ\}$}};
+      \node[label=below right:{$\kStateT$}] (t) [below of=s] {$\{\atomP\}$};
+      \node[label=above left:{$\kStateU$}] (u) [left of=s] {$\{\atomQ\}$};
+      \node[label=below left:{$\kStateV$}] (v) [left of=t] {$\{\}$};
+      \node[label=above:{$\kPModel{\kStateS}$},draw=black, fit=(s) (t) (u) (v), inner sep=3em, dashed, rounded corners] {};
 
       \path[every node/.style={font=\sffamily\small},->]
         (s) edge [loop above] node {$\agentA, \agentB$} (s)
-        (t) edge [loop above] node {$\agentA, \agentB$} (t)
-        (s) [<->] edge node {$\agentA$} (t);
+        (t) edge [loop below] node {$\agentA, \agentB$} (t)
+        (u) edge [loop above] node {$\agentA, \agentB$} (u)
+        (v) edge [loop below] node {$\agentA, \agentB$} (v)
+        (s) [<->] edge node {$\agentA$} (t)
+        (u) [swap] edge node {$\agentA$} (v)
+        (s) edge node {$\agentB$} (u)
+        (t) [swap] edge node {$\agentB$} (v);
+
+      \node[label=above left:{$\kStateS$}] (s') [right=9em of s]{\underline{$\{\atomP, \atomQ\}$}};
+      \node[label=below left:{$\kStateT$}] (t') [below of=s'] {$\{\atomP\}$};
+      \node[label=above:{$\restrict{\kPModel{\kStateS}}{\knowsA \atomP}$},draw=black, fit=(s') (t'), inner sep=3em, dashed, rounded corners] {};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (s') edge [loop above] node {$\agentA, \agentB$} (s')
+        (t') edge [loop below] node {$\agentA, \agentB$} (t')
+        (s') [<->] edge node {$\agentA$} (t');
     \end{tikzpicture}
 \end{figure}
-Consider the epistemic model $\kPModel{\kStateS}$ from Example~\ref{example-ml}.
-Then $\interpretation[\kModel]{\knowsA \atomP} = \{\kStateS, \kStateT\}$, and so $\restrict{\kPModel{\kStateS}}{\knowsA \atomP}$ is the model restriction of $\kPModel{\kStateS}$ to the states $\{\kStateS, \kStateT\}$, depicted in Figure~\ref{example-public-announcement}.  
-In the resulting model restriction we have that $\restrict{\kPModel{\kStateS}}{\knowsA \atomP} \entails \knowsB \atomQ$, and so in the original model we therefore have $\kPModel{\kStateS} \entails \announceE{\knowsA \atomP} \knowsB \atomQ$.
-That is, agent $\agentB$ knows that $\atomQ$ is true after it is publicly announced that agent $\agentA$ knows that $\atomP$ is true.
+Let $\kPModelAndTuple{\kStateS}$ be a Kripke model where:
+
+\begin{eqnarray*}
+    \kStates &=& \{\kStateS, \kStateT, \kStateU, \kStateV\}\\
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU), (\kStateU, \kStateV), (\kStateV, \kStateU), (\kStateV, \kStateV)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU), (\kStateT, \kStateT), (\kStateT, \kStateV), (\kStateV, \kStateT), (\kStateV, \kStateV)\}\\
+    \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
+    \kValuation(\atomQ) &=& \{\kStateU, \kStateV\}
+\end{eqnarray*}
+
+Then $\interpretation[\kModel]{\knowsA \atomP} = \{\kStateS, \kStateT\}$, and so $\kPModelP{\kStateS} = \restrict{\kPModel{\kStateS}}{\knowsA \atomP}$ is the model restriction of $\kPModel{\kStateS}$ to the states $\{\kStateS, \kStateT\}$, depicted in Figure~\ref{example-pal-figure}.  
+In the resulting model restriction we have that $\kPModelP{\kStateS} \entails \knowsB \atomQ$, and so in the original model we therefore have $\kPModel{\kStateS} \entails \announceE{\knowsA \atomP} \knowsB \atomQ$.
+That is, after it is publicly announced that $\agentA$ knows that $\atomP$ is true, then agent $\agentB$ knows that $\atomQ$ is true.
+
+We also note that $\interpretation[\kModel]{\atomP \land \lnot \knowsB \atomP} = \{\kStateS, \kStateT\}$, and so $\kPModelP{\kStateS} = \restrict{\kPModel{\kStateS}}{\atomP \land \lnot \knowsB \atomP}$.
+However in the resulting model restriction we have that $\kPModelP{\kStateS} \entails \lnot \knowsB (\atomP \land \lnot \knowsB \atomP)$, and so in the original model we therefore have $\kPModel{\kStateS} \entails \announceE{\atomP \land \lnot \knowsB \atomP} \lnot \knowsB (\atomP \land \lnot \knowsB \atomP)$.
+That is, after it is publicly announced that $\atomP$ is true and agent $\agentB$ doesn't know that $\atomP$ is true, then $\agentB$ doesn't know this fact.
 \end{example}
 
 We provide an axiomatisation for the logic \logicPalS{}.

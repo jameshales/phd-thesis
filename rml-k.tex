@@ -2,10 +2,19 @@
 
 In this chapter we consider in greater detail \logicRmlK{} in the setting of \classK{}.
 The main result of this chapter is a sound and complete axiomatisation of \logicRmlK{}.
-The axiomatisation forms a set of reduction axioms, admitting a provably correct translation from \logicRmlK{} to the underlying modal logic \logicK{}.
+The axiomatisation forms a set of reduction axioms, admitting a provably correct translation from \langRml{} to the underlying modal language \langMl{}.
 We use this provably correct translation to show the completeness of the axiomatisation, to show that \logicRmlK{} is expressively equivalent to \logicK{}, and to show that \logicRmlK{} is compact and decidable.
 Whereas in the previous chapter we provided definitions and results common to all or most of the settings that we consider, the results in this chapter are specific to \logicRmlK{} and do not trivially generalise to other settings.
 However in Chapter~\ref{rml-kd45} and Chapter~\ref{rml-s5} we provide sound and complete axiomatisations, and the same accompanying results for \logicRmlKFF{}, \logicRmlKD{} and \logicRmlS{}, results which build upon the techniques developed in this chapter.
+
+In the following sections we provide an axiomatisation for \logicRmlK{} and show that is sound and complete with respect to the semantics of \logicRmlK{}.
+In Section~\ref{rml-k-axiomatisation} we provide the axiomatisation for \logicRmlK{} and show some preliminary results about the axiomatisation.
+In Section~\ref{rml-k-soundness} we show that the axiomatisation is sound, using constructive proofs.
+In Section~\ref{rml-k-completeness} we show that the axiomatisation is complete via a provably correct translation from \logicRmlK{} to \logicK{}.
+This provably correct translation uses a disjunctive normal form for modal logic defined using cover operators, followed by applications of the reduction axioms in \axiomRmlK{}.
+As a result of this provably correct translation we have as corollaries that \logicRmlK{} is expressively equivalent to \logicK{}, and that \logicRml{} is compact and decidable.
+
+\section{Axiomatisation}
 
 We recall the cover operator, which is defined by the syntactic abbreviation $\coversA \Gamma ::= \necessaryA \bigvee_{\gamma \in \Gamma} \gamma \land \bigwedge_{\gamma \in \Gamma} \possibleA \gamma$.
 The cover operator forms the basis of our axiomatisations of \logicRmlK{}, \logicRmlKFF{}, \logicRmlKD{}, and \logicRmlS{}.
@@ -16,47 +25,46 @@ We now present our axiomatisation for \logicRmlK{} and discuss its features, par
 $$
 \begin{array}{rl}
     {\bf R} & \proves \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
-    {\bf RP} & \proves \allrefsBs \atomP \iff \atomP\\
+    {\bf RP} & \proves \allrefsBs \pi \iff \pi\\
     {\bf RK} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \cup \{\top\}) \text{ where } \agentA \in \agentsB\\
     {\bf RComm} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \text{ where } \agentA \notin \agentsB\\
     {\bf RDist} & \proves \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC\\
     {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
 \end{array}
 $$
-where $\phi, \psi \in \langRml$, $\atomP \in \atoms$, $\agentA \in \agents$, $\agentsB, \agentsC \subseteq \agents$, and for every $\agentA \in \agents$: $\Gamma_\agentA \subseteq \langRml$ is a finite set of formulas.
+where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\agentsB, \agentsC \subseteq \agents$, and for every $\agentA \in \agents$: $\Gamma_\agentA \subseteq \langRml$ is a finite set of formulas.
 \end{definition}
 
 We note that the axioms {\bf R} and {\bf RP}, and the rule {\bf NecR} are validities established for all variants of \logicRml{} in the previous chapter, in Proposition~\ref{rml-validities}.
 We also note that although reflexivity and transitivity are important properties of the relational operator $\simulatesBs$ for refinements, the validities from Proposition~\ref{rml-validities} corresponding to these properties do not feature in this axiomatisation, as we will see that they are not necessary in order to show the completeness of the axiomatisation.
-In the remaining axioms, {\bf RK}, {\bf RComm}, and {\bf RDist}, the cover operator features prominently.
+
+The axioms of \logicRmlK{} have the appearance of reduction axioms, as they allow refinement quantifiers to be ``pushed'' past propositional connectives and modalities, reducing the complexity of the formulas that refinement quantifiers are applied to, or in the case of the axiom {\bf RP}, or some applications of {\bf RK} and {\bf RComm}, allow refinement quantifiers to be removed completely.
+In Section~\ref{rml-k-completeness} we will provide a provably correct translation using these reduction axioms, pushing refinement quantifiers past propositional connectives and modalities, until the refinement quantifiers can be removed completely by an application of {\bf RP}, {\bf RK} or {\bf RComm}.
+This is similar to the approach used to show the completeness of the axiomatisations for \logicAml{} and \logicPal{}.
+However unlike the axiomatisations for \logicAml{} and \logicPal{}, it's not immediately obvious that the reduction axioms of \axiomRmlK{} are applicable to all \langRml{} formulas.
+In particular, the reduction axioms can only push refinement quantifiers past negations in propositional formulas, using the axiom {\bf RP}, and can only push refinement quantifiers past conjunctions in specific situations involving cover operators, using the axioms {\bf RK}, {\bf RComm}, and {\bf RDist}.
+In Section~\ref{rml-k-completeness} we address these limitation with the introduction of a normal form that restricts negations to propositional formulas and conjunctions to the specific situations handled by {\bf RK}, {\bf RComm}, and {\bf RDist}.
+
+The cover operator features prominently in the axioms, {\bf RK}, {\bf RComm}, and {\bf RDist}.
 These axioms describe the interaction between existential refinement quantifiers and conjunctions of modalities, and here the cover operator is used as a convenient notation for a conjunction of modalities.
-
-We must consider conjunctions of modalities specifically, because it is not sufficient to have separate axioms describing the interaction between existential refinement quantifiers and modalities and axioms describing the interaction between refinement quantifiers and conjunctions.
-For example, determining whether $\entails \somerefsA (\necessaryA \phi \land \possibleA \psi)$ is not functional on whether $\entails \somerefsA \necessaryA \phi$ and whether $\entails \somerefsA \possibleA \psi$.
-Clearly if $\entails \somerefsA (\necessaryA \phi \land \possibleA \psi)$ then we must have $\entails \somerefsA \necessaryA \phi$ and $\entails \somerefsA \possibleA \psi$.
-It is a simple matter to show that in general we have $\entails \somerefsA \necessaryA \phi$, as we can get $\necessaryA \phi$ from an $\agentA$-refinement by removing all $\agentA$-successors.
-We can also show that $\entails \possibleA \lnot \phi \implies \somerefsA \possibleA \lnot \phi$, as any Kripke model is an $\agentA$-refinement of itself.
-So we have that $\possibleA \lnot \phi \entails \somerefsA \necessaryA \phi$ and $\possibleA \lnot \phi \entails \somerefsA \possibleA \lnot \phi$.
-However $\entails \lnot (\necessaryA \phi \land \possibleA \lnot \phi)$, so by {\bf NecR} (which is already known to be sound by Proposition~\ref{rml-validities}) we have that $\entails \allrefsA \lnot (\necessaryA \phi \land \possibleA \lnot \phi)$ and therefore $\entails \lnot \somerefsA (\necessaryA \phi \land \possibleA \lnot \phi)$.
-Clearly whether $\entails \somerefsA (\necessaryA \phi \land \possibleA \psi)$ depends on the interaction between $\phi$ and $\psi$, and so these concerns should not be separated.
-The cover operators, together with a disjunctive normal form defined using cover operators, allows us to handle all cases involving the interaction between existential refinement quantifiers and conjunctions of modalities.
-We note that if we consider universal refinement quantifiers instead of existential quantifiers we come across similar issues, but instead with disjunctions of modalities.
-
-In the following sections we show that the axiomatisation \axiomRmlK{} is sound and complete for the logic \logicRmlK{}.
-In Section~\ref{rml-k-soundness} we show that the axiomatisation is sound, using constructive proofs.
-In Section~\ref{rml-k-completeness} we show that the axiomatisation is complete via a provably correct translation from \logicRmlK{} to \logicK{}.
-This provably correct translation uses a disjunctive normal form for modal logic defined using cover operators, followed by applications of the reduction axioms in \axiomRmlK{}.
-As a result of this provably correct translation we have as corollaries that \logicRmlK{} is expressively equivalent to \logicK{}, and that \logicRml{} is compact and decidable.
+We must have reduction axioms specifically for conjunctions of modalities because of the difficulty in pushing existential refinement quantifiers past conjunctions, or dually, pushing universal refinement quantifiers past disjunctions.
+For example, a reduction axiom such as $\proves \somerefsBs (\phi \land \psi) \iff (\somerefsBs \phi \land \somerefsBs \psi)$ would not be sound.
+This can be seen if we consider a Kripke model $\kPModel{\kStateS}$ such that $\kPModel{\kStateS} \entails \possibleA \top$.
+Then we have $\kPModel{\kStateS} \entails \somerefsA \possibleA \top$, with the witnessing $\agentA$-refinement being $\kPModel{\kStateS}$ itself, and we have $\kPModel{\kStateS} \entails \somerefsA \necessaryA \bot$, with the witnessing $\agentA$-refinement being $\kPModel{\kStateS}$ with its $\agentA$-successors removed, but as $\possibleA \top \land \necessaryA \bot$ is a contradiction then we have that $\kPModel{\kStateS} \nentails \somerefsA (\possibleA \top \land \necessaryA \bot)$.
+Clearly there is an interaction between the modalities inside each of the refinement quantifiers, so these two formulas cannot be so easily separated.
+Instead we give the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} which consider conjunctions of modalities rather than single modalities, and use the cover operators as a convenient notation for a conjunction of an arbitrary number of modalities.
+In Section~\ref{rml-k-soundness} we find that the semantics of the cover operator are convenient for showing the soundness of these axioms.
+Finally in Section~\ref{rml-k-completeness} we see that the cover operator allows a convenient disjunctive normal form for modal formulas, which we use in our provably correct translation from \langRml{} to \langMl{}.
 
 \section{Soundness}\label{rml-k-soundness}
 
-In this section we show that the axiomatisation \axiomRmlK{} is sound.
+In this section we show that the axiomatisation \axiomRmlK{} is sound with respect to the semantics of the logic \logicRmlK{}.
 The axioms {\bf R} and {\bf RP}, and the rule {\bf NecR} are already known to be sound as they were established for all variants of \logicRml{} in the previous chapter, in Proposition~\ref{rml-validities}.
 What remains to be shown is that the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} are sound.
-Each of these axioms share the general form of equivalences, where the left hand side posits the existence of a single refinement that satisfies a given formula, whilst the right hand side posits the existence of multiple refinements that satisfy subformulas of the given formula.
+Each of these axioms share the general form of equivalences, where the left hand side describes the existence of a single refinement that satisfies a given formula, whilst the right hand side describes the existence of multiple refinements that satisfy subformulas of the given formula.
 Accordingly the proof of soundness for each of these axioms share the same general technique.
 For the left-to-right direction of the equivalence, we show that if we have the refinement described on the left hand side of the equivalence, then this same refinement satisfies all that we need for the right hand side of the equivalence.
-Conversely, for the right-to-left direction of the equivalence, we show that if we have all of the refinements described on the right hand side of the equivalence, then these refinements can be combined into a larger refinement that satisfies the left hand side of the equivalence.
+Conversely, for the right-to-left direction of the equivalence, we show that if we have all of the refinements described on the right hand side of the equivalence, then these refinements can be combined into a single refinement that satisfies the left hand side of the equivalence.
 The left-to-right direction is simple to show, whereas the right-to-left direction is more involved, requiring a relatively complex construction to combine the refinements on the right hand side of the equivalence into one that satisfies the left hand side of the equivalence.
 
 We begin by showing that the axiom {\bf RK} is sound.
@@ -495,6 +503,19 @@ The soundness of {\bf RK}, {\bf RComm} and {\bf RDist} were shown in the previou
 
 \section{Completeness}\label{rml-k-completeness}
 
+In this section we show that the axiomatisation \axiomRmlK{} is complete with respect to the semantics of the logic \logicRmlK{}.
+We show that \axiomRmlK{} is complete by demonstrating a provably correct translation from formulas of \langRml{} to the underlying modal language \langMl{}.
+As the interpretation of \langMl{} formulas is the same between \logicRmlK{} and \logicK{}, and \logicK{} has a sound and complete axiomatisation \axiomK{} that forms part of the axiomatisation \logicRmlK{}, this allows us to construct proofs of valid \langRml{} formulas by first translating to \langMl{} and then relying on the completeness of \axiomK{}.
+As a consequence of this provably correct translation we also have that \logicRmlK{} is expressively equivalent to \logicK{}, and that \logicRmlK{} is compact and decidable (via the compactness and decidability of \logicK{}).
+
+In order to show that the reduction axioms of \axiomRmlK{} are applicable to all \langRml{} formulas we will use a disjunctive normal form for modal logic taken from work by Janin and Walukiewicz~\cite{janin:1995} in the modal $\mu$-calculus.
+The disjunctive normal form uses the cover operator, and restricts negations and conjunctions to situations where the reduction axioms are applicable.
+Much of our work in this section is simply restating results by Janin and Walukiewicz~\cite{janin:1995} about the disjunctive normal form.
+We provide these details because the presentation of the disjunctive normal form of Janin and Walukiewicz~\cite{janin:1995} differs from our presentation, and also includes aspects specific to the modal $\mu$-calculus that are not relevant for our purposes.
+In Chapter~\ref{rml-kd45} we introduce a similar normal form in order to show the completeness of the axiomatisations for \logicRmlKFF{} and \logicRmlKD{}.
+
+We first recall the negation normal form, as an intermediate step before the disjunctive normal form.
+
 \begin{definition}[Negation normal form]
 A formula in {\em negation normal form} is inductively defined as:
 $$
@@ -515,18 +536,22 @@ Every modal formula is equivalent to a formula in negation normal form in the lo
 \begin{proof}
 Similar to negation normal forms in propositional logic, we can recursively push the negations inwards until negations are only applied to propositional atoms, using the following equivalences:
 \begin{eqnarray*}
-    \lnot \lnot \phi &\iff& \phi\\
-    \lnot (\phi \land \psi) &\iff& \lnot \phi \lor \lnot \psi\\
-    \lnot \necessaryA \phi &\iff& \possibleA \lnot \phi
+    \entails \lnot \lnot \phi &\iff& \phi\\
+    \entails \lnot (\phi \land \psi) &\iff& \lnot \phi \lor \lnot \psi\\
+    \entails \lnot \necessaryA \phi &\iff& \possibleA \lnot \phi
 \end{eqnarray*}
 \end{proof}
+
+We next recall the disjunctive normal of Janin and Walukiewicz~\cite{janin:1995}.
+We note that the original work by Janin and Walukiewicz~\cite{janin:1995} used a different syntax for the cover operator, and additionally featured the modal $\mu$-calculus fixed-point operators.
+Our syntax differs from Janin and Walukiewicz~\cite{janin:1995} primarily to be consistent with the established literature in \logicRml{}~\cite{vanditmarsch:2009,vanditmarsch:2010}.
 
 \begin{definition}[Disjunctive normal form]
 A formula in {\em disjunctive normal form} is inductively defined as:
 $$
-\phi ::= \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB \mid \phi \lor \phi
+\phi ::= \pi \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB \mid \phi \lor \phi
 $$
-where $\atomsQ, \atomsQ' \subseteq \atoms$ are finite sets of propositional atoms and $\agentsB \subseteq \agents$.
+where $\pi \in \langMl$, $\agentsB \subseteq \agents$, and for every $\agentB \in \agentsB$, $\Gamma_\agentB \subseteq \langMl$ is a finite set of formulas in disjunctive normal form.
 \end{definition}
 
 \begin{lemma}\label{dnf-equivalent}
@@ -561,57 +586,256 @@ $$
 \entails (\psi \land \chi) \iff (\psi' \land \chi') \iff \bigwedge_{\substack{0 \leq i \leq m\\0 \leq j \leq n}} (\delta_i \land \gamma_i)
 $$
 Here we note that the subformulas $\delta_i \land \gamma_i$ may not be in the appropriate form, and so we use some equivalences to find appropriate substitutes. 
-Let $i, j \in \naturals$ such that $0 \leq i \leq m$ and $0 \leq j \leq n$ and suppose that $\delta_i = \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB$ and $\gamma_j = \bigwedge_{\atomR \in \atomsR} \atomR \land \bigwedge_{\atomR' \in \atomsR'} \atomR' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC$.
+Let $i, j \in \naturals$ such that $0 \leq i \leq m$ and $0 \leq j \leq n$ and suppose that $\delta_i = \pi \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB$ and $\gamma_j = \tau \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC$.
 We rewrite the conjunction $\delta_i \land \gamma_j$ using the following equivalence:
 $$
 \entails (\delta_i \land \gamma_j) \iff 
-\bigwedge_{\atomP \in \atomsQ \cup \atomsR} \atomP \land \bigwedge_{\atomP' \in \atomsQ' \cup \atomsR'} \atomP' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC
+(\pi \land \tau) \land \left( \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC \right)
 $$
 This may leave us with more than one cover operator for some agents, but we can combine these cover operators using the following equivalence:
 $$
 \entails (\coversA \Gamma \land \coversA \Gamma') \iff \coversA \{\gamma \land \gamma' \mid \gamma \in \Gamma, \gamma' \in \Gamma'\}
 $$
-Here we note that $\gamma \land \gamma'$ may not be in disjunctive normal form, and so we appeal to the induction hypothesis to find a substitute.
+This equivalence should be obvious when the cover operator is expanded:
+\begin{eqnarray*}
+&&\entails \left( \necessaryA \bigvee_{\gamma \in \Gamma} \gamma \land \bigwedge_{\gamma \in \Gamma} \possibleA \gamma \land \necessaryA \bigvee_{\gamma' \in \Gamma'} \gamma' \land \bigwedge_{\gamma' \in \Gamma'} \possibleA \gamma' \right)
+\\&&\quad\iff
+\left( \necessaryA \bigvee_{\gamma \in \Gamma, \gamma' \in \Gamma'} (\gamma \land \gamma') \land \bigwedge_{\gamma \in \Gamma, \gamma' \in \Gamma'} \possibleA (\gamma \land \gamma') \right)
+\end{eqnarray*}
+Here we note that $\gamma \land \gamma'$ may not be in disjunctive normal form, and so we will use to the induction hypothesis to find a substitute.
 For every $\gamma \in \Gamma$, $\gamma' \in \Gamma'$ as $\gamma \land \gamma'$ has a modal depth less than $\phi$ then by the induction hypothesis there exists an $\epsilon_{\gamma,\gamma'} \in \langMl$ in disjunctive normal form such that $\entails \epsilon_{\gamma,\gamma'} \iff (\gamma \land \gamma')$.
 Substituting $\epsilon_{\gamma,\gamma'}$ for $\gamma \land \gamma'$ after applying all of the above equivalences leaves us with a formula in disjunctive normal form.
 \end{proof}
 
+We note that we have shown a semantic equivalence between \langMl{} formulas and formulas in disjunctive normal form.
+As \axiomK{} is a sound and complete axiomatisation for \logicK{} then this is also a provable equivalence in \axiomK{}, and as the axioms and rules of \axiomK{} are included in the axiomatisation \axiomRmlK{} this is also a provable equivalence in \axiomRmlK{}.
+
+Given the disjunctive normal form, we will show that the reduction axioms of \axiomRmlK{} may be applied to formulas in disjunctive normal form in order to give a provably correct translation.
+We first show some useful theorems in \axiomRmlK{}.
+
 \begin{lemma}\label{rml-k-theorems}
 The following are theorems of \axiomRmlK{}:
 \begin{align}
+    \proves & \allrefsBs (\phi \land \psi) \iff (\allrefsBs \phi \land \allrefsBs \psi) \label{rml-k-and}\\
     \proves & \somerefsBs (\phi \lor \psi) \iff (\somerefsBs \phi \lor \somerefsBs \psi) \label{rml-k-or}\\
-    \proves & \displaystyle \somerefsBs (\bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \nonumber\\
+    \proves & \somerefsBs (\phi \land \psi) \implies (\somerefsBs \phi \land \somerefsBs \psi) \label{rml-k-d-and}\\
+    \proves & (\allrefsBs \phi \land \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi) \label{rml-k-db-and}\\
+    \proves & (\pi \land \somerefsBs \psi) \iff \somerefsBs (\pi \land \psi) \label{rml-k-pd-and}\\
+    \proves & \displaystyle \somerefsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \nonumber\\
             & \displaystyle \quad
-            \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land 
-            \bigwedge_{\substack{\agentC \in \agentsC \cap \agentsB\\\gamma \in \Gamma_\agentC}} \possibleC \somerefsBs \gamma \land
-            \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} \label{rml-k-cover}
+            (
+            \pi \land
+            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \coversC (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} \cup \{\top\}) \land
+            \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} 
+            ) \label{rml-k-cover}
 \end{align}
+where $\pi \in \langPl$, $\phi, \psi \in \langRml$, $\agentsB \subseteq \agents$, and for every $\agentB \in \agentsB$, $\Gamma_\agentB \subseteq \langRml$ is a finite set of formulas.
 \end{lemma}
 
 \begin{proof}
-    (\ref{rml-k-or}) is derivable from {\bf P} and {\bf R} using the same strategy to prove that $\proves \possibleA (\phi \lor \psi) \iff (\possibleA \phi \lor \possibleA \psi)$ is derivable from {\bf P} and {\bf K}.
+\begin{description}
+    \item[(\ref{rml-k-and})]
+    We show that $\proves \allrefsBs (\phi \land \psi) \iff (\allrefsBs \phi \land \allrefsBs \psi)$.
 
-    (\ref{rml-k-cover}) is derivable by using {\bf P}, {\bf R} and {\bf RP} to bring the propositional parts outside of the $\somerefsBs$~operator,
-    using {\bf RDist} to push the $\somerefsBs$~operator inside the conjunction,
-    and then using {\bf RK} or {\bf RComm} as appropriate for each cover operator.
+    For the left-to-right direction:
+    $$
+    \begin{array}{ll}
+        \proves (\phi \land \psi) \implies \phi & \text{{\bf P}}\\
+        \proves \allrefsBs ((\phi \land \psi) \implies \phi) & \text{{\bf NecR}}\\
+        \proves \allrefsBs ((\phi \land \psi) \implies \phi) \implies (\allrefsBs (\phi \land \psi) \implies \allrefsBs \phi) & \text{{\bf R}}\\
+        \proves \allrefsBs (\phi \land \psi) \implies \allrefsBs \phi & \text{{\bf MP}}\\
+        \proves (\phi \land \psi) \implies \psi & \text{{\bf P}}\\
+        \proves \allrefsBs ((\phi \land \psi) \implies \psi) & \text{{\bf NecR}}\\
+        \proves \allrefsBs ((\phi \land \psi) \implies \psi) \implies (\allrefsBs (\phi \land \psi) \implies \allrefsBs \psi) & \text{{\bf R}}\\
+        \proves \allrefsBs (\phi \land \psi) \implies \allrefsBs \psi & \text{{\bf MP}}\\
+        \proves \allrefsBs (\phi \land \psi) \implies (\allrefsBs \phi \land \allrefsBs \psi) & \text{{\bf P}}
+    \end{array}
+    $$
+
+    For the right-to-left direction:
+    $$
+    \begin{array}{ll}
+        \proves \phi \implies (\psi \implies (\phi \land \psi)) & \text{{\bf P}}\\
+        \proves \allrefsBs (\phi \implies (\psi \implies (\phi \land \psi))) & \text{{\bf NecR}}\\
+        \proves \allrefsBs (\phi \implies (\psi \implies (\phi \land \psi))) \implies \\\quad(\allrefsBs \phi \implies \allrefsBs (\psi \implies (\phi \land \psi))) & \text{{\bf R}}\\
+        \proves \allrefsBs \phi \implies \allrefsBs (\psi \implies (\phi \land \psi)) & \text{{\bf MP}}\\
+        \proves \allrefsBs (\psi \implies (\phi \land \psi)) \implies (\allrefsBs \psi \implies \allrefsBs (\phi \land \psi)) & \text{{\bf R}}\\
+        \proves \allrefsBs \phi \implies (\allrefsBs \psi \implies \allrefsBs (\phi \land \psi)) & \text{{\bf P}}\\
+        \proves (\allrefsBs \phi \land \allrefsBs \psi) \implies \allrefsBs (\phi \land \psi)) & \text{{\bf P}}
+    \end{array}
+    $$
+
+    \item[(\ref{rml-k-or})]
+    We show that $\proves \somerefsBs (\phi \lor \psi) \iff (\somerefsBs \phi \lor \somerefsBs \psi)$.
+
+    Given (\ref{rml-k-and}) above we have:
+    $$
+    \begin{array}{ll}
+        \proves \allrefsBs (\lnot \phi \land \lnot \psi) \iff (\allrefsBs \lnot \phi \land \allrefsBs \lnot \psi) & \text{(\ref{rml-k-and})}\\
+        \proves \lnot \allrefsBs (\lnot \phi \land \lnot \psi) \iff \lnot (\allrefsBs \lnot \phi \land \allrefsBs \lnot \psi) & \text{{\bf P}}\\
+        \proves \lnot \allrefsBs \lnot (\phi \lor \psi) \iff (\lnot \allrefsBs \lnot \phi \lor \lnot \allrefsBs \lnot \psi) & \text{{\bf P}}\\
+        \proves \somerefsBs (\phi \lor \psi) \iff (\somerefsBs \phi \lor \somerefsBs \psi) & \text{Defn. of $\somerefsBs$}
+    \end{array}
+    $$
+
+    \item[(\ref{rml-k-d-and}]
+    We show that $\proves \somerefsBs (\phi \land \psi) \implies (\somerefsBs \phi \land \somerefsBs \psi)$.
+    $$
+    \begin{array}{ll}
+        \proves \lnot \phi \implies (\lnot \phi \lor \lnot \psi) & {\bf P}\\
+        \proves \allrefsBs (\lnot \phi \implies (\lnot \phi \lor \lnot \psi)) & {\bf NecR}\\
+        \proves \allrefsBs (\lnot \phi \implies (\lnot \phi \lor \lnot \psi)) \implies (\allrefsBs \lnot \phi \implies \allrefsBs (\lnot \phi \lor \lnot \psi)) & {\bf R}\\
+        \proves \allrefsBs \lnot \phi \implies \allrefsBs (\lnot \phi \lor \lnot \psi) & {\bf MP}\\
+        \proves \lnot \somerefsBs \phi \implies \lnot \somerefsBs \lnot (\lnot \phi \lor \lnot \psi) & \text{Defn. of $\somerefsBs$}\\
+        \proves \somerefsBs \lnot (\lnot \phi \lor \lnot \psi) \implies \somerefsBs \phi  & {\bf P}\\
+        \proves \somerefsBs (\phi \land \psi) \implies \somerefsBs \phi  & {\bf P}\\
+        \proves \lnot \psi \implies (\lnot \phi \lor \lnot \psi) & {\bf P}\\
+        \proves \allrefsBs (\lnot \psi \implies (\lnot \phi \lor \lnot \psi)) & {\bf NecR}\\
+        \proves \allrefsBs (\lnot \psi \implies (\lnot \phi \lor \lnot \psi)) \implies (\allrefsBs \lnot \psi \implies \allrefsBs (\lnot \phi \lor \lnot \psi)) & {\bf R}\\
+        \proves \allrefsBs \lnot \psi \implies \allrefsBs (\lnot \phi \lor \lnot \psi) & {\bf MP}\\
+        \proves \lnot \somerefsBs \psi \implies \lnot \somerefsBs \lnot (\lnot \phi \lor \lnot \psi) & \text{Defn. of $\somerefsBs$}\\
+        \proves \somerefsBs \lnot (\lnot \phi \lor \lnot \psi) \implies \somerefsBs \psi  & {\bf P}\\
+        \proves \somerefsBs (\phi \land \psi) \implies \somerefsBs \psi  & {\bf P}\\
+        \proves \somerefsBs (\phi \land \psi) \implies (\phi \land \somerefsBs \psi) & {\bf P}
+    \end{array}
+    $$
+
+    \item[(\ref{rml-k-db-and})]
+    We show that $\proves (\pi \land \somerefsBs \psi) \iff \somerefsBs (\pi \land \psi)$.
+
+    For the left-to-right direction:
+    $$
+    \begin{array}{ll}
+        \proves \somerefsBs (\pi \land \psi) \implies (\somerefsBs \pi \land \somerefsBs \psi) & (\ref{rml-k-d-and})\\
+        \proves \allrefsBs \lnot \pi \iff \lnot \pi & {\bf RP}\\
+        \proves \lnot \allrefsBs \lnot \pi \iff \pi & {\bf P}\\
+        \proves \somerefsBs \pi \iff \pi & \text{Defn. of $\somerefsBs$}\\
+        \proves \somerefsBs (\pi \land \psi) \implies (\pi \land \somerefsBs \psi) & {\bf P}
+    \end{array}
+    $$
+
+    For the right-to-left direction:
+    $$
+    \begin{array}{ll}
+        \proves (\allrefsBs \pi \land \somerefsBs \psi) \iff (\allrefsBs \pi \land \lnot \allrefsBs \lnot \psi)& \text{Defn. of $\somerefsBs$}\\
+        \proves (\allrefsBs \pi \land \somerefsBs \psi) \iff \lnot (\allrefsBs \pi \implies \allrefsBs \lnot \psi)& {\bf P}\\
+        \proves \allrefsBs (\pi \implies \lnot \psi) \implies (\allrefsBs \pi \implies \allrefsBs \lnot \psi)& {\bf R}\\
+        \proves \lnot (\allrefsBs \pi \implies \allrefsBs \lnot \psi) \implies \lnot \allrefsBs (\pi \implies \lnot \psi)& {\bf P}\\
+        \proves (\allrefsBs \pi \land \lnot \allrefsBs \lnot \psi) \implies \lnot \allrefsBs (\pi \implies \lnot \psi)& {\bf P}\\
+        \proves (\allrefsBs \pi \land \somerefsBs \psi) \implies \somerefsBs \lnot (\pi \implies \lnot \psi)& \text{Defn. of $\somerefsBs$}\\
+        \proves (\allrefsBs \pi \land \somerefsBs \psi) \implies \somerefsBs (\pi \land \psi)& \text{Defn. of $\somerefsBs$}\\
+        \proves \allrefsBs \pi \iff \pi & {\bf RP}\\
+        \proves (\pi \land \somerefsBs \psi) \implies \somerefsBs (\pi \land \psi)& {\bf P}\\
+    \end{array}
+    $$
+
+    \item[(\ref{rml-k-cover})]
+    We show that:
+    \begin{align*}
+        \proves & \displaystyle \somerefsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \\&\quad
+            (
+            \pi \land
+            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \coversA (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} \cup \{\top\}) \land
+            \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} 
+            )
+    \end{align*}
+
+    By (\ref{rml-k-db-and}) we have:
+    \begin{align*}
+    \proves & \displaystyle \somerefsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff 
+            (
+            \pi \land
+            \somerefsBs (\bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC)
+            )
+        \end{align*}
+
+    By {\bf RDist} we have:
+    \begin{align*}
+    \proves & \displaystyle \somerefsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff 
+            (
+            \pi \land
+            \bigwedge_{\agentC \in \agentsC} \somerefsBs \coverC \Gamma_\agentC
+            )
+    \end{align*}
+
+    By {\bf RK} we have:
+    \begin{align*}
+        \proves & \displaystyle \somerefsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \\&\quad
+            (
+            \pi \land
+            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \coversC (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} \cup \{\top\}) \land
+            \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \somerefsBs \coverC \Gamma_\agentC
+            )
+    \end{align*}
+
+    Finally by {\bf RComm} we have:
+    \begin{align*}
+        \proves & \displaystyle \somerefsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \\&\quad
+            (
+            \pi \land
+            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \coversA (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} \cup \{\top\}) \land
+            \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} 
+            )
+    \end{align*}
+    \end{description}
 \end{proof}
 
-\begin{lemma}\label{rml-k-substitution-equivalents}
-The axiomatisation \axiomRmlK{} allows substitution of equivalents.
-\end{lemma}
+We can now clearly recognise that the equivalences (\ref{rml-k-or}) and (\ref{rml-k-covers}) are reduction axioms that can be used to push refinement quantifiers past propositional connectives and modalities in formulas in disjunctive normal form.
+These equivalences form the basis of our provably correct translation from \langRml{} to \langMl{}.
 
-\todo[inline]{Proof}
+Before we give our provably correct translation we give two lemmas.
+First we note that every \axiomK{} theorem is an \axiomRmlK{} theorem.
 
 \begin{lemma}\label{rml-k-ml-provability}
-Let $\phi \in \langRml$ be a refinement modal formula and let $\phi' \in \langMl$ be a modal formula such that $\proves_\axiomRmlK \phi \iff \phi'$.
-If $\proves_\axiomK \phi'$ then $\proves_\axiomRmlK \phi$.
+Let $\phi \in \langMl$ be a modal formula.
+If $\proves_\axiomK \phi$ then $\proves_\axiomRmlK \phi$.
 \end{lemma}
 
 \begin{proof}
-Suppose that $\proves_\axiomK \phi'$.
-As \axiomRmlK{} includes all of the axioms and rules of \axiomK{} then we have that $\proves_\axiomRmlK{} \phi'$.
-As $\proves_\axiomRmlK \phi \iff \phi'$ then we conclude that $\proves_\axiomRmlK{} \phi$.
+Suppose that $\proves_\axiomK \phi$.
+Then there exists a proof of $\proves_\axiomK \phi$ using the axioms and rules of \axiomK{}.
+As \axiomRmlK{} includes all of the axioms and rules of \axiomK{} then the proof of $\proves_\axiomK \phi$ using the axioms and rules of \axiomK{} is also a proof of $\proves_\axiomRmlK{} \phi$ using the axioms and rules of \axiomRmlK{}.
+Therefore $\proves_\axiomRmlK{} \phi$.
 \end{proof}
+
+Secondly we show that \axiomRmlK{} satisfies substitution of equivalents.
+
+\begin{lemma}\label{rml-k-substitution-equivalents}
+Let $\phi, \psi, \chi \in \langRml$ be formulas and let $\atomP \in \atoms$ be a propositional atom.
+If $\proves \psi \iff \chi$ then $\proves \phi[\psi\backslash\atomP] \iff \phi[\chi\backslash\atomP]$.
+\end{lemma}
+
+\begin{proof}
+We proceed by induction on the structure of $\phi$.
+
+Suppose that $\phi = \atomP$.
+Then $\atomP[\psi\backslash\atomP] = \psi$ and $\atomP[\chi\backslash\atomP] = \chi$ and by hypothesis $\proves \psi \iff \chi$ so by {\bf P} we have $\proves \atomP[\psi\backslash\atomP] \iff \atomP[\chi\backslash\atomP]$.
+
+Suppose that $\phi = \atomQ$ where $\atomQ \in \atoms$ and $\atomQ \neq \atomP$.
+Then $\atomQ[\psi\backslash\atomP] = \atomQ$ and $\atomQ[\chi\backslash\atomP] = \atomQ$ so by {\bf P} we have $\proves \atomQ[\psi\backslash\atomP] \iff \atomQ[\chi\backslash\atomP]$.
+
+Suppose that $\phi = \lnot \alpha$.
+By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$.
+Then by {\bf P} we have $\proves \lnot \alpha[\psi\backslash\atomP] \iff \lnot \alpha[\chi\backslash\atomP]$.
+
+Suppose that $\phi = \alpha \land \beta$.
+By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$ and $\proves \beta[\psi\backslash\atomP] \iff \beta[\chi\backslash\atomP]$.
+Then by {\bf P} we have $\proves (\alpha[\psi\backslash\atomP] \land \beta[\psi\backslash\atomP]) \iff (\alpha[\chi\backslash\atomP] \land \beta[\chi\backslash\atomP])$.
+
+Suppose that $\phi = \necessaryA \alpha$.
+By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$.
+By {\bf NecK} we have $\proves \necessaryA (\alpha[\psi\backslash\atomP] \implies \alpha[\chi\backslash\atomP])$ and by {\bf K} we have $\proves \necessaryA \alpha[\psi\backslash\atomP] \implies \necessaryA \alpha[\chi\backslash\atomP]$.
+Likewise by {\bf NecK} we have $\proves \necessaryA (\alpha[\chi\backslash\atomP] \implies \alpha[\psi\backslash\atomP])$ and by {\bf K} we have $\proves \necessaryA \alpha[\chi\backslash\atomP] \implies \necessaryA \alpha[\psi\backslash\atomP]$.
+Then by {\bf P} we have $\proves \necessaryA \alpha[\psi\backslash\atomP] \iff \necessaryA \alpha[\chi\backslash\atomP]$.
+
+Suppose that $\phi = \allrefsBs \alpha$.
+By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$.
+By {\bf NecR} we have $\proves \allrefsBs (\alpha[\psi\backslash\atomP] \implies \alpha[\chi\backslash\atomP])$ and by {\bf R} we have $\proves \allrefsBs \alpha[\psi\backslash\atomP] \implies \allrefsBs \alpha[\chi\backslash\atomP]$.
+Likewise by {\bf NecR} we have $\proves \allrefsBs (\alpha[\chi\backslash\atomP] \implies \alpha[\psi\backslash\atomP])$ and by {\bf R} we have $\proves \allrefsBs \alpha[\chi\backslash\atomP] \implies \allrefsBs \alpha[\psi\backslash\atomP]$.
+Then by {\bf P} we have $\proves \allrefsBs \alpha[\psi\backslash\atomP] \iff \allrefsBs \alpha[\chi\backslash\atomP]$.
+\end{proof}
+
+We now show that the reduction axioms of \logicRmlK{} admit a provably correct translation from \langRml{} to \langMl{}.
 
 \begin{lemma}\label{rml-k-ml-equivalent}
 Every refinement modal formula is provably equivalent to a modal formula using the axiomatisation \axiomRmlK{}.
@@ -648,6 +872,8 @@ By substitution of equivalents, substiting $\psi''$ for $\somerefsBs \psi$ in $\
 By the induction hypothesis $\phi'$ is provably equivalent to a modal formula and therefore $\phi$ is provably equivalent to a modal formula.
 \end{proof}
 
+Given the provably correct translation we have that \logicRmlK{} is sound and complete.
+
 \begin{theorem}\label{rml-k-sound-complete}
 The axiomatisation \axiomRmlK{} is sound and strongly complete with respect to the semantics of the logic \logicRmlK{}.
 \end{theorem}
@@ -669,9 +895,13 @@ Therefore $\kPModel{\kStateS} \entails_\logicRmlK{} \Phi$.
 Therefore $\Phi$ is satisfiable.
 \end{proof}
 
+The provably correct translation also obviously implies that \logicRmlK{} is expressively equivalent to \logicK{}.
+
 \begin{corollary}
 The logic \logicRmlK{} is expressively equivalent to the logic \logicK{}.
 \end{corollary}
+
+Finally from expressive equivalence we have that \logicRmlK{} is compact and decidable.
 
 \begin{corollary}
 The logic \logicRmlK{} is compact.

@@ -1,5 +1,20 @@
 \chapter{Refinement modal logic: \classKFF{} and \classKD{}}\label{rml-kd45}
 
+In this chapter we consider in greater detail the logics \logicRmlKFF{} and \logicRmlKD{}, in the settings of \classKFF{} and \classKD{} respectively.
+As in the previous chapter where we considered \logicRmlK{}, in this chapter we present all of the same results for \logicRmlKFF{} and \logicRmlKD{}, including sound and complete axiomatisations, provably correct translations from \langRml{} to \langMl{}, and expressive equivalence, compactness and decidability results.
+As noted in Chapter~\ref{rml}, the logic \logicRmlK{} is not a sublogic of \logicRmlKFF{} or \logicRmlKD{}.
+In particular, the key axioms {\bf RK}, {\bf RComm}, and {\bf RDist} from \axiomRmlK{} are not sound in \logicRmlKFF{} or \logicRmlKD{}, so we must find replacement axioms.
+
+In the following sections we provide axiomatisations for \logicRmlKFF{} and \logicRmlKD{}, and show that they are sound and complete with respect to the semantics of \logicRmlKFF{} and \logicRmlKD{}.
+In Section~\ref{rml-kd45-axiomatisation} we provide the axiomatisations for \logicRmlKFF{} and \logicRmlKD{}, that are versions of the axiomatisation of \logicRmlK{} with additional syntactic restrictions.
+In Section~\ref{rml-kd45-soundness} we show that the axiomatisations are sound, using constructive proofs.
+In contrast to \logicRmlK{}, in \logicRmlKFF{} and \logicRmlKD{} we must show that the Kripke models that are constructed are \classKFF{} or \classKD{} Kripke models.
+This additional requirement accounts for the differences in the axioms compared to \logicRmlK{}.
+In Section~\ref{rml-kd45-completeness} we show that the axiomatisation is complete via a provably correct translation from \langRml{} to \langMl{}.
+In contrast to \logicRmlK{} where conversion to a disjunctive normal form was sufficient for the reduction axioms to be applicable, in \logicRmlKFF{} and \logicRmlKD{} we must use a more restricted normal form to account for the additional syntactic restrictions in the axiomatisations.
+
+\section{Axiomatisation}\label{rml-kd45-axiomatisation}
+
 \begin{definition}[$\agentsB$-restricted modal formulas]
 Let $\agentsB \subseteq \agents$ be a set of agents.
 A $\agentsB$-restricted modal formula is inductively defined as:
@@ -65,6 +80,8 @@ $$
 $$
 where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
 \end{definition}
+
+\section{Soundness}\label{rml-kd45-soundness}
 
 \begin{lemma}
 The axiom {\bf RKD45} is sound with respect to the semantics of the logic \logicRmlKD{}.
@@ -366,6 +383,8 @@ The soundness of the axioms and rules of \axiomKD{} with respect to the semantic
 The soundness of {\bf R}, {\bf RP} and {\bf NecR} follow from Proposition~\ref{rml-validities}.
 The soundness of {\bf RKD45}, {\bf RComm} and {\bf RDist} were shown in the previous lemmas.
 \end{proof}
+
+\section{Completeness}\label{rml-kd45-completeness}
 
 \begin{definition}[Alternating disjunctive normal form]
 Let $\agentsB \subseteq \agents$ be a set of agents.

@@ -692,6 +692,17 @@ The soundness of {\bf RKD45}, {\bf RComm} and {\bf RDist} were shown in the prev
 
 \section{Completeness}\label{rml-kd45-completeness}
 
+In this section we show that the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{} are complete with respect to the semantics of the logics \logicRmlKFF{} and \axiomRmlKD{} respectively.
+As for \axiomRmlK{}, we show that \axiomRmlKFF{} and \axiomRmlKD{} are complete by demonstrating a provably correct translation from formuls of \langRml{} to the underlying modal language \langMl{}.
+As a consequence of this provably correct translation we also have that \logicRmlKFF{} and \logicRmlKD{} are expressively equivalent to \logicKFF{} and \logicRmlKD{} respectively, and that \logicRmlKFF{} and \logicRmlKD{} are compact and decidable (via the compactness and decidability of \logicKFF{} and \logicKD{}).
+
+Similar to \axiomRmlK{} we rely on a normal form for modal logics for our provably correct translation, which we call alternating disjunctive normal form.
+Alternating disjunctive normal form is a modification of the disjunctive normal form used for \axiomRmlK{}, that prohibits the direct nesting of modalities from the same agent.
+Unlike the $\agentsB$-restricted modal formulas introduced earlier, this restriction applies throughout the formula, rather than only at the top-level of modalities.
+This ensures that when we repeatedly apply the axioms {\bf RK45}, {\bf RKD45}, {\bf RComm}, and {\bf RDist} in our provably correct translation to push refinement quantifiers inwards, they are only applied to formulas where $\agents$-cover operators are applied to sets of $(\agents \setminus \{\agentA\})$-restricted formulas.
+
+We first define our normal form, called alternating disjunctive normal form.
+
 \begin{definition}[Alternating disjunctive normal form]
 Let $\agentsB \subseteq \agents$ be a set of agents.
 A formula in {\em $\agentsB$-alternating disjunctive normal form} is inductively defined as:
@@ -701,9 +712,11 @@ $$
 where $\atomsQ, \atomsQ' \subseteq \atoms$ are finite sets of propositional atoms, $\agentsC \subseteq \agentsB$, and for every $\agentC \in \agentsC$, $\Gamma_\agentC$ is a finite set of formulas in $(\agents \setminus \{\agentC\})$-alternating disjunctive normal form.
 \end{definition}
 
+We show that every modal formula is equivalent to an formula in alternating disjunctive normal form, under the semantics of \logicKFF{} and \logicKD{}. 
+
 \begin{lemma}\label{adnf-equivalent}
 Let $\agentsB \subseteq \agents$ be a set of agents.
-Every $\agentsB$-restricted modal formula is equivalent to a formula in $\agentsB$-alternating cover disjunctive normal form under the semantics of the logic \logicKD{}.
+Every $\agentsB$-restricted modal formula is equivalent to a formula in $\agentsB$-alternating cover disjunctive normal form under the semantics of logics \logicKFF{} and \logicKD{}.
 \end{lemma}
 
 \begin{proof}
@@ -736,47 +749,174 @@ Once these equivalences have been applied as many times as possible, the resulti
 We can then translate the resulting formula into $\agentsB$-alternating disjunctive normal form using the same method for disjunctive normal form, noting that the equivalences used in the proof of Lemma~\ref{dnf-equivalent} will preserve the alternating structure of the formula.
 \end{proof}
 
+We note that we have shown a semantic equivalence between \langMl{} formulas and formulas in alternating disjunctive normal form.
+As \axiomKFF{} is a sound and complete axiomatisation for \logicKFF{} then this is also a provable equivalence in \axiomKFF{}, and as the axioms and rules of \axiomKFF{} are included in the axiomatisation \axiomRmlKFF{} this is also a provable equivalence in \axiomRmlKFF{}.
+Likewise this is a provable equivalence in \axiomRmlKD{}.
+
+Given the disjunctive normal form, we will show that the reduction axioms of \axiomRmlKFF{} and \axiomRmlKD{} may be applied to formulas in disjunctive normal form in order to give a provably correct translation.
+We first show some useful theorems in \axiomRmlKFF{} and \axiomRmlKD{}.
+
+\begin{lemma}\label{rml-kff-theorems}
+The following are theorems of \axiomRmlKFF{}:
+\begin{align}
+    \proves & \allrefsBs (\phi \land \psi) \iff (\allrefsBs \phi \land \allrefsBs \psi) \label{rml-kff-and}\\
+    \proves & \somerefsBs (\phi \lor \psi) \iff (\somerefsBs \phi \lor \somerefsBs \psi) \label{rml-kff-or}\\
+    \proves & \somerefsBs (\phi \land \psi) \implies (\somerefsBs \phi \land \somerefsBs \psi) \label{rml-kff-d-and}\\
+    \proves & (\allrefsBs \phi \land \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi) \label{rml-kff-db-and}\\
+    \proves & (\pi \land \somerefsBs \psi) \iff \somerefsBs (\pi \land \psi) \label{rml-kff-pd-and}\\
+    \proves & \displaystyle \somerefsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \nonumber\\
+            & \displaystyle \quad
+            (
+            \pi \land
+            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \somerefsBs \gamma \land
+            \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} 
+            ) \label{rml-kff-cover}
+\end{align}
+where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\agentsB, \agentsC \subseteq \agents$, and for every $\agentA \in \agents$: $\Gamma_\agentA$ is a finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+\end{lemma}
+
+\begin{proof}
+These theorems can be shown using essentially the same proofs given for Lemma~\ref{rml-k-theorems} for similar theorems in \axiomRmlK{}.
+The only consideration that must be made for \axiomRmlKFF{} is for theorem (\ref{rml-kff-cover}) where we must use {\bf RK45} instead of {\bf RK}, and we note that each set $\Gamma_\agentA$ must be a set of $(\agents \setminus \{\agentA\})$-restricted modal formulas in order for {\bf RK45}, {\bf RComm}, and {\bf RDist} to be applicable, but that requirement is satisfied by hypothesis.
+\end{proof}
+
+We can now clearly recognise that equivalences (\ref{rml-kff-or}) and (\ref{rml-kff-cover}) are reduction axioms that can be used to push refinement quantifiers past propositional connectives and modalities in formulas in alternating disjunctive normal form.
+We compare this result to Lemma~\ref{rml-k-theorems} where we had similar reduction axioms for the disjunctive normal form.
+
+We have similar theorems for \axiomRmlKD{}.
+
 \begin{lemma}\label{rml-kd-theorems}
 The following are theorems of \axiomRmlKD{}:
 \begin{align}
+    \proves & \allrefsBs (\phi \land \psi) \iff (\allrefsBs \phi \land \allrefsBs \psi) \label{rml-kd-and}\\
     \proves & \somerefsBs (\phi \lor \psi) \iff (\somerefsBs \phi \lor \somerefsBs \psi) \label{rml-kd-or}\\
-    \proves & \displaystyle \somerefsBs (\bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \nonumber\\
+    \proves & \somerefsBs (\phi \land \psi) \implies (\somerefsBs \phi \land \somerefsBs \psi) \label{rml-kd-d-and}\\
+    \proves & (\allrefsBs \phi \land \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi) \label{rml-kd-db-and}\\
+    \proves & (\pi \land \somerefsBs \psi) \iff \somerefsBs (\pi \land \psi) \label{rml-kd-pd-and}\\
+    \proves & \lnot \somerefsBs \coversA \emptyset \label{rml-kd-cover-empty}\\
+    \proves & \displaystyle \somerefsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \nonumber\\
             & \displaystyle \quad
-            \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land 
+            (
+            \pi \land
             \bigwedge_{\agentC \in \agentsC \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \somerefsBs \gamma \land
-            \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} \label{rml-kd-cover}
+            \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} 
+            ) \label{rml-kd-cover}
 \end{align}
-where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\agentsB, \agentsC \subseteq \agents$, and for every $\agentA \in \agents$: $\Gamma_\agentA$ is a finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
 \end{lemma}
 
-This result follows from similar reasoning as in the analogous Lemma~\ref{rml-k-theorems} for \axiomRmlK{}.
+\begin{proof}
+As above, with the exception of (\ref{rml-kd-cover-empty}) these theorems can be shown using essentially the same proofs given for Lemma~\ref{rml-k-theorems} for similar theorems in \axiomRmlK{}.
+The only consideration that must be made for \axiomRmlKD{} is for theorem (\ref{rml-kd-cover}) where we must use {\bf RDK45} instead of {\bf RK}, and we note that each set $\Gamma_\agentA$ must be a non-empty set of $(\agents \setminus \{\agentA\})$-restricted modal formulas in order for {\bf RK45}, {\bf RComm}, and {\bf RDist} to be applicable, but that requirement is satisfied by hypothesis.
 
-\begin{lemma}
-Every refinement modal formula is equivalent to a modal formula under the semantics of the logic \logicRmlKD{}.
-\end{lemma}
-
-\begin{proof}[Proof (Sketch).]
-We use similar reasoning as in the setting of \logicRmlK{} in Lemma~\ref{rml-k-ml-equivalent}.
-We convert subformulas to alternating disjunctive normal form instead of disjunctive normal form, which ensures that the equivalences from Lemma~\ref{rml-kd-theorems} can be applied inductively to the subformula, by satisfying the requirement that $\coversA$~operators  are only applied to sets of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+We show that $\proves \lnot \somerefsBs \coversA \emptyset$.
+$$
+\begin{array}{ll}
+    \proves \top & {\bf P}\\
+    \proves \necessaryA \top & {\bf NecK}\\
+    \proves \lnot \possibleA \bot & \text{Defn. of $\possibleA$}\\
+    \proves \necessaryA \bot \implies \possibleA \bot & {\bf D}\\
+    \proves \lnot \necessaryA \bot & {\bf P}\\
+    \proves \lnot \coversA \emptyset & \text{Defn. of $\coversA$}\\
+    \proves \allrefsBs \lnot \coversA \emptyset & {\bf NecR}\\
+    \proves \lnot \somerefsBs \coversA \emptyset & \text{Defn. of $\somerefsBs$}
+\end{array}
+$$
 \end{proof}
 
-\begin{theorem}
-The axiomatisation \axiomRmlKD{} is sound and strongly complete with respect to the semantics of the logic \logicRmlKD{}.
+As above we can recognise that equivalences (\ref{rml-kd-or}) and (\ref{rml-kd-cover}) are reduction axioms that can be used to push refinement quantifiers past propositional connectives and modalities in formulas in alternating disjunctive normal form.
+We note that the equivalence (\ref{rml-kd-cover}) only applies to formulas where the cover operators are applied to non-empty sets of formulas, a condition that the alternating disjunctive normal form does not guarantee.
+However we can get around this limitation by using theorem \ref{rml-kd-cover-empty}, noting due to the seriality of \classKD{} that cover operators applied to empty sets of formulas are always false, and so a conjunction including such a cover operator is also false.
+
+Before we give our provably correct translations we give two lemmas each for \axiomRmlKFF{} and \axiomRmlKD{}.
+
+First we note that every \axiomKFF{} theorem is an \axiomRmlKFF{} theorem and every \axiomKD{} theorem is an \axiomRmlKD{} theorem.
+
+\begin{lemma}\label{rml-kff-ml-provability}
+Let $\phi \in \langMl$ be a modal formula.
+If $\proves_\axiomKFF \phi$ then $\proves_\axiomRmlKFF \phi$.
+\end{lemma}
+
+\begin{lemma}\label{rml-kd-ml-provability}
+Let $\phi \in \langMl$ be a modal formula.
+If $\proves_\axiomKD \phi$ then $\proves_\axiomRmlKD \phi$.
+\end{lemma}
+
+These lemmas follow from essentially the same reasoning as used to show Lemma~\ref{rml-k-ml-provability} for \axiomRmlK{}.
+
+Secondly we show that \axiomRmlKFF{} and \axiomRmlKD{} satisfy substitution of equivalents.
+
+\begin{lemma}\label{rml-kff-substitution-equivalents}
+Let $\phi, \psi, \chi \in \langRml$ be formulas and let $\atomP \in \atoms$ be a propositional atom.
+If $\proves_\axiomRmlKFF \psi \iff \chi$ then $\proves_\axiomRmlKFF \phi[\psi\backslash\atomP] \iff \phi[\chi\backslash\atomP]$.
+\end{lemma}
+
+\begin{lemma}\label{rml-kd-substitution-equivalents}
+Let $\phi, \psi, \chi \in \langRml$ be formulas and let $\atomP \in \atoms$ be a propositional atom.
+If $\proves_\axiomRmlKD \psi \iff \chi$ then $\proves_\axiomRmlKD \phi[\psi\backslash\atomP] \iff \phi[\chi\backslash\atomP]$.
+\end{lemma}
+
+These lemmas follow from essentially the same reasoning as used to show Lemma~\ref{rml-k-substitution-equivalents} for \axiomRmlK{}.
+
+We now show that the reduction axioms of \logicRmlKFF{} and \logicRmlKD{} admit provably correct translations from \langRml{} to \langMl{}.
+
+\begin{lemma}\label{rml-kff-ml-equivalent}
+Every refinement modal formula is provably equivalent to a modal formula using the axiomatisation \axiomRmlKFF{}.
+\end{lemma}
+
+\begin{proof}
+We use essentially the same reasoning as in Lemma~\ref{rml-k-ml-equivalent} for \axiomRmlK{}.
+We convert subformulas to alternating disjunctive normal form instead of disjunctive normal form, which ensures that $\coversA$~operators are only applied to sets of $(\agents \setminus \{\agentA\})$-restricted modal formulas, allowing the equivalences from Lemma~\ref{rml-kff-theorems} to be applied inductively.
+\end{proof}
+
+\begin{lemma}\label{rml-kd-ml-equivalent}
+Every refinement modal formula is provably equivalent to a modal formula using the axiomatisation \axiomRmlKFF{}.
+\end{lemma}
+
+\begin{proof}
+We use essentially the same reasoning as in Lemma~\ref{rml-k-ml-equivalent} for \axiomRmlK{}.
+As in Lemma~\ref{rml-kff-ml-equivalent} above, we convert subformulas to alternating disjunctive normal form instead of disjunctive normal form, which ensures that $\coversA$~operators are only applied to sets of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+However the corresponding equivalences from Lemma~\ref{rml-kd-theorems} also require that $\coversA$~operators only be applied to non-empty sets of formulas.
+We satisfy this requirement by using equivalence (\ref{rml-kd-cover-empty}) to replace $\coversA$~operators applied to empty sets of formulas with the propositional formula $\bot$, so a subformula of the form $\pi \land \coversA \Gamma_\agentA \land \bigwedge_{\agentC \in \agentsC \setminus \{\agentA\}} \coversC \Gamma_\agentC$ becomes $(\pi \land \bot) \land \bigwedge_{\agentC \in \agentsC \setminus \{\agentA\}} \coversC \Gamma_\agentC$, or simply $\bot$.
+This allows the equivalences from Lemma~\ref{rml-kd-theorems} to be applied inductively.
+\end{proof}
+
+Given the provably correct translation we have that \axiomRmlKFF{} and \axiomRmlKD{} are sound and complete.
+
+\begin{theorem}\label{rml-kff-sound-complete}
+The axiomatisation \axiomRmlKFF{} is sound and strongly complete with respect to the semantics of the logic \logicRmlKFF{}.
+\end{theorem}
+
+\begin{proof}
+Soundness is shown in Lemma~\ref{rml-kff-sound}.
+Strong completeness follows from the same reasoning as in Lemma~\ref{rml-k-sound-complete} for \axiomRmlK{}, using the provably correct translation from Lemma~\ref{rml-kff-ml-equivalent}.
+\end{proof}
+
+\begin{theorem}\label{rml-kd-sound-complete}
+The axiomatisation \axiomRmlKFF{} is sound and strongly complete with respect to the semantics of the logic \logicRmlKD{}.
 \end{theorem}
 
 \begin{proof}
 Soundness is shown in Lemma~\ref{rml-kd-sound}.
-Strong completeness follows from similar reasoning as in the proof of strong completeness of \axiomRmlK{} in Lemma~\ref{rml-k-sound-complete}.
+Strong completeness follows from the same reasoning as in Lemma~\ref{rml-k-sound-complete} for \axiomRmlK{}, using the provably correct translation from Lemma~\ref{rml-kd-ml-equivalent}.
 \end{proof}
+
+The provably correct translations also imply that \logicRmlKFF{} is expressively equivalent to \logicKFF{} and \logicRmlKD{} is expressively equivalent to \logicKD{}.
+
+\begin{corollary}
+The logic \logicRmlKFF{} is expressively equivalent to the logic \logicKFF{}.
+\end{corollary}
 
 \begin{corollary}
 The logic \logicRmlKD{} is expressively equivalent to the logic \logicKD{}.
 \end{corollary}
 
+Finally from expressive equivalence we have that \logicRmlKFF{} and \logicRmlKD{} are compact and decidable.
+
 \begin{corollary}
-The logic \logicRmlKD{} is compact.
+The logics \logicRmlKFF{} and \logicRmlKD{} are compact.
 \end{corollary}
 
 \begin{corollary}
-The satisfiability problem for the logic \logicRmlKD{} is decidable.
+The satisfiability problems for the logics \logicRmlKFF{} and \logicRmlKD{} are decidable.
 \end{corollary}

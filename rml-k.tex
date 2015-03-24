@@ -635,11 +635,11 @@ The following are theorems of \axiomRmlK{}:
             & \displaystyle \quad
             (
             \pi \land
-            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \coversC (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} \cup \{\top\}) \land
+            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \somerefsBs \gamma \land
             \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} 
             ) \label{rml-k-cover}
 \end{align}
-where $\pi \in \langPl$, $\phi, \psi \in \langRml$, $\agentsB \subseteq \agents$, and for every $\agentB \in \agentsB$, $\Gamma_\agentB \subseteq \langRml$ is a finite set of formulas.
+where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\agentsB, \agentsC \subseteq \agents$, and for every $\agentA \in \agents$: $\Gamma_\agentA \subseteq \langRml$ is a finite set of formulas.
 \end{lemma}
 
 \begin{proof}
@@ -773,7 +773,7 @@ where $\pi \in \langPl$, $\phi, \psi \in \langRml$, $\agentsB \subseteq \agents$
         \proves & \displaystyle \somerefsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \\&\quad
             (
             \pi \land
-            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \coversC (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} \cup \{\top\}) \land
+            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma \land
             \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \somerefsBs \coverC \Gamma_\agentC
             )
     \end{align*}
@@ -882,7 +882,7 @@ By substitution of equivalents, substiting $\psi''$ for $\somerefsBs \psi$ in $\
 By the induction hypothesis $\phi'$ is provably equivalent to a modal formula and therefore $\phi$ is provably equivalent to a modal formula.
 \end{proof}
 
-Given the provably correct translation we have that \logicRmlK{} is sound and complete.
+Given the provably correct translation we have that \axiomRmlK{} is sound and complete.
 
 \begin{theorem}\label{rml-k-sound-complete}
 The axiomatisation \axiomRmlK{} is sound and strongly complete with respect to the semantics of the logic \logicRmlK{}.

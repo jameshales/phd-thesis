@@ -7,17 +7,18 @@ We use this provably correct translation to show the completeness of the axiomat
 Whereas in the previous chapter we provided definitions and results common to all or most of the settings that we consider, the results in this chapter are specific to \logicRmlK{} and do not trivially generalise to other settings.
 However in Chapter~\ref{rml-kd45} and Chapter~\ref{rml-s5} we provide sound and complete axiomatisations, and the same accompanying results for \logicRmlKFF{}, \logicRmlKD{} and \logicRmlS{}, results which build upon the techniques developed in this chapter.
 
-In the following sections we provide an axiomatisation for \logicRmlK{} and show that is sound and complete with respect to the semantics of \logicRmlK{}.
-In Section~\ref{rml-k-axiomatisation} we provide the axiomatisation for \logicRmlK{} and show some preliminary results about the axiomatisation.
-In Section~\ref{rml-k-soundness} we show that the axiomatisation is sound, using constructive proofs.
+In the following sections we provide a sound and complete axiomatisation for \logicRmlK{}.
+In Section~\ref{rml-k-axiomatisation} we provide the axiomatisation for \logicRmlK{}.
+In Section~\ref{rml-k-soundness} we show that the axiomatisation is sound.
 In Section~\ref{rml-k-completeness} we show that the axiomatisation is complete via a provably correct translation from \langRml{} to \langMl{}.
 This provably correct translation uses a disjunctive normal form for modal logic defined using cover operators, followed by applications of the reduction axioms in \axiomRmlK{}.
 As a result of this provably correct translation we have as corollaries that \logicRmlK{} is expressively equivalent to \logicK{}, and that \logicRml{} is compact and decidable.
 
 \section{Axiomatisation}\label{rml-k-axiomatisation}
 
-We recall the cover operator, which is defined by the syntactic abbreviation $\coversA \Gamma ::= \necessaryA \bigvee_{\gamma \in \Gamma} \gamma \land \bigwedge_{\gamma \in \Gamma} \possibleA \gamma$.
-The cover operator forms the basis of our axiomatisations of \logicRmlK{}, \logicRmlKFF{}, \logicRmlKD{}, and \logicRmlS{}.
+In this section we present the axiomatisation \axiomRmlK{} for the logic \logicRmlK{}.
+The axiomatisation relies heavily on the cover operator, which we recall is defined by the syntactic abbreviation $\coversA \Gamma ::= \necessaryA \bigvee_{\gamma \in \Gamma} \gamma \land \bigwedge_{\gamma \in \Gamma} \possibleA \gamma$.
+The cover operator also forms the basis of our axiomatisations of \logicRmlKFF{}, \logicRmlKD{}, and \logicRmlS{}, which will be presented in the following chapters.
 We now present our axiomatisation for \logicRmlK{} and discuss its features, particularly the use of the cover operator.
 
 \begin{definition}[Axiomatisation \axiomRmlK{}]
@@ -26,7 +27,7 @@ $$
 \begin{array}{rl}
     {\bf R} & \proves \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
     {\bf RP} & \proves \allrefsBs \pi \iff \pi\\
-    {\bf RK} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \cup \{\top\}) \text{ where } \agentA \in \agentsB\\
+    {\bf RK} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma \text{ where } \agentA \in \agentsB\\
     {\bf RComm} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \text{ where } \agentA \notin \agentsB\\
     {\bf RDist} & \proves \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC\\
     {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
@@ -46,14 +47,19 @@ In particular, the reduction axioms can only push refinement quantifiers past ne
 In Section~\ref{rml-k-completeness} we address these limitation with the introduction of a normal form that restricts negations to propositional formulas and conjunctions to the specific situations handled by {\bf RK}, {\bf RComm}, and {\bf RDist}.
 
 The cover operator features prominently in the axioms, {\bf RK}, {\bf RComm}, and {\bf RDist}.
-These axioms describe the interaction between existential refinement quantifiers and conjunctions of modalities, and here the cover operator is used as a convenient notation for a conjunction of modalities.
+These axioms describe the interaction between existential refinement quantifiers and conjunctions of modalities, where the cover operator is used as a convenient notation for a conjunction of modalities.
 We must have reduction axioms specifically for conjunctions of modalities because of the difficulty in pushing existential refinement quantifiers past conjunctions, or dually, pushing universal refinement quantifiers past disjunctions.
 For example, a reduction axiom such as $\proves \somerefsBs (\phi \land \psi) \iff (\somerefsBs \phi \land \somerefsBs \psi)$ would not be sound.
 This can be seen if we consider a Kripke model $\kPModel{\kStateS}$ such that $\kPModel{\kStateS} \entails \possibleA \top$.
 Then we have $\kPModel{\kStateS} \entails \somerefsA \possibleA \top$, with the witnessing $\agentA$-refinement being $\kPModel{\kStateS}$ itself, and we have $\kPModel{\kStateS} \entails \somerefsA \necessaryA \bot$, with the witnessing $\agentA$-refinement being $\kPModel{\kStateS}$ with its $\agentA$-successors removed, but as $\possibleA \top \land \necessaryA \bot$ is a contradiction then we have that $\kPModel{\kStateS} \nentails \somerefsA (\possibleA \top \land \necessaryA \bot)$.
 Clearly there is an interaction between the modalities inside each of the refinement quantifiers, so these two formulas cannot be so easily separated.
-Instead we give the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} which consider conjunctions of modalities rather than single modalities, and use the cover operators as a convenient notation for a conjunction of an arbitrary number of modalities.
-In Section~\ref{rml-k-soundness} we find that the semantics of the cover operator are convenient for showing the soundness of these axioms.
+Instead we give the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} which consider conjunctions of modalities rather than single modalities, and use the cover operators as an abbreviation for a conjunction of an arbitrary number of modalities.
+Obviously as the cover operator is defined by a syntactic abbreviation, these axioms could be restated in terms of the more conventional $\necessaryA$ and $\possibleA$ modalities.
+However the axioms {\bf RK} and {\bf RComm} would not be sound for arbitrary conjunctions of $\necessaryA$ and $\possibleA$ modalities.
+For example, we showed above an example where $\nentails \somerefsA (\possibleA \phi \land \necessaryA \psi) \iff (\somerefsBs \possibleA \phi \land \somerefsBs \necessaryA \psi)$.
+In fact if we rewrite $\possibleA \phi \land \necessaryA \psi$ into cover operator form as $\coversA \{\phi \land \psi, \psi\}$ we see from {\bf RK} that $\proves \somerefsA (\possibleA \phi \land \necessaryA \psi) \iff \possibleA \somerefsA (\phi \land \psi) \land \possibleA \somerefsA \psi$.
+Hence the cover operator also serves as a convenient notation to restrict conjunctions of modalities to cases where such axioms are sound.
+In Section~\ref{rml-k-soundness} we will see that the semantics of the cover operator are convenient for showing the soundness of these axioms.
 Finally in Section~\ref{rml-k-completeness} we see that the cover operator allows a convenient disjunctive normal form for modal formulas, which we use in our provably correct translation from \langRml{} to \langMl{}.
 
 \section{Soundness}\label{rml-k-soundness}
@@ -61,32 +67,32 @@ Finally in Section~\ref{rml-k-completeness} we see that the cover operator allow
 In this section we show that the axiomatisation \axiomRmlK{} is sound with respect to the semantics of the logic \logicRmlK{}.
 The axioms {\bf R} and {\bf RP}, and the rule {\bf NecR} are already known to be sound as they were established for all variants of \logicRml{} in the previous chapter, in Proposition~\ref{rml-validities}.
 What remains to be shown is that the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} are sound.
-Each of these axioms share the general form of equivalences, where the left hand side describes the existence of a single refinement that satisfies a given formula, whilst the right hand side describes the existence of multiple refinements that satisfy subformulas of the given formula.
+Each of these axioms share the general form of equivalences, where the left side of the equivalence describes the existence of a single refinement that satisfies a given formula, whilst the right side describes the existence of multiple refinements that satisfy subformulas of the given formula.
 Accordingly the proof of soundness for each of these axioms share the same general technique.
-For the left-to-right direction of the equivalence, we show that if we have the refinement described on the left hand side of the equivalence, then this same refinement satisfies all that we need for the right hand side of the equivalence.
-Conversely, for the right-to-left direction of the equivalence, we show that if we have all of the refinements described on the right hand side of the equivalence, then these refinements can be combined into a single refinement that satisfies the left hand side of the equivalence.
-The left-to-right direction is simple to show, whereas the right-to-left direction is more involved, requiring a relatively complex construction to combine the refinements on the right hand side of the equivalence into one that satisfies the left hand side of the equivalence.
+For the left-to-right direction of the equivalence, we show that if we have the refinement described on the left of the equivalence, then this same refinement satisfies all that we need for the right of the equivalence.
+Conversely, for the right-to-left direction of the equivalence, we show that if we have all of the refinements described on the right of the equivalence, then these refinements can be combined into a single refinement that satisfies the left of the equivalence.
+The left-to-right direction is simple to show, whereas the right-to-left direction is more involved.
 
 We begin by showing that the axiom {\bf RK} is sound.
-Recall that the axiom {\bf RK} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ where $\agentA \in \agentsB$.
+Recall that the axiom {\bf RK} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ where $\agentsB \subseteq \agents$, $\agentA \in \agentsB$, and $\Gamma_\agentA \subseteq \langRml$ is a finite set of formulas.
 
 \begin{lemma}\label{rml-k-rk}
-The axiom {\bf RK} is sound with respect to the semantics of the logic \logicRmlK{}.
+The axiom {\bf RK} from the axiomatisation \axiomRmlK{} is sound with respect to the semantics of the logic \logicRmlK{}.
 \end{lemma}
 
 \begin{proof}
 ($\Rightarrow$) 
-We show that $\entails \somerefsBs \coversA \Gamma_\agentA \implies \coversA (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \cup \{\top\})$ where $\agentA \in \agentsB$.
+We show that $\entails \somerefsBs \coversA \Gamma_\agentA \implies \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ where $\agentA \in \agentsB$.
 Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 There exists $\kPModelAndTupleP{\kStateSP} \in \classK$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateTP_\gamma \in \kSuccessorsPA{\kStateSP}$ such that $\kPModelP{\kStateTP_\gamma} \entails \gamma$.
 From {\bf back-$\agentA$} there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModelP{\kStateTP_\gamma}$.
 Then $\kPModel{\kStateT_\gamma} \entails \somerefsBs \gamma$ and so $\kPModel{\kStateS} \entails \possibleA \somerefsBs \gamma$.
-Therefore $\kPModel{\kStateS} \entails \coversA (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \cup \{\top\})$.
+Therefore $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
 
 ($\Leftarrow$) 
-We show that $\entails \coversA (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \cup \{\top\}) \implies \somerefsBs \coversA \Gamma_\agentA$ where $\agentA \in \agentsB$.
-Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \coversA (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \cup \{\top\})$.
+We show that $\entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma \implies \somerefsBs \coversA \Gamma_\agentA$ where $\agentA \in \agentsB$.
+Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classK$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RK} equivalence.
 
@@ -113,7 +119,7 @@ where $\kStateSP$ is a fresh state not appearing in $\kStates$ or $\kStates[\gam
         \node (mt1) [left of=mtd,node distance=3.5em] {$\kPModel{\kStateT_{\gamma_1}} \entails \somerefsBs \gamma_1$};
         \node (mtd2) [right of=mtn,node distance=3.5em] {$\cdots$};
         \node (mtr) [right of=mtd2,node distance=3.5em] {$\kPModel{\kStateT} \entails \top$};
-        \node (ms) [above of=mtn] {$\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma_1, \dots, \somerefsBs \gamma_n, \top\}$};
+        \node (ms) [above of=mtn] {$\kPModel{\kStateS} \entails \possibleA \somerefsBs \gamma_1 \land \cdots \land \possibleA \somerefsBs \gamma_n$};
 
       \path[every node/.style={font=\sffamily\small},->]
         (mt1) edge [swap,dashed] node {$\simulatesBs$} (mg1)
@@ -202,8 +208,12 @@ For every $\kStateS[\gamma] \in \kSuccessorsPA{\kStateSP}$ we have that $\kPMode
 Therefore $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ and $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 \end{proof}
 
+In the previous section we justified the use of the cover operator in the axiomatisation partially by the opinion that it is convenient for the soundness proofs.
+In particular we note that in the right-to-left direction of the axioms {\bf RK} and {\bf RComm} there is a one-to-one correspondence between formulas in the cover operator on the left of the equivalence and the refinements described on the right of the equivalence.
+As we have just seen in the proof of soundness of {\bf RK}, the refinements described on the right of the equivalence are then directly used in the construction of a single refinement that satisfies the left of the equivalence, and the one-to-one correspondence between refinements and formulas is used to show that the cover operator on the left of the equivalence is satisfied by the constructed refinement.
+
 We next show that the axiom {\bf RComm} is sound.
-Recall that the axiom {\bf RComm} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ where $\agentA \notin \agentsB$.
+Recall that the axiom {\bf RComm} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ where $\agentsB \subseteq \agents$, $\agentA \notin \agentsB$, and $\Gamma_\agentA \subseteq \langRml$ is a finite set of formulas.
 The axiom {\bf RComm} is similar to the axiom {\bf RK}, and the proof strategy is also similar.
 Whereas for {\bf RK} we have that $\agentA \in \agentsB$, and therefore a $\agentsB$-refinement need not satisfy {\bf forth-$\agentA$}, for {\bf RComm} we have that $\agentA \notin \agentsB$ and so {\bf forth-$\agentA$} is required.
 Accordingly for {\bf RK} our constructed model need not satisfy {\bf forth-$\agentA$} in order to be a $\agentsB$-refinement, so we do not require that every $\agentA$-successor of the original model have a refinement satisfying some $\gamma$.
@@ -211,7 +221,7 @@ However for {\bf RComm} our constructed model does require {\bf forth-$\agentA$}
 The difference between {\bf RComm} and {\bf RK} accounts for this additional requirement, ensuring that we can construct an appropriate $\agentsB$-refinement.
 
 \begin{lemma}\label{rml-k-rcomm}
-The axiom {\bf RComm} is sound with respect to the semantics of the logic \logicRmlK{}.
+The axiom {\bf RComm} from the axiomatisation \axiomRmlK{} is sound with respect to the semantics of the logic \logicRmlK{}.
 \end{lemma}
 
 \begin{proof}
@@ -359,11 +369,11 @@ Finally $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ follows from the
 Therefore $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 \end{proof}
 
-Next we show that the axiom {\bf RDist} is sound.
-Recall that the axiom {\bf RDist} takes the form of $\proves \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$.
+We next show that the axiom {\bf RDist} is sound.
+Recall that the axiom {\bf RDist} takes the form of $\proves \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$ where $\agentsB, \agentsC \subseteq \agents$ and for every $\agentC \in \agentsC$: $\Gamma_\agentC \subseteq \langRml$ is a finite set of formulas.
 
 \begin{lemma}
-The axiom {\bf RDist} is sound with respect to the semantics of the logic \logicRmlK{}.
+The axiom {\bf RDist} from the axiomatisation \axiomRmlK{} is sound with respect to the semantics of the logic \logicRmlK{}.
 \end{lemma}
 
 \begin{proof}
@@ -735,7 +745,7 @@ where $\pi \in \langPl$, $\phi, \psi \in \langRml$, $\agentsB \subseteq \agents$
         \proves & \displaystyle \somerefsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \\&\quad
             (
             \pi \land
-            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \coversA (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} \cup \{\top\}) \land
+            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma \land
             \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} 
             )
     \end{align*}
@@ -773,7 +783,7 @@ where $\pi \in \langPl$, $\phi, \psi \in \langRml$, $\agentsB \subseteq \agents$
         \proves & \displaystyle \somerefsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \\&\quad
             (
             \pi \land
-            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \coversA (\{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} \cup \{\top\}) \land
+            \bigwedge_{\agentC \in \agentsC \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma \land
             \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} 
             )
     \end{align*}

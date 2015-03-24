@@ -443,7 +443,7 @@ This is because the given class of Kripke frames only restricts which Kripke mod
 However in \logicRml{} the class of Kripke frames also restricts the refinements that the refinement quantifiers consider, so between different settings of \logicRml{} the meaning of the refinement quantifier changes.
 This means that a property that holds for \logicRml{} in a given class of Kripke frames does not necessarily hold for \logicRml{} in a subclass of the given class of Kripke frames.
 
-\begin{proposition}
+\begin{proposition}\label{rml-not-sublogics}
 The logic \logicRmlK{} is not a sublogic of \logicRmlKF{}, \logicRmlKFF{}, \logicRmlKD{}, \logicRmlSF{} or \logicRmlS{}.
 \end{proposition}
 
@@ -458,7 +458,7 @@ In these settings we have that $\entails (\possibleA \possibleA \atomP \implies 
 \end{proof}
 
 We note that we can show that no distinct pair of the above logics are sublogics of one another.
-This can be done simply by focussing on the differences in frame conditions between the different logics.
+This can be shown simply by focussing on the differences in frame conditions between the different logics.
 
 In the following chapters we consider \logicRml{} in a variety of specific settings in greater detail.
 In Chapter~\ref{rml-k} we consider \logicRmlK{} in the setting of \classK{}, in Chapter~\ref{rml-kd45} we consider \logicRmlKFF{} and \logicRmlKD{} in the settings of \classKFF{} and \classKD{}, in Chapter~\ref{rml-s5} we consider \logicRmlS{} in the setting of \classS{}, and in Chapter~\ref{rml-k4} we consider \logicRmlKF{} in the setting of \classKF{}.

@@ -1,19 +1,92 @@
 \chapter{Refinement modal logic: \classKFF{} and \classKD{}}\label{rml-kd45}
 
 In this chapter we consider in greater detail the logics \logicRmlKFF{} and \logicRmlKD{}, in the settings of \classKFF{} and \classKD{} respectively.
-As in the previous chapter where we considered \logicRmlK{}, in this chapter we present all of the same results for \logicRmlKFF{} and \logicRmlKD{}, including sound and complete axiomatisations, provably correct translations from \langRml{} to \langMl{}, and expressive equivalence, compactness and decidability results.
-As noted in Chapter~\ref{rml}, the logic \logicRmlK{} is not a sublogic of \logicRmlKFF{} or \logicRmlKD{}.
-In particular, the key axioms {\bf RK}, {\bf RComm}, and {\bf RDist} from \axiomRmlK{} are not sound in \logicRmlKFF{} or \logicRmlKD{}, so we must find replacement axioms.
+As in the previous chapter we present sound and complete axiomatisations, provably correct translations from \langRml{} to \langMl{}, and expressive equivalence, compactness and decidability results.
+As noted previously, the logic \logicRmlK{} is not a sublogic of \logicRmlKFF{} or \logicRmlKD{}, so our previous results in \logicRmlK{} do not all apply in these settings.
+In particular, the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} from \axiomRmlK{} are not sound in \logicRmlKFF{} or \logicRmlKD{}, so we must find replacement axioms.
 
-In the following sections we provide axiomatisations for \logicRmlKFF{} and \logicRmlKD{}, and show that they are sound and complete with respect to the semantics of \logicRmlKFF{} and \logicRmlKD{}.
-In Section~\ref{rml-kd45-axiomatisation} we provide the axiomatisations for \logicRmlKFF{} and \logicRmlKD{}, that are versions of the axiomatisation of \logicRmlK{} with additional syntactic restrictions.
-In Section~\ref{rml-kd45-soundness} we show that the axiomatisations are sound, using constructive proofs.
+In the following sections we provide sound and complete axiomatisations for \logicRmlKFF{} and \logicRmlKD{}.
+In Section~\ref{rml-kd45-axiomatisation} we provide the axiomatisations for \logicRmlKFF{} and \logicRmlKD{}, which feature syntactic restrictions of the axioms {\bf RK}, {\bf RComm}, and {\bf RDist}.
+In Section~\ref{rml-kd45-soundness} we show that the axiomatisations are sound.
 In contrast to \logicRmlK{}, in \logicRmlKFF{} and \logicRmlKD{} we must show that the Kripke models that are constructed are \classKFF{} or \classKD{} Kripke models.
 This additional requirement accounts for the differences in the axioms compared to \logicRmlK{}.
 In Section~\ref{rml-kd45-completeness} we show that the axiomatisation is complete via a provably correct translation from \langRml{} to \langMl{}.
 In contrast to \logicRmlK{} where conversion to a disjunctive normal form was sufficient for the reduction axioms to be applicable, in \logicRmlKFF{} and \logicRmlKD{} we must use a more restricted normal form to account for the additional syntactic restrictions in the axiomatisations.
 
 \section{Axiomatisation}\label{rml-kd45-axiomatisation}
+
+In this section we present the axiomatisation \axiomRmlKFF{} for the logic \logicRmlKFF{}, and the axiomatisation \axiomRmlKD{} for the logic \logicRmlKD{}.
+These axiomatisations are modifications of the axiomatisation \axiomRmlK{} for \logicRmlK{}.
+As in \axiomRmlK{} the cover operator features prominently in these axiomatisations.
+We discuss and justify the use of the cover operator in Chapter~\ref{rml-k}, where we introduced the axiomatisation \axiomRmlK{}.
+The cover operator serves as a convenient notation for a conjunction of modalities that also restricts conjunctions of modalities to cases where the axioms are sound.
+However we find that this restriction on notation is not sufficient to ensure that the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} are sound in \logicRmlKFF{} and \logicRmlKD{}.
+
+Indeed we know a priori that some of the rules and axioms of \axiomRmlK{} must not be sound in \logicRmlKFF{} and \logicRmlKD{}.
+If the axiomatisation \axiomRmlK{} was sound for \logicRmlKFF{} or \logicRmlKD{} then \logicRmlK{} would be a sublogic of these logics, but we previously noted in Proposition~\ref{rml-not-sublogics} from Chapter~\ref{rml} that this is not the case.
+It is a simple matter to show that the axioms and rules of \axiomK{} are sound for \logicRmlKFF{} and \logicRmlKD{}, and the axioms and rules {\bf R}, {\bf RP}, and {\bf NecR} are sound for \logicRmlKFF{} and \logicRmlKD{} as they were shown to be sound for all variants of \logicRml{} in Chapter~\ref{rml}.
+Hence some or all of {\bf RK}, {\bf RComm}, and {\bf RDist} must not be sound for \logicRmlKFF{} and \logicRmlKD{}. 
+
+As we noted in Chapter~\ref{rml}, the logic \logicRmlK{} is not a sublogic of \logicRmlKFF{} or \logicRmlKD{} essentially because each logic quantifies over refinements with different frame conditions.
+We gave a specific example, noting that in \logicRmlK{} refinements need not be transitive, so we have $\entails_\logicRmlK{} \possibleA (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$, but in \logicRmlKFF{} and \logicRmlKD{} all refinements must be transitive, so we have $\entails \allrefsA (\possibleA \possibleA \atomP \implies \possibleA \atomP)$ and hence $
+\entails \lnot (\possibleA (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP))$.
+We can show how this validity could be derived using the axiomatisation \axiomRmlK{}.
+$$
+\begin{array}{ll}
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff \somerefsA \coversA \{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\} & \text{Defn. of $\covers$}\\
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff \somerefsA \coversA \{\lnot \atomP \land \coversA \{\atomP, \top\}, \lnot \atomP\} & \text{Defn. of $\covers$}\\
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff (\possibleA \somerefsA (\lnot \atomP \land \coversA \{\atomP, \top\}) \land \possibleA \somerefsA \lnot \atomP)& {\bf RK}\\
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff (\possibleA \somerefsA (\lnot \atomP \land \coversA \{\atomP, \top\}) \land \possibleA \lnot \atomP)& {\bf RP}\\
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff (\possibleA (\lnot \atomP \land \somerefsA \coversA \{\atomP, \top\}) \land \possibleA \lnot \atomP)& \text{Lemma~\ref{rml-k-theorems}}\\
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff (\possibleA (\lnot \atomP \land \possibleA \somerefsA \atomP \land \possibleA \somerefsA \top) \land \possibleA \lnot \atomP)& {\bf RK}\\
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff (\possibleA (\lnot \atomP \land \possibleA \atomP \land \possibleA \top) \land \possibleA \lnot \atomP)& {\bf RP}\\
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff \possibleA (\lnot \atomP \land \possibleA \atomP)& \text{Modal reasoning}
+\end{array}
+$$
+However in \logicRmlKFF{} and \logicRmlKD{} we have transitivity and Euclideaness, represented by the modal axioms {\bf 4} and {\bf 5}, and given these axioms we can very easily show that $\proves \lnot \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$.
+We provide an informal proof.
+$$
+\begin{array}{ll}
+    \proves \necessaryA \lnot \atomP \implies \necessaryA \necessaryA \lnot \atomP & {\bf 4}\\
+    \proves \lnot \necessaryA \necessaryA \lnot \atomP \implies \lnot \necessaryA \lnot \atomP & {\bf P}\\
+    \proves \possibleA \possibleA \atomP \implies \possibleA \atomP & \text{Defn. of $\possibleA$}\\
+    \proves \possibleA \atomP \implies \necessaryA \possibleA \atomP & {\bf 5}\\
+    \proves \possibleA \atomP \implies \necessaryA \possibleA \atomP \land \possibleA \atomP & {\bf P}\\
+    \proves \possibleA \atomP \implies \possibleA \possibleA \atomP & \text{Modal reasoning}\\
+    \proves \possibleA \possibleA \atomP \iff \possibleA \atomP & {\bf P}\\
+    \proves (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff (\possibleA \atomP \land \lnot \possibleA \atomP) & {\bf P}\\
+    \proves \lnot (\possibleA \atomP \land \lnot \possibleA \atomP) & {\bf P}\\
+    \proves \lnot (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) & {\bf MP}\\
+    \proves \allrefsA \lnot (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) & {\bf NecR}\\
+    \proves \lnot \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) & \text{Defn. of $\somerefsA$}
+\end{array}
+$$
+Clearly $\possibleA (\lnot \atomP \land \possibleA \atomP)$ is satisfiable in \logicRmlKFF{} and \logicRmlKD{}, as it is satisfiable in \logicKFF{} and \logicKD{}, and the semantics of these respective logics agree on all modal formulas.
+So for sound axiomatisations of \logicRmlKFF{} and \logicRmlKD{} we must have that $\nproves \possibleA (\lnot \atomP \land \possibleA \atomP)$ and therefore $\proves \lnot (\possibleA (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP))$.
+
+Above we saw that $\proves \lnot (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$, and hence $\proves \lnot \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$ becomes obvious once we convert $\possibleA \possibleA \atomP \land \lnot \possibleA \atomP$ to the equivalent $\possibleA \atomP \land \lnot \possibleA \atomP$.
+This suggests a method for repairing the {\bf RK} axiom to be sound in \logicRmlKFF{} and \logicRmlKD{}.
+If we prohibit the direct nesting of modalities in formulas, then {\bf RK} may behave itself.
+We provide an informal example.
+$$
+\begin{array}{ll}
+    \proves \somerefsA (\possibleA \atomP \land \lnot \possibleA \atomP) \iff \somerefsA \coversA \{\atomP \land \lnot \atomP, \lnot \atomP\} & \text{Defn. of $\covers$}\\
+    \proves \somerefsA (\possibleA \atomP \land \lnot \possibleA \atomP) \iff (\possibleA \somerefsA (\atomP \land \lnot \atomP) \land \possibleA \somerefsA \lnot \atomP) & {\bf RK}\\ 
+    \proves \somerefsA (\possibleA \atomP \land \lnot \possibleA \atomP) \iff (\possibleA (\atomP \land \lnot \atomP) \land \possibleA \lnot \atomP) & {\bf RP}\\ 
+    \proves \somerefsA (\possibleA \atomP \land \lnot \possibleA \atomP) \iff \possibleA (\atomP \land \lnot \atomP) & \text{Modal reasoning}\\ 
+    \proves \somerefsA (\possibleA \atomP \land \lnot \possibleA \atomP) \iff \possibleA \bot & {\bf P}\\ 
+    \proves \somerefsA (\possibleA \atomP \land \lnot \possibleA \atomP) \iff \bot & \text{Modal reasoning}\\ 
+    \proves \lnot \somerefsA (\possibleA \atomP \land \lnot \possibleA \atomP) & {\bf MP}\\ 
+\end{array}
+$$
+
+A similar problem arises with the axiom {\bf RK} in the setting of \logicRmlKFF{} and \logicRmlKD{}, due to Euclideaness instead of transitivity.
+In \logicRmlK{} refinements need not be Euclidean, so we have $\entails_\logicRmlK{} \possibleA \atomP \implies \somerefsA (\possibleA \atomP \land \lnot \necessaryA \possibleA \atomP)$, but in \logicRmlKFF{} and \logicRmlKD{} all refinements must be Euclidean, so we have $\entails \allrefs (\possibleA \atomP \implies \necessaryA \possibleA \atomP)$ and hence $\entails \lnot (\possibleA \atomP \implies \somerefsA (\possibleA \atomP \land \lnot \necessaryA \possibleA \atomP))$.
+The contradiction becomes obvious once we convert $\possibleA \atomP \land \lnot \necessaryA \possibleA \atomP$ to the equivalent $\possibleA \atomP \land \lnot \possibleA \atomP$, and again {\bf RK} behaves itself if we prohibit the direct nesting of modalities in formulas.
+
+This idea forms the basis of our axiomatisations for \logicRmlKFF{} and \logicRmlKD{}.
+Essentially we use the same axioms {\bf RK}, {\bf RComm} and {\bf RDist} from \axiomRmlK{}, but we restrict the formulas that they are applied to, so that modalities may not directly contain modalities belonging to the same agent.
+We formalise this notion with $\agentsB$-restricted modal formulas.
 
 \begin{definition}[$\agentsB$-restricted modal formulas]
 Let $\agentsB \subseteq \agents$ be a set of agents.
@@ -26,6 +99,63 @@ $$
 $$
 where $\atomP \in \atoms$, $\agentB \in \agentsB$ and $\psi \in \langMl$.
 \end{definition}
+
+An $\agentsB$-restricted modal formula is essentially a modal formula that contains only $\agentsB$-modalities at the top level, but which may contain other modalities provided that they appear in the scope of $\agentsB$-modalities.
+
+We now present our axiomatisations for \logicRmlKFF{} and \logicRmlKD{}.
+
+\begin{definition}[Axiomatisation \axiomRmlKFF{}]
+The axiomatisation \axiomRmlKFF{} is a substitution schema consisting of the axioms and rules of \axiomKFF{} along with the following additional axioms and rules:
+$$
+\begin{array}{rl}
+    {\bf R} & \proves \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
+    {\bf RP} & \proves \allrefsBs \atomP \iff \atomP\\
+    {\bf RK45} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma \text{ where } \agentA \in \agentsB\\
+    {\bf RComm} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \text{ where } \agentA \notin \agentsB\\
+    {\bf RDist} & \proves \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC\\
+    {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
+\end{array}
+$$
+where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\agentsB, \agentsC \subseteq \agents$, and for every $\agentA \in \agents$: $\Gamma_\agentA$ is a finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+\end{definition}
+
+\begin{definition}[Axiomatisation \axiomRmlKD{}]
+The axiomatisation \axiomRmlKD{} is a substitution schema consisting of the axioms and rules of \axiomKD{} along with the following additional axioms and rules:
+$$
+\begin{array}{rl}
+    {\bf R} & \proves \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
+    {\bf RP} & \proves \allrefsBs \atomP \iff \atomP\\
+    {\bf RKD45} & \proves \somerefsBs \coversA \Gamma'_\agentA \iff \bigwedge_{\gamma' \in \Gamma'_\agentA} \possibleA \somerefsBs \gamma' \text{ where } \agentA \in \agentsB\\
+    {\bf RComm} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \text{ where } \agentA \notin \agentsB\\
+    {\bf RDist} & \proves \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC\\
+    {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
+\end{array}
+$$
+where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\agentsB, \agentsC \subseteq \agents$, and for every $\agentA \in \agents$: $\Gamma_\agentA$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+\end{definition}
+
+We emphasise that the only difference between \axiomRmlKFF{} and \axiomRmlKD{} is that in \axiomRmlKD{} we require that the cover operators in the axioms {\bf RKD45}, {\bf RComm}, and {\bf RDist} be applied to non-empty sets of formulas.
+This accounts for the only difference between \classKFF{} and \classKD{}: we require seriality in \classKD{}, but not in \classKFF{}.
+We note that strictly speaking, {\bf RComm} and {\bf RDist} are sound in \logicRmlKD{} when the cover operators are applied to empty sets of formulas, but this is derivable from the other axioms.
+
+\section{Soundness}\label{rml-kd45-soundness}
+
+In this section we show that the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{} are sound with respect to the semantics of the logics \logicRmlKFF{} and \logicRmlKD{} respectively.
+As in \logicRmlK{}, the axioms {\bf R} and {\bf RP}, and the rule {\bf NecR} are already known to be sound as they were established for all variants of \logicRml{} in a previous chapter, in Proposition~\ref{rml-validities}.
+What remains to be shown is that the axioms {\bf RK45}, {\bf RKD45}, {\bf RComm}, and {\bf RDist} are sound.
+These axioms are similar to the corresponding axioms from \axiomRmlK{}, and accordingly our proofs of soundness build upon the techniques used to show the soundness of \axiomRmlK{}.
+As for \axiomRmlK{}, the left-to-right direction of these equivalences is simple to show, whereas the right-to-left direction is more involved, relying on a construction that combines the refinements described on the right of the equivalence into a single refinement that satisfies the left of the equivalence.
+In the constructions used for \axiomRmlK{} the refinements described on the right of the equivalence are combined in such a way that preserves bisimilarity of the original refinements, and hence preserves the satisfaction of all modal formulas.
+However unlike \logicRmlK{}, in the setting of \logicRmlKFF{} and \logicRmlKD{} we require that all refinements satisfy the \classKFF{} or \classKD{} frame conditions respectively.
+Hence the constructions used in our soundness proofs differ slightly in that they have additional edges in order to ensure the transitive and Euclidean properties.
+These additional edges means that the refinements described on the right of the equivalence cannot in general be combined in such a way that preserves bisimilarity of the original refinements.
+However with a modification of the construction we can ensure a restricted form of bisimilarity, called $\agentsB$-bisimilarity, which preserves the satisfaction of all $\agentsB$-restricted modal formulas.
+As the axioms {\bf RK45}, {\bf RKD45}, {\bf RComm}, and {\bf RDist} are may only be applied to $\agentsB$-restricted modal formulas, this allows us to show the soundness of these axioms.
+
+We note that the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{} are very similar, the only difference being that the axioms of \axiomRmlKD{} require that the cover operators in the axioms {\bf RKD45}, {\bf RComm}, and {\bf RDist} be applied to non-empty sets of formulas, accounting for the additional requirement of seriality in \classKD{}.
+As such we will only show prove the soundness of the axioms of \axiomRmlKFF{} in detail, noting that the same proof techniques work for \axiomRmlKD{} with some minor considerations for the differences.
+
+We begin by defining $\agentsB$-bisimilarity.
 
 \begin{definition}[$\agentsB$-bisimilarity]
 Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateSP}$ be pointed Kripke models.
@@ -40,6 +170,8 @@ For every $\kStateT \in \kSuccessorsB{\kStateS}$ there exists $\kStateTP \in \kS
 \paragraph{back-$\agentB$}
 For every $\kStateTP \in \kSuccessorsPB{\kStateSP}$ there exists $\kStateT \in \kSuccessorsB{\kStateS}$ such that $\kPModel{\kStateT} \bisimilar \kPModelP{\kStateTP}$.
 \end{definition}
+
+We show that $\agentsB$-bisimilar Kripke models satisfy the same $\agentsB$-restricted modal formulas.
 
 \begin{lemma}\label{b-restricted-invariance}
 Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$.
@@ -66,33 +198,21 @@ As $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ then if there 
 Finally there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kPModelP{\kStateTP} \entails \psi$ if and only if $\kPModelP{\kStateS} \entails \necessary[\agentB] \psi$.
 \end{proof}
 
-\begin{definition}[Axiomatisation \axiomRmlKD{}]
-The axiomatisation \axiomRmlKD{} is a substitution schema consisting of the axioms and rules of \axiomKD{} along with the following additional axioms and rules:
-$$
-\begin{array}{rl}
-    {\bf R} & \proves \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
-    {\bf RP} & \proves \allrefsBs \atomP \iff \atomP\\
-    {\bf RKD45} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma \text{ where } \agentA \in \agentsB\\
-    {\bf RComm} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \text{ where } \agentA \notin \agentsB\\
-    {\bf RDist} & \proves \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC\\
-    {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
-\end{array}
-$$
-where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
-\end{definition}
+We use this lemma to show the soundness of {\bf RK45}, {\bf RKD45}, {\bf RComm}, and {\bf RDist}.
 
-\section{Soundness}\label{rml-kd45-soundness}
+We next show that the axiom {\bf RK45} from \axiomRmlKFF{} is sound.
+Recall that the axiom {\bf RK45} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ where $\agentsB \subseteq \agents$, $\agentA \in \agentsB$, and $\Gamma_\agentA \subseteq \langRml$ is a finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
 
-\begin{lemma}
-The axiom {\bf RKD45} is sound with respect to the semantics of the logic \logicRmlKD{}.
+\begin{lemma}\label{rml-kff-rkff}
+The axiom {\bf RK45} from the axiomatisation \axiomRmlKFF{} is sound with respect to the semantics of the logic \logicRmlKFF{}.
 \end{lemma}
 
 \begin{proof}
-($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKD$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
+($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 Then we show that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ using the same reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 
-($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKD$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
-For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classKD$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
+($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
+For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classKFF$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RKD45} equivalence.
 
 Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
@@ -104,18 +224,76 @@ Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
 \end{eqnarray*}
 where $\kStateSP$ and $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ are fresh states not appearing in $\kStates$ or $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$, $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise, and for every $\gamma \in \Gamma_\agentA$: $\overline{\{\kStateSP_\gamma\}} = \{\kStateSP_\gamma\}$ if $\kStateS[\gamma] \in \kValuation[\gamma](\atomP)$ and $\overline{\{\kStateSP_\gamma\}} = \emptyset$ otherwise.
 
-\todo[inline]{Differences from RK construction}
+\begin{figure}
+    \caption{A schematic of the construction used to show soundness of {\bf RK45}.}\label{rml-kff-rkff-construction}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
-We note that by construction $\kModelP \in \classKD$.
+        \node (sp) {\underline{$\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$}};
+        \node (mpn) [above of=sp] {$\kPModelP{\kStateSP_{\gamma_n}} \entails \gamma_n$};
+        \node (mpd) [left of=mpn,node distance=5.25em] {$\cdots$};
+        \node (mp1) [left of=mpd,node distance=5.25em] {$\kPModelP{\kStateSP_{\gamma_1}} \entails \gamma_1$};
+        \node (msn) [above of=mpn] {$\vdots$};
+        \node (ms1) [left of=msn,node distance=10.5em] {$\vdots$};
+        \node (mgn) [above of=msn] {$\kPModel[\gamma_n]{\kStateS[\gamma_n]} \entails \gamma_n$};
+        \node (mgd) [left of=mgn,node distance=5.25em] {$\cdots$};
+        \node (mg1) [left of=mgd,node distance=5.25em] {$\kPModel[\gamma_1]{\kStateS[\gamma_1]} \entails \gamma_1$};
+        \node (mtn) [above of=mgn] {$\kPModel{\kStateT_{\gamma_n}} \entails \somerefsBs \gamma_n$};
+        \node (mtd) [left of=mtn,node distance=5.25em] {$\cdots$};
+        \node (mt1) [left of=mtd,node distance=5.25em] {$\kPModel{\kStateT_{\gamma_1}} \entails \somerefsBs \gamma_1$};
+        \node (ms) [above of=mtn] {$\kPModel{\kStateS} \entails \possibleA \somerefsBs \gamma_1 \land \cdots \land \possibleA \somerefsBs \gamma_n$};
+        \node (mtr) [right of=mtn,node distance=10.5em] {$\kPModel{\kStateT} \entails \top$};
 
-We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
+      \path[every node/.style={font=\sffamily\small},->]
+        (mt1) edge [swap,dashed] node {$\simulatesBs$} (mg1)
+        (mtn) edge [dashed] node {$\simulatesBs$} (mgn)
+        (mg1) edge [<->,swap,dashed,bend right] node {$\bisimilar[\agents \setminus \{\agentA\}]$} (mp1)
+        (mgn) edge [<->,dashed,bend left] node {$\bisimilar[\agents \setminus \{\agentA\}]$} (mpn)
+        (ms) edge [dashed,bend left=90,min distance=10em] node {$\simulatesBs$} (sp)
+        (ms) edge [draw=none,dashed,bend right=90,min distance=10em] node {} (sp)
+        (sp) edge node {$\agentA$} (mp1)
+             edge [swap] node {$\agentA$} (mpn)
+        (ms) edge [swap] node {$\agentA$} (mt1)
+             edge node {$\agentA$} (mtr)
+             edge node {$\agentA$} (mtn)
+        (mt1) edge [swap,loop left,distance=1em] node {$\agentA$} (mt1)
+        (mtn) edge [swap,loop right,distance=1em] node {$\agentA$} (mtn)
+        (mtr) edge [swap,loop right,distance=1em] node {$\agentA$} (mtr)
+        (mt1) edge [<->,swap,bend left] node {$\agentA$} (mtn)
+        (mtn) edge [<->,swap,bend left] node {$\agentA$} (mtr)
+        (mt1) edge [<->,swap,bend left] node {$\agentA$} (mtr)
+        (mp1) edge [swap,loop left,distance=1em] node {$\agentA$} (mp1)
+        (mpn) edge [swap,loop right,distance=1em] node {$\agentA$} (mpn)
+        (mp1) edge [<->,swap,bend right] node {$\agentA$} (mpn)
+        (mp1) edge [swap] node {$\agents \setminus \{\agentA\}$} (ms1)
+        (mpn) edge node {$\agents \setminus \{\agentA\}$} (msn)
+        (mg1) edge node {$\agents \setminus \{\agentA\}$} (ms1)
+        (mgn) edge [swap] node {$\agents \setminus \{\agentA\}$} (msn);
+    \end{tikzpicture}
+\end{figure}
+
+We note that by construction $\kModelP \in \classKFF$.
+
+A schematic of the Kripke model $\kPModelP{\kStateSP}$ and an overview of our construction is shown in Figure~\ref{rml-kff-rkff-construction}.
+Here we can see that each of the $\agentsB$-refinements at successors, $\kPModel[\gamma_1]{\kStateT[\gamma_1]}, \dots, \kPModel[\gamma_n]{\kStateT[\gamma_n]}$, are combined into the larger Kripke model $\kPModelP{\kStateSP}$.
+We can see the use of the proxy states $\kPModelP{\kStateS_{\gamma_1}}, \dots, \kPModelP{\kStateS_{\gamma_n}}$, which have all of the $(\agents \setminus \{\agentA\})$-successors of the respective refinements $\kPModel[\gamma_1]{\kStateT[\gamma_1]}, \dots, \kPModel[\gamma_n]{\kStateT[\gamma_n]}$.
+We note that the proxy states are $(\agents \setminus \{\agentA\})$-bisimilar to the respective refinements, and therefore satisfy the respective $(\agents \setminus \{\agentA\})$-restricted formulas $\gamma_1, \dots, \gamma_n$.
+We note that the proxy states have additional transitive and Euclidean edges in order to ensure that $\kModelP \in \classKFF$, and these additional edges are why the proxy states are not fully bisimilar to the respective refinements.
+From this schematic representation we can clearly see that $\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$.
+It is less clear that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$, but we will show this next.
+We note that there are $\agentA$-successors of $\kPModel{\kStateS}$ that do not satisfy any $\somerefsBs \gamma_i$ and do not correspond to any $\agentsB$-refinement $\kPModel[\gamma_i]{\kStateT[\gamma_i]}$.
+This is permissible as $\agentA \notin \agentsB$ and so {\bf forth-$\agentA$} is not required in order for $\kPModelP{\kStateSP}$ to be a $\agentsB$-refinement of $\kPModel{\kStateS}$.
+
+To show that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$ we will show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
+
+We first show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 
 For every $\gamma \in \Gamma_\agentA$ let $\refinement^\gamma \subseteq \kStates \times \kStates[\gamma]$ be a $\agentsB$-refinement from $\kPModel{\kStateT_\gamma}$ to $\kPModel[\gamma]{\kStateS[\gamma]}$.
 We define $\refinement \subseteq \kStates \times \kStatesP$ where:
 $$
 \refinement = \{(\kStateS, \kStateSP)\} \cup \{(\kStateT_\gamma, \kStateSP_\gamma) \mid \gamma \in \Gamma_\agentA\} \cup \{(\kStateT, \kStateT) \mid \kStateT \in \kStates\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \refinement^\gamma
 $$
-We claim that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
+We show that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
 
 Let $\atomP \in \atoms$, $\agentB \in \agents$, $\agentC \in \agents \setminus \agentsB$.
 
@@ -194,17 +372,38 @@ Then $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ follows from the sa
 Therefore $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 \end{proof}
 
-\begin{lemma}
-The axiom {\bf RComm} is sound with respect to the semantics of the logic \logicRmlKD{}.
+We use similar reasoning to show that the axiom {\bf RKD45} from \axiomRmlKD{} is sound.
+Recall that the axiom {\bf RKD45} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ where $\agentsB \subseteq \agents$, $\agentA \in \agentsB$, and $\Gamma_\agentA \subseteq \langRml$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+
+\begin{lemma}\label{rml-kd45-rkd45}
+The axiom {\bf RKD45} from the axiomatisation \axiomRmlKD{} is sound with respect to the semantics of the logic \logicRmlKD{}.
 \end{lemma}
 
 \begin{proof}
-($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKD$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
+The proof of Lemma~\ref{rml-kff-rkff} applies with minor considerations in the setting of \logicRmlKD{}.
+For the left-to-right direction the semantics of \logicRmlKD{} require that $\kPModel{\kStateS}, \kPModelP{\kStateSP} \in \classKD$ instead of \classKFF{}, but otherwise the reasoning is the same.
+For the right-to-left direction the semantics of \logicRmlKD{} require that $\kPModel{\kStateS} \in \classKD$ and for every $\gamma \in \Gamma_\agentA$ that $\kPModel[\gamma]{\kStateS[\gamma]} \in \classKD$.
+We must additionally show here that the constructed model $\kPModelP{\kStateSP} \in \classKD$, but this is trivial given that $\Gamma_\agentA$ is non-empty (ensuring seriality at $\kPModelP{\kStateSP}$) and for every $\gamma \in \Gamma_\agentA$ we have $\kPModel[\gamma]{\kStateS[\gamma]} \in \classKD$ (ensuring seriality elsewhere).
+\end{proof}
+
+We next show that the axiom {\bf RComm} from \axiomRmlKFF{} is sound.
+Recall that the axiom {\bf RComm} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ where $\agentsB \subseteq \agents$, $\agentA \notin \agentsB$, and $\Gamma_\agentA \subseteq \langRml$ is a finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+Also recall the differences between the soundness proofs for {\bf RK} and {\bf RComm} in \axiomRmlK{}.
+Whereas for {\bf RK} we had that $\agentA \in \agentsB$ and therefore a $\agentsB$-refinement need not satisfy {\bf forth-$\agentA$}, for {\bf RComm} we had that $\agentA \notin \agentsB$ and so {\bf forth-$\agentA$} is required.
+This accounted for the additional refinements $\kPModel[\kStateT]{\kStateS[\kStateT]}$ used in the construction for {\bf RComm} in \axiomRmlK{}.
+Similar accommodations must be made for the soundness proof for {\bf RComm} in \axiomRmlKFF{} as compared to the soundness proof for {\bf RK45}.
+
+\begin{lemma}\label{rml-kff-rcomm}
+The axiom {\bf RComm} from the axiomatisation \axiomRmlKFF{} is sound with respect to the semantics of the logic \logicRmlKFF{}.
+\end{lemma}
+
+\begin{proof}
+($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 Then we show that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ using the same reasoning as in the proof of soundness of {\bf RComm} in Lemma~\ref{rml-k-rcomm}.
 
-($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKD$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
-For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classKD$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
-For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\gamma \in \Gamma_\agentA$ and $\kPModelAndTuple[\kStateT]{\kStateS[\kStateT]} \in \classKD$ such that $\kPModel{\kStateT} \simulatesBs \kPModel[\kStateT]{\kStateS[\kStateT]}$ and $\kPModel[\kStateT]{\kStateS[\kStateT]} \entails \gamma$.
+($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
+For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classKFF$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
+For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\gamma \in \Gamma_\agentA$ and $\kPModelAndTuple[\kStateT]{\kStateS[\kStateT]} \in \classKFF$ such that $\kPModel{\kStateT} \simulatesBs \kPModel[\kStateT]{\kStateS[\kStateT]}$ and $\kPModel[\kStateT]{\kStateS[\kStateT]} \entails \gamma$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RComm} equivalence.
 
 Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
@@ -216,9 +415,76 @@ Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
 \end{eqnarray*}
 where $\kStateSP$, $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ and $\kStateSP_{\kStateT}$ for every $\kStateT \in \kSuccessorsA{\kStateS}$ are fresh states not appearing in $\kStates$, $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$ or $\kStates[\kStateT]$ for any $\kStateT \in \kSuccessorsA{\kStateS}$, $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise, for every $\gamma \in \Gamma_\agentA$: $\overline{\{\kStateSP_\gamma\}} = \{\kStateSP_\gamma\}$ if $\kStateS[\gamma] \in \kValuation[\gamma](\atomP)$ and $\overline{\{\kStateSP_\gamma\}} = \emptyset$ otherwise; and for every $\kStateT \in \kSuccessorsA{\kStateS}$: $\overline{\{\kStateSP_{\kStateT}\}} = \{\kStateSP_{\kStateT}\}$ if $\kStateS[\kStateT] \in \kValuation[\kStateT](\atomP)$ and $\overline{\{\kStateSP_{\kStateT}\}} = \emptyset$ otherwise
 
-\todo[inline]{Differences from RKD45 construction}
+\begin{figure}
+    \caption{A schematic of the construction used to show soundness of {\bf RComm}.}\label{rml-kff-rcomm-construction}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
-We claim that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
+        \node (sp) {\underline{$\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$}};
+        \node (mpn) [above of=sp] {$\kPModelP{\kStateSP_{\gamma_n}} \entails \gamma_n$};
+        \node (mpr) [right of=mpn,node distance=10.5em] {$\kPModelP{\kStateSP_{\kStateT}} \entails \bigvee \Gamma_\agentA$};
+        \node (mpd) [left of=mpn,node distance=5.25em] {$\cdots$};
+        \node (mp1) [left of=mpd,node distance=5.25em] {$\kPModelP{\kStateSP_{\gamma_1}} \entails \gamma_1$};
+        \node (msn) [above of=mpn] {$\vdots$};
+        \node (msr) [right of=msn,node distance=10.5em] {$\vdots$};
+        \node (ms1) [left of=msn,node distance=10.5em] {$\vdots$};
+        \node (mgn) [above of=msn] {$\kPModel[\gamma_n]{\kStateS[\gamma_n]} \entails \gamma_n$};
+        \node (mgr) [above of=msr] {$\kPModel[\kStateT]{\kStateS[\kStateT]} \entails \bigvee \Gamma_\agentA$};
+        \node (mgd) [left of=mgn,node distance=5.25em] {$\cdots$};
+        \node (mg1) [left of=mgd,node distance=5.25em] {$\kPModel[\gamma_1]{\kStateS[\gamma_1]} \entails \gamma_1$};
+        \node (mtn) [above of=mgn] {$\kPModel{\kStateT_{\gamma_n}} \entails \somerefsBs \gamma_n$};
+        \node (mtd) [left of=mtn,node distance=5.25em] {$\cdots$};
+        \node (mt1) [left of=mtd,node distance=5.25em] {$\kPModel{\kStateT_{\gamma_1}} \entails \somerefsBs \gamma_1$};
+        \node (ms) [above of=mtn] {$\kPModel{\kStateS} \entails \possibleA \somerefsBs \gamma_1 \land \cdots \land \possibleA \somerefsBs \gamma_n$};
+        \node (mtr) [right of=mtn,node distance=10.5em] {$\kPModel{\kStateT} \entails \top$};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (mt1) edge [swap,dashed] node {$\simulatesBs$} (mg1)
+        (mtn) edge [dashed] node {$\simulatesBs$} (mgn)
+        (mtr) edge [dashed] node {$\simulatesBs$} (mgr)
+        (mg1) edge [<->,swap,dashed,bend right] node {$\bisimilar[\agents \setminus \{\agentA\}]$} (mp1)
+        (mgn) edge [<->,dashed,bend left] node {$\bisimilar[\agents \setminus \{\agentA\}]$} (mpn)
+        (mgr) edge [<->,dashed,bend left] node {$\bisimilar[\agents \setminus \{\agentA\}]$} (mpr)
+        (ms) edge [dashed,bend left=90,min distance=10em] node {$\simulatesBs$} (sp)
+        (ms) edge [draw=none,dashed,bend right=90,min distance=10em] node {} (sp)
+        (sp) edge node {$\agentA$} (mp1)
+             edge [swap] node {$\agentA$} (mpn)
+             edge [swap] node {$\agentA$} (mpr)
+        (ms) edge [swap] node {$\agentA$} (mt1)
+             edge node {$\agentA$} (mtr)
+             edge node {$\agentA$} (mtn)
+        (mt1) edge [swap,loop left,distance=1em] node {$\agentA$} (mt1)
+        (mtn) edge [swap,loop right,distance=1em] node {$\agentA$} (mtn)
+        (mtr) edge [swap,loop right,distance=1em] node {$\agentA$} (mtr)
+        (mt1) edge [<->,swap,bend left] node {$\agentA$} (mtn)
+        (mtn) edge [<->,swap,bend left] node {$\agentA$} (mtr)
+        (mt1) edge [<->,swap,bend left] node {$\agentA$} (mtr)
+        (mp1) edge [swap,loop left,distance=1em] node {$\agentA$} (mp1)
+        (mpn) edge [swap,loop right,distance=1em] node {$\agentA$} (mpn)
+        (mpr) edge [swap,loop right,distance=1em] node {$\agentA$} (mpr)
+        (mp1) edge [<->,swap,bend right] node {$\agentA$} (mpn)
+        (mpn) edge [<->,swap,bend right] node {$\agentA$} (mpr)
+        (mp1) edge [<->,swap,bend right] node {$\agentA$} (mpr)
+        (mp1) edge [swap] node {$\agents \setminus \{\agentA\}$} (ms1)
+        (mpn) edge node {$\agents \setminus \{\agentA\}$} (msn)
+        (mpr) edge node {$\agents \setminus \{\agentA\}$} (msr)
+        (mg1) edge node {$\agents \setminus \{\agentA\}$} (ms1)
+        (mgn) edge [swap] node {$\agents \setminus \{\agentA\}$} (msn)
+        (mgr) edge [swap] node {$\agents \setminus \{\agentA\}$} (msr);
+    \end{tikzpicture}
+\end{figure}
+
+A schematic of the Kripke model $\kPModelP{\kStateSP}$ and an overview of our construction is shown in Figure~\ref{rml-kff-rcomm-construction}.
+As in the construction used for {\bf RK45} we can see that each of the $\agentsB$-refinements at successors, $\kPModel[\gamma_1]{\kStateT[\gamma_1]}, \dots, \kPModel[\gamma_n]{\kStateT[\gamma_n]}$, are combined into the larger Kripke model $\kPModelP{\kStateSP}$.
+However in contrast to the construction used for {\bf RK} we note that here every $\agentA$-successor of $\kPModel{\kStateS}$ satisfies $\somerefsBs \gamma$ for some $\gamma \in \Gamma_\agentA$, and corresponds to some $\agentsB$-refinement $\kPModel[\kStateT]{\kStateS[\kStateT]}$.
+This is required as $\agentA \in \agentsB$ and so {\bf forth-$\agentA$} is required in order for $\kPModelP{\kStateSP}$ to be a $\agentsB$-refinement of $\kPModel{\kStateS}$.
+This is as in {\bf RComm} from \axiomRmlK{}.
+From this schematic representation we can clearly see that $\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$.
+It is less clear that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$, but we will show this next.
+
+To show that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$ we will show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
+
+We first show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 
 For every $\gamma \in \Gamma_\agentA$ let $\refinement^\gamma \subseteq \kStates \times \kStates[\gamma]$ be a $\agentsB$-refinement from $\kPModel{\kStateT_\gamma}$ to $\kPModel[\gamma]{\kStateS[\gamma]}$ and
 for every $\kStateT \in \kSuccessorsA{\kStateS}$ let $\refinement^{\kStateT} \subseteq \kStates \times \kStates[\kStateT]$ be a $\agentsB$-refinement from $\kPModel{\kStateT}$ to $\kPModel[\kStateT]{\kStateS[\kStateT]}$.
@@ -228,7 +494,7 @@ $$
     \refinement &=& \{(\kStateS, \kStateSP)\} \cup \{(\kStateT_\gamma, \kStateSP_\gamma) \mid \gamma \in \Gamma_\agentA\} \cup \{(\kStateT, \kStateSP_{\kStateT}) \mid \kStateT \in \kSuccessorsA{\kStateS}\} \cup \\&&\quad \{(\kStateT, \kStateT) \mid \kStateT \in \kStates\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \refinement^\gamma \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \refinement^{\kStateT}
 \end{array}
 $$
-We claim that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
+We show that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
 
 Let $\atomP \in \atoms$, $\agentB \in \agents$, $\agentC \in \agents \setminus \agentsB$.
 
@@ -360,18 +626,58 @@ Then $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ follows from the sa
 Therefore $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 \end{proof}
 
-\begin{lemma}
-The axiom {\bf RDist} is sound with respect to the semantics of the logic \logicRmlKD{}.
+Again we use similar reasoning to show that the axiom {\bf RComm} from \axiomRmlKD{} is sound.
+Recall that the axiom {\bf RComm} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ where $\agentsB \subseteq \agents$, $\agentA \notin \agentsB$, and $\Gamma_\agentA \subseteq \langRml$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+
+\begin{lemma}\label{rml-kd45-rcomm}
+The axiom {\bf RComm} from the axiomatisation \axiomRmlKD{} is sound with respect to the semantics of the logic \logicRmlKD{}.
 \end{lemma}
 
 \begin{proof}
-($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKD$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
+The proof of Lemma~\ref{rml-kff-rcomm} applies with minor considerations in the setting of \logicRmlKD{}.
+For the left-to-right direction the semantics of \logicRmlKD{} require that $\kPModel{\kStateS}, \kPModelP{\kStateSP} \in \classKD$ instead of \classKFF{}, but otherwise the reasoning is the same.
+For the right-to-left direction the semantics of \logicRmlKD{} require that $\kPModel{\kStateS} \in \classKD$, for every $\gamma \in \Gamma_\agentA$ that $\kPModel[\gamma]{\kStateS[\gamma]} \in \classKD$, and for every $\kStateT \in \kSuccessorsA{\kStateS}$ that $\kPModel[\kStateT]{\kStateS[\kStateT]} \in \classKD$.
+We must additionally show here that the constructed model $\kPModelP{\kStateSP} \in \classKD$, but this is trivial given that $\Gamma_\agentA$ is non-empty (ensuring seriality at $\kPModelP{\kStateSP}$), for every $\gamma \in \Gamma_\agentA$ we have $\kPModel[\gamma]{\kStateS[\gamma]} \in \classKD$, and for every $\kStateT \in \kSuccessorsA{\kStateS}$ that $\kPModel[\kStateT]{\kStateS[\kStateT]} \in \classKD$ (ensuring seriality elsewhere).
+\end{proof}
+
+We next show that the axiom {\bf RDist} is sound.
+Recall that the axiom {\bf RDist} takes the form of $\proves \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$ where $\agentsB, \agentsC \subseteq \agents$ and for every $\agentC \in \agentsC$: $\Gamma_\agentC \subseteq \langRml$ is a finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+
+\begin{lemma}\label{rml-kff-rdist}
+The axiom {\bf RDist} from the axiomatisation \axiomRmlKFF{} is sound with respect to the semantics of the logic \logicRmlKFF{}.
+\end{lemma}
+
+\begin{proof}
+($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
 Then we show that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$ using the same reasoning as in the proof of soundness of {\bf RDist} in Lemma~\ref{rml-k-rcomm}.
 
-($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKD$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$.
-For every $\agentC \in \agentsC$ there exists $\kPModel[\agentC]{\kStateS[\agentC]} \in \classKD$ such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentC]{\kStateS[\agentC]}$ and $\kPModel[\agentC]{\kStateS[\agentC]} \entails \coversC \Gamma_\agentC$.
+($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$.
+For every $\agentC \in \agentsC$ there exists $\kPModel[\agentC]{\kStateS[\agentC]} \in \classKFF$ such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentC]{\kStateS[\agentC]}$ and $\kPModel[\agentC]{\kStateS[\agentC]} \entails \coversC \Gamma_\agentC$.
 Then we show that $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$ using the same reasoning as in the proof of soundness of {\bf RDist} in Lemma~\ref{rml-k-rcomm}.
-We note that since each of the refinements $\kPModel[\agentC]{\kStateS[\agentC]}$ are \classKD{} models then the construction used in Lemma~\ref{rml-k-rcomm} will produce a \classKD{} model as required.
+We note that since each of the refinements $\kPModel[\agentC]{\kStateS[\agentC]}$ are \classKFF{} models then the construction used in Lemma~\ref{rml-k-rcomm} will produce a \classKFF{} model as required.
+\end{proof}
+
+Yet again we use similar reasoning to show that the axiom {\bf RDist} from \axiomRmlKD{} is sound.
+Recall that the axiom {\bf RDist} takes the form of $\proves \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$ where $\agentsB, \agentsC \subseteq \agents$ and for every $\agentC \in \agentsC$: $\Gamma_\agentC \subseteq \langRml$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+
+\begin{lemma}\label{rml-kd45-rdist}
+The axiom {\bf RDist} from the axiomatisation \axiomRmlKFF{} is sound with respect to the semantics of the logic \logicRmlKFF{}.
+\end{lemma}
+
+\begin{proof}
+The proof of Lemma~\ref{rml-kff-rdist} applies with minor considerations in the setting of \logicRmlKD{}, simply replacing occurrences of \classKFF{} with \classKD{}.
+\end{proof}
+
+Finally we show that the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{} are sound.
+
+\begin{lemma}\label{rml-kff-sound}
+The axiomatisation \axiomRmlKFF{} is sound with respect to the semantics of the logic \logicRmlKFF{}.
+\end{lemma}
+
+\begin{proof}
+The soundness of the axioms and rules of \axiomKFF{} with respect to the semantics of the logic \logicRmlKFF{} follow from the same reasoning that they are sound in the logic \logicKFF{}.
+The soundness of {\bf R}, {\bf RP} and {\bf NecR} follow from Proposition~\ref{rml-validities}.
+The soundness of {\bf RK45}, {\bf RComm} and {\bf RDist} were shown in the previous lemmas.
 \end{proof}
 
 \begin{lemma}\label{rml-kd-sound}

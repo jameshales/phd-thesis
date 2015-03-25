@@ -1,5 +1,20 @@
 \chapter{Refinement modal logic: \classS{}}\label{rml-s5}
 
+In this chapter we consider in greater detail the logic \logicRmlS{} in the setting of \classS{}.
+As in previous chapters we present sound and complete axiomatisations, provably correct translations from \langRml{} to \langMl{}, and expressive equivalence, compactness and decidability results.
+As noted previously, the logic \logicRmlK{}, \logicRmlKFF{}, and \logicKD{} are not sublogics of \logicRmlS{}, so our previous results in \logicRmlK{}, \logicRmlKFF{}, and \logicKD{} do not all apply in this setting.
+In particular, the axioms {\bf RK}, {\bf RComm}, and {\bf RDist}, and the corresponding axioms from \logicRmlKFF{} and \logicRmlKD{} are not sound in \logicRmlS{}, so once again we must find replacement axioms.
+
+In the following sections we provide a sound and complete axiomatisation for \logicRmlS{}.
+In Section~\ref{rml-s5-axiomatisation} we provide the axiomatisation for \logicRmlS{}, which feature modified versions of the axioms {\bf RK}, {\bf RComm}, and {\bf RDist}.
+In Section~\ref{rml-s5-soundness} we show that the axiomatisation is sound.
+In contrast to \logicRmlK{}, \logicRmlKFF{}, and \logicRmlKD{}, we must show that the Kripke models that are constructed are \classS{} Kripke models.
+This additional requirement accounts for the differences in the axioms compared to \logicRmlK{}, \logicRmlKFF{}, and \logicRmlKD{}.
+In Section~\ref{rml-s5-completeness} we show that the axiomatisation is complete via a provably correct translation from \langRml{} to \langMl{}.
+In contrast to \logicRmlK{}, \logicRmlKFF{}, and \logicRmlKD{}, where disjunctive normal forms were sufficient for the reduction axioms to be applicable, in \logicRmlS{} we must use an even more restricted form to account for the relatively complex syntactic restrictions in the axiomatisation.
+
+\section{Axiomatisation}\label{rml-s5-axiomatisation}
+
 \begin{definition}[Explicit formulas]
 Let $\atomsQ, \atomsQ' \subseteq \atoms$ be finite sets of propositional atoms,
 let $\agentsB \subseteq \agents$ be a set of agents,
@@ -31,6 +46,8 @@ $$
 $$
 where $\gamma_0 \land \coversA \Gamma_\agentA$ and $\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA$ are explicit formulas.
 \end{definition}
+
+\section{Soundness}\label{rml-s5-soundness}
 
 \begin{lemma}\label{rml-s5-rs5}
 The axiom {\bf RS5} is sound with respect to the semantics of the logic \logicRmlS{}.
@@ -462,6 +479,8 @@ The soundness of the axioms and rules of \axiomS{} with respect to the semantics
 The soundness of {\bf R}, {\bf RP} and {\bf NecR} follow from Proposition~\ref{rml-validities}.
 The soundness of {\bf RS5}, {\bf RComm} and {\bf RDist} were shown in the previous lemmas.
 \end{proof}
+
+\section{Completeness}\label{rml-s5-completeness}
 
 \begin{lemma}
 Every modal formula is equivalent to a disjunction of explicit formulas under the semantics of the logic \logicS{}.

@@ -10,7 +10,7 @@ In Section~\ref{rml-kd45-axiomatisation} we provide the axiomatisations for \log
 In Section~\ref{rml-kd45-soundness} we show that the axiomatisations are sound.
 In contrast to \logicRmlK{}, in \logicRmlKFF{} and \logicRmlKD{} we must show that the Kripke models that are constructed are \classKFF{} or \classKD{} Kripke models.
 This additional requirement accounts for the differences in the axioms compared to \logicRmlK{}.
-In Section~\ref{rml-kd45-completeness} we show that the axiomatisation is complete via a provably correct translation from \langRml{} to \langMl{}.
+In Section~\ref{rml-kd45-completeness} we show that the axiomatisations are complete via provably correct translations from \langRml{} to \langMl{}.
 In contrast to \logicRmlK{} where conversion to a disjunctive normal form was sufficient for the reduction axioms to be applicable, in \logicRmlKFF{} and \logicRmlKD{} we must use a more restricted normal form to account for the additional syntactic restrictions in the axiomatisations.
 
 \section{Axiomatisation}\label{rml-kd45-axiomatisation}
@@ -203,7 +203,7 @@ We use this lemma to show the soundness of {\bf RK45}, {\bf RKD45}, {\bf RComm},
 We next show that the axiom {\bf RK45} from \axiomRmlKFF{} is sound.
 Recall that the axiom {\bf RK45} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ where $\agentsB \subseteq \agents$, $\agentA \in \agentsB$, and $\Gamma_\agentA \subseteq \langRml$ is a finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
 
-\begin{lemma}\label{rml-kff-rkff}
+\begin{lemma}\label{rml-k45-rkff}
 The axiom {\bf RK45} from the axiomatisation \axiomRmlKFF{} is sound with respect to the semantics of the logic \logicRmlKFF{}.
 \end{lemma}
 
@@ -225,7 +225,7 @@ Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
 where $\kStateSP$ and $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ are fresh states not appearing in $\kStates$ or $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$, $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise, and for every $\gamma \in \Gamma_\agentA$: $\overline{\{\kStateSP_\gamma\}} = \{\kStateSP_\gamma\}$ if $\kStateS[\gamma] \in \kValuation[\gamma](\atomP)$ and $\overline{\{\kStateSP_\gamma\}} = \emptyset$ otherwise.
 
 \begin{figure}
-    \caption{A schematic of the construction used to show soundness of {\bf RK45}.}\label{rml-kff-rkff-construction}
+    \caption{A schematic of the construction used to show soundness of {\bf RK45}.}\label{rml-k45-rkff-construction}
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
@@ -274,7 +274,7 @@ where $\kStateSP$ and $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ a
 
 We note that by construction $\kModelP \in \classKFF$.
 
-A schematic of the Kripke model $\kPModelP{\kStateSP}$ and an overview of our construction is shown in Figure~\ref{rml-kff-rkff-construction}.
+A schematic of the Kripke model $\kPModelP{\kStateSP}$ and an overview of our construction is shown in Figure~\ref{rml-k45-rkff-construction}.
 Here we can see that each of the $\agentsB$-refinements at successors, $\kPModel[\gamma_1]{\kStateT[\gamma_1]}, \dots, \kPModel[\gamma_n]{\kStateT[\gamma_n]}$, are combined into the larger Kripke model $\kPModelP{\kStateSP}$.
 We can see the use of the proxy states $\kPModelP{\kStateS_{\gamma_1}}, \dots, \kPModelP{\kStateS_{\gamma_n}}$, which have all of the $(\agents \setminus \{\agentA\})$-successors of the respective refinements $\kPModel[\gamma_1]{\kStateT[\gamma_1]}, \dots, \kPModel[\gamma_n]{\kStateT[\gamma_n]}$.
 We note that the proxy states are $(\agents \setminus \{\agentA\})$-bisimilar to the respective refinements, and therefore satisfy the respective $(\agents \setminus \{\agentA\})$-restricted formulas $\gamma_1, \dots, \gamma_n$.
@@ -380,7 +380,7 @@ The axiom {\bf RKD45} from the axiomatisation \axiomRmlKD{} is sound with respec
 \end{lemma}
 
 \begin{proof}
-The proof of Lemma~\ref{rml-kff-rkff} applies with minor considerations in the setting of \logicRmlKD{}.
+The proof of Lemma~\ref{rml-k45-rkff} applies with minor considerations in the setting of \logicRmlKD{}.
 For the left-to-right direction the semantics of \logicRmlKD{} require that $\kPModel{\kStateS}, \kPModelP{\kStateSP} \in \classKD$ instead of \classKFF{}, but otherwise the reasoning is the same.
 For the right-to-left direction the semantics of \logicRmlKD{} require that $\kPModel{\kStateS} \in \classKD$ and for every $\gamma \in \Gamma_\agentA$ that $\kPModel[\gamma]{\kStateS[\gamma]} \in \classKD$.
 We must additionally show here that the constructed model $\kPModelP{\kStateSP} \in \classKD$, but this is trivial given that $\Gamma_\agentA$ is non-empty (ensuring seriality at $\kPModelP{\kStateSP}$) and for every $\gamma \in \Gamma_\agentA$ we have $\kPModel[\gamma]{\kStateS[\gamma]} \in \classKD$ (ensuring seriality elsewhere).
@@ -393,7 +393,7 @@ Whereas for {\bf RK} we had that $\agentA \in \agentsB$ and therefore a $\agents
 This accounted for the additional refinements $\kPModel[\kStateT]{\kStateS[\kStateT]}$ used in the construction for {\bf RComm} in \axiomRmlK{}.
 Similar accommodations must be made for the soundness proof for {\bf RComm} in \axiomRmlKFF{} as compared to the soundness proof for {\bf RK45}.
 
-\begin{lemma}\label{rml-kff-rcomm}
+\begin{lemma}\label{rml-k45-rcomm}
 The axiom {\bf RComm} from the axiomatisation \axiomRmlKFF{} is sound with respect to the semantics of the logic \logicRmlKFF{}.
 \end{lemma}
 
@@ -416,7 +416,7 @@ Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
 where $\kStateSP$, $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ and $\kStateSP_{\kStateT}$ for every $\kStateT \in \kSuccessorsA{\kStateS}$ are fresh states not appearing in $\kStates$, $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$ or $\kStates[\kStateT]$ for any $\kStateT \in \kSuccessorsA{\kStateS}$, $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise, for every $\gamma \in \Gamma_\agentA$: $\overline{\{\kStateSP_\gamma\}} = \{\kStateSP_\gamma\}$ if $\kStateS[\gamma] \in \kValuation[\gamma](\atomP)$ and $\overline{\{\kStateSP_\gamma\}} = \emptyset$ otherwise; and for every $\kStateT \in \kSuccessorsA{\kStateS}$: $\overline{\{\kStateSP_{\kStateT}\}} = \{\kStateSP_{\kStateT}\}$ if $\kStateS[\kStateT] \in \kValuation[\kStateT](\atomP)$ and $\overline{\{\kStateSP_{\kStateT}\}} = \emptyset$ otherwise
 
 \begin{figure}
-    \caption{A schematic of the construction used to show soundness of {\bf RComm}.}\label{rml-kff-rcomm-construction}
+    \caption{A schematic of the construction used to show soundness of {\bf RComm}.}\label{rml-k45-rcomm-construction}
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
@@ -474,7 +474,7 @@ where $\kStateSP$, $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ and 
     \end{tikzpicture}
 \end{figure}
 
-A schematic of the Kripke model $\kPModelP{\kStateSP}$ and an overview of our construction is shown in Figure~\ref{rml-kff-rcomm-construction}.
+A schematic of the Kripke model $\kPModelP{\kStateSP}$ and an overview of our construction is shown in Figure~\ref{rml-k45-rcomm-construction}.
 As in the construction used for {\bf RK45} we can see that each of the $\agentsB$-refinements at successors, $\kPModel[\gamma_1]{\kStateT[\gamma_1]}, \dots, \kPModel[\gamma_n]{\kStateT[\gamma_n]}$, are combined into the larger Kripke model $\kPModelP{\kStateSP}$.
 However in contrast to the construction used for {\bf RK} we note that here every $\agentA$-successor of $\kPModel{\kStateS}$ satisfies $\somerefsBs \gamma$ for some $\gamma \in \Gamma_\agentA$, and corresponds to some $\agentsB$-refinement $\kPModel[\kStateT]{\kStateS[\kStateT]}$.
 This is required as $\agentA \in \agentsB$ and so {\bf forth-$\agentA$} is required in order for $\kPModelP{\kStateSP}$ to be a $\agentsB$-refinement of $\kPModel{\kStateS}$.
@@ -634,7 +634,7 @@ The axiom {\bf RComm} from the axiomatisation \axiomRmlKD{} is sound with respec
 \end{lemma}
 
 \begin{proof}
-The proof of Lemma~\ref{rml-kff-rcomm} applies with minor considerations in the setting of \logicRmlKD{}.
+The proof of Lemma~\ref{rml-k45-rcomm} applies with minor considerations in the setting of \logicRmlKD{}.
 For the left-to-right direction the semantics of \logicRmlKD{} require that $\kPModel{\kStateS}, \kPModelP{\kStateSP} \in \classKD$ instead of \classKFF{}, but otherwise the reasoning is the same.
 For the right-to-left direction the semantics of \logicRmlKD{} require that $\kPModel{\kStateS} \in \classKD$, for every $\gamma \in \Gamma_\agentA$ that $\kPModel[\gamma]{\kStateS[\gamma]} \in \classKD$, and for every $\kStateT \in \kSuccessorsA{\kStateS}$ that $\kPModel[\kStateT]{\kStateS[\kStateT]} \in \classKD$.
 We must additionally show here that the constructed model $\kPModelP{\kStateSP} \in \classKD$, but this is trivial given that $\Gamma_\agentA$ is non-empty (ensuring seriality at $\kPModelP{\kStateSP}$), for every $\gamma \in \Gamma_\agentA$ we have $\kPModel[\gamma]{\kStateS[\gamma]} \in \classKD$, and for every $\kStateT \in \kSuccessorsA{\kStateS}$ that $\kPModel[\kStateT]{\kStateS[\kStateT]} \in \classKD$ (ensuring seriality elsewhere).
@@ -643,7 +643,7 @@ We must additionally show here that the constructed model $\kPModelP{\kStateSP} 
 We next show that the axiom {\bf RDist} is sound.
 Recall that the axiom {\bf RDist} takes the form of $\proves \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$ where $\agentsB, \agentsC \subseteq \agents$ and for every $\agentC \in \agentsC$: $\Gamma_\agentC \subseteq \langRml$ is a finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
 
-\begin{lemma}\label{rml-kff-rdist}
+\begin{lemma}\label{rml-k45-rdist}
 The axiom {\bf RDist} from the axiomatisation \axiomRmlKFF{} is sound with respect to the semantics of the logic \logicRmlKFF{}.
 \end{lemma}
 
@@ -665,12 +665,12 @@ The axiom {\bf RDist} from the axiomatisation \axiomRmlKFF{} is sound with respe
 \end{lemma}
 
 \begin{proof}
-The proof of Lemma~\ref{rml-kff-rdist} applies with minor considerations in the setting of \logicRmlKD{}, simply replacing occurrences of \classKFF{} with \classKD{}.
+The proof of Lemma~\ref{rml-k45-rdist} applies with minor considerations in the setting of \logicRmlKD{}, simply replacing occurrences of \classKFF{} with \classKD{}.
 \end{proof}
 
 Finally we show that the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{} are sound.
 
-\begin{lemma}\label{rml-kff-sound}
+\begin{lemma}\label{rml-k45-sound}
 The axiomatisation \axiomRmlKFF{} is sound with respect to the semantics of the logic \logicRmlKFF{}.
 \end{lemma}
 
@@ -680,7 +680,7 @@ The soundness of {\bf R}, {\bf RP} and {\bf NecR} follow from Proposition~\ref{r
 The soundness of {\bf RK45}, {\bf RComm} and {\bf RDist} were shown in the previous lemmas.
 \end{proof}
 
-\begin{lemma}\label{rml-kd-sound}
+\begin{lemma}\label{rml-kd45-sound}
 The axiomatisation \axiomRmlKD{} is sound with respect to the semantics of the logic \logicRmlKD{}.
 \end{lemma}
 
@@ -756,58 +756,58 @@ Likewise this is a provable equivalence in \axiomRmlKD{}.
 Given the disjunctive normal form, we will show that the reduction axioms of \axiomRmlKFF{} and \axiomRmlKD{} may be applied to formulas in disjunctive normal form in order to give a provably correct translation.
 We first show some useful theorems in \axiomRmlKFF{} and \axiomRmlKD{}.
 
-\begin{lemma}\label{rml-kff-theorems}
+\begin{lemma}\label{rml-k45-theorems}
 The following are theorems of \axiomRmlKFF{}:
 \begin{align}
-    \proves & \allrefsBs (\phi \land \psi) \iff (\allrefsBs \phi \land \allrefsBs \psi) \label{rml-kff-and}\\
-    \proves & \somerefsBs (\phi \lor \psi) \iff (\somerefsBs \phi \lor \somerefsBs \psi) \label{rml-kff-or}\\
-    \proves & \somerefsBs (\phi \land \psi) \implies (\somerefsBs \phi \land \somerefsBs \psi) \label{rml-kff-d-and}\\
-    \proves & (\allrefsBs \phi \land \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi) \label{rml-kff-db-and}\\
-    \proves & (\pi \land \somerefsBs \psi) \iff \somerefsBs (\pi \land \psi) \label{rml-kff-pd-and}\\
+    \proves & \allrefsBs (\phi \land \psi) \iff (\allrefsBs \phi \land \allrefsBs \psi) \label{rml-k45-and}\\
+    \proves & \somerefsBs (\phi \lor \psi) \iff (\somerefsBs \phi \lor \somerefsBs \psi) \label{rml-k45-or}\\
+    \proves & \somerefsBs (\phi \land \psi) \implies (\somerefsBs \phi \land \somerefsBs \psi) \label{rml-k45-d-and}\\
+    \proves & (\allrefsBs \phi \land \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi) \label{rml-k45-db-and}\\
+    \proves & (\pi \land \somerefsBs \psi) \iff \somerefsBs (\pi \land \psi) \label{rml-k45-pd-and}\\
     \proves & \displaystyle \somerefsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \nonumber\\
             & \displaystyle \quad
             (
             \pi \land
             \bigwedge_{\agentC \in \agentsC \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \somerefsBs \gamma \land
             \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} 
-            ) \label{rml-kff-cover}
+            ) \label{rml-k45-cover}
 \end{align}
 where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\agentsB, \agentsC \subseteq \agents$, and for every $\agentA \in \agents$: $\Gamma_\agentA$ is a finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
 \end{lemma}
 
 \begin{proof}
 These theorems can be shown using essentially the same proofs given for Lemma~\ref{rml-k-theorems} for similar theorems in \axiomRmlK{}.
-The only consideration that must be made for \axiomRmlKFF{} is for theorem (\ref{rml-kff-cover}) where we must use {\bf RK45} instead of {\bf RK}, and we note that each set $\Gamma_\agentA$ must be a set of $(\agents \setminus \{\agentA\})$-restricted modal formulas in order for {\bf RK45}, {\bf RComm}, and {\bf RDist} to be applicable, but that requirement is satisfied by hypothesis.
+The only consideration that must be made for \axiomRmlKFF{} is for theorem (\ref{rml-k45-cover}) where we must use {\bf RK45} instead of {\bf RK}, and we note that each set $\Gamma_\agentA$ must be a set of $(\agents \setminus \{\agentA\})$-restricted modal formulas in order for {\bf RK45}, {\bf RComm}, and {\bf RDist} to be applicable, but that requirement is satisfied by hypothesis.
 \end{proof}
 
-We can now clearly recognise that equivalences (\ref{rml-kff-or}) and (\ref{rml-kff-cover}) are reduction axioms that can be used to push refinement quantifiers past propositional connectives and modalities in formulas in alternating disjunctive normal form.
+We can now clearly recognise that equivalences (\ref{rml-k45-or}) and (\ref{rml-k45-cover}) are reduction axioms that can be used to push refinement quantifiers past propositional connectives and modalities in formulas in alternating disjunctive normal form.
 We compare this result to Lemma~\ref{rml-k-theorems} where we had similar reduction axioms for the disjunctive normal form.
 
 We have similar theorems for \axiomRmlKD{}.
 
-\begin{lemma}\label{rml-kd-theorems}
+\begin{lemma}\label{rml-kd45-theorems}
 The following are theorems of \axiomRmlKD{}:
 \begin{align}
-    \proves & \allrefsBs (\phi \land \psi) \iff (\allrefsBs \phi \land \allrefsBs \psi) \label{rml-kd-and}\\
-    \proves & \somerefsBs (\phi \lor \psi) \iff (\somerefsBs \phi \lor \somerefsBs \psi) \label{rml-kd-or}\\
-    \proves & \somerefsBs (\phi \land \psi) \implies (\somerefsBs \phi \land \somerefsBs \psi) \label{rml-kd-d-and}\\
-    \proves & (\allrefsBs \phi \land \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi) \label{rml-kd-db-and}\\
-    \proves & (\pi \land \somerefsBs \psi) \iff \somerefsBs (\pi \land \psi) \label{rml-kd-pd-and}\\
-    \proves & \lnot \somerefsBs \coversA \emptyset \label{rml-kd-cover-empty}\\
+    \proves & \allrefsBs (\phi \land \psi) \iff (\allrefsBs \phi \land \allrefsBs \psi) \label{rml-kd45-and}\\
+    \proves & \somerefsBs (\phi \lor \psi) \iff (\somerefsBs \phi \lor \somerefsBs \psi) \label{rml-kd45-or}\\
+    \proves & \somerefsBs (\phi \land \psi) \implies (\somerefsBs \phi \land \somerefsBs \psi) \label{rml-kd45-d-and}\\
+    \proves & (\allrefsBs \phi \land \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi) \label{rml-kd45-db-and}\\
+    \proves & (\pi \land \somerefsBs \psi) \iff \somerefsBs (\pi \land \psi) \label{rml-kd45-pd-and}\\
+    \proves & \lnot \somerefsBs \coversA \emptyset \label{rml-kd45-cover-empty}\\
     \proves & \displaystyle \somerefsBs (\pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC) \iff \nonumber\\
             & \displaystyle \quad
             (
             \pi \land
             \bigwedge_{\agentC \in \agentsC \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \somerefsBs \gamma \land
             \bigwedge_{\agentC \in \agentsC \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\} 
-            ) \label{rml-kd-cover}
+            ) \label{rml-kd45-cover}
 \end{align}
 where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\agentsB, \agentsC \subseteq \agents$, and for every $\agentA \in \agents$: $\Gamma_\agentA$ is a finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
 \end{lemma}
 
 \begin{proof}
-As above, with the exception of (\ref{rml-kd-cover-empty}) these theorems can be shown using essentially the same proofs given for Lemma~\ref{rml-k-theorems} for similar theorems in \axiomRmlK{}.
-The only consideration that must be made for \axiomRmlKD{} is for theorem (\ref{rml-kd-cover}) where we must use {\bf RDK45} instead of {\bf RK}, and we note that each set $\Gamma_\agentA$ must be a non-empty set of $(\agents \setminus \{\agentA\})$-restricted modal formulas in order for {\bf RK45}, {\bf RComm}, and {\bf RDist} to be applicable, but that requirement is satisfied by hypothesis.
+As above, with the exception of (\ref{rml-kd45-cover-empty}) these theorems can be shown using essentially the same proofs given for Lemma~\ref{rml-k-theorems} for similar theorems in \axiomRmlK{}.
+The only consideration that must be made for \axiomRmlKD{} is for theorem (\ref{rml-kd45-cover}) where we must use {\bf RDK45} instead of {\bf RK}, and we note that each set $\Gamma_\agentA$ must be a non-empty set of $(\agents \setminus \{\agentA\})$-restricted modal formulas in order for {\bf RK45}, {\bf RComm}, and {\bf RDist} to be applicable, but that requirement is satisfied by hypothesis.
 
 We show that $\proves \lnot \somerefsBs \coversA \emptyset$.
 $$
@@ -824,20 +824,20 @@ $$
 $$
 \end{proof}
 
-As above we can recognise that equivalences (\ref{rml-kd-or}) and (\ref{rml-kd-cover}) are reduction axioms that can be used to push refinement quantifiers past propositional connectives and modalities in formulas in alternating disjunctive normal form.
-We note that the equivalence (\ref{rml-kd-cover}) only applies to formulas where the cover operators are applied to non-empty sets of formulas, a condition that the alternating disjunctive normal form does not guarantee.
-However we can get around this limitation by using theorem \ref{rml-kd-cover-empty}, noting due to the seriality of \classKD{} that cover operators applied to empty sets of formulas are always false, and so a conjunction including such a cover operator is also false.
+As above we can recognise that equivalences (\ref{rml-kd45-or}) and (\ref{rml-kd45-cover}) are reduction axioms that can be used to push refinement quantifiers past propositional connectives and modalities in formulas in alternating disjunctive normal form.
+We note that the equivalence (\ref{rml-kd45-cover}) only applies to formulas where the cover operators are applied to non-empty sets of formulas, a condition that the alternating disjunctive normal form does not guarantee.
+However we can get around this limitation by using theorem \ref{rml-kd45-cover-empty}, noting due to the seriality of \classKD{} that cover operators applied to empty sets of formulas are always false, and so a conjunction including such a cover operator is also false.
 
 Before we give our provably correct translations we give two lemmas each for \axiomRmlKFF{} and \axiomRmlKD{}.
 
 First we note that every \axiomKFF{} theorem is an \axiomRmlKFF{} theorem and every \axiomKD{} theorem is an \axiomRmlKD{} theorem.
 
-\begin{lemma}\label{rml-kff-ml-provability}
+\begin{lemma}\label{rml-k45-ml-provability}
 Let $\phi \in \langMl$ be a modal formula.
 If $\proves_\axiomKFF \phi$ then $\proves_\axiomRmlKFF \phi$.
 \end{lemma}
 
-\begin{lemma}\label{rml-kd-ml-provability}
+\begin{lemma}\label{rml-kd45-ml-provability}
 Let $\phi \in \langMl$ be a modal formula.
 If $\proves_\axiomKD \phi$ then $\proves_\axiomRmlKD \phi$.
 \end{lemma}
@@ -846,12 +846,12 @@ These lemmas follow from essentially the same reasoning as used to show Lemma~\r
 
 Secondly we show that \axiomRmlKFF{} and \axiomRmlKD{} satisfy substitution of equivalents.
 
-\begin{lemma}\label{rml-kff-substitution-equivalents}
+\begin{lemma}\label{rml-k45-substitution-equivalents}
 Let $\phi, \psi, \chi \in \langRml$ be formulas and let $\atomP \in \atoms$ be a propositional atom.
 If $\proves_\axiomRmlKFF \psi \iff \chi$ then $\proves_\axiomRmlKFF \phi[\psi\backslash\atomP] \iff \phi[\chi\backslash\atomP]$.
 \end{lemma}
 
-\begin{lemma}\label{rml-kd-substitution-equivalents}
+\begin{lemma}\label{rml-kd45-substitution-equivalents}
 Let $\phi, \psi, \chi \in \langRml$ be formulas and let $\atomP \in \atoms$ be a propositional atom.
 If $\proves_\axiomRmlKD \psi \iff \chi$ then $\proves_\axiomRmlKD \phi[\psi\backslash\atomP] \iff \phi[\chi\backslash\atomP]$.
 \end{lemma}
@@ -860,45 +860,45 @@ These lemmas follow from essentially the same reasoning as used to show Lemma~\r
 
 We now show that the reduction axioms of \logicRmlKFF{} and \logicRmlKD{} admit provably correct translations from \langRml{} to \langMl{}.
 
-\begin{lemma}\label{rml-kff-ml-equivalent}
+\begin{lemma}\label{rml-k45-ml-equivalent}
 Every refinement modal formula is provably equivalent to a modal formula using the axiomatisation \axiomRmlKFF{}.
 \end{lemma}
 
 \begin{proof}
 We use essentially the same reasoning as in Lemma~\ref{rml-k-ml-equivalent} for \axiomRmlK{}.
-We convert subformulas to alternating disjunctive normal form instead of disjunctive normal form, which ensures that $\coversA$~operators are only applied to sets of $(\agents \setminus \{\agentA\})$-restricted modal formulas, allowing the equivalences from Lemma~\ref{rml-kff-theorems} to be applied inductively.
+We convert subformulas to alternating disjunctive normal form instead of disjunctive normal form, which ensures that $\coversA$~operators are only applied to sets of $(\agents \setminus \{\agentA\})$-restricted modal formulas, allowing the equivalences from Lemma~\ref{rml-k45-theorems} to be applied inductively.
 \end{proof}
 
-\begin{lemma}\label{rml-kd-ml-equivalent}
+\begin{lemma}\label{rml-kd45-ml-equivalent}
 Every refinement modal formula is provably equivalent to a modal formula using the axiomatisation \axiomRmlKFF{}.
 \end{lemma}
 
 \begin{proof}
 We use essentially the same reasoning as in Lemma~\ref{rml-k-ml-equivalent} for \axiomRmlK{}.
-As in Lemma~\ref{rml-kff-ml-equivalent} above, we convert subformulas to alternating disjunctive normal form instead of disjunctive normal form, which ensures that $\coversA$~operators are only applied to sets of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
-However the corresponding equivalences from Lemma~\ref{rml-kd-theorems} also require that $\coversA$~operators only be applied to non-empty sets of formulas.
-We satisfy this requirement by using equivalence (\ref{rml-kd-cover-empty}) to replace $\coversA$~operators applied to empty sets of formulas with the propositional formula $\bot$, so a subformula of the form $\pi \land \coversA \Gamma_\agentA \land \bigwedge_{\agentC \in \agentsC \setminus \{\agentA\}} \coversC \Gamma_\agentC$ becomes $(\pi \land \bot) \land \bigwedge_{\agentC \in \agentsC \setminus \{\agentA\}} \coversC \Gamma_\agentC$, or simply $\bot$.
-This allows the equivalences from Lemma~\ref{rml-kd-theorems} to be applied inductively.
+As in Lemma~\ref{rml-k45-ml-equivalent} above, we convert subformulas to alternating disjunctive normal form instead of disjunctive normal form, which ensures that $\coversA$~operators are only applied to sets of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+However the corresponding equivalences from Lemma~\ref{rml-kd45-theorems} also require that $\coversA$~operators only be applied to non-empty sets of formulas.
+We satisfy this requirement by using equivalence (\ref{rml-kd45-cover-empty}) to replace $\coversA$~operators applied to empty sets of formulas with the propositional formula $\bot$, so a subformula of the form $\pi \land \coversA \Gamma_\agentA \land \bigwedge_{\agentC \in \agentsC \setminus \{\agentA\}} \coversC \Gamma_\agentC$ becomes $(\pi \land \bot) \land \bigwedge_{\agentC \in \agentsC \setminus \{\agentA\}} \coversC \Gamma_\agentC$, or simply $\bot$.
+This allows the equivalences from Lemma~\ref{rml-kd45-theorems} to be applied inductively.
 \end{proof}
 
 Given the provably correct translation we have that \axiomRmlKFF{} and \axiomRmlKD{} are sound and complete.
 
-\begin{theorem}\label{rml-kff-sound-complete}
+\begin{theorem}\label{rml-k45-sound-complete}
 The axiomatisation \axiomRmlKFF{} is sound and strongly complete with respect to the semantics of the logic \logicRmlKFF{}.
 \end{theorem}
 
 \begin{proof}
-Soundness is shown in Lemma~\ref{rml-kff-sound}.
-Strong completeness follows from the same reasoning as in Lemma~\ref{rml-k-sound-complete} for \axiomRmlK{}, using the provably correct translation from Lemma~\ref{rml-kff-ml-equivalent}.
+Soundness is shown in Lemma~\ref{rml-k45-sound}.
+Strong completeness follows from the same reasoning as in Lemma~\ref{rml-k-sound-complete} for \axiomRmlK{}, using the provably correct translation from Lemma~\ref{rml-k45-ml-equivalent}.
 \end{proof}
 
-\begin{theorem}\label{rml-kd-sound-complete}
+\begin{theorem}\label{rml-kd45-sound-complete}
 The axiomatisation \axiomRmlKFF{} is sound and strongly complete with respect to the semantics of the logic \logicRmlKD{}.
 \end{theorem}
 
 \begin{proof}
-Soundness is shown in Lemma~\ref{rml-kd-sound}.
-Strong completeness follows from the same reasoning as in Lemma~\ref{rml-k-sound-complete} for \axiomRmlK{}, using the provably correct translation from Lemma~\ref{rml-kd-ml-equivalent}.
+Soundness is shown in Lemma~\ref{rml-kd45-sound}.
+Strong completeness follows from the same reasoning as in Lemma~\ref{rml-k-sound-complete} for \axiomRmlK{}, using the provably correct translation from Lemma~\ref{rml-kd45-ml-equivalent}.
 \end{proof}
 
 The provably correct translations also imply that \logicRmlKFF{} is expressively equivalent to \logicKFF{} and \logicRmlKD{} is expressively equivalent to \logicKD{}.

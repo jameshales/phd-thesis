@@ -61,7 +61,7 @@ Then we show that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \bigwe
 ($\Leftarrow$)
 Let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classS$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
-By Lemma~\ref{refinement-functional}, without loss of generality we assume for every $\gamma \in \Gamma_\agentA$ that $\kPModel[\gamma]{\kStateS[\gamma]}$ is such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ via a $\agentsB$-refinement $\refinement^{\gamma} \subseteq \kStates \times \kStates[\gamma]$ where for every $\kStateT[\gamma] \in \kStates[\gamma]$ there exists a unique $\kStateT \in \kStates$ such that $(\kStateT, \kStateT[\gamma]) \in \refinement^{\gamma}$.
+By Lemma~\ref{refinement-expansion}, without loss of generality we assume for every $\gamma \in \Gamma_\agentA$ that $\kPModel[\gamma]{\kStateS[\gamma]}$ is such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ via a $\agentsB$-refinement $\refinement^{\gamma} \subseteq \kStates \times \kStates[\gamma]$ where for every $\kStateT[\gamma] \in \kStates[\gamma]$ there exists a unique $\kStateT \in \kStates$ such that $(\kStateT, \kStateT[\gamma]) \in \refinement^{\gamma}$.
 As $\kPModel{\kStateS} \entails \somerefsBs \gamma_0$ and $\gamma_0 \in \Gamma_\agentA$, without loss of generality we assume that $\kStateT_{\gamma_0} = \kStateS$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RS5} equivalence.
 
@@ -237,7 +237,7 @@ Let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model such that
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classS$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
 For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\gamma \in \Gamma_\agentA$ and $\kPModelAndTuple[\kStateT]{\kStateS[\kStateT]} \in \classS$ such that $\kPModel{\kStateT} \simulatesBs \kPModel[\kStateT]{\kStateS[\kStateT]}$ and $\kPModel[\kStateT]{\kStateS[\kStateT]} \entails \gamma$.
 For notational consistency, for every $\kStateU \in \kSuccessorsA{\kStateS}$ we define $\kStateT_{\kStateU} = \kStateU$.
-By Lemma~\ref{refinement-functional}, without loss of generality we assume for every $\gamma \in \Gamma_\agentA$ that $\kPModel[\gamma]{\kStateS[\gamma]}$ is such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ via a $\agentsB$-refinement $\refinement^{\gamma} \subseteq \kStates \times \kStates[\gamma]$ where for every $\kStateT[\gamma] \in \kStates[\gamma]$ there exists a unique $\kStateT \in \kStates$ such that $(\kStateT, \kStateT[\gamma]) \in \refinement^{\gamma}$.
+By Lemma~\ref{refinement-expansion}, without loss of generality we assume for every $\gamma \in \Gamma_\agentA$ that $\kPModel[\gamma]{\kStateS[\gamma]}$ is such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ via a $\agentsB$-refinement $\refinement^{\gamma} \subseteq \kStates \times \kStates[\gamma]$ where for every $\kStateT[\gamma] \in \kStates[\gamma]$ there exists a unique $\kStateT \in \kStates$ such that $(\kStateT, \kStateT[\gamma]) \in \refinement^{\gamma}$.
 Likewise without loss of generality we assume for every $\kStateT \in \kSuccessorsA{\kStateS}$ that $\kPModel[\kStateT]{\kStateS[\kStateT]}$ is such that $\kPModel{\kStateT} \simulatesBs \kPModel[\kStateT]{\kStateS[\kStateT]}$ via a $\agentsB$-refinement $\refinement^{\kStateT} \subseteq \kStates \times \kStates[\kStateT]$ where for every $\kStateU[\kStateT] \in \kStates[\kStateT]$ there exists a unique $\kStateU \in \kStates$ such that $(\kStateU, \kStateU[\kStateT]) \in \refinement^{\kStateT}$.
 As $\kPModel{\kStateS} \entails \somerefsBs \gamma_0$ and $\gamma_0 \in \Gamma_\agentA$, without loss of generality we assume that $\kStateT_{\gamma_0} = \kStateS$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RComm} equivalence.
@@ -334,7 +334,7 @@ Therefore $\kPModel{\kStateS} \entails \bigwedge_{\agentA \in \agents} \somerefs
 ($\Leftarrow$)
 Let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentA \in \agents} \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
 For every $\agentA \in \agents$ there exists $\kPModel[\agentA]{\kStateS[\agentA]} \in \classS$ such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentA]{\kStateS[\agentA]}$ and $\kPModel[\agentA]{\kStateS[\agentA]} \entails \gamma_0 \land \coversA \Gamma_\agentA$.
-By Lemma~\ref{refinement-functional}, without loss of generality we assume for every $\agentA \in \agents$ that $\kPModel[\agentA]{\kStateS[\agentA]}$ is such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentA]{\kStateS[\agentA]}$ via a $\agentsB$-refinement $\refinement^{\agentA} \subseteq \kStates \times \kStates[\agentA]$ where for every $\kStateT[\agentA] \in \kStates[\agentA]$ there exists a unique $\kStateT \in \kStates$ such that $(\kStateT, \kStateT[\agentA]) \in \refinement^{\agentA}$.
+By Lemma~\ref{refinement-expansion}, without loss of generality we assume for every $\agentA \in \agents$ that $\kPModel[\agentA]{\kStateS[\agentA]}$ is such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentA]{\kStateS[\agentA]}$ via a $\agentsB$-refinement $\refinement^{\agentA} \subseteq \kStates \times \kStates[\agentA]$ where for every $\kStateT[\agentA] \in \kStates[\agentA]$ there exists a unique $\kStateT \in \kStates$ such that $(\kStateT, \kStateT[\agentA]) \in \refinement^{\agentA}$.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RDist} equivalence.
 
 Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
@@ -470,7 +470,7 @@ Then $\kPModelP{\kStateSP} \entails \gamma_0 \land \bigwedge_{\agentA \in \agent
 Therefore $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA)$.
 \end{proof}
 
-\begin{lemma}\label{rml-s5-soundness}
+\begin{lemma}\label{rml-s5-sound}
 The axiomatisation \axiomRmlS{} is sound with respect to the semantics of the logic \logicRmlS{}.
 \end{lemma}
 
@@ -587,7 +587,7 @@ The axiomatisation \axiomRmlS{} is sound and strongly complete with respect to t
 \end{theorem}
 
 \begin{proof}
-Soundness is shown in Lemma~\ref{rml-s5-soundness}.
+Soundness is shown in Lemma~\ref{rml-s5-sound}.
 Strong completeness follows from similar reasoning as in the proof of strong completeness of \logicRmlK{} in Lemma~\ref{rml-k-sound-complete}.
 \end{proof}
 

@@ -1,9 +1,9 @@
 \chapter{Refinement modal logic: \classS{}}\label{rml-s5}
 
 In this chapter we consider in greater detail the logic \logicRmlS{} in the setting of \classS{}.
-As in previous chapters we present sound and complete axiomatisations, provably correct translations from \langRml{} to \langMl{}, and expressive equivalence, compactness and decidability results.
-As noted previously, the logic \logicRmlK{}, \logicRmlKFF{}, and \logicKD{} are not sublogics of \logicRmlS{}, so our previous results in \logicRmlK{}, \logicRmlKFF{}, and \logicKD{} do not all apply in this setting.
-In particular, the axioms {\bf RK}, {\bf RComm}, and {\bf RDist}, and the corresponding axioms from \logicRmlKFF{} and \logicRmlKD{} are not sound in \logicRmlS{}, so once again we must find replacement axioms.
+As in previous chapters we present a sound and complete axiomatisation, a provably correct translation from \langRml{} to \langMl{}, and expressive equivalence, compactness and decidability results.
+As noted previously, the logics \logicRmlK{}, \logicRmlKFF{}, and \logicKD{} are not sublogics of \logicRmlS{}, so our previous results in \logicRmlK{}, \logicRmlKFF{}, and \logicKD{} do not all apply in this setting.
+In particular the axioms {\bf RK}, {\bf RComm}, and {\bf RDist}, and the corresponding axioms from \logicRmlKFF{} and \logicRmlKD{} are not sound in \logicRmlS{}, so once again we must find replacement axioms.
 
 In the following sections we provide a sound and complete axiomatisation for \logicRmlS{}.
 In Section~\ref{rml-s5-axiomatisation} we provide the axiomatisation for \logicRmlS{}, which feature modified versions of the axioms {\bf RK}, {\bf RComm}, and {\bf RDist}.
@@ -15,22 +15,136 @@ In contrast to \logicRmlK{}, \logicRmlKFF{}, and \logicRmlKD{}, where disjunctiv
 
 \section{Axiomatisation}\label{rml-s5-axiomatisation}
 
-\begin{definition}[Explicit formulas]
-Let $\atomsQ, \atomsQ' \subseteq \atoms$ be finite sets of propositional atoms,
-let $\agentsB \subseteq \agents$ be a set of agents,
-for every $\agentB \in \agentsB$ let $\Gamma_\agentB \subseteq \langMl$ be a finite set of modal formulas,
-let $\gamma_0 \in \bigcap_{\agentB \in \agentsB} \Gamma_\agentB$ be a formula appearing in each of the sets $\Gamma_\agentB$, and
-let $\Delta = \{\delta \in \langMl \mid \agentB \in \agentsB, \gamma \in \Gamma_\agentB, \delta \leq \gamma\}$ be the set of subformulas of all of the formulas in each of the sets $\Gamma_\agentB$,
-such that the following conditions hold:
+In this section we present the axiomatisation \axiomRmlS{} for the logic \logicRmlS{}.
+Similar to the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{}, presented in the previous chapter, the axiomatisation \axiomRmlS{} is a modification of the axiomatisation \axiomRmlK{} for \logicRmlK{}.
+As in \axiomRmlK{} the cover operator features prominently in these sections.
+We discuss and justify the use of the cover operator in Chapter~\ref{rml-k}, where we introduced the axiomatisation \axiomRmlK{}.
+The cover operator serves as a convenient notation for a conjunction of modalities that also restricts conjunctions of modalities to cases where the axioms are sound.
+However as in \axiomRmlKFF{} and \axiomRmlKD{} we find that this restriction on notation is not sufficient to ensure that the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} are sound in \logicRmlS{}.
+
+Similar to \logicRmlKFF{} and \logicRmlKD{} we know a priori that some of the rules and axioms of \axiomRmlK{} must not be sound in \logicRmlS{}, as we noted in Proposition~\ref{rml-not-sublogics} that \logicRmlK{} is not a sublogic of \logicRmlS{}.
+It is a simple matter to show that the axioms and rules of \axiomS{} are sound for \logicRmlS{}, and the axioms and rules {\bf R}, {\bf RP}, and {\bf NecR} are sound for \logicRmlS{} as they were shown to be sound for all variants of \logicRml{} in Proposition~\ref{rml-validities}.
+Hence some or all of {\bf RK}, {\bf RComm}, and {\bf RDist} must not be sound for \logicRmlS{}. 
+
+In Chapter~\ref{rml-kd45} we demonstrated that the \axiomRmlK{} axiom {\bf RK} is not sound in the logics \logicRmlKFF{} and \logicRmlKD{} essentially because of the requirement that refinements be transitive and Euclidean, requirements that do not exist in \logicRmlK{}.
+In particular we showed that the using the axiom {\bf RK} we can derive that $\proves \possibleA (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$, but given the modal axiom {\bf 4}, corresponding to transitivity, we can derive the negation.
+Likewise given the \axiomRmlK{} axiom {\bf RK} we can derive that $\proves \possibleA \atomP \implies \somerefsA (\possibleA \atomP \land \lnot \necessaryA \possibleA \atomP)$, but given the modal axiom {\bf 5}, corresponding to Euclideaness, we can derive the negation.
+These examples also show that the axiom {\bf RK} is not sound in the logic \logicRmlS{}.
+
+In Chapter~\ref{rml-kd45} we modified the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} to be sound in the logics \logicRmlKFF{} and \logicRmlKD{} by placing a syntactic restriction on the axioms, prohibiting the direct nesting of modalities belonging to the same agent.
+This syntactic restriction is not sufficient to ensure that the axioms are sound in \logicRmlS{}.
+In particular, in \logicRmlKFF{} and \logicRmlKD{} refinements need not be reflexive, so we have $\entails (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\lnot \atomP \land \necessaryA \atomP)$, but in \logicRmlS{} all refinements must be reflexive, so we have $\entails \allrefs \lnot (\lnot \atomP \land \necessaryA \atomP)$ and hence $\entails \lnot ((\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\lnot \atomP \land \necessaryA \atomP))$.
+We can show how this first validity could be derived using the axiomatisations \axiomRmlKFF{} or \axiomRmlKD{}.
+$$
+\begin{array}{ll}
+    \proves \somerefsA (\lnot \atomP \land \necessaryA \atomP) \iff \somerefsA (\lnot \atomP \land \coversA \{\atomP\}) & \text{Defn. of $\coversA$}\\
+    \proves \somerefsA (\lnot \atomP \land \necessaryA \atomP) \iff (\lnot \atomP \land \somerefsA \coversA \{\atomP\}) & \text{Lemma~\ref{rml-kd45-theorems}}\\
+    \proves \somerefsA (\lnot \atomP \land \necessaryA \atomP) \iff (\lnot \atomP \land \possibleA \somerefsA \atomP) & \text{{\bf RK45} / {\bf RKD45}}\\
+    \proves \somerefsA (\lnot \atomP \land \necessaryA \atomP) \iff (\lnot \atomP \land \possibleA \atomP) & {\bf RP}\\
+    \proves (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\lnot \atomP \land \necessaryA \atomP) & {\bf P}
+\end{array}
+$$
+
+However in \logicRmlS{} we have reflexivity, represented by the modal axiom {\bf T}, and given this axiom we can very easily show that $\proves \lnot \somerefsA (\lnot \atomP \land \necessaryA \atomP)$.
+We provide an informal proof.
+$$
+\begin{array}{ll}
+    \proves \necessaryA \atomP \implies \atomP & {\bf T}\\
+    \proves (\lnot \atomP \land \necessaryA \atomP) \iff (\atomP \land \lnot \atomP \land \necessaryA \atomP) & {\bf P}\\
+    \proves \lnot (\lnot \atomP \land \necessaryA \atomP) & {\bf P}\\
+    \proves \allrefsA \lnot (\lnot \atomP \land \necessaryA \atomP) & {\bf NecR}\\
+    \proves \lnot \somerefsA (\lnot \atomP \land \necessaryA \atomP) & \text{Defn. of $\somerefsA$}
+\end{array}
+$$
+The formula $\lnot \atomP \land \possibleA \atomP$ is satisfiable in \logicRmlS{} as it is satisfiable in \logicS{}, and the semantics of these logics agree on all modal formulas.
+So for a sound axiomatisation of \logicRmlS{} we must have that $\nproves \lnot (\lnot \atomP \land \possibleA \atomP)$ and therefore $\proves \lnot ((\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\lnot \atomP \land \necessaryA \atomP))$.
+Therefore the derivation of $\proves (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\lnot \atomP \land \necessaryA \atomP)$ in \axiomRmlKFF{} and \axiomRmlKD{} above is not sound reasoning for \logicRmlS{}.
+We previously noted that the axioms and rules of axioms and rules of \axiomS{} and the axioms and rules {\bf R}, {\bf RP}, and {\bf NecR} are sound for \logicRmlS{}, so the flaw in the derivation must be the use of the axioms {\bf RK45} and {\bf RKD45}, so these axioms are not sound in \logicRmlS{}.
+
+Above we saw that $\proves \lnot (\lnot \atomP \land \necessaryA \atomP)$, and hence $\proves \lnot \somerefsA (\lnot \atomP \land \necessaryA \atomP)$.
+This becomes obvious once we convert $\lnot \atomP \land \necessaryA \atomP$ to the equivalent $\atomP \land \lnot \atomP \land \necessaryA \atomP$.
+A similar observation was made in Chapter~\ref{rml-kd45} where we converted a formula to a different syntactic form where certain consequences of transitivity and Euclideaness are explicitly represented in the formula, making contradictions due to transitivity and Euclideaness more obvious, and resulting in the {\bf RK} axiom behaving as desired in \logicRmlKFF{} and \logicRmlKD{}.
+This idea formed the basis for the modified versions of {\bf RK} used in the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{}.
+Perhaps converting formulas to a different syntactic form, where certain consequences of reflexivity are explicitly represented in the formula, would result in the {\bf RK} axiom behaving as desired in \logicRmlS{}.  
+
+One approach may be to recursively replace subformulas of the form $\necessaryA \phi$ with $\phi \land \necessaryA \phi$.
+While this syntactic transformation appears as though it would make contradictions due to reflexivity more obvious, it does not address transitivity or Euclideaness.
+In Chapter~\ref{rml-kd45} contradictions due to transitivity and Euclideaness were made more obvious by using a syntactic form that prohibits directly nested modalities belonging to the same agent.
+A holistic approach may be to combine the above syntactic transformation for reflexivity with a syntactic transformation for transitivity and Euclideaness (removing nested modalities belonging to the same agent) in order to get to a syntactic form where contradictions due to reflexivity, transitivity and Euclideaness are made more obvious.
+We give an informal example.
+
+If we apply the syntactic transformation for reflexivity to convert $\possibleA \necessaryB \necessaryA \atomP$ to the equivalent $\possibleA (\atomP \land \necessaryA \atomP \land \necessaryB (\atomP \land \necessaryA \atomP)$, we see that the result features directly nested modalities belonging to the same agent.
+We can apply a different syntactic transformation to for transitivity and Euclideaness to remove the offending nested modalities, resulting in the formula $\necessaryA \atomP \land \possibleA (\atomP \land \necessaryB (\atomP \land \necessaryA \atomP)$, however the result features a subformula $\necessaryA \atomP$ at the top level where the consequences of reflexivity are not explicit in the formula.
+We can apply our syntactic transformation for reflexivity again, resulting in $\atomP \land \necessaryA \atomP \land \possibleA (\atomP \land \necessaryA \atomP \land \necessaryB (\atomP \land \necessaryA \atomP)$, however the result again features directly nested modalities belonging to the same agent.
+We can apply the syntactic transformation for transitivity and Euclideaness again, resulting in $\atomP \land \necessaryA \atomP \land \possibleA (\atomP \land \necessaryB (\atomP \land \necessaryA \atomP)$, but again there is a subformula $\necessaryB (\atomP \land \necessaryA \atomP)$ where the consequences of reflexivity are not explicit in the formula.
+From here repeating the alternating syntactic transformations will cycle between the previous two formulas.
+We also note that we can find examples where it is necessary to repeat the alternating syntactic transformations an arbitrary number of times before the consequences due to reflexivity, transitivity and Euclideaness ``bubble'' to the top.
+For example, if we start with a formula of the form $\possible[1] \possible[2] \cdots \possible[n - 1] \necessary[n] \necessary[n - 1] \cdots \necessary[2] \necessary[1] \atomP$, it will take $n$ alternations before $\atomP$ appears in the formula outside of the scope of any modality.
+
+This proposed approach is problematic.
+In contrast to the syntactic form described in Chapter~\ref{rml-kd45} what we have described here is a syntactic transformation, which is comparatively difficult to reason about.
+The syntactic transformation requires an arbitrary number of iterations before certain consequences of reflexivity, transitivity, and Euclideaness are explicitly represented in the formula.
+Moreover the example above demonstrated that the syntactic transformation does not always reach a single fixed point, because the alternating  syntactic transformations conflict with each other.
+Clearly a different approach is required.
+
+We would prefer instead a description of a syntactic form, as it would be easier to reason about.
+Ideally such a syntactic form would be expressed in terms of the cover operator, so that we can easily adapt the axioms {\bf RK}, {\bf RComm}, and {\bf RDist}, and the techniques used to show their soundness, to \logicRmlS{}.
+We consider then the properties of a syntactic form that are required in order for a variant of the {\bf RK} axiom to be sound in \logicRmlS{}.
+
+Recall that in Chapter~\ref{rml-kd45} we gave an example of a derivation showing that the axiom {\bf RK} is unsound in \logicRmlKFF{} and \logicRmlKD{}.
+The problem occurred because we had a set of formulas, $\{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$ that was contradictory when taken together in a cover operator, as in $\coverA \{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$, but when considered individually each formula is satisfiable in a refinement of a successor, as in $\possibleA \somerefsA (\lnot \atomP \land \possibleA \atomP) \land \possibleA \somerefsA \lnot \atomP$.
+The solution was to rewrite the formula $\coversA \{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$ into the equivalent $\coversA \{\atomP \land \lnot \atomP, \lnot \atomP\}$ where we now have a contradiction when we consider each formula individually, as in $\possibleA \somerefsA (\atomP \land \lnot \atomP) \land \possibleA \somerefsA \lnot \atomP$.
+Rewriting the formula in this way explicitly represents the interaction between the formulas in the cover operator due to transitivity and Euclideaness.
+In the rewritten formula there is no interaction between the formulas in the cover operator due to transitivity and Euclideaness, because the formulas in the cover operator do not feature $\agentA$-modalities at the top level, so any interaction that was implied in the original formula must be explicit in the rewritten formula.
+This makes the contradiction between the formulas due to transitivity and Euclideaness more obvious, and means that considering the formulas individually as in the {\bf RK} axiom does not result in the contradiction disappearing.
+
+This approach of removing any interaction between the formulas in a cover operator does not work in the presence of reflexivity.
+For example in $\coversA \{\necessaryB \necessaryA \atomP, \necessaryB \necessaryA \lnot \atomP\}$ although there are no directly nested modalities belonging to the same agent, such modalities are implied through reflexivity, as $\proves \necessaryB \necessaryA \atomP \implies \necessaryA \atomP$ and $\proves \necessaryB \necessaryA \lnot \atomP \implies \necessaryA \lnot \atomP$.
+There is no way of rewriting this formula so that the formulas in the cover operator do not interact through transitivity and Euclideaness, as any equivalent formula must imply that $\possibleA \necessaryB \necessaryA \atomP$, meaning that the cover operator must contain a formula that implies that $\necessaryB \necessaryA \atomP$, and through reflexivity this formula would still imply the directly nested modality $\necessaryA \atomP$.
+So we use a different strategy.
+Rather than removing any interaction between the formulas in a cover operator, we aim to make the interaction between the formulas explicit.
+For example, $\necessaryB \necessaryA \atomP$ is equivalent to $\atomP \land \necessaryA \atomP \land \necessaryB \necessaryA \atomP$, and similarly $\necessaryB \necessaryA \lnot \atomP$ is equivalent to $\lnot \atomP \land \necessaryA \lnot \atomP \land \necessaryB \necessaryA \lnot \atomP$, so we can rewrite $\coversA \{\necessaryB \necessaryA \atomP, \necessaryB \necessaryA \lnot \atomP\}$ as $\coversA \{\atomP \land \necessaryA \atomP \land \necessaryB \necessaryA \atomP, \lnot \atomP \land \necessaryA \lnot \atomP \land \necessaryB \necessaryA \lnot \atomP\}$.
+We can clearly see how the formulas in the $\agentA$-cover operator interact due to $\agentA$-modalities, so we can rewrite the formula to 
+$\coversA \{\atomP \land \lnot \atomP \land \necessaryA \atomP \land \necessaryB \necessaryA \atomP, \atomP \land \lnot \atomP \land \necessaryA \lnot \atomP \land \necessaryB \necessaryA \lnot \atomP\}$, where the interaction between the formulas is now explicit and the contradiction is more obvious.
+In this form if we consider the formulas individually as in the {\bf RK} axiom the contradiction will not disappear.
+
+Here we define explicit formulas, a syntactic form defined in terms of the cover operator that has been specifically designed so that a set of formulas that are contradictory when taken together in a cover operator features at least one formula that is contradictory when considered individually.
+Whereas the syntactic form used in Chapter~\ref{rml-kd45} ensures that there is no interaction between formulas in a cover operator, this syntactic form instead ensures that any interaction between the formulas is explicitly represented in the formula.
+
+\begin{definition}[Explicit formulas]\label{explicit-formulas}
+Let:
+\begin{itemize}
+    \item $\pi \in \langPl$ be a propositional formula
+    \item $\lambda_0 \in \powerset(\langMl)$ be a finite set of modal formulas
+    \item $\agentsC \subseteq \agents$ be a non-empty, finite set of agents
+    \item For every $\agentC \in \agentsC$ let $\Lambda_\agentC \subseteq \powerset(\langMl)$ be a non-empty, finite set of finite sets of modal formulas
+    \item $\Delta = \{\delta' \leq \delta \mid \agentC \in \agentsC, \lambda \in \Lambda_\agentC, \delta \in \lambda\}$
+    \item $\gamma_0 = \bigwedge_{\delta \in \lambda_0} \delta \land \bigwedge_{\delta \in \Delta \setminus \lambda_0} \lnot \delta$
+    \item For every $\agentC \in \agentsC$, $\lambda \in \Lambda_\agentC$ let $\gamma_\lambda = \bigwedge_{\delta \in \lambda} \delta \land \bigwedge_{\delta \in \Delta \setminus \lambda} \lnot \delta$.
+    \item For every $\agentC \in \agentsC$ let $\Gamma_\agentC = \{\lambda_\gamma \mid \gamma \in \Gamma_\agentC\}$
+\end{itemize}
+such that:
 \begin{enumerate}
-    \item For every $\agentB \in \agentsB$, $\gamma \in \Gamma_\agentB$, $\delta \in \Delta$: either $\proves_\logicS \gamma \implies \delta$ or $\proves_\logicS \gamma \implies \lnot \delta$.
-    \item For every $\agentB \in \agentsB$, $\gamma \in \Gamma_\agentB$, $\necessaryB \delta \in \Delta$: $\proves_\logicS \gamma \implies \necessaryB \delta$ if and only if for every $\gamma' \in \Gamma_\agentB$: $\proves_\logicS \gamma' \implies \delta$.
+    \item For every $\agentC \in \agentsC$ let $\lambda_0 \in \Lambda_\agentC$
+    \item For every $\agentC \in \agentsC$, $\lambda \in \Lambda_\agentC$, $\necessaryC \delta \in \Delta$ : $\necessaryC \delta \in \lambda$ if and only if for every $\lambda' \in \Lambda_\agentC$ we have $\delta \in \lambda'$.
 \end{enumerate}
+
 Then an {\em explicit formula} $\phi \in \langMl$ is of the form:
 $$
-\phi ::= \gamma_0 \land \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC
+\phi ::= \pi \land \gamma_0 \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC
 $$
 \end{definition}
+
+It is difficult to justify fully the definition of explicit formulas, but we can make some remarks.
+The set of formulas $\lambda_0$ and the corresponding formula $\gamma_0$ represents what is true in the real world.
+Condition (1) ensures that each agent considers the real world possible, explicitly representing certain consequences of reflexivity.
+Condition (2) ensures that each agent has the same knowledge in each world they consider possible, explicitly representing certain consequences of transitivity and Euclideaness.
+Each formula $\gamma_\lambda$ explicitly denotes whether each subformula from $\Delta$ is true or false partly so that condition (2) can handle modalities in disjunctions correctly.
+In Section~\ref{rml-s5-soundness} we will show some properties of explicit formulas that are used to show the soundness of variants of {\bf RK}, {\bf RComm}, and {\bf RDist} in \logicRmlS{}.
+Here we will also see that each formula $\gamma_\lambda$ explicitly denotes whether each subformula from $\Delta$ is true or false so that when we construct a single refinement from a set of refinements that each satisfy some formula $\gamma_\lambda$ we can show by induction over subformulas that the satisfaction of $\gamma_\lambda$ is preserved by the construction.
+In Section~\ref{rml-s5-completeness} we will show that every modal formula is equivalent to an explicit formula under the semantics of \logicS{}, and use this property to demonstrate a provably correct translation from \langRml{} to \langMl{}, similar to \logicRmlK{}, \logicRmlKFF{}, and \logicRmlKD{} in previous chapters.
+
+We now present our axiomatisation for \logicRmlS{}.
 
 \begin{definition}[Axiomatisation \axiomRmlS{}]
     The axiomatisation \axiomRmlS{} is a substitution schema consisting of the axioms and rules of \axiomS{} along with the following additional axioms and rules:
@@ -44,10 +158,70 @@ $$
     {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
 \end{array}
 $$
-where $\gamma_0 \land \coversA \Gamma_\agentA$ and $\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA$ are explicit formulas.
+where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\agentsB \subseteq \agents$, $\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA$ is an explicit formula and for every $\agentA \in \agents$, $\gamma_0 \land \coversA \Gamma_\agentA$ is an explicit formula.
 \end{definition}
 
 \section{Soundness}\label{rml-s5-soundness}
+
+In this section we show that the axiomatisation \axiomRmlS{} is sound with respect to the semantics of the logic \logicRmlS{}.
+As in \logicRmlK{}, the axioms {\bf R} and {\bf RP}, and the rule {\bf NecR} are already known to be sound as they were established for all variants of \logicRml{} in Proposition~\ref{rml-validities}.
+What remains to be shown is that the axioms {\bf RS5}, {\bf RComm}, and {\bf RDist} are sound.
+These axioms are similar to the corresponding axioms from \axiomRmlK{}, and accordingly our proofs of soundness build upon the techniques used to show the soundness of \axiomRmlK{}.
+As in \axiomRmlK{}, the left-to-right direction of these equivalences is simple to show, whereas the right-to-left direction is more involved, relying on a construction that combines the refinements described on the right of the equivalence into a single refinement that satisfies the left of the equivalence.
+In the constructions used for the soundness proofs of \axiomRmlK{} the refinements described on the right of the equivalence are combined in such a way that preserves bisimilarity of the original refinements, and hence preserves the satisfaction of all modal formulas.
+In the setting of \logicRmlKFF{} and \logicRmlKD{} we noted that a construction that preserves bisimilarity was not generally possible due to the requirement that all refinements satisfy the \classKFF{} or \classKD{} frame conditions.
+Hence the constructions used for the soundness proofs of \axiomRmlKFF{} and \axiomRmlKD{} relied on a restricted form of bisimilarity, called $\agentsB$-bisimilarity, which preserves the satisfaction of all $\agentsB$-restricted modal formulas, the syntactic form that was required for the axioms {\bf RK45}, {\bf RKD45}, {\bf RComm}, and {\bf RDist}.
+The constructions relied on having bisimilar copies of the refinements described on the right of the equivalence.
+Proxy states were introduced which were $\agentsB$-bisimilar to the refinements described on the right of the equivalence by ensuring that the $\agentsB$-successors of the proxy states were the same as the $\agentsB$-successors of the bisimilar copies of the corresponding refinements.
+The bisimilar copies were bisimilar because no new outward edges were added to states from the bisimilar copies.
+In the setting \logicRmlS{} a similar construction is not possible because of the requirement that all refinements satisfy the \classS{} frame conditions, specifically the requirement that refinements be symmetric.
+Due to the requirement of symmetry it is not possible to add an inward edge to a state without also having an outward edge, so the approach used in \logicRmlKFF{} and \logicRmlKD{} to create bisimilar copies will not work in \logicRmlS{}, and the approach used to create $\agentsB$-bisimilar proxy states also will not work in \logicRmlS{}.
+This difficulty in the soundness proofs also partially explains our abandonment of $\agentsB$-restricted formulas in the axiomatisation \axiomRmlS{} and our choice to use explicit formulas instead.
+Since we have no simple replacement for bisimilarity or $\agentsB$-bisimilarity a more complex syntactic form is required in order to guarantee that formulas of this syntactic form are preserved by the construction used in our soundness proofs.
+
+We begin by showing some properties of explicit formulas that we use in the soundness proofs.
+
+\begin{lemma}
+    Let $\phi = \gamma_0 \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$ be an explicit formula such that for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\gamma$ is consistent with respect to the semantics of \logicRmlS{}, and let $\Delta$ be as defined in Definition~\ref{explicit-formulas}.
+
+    Then for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$:
+    \begin{enumerate}
+        \item For every $\delta \in \Delta$: $\proves \gamma \implies \delta$ or $\proves \gamma \implies \lnot \delta$
+        \item For every $\necessaryC \delta \in \Delta$: $\proves \gamma \necessaryC \delta$ if and only if for every $\gamma' \in \Gamma_\agentC$ we have $\proves \gamma' \implies \delta$
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    Let $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$.
+    By the definition of explicit formulas $\gamma = \gamma_\lambda$ for some $\lambda \in \Lambda_\agentC$, where $\gamma_\lambda = \bigwedge_{\delta' \in \lambda} \delta' \land \bigwedge_{\delta' \in \Delta \setminus \lambda} \lnot \delta'$.
+
+    Let $\delta \in \Delta$.
+
+    Suppose that $\delta \in \lambda$.
+    Then $\proves \bigwedge_{\delta' \in \lambda} \delta' \implies \delta$ so $\proves \gamma_\lambda \implies \delta$.
+
+    Suppose that $\delta \notin \lambda$.
+    Then $\proves \bigwedge_{\delta' \in \Delta \setminus \lambda} \lnot \delta' \implies \lnot \delta$ so $\proves \gamma_\lambda \implies \lnot \delta$.
+
+    Let $\necessaryC \delta \in \Delta$.
+
+    Suppose that $\proves \gamma_\lambda \implies \necessaryC \delta$.
+    As $\gamma_\lambda$ is consistent then $\nproves \gamma_\lambda \implies \lnot \necessaryC \delta$.
+    From above $\necessaryC \delta \notin \lambda$ implies that $\proves \gamma_\lambda \implies \lnot \delta$, so by contrapositive we have that $\necessaryC \delta \in \lambda$.
+    By the definition of explicit formulas $\necessaryC \delta \in \lambda$ if and only if for every $\lambda' \in \Lambda_\agentC$ we have $\delta \in \lambda'$.
+    From above $\delta \in \lambda'$ implies that $\proves \gamma_{\lambda'} \implies \delta$.
+
+    Suppose that for every $\gamma' \in \Gamma_\agentC$ we have $\proves \gamma' \implies \delta$.
+    As $\gamma_{\lambda'}$ is consistent then $\nproves \gamma_{\lambda'} \implies \lnot \delta$.
+    From above $\delta \notin \lambda$ implies that $\proves \gamma_{\lambda'} \implies \lnot \delta$, so by contrapositive we have that $\delta \in \lambda'$ for every $\lambda' \in \Lambda_\agentC$.
+    By the definition of explicit formulas $\necessaryC \delta \in \lambda$ if and only if for every $\lambda' \in \Lambda_\agentC$ we have $\delta \in \lambda'$.
+    From above $\necessaryC \delta \in \lambda$ implies that $\proves \gamma_\lambda \implies \necessaryC \delta$.
+\end{proof}
+
+We use this lemma to show the soundness of {\bf RS5}, {\bf RComm}, and {\bf RDist}.
+
+We next show that the axiom {\bf RS5} is sound.
+Recall that the axiom {\bf RS5} takes the form of $\proves \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA) \iff \somerefsBs \gamma_0 \land \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ where $\agentsB \subseteq \agents$, $\agentA \in \agentsB$ and $\gamma_0 \land \coversA \Gamma_\agentA$ is an explicit formula.
 
 \begin{lemma}\label{rml-s5-rs5}
 The axiom {\bf RS5} is sound with respect to the semantics of the logic \logicRmlS{}.
@@ -223,7 +397,14 @@ Then $\kPModelP{\kStateSP_{\gamma_0}} \entails \gamma_0 \land \coversA \Gamma_\a
 Therefore $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
 \end{proof}
 
-\begin{lemma}
+We next show that the axiom {\bf RComm} is sound.
+Recall that the axiom {\bf RComm} takes the form of $\proves \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA) \iff \somerefsBs \gamma_0 \land \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ where $\agentsB \subseteq \agents$, $\agentA \notin \agentsB$ and $\gamma_0 \land \coversA \Gamma_\agentA$ is an explicit formula.
+Also recall the differences between the soundness proofs for {\bf RK} and {\bf RComm} in \axiomRmlK{}.
+Whereas for {\bf RK} we had that $\agentA \in \agentsB$ and therefore a $\agentsB$-refinement need not satisfy {\bf forth-$\agentA$}, for {\bf RComm} we had that $\agentA \notin \agentsB$ and so {\bf forth-$\agentA$} is required.
+This accounted for the additional refinements $\kPModel[\kStateT]{\kStateS[\kStateT]}$ used in the construction for {\bf RComm} in \axiomRmlK{}.
+Similar accommodations must be made for the soundness proof for {\bf RComm} in \axiomRmlS{} as compared to the soundness proof for {\bf RS}.
+
+\begin{lemma}\label{rml-s5-rcomm}
 The axiom {\bf RComm} is sound with respect to the semantics of the logic \logicRmlS{}.
 \end{lemma}
 
@@ -320,7 +501,14 @@ Then $\kPModelP{\kStateSP_{\gamma_0}} \entails \gamma_0 \land \coversA \Gamma_\a
 Therefore $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$.
 \end{proof}
 
-\begin{lemma}
+We next show that the axiom {\bf RDist} is sound.
+Recall that the axiom {\bf RDist} takes the form $\proves \somerefsBs (\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA) \iff \bigwedge_{\agentA \in \agents} \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)$ where $\agentsB \subseteq \agents$ and $\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA$ is an explicit formula.
+We note that unlike the proof of soundness of {\bf RDist} in \logicRmlKFF{} and \logicRmlKD{}, which was a direct copy of the soundness proof of {\bf RDist} in \logicRmlK{}, the soundness proof for {\bf RDist} in \logicRmlS{} is more involved.
+Due to the requirement that refinements be reflexive, the construction used for \logicRmlK{} does not work in \logicRmlS{}.
+The construction used for \logicRmlK{}, \logicRmlKFF{}, and \logicRmlKD{} relied on including in the construction bisimilar copies of the refinements described on the right of the equivalence, which as we remarked earlier is not possible in general in \logicRmlS{}.
+Similar to the soundness proofs for {\bf RS5} and {\bf RComm} we must rely on the properties of explicit formulas in order to show that our constructed refinement satisfies the required explicit formula.
+
+\begin{lemma}\label{rml-s5-rdist}
 The axiom {\bf RDist} is sound with respect to the semantics of the logic \logicRmlS{}.
 \end{lemma}
 
@@ -470,6 +658,8 @@ Then $\kPModelP{\kStateSP} \entails \gamma_0 \land \bigwedge_{\agentA \in \agent
 Therefore $\kPModel{\kStateS} \entails \somerefsBs (\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA)$.
 \end{proof}
 
+Finally we show that the axiomatisation \axiomRmlS{} is sound.
+
 \begin{lemma}\label{rml-s5-sound}
 The axiomatisation \axiomRmlS{} is sound with respect to the semantics of the logic \logicRmlS{}.
 \end{lemma}
@@ -482,8 +672,15 @@ The soundness of {\bf RS5}, {\bf RComm} and {\bf RDist} were shown in the previo
 
 \section{Completeness}\label{rml-s5-completeness}
 
-\begin{lemma}
-Every modal formula is equivalent to a disjunction of explicit formulas under the semantics of the logic \logicS{}.
+In this section we show that the axiomatisation \axiomRmlS{} is complete with respect to the semantics of the logic \logicRmlS{}.
+As for \axiomRmlK{}, we show that \axiomRmlS{} is complete by demonstrating a provably correct translation from formulas of \langRml{} to the underlying modal language \langMl{}.
+As a consequence of this provably correct translation we also have that \logicRmlS{} is expressively equivalent to \logicS{}, and that \logicRmlS{} is compact and decidable (via the compactness and decidability of \logicS{}).
+
+Similar to \axiomRmlK{} we rely on a special syntactic form for modal logics for our provably correct translation, which we call explicit formulas.
+We show that every modal formula is equivalent to a disjunction of explicit formulas, under the semantics of \logicS{}.
+
+\begin{lemma}\label{explicit-equivalent}
+Every modal formula is equivalent to a disjunction of explicit formulas of at most the same modal depth, under the semantics of the logic \logicS{}.
 \end{lemma}
 
 \begin{proof}
@@ -557,30 +754,74 @@ As either $\proves \gamma'' \implies \delta$ or $\proves \gamma'' \implies \neg 
 Therefore $\chi'$ is an explicit formula, and $\phi$ is equivalent to a disjunction of explicit formulas.
 \end{proof}
 
+We note that we have shown a semantic equivalence between \langMl{} formulas and disjunctions of explicit formulas.
+As \axiomS{} is a sound and complete axiomatisation for \logicS{} then this is also a provable equivalence in \axiomS{}, and as the axioms and rules of \axiomS{} are included in the axiomatisation \axiomRmlS{} this is also a provable in \axiomRmlS{}.
+
+Given this equivalence with disjunctions of explicit formulas, we will show that the reduction axioms of \axiomRmlS{} may be applied to disjunctions of explicit formulas in order to give a provably correct translation.
+
+We first show some useful theorems in \axiomRmlS{}.
+
 \begin{lemma}\label{rml-s5-theorems}
-The following are theorems of \axiomRmlS{}:
+The following are theorems of \axiomRmlKFF{}:
 \begin{align}
-    \proves & \somerefsBs (\phi \lor \psi) \iff (\somerefsBs \phi \lor \somerefsBs \psi)\\
-    \proves & \displaystyle \somerefsBs (\gamma_0 \land \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentA \in \agents} \coverC \Gamma_\agentC) \iff \nonumber\\
+    \proves & \allrefsBs (\phi \land \psi) \iff (\allrefsBs \phi \land \allrefsBs \psi) \label{rml-s5-and}\\
+    \proves & \somerefsBs (\phi \lor \psi) \iff (\somerefsBs \phi \lor \somerefsBs \psi) \label{rml-s5-or}\\
+    \proves & \somerefsBs (\phi \land \psi) \implies (\somerefsBs \phi \land \somerefsBs \psi) \label{rml-s5-d-and}\\
+    \proves & (\allrefsBs \phi \land \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi) \label{rml-s5-db-and}\\
+    \proves & (\pi \land \somerefsBs \psi) \iff \somerefsBs (\pi \land \psi) \label{rml-s5-pd-and}\\
+    \proves & \displaystyle \somerefsBs (\pi \land \gamma_0 \land \bigwedge_{\agentA \in \agents} \coverA \Gamma_\agentA) \iff \nonumber\\
             & \displaystyle \quad
+            (
+            \pi \land
             \somerefsBs \gamma_0 \land
-            \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land 
-            \bigwedge_{\agentA \in \agents \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \somerefsBs \gamma \land
-            \bigwedge_{\agentA \in \agents \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentC\}
+            \bigwedge_{\agentA \in \agents \cap \agentsB} \bigwedge_{\gamma \in \Gamma_\agentA} \possibleC \somerefsBs \gamma \land
+            \bigwedge_{\agentA \in \agents \setminus \agentsB} \coversC \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} 
+            ) \label{rml-s5-cover}
 \end{align}
-where for every $\agentA \in \agents$, $\Gamma_\agentA$ is a non-empty, finite set of explicit formulas and $\gamma_0 \in \Gamma_\agentA$.
+where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\agentsB \subseteq \agents$, $\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA$ is an explicit formula and for every $\agentA \in \agents$, $\gamma_0 \land \coversA \Gamma_\agentA$ is an explicit formula.
 \end{lemma}
 
-This result follows from similar reasoning as in the analogous Lemma~\ref{rml-k-theorems} for \axiomRmlK{}.
+\begin{proof}
+These theorems can be shown using essentially the same proofs given for Lemma~\ref{rml-k-theorems} for similar theorems in \axiomRmlK{}.
+The only consideration that must be made for \axiomRmlS{} is for theorem (\ref{rml-s5-cover}) where we must use {\bf RS5} instead of {\bf RK}, 
+and we require that $\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA$ is an explicit formula and for every $\agentA \in \agents$, $\gamma_0 \land \coversA \Gamma_\agentA$ is an explicit formula, in order for {\bf RS5}, {\bf RComm}, and {\bf RDist} to be applicable, but that requirement is satisfied by hypothesis.
+\end{proof}
+
+We can now clearly recognise that equivalences (\ref{rml-s5-or}) and (\ref{rml-s5-cover}) are reduction axioms that can be used to push refinement quantifiers past propositional connectives and modalities in disjunctions of explicit formulas.
+However unlike the reduction axioms of \logicRmlK{}, which operated on formulas in disjunctive normal form, or the reduction axioms of \logicRmlKFF{} and \logicRmlKD{}, which operated on formulas in alternating disjunctive normal form, we note that in explicit formulas the sets of formulas $\Gamma_\agentA$ are not themselves explicit formulas.
+We must modify our provably correct translation appropriately to account for this.
+
+Before we give our provably correct translations we give two lemmas.
+First we note that every \axiomS{} theorem is an \axiomRmlS{} theorem.
+
+\begin{lemma}\label{rml-s5-ml-provability}
+Let $\phi \in \langMl$ be a modal formula.
+If $\proves_\axiomKFF \phi$ then $\proves_\axiomRmlKFF \phi$.
+\end{lemma}
+
+Secondly we show that \axiomRmlS{} satisfies substitution of equivalents.
+
+\begin{lemma}\label{rml-s5-substitution-equivalents}
+Let $\phi, \psi, \chi \in \langRml$ be formulas and let $\atomP \in \atoms$ be a propositional atom.
+If $\proves_\axiomRmlS \psi \iff \chi$ then $\proves_\axiomRmlS \phi[\psi\backslash\atomP] \iff \phi[\chi\backslash\atomP]$.
+\end{lemma}
+
+These lemmas follow from essentially the same reasoning as used to show Lemma~\ref{rml-k-ml-provability} and Lemma~\ref{rml-k-substitution-equivalents} for \axiomRmlK{}.
+
+We now show that the reduction axioms of \logicRmlS{} admit a provably correct translation from \langRml{} to \langMl{}.
 
 \begin{lemma}\label{rml-s5-ml-equivalent}
 Every refinement modal formula is equivalent to a modal formula under the semantics of the logic \logicRmlS{}.
 \end{lemma}
 
-\begin{proof}[Proof (Sketch)]
-We use similar reasoning as in the setting of \logicRmlK{} in Lemma~\ref{rml-k-ml-equivalent}.
-We convert subformulas to disjuncts of explicit formulas instead of disjunctive normal form, which ensures that the equivalences from Lemma~\ref{rml-s5-theorems} can be applied inductively to the subformula, by satisfying the relevant explicit formula requirements for the equivalences to hold.
+\begin{proof}
+We use essentially the same reasoning as in Lemma~\ref{rml-k-ml-equivalent} for \axiomRmlK{}.
+We convert subformulas to disjunctions of explicit formulas instead of formulas in disjunctive normal form, allowing the equivalences from Lemma~\ref{rml-s5-theorems} to be applied.
+In order for the equivalences from Lemma~\ref{rml-s5-theorems} to be applied inductively to the subformula we must at each stage convert to a disjunction of explicit formulas again.
+We note that by Lemma~\ref{explicit-equivalent} converting a formula to a disjunction of explicit formulas does not increase the modal depth of the formula, so the induction remains well-founded despite these additional conversion steps.
 \end{proof}
+
+Given the provably correct translation we have that \axiomRmlS{} is sound and complete.
 
 \begin{theorem}
 The axiomatisation \axiomRmlS{} is sound and strongly complete with respect to the semantics of the logic \logicRmlS{}.
@@ -591,9 +832,13 @@ Soundness is shown in Lemma~\ref{rml-s5-sound}.
 Strong completeness follows from similar reasoning as in the proof of strong completeness of \logicRmlK{} in Lemma~\ref{rml-k-sound-complete}.
 \end{proof}
 
+The provably correct translation also implies that \logicRmlS{} is expressively equivalent to \logicS{}.
+
 \begin{corollary}
 The logic \logicRmlS{} is expressively equivalent to the logic \logicS{}.
 \end{corollary}
+
+Finally from expressive equivalence we have that \logicRmlS{} is compact and decidable.
 
 \begin{corollary}
 The logic \logicRmlS{} is compact.

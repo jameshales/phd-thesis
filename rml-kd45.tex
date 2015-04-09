@@ -23,14 +23,14 @@ The cover operator serves as a convenient notation for a conjunction of modaliti
 However we find that this restriction on notation is not sufficient to ensure that the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} are sound in \logicRmlKFF{} and \logicRmlKD{}.
 
 Indeed we know a priori that some of the rules and axioms of \axiomRmlK{} must not be sound in \logicRmlKFF{} and \logicRmlKD{}.
-If the axiomatisation \axiomRmlK{} was sound for \logicRmlKFF{} or \logicRmlKD{} then \logicRmlK{} would be a sublogic of these logics, but we previously noted in Proposition~\ref{rml-not-sublogics} from Chapter~\ref{rml} that this is not the case.
-It is a simple matter to show that the axioms and rules of \axiomK{} are sound for \logicRmlKFF{} and \logicRmlKD{}, and the axioms and rules {\bf R}, {\bf RP}, and {\bf NecR} are sound for \logicRmlKFF{} and \logicRmlKD{} as they were shown to be sound for all variants of \logicRml{} in Chapter~\ref{rml}.
+If the axiomatisation \axiomRmlK{} was sound for \logicRmlKFF{} or \logicRmlKD{} then \logicRmlK{} would be a sublogic of these logics, but we previously noted in Proposition~\ref{rml-not-sublogics} that this is not the case.
+It is a simple matter to show that the axioms and rules of \axiomK{} are sound for \logicRmlKFF{} and \logicRmlKD{}, and the axioms and rules {\bf R}, {\bf RP}, and {\bf NecR} are sound for \logicRmlKFF{} and \logicRmlKD{} as they were shown to be sound for all variants of \logicRml{} in Proposition~\ref{rml-validities}.
 Hence some or all of {\bf RK}, {\bf RComm}, and {\bf RDist} must not be sound for \logicRmlKFF{} and \logicRmlKD{}. 
 
 As we noted in Chapter~\ref{rml}, the logic \logicRmlK{} is not a sublogic of \logicRmlKFF{} or \logicRmlKD{} essentially because each logic quantifies over refinements with different frame conditions.
 We gave a specific example, noting that in \logicRmlK{} refinements need not be transitive, so we have $\entails_\logicRmlK{} \possibleA (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$, but in \logicRmlKFF{} and \logicRmlKD{} all refinements must be transitive, so we have $\entails \allrefsA (\possibleA \possibleA \atomP \implies \possibleA \atomP)$ and hence $
 \entails \lnot (\possibleA (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP))$.
-We can show how this validity could be derived using the axiomatisation \axiomRmlK{}.
+We show how the first validity could be derived using the axiomatisation \axiomRmlK{}.
 $$
 \begin{array}{ll}
     \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff \somerefsA \coversA \{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\} & \text{Defn. of $\covers$}\\
@@ -40,10 +40,11 @@ $$
     \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff (\possibleA (\lnot \atomP \land \somerefsA \coversA \{\atomP, \top\}) \land \possibleA \lnot \atomP)& \text{Lemma~\ref{rml-k-theorems}}\\
     \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff (\possibleA (\lnot \atomP \land \possibleA \somerefsA \atomP \land \possibleA \somerefsA \top) \land \possibleA \lnot \atomP)& {\bf RK}\\
     \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff (\possibleA (\lnot \atomP \land \possibleA \atomP \land \possibleA \top) \land \possibleA \lnot \atomP)& {\bf RP}\\
-    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff \possibleA (\lnot \atomP \land \possibleA \atomP)& \text{Modal reasoning}
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff \possibleA (\lnot \atomP \land \possibleA \atomP)& \text{Modal reasoning}\\
+    \proves \possibleA (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) & {\bf P}
 \end{array}
 $$
-However in \logicRmlKFF{} and \logicRmlKD{} we have transitivity and Euclideaness, represented by the modal axioms {\bf 4} and {\bf 5}, and given these axioms we can very easily show that $\proves \lnot \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$.
+However in \logicRmlKFF{} and \logicRmlKD{} we have transitivity and Euclideaness, represented by the modal axioms {\bf 4} and {\bf 5}, and given these axioms we can show that $\proves \lnot \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$.
 We provide an informal proof.
 $$
 \begin{array}{ll}
@@ -61,31 +62,41 @@ $$
     \proves \lnot \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) & \text{Defn. of $\somerefsA$}
 \end{array}
 $$
-Clearly $\possibleA (\lnot \atomP \land \possibleA \atomP)$ is satisfiable in \logicRmlKFF{} and \logicRmlKD{}, as it is satisfiable in \logicKFF{} and \logicKD{}, and the semantics of these respective logics agree on all modal formulas.
-So for sound axiomatisations of \logicRmlKFF{} and \logicRmlKD{} we must have that $\nproves \possibleA (\lnot \atomP \land \possibleA \atomP)$ and therefore $\proves \lnot (\possibleA (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP))$.
+The formula $\possibleA (\lnot \atomP \land \possibleA \atomP)$ is satisfiable in \logicRmlKFF{} and \logicRmlKD{}, as it is satisfiable in \logicKFF{} and \logicKD{}, and the semantics of these respective logics agree on all modal formulas.
+So for sound axiomatisations of \logicRmlKFF{} and \logicRmlKD{} we must have that $\nproves \lnot \possibleA (\lnot \atomP \land \possibleA \atomP)$ and therefore $\proves \lnot (\possibleA (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP))$.
+Therefore the derivation of $\proves \possibleA (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$ in \axiomRmlK{} above is not sound reasoning for \logicRmlKFF{} or \logicRmlKD{}.
+We previously noted that the axioms and rules of axioms and rules of \axiomK{} and the axioms and rules {\bf R}, {\bf RP}, and {\bf NecR} are sound for \logicRmlKFF{} and \logicRmlKD{}, so the flaw in the derivation must be the use of the axiom {\bf RK}, so this axiom is not sound in \logicRmlKFF{} or \logicRmlKD{}.
 
-Above we saw that $\proves \lnot (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$, and hence $\proves \lnot \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$ becomes obvious once we convert $\possibleA \possibleA \atomP \land \lnot \possibleA \atomP$ to the equivalent $\possibleA \atomP \land \lnot \possibleA \atomP$.
-This suggests a method for repairing the {\bf RK} axiom to be sound in \logicRmlKFF{} and \logicRmlKD{}.
-If we prohibit the direct nesting of modalities in formulas, then {\bf RK} may behave itself.
-We provide an informal example.
+Above we saw that $\proves \lnot (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$, and hence $\proves \lnot \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$.
+This becomes obvious once we convert $\possibleA \possibleA \atomP \land \lnot \possibleA \atomP$ to the equivalent $\possibleA \atomP \land \lnot \possibleA \atomP$.
+If we apply the {\bf RK} axiom to the formula in this syntactic form we see that it behaves as desired for \logicRmlKFF{} and \logicRmlKD{}.
+We provide an informal proof.
 $$
 \begin{array}{ll}
-    \proves \somerefsA (\possibleA \atomP \land \lnot \possibleA \atomP) \iff \somerefsA \coversA \{\atomP \land \lnot \atomP, \lnot \atomP\} & \text{Defn. of $\covers$}\\
-    \proves \somerefsA (\possibleA \atomP \land \lnot \possibleA \atomP) \iff (\possibleA \somerefsA (\atomP \land \lnot \atomP) \land \possibleA \somerefsA \lnot \atomP) & {\bf RK}\\ 
-    \proves \somerefsA (\possibleA \atomP \land \lnot \possibleA \atomP) \iff (\possibleA (\atomP \land \lnot \atomP) \land \possibleA \lnot \atomP) & {\bf RP}\\ 
-    \proves \somerefsA (\possibleA \atomP \land \lnot \possibleA \atomP) \iff \possibleA (\atomP \land \lnot \atomP) & \text{Modal reasoning}\\ 
-    \proves \somerefsA (\possibleA \atomP \land \lnot \possibleA \atomP) \iff \possibleA \bot & {\bf P}\\ 
-    \proves \somerefsA (\possibleA \atomP \land \lnot \possibleA \atomP) \iff \bot & \text{Modal reasoning}\\ 
-    \proves \lnot \somerefsA (\possibleA \atomP \land \lnot \possibleA \atomP) & {\bf MP}\\ 
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff \somerefsA (\possibleA \atomP \land \lnot \possibleA \atomP) & \text{Modal reasoning}\\
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff \somerefsA \coversA \{\atomP \land \lnot \atomP, \lnot \atomP\} & \text{Defn. of $\covers$}\\
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff (\possibleA \somerefsA (\atomP \land \lnot \atomP) \land \possibleA \somerefsA \lnot \atomP) & {\bf RK}\\ 
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff (\possibleA (\atomP \land \lnot \atomP) \land \possibleA \lnot \atomP) & {\bf RP}\\ 
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff \possibleA (\atomP \land \lnot \atomP) & \text{Modal reasoning}\\ 
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff \possibleA \bot & {\bf P}\\ 
+    \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff \bot & \text{Modal reasoning}\\ 
+    \proves \lnot \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) & {\bf MP}\\ 
 \end{array}
 $$
 
 A similar problem arises with the axiom {\bf RK} in the setting of \logicRmlKFF{} and \logicRmlKD{}, due to Euclideaness instead of transitivity.
 In \logicRmlK{} refinements need not be Euclidean, so we have $\entails_\logicRmlK{} \possibleA \atomP \implies \somerefsA (\possibleA \atomP \land \lnot \necessaryA \possibleA \atomP)$, but in \logicRmlKFF{} and \logicRmlKD{} all refinements must be Euclidean, so we have $\entails \allrefs (\possibleA \atomP \implies \necessaryA \possibleA \atomP)$ and hence $\entails \lnot (\possibleA \atomP \implies \somerefsA (\possibleA \atomP \land \lnot \necessaryA \possibleA \atomP))$.
-The contradiction becomes obvious once we convert $\possibleA \atomP \land \lnot \necessaryA \possibleA \atomP$ to the equivalent $\possibleA \atomP \land \lnot \possibleA \atomP$, and again {\bf RK} behaves itself if we prohibit the direct nesting of modalities in formulas.
+The contradiction becomes obvious once we convert $\possibleA \atomP \land \lnot \necessaryA \possibleA \atomP$ to the equivalent $\possibleA \atomP \land \lnot \possibleA \atomP$, and again {\bf RK} behaves as desired if applied to the formula in this syntactic form.
 
-This idea forms the basis of our axiomatisations for \logicRmlKFF{} and \logicRmlKD{}.
+The problem with our initial attempt at applying the axiom {\bf RK} occurred because we had a set of formulas, $\{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$ that was contradictory when taken together in a cover operator, as in $\coverA \{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$, but considered individually each formula is satisfiable in a refinement of a successor, as in $\possibleA \somerefsA (\lnot \atomP \land \possibleA \atomP) \land \possibleA \somerefsA \lnot \atomP$.
+The solution we have seen here is to rewrite the formula $\coversA \{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$ into the equivalent $\coversA \{\atomP \land \lnot \atomP, \lnot \atomP\}$ where we now have a contradiction when we consider the formulas individually, as in $\possibleA \somerefsA (\atomP \land \lnot \atomP) \land \possibleA \somerefsA \lnot \atomP$.
+Rewriting the formula in this way explicitly represents the interaction between the formulas in the cover operator due to transitivity and Euclideaness.
+In the rewritten formula there is no interaction between the formulas in the cover operator due to transitivity and Euclideaness, because the formulas in the cover operator do not feature $\agentA$-modalities at the top level, so any interaction that was implied in the original formula must be explicit in the rewritten formula.
+This makes the contradiction between the formulas due to transitivity and Euclideaness more obvious, and means that considering the formulas individually as in the {\bf RK} axiom does not result in the contradiction disappearing.
+
+This suggests a method for repairing the axiomatisation \axiomRmlK{} to be sound in \logicRmlKFF{} and \logicRmlKD{}.
 Essentially we use the same axioms {\bf RK}, {\bf RComm} and {\bf RDist} from \axiomRmlK{}, but we restrict the formulas that they are applied to, so that modalities may not directly contain modalities belonging to the same agent.
+This restriction ensures that the interaction between formulas in the cover operator due to transitivity and Euclideaness are explicitly represented.
 We formalise this notion with $\agentsB$-restricted modal formulas.
 
 \begin{definition}[$\agentsB$-restricted modal formulas]
@@ -100,7 +111,7 @@ $$
 where $\atomP \in \atoms$, $\agentB \in \agentsB$ and $\psi \in \langMl$.
 \end{definition}
 
-An $\agentsB$-restricted modal formula is essentially a modal formula that contains only $\agentsB$-modalities at the top level, but which may contain other modalities provided that they appear in the scope of $\agentsB$-modalities.
+A $\agentsB$-restricted modal formula is essentially a modal formula that contains only $\agentsB$-modalities at the top level, but which may contain other modalities provided that they appear in the scope of $\agentsB$-modalities.
 
 We now present our axiomatisations for \logicRmlKFF{} and \logicRmlKD{}.
 
@@ -141,13 +152,13 @@ We note that strictly speaking, {\bf RComm} and {\bf RDist} are sound in \logicR
 \section{Soundness}\label{rml-kd45-soundness}
 
 In this section we show that the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{} are sound with respect to the semantics of the logics \logicRmlKFF{} and \logicRmlKD{} respectively.
-As in \logicRmlK{}, the axioms {\bf R} and {\bf RP}, and the rule {\bf NecR} are already known to be sound as they were established for all variants of \logicRml{} in a previous chapter, in Proposition~\ref{rml-validities}.
+As in \logicRmlK{}, the axioms {\bf R} and {\bf RP}, and the rule {\bf NecR} are already known to be sound as they were established for all variants of \logicRml{} in Proposition~\ref{rml-validities}.
 What remains to be shown is that the axioms {\bf RK45}, {\bf RKD45}, {\bf RComm}, and {\bf RDist} are sound.
 These axioms are similar to the corresponding axioms from \axiomRmlK{}, and accordingly our proofs of soundness build upon the techniques used to show the soundness of \axiomRmlK{}.
 As for \axiomRmlK{}, the left-to-right direction of these equivalences is simple to show, whereas the right-to-left direction is more involved, relying on a construction that combines the refinements described on the right of the equivalence into a single refinement that satisfies the left of the equivalence.
-In the constructions used for \axiomRmlK{} the refinements described on the right of the equivalence are combined in such a way that preserves bisimilarity of the original refinements, and hence preserves the satisfaction of all modal formulas.
+In the constructions used for the soundness proofs of \axiomRmlK{} the refinements described on the right of the equivalence are combined in such a way that preserves bisimilarity of the original refinements, and hence preserves the satisfaction of all modal formulas.
 However unlike \logicRmlK{}, in the setting of \logicRmlKFF{} and \logicRmlKD{} we require that all refinements satisfy the \classKFF{} or \classKD{} frame conditions respectively.
-Hence the constructions used in our soundness proofs differ slightly in that they have additional edges in order to ensure the transitive and Euclidean properties.
+The constructions used in our soundness proofs for \axiomRmlKFF{} and \axiomRmlKD{} differ slightly in that they have additional edges in order to ensure the transitive and Euclidean properties.
 These additional edges means that the refinements described on the right of the equivalence cannot in general be combined in such a way that preserves bisimilarity of the original refinements.
 However with a modification of the construction we can ensure a restricted form of bisimilarity, called $\agentsB$-bisimilarity, which preserves the satisfaction of all $\agentsB$-restricted modal formulas.
 As the axioms {\bf RK45}, {\bf RKD45}, {\bf RComm}, and {\bf RDist} are may only be applied to $\agentsB$-restricted modal formulas, this allows us to show the soundness of these axioms.
@@ -693,7 +704,7 @@ The soundness of {\bf RKD45}, {\bf RComm} and {\bf RDist} were shown in the prev
 \section{Completeness}\label{rml-kd45-completeness}
 
 In this section we show that the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{} are complete with respect to the semantics of the logics \logicRmlKFF{} and \axiomRmlKD{} respectively.
-As for \axiomRmlK{}, we show that \axiomRmlKFF{} and \axiomRmlKD{} are complete by demonstrating a provably correct translation from formuls of \langRml{} to the underlying modal language \langMl{}.
+As for \axiomRmlK{}, we show that \axiomRmlKFF{} and \axiomRmlKD{} are complete by demonstrating a provably correct translation from formulas of \langRml{} to the underlying modal language \langMl{}.
 As a consequence of this provably correct translation we also have that \logicRmlKFF{} and \logicRmlKD{} are expressively equivalent to \logicKFF{} and \logicRmlKD{} respectively, and that \logicRmlKFF{} and \logicRmlKD{} are compact and decidable (via the compactness and decidability of \logicKFF{} and \logicKD{}).
 
 Similar to \axiomRmlK{} we rely on a normal form for modal logics for our provably correct translation, which we call alternating disjunctive normal form.
@@ -712,7 +723,7 @@ $$
 where $\atomsQ, \atomsQ' \subseteq \atoms$ are finite sets of propositional atoms, $\agentsC \subseteq \agentsB$, and for every $\agentC \in \agentsC$, $\Gamma_\agentC$ is a finite set of formulas in $(\agents \setminus \{\agentC\})$-alternating disjunctive normal form.
 \end{definition}
 
-We show that every modal formula is equivalent to an formula in alternating disjunctive normal form, under the semantics of \logicKFF{} and \logicKD{}. 
+We show that every modal formula is equivalent to a formula in alternating disjunctive normal form, under the semantics of \logicKFF{} and \logicKD{}. 
 
 \begin{lemma}\label{adnf-equivalent}
 Let $\agentsB \subseteq \agents$ be a set of agents.

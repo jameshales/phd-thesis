@@ -4,6 +4,7 @@ Refinements are relations over Kripke models that, in epistemic settings, can be
 In Section~\ref{ml} we introduced bisimulations, which are relations over Kripke models that indicate that one Kripke model is modally equivalent to another.
 Recall that a bisimulation is a relation between two Kripke models that must satisfy the conditions {\bf atoms}, {\bf forth}, and {\bf back} for every propositional atom and every agent.
 A refinement is a generalisation of a bisimulation that allows {\bf forth} to be relaxed for a given set of agents.
+A refinement is also the reverse of a simulation, which relaxes {\bf back} for all agents.
 
 \begin{definition}[Refinements]\label{refinements}
 Let $\agentsB \subseteq \agents$ be a set of agents and let $\kModelAndTuple$ and $\kModelAndTupleP$ be Kripke models.
@@ -26,7 +27,7 @@ We call an $\{\agentA\}$-refinement simply an {\em $\agentA$-refinement} and we 
 
 We note that we use the term ``refinement'' both to refer to a relation between two Kripke models, and to refer to a Kripke model that is related to another Kripke model through such a relation.
 It should be clear from context which definition we are using.
-We also note that in informal settings we often use the term ``refinement'' to refer to the general concept of $\agentsB$-refinements.
+In informal settings we often use the term ``refinement'' to refer to the general concept of $\agentsB$-refinements, rather than to refer only to $\agents$-refinements.
 
 We provide some examples of refinements.
 
@@ -125,7 +126,6 @@ Let $\kPModelP{\kStateS} = \restrict{\kPModel{\kStateS}}{\lnot \knowsB \atomP}$.
 The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are shown in Figure~\ref{example-refinement-aml-figure}.
 We note that $\kPModel{\kStateS} \simulatesA \kPModelP{\kStateS}$ via the $\agentA$-refinement $\refinement = \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}$.
 We also note that $\kPModelP{\kStateS} \simulatesA \kPModel{\kStateS}$ via the $\agentA$-refinement $\refinement = \{(\kStateS, \kStateS), (\kStateT, \kStateT), (\kStateS, \kStateU)\}$.
-\todo[inline]{Similar example for action models.}
 \end{example}
 
 As mentioned previously, we consider the existence of a refinement between two Kripke models to indicate that one Kripke model is the result of an epistemic update of the other Kripke model.
@@ -179,7 +179,7 @@ Then $\refinement \circ \refinement' \subseteq \kStates \times \kStatesPP$ is a 
 \end{proposition}
 
 \begin{proof}
-    We will show that the relation $\refinement'' = \refinement \circ \refinement' \subseteq \kStates \times \kStatesPP$ is a $(\agentsB \cup \agentsC)$-refinement from $\kPModel{\kStateS}$ to $\kPModelPP{\kStateSPP}$ and therefore $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$.
+    We will show that the relation $\refinement'' = \refinement \circ \refinement' \subseteq \kStates \times \kStatesPP$ is a $(\agentsB \cup \agentsC)$-refinement from $\kPModel{\kStateS}$ to $\kPModelPP{\kStateSPP}$ and therefore $\kPModel{\kStateS} \simulates[(\agentsB \cup \agentsC)] \kPModelPP{\kStateSPP}$.
 We note that $(\kStateS, \kStateSPP) \in \refinement''$ if and only if there exists $\kStateSP \in \kStatesP$ such that $(\kStateS, \kStateSP) \in \refinement$ and $(\kStateSP, \kStateSPP) \in \refinement'$.
 Let $\atomP \in \atoms$, $\agentA \in \agents$, $\agentC \in \agents \setminus (\agentsB \cup \agentsC)$, and $(\kStateS, \kStateSPP) \in \refinement''$ where there exists $\kStateSP \in \kStatesP$ such that $(\kStateS, \kStateSP) \in \refinement$ and $(\kStateSP, \kStateSPP) \in \refinement'$.
 We show that the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentC$} and {\bf back-$\agentA$} hold.
@@ -202,7 +202,7 @@ As $(\kStateSP, \kStateSPP) \in \refinement'$ from {\bf back-$\agentA$} for $\re
 As $(\kStateS, \kStateSP) \in \refinement$ from {\bf back-$\agentA$} for $\refinement$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTP) \in \refinement$.
 Therefore there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTPP) \in \refinement''$.
 
-Therefore $\refinement''$ is a $(\agentsB \cup \agentsC)$-refinement from $\kPModel{\kStateS}$ to $\kPModelPP{\kStateSPP}$ and therefore $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$.
+Therefore $\refinement''$ is a $(\agentsB \cup \agentsC)$-refinement from $\kPModel{\kStateS}$ to $\kPModelPP{\kStateSPP}$ and therefore $\kPModel{\kStateS} \simulates[(\agentsB \cup \agentsC)] \kPModelPP{\kStateSPP}$.
 \end{proof}
 
 Similar to the relational operator $\bisimilar$ for bisimilarity, we note that the relational operator $\simulatesBs$ for refinements is reflexive and transitive.
@@ -224,7 +224,7 @@ By Proposition~\ref{refinement-composition} the relation $\refinement'' = \refin
 However as refinements require {\bf back} for every agent, but do not generally require {\bf forth} for every agent, we note that $\simulatesBs$ is not symmetrical when $\agentsB$ is non-empty.
 This was demonstrated in Example~\ref{example-refinement-pal}, where Kripke models are given such that  $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateS}$ but $\kPModelP{\kStateS} \not\simulatesBs \kPModel{\kStateS}$.
 
-The refinements of a Kripke model may be characterised as being formed by taking a bisimilar Kripke model, by duplicating states and their relationships (satisfying {\bf atoms}, {\bf forth}, and {\bf back}) and then removing edges for some agents (relaxing {\bf forth} for some agents).
+The refinements of a Kripke model may be characterised as being formed by taking a bisimilar Kripke model, such as by duplicating states and their relationships (satisfying {\bf atoms}, {\bf forth}, and {\bf back}) and then removing edges for some agents (relaxing {\bf forth} for some agents).
 We formalise this intuition using the notion of an expanded refinement.
 An expanded refinement is a refinement from one Kripke model to another Kripke model where every state in the latter is mapped by the refinement at most one state from the former.
 
@@ -377,11 +377,10 @@ By Proposition~\ref{refinement-decomposition} there exists a pointed Kripke mode
 As in the proof of Proposition~\ref{refinement-decomposition}, $\kPModel{\kStateS} \simulates[\emptyset] \kPModelP{\kStateSP}$ via an expanded $\emptyset$-refinement $\refinement \subseteq \kStates \times \kStatesP$.
 As $\kPModel{\kStateS} \simulates[\emptyset] \kPModelP{\kStateSP}$ then by Corollary~\ref{refinement-bisimilar} we have that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
 We note that using the construction of Proposition~\ref{refinement-decomposition}, we have a model $\kPModelP{\kStateSP}$ such that for every $\agentA \in \agents$ if $\agentA \in \agentsB$ then $\kAccessibilityPPA \subseteq \kAccessibilityPA$, and if $\agentA \notin \agentsB$ then $\kAccessibilityPPA = \kAccessibilityPA$.
-Moreover we note that the construction of Proposition~\ref{refinement-decomposition} in the case of a $\emptyset$-refinement followed by a $\agentsB$-refinement is essentially formed by duplicating states and their relationships, as for every $\agentA \in \agents$, $\kStateTP, \kStateUP \in \kStatesP$ we have that $(\kStateTP, \kStateUP) \in \kAccessibilityPA$ if and only if $(\refinement^{-1}(\kStateTP), \refinement^{-1}(\kStateUP)) \in \kAccessibilityA$.
 \end{proof}
 
 We note that our definition of a refinement is more general than previous definitions.
-van Ditmarsch and French~\cite{vanditmarsch:2009} gave a definition corresponding to our notion of a $\agents$-refinement, not requiring {\bf forth} at all.
+van Ditmarsch and French~\cite{vanditmarsch:2009} gave a definition corresponding to our notion of an $\agents$-refinement, not requiring {\bf forth} at all.
 van Ditmarsch, French and Pinchinat~\cite{vanditmarsch:2010} subsequently gave a definition corresponding to our notion of a $\agentA$-refinement, relaxing {\bf forth} for a single agent.
 However we may alternatively define our notion of a $\agentsB$-refinement as the composition of $\agentA$-refinements, through intermediate Kripke models.
 
@@ -430,8 +429,8 @@ We expect that epistemic updates should provide agents with additional informati
 For example, if an agent doesn't know that a propositional atom is true before an epistemic update, then it's reasonable for the agent to know that the propositional atom is true after an epistemic update.
 Formally, if $\kPModel{\kStateS} \entails \lnot \knowsA \atomP$ then it would be reasonable if $\kPModelP{\kStateSP} \entails \knowsA \atomP$.
 So information about a lack of knowledge should not always be preserved by epistemic updates.
-More generally then, if an agent has information that is true before an epistemic update, but the truth of the information isn't preserved by an epistemic updates, then it's reasonable, and in some cases expected, that after the epistemic update the agent no longer knows that the information is true.
-Formally, if $\kPModel{\kStateS} \entails \knowsA \lnot \knowsA \atomP$ and $\kPModelP{\kStateSP} \entails \knowsA \atomP$ then it would be reasonable if $\kPModelP{\kStateSP} \entails \lnot \knows \lnot \knowsA \atomP$.
+Then if an agent has information that is true before an epistemic update, but the truth of the information isn't preserved by an epistemic updates, then it's reasonable, and in some cases expected, that after the epistemic update the agent no longer knows that the information is true.
+Formally, if $\kPModel{\kStateS} \entails \knowsA \lnot \knowsB \atomP$ and $\kPModelP{\kStateSP} \entails \knowsB \atomP$ then it would be reasonable if $\kPModelP{\kStateSP} \entails \lnot \knowsA \lnot \knowsB \atomP$.
 So rather than our first approximation, that epistemic updates should preserve all knowledge, we see that it's more reasonable that epistemic updates only preserve knowledge about information that has its truth preserved by epistemic updates.
 We formalise this notion with the definition of positive formulas.
 
@@ -452,13 +451,13 @@ where $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentC \in \agents \setmi
 
 We call an $\agents$-positive formula simply a {\em positive formula} and we call an $\{\agentA\}$-positive formula simply an {\em $\agentA$-positive formula}.
 
-Restricting our attention for a moment to only the $\agents$-positive formulas, we note that this captures syntactically our intuition of which statements should have their truth preserved by epistemic updates.
+Restricting our attention for a moment to only the $\agents$-positive formulas, where all $\possibleA$~modalities are prohibited, we note that this captures syntactically our intuition of which statements should have their truth preserved by epistemic updates in general.
 As a base case, propositional atoms and their negations should have their truth preserved by epistemic updates.
 Then given two statements that have their truth preserved by epistemic updates, a conjunction or disjunction of the two statements should have its truth preserved by epistemic updates.
 Finally, given a statement that has its truth preserved by epistemic updates, knowledge of that statement should be preserved by epistemic updates. 
 
-Considering the more general case of $\agentsB$-positive formulas, we note that this captures syntactically an intuition about which statements should have their truth preserved by epistemic updates, when only the agents in $\agentsB$ may be provided with additional information.
-Roughly it is that anything an agent {\em not} in $\agentsB$ {\em doesn't} know before an epistemic update, the agent should continue not knowing after an epistemic update.
+Considering the more general case of $\agentsB$-positive formulas, where $\possibleA$~modalities are prohibited only for agents in the set $\agentsB$, we note that this captures syntactically an intuition about which statements should have their truth preserved by epistemic updates, when only the agents in $\agentsB$ may be provided with additional information.
+Roughly, anything an agent {\em not} in $\agentsB$ {\em doesn't} know before an epistemic update, the agent should continue not knowing after an epistemic update.
 For example, supposing that $\agentA \notin \agentsB$ then if $\kPModel{\kStateS} \entails \lnot \knowsA \atomP$, this is equivalent to $\kPModel{\kStateS} \entails \possibleA \lnot \atomP$, so we require that $\kPModelP{\kStateSP} \entails \possibleA \lnot \atomP$, or equivalently that $\kPModelP{\kStateSP} \entails \lnot \knowsA \atomP$.
 
 Returning to refinements, we now consider the relationship between refinements and positive formulas.
@@ -467,7 +466,7 @@ We generalise this result to our more general notion of refinements, showing tha
 
 \begin{proposition}\label{refinements-preserve-positive}
 Let $\agentsB \subseteq \agents$ be a set of agents and let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
-Then for every $\phi \in \langMlPlusBs$
+For every $\phi \in \langMlPlusBs$
 if $\kPModel{\kStateS} \entails \phi$ then $\kPModelP{\kStateSP} \entails \phi$.
 \end{proposition}
 

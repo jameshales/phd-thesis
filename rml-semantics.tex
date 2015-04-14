@@ -171,16 +171,8 @@ Then $\kPModel{\kStateS} \entails_\logicRmlK \somerefsBs \phi$ if and only if $\
 \end{corollary}
 
 However these results are specific to \logicRmlK{} and are not general to \logicRmlC{} for any class of Kripke frames \classC{}.
-In order to generalise these results to settings other than \classK{}, say \classC{}, we require a modification of Proposition~\ref{refinement-agent-decomposition} that gives us intermediate refinements that belong to \classC{}.
-For many classes of Kripke frames this is a simple matter to do.
-We recall from Corollary~\ref{refinement-subrelations} that refinements may be characterised as being formed by taking a bisimilar Kripke model, formed by duplicating states and their relationships, followed by removing edges for some agents.
-The related Proposition~\ref{refinement-decomposition} shows that we can remove the edges for each set of agents in turn, by using an intermediate refinement.
-Then it is sufficient to show that duplicating the states and relationships of a \classC{} Kripke frame results in another \classC{} Kripke frame, and that the frame conditions of \classC{} permit modifying the accessibility relations of one set of agents without regard to the accessibility relations of the remaining agents.
-We don't show this in detail but we note that this is the case for \classK{}, \classKF{}, \classKFF{}, \classKD{} and \classS{}.
-We can imagine settings where these results do not hold.
-For example, if the frame conditions require that two agents, $\agentA$ and $\agentB$ have the same accessibility relations, then there may be permissible $\{\agentA, \agentB\}$-refinements that cannot be reached through an $\agentA$-refinement followed by an $\agentB$-refinement, or vice versa.
-If the frame conditions require that the accessibility relation of agent, $\agentA$, be a subrelation of the accessibility relation of another agent, $\agentB$, then there may be $\{\agentA, \agentB\}$-refinements that can be reached through an $\agentA$-refinement followed by an $\agentB$-refinement, but not vice versa.
-However we do not consider such settings in detail in the present work.
+In order to generalise these results to settings other than \classK{} we require a modification of Proposition~\ref{refinement-agent-decomposition} that gives us intermediate refinements that belong to the appropriate class.
+For many classes of Kripke models this is a simple matter to do, and we note that for \classKF{}, \classKFF{}, \classKD{}, and \classS{}, if the original Kripke model and its refinement belong to the appropriate class then the intermediate refinement given in the proof of Proposition~\ref{refinement-agent-decomposition} already gives intermediate refinements from the appropriate class.
 
 We now show some semantic properties of \logicRml{} that hold regardless of setting.
 
@@ -246,7 +238,7 @@ This validity prevents the logic from being closed under uniform substitution in
 
 \begin{example}\label{example-uniform-substitution}
 By (\ref{rml-validity-rp}) from Proposition~\ref{rml-validities} we have that $\entails_\logicRmlK{} \atomP \implies \allrefsA \atomP$.
-The formula $\possibleA \atomP \implies \allrefsA \possibleA \atomP$ is a uniform substitution of $\atomP \implies \allrefs \atomP$.
+The formula $\possibleA \atomP \implies \allrefsA \possibleA \atomP$ is a uniform substitution of $\atomP \implies \allrefs \atomP$, substituting $\possibleA \atomP$ for $\atomP$.
 However we note that $\nentails_\logicRmlK{} \possibleA \atomP \implies \allrefsA \possibleA \atomP$, as the following counterexample demonstrates.
 Let $\kPModelAndTuple{\kStateS}$ and $\kPModelP{\kStateS} = ((\kStates, \kAccessibilityP{}, \kValuation), \kStateS)$ be pointed Kripke models where:
 \begin{eqnarray*}
@@ -259,12 +251,12 @@ Then $\kPModel{\kStateS} \entails_\logicRmlK{} \possibleA \atomP$, $\kPModel{\kS
 Therefore $\kPModel{\kStateS} \nentails_\logicRmlK{} \possibleA \atomP \implies \allrefsA \possibleA \atomP$.
 \end{example}
 
-Similar counterexamples for closure of uniform substitution can easily be demonstrated in many other settings, including \classKF{}, \classKFF{}, \classKD{}, and \classS{}.
+The same counterexample applies to many other settings, including \classKF{}, \classKFF{}, \classKD{}, and \classS{}.
 We can easily imagine settings where \logicRml{} is closed under uniform substitution, such as in a singleton class of Kripke frames, where the only refinement of a Kripke model is itself.
 However settings where \logicRml{} is closed uniform substitution are of no interest at all.
 Supposing that \logicRmlC{} is closed under uniform substitution then for every $\phi \in \langRml$, by (\ref{rml-validity-rt}) and a uniform substitution of (\ref{rml-validity-rp}) from Proposition~\ref{rml-validities} we would have $\entails_\logicRmlC \phi \iff \allrefsBs \phi$, making the $\allrefsBs$ operator redundant.
 
-We also show that \logicRml{} is bisimulation invariant, regardless of the setting.
+We next show that \logicRml{} is bisimulation invariant, regardless of the setting.
 
 \begin{proposition}\label{rml-bisimulation-invariance}
 Let $\classC$ be a class of Kripke frames and let $\kPModel{\kStateS}, \kPModelP{\kStateSP} \in \classC$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
@@ -302,7 +294,7 @@ Therefore $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP
 \end{proof}
 
 Similar to modal logic, the converse holds in \logicRml{} for modally saturated Kripke models.
-However this is a trivial result, as refinement modal equivalence implies modal equivalence.
+However this is a trivial result, as refinement modal equivalence implies modal equivalence, which by Proposition~\ref{modal-hennessy-milner} implies bisimilarity on modally saturated Kripke models.
 
 In the following chapters we consider \logicRml{} in a variety of modal settings, specifically \classK{}, \classKF{}, \classKFF{}, \classKD{}, and \classS{}.
 We now give a few properties that are common to some or all of these settings.
@@ -374,6 +366,7 @@ The proof that \logicRml{} has the McKinsey property on the other hand relies on
 For \classK{}, \classKF{}, and \classKFF{} the unique minimal refinement is the refinement where each state has no $\agentsB$-successors.
 For \classSF{} and \classS{} the unique minimal refinement is the refinement where each state only has the reflexive $\agentsB$-successor.
 However in the setting of \classKD{} the minimal refinements are the refinements where each state has a single $\agentsB$-successor, and there may be multiple such refinements that are distinct with respect to bisimulation.
+This is why \logicRmlKD{} does not have the McKinsey property.
 
 \begin{example}
 \begin{figure}

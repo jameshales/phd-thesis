@@ -3,7 +3,7 @@
 In this chapter we consider in greater detail the logics \logicRmlKFF{} and \logicRmlKD{}, in the settings of \classKFF{} and \classKD{} respectively.
 As in the previous chapter we present sound and complete axiomatisations, provably correct translations from \langRml{} to \langMl{}, and expressive equivalence, compactness and decidability results.
 As noted previously, the logic \logicRmlK{} is not a sublogic of \logicRmlKFF{} or \logicRmlKD{}, so our previous results in \logicRmlK{} do not all apply in these settings.
-In particular, the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} from \axiomRmlK{} are not sound in \logicRmlKFF{} or \logicRmlKD{}, so we must find replacement axioms.
+In particular, the axioms {\bf RK}, and {\bf RComm} from \axiomRmlK{} are not sound in \logicRmlKFF{} or \logicRmlKD{}, so we must find replacement axioms.
 
 In the following sections we provide sound and complete axiomatisations for \logicRmlKFF{} and \logicRmlKD{}.
 In Section~\ref{rml-kd45-axiomatisation} we provide the axiomatisations for \logicRmlKFF{} and \logicRmlKD{}, which feature syntactic restrictions of the axioms {\bf RK}, {\bf RComm}, and {\bf RDist}.
@@ -20,9 +20,9 @@ These axiomatisations are modifications of the axiomatisation \axiomRmlK{} for \
 As in \axiomRmlK{} the cover operator features prominently in these axiomatisations.
 We discuss and justify the use of the cover operator in Chapter~\ref{rml-k}, where we introduced the axiomatisation \axiomRmlK{}.
 The cover operator serves as a convenient notation for a conjunction of modalities that also restricts conjunctions of modalities to cases where the axioms are sound.
-However we find that this restriction on notation is not sufficient to ensure that the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} are sound in \logicRmlKFF{} and \logicRmlKD{}.
+However we find that this restriction on notation is not sufficient to ensure that the axioms {\bf RK}, and {\bf RComm} are sound in \logicRmlKFF{} and \logicRmlKD{}.
 
-Indeed we know a priori that some of the rules and axioms of \axiomRmlK{} must not be sound in \logicRmlKFF{} and \logicRmlKD{}.
+We know a priori that some of the rules and axioms of \axiomRmlK{} must not be sound in \logicRmlKFF{} and \logicRmlKD{}.
 If the axiomatisation \axiomRmlK{} was sound for \logicRmlKFF{} or \logicRmlKD{} then \logicRmlK{} would be a sublogic of these logics, but we previously noted in Proposition~\ref{rml-not-sublogics} that this is not the case.
 It is a simple matter to show that the axioms and rules of \axiomK{} are sound for \logicRmlKFF{} and \logicRmlKD{}, and the axioms and rules {\bf R}, {\bf RP}, and {\bf NecR} are sound for \logicRmlKFF{} and \logicRmlKD{} as they were shown to be sound for all variants of \logicRml{} in Proposition~\ref{rml-validities}.
 Hence some or all of {\bf RK}, {\bf RComm}, and {\bf RDist} must not be sound for \logicRmlKFF{} and \logicRmlKD{}. 
@@ -91,8 +91,9 @@ The contradiction becomes obvious once we convert $\possibleA \atomP \land \lnot
 The problem with our initial attempt at applying the axiom {\bf RK} occurred because we had a set of formulas, $\{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$ that was contradictory when taken together in a cover operator, as in $\coverA \{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$, but considered individually each formula is satisfiable in a refinement of a successor, as in $\possibleA \somerefsA (\lnot \atomP \land \possibleA \atomP) \land \possibleA \somerefsA \lnot \atomP$.
 The solution we have seen here is to rewrite the formula $\coversA \{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$ into the equivalent $\coversA \{\atomP \land \lnot \atomP, \lnot \atomP\}$ where we now have a contradiction when we consider the formulas individually, as in $\possibleA \somerefsA (\atomP \land \lnot \atomP) \land \possibleA \somerefsA \lnot \atomP$.
 Rewriting the formula in this way explicitly represents the interaction between the formulas in the cover operator due to transitivity and Euclideaness.
-In the rewritten formula there is no interaction between the formulas in the cover operator due to transitivity and Euclideaness, because the formulas in the cover operator do not feature $\agentA$-modalities at the top level, so any interaction that was implied in the original formula must be explicit in the rewritten formula.
-This makes the contradiction between the formulas due to transitivity and Euclideaness more obvious, and means that considering the formulas individually as in the {\bf RK} axiom does not result in the contradiction disappearing.
+In the rewritten formula there is no interaction between the formulas in the cover operator due to transitivity and Euclideaness, because the formulas in the cover operator do not feature $\agentA$-modalities at the top level.
+Therefore any interaction that was implied in the original formula becomes explicit in the rewritten formula.
+This makes the contradiction between the formulas due to transitivity and Euclideaness more obvious, and means that considering the formulas individually as is done the {\bf RK} axiom does not result in the contradiction disappearing.
 
 This suggests a method for repairing the axiomatisation \axiomRmlK{} to be sound in \logicRmlKFF{} and \logicRmlKD{}.
 Essentially we use the same axioms {\bf RK}, {\bf RComm} and {\bf RDist} from \axiomRmlK{}, but we restrict the formulas that they are applied to, so that modalities may not directly contain modalities belonging to the same agent.
@@ -112,6 +113,7 @@ where $\atomP \in \atoms$, $\agentB \in \agentsB$ and $\psi \in \langMl$.
 \end{definition}
 
 A $\agentsB$-restricted modal formula is essentially a modal formula that contains only $\agentsB$-modalities at the top level, but which may contain other modalities provided that they appear in the scope of $\agentsB$-modalities.
+For example, $\possibleA \atomP \land \necessaryA \atomQ$ and $\necessaryA \possibleB \atomP \land \possibleA \necessaryC \atomQ$ are $\{\agentA\}$-restricted modal formulas as all non-$\agentA$-modalities appear in the scope of $\agentA$-modalities, while $\possibleA \atomP \land \necessaryB \atomQ$ and $\necessaryA \possibleB \atomP \land \possibleC \necessaryA \atomQ$ are {\em not} $\{\agentA\}$-restricted modal formulas as there are non-$\agentA$-modalities that appear outside of the scope of $\agentA$-modalities.
 
 We now present our axiomatisations for \logicRmlKFF{} and \logicRmlKD{}.
 
@@ -147,7 +149,7 @@ where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\age
 
 We emphasise that the only difference between \axiomRmlKFF{} and \axiomRmlKD{} is that in \axiomRmlKD{} we require that the cover operators in the axioms {\bf RKD45}, {\bf RComm}, and {\bf RDist} be applied to non-empty sets of formulas.
 This accounts for the only difference between \classKFF{} and \classKD{}: we require seriality in \classKD{}, but not in \classKFF{}.
-We note that strictly speaking, {\bf RComm} and {\bf RDist} are sound in \logicRmlKD{} when the cover operators are applied to empty sets of formulas, but this is derivable from the other axioms.
+We note that strictly speaking, {\bf RComm} and {\bf RDist} are sound in \logicRmlKD{} when the cover operators are applied to empty sets of formulas, but this is derivable from the other axioms using the fact that $\proves \lnot \coversA \emptyset$ in \axiomKFF{}.
 
 \section{Soundness}\label{rml-kd45-soundness}
 
@@ -155,16 +157,16 @@ In this section we show that the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{
 As in \logicRmlK{}, the axioms {\bf R} and {\bf RP}, and the rule {\bf NecR} are already known to be sound as they were established for all variants of \logicRml{} in Proposition~\ref{rml-validities}.
 What remains to be shown is that the axioms {\bf RK45}, {\bf RKD45}, {\bf RComm}, and {\bf RDist} are sound.
 These axioms are similar to the corresponding axioms from \axiomRmlK{}, and accordingly our proofs of soundness build upon the techniques used to show the soundness of \axiomRmlK{}.
-As for \axiomRmlK{}, the left-to-right direction of these equivalences is simple to show, whereas the right-to-left direction is more involved, relying on a construction that combines the refinements described on the right of the equivalence into a single refinement that satisfies the left of the equivalence.
+As with \axiomRmlK{}, the left-to-right direction of these equivalences is simple to show, whereas the right-to-left direction is more involved, relying on a construction that combines the refinements described on the right of the equivalence into a single refinement that satisfies the left of the equivalence.
 In the constructions used for the soundness proofs of \axiomRmlK{} the refinements described on the right of the equivalence are combined in such a way that preserves bisimilarity of the original refinements, and hence preserves the satisfaction of all modal formulas.
 However unlike \logicRmlK{}, in the setting of \logicRmlKFF{} and \logicRmlKD{} we require that all refinements satisfy the \classKFF{} or \classKD{} frame conditions respectively.
 The constructions used in our soundness proofs for \axiomRmlKFF{} and \axiomRmlKD{} differ slightly in that they have additional edges in order to ensure the transitive and Euclidean properties.
-These additional edges means that the refinements described on the right of the equivalence cannot in general be combined in such a way that preserves bisimilarity of the original refinements.
+The requirement to have these additional edges means that the refinements described on the right of the equivalence cannot in general be combined in such a way that preserves bisimilarity of the original refinements.
 However with a modification of the construction we can ensure a restricted form of bisimilarity, called $\agentsB$-bisimilarity, which preserves the satisfaction of all $\agentsB$-restricted modal formulas.
-As the axioms {\bf RK45}, {\bf RKD45}, {\bf RComm}, and {\bf RDist} are may only be applied to $\agentsB$-restricted modal formulas, this allows us to show the soundness of these axioms.
+As the axioms {\bf RK45}, {\bf RKD45}, {\bf RComm}, and {\bf RDist} may only be applied to $\agentsB$-restricted modal formulas this allows us to show the soundness of these axioms.
 
 We note that the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{} are very similar, the only difference being that the axioms of \axiomRmlKD{} require that the cover operators in the axioms {\bf RKD45}, {\bf RComm}, and {\bf RDist} be applied to non-empty sets of formulas, accounting for the additional requirement of seriality in \classKD{}.
-As such we will only show prove the soundness of the axioms of \axiomRmlKFF{} in detail, noting that the same proof techniques work for \axiomRmlKD{} with some minor considerations for the differences.
+As such we will only show prove the soundness of the axioms of \axiomRmlKFF{} in full detail, noting that the same proof techniques work for \axiomRmlKD{} with some minor considerations for the differences.
 
 We begin by defining $\agentsB$-bisimilarity.
 
@@ -214,13 +216,14 @@ We use this lemma to show the soundness of {\bf RK45}, {\bf RKD45}, {\bf RComm},
 We next show that the axiom {\bf RK45} from \axiomRmlKFF{} is sound.
 Recall that the axiom {\bf RK45} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ where $\agentsB \subseteq \agents$, $\agentA \in \agentsB$, and $\Gamma_\agentA \subseteq \langRml$ is a finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
 
-\begin{lemma}\label{rml-k45-rkff}
+\begin{lemma}\label{rml-k45-rk45}
 The axiom {\bf RK45} from the axiomatisation \axiomRmlKFF{} is sound with respect to the semantics of the logic \logicRmlKFF{}.
 \end{lemma}
 
 \begin{proof}
 ($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
-Then we show that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ using the same reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
+Then we show that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ using essentially the same reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
+The only additional consideration required for \logicRmlKFF{} is that the refinement must be a \classKFF{} Kripke model, but this is given by the semantics of $\somerefsBs$ in \logicRmlKFF{}.
 
 ($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classKFF$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
@@ -230,13 +233,15 @@ Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
 \begin{eqnarray*}
     \kStatesP &=& \{\kStateSP\} \cup \{\kStateSP_\gamma \mid \gamma \in \Gamma_\agentA\} \cup \kStates \cup \bigcup_{\gamma \in \Gamma_\agentA} \kStates[\gamma]\\
     \kAccessibilityPA &=& \{(\kStateSP, \kStateSP_\gamma) \mid \gamma \in \Gamma_\agentA\} \cup \{(\kStateSP_\gamma, \kStateSP_{\gamma'}) \mid \gamma, \gamma' \in \Gamma_\agentA\} \cup \kAccessibilityA \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityA[\gamma]\\
-    \kAccessibilityPB &=& \{(\kStateSP, \kStateT) \mid \kStateT \in \kSuccessorsB{\kStateS}\} \cup \{(\kStateSP_\gamma, \kStateT[\gamma]) \mid \gamma \in \Gamma_\agentA, \kStateT[\gamma] \in \kSuccessorsB[\gamma]{\kStateS[\gamma]}\} \cup \kAccessibilityB \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityB[\gamma] \text{ for } \agentB \in \agents \setminus \{\agentA\}\\
-    \kValuationP(\atomP) &=& \overline{\{\kStateSP\}} \cup \bigcup_{\gamma \in \Gamma_\agentA} \overline{\{\kStateSP_\gamma\}} \cup \kValuation(\atomP) \cup \bigcup_{\gamma \in \Gamma_\agentA} \kValuation[\gamma](\atomP)
+    \kAccessibilityPB &=& \{(\kStateSP, \kStateT) \mid \kStateT \in \kSuccessorsB{\kStateS}\} \cup \{(\kStateSP_\gamma, \kStateT[\gamma]) \mid \gamma \in \Gamma_\agentA, \kStateT[\gamma] \in \kSuccessorsB[\gamma]{\kStateS[\gamma]}\} \cup \kAccessibilityB \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityB[\gamma]\\
+    \kValuationP(\atomP) &=& \{\kStateSP \mid \kStateS \in \kValuation(\atomP)\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \{\kStateSP_\gamma \mid \kStateS[\gamma] \in \kValuation[\gamma](\atomP)\} \cup \kValuation(\atomP) \cup \bigcup_{\gamma \in \Gamma_\agentA} \kValuation[\gamma](\atomP)
 \end{eqnarray*}
-where $\kStateSP$ and $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ are fresh states not appearing in $\kStates$ or $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$, $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise, and for every $\gamma \in \Gamma_\agentA$: $\overline{\{\kStateSP_\gamma\}} = \{\kStateSP_\gamma\}$ if $\kStateS[\gamma] \in \kValuation[\gamma](\atomP)$ and $\overline{\{\kStateSP_\gamma\}} = \emptyset$ otherwise.
+where $\kStateSP$ and $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ are fresh states not appearing in $\kStates$ or $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$, and $\agentB \in \agents \setminus \{\agentA\}$.
+
+We note that by construction $\kModelP \in \classKFF$.
 
 \begin{figure}
-    \caption{A schematic of the construction used to show soundness of {\bf RK45}.}\label{rml-k45-rkff-construction}
+    \caption{A schematic of the construction used to show soundness of {\bf RK45}.}\label{rml-k45-rk45-construction}
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
@@ -283,9 +288,14 @@ where $\kStateSP$ and $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ a
     \end{tikzpicture}
 \end{figure}
 
-We note that by construction $\kModelP \in \classKFF$.
+We call each state $\kStateSP_\gamma$ a ``proxy state'' for the corresponding state $\kStateS[\gamma]$.
+In general we cannot have the $\kStateS[\gamma]$ states be direct $\agentA$-successors of $\kStateSP$ whilst also having $\kPModelP{\kStateS[\gamma]} \bisimilar \kPModel[\gamma]{\kStateS[\gamma]}$.
+This is because our construction would require additional $\agentA$-edges from the $\kStateS[\gamma]$ states in order to satisfy the transitive and Euclidean properties of \classKFF{}.
+We introduce proxy states to act a proxy for the non-$\agentA$-successors of the corresponding refinement state, so that $\kPModelP{\kStateSP_\gamma} \bisimilar[(\agents \setminus \{\agentA\})] \kPModel[\gamma]{\kStateS[\gamma]}$.
+As each $\gamma$ is a $(\agents \setminus \{\agentA\})$-restricted modal formula, and $(\agents \setminus \{\agentA\})$-bisimilar Kripke models agree on $(\agents \setminus \{\agentA\})$-restricted modal formulas, this is enough to ensure that $\kPModelP{\kStateSP_\gamma} \entails \gamma$.
 
-A schematic of the Kripke model $\kPModelP{\kStateSP}$ and an overview of our construction is shown in Figure~\ref{rml-k45-rkff-construction}.
+A schematic of the Kripke model $\kPModelP{\kStateSP}$ and an overview of our construction is shown in Figure~\ref{rml-k45-rk45-construction}.
+The construction is similar in essence to the construction used for the soundness proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 Here we can see that each of the $\agentsB$-refinements at successors, $\kPModel[\gamma_1]{\kStateT[\gamma_1]}, \dots, \kPModel[\gamma_n]{\kStateT[\gamma_n]}$, are combined into the larger Kripke model $\kPModelP{\kStateSP}$.
 We can see the use of the proxy states $\kPModelP{\kStateS_{\gamma_1}}, \dots, \kPModelP{\kStateS_{\gamma_n}}$, which have all of the $(\agents \setminus \{\agentA\})$-successors of the respective refinements $\kPModel[\gamma_1]{\kStateT[\gamma_1]}, \dots, \kPModel[\gamma_n]{\kStateT[\gamma_n]}$.
 We note that the proxy states are $(\agents \setminus \{\agentA\})$-bisimilar to the respective refinements, and therefore satisfy the respective $(\agents \setminus \{\agentA\})$-restricted formulas $\gamma_1, \dots, \gamma_n$.
@@ -293,7 +303,7 @@ We note that the proxy states have additional transitive and Euclidean edges in 
 From this schematic representation we can clearly see that $\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$.
 It is less clear that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$, but we will show this next.
 We note that there are $\agentA$-successors of $\kPModel{\kStateS}$ that do not satisfy any $\somerefsBs \gamma_i$ and do not correspond to any $\agentsB$-refinement $\kPModel[\gamma_i]{\kStateT[\gamma_i]}$.
-This is permissible as $\agentA \notin \agentsB$ and so {\bf forth-$\agentA$} is not required in order for $\kPModelP{\kStateSP}$ to be a $\agentsB$-refinement of $\kPModel{\kStateS}$.
+This is permissible as $\agentA \in \agentsB$ and so {\bf forth-$\agentA$} is not required in order for $\kPModelP{\kStateSP}$ to be a $\agentsB$-refinement of $\kPModel{\kStateS}$.
 
 To show that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$ we will show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
 
@@ -307,71 +317,87 @@ $$
 We show that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
 
 Let $\atomP \in \atoms$, $\agentB \in \agents$, $\agentC \in \agents \setminus \agentsB$.
+We show by cases that the relationships in $\refinement$ satisfy the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentC$}, and {\bf back-$\agentB$}.
 
-\paragraph{atoms-$\atomP$}
-Consider $(\kStateS, \kStateSP) \in \refinement$ or $(\kStateT, \kStateT) \in \refinement$ where $\kStateT \in \kStates$.
-Then {\bf atoms-$\atomP$} follows by construction.
+\begin{description}
+    \item[Case $(\kStateS, \kStateSP) \in \refinement$:]
+        \hfill
+        \begin{description}
+            \item[atoms-$\atomP$] 
+                By construction $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
+            \item[forth-$\agentC$]
+                Let $\kStateT \in \kSuccessorsC{\kStateS}$.
+                As $\agentC \in \agents \setminus \agentsB$ and $\agentA \in \agentsB$ then $\agentC \neq \agentA$.
+                By construction $\kSuccessorsPC{\kStateSP} = \kSuccessorsC{\kStateS}$.
+                Then $\kStateT \in \kSuccessorsPC{\kStateSP}$ and by construction $(\kStateT, \kStateT) \in \refinement$.
+            \item[back-$\agentB$]
+                Suppose that $\agentB = \agentA$.
+                Let $\kStateSP_\gamma \in \kSuccessorsPA{\kStateSP}$ where $\gamma \in \Gamma_\agentA$.
+                By hypothesis $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement^\gamma \subseteq \refinement$.
 
-Consider $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement$ where $\gamma \in \Gamma_\agentA$.
-By construction $(\kStateT_\gamma, \kStateS[\gamma]) \in \refinement^\gamma$.
-Then {\bf atoms-$\atomP$} for $\refinement$ follows from {\bf atoms-$\atomP$} for $\refinement^\gamma$ ($\kPModel{\kStateT_\gamma}$ and $\kPModel[\gamma]{\kStateS[\gamma]}$ have the same valuation) and by construction ($\kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModelP{\kStateSP_\gamma}$ have the same valuation).
+                Suppose that $\agentB \neq \agentA$.
+                Let $\kStateT \in \kSuccessorsPB{\kStateSP}$.
+                By construction $\kSuccessorsPB{\kStateSP} = \kSuccessorsB{\kStateS}$.
+                Then $\kStateT \in \kSuccessorsB{\kStateS}$ and by construction $(\kStateT, \kStateT) \in \refinement$.
+        \end{description}
+    \item[Case $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement$ where $\gamma \in \Gamma_\agentA$:]
+        \hfill
+        \begin{description}
+            \item[atoms-$\atomP$] 
+                By hypothesis $(\kStateT_\gamma, \kStateS[\gamma]) \in \refinement^\gamma$.
+                By {\bf atoms-$\atomP$} for $\refinement^\gamma$ we have $\kStateT_\gamma \in \kValuation(\atomP)$ if and only if $\kStateS[\gamma] \in \kValuation[\gamma](\atomP)$.
+                By construction $\kStateS[\gamma] \in \kValuation[\gamma](\atomP)$ if and only if $\kStateSP_\gamma \in \kValuationP(\atomP)$.
+            \item[forth-$\agentC$]
+                Let $\kStateU \in \kSuccessorsC{\kStateT_\gamma}$.
+                As $\agentC \in \agents \setminus \agentsB$ and $\agentA \in \agentsB$ then $\agentC \neq \agentA$.
+                By hypothesis $(\kStateT_\gamma, \kStateS[\gamma]) \in \refinement^\gamma$.
+                By {\bf forth-$\agentC$} for $\refinement^\gamma$ there exists $\kStateU[\gamma] \in \kSuccessorsC[\gamma]{\kStateS[\gamma]}$ such that $(\kStateU, \kStateU[\gamma]) \in \refinement^\gamma$.
+                By construction $\kSuccessorsPC{\kStateSP_\gamma} = \kSuccessorsC[\gamma]{\kStateS[\gamma]}$.
+                Then $\kStateU[\gamma] \in \kSuccessorsPC{\kStateSP_\gamma}$ and $(\kStateU, \kStateU[\gamma]) \in \refinement$.
+            \item[back-$\agentB$]
+                Suppose that $\agentB = \agentA$.
+                By construction $\kSuccessorsPA{\kStateSP_\gamma} = \{\kStateSP_{\gamma'} \mid \gamma' \in \Gamma_\agentA$.
+                Let $\kStateSP_{\gamma'} \in \kSuccessorsPA{\kStateSP_\gamma}$ where $\gamma' \in \Gamma_\agentA$.
+                By hypothesis $\kStateT_{\gamma}, \kStateT_{\gamma'} \in \kSuccessorsA{\kStateS}$ and by the Euclideaness of $\kModel$ we have that $\kStateT_{\gamma'} \in \kSuccessorsA{\kStateT_\gamma}$.
+                By construction $(\kStateT_{\gamma'}, \kStateSP_{\gamma'}) \in \refinement$.
 
-Consider $(\kStateT, \kStateT[\gamma]) \in \refinement^\gamma \subseteq \refinement$ where $\gamma \in \Gamma_\agentA$.
-Then {\bf atoms-$\atomP$} for $\refinement$ follows from {\bf atoms-$\atomP$} for $\refinement^\gamma$.
-
-\paragraph{forth-$\agentC$}
-Consider $(\kStateS, \kStateSP) \in \refinement$.
-As $\agentC \in \agents \setminus \agentsB$ and $\agentA \in \agentsB$ then $\agentC \neq \agentA$.
-Let $\kStateT \in \kSuccessorsC{\kStateS}$.
-By construction $\kStateT \in \kSuccessorsPC{\kStateSP}$ and $(\kStateT, \kStateT) \in \refinement$.
-
-Consider $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement$ where $\gamma \in \Gamma_\agentA$.
-Let $\kStateU \in \kSuccessorsC{\kStateT_\gamma}$.
-As $\agentC \in \agents \setminus \agentsB$ and $\agentA \in \agentsB$ then $\agentC \neq \agentA$.
-By construction $(\kStateT_\gamma, \kStateS[\gamma]) \in \refinement^\gamma$.
-By {\bf forth-$\agentC$} for $\refinement^\gamma$ there exists $\kStateU[\gamma] \in \kSuccessorsC[\gamma]{\kStateS[\gamma]}$ such that $(\kStateU, \kStateU[\gamma]) \in \refinement^\gamma$.
-By construction $\kStateU[\gamma] \in \kSuccessorsPC{\kStateSP_\gamma}$ and $(\kStateU, \kStateU[\gamma]) \in \refinement$.
-
-Consider $(\kStateT, \kStateT) \in \refinement$ where $\kStateT \in \kStates$.
-Let $\kStateU \in \kSuccessorsC{\kStateT}$.
-By construction $\kStateU \in \kSuccessorsPC{\kStateT}$ and $(\kStateU, \kStateU) \in \refinement$.
-
-Consider $(\kStateT, \kStateT[\gamma]) \in \refinement^\gamma \subseteq \refinement$ where $\gamma \in \Gamma_\agentA$.
-Let $\kStateU \in \kSuccessorsC{\kStateT}$.
-By {\bf forth-$\agentC$} for $\refinement^\gamma$ there exists $\kStateU[\gamma] \in \kSuccessorsC[\gamma]{\kStateT[\gamma]}$ such that $(\kStateU, \kStateU[\gamma]) \in \refinement^\gamma$.
-By construction $\kStateU[\gamma] \in \kSuccessorsPC{\kStateT}$ and $(\kStateU, \kStateU[\gamma]) \in \refinement$.
-
-\paragraph{back-$\agentB$}
-Consider $(\kStateS, \kStateSP) \in \refinement$.
-Suppose that $\agentB = \agentA$.
-Let $\kStateSP_\gamma \in \kSuccessorsPA{\kStateSP}$ where $\gamma \in \Gamma_\agentA$.
-Then by hypothesis $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement$.
-Let $\kStateSP_{\kStateT} \in \kSuccessorsPA{\kStateSP}$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
-Then by hypothesis $\kStateT \in \kSuccessorsA{\kStateS}$ and $(\kStateT, \kStateSP_{\kStateT}) \in \refinement$.
-Suppose that $\agentB \neq \agentA$.
-Let $\kStateT \in \kSuccessorsPB{\kStateSP}$.
-By construction $\kStateT \in \kSuccessorsB{\kStateS}$ and $(\kStateT, \kStateT) \in \refinement$.
-
-Consider $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement$ where $\gamma \in \Gamma_\agentA$.
-Suppose that $\agentB = \agentA$.
-Let $\kStateSP_{\gamma'} \in \kSuccessorsPA{\kStateSP_\gamma}$ where $\gamma' \in \Gamma_\agentA$.
-By hypothesis $\kStateT_{\gamma}, \kStateT_{\gamma'} \in \kSuccessorsA{\kStateS}$ and by the Euclideaness of $\kModel$ we have that $\kStateT_{\gamma'} \in \kSuccessorsA{\kStateT_\gamma}$.
-By construction $(\kStateT_{\gamma'}, \kStateSP_{\gamma'}) \in \refinement$.
-Suppose that $\agentB \neq \agentA$.
-Let $\kStateT[\gamma] \in \kSuccessorsPA{\kStateSP_\gamma}$.
-By construction $(\kStateT_\gamma, \kStateS[\gamma]) \in \refinement^\gamma$.
-By {\bf back-$\agentB$} for $\refinement^\gamma$ there exists $\kStateU \in \kSuccessorsB{\kStateT_\gamma}$ such that $(\kStateU, \kStateT[\gamma]) \in \refinement^\gamma$.
-By construction $(\kStateU, \kStateT[\gamma]) \in \refinement$.
-
-Consider $(\kStateT, \kStateT) \in \refinement$ where $\kStateT \in \kStates$.
-Let $\kStateU \in \kSuccessorsPB{\kStateT}$.
-By construction $\kStateU \in \kSuccessorsB{\kStateT}$ and $(\kStateU, \kStateU) \in \refinement$.
-
-Consider $(\kStateT, \kStateT[\gamma]) \in \refinement^\gamma \subseteq \refinement$ where $\gamma \in \Gamma_\agentA$.
-Let $\kStateU[\gamma] \in \kSuccessorsPB{\kStateT[\gamma]}$.
-By construction $\kStateU[\gamma] \in \kSuccessorsB[\gamma]{\kStateT[\gamma]}$.
-By {\bf back-$\agentB$} for $\refinement^\gamma$ there exists $\kStateU \in \kSuccessorsB{\kStateT}$ such that $(\kStateU, \kStateU[\gamma]) \in \refinement^\gamma$.
-Then $(\kStateU, \kStateU[\gamma]) \in \refinement$.
+                Suppose that $\agentB \neq \agentA$.
+                Let $\kStateT[\gamma] \in \kSuccessorsPA{\kStateSP_\gamma}$.
+                By hypothesis $(\kStateT_\gamma, \kStateS[\gamma]) \in \refinement^\gamma$.
+                By {\bf back-$\agentB$} for $\refinement^\gamma$ there exists $\kStateU \in \kSuccessorsB{\kStateT_\gamma}$ such that $(\kStateU, \kStateT[\gamma]) \in \refinement^\gamma \subseteq \refinement$.
+        \end{description}
+    \item[{Case $(\kStateT, \kStateT) \in \refinement$ where $\kStateT \in \kStates$:}]
+        \hfill
+        \begin{description}
+            \item[atoms-$\atomP$] 
+                By construction $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateT \in \kValuationP(\atomP)$.
+            \item[forth-$\agentC$]
+                Let $\kStateU \in \kSuccessorsC{\kStateT}$.
+                By construction $\kSuccessorsPC{\kStateT} = \kSuccessorsC{\kStateT}$.
+                Then $\kStateU \in \kSuccessorsPC{\kStateT}$ and by construction $(\kStateU, \kStateU) \in \refinement$.
+            \item[back-$\agentB$]
+                Let $\kStateU \in \kSuccessorsPB{\kStateT}$.
+                By construction $\kSuccessorsPB{\kStateT} = \kSuccessorsB{\kStateT}$.
+                Then $\kStateU \in \kSuccessorsB{\kStateT}$ and by construction $(\kStateU, \kStateU) \in \refinement$.
+        \end{description}
+    \item[{Case $(\kStateT, \kStateT[\gamma]) \in \refinement^\gamma \subseteq \refinement$ where $\gamma \in \Gamma_\agentA$:}]
+        \hfill
+        \begin{description}
+            \item[atoms-$\atomP$] 
+                By {\bf atoms-$\atomP$} for $\refinement^\gamma$ we have $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateT[\gamma] \in \kValuation[\gamma](\atomP)$.
+                By construction $\kStateT[\gamma] \in \kValuation[\gamma](\atomP)$ if and only if $\kStateT[\gamma] \in \kValuationP(\atomP)$.
+            \item[forth-$\agentC$]
+                Let $\kStateU \in \kSuccessorsC{\kStateT}$.
+                By {\bf forth-$\agentC$} for $\refinement^\gamma$ there exists $\kStateU[\gamma] \in \kSuccessorsC[\gamma]{\kStateT[\gamma]}$ such that $(\kStateU, \kStateU[\gamma]) \in \refinement^\gamma$.
+                By construction $\kSuccessorsPC{\kStateT} = \kSuccessorsC[\gamma]{\kStateT[\gamma]}$.
+                Then $\kStateU[\gamma] \in \kSuccessorsPC{\kStateT[\gamma]}$ and $(\kStateU, \kStateU[\gamma]) \in \refinement$.
+            \item[back-$\agentB$]
+                Let $\kStateU[\gamma] \in \kSuccessorsPB{\kStateT[\gamma]}$.
+                By construction $\kSuccessorsPB{\kStateT[\gamma]} = \kSuccessorsB[\gamma]{\kStateT[\gamma]}$.
+                Then $\kStateU[\gamma] \in \kSuccessorsB[\gamma]{\kStateT[\gamma]}$.
+                By {\bf back-$\agentB$} for $\refinement^\gamma$ there exists $\kStateU \in \kSuccessorsB{\kStateT}$ such that $(\kStateU, \kStateU[\gamma]) \in \refinement^\gamma \subseteq \refinement$.
+        \end{description}
+\end{description}
 
 Therefore $\refinement$ is a $\agentsB$-refinement and as $(\kStateS, \kStateSP) \in \refinement$ we have that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 
@@ -385,13 +411,15 @@ Therefore $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 
 We use similar reasoning to show that the axiom {\bf RKD45} from \axiomRmlKD{} is sound.
 Recall that the axiom {\bf RKD45} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ where $\agentsB \subseteq \agents$, $\agentA \in \agentsB$, and $\Gamma_\agentA \subseteq \langRml$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+We emphasise again that the only difference between {\bf RK45} and {\bf RKD45} is that {\bf RKD45} requires that $\Gamma_\agentA$ be a non-empty set.
+This accounts for the additional requirement in \logicRmlKD{} that refinements must be serial.
 
 \begin{lemma}\label{rml-kd45-rkd45}
 The axiom {\bf RKD45} from the axiomatisation \axiomRmlKD{} is sound with respect to the semantics of the logic \logicRmlKD{}.
 \end{lemma}
 
 \begin{proof}
-The proof of Lemma~\ref{rml-k45-rkff} applies with minor considerations in the setting of \logicRmlKD{}.
+The proof of Lemma~\ref{rml-k45-rk45} applies with minor considerations in the setting of \logicRmlKD{}.
 For the left-to-right direction the semantics of \logicRmlKD{} require that $\kPModel{\kStateS}, \kPModelP{\kStateSP} \in \classKD$ instead of \classKFF{}, but otherwise the reasoning is the same.
 For the right-to-left direction the semantics of \logicRmlKD{} require that $\kPModel{\kStateS} \in \classKD$ and for every $\gamma \in \Gamma_\agentA$ that $\kPModel[\gamma]{\kStateS[\gamma]} \in \classKD$.
 We must additionally show here that the constructed model $\kPModelP{\kStateSP} \in \classKD$, but this is trivial given that $\Gamma_\agentA$ is non-empty (ensuring seriality at $\kPModelP{\kStateSP}$) and for every $\gamma \in \Gamma_\agentA$ we have $\kPModel[\gamma]{\kStateS[\gamma]} \in \classKD$ (ensuring seriality elsewhere).
@@ -410,7 +438,8 @@ The axiom {\bf RComm} from the axiomatisation \axiomRmlKFF{} is sound with respe
 
 \begin{proof}
 ($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
-Then we show that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ using the same reasoning as in the proof of soundness of {\bf RComm} in Lemma~\ref{rml-k-rcomm}.
+Then we show that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ using similar reasoning to the proof of soundness of {\bf RComm} in Lemma~\ref{rml-k-rcomm}.
+The only additional consideration required for \logicRmlKFF{} is that the refinement must be a \classKFF{} Kripke model, but this is given by the semantics of $\somerefsBs$ in \logicRmlKFF{}.
 
 ($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classKFF$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
@@ -421,11 +450,10 @@ Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
 \begin{eqnarray*}
     \kStatesP &=& \{\kStateSP\} \cup \{\kStateSP_\gamma \mid \gamma \in \Gamma_\agentA\} \cup \{\kStateSP_{\kStateT} \mid \kStateT \in \kSuccessorsA{\kStateS}\} \cup \kStates \cup \bigcup_{\gamma \in \Gamma_\agentA} \kStates[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kStates[\kStateT]\\
     \kAccessibilityPA &=& \{(\kStateSP, \kStateSP_\gamma) \mid \gamma \in \Gamma_\agentA\} \cup \{(\kStateSP, \kStateSP_{\kStateT}) \mid \kStateT \in \kSuccessorsA{\kStateS}\} \cup \{(\kStateSP_x, \kStateSP_y) \mid x, y \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}\} \cup \\&&\quad \kAccessibilityA \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityA[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kAccessibilityA[\kStateT]\\
-    \kAccessibilityPB &=& \{(\kStateSP, \kStateT) \mid \kStateT \in \kSuccessorsB{\kStateS}\} \cup \{(\kStateSP_\gamma, \kStateT[\gamma]) \mid \gamma \in \Gamma_\agentA, \kStateT[\gamma] \in \kSuccessorsB[\gamma]{\kStateS[\gamma]}\} \cup \\&&\quad \{(\kStateSP_{\kStateT}, \kStateU[\kStateT]) \mid \kStateT \in \kSuccessorsB{\kStateS}, \kStateU[\kStateT] \in \kSuccessorsB[\gamma]{\kStateS[\kStateT]}\} \cup \kAccessibilityB \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityB[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kAccessibilityB[\kStateT] \text{ for } \agentB \in \agents \setminus \{\agentA\}\\
-    \kValuationP(\atomP) &=& \overline{\{\kStateSP\}} \cup \kValuation(\atomP) \cup \bigcup_{\gamma \in \Gamma_\agentA} \kValuation[\gamma](\atomP) \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kValuation[\kStateT](\atomP)
+    \kAccessibilityPB &=& \{(\kStateSP, \kStateT) \mid \kStateT \in \kSuccessorsB{\kStateS}\} \cup \{(\kStateSP_\gamma, \kStateT[\gamma]) \mid \gamma \in \Gamma_\agentA, \kStateT[\gamma] \in \kSuccessorsB[\gamma]{\kStateS[\gamma]}\} \cup \\&&\quad \{(\kStateSP_{\kStateT}, \kStateU[\kStateT]) \mid \kStateT \in \kSuccessorsB{\kStateS}, \kStateU[\kStateT] \in \kSuccessorsB[\gamma]{\kStateS[\kStateT]}\} \cup \kAccessibilityB \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityB[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kAccessibilityB[\kStateT]\\
+    \kValuationP(\atomP) &=& \{\kStateSP \mid \kStateS \in \kValuation(\atomP)\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \{\kStateSP_\gamma \mid \kStateS[\gamma] \in \kValuation[\gamma](\atomP)\} \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \{\kStateSP_{\kStateT} \mid \kStateS[\kStateT] \in \kValuation[\kStateT](\atomP)\} \cup \kValuation(\atomP) \cup \bigcup_{\gamma \in \Gamma_\agentA} \kValuation[\gamma](\atomP) \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kValuation[\kStateT](\atomP)
 \end{eqnarray*}
-where $\kStateSP$, $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ and $\kStateSP_{\kStateT}$ for every $\kStateT \in \kSuccessorsA{\kStateS}$ are fresh states not appearing in $\kStates$, $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$ or $\kStates[\kStateT]$ for any $\kStateT \in \kSuccessorsA{\kStateS}$, $\overline{\{\kStateSP\}} = \{\kStateSP\}$ if $\kStateS \in \kValuation(\atomP)$ and $\overline{\{\kStateSP\}} = \emptyset$ otherwise, for every $\gamma \in \Gamma_\agentA$: $\overline{\{\kStateSP_\gamma\}} = \{\kStateSP_\gamma\}$ if $\kStateS[\gamma] \in \kValuation[\gamma](\atomP)$ and $\overline{\{\kStateSP_\gamma\}} = \emptyset$ otherwise; and for every $\kStateT \in \kSuccessorsA{\kStateS}$: $\overline{\{\kStateSP_{\kStateT}\}} = \{\kStateSP_{\kStateT}\}$ if $\kStateS[\kStateT] \in \kValuation[\kStateT](\atomP)$ and $\overline{\{\kStateSP_{\kStateT}\}} = \emptyset$ otherwise
-
+where $\kStateSP$, $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ and $\kStateSP_{\kStateT}$ for every $\kStateT \in \kSuccessorsA{\kStateS}$ are fresh states not appearing in $\kStates$, $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$ or $\kStates[\kStateT]$ for any $\kStateT \in \kSuccessorsA{\kStateS}$, and $\agentB \in \agents \setminus \{\agentA\}$.
 \begin{figure}
     \caption{A schematic of the construction used to show soundness of {\bf RComm}.}\label{rml-k45-rcomm-construction}
     \centering
@@ -486,10 +514,10 @@ where $\kStateSP$, $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ and 
 \end{figure}
 
 A schematic of the Kripke model $\kPModelP{\kStateSP}$ and an overview of our construction is shown in Figure~\ref{rml-k45-rcomm-construction}.
+The construction is similar in essence to the construction used for the soundness proof of soundness of {\bf RComm} in Lemma~\ref{rml-k-rcomm}, however it incorporates the proxy states and additional transitive and Euclidean edges introduced in the construction used for the soundness proof of {\bf RK45} in Lemma~\ref{rml-k45-rk45}.
 As in the construction used for {\bf RK45} we can see that each of the $\agentsB$-refinements at successors, $\kPModel[\gamma_1]{\kStateT[\gamma_1]}, \dots, \kPModel[\gamma_n]{\kStateT[\gamma_n]}$, are combined into the larger Kripke model $\kPModelP{\kStateSP}$.
-However in contrast to the construction used for {\bf RK} we note that here every $\agentA$-successor of $\kPModel{\kStateS}$ satisfies $\somerefsBs \gamma$ for some $\gamma \in \Gamma_\agentA$, and corresponds to some $\agentsB$-refinement $\kPModel[\kStateT]{\kStateS[\kStateT]}$.
+However in contrast to the construction used for {\bf RK45} we note that here every $\agentA$-successor of $\kPModel{\kStateS}$ satisfies $\somerefsBs \gamma$ for some $\gamma \in \Gamma_\agentA$, and corresponds to some $\agentsB$-refinement $\kPModel[\kStateT]{\kStateS[\kStateT]}$.
 This is required as $\agentA \in \agentsB$ and so {\bf forth-$\agentA$} is required in order for $\kPModelP{\kStateSP}$ to be a $\agentsB$-refinement of $\kPModel{\kStateS}$.
-This is as in {\bf RComm} from \axiomRmlK{}.
 From this schematic representation we can clearly see that $\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$.
 It is less clear that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$, but we will show this next.
 
@@ -508,122 +536,153 @@ $$
 We show that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
 
 Let $\atomP \in \atoms$, $\agentB \in \agents$, $\agentC \in \agents \setminus \agentsB$.
+We show by cases that the relationships in $\refinement$ satisfy the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentC$}, and {\bf back-$\agentB$}.
 
-\paragraph{atoms-$\atomP$}
-Consider $(\kStateS, \kStateSP) \in \refinement$ or $(\kStateT, \kStateT) \in \refinement$ where $\kStateT \in \kStates$.
-Then {\bf atoms-$\atomP$} follows by construction.
+\begin{description}
+    \item[Case $(\kStateS, \kStateSP) \in \refinement$:]
+        \hfill
+        \begin{description}
+            \item[atoms-$\atomP$] 
+                By construction $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
+            \item[forth-$\agentC$]
+                Suppose that $\agentC = \agentA$.
+                Let $\kStateT \in \kSuccessorsA{\kStateS}$.
+                By construction $\kStateSP_{\kStateT} \in \kSuccessorsA{\kStateS}$ and $(\kStateT, \kStateSP_{\kStateT}) \in \refinement^{\kStateT} \subseteq \refinement$.
 
-Consider $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement$ where $\gamma \in \Gamma_\agentA$.
-By construction $(\kStateT_\gamma, \kStateS[\gamma]) \in \refinement^\gamma$.
-Then {\bf atoms-$\atomP$} for $\refinement$ follows from {\bf atoms-$\atomP$} for $\refinement^\gamma$ ($\kPModel{\kStateT_\gamma}$ and $\kPModel[\gamma]{\kStateS[\gamma]}$ have the same valuation) and by construction ($\kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModelP{\kStateSP_\gamma}$ have the same valuation).
+                Suppose that $\agentC \neq \agentA$.
+                Let $\kStateT \in \kSuccessorsC{\kStateS}$.
+                By construction $\kSuccessorsPC{\kStateSP} = \kSuccessorsC{\kStateS}$.
+                Then $\kStateT \in \kSuccessorsPC{\kStateSP}$ and by construction $(\kStateT, \kStateT) \in \refinement$.
+            \item[back-$\agentB$]
+                Suppose that $\agentB = \agentA$.
+                Let $\kStateSP_\gamma \in \kSuccessorsPA{\kStateSP}$ where $\gamma \in \Gamma_\agentA$.
+                By hypothesis $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement^\gamma \subseteq \refinement$.
+                Let $\kStateSP_{\kStateT} \in \kSuccessorsPA{\kStateSP}$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
+                By hypothesis $\kStateT \in \kSuccessorsA{\kStateS}$ and $(\kStateT, \kStateSP_\gamma) \in \refinement^\gamma \subseteq \refinement$.
 
-Consider $(\kStateT, \kStateSP_{\kStateT}) \in \refinement$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
-By construction $(\kStateT, \kStateS[\kStateT]) \in \refinement^{\kStateT}$.
-Then {\bf atoms-$\atomP$} for $\refinement$ follows from {\bf atoms-$\atomP$} for $\refinement^{\kStateT}$ ($\kPModel{\kStateT}$ and $\kPModel[\kStateT]{\kStateS[\kStateT]}$ have the same valuation) and by construction ($\kPModel[\kStateT]{\kStateS[\kStateT]}$ and $\kPModelP{\kStateSP_{\kStateT}}$ have the same valuation).
+                Suppose that $\agentB \neq \agentA$.
+                Let $\kStateT \in \kSuccessorsPB{\kStateSP}$.
+                By construction $\kSuccessorsPB{\kStateSP} = \kSuccessorsB{\kStateS}$.
+                Then $\kStateT \in \kSuccessorsB{\kStateS}$ and by construction $(\kStateT, \kStateT) \in \refinement$.
+        \end{description}
+    \item[Case $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement$ where $\gamma \in \Gamma_\agentA$:]
+        \hfill
+        \begin{description}
+            \item[atoms-$\atomP$] 
+                By hypothesis $(\kStateT_\gamma, \kStateS[\gamma]) \in \refinement^\gamma$.
+                By {\bf atoms-$\atomP$} for $\refinement^\gamma$ we have $\kStateT_\gamma \in \kValuation(\atomP)$ if and only if $\kStateS[\gamma] \in \kValuation[\gamma](\atomP)$.
+                By construction $\kStateS[\gamma] \in \kValuation[\gamma](\atomP)$ if and only if $\kStateSP_\gamma \in \kValuationP(\atomP)$.
+            \item[forth-$\agentC$]
+                Suppose that $\agentC = \agentA$.
+                Let $\kStateU \in \kSuccessorsA{\kStateT_\gamma}$.
+                By hypothesis $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and by the Euclideaness of $\kModel$ we have that $\kStateU \in \kSuccessorsA{\kStateS}$.
+                By hypothesis $(\kStateU, \kStateSP_{\kStateU}) \in \refinement^{\kStateU}$.
+                By construction $\kStateSP_{\kStateU} \in \kSuccessorsPA{\kStateSP_\gamma}$ and $(\kStateU, \kStateSP_{\kStateU}) \in \refinement^{\kStateU} \subseteq \refinement$.
 
-Consider $(\kStateT, \kStateT[\gamma]) \in \refinement^\gamma \subseteq \refinement$ where $\gamma \in \Gamma_\agentA$ or $(\kStateU, \kStateU[\kStateT]) \in \refinement^{\kStateT} \subseteq \refinement$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
-Then {\bf atoms-$\atomP$} for $\refinement$ follows from {\bf atoms-$\atomP$} for $\refinement^\gamma$ and $\refinement^{\kStateT}$.
+                Suppose that $\agentC \neq \agentA$.
+                Let $\kStateU \in \kSuccessorsC{\kStateT_\gamma}$.
+                By hypothesis $(\kStateT_\gamma, \kStateS[\gamma]) \in \refinement^\gamma$.
+                By {\bf forth-$\agentC$} for $\refinement^\gamma$ there exists $\kStateU[\gamma] \in \kSuccessorsC[\gamma]{\kStateS[\gamma]}$ such that $(\kStateU, \kStateU[\gamma]) \in \refinement^\gamma$.
+                By construction $\kSuccessorsPC{\kStateSP_\gamma} = \kSuccessorsC[\gamma]{\kStateS[\gamma]}$.
+                Then $\kStateU[\gamma] \in \kSuccessorsPC{\kStateSP_\gamma}$ and $(\kStateU, \kStateU[\gamma]) \in \refinement$.
+            \item[back-$\agentB$]
+                Suppose that $\agentB = \agentA$.
+                Let $\kStateSP_{\gamma'} \in \kSuccessorsPA{\kStateSP_\gamma}$ where $\gamma' \in \Gamma_\agentA$.
+                By hypothesis $\kStateT_{\gamma}, \kStateT_{\gamma'} \in \kSuccessorsA{\kStateS}$, and by the Euclideaness of $\kModel$ we have that $\kStateT_{\gamma'} \in \kSuccessorsA{\kStateT_\gamma}$.
+                By construction $(\kStateT_{\gamma'}, \kStateSP_{\gamma'}) \in \refinement$.
+                Let $\kStateSP_{\kStateT} \in \kSuccessorsPA{\kStateSP_\gamma}$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
+                By hypothesis $\kStateT, \kStateT_{\gamma} \in \kSuccessorsA{\kStateS}$, and by the Euclideaness of $\kModel$ we have that $\kStateT_{\gamma'} \in \kSuccessorsA{\kStateT_\gamma}$.
+                By construction $(\kStateT, \kStateSP_{\kStateT}) \in \refinement$.
 
-\paragraph{forth-$\agentC$}
-Consider $(\kStateS, \kStateSP) \in \refinement$.
-Suppose that $\agentC = \agentA$.
-Let $\kStateT \in \kSuccessorsA{\kStateS}$.
-By construction $\kStateS[\kStateT] \in \kSuccessorsPA{\kStateSP}$ and $(\kStateT, \kStateS[\kStateT]) \in \refinement$.
-Suppose that $\agentC \neq \agentA$.
-Let $\kStateT \in \kSuccessorsC{\kStateS}$.
-By construction $\kStateT \in \kSuccessorsPC{\kStateSP}$ and $(\kStateT, \kStateT) \in \refinement$.
+                Suppose that $\agentB \neq \agentA$.
+                Let $\kStateT[\gamma] \in \kSuccessorsPA{\kStateSP_\gamma}$.
+                By construction $(\kStateT_\gamma, \kStateS[\gamma]) \in \refinement^\gamma$.
+                By {\bf back-$\agentB$} for $\refinement^\gamma$ there exists $\kStateU \in \kSuccessorsB{\kStateT_\gamma}$ such that $(\kStateU, \kStateT[\gamma]) \in \refinement^\gamma$.
+                By construction $(\kStateU, \kStateT[\gamma]) \in \refinement$.
+        \end{description}
+    \item[Case $(\kStateT, \kStateSP_{\kStateT}) \in \refinement$ where $\kStateT \in \kSuccessorsA{\kStateT}$:]
+        \hfill
+        \begin{description}
+            \item[atoms-$\atomP$] 
+                By hypothesis $(\kStateT, \kStateS[\kStateT]) \in \refinement^{\kStateT}$.
+                By {\bf atoms-$\atomP$} for $\refinement^{\kStateT}$ we have $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateS[\kStateT] \in \kValuation[\kStateT](\atomP)$.
+                By construction $\kStateS[\kStateT] \in \kValuation[\kStateT](\atomP)$ if and only if $\kStateSP_{\kStateT} \in \kValuationP(\atomP)$.
+            \item[forth-$\agentC$]
+                Suppose that $\agentC = \agentA$.
+                Let $\kStateU \in \kSuccessorsA{\kStateT}$.
+                By hypothesis $\kStateT \in \kSuccessorsA{\kStateS}$ and by the Euclideaness of $\kModel$ we have that $\kStateU \in \kSuccessorsA{\kStateS}$.
+                By hypothesis $(\kStateU, \kStateSP_{\kStateU}) \in \refinement^{\kStateU}$.
+                By construction $\kStateSP_{\kStateU} \in \kSuccessorsPA{\kStateSP_{\kStateT}}$ and $(\kStateU, \kStateSP_{\kStateU}) \in \refinement^{\kStateU} \subseteq \refinement$.
 
-Consider $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement$ where $\gamma \in \Gamma_\agentA$.
-Suppose that $\agentC = \agentA$.
-Let $\kStateU \in \kSuccessorsA{\kStateT_\gamma}$.
-By hypothesis $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and by the Euclideaness of $\kModel$ we have that $\kStateU \in \kSuccessorsA{\kStateS}$.
-By construction $\kStateSP_{\kStateU} \in \kSuccessorsPA{\kStateSP_\gamma}$ and $(\kStateU, \kStateSP_{\kStateU}) \in \refinement$.
-Suppose that $\agentC \neq \agentA$.
-Let $\kStateU \in \kSuccessorsC{\kStateT_\gamma}$.
-By construction $(\kStateT_\gamma, \kStateS[\gamma]) \in \refinement^\gamma$.
-By {\bf forth-$\agentC$} for $\refinement^\gamma$ there exists $\kStateU[\gamma] \in \kSuccessorsC[\gamma]{\kStateS[\gamma]}$ such that $(\kStateU, \kStateU[\gamma]) \in \refinement^\gamma$.
-By construction $\kStateU[\gamma] \in \kSuccessorsPC{\kStateSP_\gamma}$ and $(\kStateU, \kStateU[\gamma]) \in \refinement$.
-
-Consider $(\kStateT, \kStateSP_{\kStateT}) \in \refinement$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
-Suppose that $\agentC = \agentA$.
-Let $\kStateU \in \kSuccessorsA{\kStateT}$.
-By hypothesis $\kStateT \in \kSuccessorsA{\kStateS}$ and by the Euclideaness of $\kModel$ we have that $\kStateU \in \kSuccessorsA{\kStateS}$.
-By construction $\kStateSP_{\kStateU} \in \kSuccessorsPA{\kStateSP_{\kStateU}}$ and $(\kStateU, \kStateSP_{\kStateU}) \in \refinement$.
-Suppose that $\agentC \neq \agentA$.
-Let $\kStateU \in \kSuccessorsC{\kStateT}$.
-By construction $(\kStateU, \kStateS[\kStateU]) \in \refinement^{\kStateU}$.
-By {\bf forth-$\agentC$} for $\refinement^{\kStateU}$ there exists $\kStateT[\kStateU] \in \kSuccessorsC[\kStateU]{\kStateS[\kStateU]}$ such that $(\kStateU, \kStateT[\kStateU]) \in \refinement^{\kStateU}$.
-By construction $\kStateT[\kStateU] \in \kSuccessorsPC{\kStateSP_{\kStateT}}$ and $(\kStateU, \kStateT[\kStateU]) \in \refinement$.
-
-Consider $(\kStateT, \kStateT) \in \refinement$ where $\kStateT \in \kStates$.
-Let $\kStateU \in \kSuccessorsC{\kStateT}$.
-By construction $\kStateU \in \kSuccessorsPC{\kStateT}$ and $(\kStateU, \kStateU) \in \refinement$.
-
-Consider $(\kStateT, \kStateT[\gamma]) \in \refinement^\gamma \subseteq \refinement$ where $\gamma \in \Gamma_\agentA$.
-Let $\kStateU \in \kSuccessorsC{\kStateT}$.
-By {\bf forth-$\agentC$} for $\refinement^\gamma$ there exists $\kStateU[\gamma] \in \kSuccessorsC[\gamma]{\kStateT[\gamma]}$ such that $(\kStateU, \kStateU[\gamma]) \in \refinement^\gamma$.
-By construction $\kStateU[\gamma] \in \kSuccessorsPC{\kStateT[\gamma]}$ and $(\kStateU, \kStateU[\gamma]) \in \refinement$.
-
-Consider $(\kStateU, \kStateU[\kStateT]) \in \refinement^{\kStateT} \subseteq \refinement$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
-Let $\kStateV \in \kSuccessorsC{\kStateU}$.
-By {\bf forth-$\agentC$} for $\refinement^{\kStateT}$ there exists $\kStateV[\kStateT] \in \kSuccessorsC[\kStateT]{\kStateU[\kStateT]}$ such that $(\kStateV, \kStateV[\kStateT]) \in \refinement^{\kStateT}$.
-By construction $\kStateV[\kStateT] \in \kSuccessorsPC{\kStateU[\kStateT]}$ and $(\kStateV, \kStateV[\kStateT]) \in \refinement$.
-
-\paragraph{back-$\agentB$}
-
-Consider $(\kStateS, \kStateSP) \in \refinement$.
-Suppose that $\agentB = \agentA$.
-Let $\kStateT[\gamma] \in \kSuccessorsPA{\kStateSP}$ where $\gamma \in \Gamma_\agentA$.
-Then by hypothesis $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $(\kStateT_\gamma, \kStateT[\gamma]) \in \refinement$.
-Let $\kStateS[\kStateT] \in \kSuccessorsPA{\kStateSP}$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
-Then by hypothesis $\kStateT \in \kSuccessorsA{\kStateS}$ and $(\kStateT, \kStateS[\kStateT]) \in \refinement$.
-Suppose that $\agentB \neq \agentA$.
-Let $\kStateT \in \kSuccessorsPB{\kStateSP}$.
-By construction $\kStateT \in \kSuccessorsB{\kStateS}$ and $(\kStateT, \kStateT) \in \refinement$.
-
-Consider $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement$ where $\gamma \in \Gamma_\agentA$.
-Suppose that $\agentB = \agentA$.
-Let $\kStateSP_{\gamma'} \in \kSuccessorsPA{\kStateSP_\gamma}$ where $\gamma' \in \Gamma_\agentA$.
-By hypothesis $\kStateT_{\gamma}, \kStateT_{\gamma'} \in \kSuccessorsA{\kStateS}$, and by the Euclideaness of $\kModel$ we have that $\kStateT_{\gamma'} \in \kSuccessorsA{\kStateT_\gamma}$.
-By construction $(\kStateT_{\gamma'}, \kStateSP_{\gamma'}) \in \refinement$.
-Let $\kStateSP_{\kStateT} \in \kSuccessorsPA{\kStateSP_\gamma}$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
-By hypothesis $\kStateT, \kStateT_{\gamma} \in \kSuccessorsA{\kStateS}$, and by the Euclideaness of $\kModel$ we have that $\kStateT_{\gamma'} \in \kSuccessorsA{\kStateT_\gamma}$.
-By construction $(\kStateT, \kStateSP_{\kStateT}) \in \refinement$.
-Suppose that $\agentB \neq \agentA$.
-Let $\kStateT[\gamma] \in \kSuccessorsPA{\kStateSP_\gamma}$.
-By construction $(\kStateT_\gamma, \kStateS[\gamma]) \in \refinement^\gamma$.
-By {\bf back-$\agentB$} for $\refinement^\gamma$ there exists $\kStateU \in \kSuccessorsB{\kStateT_\gamma}$ such that $(\kStateU, \kStateT[\gamma]) \in \refinement^\gamma$.
-By construction $(\kStateU, \kStateT[\gamma]) \in \refinement$.
-
-Consider $(\kStateT_{\kStateT}, \kStateSP_{\kStateT}) \in \refinement$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
-Suppose that $\agentB = \agentA$.
-Let $\kStateSP_{\gamma} \in \kSuccessorsPA{\kStateSP_{\kStateT}}$ where $\gamma \in \Gamma_\agentA$.
-By hypothesis $\kStateT, \kStateT_{\gamma} \in \kSuccessorsA{\kStateS}$, and by the Euclideaness of $\kModel$ we have that $\kStateT_{\gamma} \in \kSuccessorsA{\kStateT}$.
-By construction $(\kStateT_{\gamma}, \kStateSP_{\gamma}) \in \refinement$.
-Let $\kStateSP_{\kStateU} \in \kSuccessorsPA{\kStateSP_{\kStateT}}$ where $\kStateU \in \kSuccessorsA{\kStateS}$.
-By hypothesis $\kStateT, \kStateU \in \kSuccessorsA{\kStateS}$, and by the Euclideaness of $\kModel$ we have that $\kStateU \in \kSuccessorsA{\kStateT}$.
-By construction $(\kStateU, \kStateSP_{\kStateU}) \in \refinement$.
-Suppose that $\agentB \neq \agentA$.
-Let $\kStateU[\kStateT] \in \kSuccessorsPA{\kStateSP_{\kStateT}}$.
-By construction $(\kStateT, \kStateS[\kStateT]) \in \refinement^{\kStateT}$.
-By {\bf back-$\agentB$} for $\refinement^{\kStateT}$ there exists $\kStateU \in \kSuccessorsB{\kStateT}$ such that $(\kStateU, \kStateU[\kStateT]) \in \refinement^{\kStateT}$.
-By construction $(\kStateU, \kStateU[\kStateT]) \in \refinement$.
-
-Consider $(\kStateT, \kStateT) \in \refinement$ where $\kStateT \in \kStates$.
-Let $\kStateU \in \kSuccessorsPB{\kStateT}$.
-By construction $\kStateU \in \kSuccessorsB{\kStateT}$ and $(\kStateU, \kStateU) \in \refinement$.
-
-Consider $(\kStateT, \kStateT[\gamma]) \in \refinement^\gamma \subseteq \refinement$ where $\gamma \in \Gamma_\agentA$.
-Let $\kStateU[\gamma] \in \kSuccessorsPB{\kStateT[\gamma]}$.
-By construction $\kStateU[\gamma] \in \kSuccessorsB[\gamma]{\kStateT[\gamma]}$.
-By {\bf back-$\agentB$} for $\refinement^\gamma$ there exists $\kStateU \in \kSuccessorsB{\kStateT}$ such that $(\kStateU, \kStateU[\gamma]) \in \refinement^\gamma$.
-Then $(\kStateU, \kStateU[\gamma]) \in \refinement$.
-
-Consider $(\kStateU, \kStateU[\kStateT]) \in \refinement^{\kStateT} \subseteq \refinement$ where $\kStateT \in \kSuccessorsA{\kStateS}$.
-Let $\kStateV[\kStateT] \in \kSuccessorsPB{\kStateU[\kStateT]}$.
-By construction $\kStateV[\kStateT] \in \kSuccessorsB[\kStateT]{\kStateU[\kStateT]}$.
-By {\bf back-$\agentB$} for $\refinement^{\kStateT}$ there exists $\kStateV \in \kSuccessorsB{\kStateU}$ such that $(\kStateV, \kStateV[\kStateT]) \in \refinement^{\kStateT}$.
-Then $(\kStateV, \kStateV[\kStateT]) \in \refinement$.
+                Suppose that $\agentC \neq \agentA$.
+                Let $\kStateU \in \kSuccessorsC{\kStateT}$.
+                By hypothesis $(\kStateT, \kStateS[\kStateT]) \in \refinement^{\kStateT}$.
+                By {\bf forth-$\agentC$} for $\refinement^{\kStateT}$ there exists $\kStateU[\kStateT] \in \kSuccessorsC[\kStateT]{\kStateS[\kStateT]}$ such that $(\kStateU, \kStateU[\kStateT]) \in \refinement^{\kStateT}$.
+                By construction $\kSuccessorsPC{\kStateSP_{\kStateT}} = \kSuccessorsC[\kStateT]{\kStateS[\kStateT]}$.
+                Then $\kStateU[\kStateT] \in \kSuccessorsPC{\kStateSP_{\kStateT}}$ and $(\kStateU, \kStateU[\kStateT]) \in \refinement$.
+            \item[back-$\agentB$]
+                Suppose that $\agentB = \agentA$.
+                Let $\kStateSP_{\gamma} \in \kSuccessorsPA{\kStateSP_{\kStateT}}$ where $\gamma \in \Gamma_\agentA$.
+                By hypothesis $\kStateT, \kStateT_{\gamma} \in \kSuccessorsA{\kStateS}$, and by the Euclideaness of $\kModel$ we have that $\kStateT_{\gamma} \in \kSuccessorsA{\kStateT}$.
+                By construction $(\kStateT_{\gamma}, \kStateSP_{\gamma}) \in \refinement$.
+                Let $\kStateSP_{\kStateU} \in \kSuccessorsPA{\kStateSP_{\kStateT}}$ where $\kStateU \in \kSuccessorsA{\kStateS}$.
+                By hypothesis $\kStateT, \kStateU \in \kSuccessorsA{\kStateS}$, and by the Euclideaness of $\kModel$ we have that $\kStateU \in \kSuccessorsA{\kStateT}$.
+                By construction $(\kStateU, \kStateSP_{\kStateU}) \in \refinement$.
+                Suppose that $\agentB \neq \agentA$.
+                Let $\kStateU[\kStateT] \in \kSuccessorsPA{\kStateSP_{\kStateT}}$.
+                By construction $(\kStateT, \kStateS[\kStateT]) \in \refinement^{\kStateT}$.
+                By {\bf back-$\agentB$} for $\refinement^{\kStateT}$ there exists $\kStateU \in \kSuccessorsB{\kStateT}$ such that $(\kStateU, \kStateU[\kStateT]) \in \refinement^{\kStateT}$.
+                By construction $(\kStateU, \kStateU[\kStateT]) \in \refinement$.
+        \end{description}
+    \item[Case $(\kStateT, \kStateT) \in \refinement$ where $\kStateT \in \kStates$:]
+        \hfill
+        \begin{description}
+            \item[atoms-$\atomP$] 
+                By construction $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateT \in \kValuationP(\atomP)$.
+            \item[forth-$\agentC$]
+                Let $\kStateU \in \kSuccessorsC{\kStateT}$.
+                By construction $\kSuccessorsPC{\kStateT} = \kSuccessorsC{\kStateT}$.
+                Then $\kStateU \in \kSuccessorsPC{\kStateT}$ and by construction $(\kStateU, \kStateU) \in \refinement$.
+            \item[back-$\agentB$]
+                Let $\kStateU \in \kSuccessorsPB{\kStateT}$.
+                By construction $\kSuccessorsPB{\kStateT} = \kSuccessorsB{\kStateT}$.
+                Then $\kStateU \in \kSuccessorsB{\kStateT}$ and by construction $(\kStateU, \kStateU) \in \refinement$.
+        \end{description}
+    \item[{Case $(\kStateU, \kStateU[\gamma]) \in \refinement^\gamma \subseteq \refinement$ where $\gamma \in \Gamma_\agentA$:}]
+        \hfill
+        \begin{description}
+            \item[atoms-$\atomP$] 
+                By {\bf atoms-$\atomP$} for $\refinement^\gamma$ we have $\kStateU \in \kValuation(\atomP)$ if and only if $\kStateU[\gamma] \in \kValuation[\gamma](\atomP)$.
+                By construction $\kStateU[\gamma] \in \kValuation[\gamma](\atomP)$ if and only if $\kStateU[\gamma] \in \kValuationP(\atomP)$.
+            \item[forth-$\agentC$]
+                Let $\kStateV \in \kSuccessorsC{\kStateU}$.
+                By {\bf forth-$\agentC$} for $\refinement^\gamma$ there exists $\kStateV[\gamma] \in \kSuccessorsC[\gamma]{\kStateU[\gamma]}$ such that $(\kStateV, \kStateV[\gamma]) \in \refinement^\gamma \subseteq \refinement$.
+                By construction $\kSuccessorsPC{\kStateU[\gamma]} = \kSuccessorsC[\gamma]{\kStateU[\gamma]}$.
+                Then $\kStateV[\gamma] \in \kSuccessorsPC{\kStateU[\gamma]}$ and $(\kStateV, \kStateV[\gamma]) \in \refinement$.
+            \item[back-$\agentB$]
+                Let $\kStateV[\gamma] \in \kSuccessorsPB{\kStateU[\gamma]}$.
+                By construction $\kStateV[\gamma] \in \kSuccessorsB[\gamma]{\kStateU[\gamma]}$.
+                By {\bf back-$\agentB$} for $\refinement^{\gamma}$ there exists $\kStateV \in \kSuccessorsB{\kStateU}$ such that $(\kStateV, \kStateV[\gamma]) \in \refinement^{\gamma}$.
+                Then $(\kStateV, \kStateV[\gamma]) \in \refinement$.
+        \end{description}
+    \item[{Case $(\kStateU, \kStateU[\kStateT]) \in \refinement^{\kStateT} \subseteq \refinement$ where $\kStateT \in \kSuccessorsA{\kStateS}$:}]
+        \hfill
+        \begin{description}
+            \item[atoms-$\atomP$] 
+                By {\bf atoms-$\atomP$} for $\refinement^{\kStateT}$ we have $\kStateU \in \kValuation(\atomP)$ if and only if $\kStateU[\kStateT] \in \kValuation[\kStateT](\atomP)$.
+                By construction $\kStateU[\kStateT] \in \kValuation[\kStateT](\atomP)$ if and only if $\kStateU[\kStateT] \in \kValuationP(\atomP)$.
+            \item[forth-$\agentC$]
+                Let $\kStateV \in \kSuccessorsC{\kStateU}$.
+                By {\bf forth-$\agentC$} for $\refinement^{\kStateT}$ there exists $\kStateV[\kStateT] \in \kSuccessorsC[\kStateT]{\kStateU[\kStateT]}$ such that $(\kStateV, \kStateV[\kStateT]) \in \refinement^{\kStateT} \subseteq \refinement$.
+                By construction $\kSuccessorsPC{\kStateU[\kStateT]} = \kSuccessorsC[\kStateT]{\kStateU[\kStateT]}$.
+                Then $\kStateV[\kStateT] \in \kSuccessorsPC{\kStateU[\kStateT]}$ and $(\kStateV, \kStateV[\kStateT]) \in \refinement$.
+            \item[back-$\agentB$]
+                Let $\kStateV[\kStateT] \in \kSuccessorsPB{\kStateU[\kStateT]}$.
+                By construction $\kStateV[\kStateT] \in \kSuccessorsB[\kStateT]{\kStateU[\kStateT]}$.
+                By {\bf back-$\agentB$} for $\refinement^{\kStateT}$ there exists $\kStateV \in \kSuccessorsB{\kStateU}$ such that $(\kStateV, \kStateV[\kStateT]) \in \refinement^{\kStateT}$.
+                Then $(\kStateV, \kStateV[\kStateT]) \in \refinement$.
+        \end{description}
+\end{description}
 
 Therefore $\refinement$ is a $\agentsB$-refinement and as $(\kStateS, \kStateSP) \in \refinement$ we have that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 
@@ -639,6 +698,8 @@ Therefore $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 
 Again we use similar reasoning to show that the axiom {\bf RComm} from \axiomRmlKD{} is sound.
 Recall that the axiom {\bf RComm} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ where $\agentsB \subseteq \agents$, $\agentA \notin \agentsB$, and $\Gamma_\agentA \subseteq \langRml$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+This accounts for the additional requirement in \logicRmlKD{} that refinements must be serial.
+Similar to {\bf RK45} and {\bf RKD45}, the difference between {\bf RComm} in \axiomRmlKFF{} and {\bf RComm} in \axiomRmlKD{} is the requirement that $\Gamma_\agentA$ be a non-empty set of formulas, which accounts for the additional requirement in \logicRmlKD{} that refinements must be serial.
 
 \begin{lemma}\label{rml-kd45-rcomm}
 The axiom {\bf RComm} from the axiomatisation \axiomRmlKD{} is sound with respect to the semantics of the logic \logicRmlKD{}.
@@ -659,12 +720,12 @@ The axiom {\bf RDist} from the axiomatisation \axiomRmlKFF{} is sound with respe
 \end{lemma}
 
 \begin{proof}
-($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
-Then we show that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$ using the same reasoning as in the proof of soundness of {\bf RDist} in Lemma~\ref{rml-k-rcomm}.
+    ($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs ( \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC )$.
+    Then we show that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$ using the same reasoning as in the proof of soundness of {\bf RDist} from \axiomRmlK{} in Lemma~\ref{rml-k-rcomm}.
 
 ($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$.
 For every $\agentC \in \agentsC$ there exists $\kPModel[\agentC]{\kStateS[\agentC]} \in \classKFF$ such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentC]{\kStateS[\agentC]}$ and $\kPModel[\agentC]{\kStateS[\agentC]} \entails \coversC \Gamma_\agentC$.
-Then we show that $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$ using the same reasoning as in the proof of soundness of {\bf RDist} in Lemma~\ref{rml-k-rcomm}.
+Then we show that $\kPModel{\kStateS} \entails \somerefsBs ( \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC)$ using the same reasoning as in the proof of soundness of {\bf RDist} from \axiomRmlK{} in Lemma~\ref{rml-k-rcomm}.
 We note that since each of the refinements $\kPModel[\agentC]{\kStateS[\agentC]}$ are \classKFF{} models then the construction used in Lemma~\ref{rml-k-rcomm} will produce a \classKFF{} model as required.
 \end{proof}
 
@@ -704,8 +765,8 @@ The soundness of {\bf RKD45}, {\bf RComm} and {\bf RDist} were shown in the prev
 \section{Completeness}\label{rml-kd45-completeness}
 
 In this section we show that the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{} are complete with respect to the semantics of the logics \logicRmlKFF{} and \axiomRmlKD{} respectively.
-As for \axiomRmlK{}, we show that \axiomRmlKFF{} and \axiomRmlKD{} are complete by demonstrating a provably correct translation from formulas of \langRml{} to the underlying modal language \langMl{}.
-As a consequence of this provably correct translation we also have that \logicRmlKFF{} and \logicRmlKD{} are expressively equivalent to \logicKFF{} and \logicRmlKD{} respectively, and that \logicRmlKFF{} and \logicRmlKD{} are compact and decidable (via the compactness and decidability of \logicKFF{} and \logicKD{}).
+As with \axiomRmlK{}, we show that \axiomRmlKFF{} and \axiomRmlKD{} are complete by demonstrating a provably correct translation from formulas of \langRml{} to the underlying modal language \langMl{}.
+As a consequence of this provably correct translation we also have that \logicRmlKFF{} and \logicRmlKD{} are expressively equivalent to \logicKFF{} and \logicRmlKD{} respectively, and that \logicRmlKFF{} and \logicRmlKD{} are compact and decidable, via the compactness and decidability of \logicKFF{} and \logicKD{}.
 
 Similar to \axiomRmlK{} we rely on a normal form for modal logics for our provably correct translation, which we call alternating disjunctive normal form.
 Alternating disjunctive normal form is a modification of the disjunctive normal form used for \axiomRmlK{}, that prohibits the direct nesting of modalities from the same agent.
@@ -718,9 +779,9 @@ We first define our normal form, called alternating disjunctive normal form.
 Let $\agentsB \subseteq \agents$ be a set of agents.
 A formula in {\em $\agentsB$-alternating disjunctive normal form} is inductively defined as:
 $$
-\phi ::= \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC \mid \phi \lor \phi
+\phi ::= \pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC \mid \phi \lor \phi
 $$
-where $\atomsQ, \atomsQ' \subseteq \atoms$ are finite sets of propositional atoms, $\agentsC \subseteq \agentsB$, and for every $\agentC \in \agentsC$, $\Gamma_\agentC$ is a finite set of formulas in $(\agents \setminus \{\agentC\})$-alternating disjunctive normal form.
+where $\pi \in \langPl$, $\agentsC \subseteq \agentsB$, and for every $\agentC \in \agentsC$, $\Gamma_\agentC$ is a finite set of formulas in $(\agents \setminus \{\agentC\})$-alternating disjunctive normal form.
 \end{definition}
 
 We show that every modal formula is equivalent to a formula in alternating disjunctive normal form, under the semantics of \logicKFF{} and \logicKD{}. 
@@ -742,10 +803,10 @@ Suppose that $d(\phi) > 0$ and $\phi = \psi \lor \chi$ for $\psi, \chi \in \lang
 By the induction hypothesis there exists $\psi', \chi' \in \langMl$ in $\agentsB$-alternating disjunctive normal form such that $\entails \psi \iff \psi'$ and $\entails \chi \iff \chi'$.
 Then $\psi' \lor \chi'$ is in $\agentsB$-alternating disjunctive normal form and $\entails (\psi \lor \chi) \iff (\psi' \lor \chi')$.
 
-Suppose that $d(\phi) > 0$ and $\phi = \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC$.
+Suppose that $d(\phi) > 0$ and $\phi = \pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC$.
 By the induction hypothesis for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$ there exists $\gamma' \in \langMl$ in alternating disjunctive normal form such that $\entails \gamma \iff \gamma'$.
 For every $\agentC \in \agentsC$, let $\Gamma'_\agentC = \{\gamma' \mid \gamma \in \Gamma_\agentC\}$.
-Let $\phi' = \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma'_\agentC$.
+Let $\phi' = \pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma'_\agentC$.
 Then $\entails \phi \iff \phi'$.
 Here we note that for every $\agentC \in \agentC$, $\gamma' \in \Gamma'_\agentC$ may contain $\coversC$ modalities at the top level, and so we use some equivalences to correct this.
 We pull the disjunctions within each cover operator up one level using the following equivalence:

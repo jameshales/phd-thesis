@@ -1,5 +1,12 @@
 \chapter{Refinement modal logic \classKF{}}\label{rml-k4}
 
+In this chapter we consider in greater detail the logic \logicRmlKF{} in the setting of \classKF{}.
+Unlike previous chapters we do not present a sound and complete axiomatisation or a provably correct translation.
+In contrast to the logics \logicRmlK{}, \logicRmlKFF{}, \logicRmlKD{}, and \logicRmlS{}, which we axiomatised in previous chapters, \logicRmlK{} is not expressively equivalent to the underlying modal logic \logicKF{}, so we must use a different strategy to show that a candidate axiomatisation is complete.
+Work on this problem is on-going.
+The main results of this chapter are expressivity results.
+We show that the logic \logicRmlKF{} is strictly more expressive than the underlying modal logic \logicKF{}, and strictly less expressive than the modal $\mu$-calculus \logicMuKF{}, the bisimulation quantified modal logic \logicBqmlKF{}, and the tangled modal logic \logicTangleKF{}.
+
 \begin{lemma}\label{refinements-infinite-paths}
 Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulates \kPModelP{\kStateSP}$.
 If there exists an infinite path of states in $\kModelP$ starting from the state $\kStateSP$ then there exists an infinte path of states in $\kModel$ starting from the state $\kStateS$.

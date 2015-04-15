@@ -62,6 +62,29 @@ Hence the cover operator also serves as a convenient notation to restrict conjun
 In Section~\ref{rml-k-soundness} we will see that the semantics of the cover operator are convenient for showing the soundness of these axioms.
 In Section~\ref{rml-k-completeness} we see that the cover operator allows a convenient disjunctive normal form for modal formulas, which we use in our provably correct translation from \langRml{} to \langMl{}.
 
+Finally we give an example derivation using the axiomatisation \axiomRmlK{}.
+
+\begin{example}\label{rml-k-example-derivation}
+We show that $\proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff \possibleB \lnot \atomP$ using the axiomatisation \axiomRmlK{}.
+$$
+\begin{array}{ll}
+    \proves \possibleB \lnot \atomP \iff ((\possibleA \atomP \lor \top) \land \possibleB \lnot \atomP) & {\bf P}\\
+    \proves \possibleB \lnot \atomP \iff ((\possibleA \atomP \lor \top) \land \coversB \{\lnot \atomP, \top\}) & \text{Defn. of $\coversB$}\\
+    \proves \possibleB \lnot \atomP \iff ((\possibleA \lnot \lnot \atomP \lor \top) \land \coversB \{\lnot \lnot \lnot \atomP, \lnot \lnot \top\}) & {\bf P}\\
+    \proves \possibleB \lnot \atomP \iff ((\possibleA \lnot \allrefsA \lnot \atomP \lor \top) \land \coversB \{\lnot \allrefsA \lnot \lnot \atomP, \lnot \allrefsA \lnot \top\}) & {\bf RP}\\
+    \proves \possibleB \lnot \atomP \iff ((\possibleA \somerefsA \atomP \lor \top) \land \coversB \{\somerefsA \lnot \atomP, \somerefsA \top\}) & \text{Defn. of $\somerefsA$}\\
+    \proves \possibleB \lnot \atomP \iff ((\somerefsA \coversA \{\atomP\} \lor \somerefsA \coversA \emptyset) \land \coversB \{\somerefsA \lnot \atomP, \somerefsA \top\}) & {\bf RK}\\
+    \proves \possibleB \lnot \atomP \iff ((\somerefsA \coversA \{\atomP\} \lor \somerefsA \coversA \emptyset) \land \somerefsA \coversB \{\lnot \atomP, \top\}) & {\bf RComm}\\
+    \proves \possibleB \lnot \atomP \iff ((\somerefsA \coversA \{\atomP\} \land \somerefsA \coversB \{\lnot \atomP, \top\}) \lor (\somerefsA \coversA \emptyset \land \somerefsA \coversB \{\lnot \atomP, \top\})) & {\bf P}\\
+    \proves \possibleB \lnot \atomP \iff (\somerefsA (\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}) \lor \somerefsA (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})) & {\bf RDist}\\
+    \proves \possibleB \lnot \atomP \iff (\somerefsA (\necessaryA \atomP \land \possibleA \atomP \land \possibleB \lnot \atomP) \lor \somerefsA (\necessaryA \bot \land \possibleB \lnot \atomP)) & \text{Defn. of $\coversA$ and $\coversB$}\\
+    \proves \possibleB \lnot \atomP \iff (\somerefsA (\necessaryA \atomP \land \possibleA \atomP \land \possibleB \lnot \atomP) \lor \somerefsA (\necessaryA \atomP \land \lnot \possibleA \atomP \land \possibleB \lnot \atomP)) & \text{Modal reasoning}\\
+    \proves \possibleB \lnot \atomP \iff \somerefsA (\necessaryA \atomP \land \possibleB \lnot \atomP) & {\bf P}\\
+    \proves \possibleB \lnot \atomP \iff \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) & \text{Defn. of $\possibleB$}
+\end{array}
+$$
+\end{example}
+
 \section{Soundness}\label{rml-k-soundness}
 
 In this section we show that the axiomatisation \axiomRmlK{} is sound with respect to the semantics of the logic \logicRmlK{}.
@@ -671,6 +694,8 @@ For every $\gamma \in \Gamma$, $\gamma' \in \Gamma'$ as $\gamma \land \gamma'$ h
 Substituting $\epsilon_{\gamma,\gamma'}$ for $\gamma \land \gamma'$ after applying all of the above equivalences leaves us with a formula in disjunctive normal form.
 \end{proof}
 
+\todo[inline]{Example of conversion to DNF}
+
 We note that we have shown a semantic equivalence between \langMl{} formulas and formulas in disjunctive normal form.
 As \axiomK{} is a sound and complete axiomatisation for \logicK{} then this is also a provable equivalence in \axiomK{}, and as the axioms and rules of \axiomK{} are included in the axiomatisation \axiomRmlK{} this is also a provable equivalence in \axiomRmlK{}.
 
@@ -742,7 +767,7 @@ where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\age
     \end{array}
     $$
 
-    \item[(\ref{rml-k-d-and}]
+    \item[(\ref{rml-k-d-and})]
     We show that $\proves \somerefsBs (\phi \land \psi) \implies (\somerefsBs \phi \land \somerefsBs \psi)$.
     $$
     \begin{array}{ll}
@@ -899,7 +924,26 @@ Likewise by {\bf NecR} we have $\proves \allrefsBs (\alpha[\chi\backslash\atomP]
 Then by {\bf P} we have $\proves \allrefsBs \alpha[\psi\backslash\atomP] \iff \allrefsBs \alpha[\chi\backslash\atomP]$.
 \end{proof}
 
+Now that we have shown the equivalences of Lemma~\ref{rml-k-theorems}, and that \axiomRmlK{} is closed under substitution of equivalents we can give an alternative version of the proof in Example~\ref{rml-k-example-derivation}.
+
+\begin{example}
+We show that $\proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff \possibleB \lnot \atomP$ using the axiomatisation \axiomRmlK{}.
+$$
+\begin{array}{ll}
+    \proves (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff ((\coversA \{\atomP\} \lor \coversA \emptyset) \land \coversB \{\lnot \atomP, \top\}) & \text{Defn. of $\covers$}\\
+    \proves (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff ((\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}) \lor (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})) & \text{Defn. of $\covers$}\\
+    \proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff \somerefsA ((\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}) \lor (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})) & \text{Substitution of equivalents}\\
+    \proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff (\somerefsA (\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}) \lor \somerefsA (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})) & \text{(\ref{rml-k-or}) from Lemma~\ref{rml-k-theorems}}\\
+    \proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff ((\possibleA \somerefsA \atomP \land \possibleB \somerefsA \lnot \atomP \land \possibleB \somerefsA \top) \lor (\top \land \possibleB \somerefsA \lnot \atomP \land \possibleB \somerefsA \top)) & \text{(\ref{rml-k-cover}) from Lemma~\ref{rml-k-theorems}}\\
+    \proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff ((\possibleA \atomP \land \possibleB \lnot \atomP \land \possibleB \top) \lor (\top \land \possibleB \lnot \atomP \land \possibleB \top)) & {\bf RP}\\
+    \proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff (\possibleB \lnot \atomP \land \possibleB \top) & {\bf P}\\
+    \proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff \possibleB \lnot \atomP & \text{Modal reasoning}\\
+\end{array}
+$$
+\end{example}
+
 We now show that the reduction axioms of \logicRmlK{} admit a provably correct translation from \langRml{} to \langMl{}.
+The example above demonstrates the general strategy behind our provably correct translation: convert to disjunctive normal form, then use the provable equivalences from Lemma~\ref{rml-k-theorems} to push refinement quantifiers past modalities and connectives until {\bf RP} may be applied to remove the refinement quantifiers altogether.
 
 \begin{lemma}\label{rml-k-ml-equivalent}
 Every refinement modal formula is provably equivalent to a modal formula using the axiomatisation \axiomRmlK{}.

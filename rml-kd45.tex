@@ -151,6 +151,50 @@ We emphasise that the only difference between \axiomRmlKFF{} and \axiomRmlKD{} i
 This accounts for the only difference between \classKFF{} and \classKD{}: we require seriality in \classKD{}, but not in \classKFF{}.
 We note that strictly speaking, {\bf RComm} and {\bf RDist} are sound in \logicRmlKD{} when the cover operators are applied to empty sets of formulas, but this is derivable from the other axioms using the fact that $\proves \lnot \coversA \emptyset$ in \axiomKFF{}.
 
+Finally we give some example derivations using the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{}.
+
+\begin{example}\label{rml-k45-example-derivation}
+We show that $\proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff \possibleB \lnot \atomP$ using the axiomatisation \axiomRmlKFF{}.
+$$
+\begin{array}{ll}
+    \proves \possibleB \lnot \atomP \iff ((\possibleA \atomP \lor \top) \land \possibleB \lnot \atomP) & {\bf P}\\
+    \proves \possibleB \lnot \atomP \iff ((\possibleA \atomP \lor \top) \land \coversB \{\lnot \atomP, \top\}) & \text{Defn. of $\coversB$}\\
+    \proves \possibleB \lnot \atomP \iff ((\possibleA \lnot \lnot \atomP \lor \top) \land \coversB \{\lnot \lnot \lnot \atomP, \lnot \lnot \top\}) & {\bf P}\\
+    \proves \possibleB \lnot \atomP \iff ((\possibleA \lnot \allrefsA \lnot \atomP \lor \top) \land \coversB \{\lnot \allrefsA \lnot \lnot \atomP, \lnot \allrefsA \lnot \top\}) & {\bf RP}\\
+    \proves \possibleB \lnot \atomP \iff ((\possibleA \somerefsA \atomP \lor \top) \land \coversB \{\somerefsA \lnot \atomP, \somerefsA \top\}) & \text{Defn. of $\somerefsA$}\\
+    \proves \possibleB \lnot \atomP \iff ((\somerefsA \coversA \{\atomP\} \lor \somerefsA \coversA \emptyset) \land \coversB \{\somerefsA \lnot \atomP, \somerefsA \top\}) & {\bf RK45}\\
+    \proves \possibleB \lnot \atomP \iff ((\somerefsA \coversA \{\atomP\} \lor \somerefsA \coversA \emptyset) \land \somerefsA \coversB \{\lnot \atomP, \top\}) & {\bf RComm}\\
+    \proves \possibleB \lnot \atomP \iff ((\somerefsA \coversA \{\atomP\} \land \somerefsA \coversB \{\lnot \atomP, \top\}) \lor (\somerefsA \coversA \emptyset \land \somerefsA \coversB \{\lnot \atomP, \top\})) & {\bf P}\\
+    \proves \possibleB \lnot \atomP \iff (\somerefsA (\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}) \lor \somerefsA (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})) & {\bf RDist}\\
+    \proves \possibleB \lnot \atomP \iff (\somerefsA (\necessaryA \atomP \land \possibleA \atomP \land \possibleB \lnot \atomP) \lor \somerefsA (\necessaryA \bot \land \possibleB \lnot \atomP)) & \text{Defn. of $\coversA$ and $\coversB$}\\
+    \proves \possibleB \lnot \atomP \iff (\somerefsA (\necessaryA \atomP \land \possibleA \atomP \land \possibleB \lnot \atomP) \lor \somerefsA (\necessaryA \atomP \land \lnot \possibleA \atomP \land \possibleB \lnot \atomP)) & \text{Modal reasoning}\\
+    \proves \possibleB \lnot \atomP \iff \somerefsA (\necessaryA \atomP \land \possibleB \lnot \atomP) & {\bf P}\\
+    \proves \possibleB \lnot \atomP \iff \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) & \text{Defn. of $\possibleB$}
+\end{array}
+$$
+We note that this is essentially the same as the derivation in Example~\ref{rml-k-example-derivation} using the axiomatisation \axiomRmlK{}.
+\end{example}
+
+\begin{example}\label{rml-kd45-example-derivation}
+We show that $\proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff (\possibleA \atomP \land \possibleB \lnot \atomP)$ using the axiomatisation \axiomRmlKD{}.
+$$
+\begin{array}{ll}
+    \proves (\possibleA \atomP \land \possibleB \lnot \atomP) \iff (\possibleA \atomP \land \coversB \{\lnot \atomP, \top\}) & \text{Defn. of $\coversB$}\\
+    \proves (\possibleA \atomP \land \possibleB \lnot \atomP) \iff (\possibleA \lnot \lnot \atomP \land \coversB \{\lnot \lnot \lnot \atomP, \lnot \lnot \top\}) & {\bf P}\\
+    \proves (\possibleA \atomP \land \possibleB \lnot \atomP) \iff (\possibleA \lnot \allrefsA \lnot \atomP \land \coversB \{\lnot \allrefsA \lnot \lnot \atomP, \lnot \allrefsA \lnot \top\}) & {\bf RP}\\
+    \proves (\possibleA \atomP \land \possibleB \lnot \atomP) \iff (\possibleA \somerefsA \atomP \land \coversB \{\somerefsA \lnot \atomP, \somerefsA \top\}) & \text{Defn. of $\somerefsA$}\\
+    \proves (\possibleA \atomP \land \possibleB \lnot \atomP) \iff (\somerefsA \coversA \{\atomP\} \land \coversB \{\somerefsA \lnot \atomP, \somerefsA \top\}) & {\bf RKD45}\\
+    \proves (\possibleA \atomP \land \possibleB \lnot \atomP) \iff (\somerefsA \coversA \{\atomP\} \land \somerefsA \coversB \{\lnot \atomP, \top\}) & {\bf RComm}\\
+    \proves (\possibleA \atomP \land \possibleB \lnot \atomP) \iff \somerefsA (\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}) & {\bf RDist}\\
+    \proves (\possibleA \atomP \land \possibleB \lnot \atomP) \iff \somerefsA (\necessaryA \atomP \land \possibleA \atomP \land \possibleB \lnot \atomP) & \text{Defn. of $\coversA$ and $\coversB$}\\
+    \proves (\possibleA \atomP \land \possibleB \lnot \atomP) \iff \somerefsA (\necessaryA \atomP \land \possibleB \lnot \atomP) & \text{Modal reasoning and {\bf D}}\\
+    \proves (\possibleA \atomP \land \possibleB \lnot \atomP) \iff \somerefsA (\necessaryA \atomP \land \possibleB \lnot \atomP) & {\bf P}\\
+    \proves (\possibleA \atomP \land \possibleB \lnot \atomP) \iff \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) & \text{Defn. of $\possibleB$}
+\end{array}
+$$
+We note that this derivation differs from the derivation using \axiomRmlKFF{} in Example~\ref{rml-k45-example-derivation} in the use of the axiom {\bf D} to show that $(\necessaryA \atomP \land \possibleA \atomP) \iff \necessaryA \atomP$.
+\end{example}
+
 \section{Soundness}\label{rml-kd45-soundness}
 
 In this section we show that the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{} are sound with respect to the semantics of the logics \logicRmlKFF{} and \logicRmlKD{} respectively.
@@ -821,6 +865,8 @@ $$
 Once these equivalences have been applied as many times as possible, the resulting formula will have no cover modalities nested directly with a cover operator of the same agent.
 We can then translate the resulting formula into $\agentsB$-alternating disjunctive normal form using the same method for disjunctive normal form, noting that the equivalences used in the proof of Lemma~\ref{dnf-equivalent} will preserve the alternating structure of the formula.
 \end{proof}
+
+\todo[inline]{Example of conversion to ADNF}
 
 We note that we have shown a semantic equivalence between \langMl{} formulas and formulas in alternating disjunctive normal form.
 As \axiomKFF{} is a sound and complete axiomatisation for \logicKFF{} then this is also a provable equivalence in \axiomKFF{}, and as the axioms and rules of \axiomKFF{} are included in the axiomatisation \axiomRmlKFF{} this is also a provable equivalence in \axiomRmlKFF{}.

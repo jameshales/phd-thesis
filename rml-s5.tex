@@ -140,6 +140,29 @@ $$
 where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\agentsB \subseteq \agents$, $\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA$ is an explicit formula and for every $\agentA \in \agents$, $\gamma_0 \land \coversA \Gamma_\agentA$ is an explicit formula.
 \end{definition}
 
+Finally we give an example derivation using the axiomatisation \axiomRmlS{}.
+
+\begin{example}\label{rml-s5-example-derivation}
+We show that $\proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff (\atomP \land \possibleB \lnot \atomP)$ using the axiomatisation \axiomRmlS{}.
+$$
+\begin{array}{ll}
+    \proves (\atomP \land \possibleB \lnot \atomP) \iff (\atomP \land \possibleA \atomP \land \possibleB \lnot \atomP) & {\bf T}\\
+    \proves (\atomP \land \possibleB \lnot \atomP) \iff (\atomP \land \possibleA \atomP \land \coversB \{\lnot \atomP, \atomP\}) & \text{Defn. of $\coversB$}\\
+    \proves (\atomP \land \possibleB \lnot \atomP) \iff (\lnot \lnot \atomP \land \possibleA \lnot \lnot \atomP \land \coversB \{\lnot \lnot \lnot \atomP, \lnot \lnot \atomP\}) & {\bf P}\\
+    \proves (\atomP \land \possibleB \lnot \atomP) \iff (\lnot \allrefsA \lnot \atomP \possibleA \lnot \allrefsA \lnot \atomP \land \coversB \{\lnot \allrefsA \lnot \lnot \atomP, \lnot \allrefsA \lnot \atomP\}) & {\bf RP}\\
+    \proves (\atomP \land \possibleB \lnot \atomP) \iff (\somerefsA \atomP \land \possibleA \somerefsA \atomP \land \coversB \{\somerefsA \lnot \atomP, \somerefsA \atomP\}) & \text{Defn. of $\somerefsA$}\\
+    \proves (\atomP \land \possibleB \lnot \atomP) \iff (\atomP \land \somerefsA (\atomP \land \coversA \{\atomP\}) \land \coversB \{\somerefsA \lnot \atomP, \somerefsA \atomP\}) & {\bf RS5}\\
+    \proves (\atomP \land \possibleB \lnot \atomP) \iff (\somerefsA (\atomP \land \coversA \{\atomP\}) \land \somerefsA (\atomP \land \coversB \{\lnot \atomP, \atomP\})) & {\bf RComm}\\
+    \proves (\atomP \land \possibleB \lnot \atomP) \iff \somerefsA (\atomP \land \coversA \{\atomP\} \land \coversB \{\lnot \atomP, \atomP\}) & {\bf RDist}\\
+    \proves (\atomP \land \possibleB \lnot \atomP) \iff \somerefsA (\atomP \land \necessaryA \atomP \land \possibleA \atomP \land \possibleB \lnot \atomP) & \text{Defn. of $\coversA$ and $\coversB$}\\
+    \proves (\atomP \land \possibleB \lnot \atomP) \iff \somerefsA (\necessaryA \atomP \land \possibleB \lnot \atomP) & \text{Modal reasoning and {\bf T}}\\
+    \proves (\atomP \land \possibleB \lnot \atomP) \iff \somerefsA (\necessaryA \atomP \land \possibleB \lnot \atomP) & {\bf P}\\
+    \proves (\atomP \land \possibleB \lnot \atomP) \iff \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) & \text{Defn. of $\possibleB$}
+\end{array}
+$$
+We note that this derivation differs from the derivation using \axiomRmlKD{} in Example~\ref{rml-kd45-example-derivation} in the use of the axiom {\bf T} to show that $\atomP \iff (\atomP \land \possibleA \atomP)$ and that $(\atomP \land \necessaryA \atomP \land \possibleA \atomP) \iff \necessaryA \atomP$.
+\end{example}
+
 \section{Soundness}\label{rml-s5-soundness}
 
 In this section we show that the axiomatisation \axiomRmlS{} is sound with respect to the semantics of the logic \logicRmlS{}.
@@ -891,6 +914,8 @@ We show that every modal formula is equivalent to a disjunction of explicit form
 Every modal formula is equivalent to a disjunction of explicit formulas of at most the same modal depth, under the semantics of the logic \logicS{}.
 \end{lemma}
 
+\todo[inline]{Rewrite proof to match new definition of explicit formulas}
+
 \begin{proof}
 Let $\phi \in \langMl$ be a modal formula.
 Without loss of generality, by Lemma~\ref{dnf-equivalent} we may assume that $\delta$ is in disjunctive normal form.
@@ -961,6 +986,8 @@ As either $\proves \gamma'' \implies \delta$ or $\proves \gamma'' \implies \neg 
 
 Therefore $\chi'$ is an explicit formula, and $\phi$ is equivalent to a disjunction of explicit formulas.
 \end{proof}
+
+\todo[inline]{Example of conversion to explicit formulas}
 
 We note that we have shown a semantic equivalence between \langMl{} formulas and disjunctions of explicit formulas.
 As \axiomS{} is a sound and complete axiomatisation for \logicS{} then this is also a provable equivalence in \axiomS{}, and as the axioms and rules of \axiomS{} are included in the axiomatisation \axiomRmlS{} this is also a provable in \axiomRmlS{}.

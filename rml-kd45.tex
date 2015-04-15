@@ -89,9 +89,9 @@ In \logicRmlK{} refinements need not be Euclidean, so we have $\entails_\logicRm
 The contradiction becomes obvious once we convert $\possibleA \atomP \land \lnot \necessaryA \possibleA \atomP$ to the equivalent $\possibleA \atomP \land \lnot \possibleA \atomP$, and again {\bf RK} behaves as desired if applied to the formula in this syntactic form.
 
 The problem with our initial attempt at applying the axiom {\bf RK} occurred because we had a set of formulas, $\{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$ that was contradictory when taken together in a cover operator, as in $\coverA \{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$, but considered individually each formula is satisfiable in a refinement of a successor, as in $\possibleA \somerefsA (\lnot \atomP \land \possibleA \atomP) \land \possibleA \somerefsA \lnot \atomP$.
-The solution we have seen here is to rewrite the formula $\coversA \{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$ into the equivalent $\coversA \{\atomP \land \lnot \atomP, \lnot \atomP\}$ where we now have a contradiction when we consider the formulas individually, as in $\possibleA \somerefsA (\atomP \land \lnot \atomP) \land \possibleA \somerefsA \lnot \atomP$.
-Rewriting the formula in this way explicitly represents the interaction between the formulas in the cover operator due to transitivity and Euclideaness.
-In the rewritten formula there is no interaction between the formulas in the cover operator due to transitivity and Euclideaness, because the formulas in the cover operator do not feature $\agentA$-modalities at the top level.
+The solution we have seen here is to rewrite the formula $\coversA \{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$ into the equivalent $\coversA \{\atomP \land \lnot \atomP, \lnot \atomP\}$ where we now have a contradiction if we consider the formulas individually, as in $\possibleA \somerefsA (\atomP \land \lnot \atomP) \land \possibleA \somerefsA \lnot \atomP$.
+Rewriting the formula in this way explicitly represents the interaction due to transitivity and Euclideaness between the formulas in the cover operator.
+In the rewritten formula there is no interaction due to transitivity and Euclideaness between the formulas in the cover operator, because the formulas in the cover operator do not feature $\agentA$-modalities at the top level.
 Therefore any interaction that was implied in the original formula becomes explicit in the rewritten formula.
 This makes the contradiction between the formulas due to transitivity and Euclideaness more obvious, and means that considering the formulas individually as is done the {\bf RK} axiom does not result in the contradiction disappearing.
 
@@ -200,7 +200,7 @@ We show that $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStat
 Suppose that $\phi = \atomP$ for $\atomP \in \atoms$.
 Then $\kPModel{\kStateS} \entails \atomP$ if and only if $\kStateS \in \kValuation(\atomP)$.
 As $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ then $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
-Finally $\kStateSP \in \kValuationP(\atomP)$ if and only if $\kPModelP{\kStateSP} \entails \atomP$.
+Therefore $\kStateSP \in \kValuationP(\atomP)$ if and only if $\kPModelP{\kStateSP} \entails \atomP$.
 
 Suppose that $\phi = \lnot \psi$ or $\phi = \psi \land \chi$ for $\agentsB$-restricted modal formulas $\psi, \chi \in \langMl$.
 These follow directly from the induction hypothesis.
@@ -208,7 +208,7 @@ These follow directly from the induction hypothesis.
 Suppose that $\phi = \possible[\agentB] \psi$ for $\agentB \in \agentsB$ and $\psi \in \langMl$.
 Then $\kPModel{\kStateS} \entails \necessary[\agentB] \psi$ if and only if there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $\kPModel{\kStateT} \entails \psi$.
 As $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ then if there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $\kPModel{\kStateT} \entails \psi$ if and only if there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kPModelP{\kStateTP} \entails \psi$ (as we can find a bisimilar $\kStateTP$ for every $\kStateT$ and vice-versa).
-Finally there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kPModelP{\kStateTP} \entails \psi$ if and only if $\kPModelP{\kStateS} \entails \necessary[\agentB] \psi$.
+Therefore there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kPModelP{\kStateTP} \entails \psi$ if and only if $\kPModelP{\kStateS} \entails \necessary[\agentB] \psi$.
 \end{proof}
 
 We use this lemma to show the soundness of {\bf RK45}, {\bf RKD45}, {\bf RComm}, and {\bf RDist}.
@@ -222,7 +222,7 @@ The axiom {\bf RK45} from the axiomatisation \axiomRmlKFF{} is sound with respec
 
 \begin{proof}
 ($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
-Then we show that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ using essentially the same reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
+We show that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$ using essentially the same reasoning as in the proof of soundness of {\bf RK} in Lemma~\ref{rml-k-rk}.
 The only additional consideration required for \logicRmlKFF{} is that the refinement must be a \classKFF{} Kripke model, but this is given by the semantics of $\somerefsBs$ in \logicRmlKFF{}.
 
 ($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
@@ -438,7 +438,7 @@ The axiom {\bf RComm} from the axiomatisation \axiomRmlKFF{} is sound with respe
 
 \begin{proof}
 ($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
-Then we show that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ using similar reasoning to the proof of soundness of {\bf RComm} in Lemma~\ref{rml-k-rcomm}.
+We show that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ using essentially the same reasoning reasoning as in the proof of soundness of {\bf RComm} in Lemma~\ref{rml-k-rcomm}.
 The only additional consideration required for \logicRmlKFF{} is that the refinement must be a \classKFF{} Kripke model, but this is given by the semantics of $\somerefsBs$ in \logicRmlKFF{}.
 
 ($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
@@ -720,12 +720,13 @@ The axiom {\bf RDist} from the axiomatisation \axiomRmlKFF{} is sound with respe
 \end{lemma}
 
 \begin{proof}
-    ($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs ( \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC )$.
-    Then we show that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$ using the same reasoning as in the proof of soundness of {\bf RDist} from \axiomRmlK{} in Lemma~\ref{rml-k-rcomm}.
+($\Rightarrow$) Let $\kPModel{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs ( \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC )$.
+We show that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$ using the essentially the same reasoning as in the proof of soundness of {\bf RDist} from \axiomRmlK{} in Lemma~\ref{rml-k-rdist}.
+The only additional consideration required for \logicRmlKFF{} is that the refinement must be a \classKFF{} Kripke model, but this is given by the semantics of $\somerefsBs$ in \logicRmlKFF{}.
 
 ($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$.
 For every $\agentC \in \agentsC$ there exists $\kPModel[\agentC]{\kStateS[\agentC]} \in \classKFF$ such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentC]{\kStateS[\agentC]}$ and $\kPModel[\agentC]{\kStateS[\agentC]} \entails \coversC \Gamma_\agentC$.
-Then we show that $\kPModel{\kStateS} \entails \somerefsBs ( \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC)$ using the same reasoning as in the proof of soundness of {\bf RDist} from \axiomRmlK{} in Lemma~\ref{rml-k-rcomm}.
+We show that $\kPModel{\kStateS} \entails \somerefsBs ( \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC)$ using the same reasoning as in the proof of soundness of {\bf RDist} from \axiomRmlK{} in Lemma~\ref{rml-k-rcomm}.
 We note that since each of the refinements $\kPModel[\agentC]{\kStateS[\agentC]}$ are \classKFF{} models then the construction used in Lemma~\ref{rml-k-rcomm} will produce a \classKFF{} model as required.
 \end{proof}
 
@@ -937,7 +938,7 @@ Every refinement modal formula is provably equivalent to a modal formula using t
 \end{lemma}
 
 \begin{proof}
-We use essentially the same reasoning as in Lemma~\ref{rml-k-ml-equivalent} for \axiomRmlK{}.
+We use essentially the same reasoning to that used to show the same result in \axiomRmlK{} in Lemma~\ref{rml-k-ml-equivalent}.
 We convert subformulas to alternating disjunctive normal form instead of disjunctive normal form, which ensures that $\coversA$~operators are only applied to sets of $(\agents \setminus \{\agentA\})$-restricted modal formulas, allowing the equivalences from Lemma~\ref{rml-k45-theorems} to be applied inductively.
 \end{proof}
 

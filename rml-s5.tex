@@ -914,80 +914,147 @@ We show that every modal formula is equivalent to a disjunction of explicit form
 Every modal formula is equivalent to a disjunction of explicit formulas of at most the same modal depth, under the semantics of the logic \logicS{}.
 \end{lemma}
 
-\todo[inline]{Rewrite proof to match new definition of explicit formulas}
-
 \begin{proof}
 Let $\phi \in \langMl$ be a modal formula.
-Without loss of generality, by Lemma~\ref{dnf-equivalent} we may assume that $\delta$ is in disjunctive normal form.
-Then $\phi$ is a disjunction of formulas of the form $\psi = \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB$.
-We need only show that every formula of this form is equivalent to a disjunction of explicit formulas.
+Without loss of generality, by Lemma~\ref{dnf-equivalent} we may assume that $\phi$ is in disjunctive normal form.
+Then $\phi$ is a disjunction of formulas of the form $\psi = \pi \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$ where $\pi \in \langPl$, $\agentsC \subseteq \agents$, and for every $\agentC \in \agentsC$, $\Gamma_\agentC \subseteq \langMl$ is a finite set of modal formulas.
+Let $\Delta = \{\delta \leq \gamma \mid \agentC \in \agentsC, \gamma \in \Gamma_\agentC\}$.
 
-Let $\Delta = \{\delta \in \langMl \mid \agentB \in \agentsB, \gamma \in \Gamma_\agentB, \delta \leq \gamma\}$ be the set of subformulas of all of the formulas in each of the sets $\Gamma_\agentB$ appearing in $\psi$.
+Our strategy is essentially to transform $\psi$ into a disjunction of cover operators where each formula in each cover operator explicitly denotes whether each subformula from $\Delta$ is true or false.
+We achieve this by adding for each formula in the cover operator and each $\delta \in \Delta$ a vacuously true disjunction $\delta \lor \lnot \delta$, and then ``pulling'' the disjunctions out of the cover operator to the top level.
+Once in the desired form we show that each disjunct is either equivalent to an explicit formula, or is inconsistent, in which case we can safely remove the disjunct from the overall disjunction.
+The \axiomS{} axioms {\bf T}, {\bf 4}, and {\bf 5} ensure that if a disjunct is consistent then it satisfies conditions (1) and (2) of explicit formulas.
+
+For every $\lambda \in \powerset(\Delta)$ we define $\tau(\lambda) = \bigwedge_{\delta \in \lambda} \delta \land \bigwedge_{\delta \in \Delta \setminus \lambda} \lnot \delta$.
+
+Let $\lambda, \lambda' \in \powerset(\Delta)$ such that $\lambda \neq \lambda'$.
+Without loss of generality we assume that there exists $\delta \in \lambda$ such that $\delta \notin \lambda'$.
+As $\delta \in \Delta$ then $\delta \in \Delta \setminus \lambda'$.
+Then $\proves \tau(\lambda) \implies \delta$ and $\proves \tau(\lambda') \implies \lnot \delta$ so $\proves \lnot (\tau(\lambda) \land \tau(\lambda'))$.
+Therefore for every $\lambda, \lambda' \in \powerset(\Delta)$ if $\lambda \neq \lambda'$ then $\tau(\lambda)$ and $\tau(\lambda')$ are inconsistent,
+and by contrapositive, if $\tau(\lambda)$ and $\tau(\lambda')$ are consistent then $\lambda = \lambda'$.
+
 By propositional reasoning we have:
 $$
-\proves \bigvee_{\Sigma \subseteq \Delta} \left( \bigwedge_{\delta \in \Sigma} \delta \land \bigwedge_{\delta \in \Delta \setminus \Sigma} \neg \delta \right) 
+\proves \bigvee_{\lambda \in \powerset(\Delta)} \tau(\lambda)
 $$
-And so we have:
-$$
-\proves \psi \iff \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \left\{ \bigvee_{\Sigma \subseteq \Delta} \left( \gamma \land \bigwedge_{\delta \in \Sigma} \delta \land \bigwedge_{\delta \in \Delta \setminus \Sigma} \neg \delta \right) \mid \gamma \in \Gamma_\agentB \right\}
-$$
-We pull the disjunctions within each cover operator up one level using the following equivalence:
-$$
-\proves \coversC (\{\psi \lor \chi\} \cup \Gamma) \iff \coversC (\{\psi\} \cup \Gamma) \lor \coversC (\{\chi\} \cup \Gamma) \lor \coversC (\{\psi, \chi\} \cup \Gamma)
-$$
-Then distributivity of conjunction over disjunction gives an equivalent formula of the form:
-$$
-\proves \psi \iff
-\bigvee_{(\Sigma_\agentB : \Gamma_\agentB \to \powerset(\Delta))_{\agentB \in \agentsB}} \left( \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma'_{\Sigma_\agentB} \right)
-$$
-where for every $\agentB \in \agentsB$, $\Gamma'_{\Sigma_\agentB} = \{\bigwedge_{\delta \in \Sigma_\agentB(\gamma) \cup \{\gamma\}} \delta \land \bigwedge_{\delta \in \Delta \setminus (\Sigma_\agentB(\gamma) \cup \{\gamma\})} \neg \delta \mid \gamma \in \Gamma_\agentB\}$.
-By reflexivity we have that:
-$$
-\proves \psi \iff
-\bigvee_{(\Sigma_\agentB : \Gamma_\agentB \to \powerset(\Delta))_{\agentB \in \agentsB}} \left( \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \left(\bigvee_{\gamma' \in \Gamma'_{\Sigma_\agentB}} \gamma' \land \coverB \Gamma'_{\Sigma_\agentB} \right) \right)
-$$
-By distributivity of conjunction over disjunction again we have:
-$$
-\proves \psi \iff
-\bigvee_{\substack{(\Sigma_\agentB : \Gamma_\agentB \to \powerset(\Delta))_{\agentB \in \agentsB}\\(\gamma'_\agentB \in \Gamma'_{\Sigma_\agentB})_{\agentB \in \agentsB}}}
-\left( \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \left(\gamma'_\agentB \land \coverB \Gamma'_{\Sigma_\agentB} \right) \right)
-$$
-Finally we remove the disjuncts that are themselves inconsistent.
 
-Consider the disjunct $\chi = \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \left(\gamma'_\agentB \land \coverB \Gamma'_{\Sigma_\agentB} \right)$ where for every $\agentB \in \agentsB$, $\Sigma_\agentB : \Gamma_\agentB \to \powerset(\Delta)$ and $\gamma'_\agentB \in \Gamma'_{\Sigma_\agentB}$.
+Let $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$.
+By propositional reasoning we have:
+$$
+\proves \gamma \iff \left(\gamma \land \bigvee_{\lambda \in \powerset(\Delta)} \tau(\lambda)\right)
+$$
+and:
+$$
+\proves \gamma \iff \left(\bigvee_{\lambda \in \powerset(\Delta)} (\gamma \land \tau(\lambda))\right)
+$$
 
-Let $\agentB, \agentC \in \agentsB$ and suppose that $\Sigma_\agentB(\gamma_\agentB) \neq \Sigma_\agentC(\gamma_\agentC)$.
-Then there exists $\delta \in \Sigma_\agentB(\gamma_\agentB)$ such that $\delta \notin \Sigma_\agentC(\gamma_\agentC)$ or
-there exists $\delta \in \Sigma_\agentC(\gamma_\agentC)$ such that $\delta \notin \Sigma_\agentB(\gamma_\agentB)$.
-Suppose that there exists $\delta \in \Sigma_\agentB(\gamma_\agentB)$ such that $\delta \notin \Sigma_\agentC(\gamma_\agentC)$.
-Then $\proves \gamma'_\agentB \implies \delta$ and $\proves \gamma'_\agentC \implies \neg \delta$, so $\proves \chi \implies \delta$ and $\proves \chi \implies \neg \delta$ and so $\chi$ is inconsistent.
-Suppose instead that there exists $\delta \in \Sigma_\agentC(\gamma_\agentC)$ such that $\delta \notin \Sigma_\agentB(\gamma_\agentB)$.
-Then likewise we can show that $\chi$ is inconsistent.
-By contrapositive for every $\agentB, \agentC \in \agentsB$ we have that if $\chi$ is consistent then $\Sigma_\agentB(\gamma_\agentB) \neq \Sigma_\agentC(\gamma_\agentC)$ and so $\gamma'_\agentB = \gamma'_\agentC$.
+Let $\lambda \in \powerset(\Delta)$ such that $\gamma \notin \lambda$.
+As $\gamma \in \Delta$ then $\gamma \in \Delta \setminus \lambda$, so $\proves \tau(\lambda) \implies \lnot \gamma$ and $\proves \lnot (\gamma \land \tau(\lambda))$.
+So we can safely remove such disjuncts $\gamma \land \tau(\lambda)$ from the disjunction.
 
-Let $\chi' = \gamma_0 \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma'_{\Sigma_\agentB}$ where $\gamma_0 = \gamma_\agentB$ for every $\agentB \in \agentsB$.
-Then $\proves \chi \iff \chi'$.
-We show that $\chi'$ is an explicit formula.
+Let $\powerset^{+\gamma}(\Delta) = \{\lambda \in \powerset(\Delta) \mid \gamma \in \lambda\}$.
+Let $\lambda \in \powerset^{+\gamma}(\Delta)$.
+As $\gamma \in \lambda$ then $\proves \tau(\lambda) \implies \gamma$ so $\proves (\gamma \land \tau(\lambda)) \iff \tau(\lambda)$.
+Then:
+$$
+\proves \gamma \iff \left(\bigvee_{\lambda \in \powerset^{+\gamma}(\Delta)} \tau(\lambda)\right)
+$$
 
-Let $\agentB \in \agentsB$.
-As $\gamma_0 = \gamma_\agentB$ then $\gamma_0 \in \Gamma'_{\Sigma_\agentB}$.
+Let $\agentC \in \agentsC$.
+Then:
+$$
+\proves \coversC \Gamma_\agentC \iff \coversC \left\{\bigvee_{\lambda \in \powerset^{+\gamma}(\Delta)} \tau(\lambda) \mid \gamma \in \Gamma_\agentC\right\}
+$$
 
-Let $\agentB \in \agentsB$, $\gamma' \in \Gamma'_{\Sigma_\agentB}$, and $\delta \in \Delta$.
-Suppose that $\delta \in \Sigma_\agentB(\gamma)$.
-Then $\gamma' = \gamma \land \bigwedge_{\delta \in \Sigma_\agentB(\gamma)} \delta \land \bigwedge_{\delta \in \Delta \setminus \Sigma_\agentB(\gamma)} \neg \delta$  where $\gamma \in \Gamma_\agentB$, and so $\proves \gamma' \implies \delta$.
-Suppose that $\delta \notin \Sigma_\agentB(\gamma)$.
-Then likewise we have that $\proves \gamma' \implies \neg \delta$.
+We can pull the disjunctions inside the cover operator out to the top level.
+We note that:
+$$
+\proves \coversC (\{\alpha \lor \beta\} \cup \Gamma) \iff (\coversC (\{\alpha\} \cup \Gamma) \lor \coversC (\{\beta\} \cup \Gamma) \lor \coversC (\{\alpha, \beta\} \cup \Gamma))
+$$
+We can generalise this to disjunctions of an arbitrary number of formulas:
+$$
+\proves \coversC (\{\bigvee_{\sigma \in \Sigma} \sigma\} \cup \Gamma) \iff \bigvee_{\emptyset \subset \Sigma' \subseteq \Sigma} \coversC (\Sigma' \cup \Gamma)
+$$
+And we can generalise this further to sets of disjunctions of formulas:
+$$
+\proves \coversC \{\bigvee_{\sigma \in \Sigma_i} \sigma \mid i = 1, \dots, n\} \iff \bigvee_{\emptyset \subset \Sigma'_1 \subseteq \Sigma_1} \cdots  \bigvee_{\emptyset \subset \Sigma'_n \subseteq \Sigma_n} \coversC \bigcup_{i = 1}^n \Sigma'_i
+$$
+If we enumerate $\Gamma_\agentC$ as $\Gamma_\agentC = \{\gamma^\agentC_1, \dots, \gamma^\agentC_{n^\agentC}\}$ then we get:
+$$
+\proves \coversC \Gamma'_\agentC \iff \bigvee_{\emptyset \subset \Lambda^\agentC_1 \subseteq \powerset^{+\gamma^\agentC_1}(\Delta)} \cdots \bigvee_{\emptyset \subset \Lambda^\agentC_{n^\agentC} \subseteq \powerset^{+\gamma^\agentC_{n^\agentC}}(\Delta)} \coversC \bigcup_{i = 1}^{n^\agentC} \{\tau(\lambda) \mid \lambda \in \Lambda^\agentC_i\}
+$$
+If we enumerate $\agentsC$ as $\agentsC = \{\agentC_1, \dots, \agentC_m\}$ then we get:
+$$
+\begin{array}{rcl}
+\proves \psi &\iff& 
+\bigvee_{\emptyset \subset \Lambda^{\agentC_1}_1 \subseteq \powerset^{+\gamma^{\agentC_1}_1}(\Delta)} \cdots 
+\bigvee_{\emptyset \subset \Lambda^{\agentC_1}_{n^{\agentC_1}} \subseteq \powerset^{+\gamma^{\agentC_1}_{n^{\agentC_1}}}(\Delta)} \cdots\\&&\quad
+\bigvee_{\emptyset \subset \Lambda^{\agentC_m}_1 \subseteq \powerset^{+\gamma^{\agentC_m}_1}(\Delta)} \cdots 
+\bigvee_{\emptyset \subset \Lambda^{\agentC_m}_{n^{\agentC_m}} \subseteq \powerset^{+\gamma^{\agentC_m}_{n^{\agentC_m}}}(\Delta)} \\&&\quad
+(\pi \land \bigwedge_{\agentC \in \agentsC} \coversC \bigcup_{i = 1}^{n^\agentC} \{\tau(\lambda) \mid \lambda \in \Lambda^\agentC_i\}
+\end{array}
+$$
+So $\psi$ is equivalent to a disjunction of formulas of the form $\chi = \pi \land \bigwedge_{\agentC \in \agentsC} \coversC \bigcup_{i = 1}^{n^\agentC} \{\tau(\lambda) \mid \lambda \in \Lambda^\agentC_i\}$, where for every $\agentC \in \agentsC$, $i = 1, \dots, n^\agentC$: $\emptyset \subset \Lambda^\agentC_i \subseteq \powerset^{+\gamma^\agentC_i}(\Delta)$.
 
-Let $\agentB \in \agentB$, $\gamma' \in \Gamma'_{\Sigma_\agentB}$, and $\necessaryB \delta \in \Delta$.
-Suppose that $\proves \gamma' \implies \necessaryB \delta$.
-Then we must have that $\coversB \Gamma'_{\Sigma_\agentB} \implies \necessaryB \delta$.
-Let $\gamma'' \in \Gamma'_{\Sigma_\agentB}$.
-As either $\proves \gamma'' \implies \delta$ or $\proves \gamma'' \implies \neg \delta$ and $\chi$ is not contradictory then we must have that $\proves \gamma'' \implies \delta$, as otherwise $\proves \gamma'' \implies \neg \delta$ would imply that $\coversB \Gamma'_{\Sigma_\agentB} \implies \neg \necessaryB \delta$.
+For every $\agentC \in \agentsC$ let $\Lambda_\agentC = \bigcup_{i = 1}^{n^c} \lambda^\agentC_i$.
+Then:
+$$
+\proves \chi \iff \pi \land \bigwedge_{\agentC \in \agentsC} \coversC \{\tau(\lambda) \mid \lambda \in \Lambda_\agentC\}
+$$
 
-Therefore $\chi'$ is an explicit formula, and $\phi$ is equivalent to a disjunction of explicit formulas.
+We note that as $\proves \coversC \Gamma \implies \necessaryC \bigvee \Gamma$ then by the \axiomS{} axiom {\bf T} we have $\proves \coversC \Gamma \implies \bigvee \Gamma$.
+From this follows:
+$$
+\proves \chi \iff \left( \pi \land \bigwedge_{\agentC \in \agentsC} \left(\bigvee_{\lambda_\agentC \in \Lambda_\agentC} \tau(\lambda_\agentC) \land \coversC \{\tau(\lambda) \mid \lambda \in \Lambda_\agentC\}\right) \right)
+$$
+and by propositional reasoning we have:
+$$
+\proves \chi \iff \bigvee_{\lambda_{\agentC_1} \in \Lambda_{\agentC_1}} \cdots \bigvee_{\lambda_{\agentC_m} \in \Lambda_{\agentC_m}} \left(\pi \land \bigwedge_{\agentC \in \agentsC} \left(\lambda_\agentC \land \coversC \{\tau(\lambda) \mid \lambda \in \Lambda_\agentC\} \right) \right)
+$$
+
+So $\chi$ is equivalent to a disjunction of formulas of the form $\omega = \pi \land \bigwedge_{\agentC \in \agentsC} \left(\lambda_\agentC \land \coversC \{\tau(\lambda) \mid \lambda \in \Lambda_\agentC\} \right)$, where for every $\agentC \in \agentsC$, $\lambda_\agentC \in \Lambda_\agentC$.
+We will show that if $\omega$ is consistent then it is equivalent to an explicit formula.
+If $\omega$ is inconsistent then we can safely remove it from the overall disjunction.
+
+Suppose that there exists $\agentC, \agentD \in \agentsC$ such that $\lambda_\agentC \neq \lambda_\agentD$.
+From above it follows that $\tau(\lambda_\agentC)$ and $\tau(\lambda_\agentD)$ are inconsistent.
+Therefore $\omega$ is inconsistent.
+So we can safely remove such disjuncts $\omega$ from the disjunction.
+By contrapositive it follows that the remaining, consistent disjuncts have for every $\agentC, \agentD \in \agentsC$ that $\lambda_\agentC = \lambda_\agentD$.
+Let $\lambda_0 = \lambda_{\agentC_1} = \cdots = \lambda_{\agentC_m}$.
+Then for every $\agentC \in \agentsC$ we have that $\lambda_0 \in \Lambda_\agentC$, satisfying condition (1) of explicit formulas.
+Then:
+$$
+\proves \omega \iff \left( \pi \land \tau(\lambda_0) \land \bigwedge_{\agentC \in \agentsC} \coversC \{\tau(\lambda) \mid \lambda \in \Lambda_\agentC\} \right)
+$$
+
+Let $\gamma'_0 = \tau(\lambda_0)$, for every $\agentC \in \agentsC$, $\lambda \in \Lambda_\agentC$, let $\gamma'_\lambda = \tau(\lambda)$, and for every $\agentC \in \agentsC$ let $\Gamma'_\agentC = \{\gamma'_\lambda \mid \lambda \in \Lambda_\agentC\}$.
+Then:
+$$
+\proves \omega \iff \left( \pi \land \gamma'_0 \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma'_\agentC \right)
+$$
+This is in the correct syntactic form for an explicit formula.
+
+Suppose that there exists $\agentC \in \agentsC$, $\lambda \in \Lambda_\agentC$, $\necessaryC \delta \in \Delta$ such that $\necessaryC \delta \in \lambda$ and there exists $\lambda' \in \Lambda_\agentC$ such that $\delta \notin \lambda'$.
+Then $\proves \tau(\lambda) \implies \necessaryC \delta$ so $\proves \coversC \Gamma'_\agentC \implies \possibleC \necessaryC \delta$, and by the contrapositive of the \axiomS{} axiom {\bf 5} it follows that $\proves \coversC \Gamma'_\agentC \implies \necessaryC \delta$.
+Also $\proves \tau(\lambda') \implies \lnot \delta$ so $\proves \coversC \Gamma'_\agentC \implies \possibleC \lnot \delta$ or equivalently, $\proves \coversC \Gamma'_\agentC \implies \lnot \necessaryC \delta$.
+Therefore $\omega$ is inconsistent.
+So we can safely remove such disjuncts $\omega$ from the disjunction.
+By contrapositive it follows that the remaining, consistent disjuncts have for every $\agentC \in \agentsC$, $\lambda \in \Lambda_\agentC$, $\necessaryC \delta \in \Delta$ that if $\necessaryC \delta \in \lambda$ then for every $\lambda' \in \Lambda_\agentC$ we have $\delta \in \lambda'$.
+
+Suppose that there exists $\agentC \in \agentsC$, $\lambda \in \Lambda_\agentC$, $\necessaryC \delta \in \Delta$ such that $\necessaryC \delta \notin \lambda$ and for every $\lambda' \in \Lambda_\agentC$ we have $\delta \in \lambda'$.
+Then $\proves \tau(\lambda) \implies \lnot \necessaryC \delta$ so $\proves \coversC \Gamma'_\agentC \implies \possibleC \lnot \necessaryC \delta$, or equivalently $\proves \coversC \Gamma'_\agentC \implies \lnot \necessaryC \necessaryC \delta$ and by the contrapositive of the \axiomS{} axiom {\bf 4} it follows that $\proves \coversC \Gamma'_\agentC \implies \lnot \necessaryC \delta$.
+Also for every $\lambda' \in \Lambda_\agentC$ we have $\tau(\lambda') \implies \delta$ and $\proves \coversC \Gamma \implies \necessaryC \bigvee{\lambda' \in \Lambda_\agentC} \tau(\lambda')$ so $\proves \coversC \Gamma \implies \necessaryC \delta$.
+Therefore $\omega$ is inconsistent.
+So we can safely remove such disjuncts $\omega$ from the disjunction.
+By contrapositive it follows that the remaining, consistent disjuncts have for every $\agentC \in \agentsC$, $\lambda \in \Lambda_\agentC$, $\necessaryC \delta \in \Delta$ that if for every $\lambda' \in \Lambda_\agentC$ we have $\delta \in \lambda'$ then $\necessaryC \delta \in \lambda$.
+
+From the above it follows that the remaining, consistent disjuncts have for every $\agentC \in \agentsC$, $\lambda \in \Lambda_\agentC$, $\necessaryC \delta \in \Delta$ that $\necessaryC \delta \in \lambda$ if and only if for every $\lambda' \in \Lambda_\agentC$ we have $\delta \in \lambda'$, satisfying condition (2) of explicit formulas.
+Therefore if $\omega$ is consistent then it is equivalent to an explicit formula.
+
+Therefore $\phi$ is equivalent to a disjunction of explicit formulas.
 \end{proof}
-
-\todo[inline]{Example of conversion to explicit formulas}
 
 We note that we have shown a semantic equivalence between \langMl{} formulas and disjunctions of explicit formulas.
 As \axiomS{} is a sound and complete axiomatisation for \logicS{} then this is also a provable equivalence in \axiomS{}, and as the axioms and rules of \axiomS{} are included in the axiomatisation \axiomRmlS{} this is also a provable in \axiomRmlS{}.

@@ -368,7 +368,7 @@ Therefore $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSPP} \simulatesCs \k
 Given this result we capture our intuition about refinements with a corollary.
 
 \begin{corollary}\label{refinement-subrelations}
-Let $\agentsB \subseteq \agents$ be sets of agents, and let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTuplePP{\kStateSPP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$.
+Let $\agentsB \subseteq \agents$ be a set of agents, and let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTuplePP{\kStateSPP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$.
 Then there exists a pointed Kripke model $\kPModelP{\kStateSPP} = ((\kStatesPP, \kAccessibilityP{}, \kValuationPP), \kStateSPP)$ such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ and for every $\agentA \in \agents$ if $\agentA \in \agentsB$ then $\kAccessibilityPPA \subseteq \kAccessibilityPA$, and if $\agentA \notin \agentsB$ then $\kAccessibilityPPA = \kAccessibilityPA$.
 \end{corollary}
 
@@ -377,6 +377,41 @@ By Proposition~\ref{refinement-decomposition} there exists a pointed Kripke mode
 As in the proof of Proposition~\ref{refinement-decomposition}, $\kPModel{\kStateS} \simulates[\emptyset] \kPModelP{\kStateSP}$ via an expanded $\emptyset$-refinement $\refinement \subseteq \kStates \times \kStatesP$.
 As $\kPModel{\kStateS} \simulates[\emptyset] \kPModelP{\kStateSP}$ then by Corollary~\ref{refinement-bisimilar} we have that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
 We note that using the construction of Proposition~\ref{refinement-decomposition}, we have a model $\kPModelP{\kStateSP}$ such that for every $\agentA \in \agents$ if $\agentA \in \agentsB$ then $\kAccessibilityPPA \subseteq \kAccessibilityPA$, and if $\agentA \notin \agentsB$ then $\kAccessibilityPPA = \kAccessibilityPA$.
+\end{proof}
+
+Here we see that every refinement of a Kripke model may be formed by taking a bisimilar Kripke model and removing edges for some agents.
+As a kind of converse to this result we show that every Kripke model formed by taking a bisimilar Kripke model and removing edges for some agents is a refinement.
+
+\begin{proposition}\label{subrelations-refinement}
+Let $\agentsB \subseteq \agents$ be a set of agents, let $\kPModelAndTuple{\kStateS}$, $\kPModelAndTupleP{\kStateSP}$, and $\kPModelPP{\kStateSP} = ((\kStatesP, \kAccessibilityPP{}, \kValuationP), \kStateSP)$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ and for every $\agentA \in \agents$ if $\agentA \in \agentsB$ then $\kAccessibilityPPA \subseteq \kAccessibilityPA$ and if $\agentA \notin \agentsB$ then $\kAccessibilityPPA = \kAccessibilityPA$.
+Then $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSP}$.
+\end{proposition}
+
+\begin{proof}
+As $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$ by Proposition~\ref{bisimilar-refinement} we have that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
+So we need only show that $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSP}$ and $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSP}$ will follow by the transitivity of $\simulatesBs$ shown in Proposition~\ref{refinements-preorder}.
+
+Let $\refinement \subseteq \kStatesP \times \kStatesPP$ where $\refinement = \{(\kStateTP, \kStateTP) \mid \kStateTP \in \kStatesP\}$.
+We show that $\refinement$ is a $\agentsB$-refinement from $\kPModelP{\kStateSP}$ to $\kPModelPP{\kStateSPP}$.
+Let $(\kStateTP, \kStateTP) \in \refinement$ where $\kStateTP \in \kStatesP$, and let $\atomP \in \atoms$, $\agentC \in \agents \setminus \agentsB$, and $\agentA \in \agents$.
+
+\paragraph{atoms-$\atomP$}
+Trivial as $\kModelP$ and $\kModelPP$ have the same valuation.
+
+\paragraph{forth-$\agentC$}
+Let $\kStateUP \in \kSuccessorsPC{\kStateTP}$.
+As $\agentC \notin \agentsB$ then by construction $\kAccessibilityPPA = \kAccessibilityPA$, so $\kStateUP \in \kSuccessorsPPC{\kStateTP}$.
+By construction $(\kStateUP, \kStateUP) \in \refinement$.
+
+\paragraph{back-$\agentA$}
+Let $\kStateUP \in \kSuccessorsPPA{\kStateTP}$.
+By construction if $\agentA \in \agentsB$ then $\kAccessibilityPPA \subseteq \kAccessibilityPA$, and if $\agentA \notin \agentsB$ then $\kAccessibilityPPA = \kAccessibilityPA$.
+Either way $\kAccessibilityPPA \subseteq \kAccessibilityPA$, so $\kStateUP \in \kSuccessorsPA{\kStateTP}$.
+By construction $(\kStateUP, \kStateUP) \in \refinement$.
+
+Therefore $\refinement$ is a $\agentsB$-refinement from $\kPModelP{\kStateSP}$ to $\kPModelPP{\kStateSPP}$ and $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSP}$.
+
+Therefore $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSP}$.
 \end{proof}
 
 We note that our definition of a refinement is more general than previous definitions.

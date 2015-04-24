@@ -299,7 +299,163 @@ However this is a trivial result, as refinement modal equivalence implies modal 
 In the following chapters we consider \logicRml{} in a variety of modal settings, specifically \classK{}, \classKF{}, \classKFF{}, \classKD{}, and \classS{}.
 We now give a few properties that are common to some or all of these settings.
 
-We show that refinement quantifiers satisfy the Church-Rosser and finality properties in the settings of \classK{}, \classKF{}, \classKFF{}, \classKD{}, \classSF{}, and \classS{}.
+We show that refinement quantifiers satisfy the Church-Rosser, McKinsey and finality properties in the settings of \classK{}, \classKF{}, \classKFF{}, \classKD{}, \classSF{}, and \classS{}.
+To do so we first introduce the notion of minimal and least refinements.
+
+\begin{definition}[Minimal and least refinements]\label{minimal-refinement}
+Let $\classC$ be a class of Kripke frames, let $\agentsB \subseteq \agents$ be a set of agents, and let $\kPModel{\kStateS}, \kPModelP{\kStateSP} \in \classC$ be Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
+Then $\kPModelP{\kStateSP}$ is a {\em minimal $\agentsB$-refinement} of $\kPModel{\kStateS}$ in \classC{} if and only if for every $\kPModelPP{\kStateSPP} \in \classC$ if $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$ then $\kPModelP{\kStateSP} \bisimilar \kPModelPP{\kStateSPP}$.
+Also $\kPModelP{\kStateSP}$ is a {\em least $\agentsB$-refinement} of $\kPModel{\kStateS}$ in \classC{} if and only if for every $\kPModelPP{\kStateSPP} \in \classC$ we have $\kPModelPP{\kStateSP} \simulatesBs \kPModelP{\kStateSP}$.
+\end{definition}
+
+Minimal and least refinements are of interest to us here as refinement quantifiers collapse trivially in minimal refinements.
+
+\begin{proposition}\label{minimal-refinement-collapse}
+Let $\classC$ be a class of Kripke frames, let $\agentsB \subseteq \agents$ be a set of agents, and let $\kPModel{\kStateS}, \kPModelP{\kStateSP} \in \classC$ be Kripke models such that $\kPModelP{\kStateSP}$ is a minimal $\agentsB$-refinement of $\kPModel{\kStateS}$ in \classC{}.
+Then $\kPModelP{\kStateSP} \entails_\logicRmlC \phi$ if and only if $\kPModelP{\kStateSP} \entails_\logicRmlC \allrefsBs \phi$ if and only if $\kPModelP{\kStateSP} \entails_\logicRmlC \somerefsBs \phi$.
+\end{proposition}
+
+\begin{proof}
+Suppose that $\kPModelP{\kStateSP} \entails \phi$.
+Let $\kPModelPP{\kStateSPP} \in \classC$ such that $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
+As $\kPModelP{\kStateSP}$ is a minimal $\agentsB$-refinement in \classC{} then $\kPModelP{\kStateSP} \bisimilar \kPModelPP{\kStateSPP}$ and by bisimulation invariance we have $\kPModelPP{\kStateSPP} \entails \phi$.
+Therefore $\kPModelP{\kStateSP} \entails \allrefsBs \phi$.
+
+Suppose that $\kPModelP{\kStateSP} \entails \allrefsBs \phi$.
+By (\ref{rml-validity-rt}) from Proposition~\ref{rml-validities} we have $\kPModelP{\kStateSP} \entails \phi$ and by its dual we have $\kPModelP{\kStateSP} \entails \somerefsBs \phi$.
+
+Suppose that $\kPModelP{\kStateSP} \entails \somerefsBs \phi$.
+Then there exists $\kPModelPP{\kStateSPP} \in \classC$ such that $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateSPP} \entails \phi$.
+As $\kPModelP{\kStateSP}$ is a minimal $\agentsB$-refinement in \classC{} then $\kPModelP{\kStateSP} \bisimilar \kPModelPP{\kStateSPP}$ and by bisimulation invariance we have $\kPModelP{\kStateSP} \entails \phi$.
+\end{proof}
+
+We show that every Kripke model in \classK{}, \classKF{}, \classKFF{}, \classKD{}, \classSF{}, and \classS{} has a minimal refinement.
+In all but \classKD{} this minimal refinement is also a least refinement.
+
+\begin{proposition}\label{minimal-refinement-k-k4-k45}
+Every Kripke model in \classK{}, \classKF{}, and \classKFF{} has a least $\agentsB$-refinement.
+\end{proposition}
+
+\begin{proof}
+Let $\classC \in \{\classK, \classKF, \classKFF\}$ and let $\kPModelAndTuple{\kStateS} \in \classC$.
+We define $\kPModelP{\kStateS} = ((\kStates, \kAccessibilityP{}, \kValuation), \kStateS)$ where for every $\agentA \in \agents$, $\kStateT \in \kStates$ if $\agentA \in \agentsB$ then $\kSuccessorsPA{\kStateT} = \emptyset$ and if $\agentA \notin \agentsB$ then $\kSuccessorsPA{\kStateT} = \kSuccessorsA{\kStateT}$.
+We note that $\kPModelP{\kStateS} \in \classC$.
+By Proposition~\ref{subrelations-refinement} we have that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateS}$.
+
+Let $\kPModelPP{\kStateSPP} \in \classC$ such that $\kPModelP{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$, via some $\agentsB$-refinement $\refinement$.
+We show that $\refinement$ is a bisimulation between $\kPModelP{\kStateS}$ and $\kPModelPP{\kStateSPP}$.
+We already have that $(\kStateS, \kStateSPP) \in \refinement$, and {\bf atoms-$\atomP$}, {\bf forth-$\agentC$}, and {\bf back-$\agentA$} for every $\atomP \in \atoms$, $\agentC \in \agents \setminus \agentsB$, and $\agentA \in \agents$, so we need only show {\bf forth-$\agentB$} for $\agentB \in \agentsB$.
+Let $(\kStateT, \kStateTPP) \in \refinement$, and $\agentB \in \agentsB$.
+By construction $\kSuccessorsPB{\kStateT} = \emptyset$, so {\bf forth-$\agentB$} is satisfied trivially.
+So $\refinement$ is a bisimulation between $\kPModelP{\kStateS}$ and $\kPModelPP{\kStateSPP}$ and $\kPModelP{\kStateS} \bisimilar \kPModelPP{\kStateSPP}$.
+Therefore $\kPModelP{\kStateS}$ is a minimal $\agentsB$-refinement of $\kPModel{\kStateS}$ in \classC{}.
+
+
+Let $\kPModelPP{\kStateSPP} \in \classC$ such that $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$.
+From above there exists a minimal $\agentsB$-refinement, $\kPModelPPP{\kStateSPPP}$, of $\kPModelPP{\kStateSPP}$ in \classC{}.
+We note that if there exists $\agentB \in \agentsB$, $\kStateTPPP \in \kStatesPPP$ such that $\kSuccessorsPPPB{\kStateTPPP} \neq \emptyset$ then $\kPModelPPP{\kStateSPPP}$ is not a minimal $\agentsB$-refinement in \classC{}, as we can form a non-bisimilar $\agentsB$-refinement by setting $\kSuccessorsPPPB{\kStateTPPP} = \emptyset$ for every $\agentB \in \agentsB$, $\kStateTPPP \in \kStatesPPP$.
+By contrapositive as $\kPModelPPP{\kStateSPPP}$ is a minimal $\agentsB$-refinement in \classC{} then for every $\agentB \in \agentsB$, $\kStateTPPP \in \kStatesPPP$ we must have $\kSuccessorsPPPB{\kStateTPPP} = \emptyset$.
+
+Suppose that $\kPModel{\kStateS} \simulatesBs \kPModelPPP{\kStateSPPP}$ via a $\agentsB$-refinement $\refinement$ from $\kPModel{\kStateS}$ to $\kPModelPPP{\kStateSPPP}$.
+We show that $\refinement$ is a $\agentsB$-refinement from $\kPModelP{\kStateS}$ to $\kPModelPPP{\kStateSPPP}$.
+Let $(\kStateT, \kStateTPPP) \in \refinement$, $\atomP \in \atoms$, $\agentC \in \agents \setminus \agentsB$, $\agentA \in \agentA$.
+
+\paragraph{atoms-$\atomP$}
+Follows trivially from {\bf atoms-$\atomP$} for $\refinement$ from $\kPModel{\kStateS}$ to $\kPModelPPP{\kStateSPPP}$.
+
+\paragraph{forth-$\agentC$}
+Let $\kStateU \in \kSuccessorsPC{\kStateT}$.
+As $\agentC \notin \agentsB$, by construction $\kSuccessorsPC{\kStateT} = \kSuccessorsC{\kStateT}$.
+By {\bf forth-$\agentC$} for $\refinement$  from $\kPModel{\kStateS}$ to $\kPModelPPP{\kStateSPPP}$ there exists $\kStateUPPP \in \kSuccessorsC{\kStateTPPP}$ such that $(\kStateU, \kStateUPPP) \in \refinement$.
+
+\paragraph{back-$\agentA$}
+Suppose that $\agentA \in \agentsB$.
+From above $\kSuccessorsPPPB{\kStateTPPP} = \emptyset$ so {\bf back-$\agentA$} holds trivially.
+Suppose that $\agentA \notin \agentsB$.
+Let $\kStateUPPP \in \kSuccessorsPPA{\kStateTPPP}$.
+By {\bf back-$\agentA$} for $\refinement$ from $\kPModel{\kStateS}$ to $\kPModelPPP{\kStateSPPP}$ there exists $\kStateU \in \kSuccessorsC{\kStateT}$ such that $(\kStateU, \kStateUPPP) \in \refinement$.
+By construction $\kSuccessorsPC{\kStateT} = \kSuccessorsC{\kStateT}$ so $\kStateU \in \kSuccessorsPC{\kStateT}$.
+
+So $\refinement$ is a $\agentsB$-refinement from $\kPModelP{\kStateS}$ to $\kPModelPPP{\kStateSPPP}$ and $\kPModelP{\kStateS} \simulatesBs \kPModelPPP{\kStateSPPP}$.
+As $\kPModelP{\kStateS}$ is a minimal $\agentsB$-refinement in \classC{} then $\kPModelP{\kStateS} \bisimilar \kPModelPPP{\kStateSPPP}$ so by Proposition~\ref{bisimilar-refinement} we have $\kPModelPPP{\kStateSPPP} \simulatesBs \kPModelP{\kStateS}$.
+As $\kPModelPP{\kStateSPP} \simulatesBs \kPModelPPP{\kStateSPPP}$ by transitivity we have $\kPModelPP{\kStateSPP} \simulatesBs \kPModelP{\kStateS}$.
+
+Therefore $\kPModelP{\kStateS}$ is a least $\agentsB$-refinement of $\kPModel{\kStateS}$.
+\end{proof}
+
+\begin{proposition}\label{minimal-refinement-s4-s5}
+Every Kripke model in \classSF{}, and \classS{} has a minimal $\agentsB$-refinement that is unique up to bisimulation.
+\end{proposition}
+
+\begin{proof}
+Let $\classC \in \{\classSF, \classS\}$ and let $\kPModelAndTuple{\kStateS} \in \classC$.
+We define $\kPModelP{\kStateS} = ((\kStates, \kAccessibilityP{}, \kValuation), \kStateS)$ where for every $\agentA \in \agents$, $\kStateT \in \kStates$, if $\agentA \in \agentsB$ then $\kSuccessorsPA{\kStateT} = \{\kStateT\}$ and if $\agentA \notin \agentsB$ then $\kSuccessorsPA{\kStateT} = \kSuccessorsA{\kStateT}$.
+We note that $\kPModelP{\kStateS} \in \classC$.
+By Proposition~\ref{subrelations-refinement} we have that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateS}$.
+
+Let $\kPModelPP{\kStateSPP} \in \classC$ such that $\kPModelP{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$, via some $\agentsB$-refinement $\refinement$.
+We show that $\refinement$ is a bisimulation between $\kPModelP{\kStateS}$ and $\kPModelPP{\kStateSPP}$.
+We already have that $(\kStateS, \kStateSPP) \in \refinement$, and {\bf atoms-$\atomP$}, {\bf forth-$\agentC$}, and {\bf back-$\agentA$} for every $\atomP \in \atoms$, $\agentC \in \agents \setminus \agentsB$, and $\agentA \in \agents$, so we need only show {\bf forth-$\agentB$} for $\agentB \in \agentsB$.
+Let $(\kStateT, \kStateTPP) \in \refinement$, $\agentB \in \agentsB$, and $\kStateU \in \kSuccessorsPB{\kStateT}$.
+By construction $\kSuccessorsPB{\kStateT} = \{\kStateT\}$ so $\kStateU = \kStateT$.
+As $\kPModelPP \in \classC$ (where \classC{} requires reflexivity) by reflexivity we have that $\kStateTPP \in \kSuccessorsPPB{\kStateTPP}$ and by hypothesis we have $(\kStateT, \kStateTPP) \in \refinement$, so {\bf forth-$\agentB$} holds.
+So $\refinement$ is a bisimulation between $\kPModelP{\kStateS}$ and $\kPModelPP{\kStateSPP}$ and $\kPModelP{\kStateS} \bisimilar \kPModelPP{\kStateSPP}$.
+Therefore $\kPModelP{\kStateS}$ is a minimal $\agentsB$-refinement of $\kPModel{\kStateS}$ in \classC{}.
+
+Let $\kPModelPP{\kStateSPP} \in \classC$ such that $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$.
+From above there exists a minimal $\agentsB$-refinement, $\kPModelPPP{\kStateSPPP}$, of $\kPModelPP{\kStateSPP}$ in \classC{}.
+We note that if there exists $\agentB \in \agentsB$, $\kStateTPPP \in \kStatesPPP$ such that $\kSuccessorsPPB{\kStateTPPP} \neq \{\kStateTPPP\}$ then $\kPModelPPP{\kStateSPPP}$ is not a minimal $\agentsB$-refinement in \classC{}, as we can form a non-bisimilar $\agentsB$-refinement by setting $\kSuccessorsPPB{\kStateTPPP} = \{\kStateTPPP\}$ for every $\agentB \in \agentsB$, $\kStateTPPP \in \kStatesPPP$.
+By contrapositive as $\kPModelPPP{\kStateSPPP}$ is a minimal $\agentsB$-refinement in \classC{} then for every $\agentB \in \agentsB$, $\kStateTPPP \in \kStatesPPP$ we must have $\kSuccessorsPPB{\kStateTPPP} = \{\kStateTPPP\}$.
+
+Suppose that $\kPModel{\kStateS} \simulatesBs \kPModelPPP{\kStateSPPP}$ via a $\agentsB$-refinement $\refinement$ from $\kPModel{\kStateS}$ to $\kPModelPPP{\kStateSPPP}$.
+We show that $\refinement$ is a $\agentsB$-refinement from $\kPModelP{\kStateS}$ to $\kPModelPPP{\kStateSPPP}$.
+Let $(\kStateT, \kStateTPPP) \in \refinement$, $\atomP \in \atoms$, $\agentC \in \agents \setminus \agentsB$, $\agentA \in \agentA$.
+
+\paragraph{atoms-$\atomP$}
+Follows trivially from {\bf atoms-$\atomP$} for $\refinement$ from $\kPModel{\kStateS}$ to $\kPModelPPP{\kStateSPPP}$.
+
+\paragraph{forth-$\agentC$}
+Let $\kStateU \in \kSuccessorsPC{\kStateT}$.
+As $\agentC \notin \agentsB$, by construction $\kSuccessorsPC{\kStateT} = \kSuccessorsC{\kStateT}$.
+By {\bf forth-$\agentC$} for $\refinement$  from $\kPModel{\kStateS}$ to $\kPModelPPP{\kStateSPPP}$ there exists $\kStateUPPP \in \kSuccessorsC{\kStateTPPP}$ such that $(\kStateU, \kStateUPPP) \in \refinement$.
+
+\paragraph{back-$\agentA$}
+Suppose that $\agentA \in \agentsB$.
+From above $\kSuccessorsPPA{\kStateTPPP} = \{\kStateTPPP\}$.
+As $\kPModelP \in \classC$ (where \classC{} requires reflexivity) by reflexivity we have that $\kStateT \in \kSuccessorsPB{\kStateT}$ and by hypothesis we have $(\kStateT, \kStateTPPP) \in \refinement$.
+Suppose that $\agentA \notin \agentsB$.
+Let $\kStateUPPP \in \kSuccessorsPPA{\kStateTPPP}$.
+By {\bf back-$\agentA$} for $\refinement$ from $\kPModel{\kStateS}$ to $\kPModelPPP{\kStateSPPP}$ there exists $\kStateU \in \kSuccessorsC{\kStateT}$ such that $(\kStateU, \kStateUPPP) \in \refinement$.
+By construction $\kSuccessorsPC{\kStateT} = \kSuccessorsC{\kStateT}$ so $\kStateU \in \kSuccessorsPC{\kStateT}$.
+
+So $\refinement$ is a $\agentsB$-refinement from $\kPModelP{\kStateS}$ to $\kPModelPPP{\kStateSPPP}$ and $\kPModelP{\kStateS} \simulatesBs \kPModelPPP{\kStateSPPP}$.
+As $\kPModelP{\kStateS}$ is a minimal $\agentsB$-refinement in \classC{} then $\kPModelP{\kStateS} \bisimilar \kPModelPPP{\kStateSPPP}$.
+As $\kPModelPP{\kStateSPP} \simulatesBs \kPModelPPP{\kStateSPPP}$ by transitivity we have $\kPModelPP{\kStateSPP} \simulatesBs \kPModelP{\kStateS}$.
+
+Therefore $\kPModelP{\kStateS}$ is a least $\agentsB$-refinement of $\kPModel{\kStateS}$.
+\end{proof}
+
+\begin{proposition}\label{minimal-refinement-kd45}
+Every Kripke model in \classKD{} has a minimal $\agentsB$-refinement.
+\end{proposition}
+
+\begin{proof}
+Let $\kPModelAndTuple{\kStateS} \in \classKD$.
+We define $\kPModelP{\kStateS} = ((\kStates, \kAccessibilityP{}, \kValuation), \kStateS)$ where for every $\agentA \in \agents$, $\kStateT \in \kStates$, if $\agentA \in \agentsB$ then $\kSuccessorsPA{\kStateT} = \{\kStateU\}$ for some $\kStateU \in \kSuccessorsA{\kStateT}$, and if $\agentA \notin \agentsB$ then $\kSuccessorsPA{\kStateT} = \kSuccessorsA{\kStateT}$.
+We note that $\kPModelP{\kStateS} \in \classC$.
+By Proposition~\ref{subrelations-refinement} we have that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateS}$.
+
+Let $\kPModelPP{\kStateSPP} \in \classC$ such that $\kPModelP{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$, via some $\agentsB$-refinement $\refinement$.
+We show that $\refinement$ is a bisimulation between $\kPModelP{\kStateS}$ and $\kPModelPP{\kStateSPP}$.
+We already have that $(\kStateS, \kStateSPP) \in \refinement$, and {\bf atoms-$\atomP$}, {\bf forth-$\agentC$}, and {\bf back-$\agentA$} for every $\atomP \in \atoms$, $\agentC \in \agents \setminus \agentsB$, and $\agentA \in \agents$, so we need only show {\bf forth-$\agentB$} for $\agentB \in \agentsB$.
+Let $(\kStateT, \kStateTPP) \in \refinement$, $\agentB \in \agentsB$, and $\kStateU \in \kSuccessorsPB{\kStateT} = \{\kStateU\}$.
+As $\kPModelPP \in \classKD$ by seriality there exists $\kStateUPP \in \kSuccessorsPPB{\kStateTPP}$ and by {\bf back-$\agentB$} for $\refinement$ we there exists $\kStateU \in \kSuccessorsPB{\kStateT} = \{\kStateU\}$ such that $(\kStateU, \kStateUPP) \in \refinement$, so {\bf forth-$\agentB$} holds.
+Therefore $\kPModelP{\kStateS} \bisimilar \kPModelPP{\kStateSPP}$ and $\kPModelP{\kStateS}$ is a minimal $\agentsB$-refinement in \classC{} of $\kPModel{\kStateS}$.
+\end{proof}
+
+We note that in \classKD{} not every Kripke model has a least $\agentsB$-refinement.
+
+We show that refinement quantifiers satisfy the McKinsey and finality properties in the settings of \classK{}, \classKF{}, \classKFF{}, \classKD{}, \classSF{}, and \classS{}.
 
 \begin{proposition}\label{rml-mckinsey}
 Let $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classSF, \classS\}$. Then:
@@ -313,24 +469,20 @@ where $\agentsB \subseteq \agents$ and $\phi, \psi \in \langRml$.
 \end{proposition}
 
 \begin{proof}
-Let $\classC \in \{\classK, \classKF, \classKFF\}$, let $\kPModel{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \entails_\logicRmlC \allrefsBs \somerefsBs \phi$ and let $\kPModelAndTupleP{\kStateS}$ where:
-\begin{eqnarray*}
-    \kStatesP &=& \kStates\\
-    \kAccessibilityPA &=& \emptyset \text{ where } \agentA \in \agentsB\\
-    \kAccessibilityPA &=& \kAccessibilityA \text{ where } \agentA \notin \agentsB\\
-    \kValuationP(\atomP) &=& \kValuation(\atomP)
-\end{eqnarray*}
-Then $\kPModelP{\kStateS} \in \classC$, $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateS}$ and $\kPModelP{\kStateS} \entails_\logicRmlC \somerefsBs \phi$.
-We note that as there are no $\agentsB$-edges in $\kModelP$ then every refinement of $\kPModelP{\kStateS}$ is bisimilar to $\kPModelP{\kStateS}$.
-Therefore $\kPModelP{\kStateS} \entails_\logicRmlC{} \phi$ and $\kPModelP{\kStateS} \entails_\logicRmlC{} \allrefsBs \phi$ and so $\kPModel{\kStateS} \entails_\logicRmlC{} \somerefsBs \allrefsBs \phi$.
+Let $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classSF, \classS\}$, let $\kPModel{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \entails_\logicRmlC \allrefsBs \somerefsBs \phi$.
+By Proposition~\ref{minimal-refinement-k-k4-k45}, Proposition~\ref{minimal-refinement-s4-s5}, and Proposition~\ref{minimal-refinement-kd45} there exists $\kPModelP{\kStateSP} \in \classC$ such that $\kPModelP{\kStateSP}$ is a minimal $\agentsB$-refinement in \classC{} of $\kPModel{\kStateS}$.
+As $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ then $\kPModelP{\kStateSP} \entails_\logicRmlC \somerefsBs \phi$.
+By Proposition~\ref{minimal-refinement-collapse} we have $\kPModelP{\kStateSP} \entails_\logicRmlC \allrefsBs \phi$.
+As $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ then $\kPModel{\kStateS} \entails_\logicRmlC \somerefsBs \allrefsBs \phi$.
 
-A similar argument holds for $\classC \in \{\classSF, \classS\}$ by constructing a refinement where the only $\agentsB$-edges are the reflexive edges,
-and for $\classKD$ by constructing a refinement where each state and each $\agentB \in \agentsB$ has only a single $\agentsB$-successor.
-
-The same constructions may be used to show that $\entails_\logicRmlC (\allrefsBs \somerefsBs \phi \land \allrefsBs \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi)$ for $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classSF, \classS\}$.
+Let $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classSF, \classS\}$, let $\kPModel{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \entails_\logicRmlC \allrefsBs \somerefsBs \phi \land \allrefsBs \somerefsBs \psi$.
+By Proposition~\ref{minimal-refinement-k-k4-k45}, Proposition~\ref{minimal-refinement-s4-s5}, and Proposition~\ref{minimal-refinement-kd45} there exists $\kPModelP{\kStateSP} \in \classC$ such that $\kPModelP{\kStateSP}$ is a minimal $\agentsB$-refinement in \classC{} of $\kPModel{\kStateS}$.
+As $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ then $\kPModelP{\kStateSP} \entails_\logicRmlC \somerefsBs \phi$ and $\kPModelP{\kStateSP} \entails_\logicRmlC \somerefsBs \psi$.
+By Proposition~\ref{minimal-refinement-collapse} we have $\kPModelP{\kStateSP} \entails_\logicRmlC \phi$ and $\kPModelP{\kStateSP} \entails_\logicRmlC \psi$.
+As $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ then $\kPModel{\kStateS} \entails_\logicRmlC \somerefsBs (\phi \land \psi)$.
 \end{proof}
 
-The converse of the Church-Rosser property, the McKinsey property, also holds in the settings of \classK{}, \classKF{}, \classKFF{}, \classSF{}, and \classS{}.
+The converse of the McKinsey property, the Church-Rosser property, also holds in the settings of \classK{}, \classKF{}, \classKFF{}, \classSF{}, and \classS{}.
 
 \begin{proposition}\label{rml-church-rosser}
 Let $\classC \in \{\classK, \classKF, \classKFF, \classSF, \classS\}$. Then:
@@ -343,30 +495,25 @@ where $\agentsB \subseteq \agents$ and $\phi \in \langRml$.
 \end{proposition}
 
 \begin{proof}
-Let $\classC \in \{\classK, \classKF, \classKFF\}$, let $\kPModel{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \entails_\logicRmlC\somerefsBs \allrefsBs \phi$.
-There exists $\kPModelP{\kStateSP} \in \classC$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModel{\kStateS} \entails_\logicRmlC\allrefsBs \phi$.
-From Proposition~\ref{rml-validities} we have that $\kPModelP{\kStateSP} \entails_\logicRmlC\allrefsBs \allrefsBs \phi$.
-Let $\kPModelAndTuplePP{\kStateSP}$ where:
-\begin{eqnarray*}
-    \kStatesPP &=& \kStatesP\\
-    \kAccessibilityPPA &=& \emptyset \text{ where } \agentA \in \agentsB\\
-    \kAccessibilityPPA &=& \kAccessibilityPA \text{ where } \agentA \notin \agentsB\\
-    \kValuationPP(\atomP) &=& \kValuationP(\atomP)
-\end{eqnarray*}
-Then $\kPModelPP{\kStateSP} \in \classC$, $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSP}$ and $\kPModelPP{\kStateSP} \entails_\logicRmlC\allrefsBs \phi$.
-From Proposition~\ref{rml-validities} we have that $\kPModelPP{\kStateSPP} \entails_\logicRmlC\phi$ and therefore $\kPModelP{\kStateSP} \entails_\logicRmlC\somerefsBs \phi$.
-We note that as there are no $\agentsB$-edges in $\kModelP$ then every refinement of $\kPModelP{\kStateS}$ is bisimilar to $\kPModelP{\kStateS}$.
-Therefore $\kPModelP{\kStateS} \entails_\logicRmlC\phi$ and $\kPModelP{\kStateS} \entails_\logicRmlC\allrefsBs \phi$ and so $\kPModel{\kStateS} \entails_\logicRmlC\somerefsBs \allrefsBs \phi$.
-
-A similar argument holds for $\classC \in \{\classSF, \classS\}$ by constructing a refinement where the only $\agentsB$-edges are the reflexive edges.
+Let $\classC \in \{\classK, \classKF, \classKFF, \classSF, \classS\}$, let $\kPModel{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \entails_\logicRmlC \somerefsBs \allrefsBs \phi$.
+There exists $\kPModelP{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \allrefsBs \phi$.
+By Proposition~\ref{minimal-refinement-k-k4-k45}, and Proposition~\ref{minimal-refinement-s4-s5} there exists a least $\agentsB$-refinement, $\kPModelPP{\kStateSPP}$ of $\kPModel{\kStateS}$ in \classS{}.
+As $\kPModelPP{\kStateSPP}$ is a least $\agentsB$-refinement of $\kPModel{\kStateS}$ and $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateS}$ then $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
+Then $\kPModelPP{\kStateSPP} \entails \phi$.
+Let $\kPModelP{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
+As $\kPModelPP{\kStateSPP}$ is a least $\agentsB$-refinement of $\kPModel{\kStateS}$ and $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateS}$ then $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
+Then $\kPModelP{\kStateSP} \entails \somerefsBs \phi$.
+Therefore $\kPModel{\kStateS} \entails \allrefsBs \somerefsBs \phi$.
 \end{proof}
 
-The proof that \logicRml{} has the Church-Rosser and finality properties in the above settings relies on the fact that every Kripke model has a minimal refinement, up to bisimulation, in the corresponding classes of Kripke frames.
-The proof that \logicRml{} has the McKinsey property on the other hand relies on the fact that every Kripke model has a {\em unique} minimal refinement, up to bisimulation, in the corresponding class of Kripke frames.
-For \classK{}, \classKF{}, and \classKFF{} the unique minimal refinement is the refinement where each state has no $\agentsB$-successors.
-For \classSF{} and \classS{} the unique minimal refinement is the refinement where each state only has the reflexive $\agentsB$-successor.
+The proof that \logicRml{} has the McKinsey and finality properties in the above settings relies on the fact that every Kripke model has a minimal refinement in the corresponding classes of Kripke frames.
+The proof that \logicRml{} has the Church-Rosser property on the other hand relies on the fact that every Kripke model has a {\em least} refinement in the corresponding class of Kripke frames.
+For \classK{}, \classKF{}, and \classKFF{} the least refinement is the refinement where each state has no $\agentsB$-successors.
+For \classSF{} and \classS{} the least refinement is the refinement where each state only has the reflexive $\agentsB$-successor.
 However in the setting of \classKD{} the minimal refinements are the refinements where each state has a single $\agentsB$-successor, and there may be multiple such refinements that are distinct with respect to bisimulation.
-This is why \logicRmlKD{} does not have the McKinsey property.
+This is why not every \classKD{} Kripke model has a least refinement, and why \logicRmlKD{} does not have the McKinsey property.
+
+We provide an example of the failure of the Church-Rosser property in \logicRmlKD{}.
 
 \begin{example}
 \begin{figure}
@@ -409,7 +556,10 @@ This is why \logicRmlKD{} does not have the McKinsey property.
 Consider the pointed Kripke models $\kPModel{\kStateS}$, $\kPModelP{\kStateS}$ and $\kPModelPP{\kStateS}$, shown in Figure~\ref{example-kd45-mckinsey}.
 
 We note that $\kPModel{\kStateS} \simulatesA \kPModelP{\kStateS}$ and $\kPModel{\kStateS} \simulatesA \kPModelPP{\kStateS}$.
-We also note that $\kPModelP{\kStateS} \entails_\logicRmlKD\necessaryA \atomP$ and $\kPModelPP{\kStateSP} \entails_\logicRmlKD\necessaryA \lnot \atomP$.
+We note that $\kPModelP{\kStateS}$ and $\kPModelPP{\kStateS}$ are minimal $\agentA$-refinements of $\kPModel{\kStateS}$ in \classKD{}.
+We also note that $\kPModelP{\kStateS} \not\simulatesA \kPModelPP{\kStateS}$ and $\kPModelPP{\kStateS} \not\simulatesA \kPModelP{\kStateS}$, so neither are least refinements.
+
+We note that $\kPModelP{\kStateS} \entails_\logicRmlKD\necessaryA \atomP$ and $\kPModelPP{\kStateSP} \entails_\logicRmlKD\necessaryA \lnot \atomP$.
 As $\necessaryA \atomP$ and $\necessaryA \lnot \atomP$ are $\agentA$-positive formulas then by (\ref{rml-validity-rp}) from Proposition~\ref{rml-validities} we have that $\kPModelP{\kStateS} \entails_\logicRmlKD\allrefsA \necessaryA \atomP$ and $\kPModelPP{\kStateSP} \entails_\logicRmlKD\allrefsA \necessaryA \lnot \atomP$.
 Then $\kPModel{\kStateS} \entails_\logicRmlKD\somerefsA \allrefsA \necessaryA \atomP$.
 However in \classKD{} due to seriality we have that $\entails_\logicRmlKD\necessaryA \lnot \atomP \implies \lnot \necessaryA \atomP$ so as $\kPModelPP{\kStateSP} \entails_\logicRmlKD\allrefsA \necessaryA \lnot \atomP$ we have that $\kPModelPP{\kStateSP} \entails_\logicRmlKD\allrefsA \lnot \necessaryA \atomP$ and so we have that $\kPModelPP{\kStateS} \nentails_\logicRmlKD\somerefsA \necessaryA \atomP$.

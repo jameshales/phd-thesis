@@ -2,25 +2,102 @@
 
 In this chapter we consider in greater detail the logic \logicRmlKF{} in the setting of \classKF{}.
 Unlike previous chapters we do not present a sound and complete axiomatisation or a provably correct translation.
-In contrast to the logics \logicRmlK{}, \logicRmlKFF{}, \logicRmlKD{}, and \logicRmlS{}, which we axiomatised in previous chapters, \logicRmlK{} is not expressively equivalent to the underlying modal logic \logicKF{}, so we must use a different strategy to show that a candidate axiomatisation is complete.
+In the previous chapters we provided sound and complete axiomatisations for the logics \logicRmlK{}, \logicRmlKFF{}, \logicRmlKD{}, and \logicRmlS{}, showing the completeness of these axiomatisations via a provably correct translation from each refinement modal logic to the respective underlying modal logic.
+As we show in this chapter the logic \logicRmlKF{} is not expressively equivalent to the underlying modal logic \logicKF{}, so a provably correct translation is not possible, and a different strategy is necessary to show the completeness of a candidate axiomatisation.
 Work on this problem is on-going.
 The main results of this chapter are expressivity results.
-We show that the logic \logicRmlKF{} is strictly more expressive than the underlying modal logic \logicKF{}, and strictly less expressive than the modal $\mu$-calculus \logicMuKF{}, the bisimulation quantified modal logic \logicBqmlKF{}, and the tangled modal logic \logicTangleKF{}.
+We show that the logic \logicRmlKF{} is strictly more expressive than the underlying modal logic \logicKF{}, and strictly less expressive than the bisimulation quantified modal logic \logicBqmlKF{}, the modal $\mu$-calculus \logicMuKF{}, and the tangled modal logic \logicTangleKF{}.
+A corollary of the latter results are that \logicRmlKF{} is decidable, via a semantic translation from \langRml{} to \langMu{}.
 
-\begin{lemma}\label{refinements-infinite-paths}
-Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulates \kPModelP{\kStateSP}$.
-If there exists an infinite path of states in $\kModelP$ starting from the state $\kStateSP$ then there exists an infinte path of states in $\kModel$ starting from the state $\kStateS$.
+In the following sections we provide expressivity results for \logicRmlKF{} with respect to various logics.
+In Section~\ref{rml-k4-ml} we show that \logicRmlKF{} is strictly more expressive than the underlying modal logic \logicKF{} by demonstrating a semantic property that can be expressed as a \langRml{} formula but not as a \langMl{} formula.
+In Section~\ref{rml-k4-bqml} we show that \logicRmlKF{} is (non-strictly) less expressive than the \logicBqmlKF{} by demonstrating a semantic translation from \langRml{} to \langBqml{}.
+As \logicBqmlKF{} is expressively equivalent to \logicMuKF{} we have as a corollary that \logicRmlKF{} is less expressive than \logicMuKF{}.
+In Section~\ref{rml-k4-tangle} we show that \logicRmlKF{} is strictly less expressive than the tangled modal logic \logicTangleKF{} by demonstrating a semantic property that can be expressed as a \langTangle{} formula but not as a \langRml{} formula.
+As \logicTangle{} is less expressive than \logicMuKF{} we have as a corollary that \logicRmlKF{} is strictly less expressive than \logicMuKF{}, and as \logicMuKF{} is expressively equivalent to \logicBqmlKF{} we have as a corollary that \logicRmlKF{} is strictly less expressive than \logicBqmlKF{}.
+
+\section{Expressivity: modal logic}\label{rml-k4-ml}
+
+In this section we show that \logicRmlKF{} is strictly more expressive than the underlying modal logic \logicKF{}.
+That \logicRmlKF{} is at least as expressive as \logicKF{} is obvious, as the syntax and semantics of \logicRmlKF{} generalise those of \logicKF{}.
+To show that \logicRmlKF{} is strictly more expressive than \logicKF{} we demonstrate a semantic property that can be expressed as a \langRml{} formula under the semantics of \logicRmlKF{}, but that cannot be expressed as any \langMl{} formula under the semantics of \logicKF{}.
+
+Specifically, we will show that \logicRmlKF{} can express the semantic property that there exists an infinite path of states starting from a given pointed Kripke model, whereas \logicKF{} cannot express this property.
+We show that there is a \langRml{} formula that corresponds to this semantic property under the semantics of \logicRmlKF{}.
+We then show that no \langMl{} formula corresponds to this semantic property under the semantics of \logicKF{} by demonstrating a \classKF{} Kripke model with two states that are distinguishable by this \langRml{} formula, but that are indistinguishable by any \langMl{} formula.
+
+We first show that there is a \langRml{} formula that corresponds to the semantic property that there exists an infinite path of states starting from a given pointed Kripke model, under the semantics of \logicRmlKF{}.
+We will later show that no \langMl{} formula corresponds to this semantic property under the semantics of \logicKF{}, so clearly we must rely on refinement quantifiers.
+However we will demonstrate a \langMl{} formula that corresponds to a stronger semantic property under the semantics of \logicKF{}, which we use as the basis for our \langRml{} formula.
+
+\begin{lemma}\label{rml-k4-all-infinite-paths}
+Let $\kPModelAndTuple{\kStateS} \in \classKF$ be a pointed Kripke model.
+If $\kPModel{\kStateS} \entails \possible \top \land \necessary \possible \top$ then there exists an infinite path of states in $\kModel$ starting from the state $\kStateS$.
 \end{lemma}
 
+\begin{proof}
+Suppose that $\kPModel{\kStateS} \entails \possible \top \land \necessary \possible \top$.
+We inductively construct an infinite sequence of states $(\kStateT_0, \kStateT_1, \dots) \in \kStates^\naturals$ such that $\kStateT_0 = \kStateS$ and for every $i \in \naturals$: $\kStateT_{i + 1} \in \kSuccessors{}{\kStateT_i}$ and $\kStateT_{i + 1} \in \kSuccessors{}{\kStateS}$.
+Let $\kStateT_0 = \kStateS$.
+As $\kPModel{\kStateS} \entails \possible \top$ then there exists $\kStateU \in \kSuccessors{}{\kStateS}$, so we let $\kStateT_1 = \kStateU$.
+For every $i \in \naturals$ such that $i \geq 1$, as $\kStateT_i \in \kSuccessors{}{\kStateS}$ and $\kPModel{\kStateS} \entails \necessary \possible \top$ then $\kPModel{\kStateT_i} \entails \possible \top$, so there exists $\kStateU \in \kSuccessors{}{\kStateT_i}$, so we let $\kStateT_{i + 1} = \kStateU$, and note by the transitivity of $\kModel$ that $\kStateT_{i + 1} \in \kSuccessors{}{\kStateS}$.
+Therefore there exists an infinite path of states in $\kModel$ starting from the state $\kStateS$.
+\end{proof}
+
+Here we have shown a \langMl{} formula that under the semantics of \logicKF{} implies that there exists an infinite path of states starting from a given pointed Kripke model.
+However not every state with an infinite path necessarily satisfies this formula.
+For example, we may have a pointed Kripke model that has an infinite path, as well as a successor with no successors.
+Such a Kripke model would clearly not satisfy $\necessary \possible \top$.
+However we 
+
+\begin{lemma}\label{rml-k4-pruning}
+Let $\kPModelAndTuple{\kStateS} \in \classKF$ be a pointed Kripke model such that there exists an infinite path of states in $\kModel$ starting from the state $\kStateS$.
+Then $\kPModel{\kStateS} \entails \somerefs (\possible \top \land \necessary \possible \top)$.
+\end{lemma}
+
+\begin{proof}
+Let $\kPModelP{\kStateS} = ((\kStateS, \kAccessibilityP{}, \kValuation), \kStateS)$ be a pointed Kripke model where $\kAccessibilityP{} \subseteq \kAccessibility{}$ and $(\kStateT, \kStateV) \in \kAccessibilityP{}$ if and only if there exists an infinite path of states in $\kModel$ starting from the state $\kStateV$.
+By Proposition~\ref{subrelations-refinement} as $\kModelP$ is formed by taking subrelations of $\kModel$ then we have $\kPModel{\kStateS} \simulates \kPModelP{\kStateS}$.
+As there exists an infinite path of states in $\kModel$ starting from the state $\kStateS$ there exists $\kStateT \in \kSuccessors{}{\kStateS}$ such that there exists an infinite path of states in $\kModel$ starting from the state $\kStateT$.
+Therefore $\kStateT \in \kSuccessorsP{}{\kStateS}$ and $\kPModelP{\kStateS} \entails \possible \top$.
+Let $\kStateT \in \kSuccessorsP{}{\kStateS}$.
+Then there exists an infinite path of states in $\kModel$ starting from the state $\kStateT$ so there exists $\kStateU \in \kSuccessors{}{\kStateU}$ such that there exists an infinite path of states in $\kModel$ starting from the state $\kStateU$.
+Then $\kStateU \in \kSuccessorsP{}{\kStateT}$ so $\kPModelP{\kStateT} \entails \possible \top$.
+Therefore $\kPModelP{\kStateS} \entails \necessary \possible \top$.
+Therefore $\kPModelP{\kStateS} \entails \possible \top \land \necessary \possible \top$ and $\kPModel{\kStateS} \entails \somerefs (\possible \top \land \necessary \possible \top)$.
+\end{proof}
+
+To show the converse we first show that if a refinement of a pointed Kripke model has an infinite path then the original pointed Kripke model also has an infinite path.
+
+\begin{lemma}\label{rml-k4-refinements-infinite-paths}
+Let $\kPModelAndTuple{\kStateS}, \kPModelAndTupleP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulates \kPModelP{\kStateSP}$.
+If there exists an infinite path of states in $\kModelP$ starting from the state $\kStateSP$ then there exists an infinite path of states in $\kModel$ starting from the state $\kStateS$.
+\end{lemma}
+ 
 \begin{proof}
 Suppose that there exists an infinite path of states in $\kModelP$ starting from the state $\kStateSP$.
 Then there exists infinite sequence of states $(\kStateTP_0, \kStateTP_1, \dots) \in \kStatesP^\naturals$ such that $\kStateTP_0 = \kStateSP$ and for every $i \in \naturals$: $\kStateTP_{i + 1} \in \kSuccessorsP{}{\kStateTP_i}$.
 As $\kPModel{\kStateS} \simulates \kPModelP{\kStateSP}$ then there exists a refinement relation $\refinement \subseteq \kStates \times \kStatesP$ such that $(\kStateS, \kStateSP) \in \refinement$.
 We inductively construct an infinite sequence of states $(\kStateT_0, \kStateT_1, \dots) \in \kStates^\naturals$ such that $\kStateT_0 = \kStateS$ and for every $i \in \naturals$: $\kStateT_{i + 1} \in \kSuccessors{}{\kStateT_{i + 1}}$ and $(\kStateT_i, \kStateTP_i) \in \refinement$.
-
 Let $\kStateT_0 = \kStateS$ and for every $i \in \naturals$, as $(\kStateT_i, \kStateTP_i) \in \refinement$ and $\kStateTP_{i + 1} \in \kSuccessorsP{}{\kStateTP_{i + 1}}$ then from {\bf back} there exists $\kStateU \in \kSuccessors{}{\kStateT_i}$ such that $(\kStateU, \kStateTP_{i + 1}) \in \refinement$, so we let $\kStateTP_{i + 1} = \kStateU$.
 Therefore there exists an infinite path of states in $\kModel$ starting from the state $\kStateS$.
 \end{proof}
+
+Then the converse follows trivially.
+
+\begin{lemma}\label{rml-k4-pruning-converse}
+Let $\kPModel{\kStateS} \in \classKF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefs (\possible \top \land \necessary \possible \top)$.
+If $\kPModel{\kStateS} \entails \somerefs \possible \top \land \necessary \possible \top$ then there exists an infinite path of states in $\kModel$ starting from the state $\kStateS$.
+\end{lemma}
+
+\begin{proof}
+Suppose that $\kPModel{\kStateS} \entails \somerefs \possible \top \land \necessary \possible \top$.
+Then there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \simulates \kPModelP{\kStateSP}$ such that $\kPModelP{\kStateSP} \entails \possible \top \land \necessary \possible \top$.
+By Lemma~\ref{rml-k4-all-infinite-paths} there exists an infinite path of states in $\kModelP$ starting from the state $\kStateSP$.
+By Lemma~\ref{rml-k4-refinements-infinite-paths} there exists an infinite path of states in $\kModel$ starting from the state $\kStateS$.
+\end{proof}
+
+Finally we get that the formula $\somerefs (\possible \top \land \necessary \possible \top)$ corresponds to the semantic property that there exists an infinite path of states starting from a given pointed Kripke model, under the semantics of \logicRmlKF{}.
 
 \begin{lemma}\label{refinements-infinite-paths-formula}
 Let $\kPModel{\kStateS} \in \classKF$ be a pointed Kripke model.
@@ -28,19 +105,10 @@ Then $\kPModel{\kStateS} \entails \somerefs(\possible \top \land \necessary \pos
 \end{lemma}
 
 \begin{proof}
-Suppose that $\kPModel{\kStateS} \entails \somerefs (\possible \top \land \necessary \possible \top)$.
-Then there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \simulates \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \possible \top \land \necessary \possible \top$.
-We inductively construct an infinite sequence of states $(\kStateTP_0, \kStateTP_1, \dots) \in \kStatesP^\naturals$ such that $\kStateTP_0 = \kStateSP$ and for every $i \in \naturals$: $\kStateTP_{i + 1} \in \kSuccessorsP{}{\kStateTP_i}$ and $\kStateTP_{i + 1} \in \kSuccessorsP{}{\kStateSP}$.
-Let $\kStateTP_0 = \kStateSP$.
-As $\kPModelP{\kStateSP} \entails \possible \top$ then there exists $\kStateUP \in \kSuccessorsP{}{\kStateSP}$, so we let $\kStateTP_1 = \kStateUP$.
-For every $i \in \naturals$ such that $i \geq 1$, as $\kStateTP_i \in \kSuccessorsP{}{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \necessary \possible \top$ then $\kPModelP{\kStateTP_i} \entails \possible \top$, so there exists $\kStateUP \in \kSuccessorsP{}{\kStateTP_i}$, so we let $\kStateTP_{i + 1} = \kStateUP$, and note by the transitivity of $\kModelP$ that $\kStateTP_{i + 1} \in \kSuccessorsP{}{\kStateSP}$.
-Therefore there exists an infinite path of states in $\kModelP$ starting from the state $\kStateSP$.
-By Lemma~\ref{refinements-infinite-paths} there exists an infinite path of states in $\kModel$ starting from the state $\kStateS$.
-
-Conversely, suppose that there exists an infinite path of states in $\kModel$ starting from the state $\kStateS$.
-Then we can construct a model $\kModelP{\kStateS}$ by restricting $\kPModel{\kStateS}$ to only the states appearing in the infinite path.
-Then we trivially have that $\kPModel{\kStateS} \simulates \kPModelP{\kStateS}$ and $\kPModelP{\kStateS} \entails \possible \top \land \necessary \possible \top$.
+The left-to-right direction follows from Lemma~\ref{rml-k4-pruning-converse} and the right-to-left direction follows from Lemma~\ref{rml-k4-pruning}.
 \end{proof}
+
+We finally show that no \langMl{} formula corresponds to this semantic property under the semantics of \logicKF{} by demonstrating a \classKF{} Kripke model with two states that are distinguishable by this \langRml{} formula, but that are indistinguishable by any \langMl{} formula.
 
 \begin{theorem}
 The logic \logicRmlKF{} is strictly more expressive than \logicKF{}.
@@ -125,26 +193,29 @@ To show this we show the following intermediate results:
 
         \paragraph{atoms} Trivial.
 
-        \paragraph{forth} Let $k \in \kSuccessors{}{\omega}$. Then $k \in \kSuccessors{}{\omega'}$ and from above we have that $\kPModel{k} \bisimilar \kPModelP{k}$.
+        \paragraph{forth} Let $k \in \kSuccessors{}{\omega}$. Then $k \in \kSuccessors{}{\omega'}$ and from above we have that $\kPModel{k} \bisimilar \kPModel{k}$.
 
         \paragraph{back} Let $k \in \kSuccessors{}{\omega'}$.
         Suppose that $k = \omega'$. Then $n - 1 \in \kSuccessors{}{\omega}$ and from above $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{\omega'}$.
         Suppose that $k \neq \omega'$. Then $k \in \kSuccessors{}{\omega}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
 \end{enumerate}
 
-Therefore $\kPModel{\omega} \bisimilar[n] \kPModel{\omega'}$ for every $n \in \naturals$, and so $\kPModel{\omega}$ is modally indistinguishable from $\kPModel{\omega'}$.
+Therefore $\kPModel{\omega} \bisimilar[n] \kPModel{\omega'}$ for every $n \in \naturals$.
 
-However $\kPModel{\omega}$ is refinement modally distinguishable from $\kPModel{\omega'}$ 
-through the refinement modal formula $\somerefs (\possible \top \land \necessary \possible \top)$. 
-As $\omega'$ has a reflexive edge, 
-then there is an infinite path in $\kModel$ starting from $\omega'$, 
-and from Lemma~\ref{refinements-infinite-paths-formula} this implies that 
-$\kPModel{\omega'} \entails \somerefs (\possible \top \land \necessary \possible \top)$.
-As any successor $n$ of $\omega$ has a maximum of $n$ steps until the terminal state $0$
-then there is no infinite path in $\kModel$ starting from $\omega$,
-and from Lemma~\ref{refinements-infinite-paths-formula} this implies that 
-$\kPModel{\omega} \nentails \somerefs (\possible \top \land \necessary \possible \top)$.
+Let $\phi \in \langMl$ and suppose that $d(\phi) = n$ where $n \in \naturals$.
+From above $\kPModel{\omega} \bisimilar[n] \kPModel{\omega'}$ so $\kPModel{\omega} \entails \phi$ if and only if $\kPModel{\omega'} \entails \phi$.
+Therefore $\kPModel{\omega}$ is modally indistinguishable from $\kPModel{\omega'}$.
+
+However $\kPModel{\omega}$ is refinement modally distinguishable from $\kPModel{\omega'}$ through the \langRml{} formula $\somerefs (\possible \top \land \necessary \possible \top)$. 
+As $\omega'$ has a reflexive edge, then there is an infinite path in $\kModel$ starting from $\omega'$.
+By Lemma~\ref{refinements-infinite-paths-formula} this implies that $\kPModel{\omega'} \entails \somerefs (\possible \top \land \necessary \possible \top)$.
+As any successor $n \in \naturals$ of $\omega$ has a maximum of $n$ steps until the terminal state $0$ then there is no infinite path in $\kModel$ starting from $\omega$.
+By Lemma~\ref{refinements-infinite-paths-formula} this implies that $\kPModel{\omega} \nentails \somerefs (\possible \top \land \necessary \possible \top)$.
 \end{proof}
+
+\section{Expressivity: bisimulation quantified modal logic}\label{rml-k4-bqml}
+
+\section{Expressivity: tangled modal logic}\label{rml-k4-tangle}
 
 \begin{definition}[$n$-mutual refinements]
 Let $\kPModelAndTuple{\kStateS} \in \classK$ and $\kPModelAndTupleP{\kStateSP} \in \classK$ be pointed Kripke models.
@@ -469,4 +540,3 @@ and so $\kPModel{\omega}$ and $\kPModel{\omega'}$ are distinguishable by the tan
 \begin{corollary}
 The logic \logicRmlKF{} is strictly less expressive than \logicMuKF{}.
 \end{corollary}
-

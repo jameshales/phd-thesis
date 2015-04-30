@@ -274,7 +274,15 @@ It is yet unknown whether \logicGal{} and \logicCal{} are expressively equivalen
 
 \subsection{DEL-sequents}
 
-% TODO
+The system of DEL-sequents of Aucher~\cite{aucher:2011,aucher:2012} provides a sequent calculus that allows reasoning about arbitrary action models.
+In contrast to \logicApal{}, \logicGal{}, and \logicCal{}, which introduce syntactic quantifiers over epistemic updates, the system of DEL-sequents does not extend the syntax or semantics of action model logic with quantifiers.
+Rather, all reasoning about arbitrary action models is performed at the meta-logical level.
+In the DEL-sequents, judgements have three parts: (i) that which is true before an action model is executed, (ii) that which is true about the action model, and (iii) that which is true after the action model is executed.
+Aucher~\cite{aucher:2011,aucher:2012} provides sequent calcului to derive (iii) given (i) and (ii), to derive (ii) given (i) and (iii), and to derive (i) given (ii) and (iii), corresponding respectively to epistemic progression, epistemic planning, and epistemic regression.
+The particular case of epistemic planning gives a method to determine, given a formula describing an initial knowledge situation, and a formula describing a desired knowledge situation, a formula describing an action model that takes us from the initial situation to the desired situation.
+If the formula describing the action model is satisfiable then we can produce a specific action model that takes us from the initial situation to the desired situation.
+Otherwise if the formula describing the action model is unsatisfiable then we know that no such action model exists.
+Aucher~\cite{aucher:2011,aucher:2012} also shows how to build formulas that capture respectively all that can be inferred about (iii) given (i) and (ii), (ii) given (i) and (iii), and (i) given (ii) and (iii), and although these results are presented in the setting of multi-agent \classK{}, notes that they are trivially extended to other modal settings.
 
 \subsection{Other related logics}
 
@@ -291,16 +299,25 @@ Whereas \logicAaul{} quantifies over arrow updates, essentially a form of modall
 Subrelations are less general than refinements, which may duplicate states as well as remove edges from accessibility relations.
 Wen, Liu and Huang~\cite{wen:2011} discuss this logic in the context of knowability, with comparisons to \logicApal{}, and demonstrate that in the single-agent case the logic is equivalent to \logicApal{}, and in the multi-agent case the logic is equivalent to the subset space logic on the class of downward closed multi-agent subset frames.
 
+
+\subsection{Bisimulation quantified modal logic}
+
+The bisimulation quantifier modal logics (\logicBqml{}) of Ghilardi and Zawadowski~\cite{ghilardi:2002}, and Visser~\cite{visser:1996} introduces quantifiers over the pointed Kripke models that are bisimilar to the pointed Kripke model currently being considered, except for the value of a propositional atom that is allowed to vary.
+Bisimulations are an important concept in the semantics of modal logics.
+Notably the modal logic \logicK{} corresponds to the bisimulation-invariant fragment of first-order logic~\cite{vanbenthem:1984}, and there is a partial correspondence between bisimilarity and equivalence under modal validity~\cite{goranko:2006}.
+In particular, if two pointed Kripke models are bisimilar, then they are indistinguishable to all modal formulas, and in restricted situations if two pointed Kripke models are indistinguishable to all modal formulas then they are bisimilar.
+Bisimulations are closely related to refinements, which we consider in greater detail in the following chapters.
+For two Kripke models to be considered bisimilar there must exist a relation that satisfies three conditions known as {\bf atoms}, {\bf forth} and {\bf back}.
+For a Kripke model to be a refinement of another Kripke model there must exist a relation that satisfies {\bf atoms} and {\bf back}.
+van Ditmarsch and French~\cite{vanditmarsch:2009} noted the relationship between bisimulation quantifiers and refinement quantifiers and Bozzelli, et al.~\cite{bozzelli:2014b} later showed that refinement quantifiers can be expressed using bisimulation quantifiers.
+
 \subsection{Refinement modal logic}
 
 The refinement modal logic (\logicRml{}) of van Ditmarsch and French~\cite{vanditmarsch:2009} introduces quantifiers over a much more general class of epistemic updates than the logics considered previously.
-\logicRml{} is related to the bisimulation quantified modal logic of French~\cite{french:2006}, which introduces an operator for quantifying over the pointed Kripke models that are bisimilar to the pointed Kripke model currently being considered, except for the value of a propositional atom that is allowed to vary.
-Bisimulations are an important concept in the semantics of modal logics, that correspond to a notion of equivalence of Kripke models: if two pointed Kripke models are bisimilar then they are indistinguishable to any modal formula.
-For two Kripke models to be considered bisimilar there must exist a bisimulation relation that satisfies the three conditions known as {\bf atoms}, {\bf forth} and {\bf back}.
 Refinements are related to bisimulations: for a Kripke model to be a refinement of another Kripke model, there must exist a relation from one Kripke model to the other that satisfies {\bf atoms} and {\bf forth}.
 Refinements can be seen as one direction of a bisimulation; whereas bisimulation corresponds is an equivalence relation, refinement are a partial ordering.
 The refinement modal logic of van Ditmarsch and French~\cite{vanditmarsch:2009} quantifies over the pointed Kripke models that are refinements of the pointed Kripke model currently being considered.
-Whereas the quantifier in the bisimulation quantified modal logic of French~\cite{french:2006} binds a propositional atom as a variable, the quantifier in \logicRml{} binds no variables.
+Whereas the quantifier in bisimulation quantified modal logic binds a propositional atom as a variable, the quantifier in \logicRml{} binds no variables.
 van Ditmarsch and French~\cite{vanditmarsch:2009} provide semantic results to justify the view that refinements correspond to a very general notion of epistemic updates, in particular that the result of executing an action model on a Kripke model is a refinement of the original Kripke model, and any refinement of a finite Kripke model corresponds to the result of executing an action model.
 van Ditmarsch and French~\cite{vanditmarsch:2009} also compare \logicRml{} to the arbitrary action model logic suggested by Balbiani et al.~\cite{balbiani:2007}, conjecturing that adding the operator from the action model logic to the \logicRml{} yields a logic equivalent to the arbitrary action model logic.
 In subsequent work van Ditmarsch, French and Pinchinat~\cite{vanditmarsch:2010} provide a sound and complete axiomatisation for the single agent variant of \logicRml{} over the class of all Kripke models.

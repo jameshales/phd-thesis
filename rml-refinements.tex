@@ -312,10 +312,12 @@ We define $\kPModelAndTupleP{\kStateSPP}$ where:
 \begin{eqnarray*}
     \kStatesP &=& \kStatesPP\\
     \kAccessibilityPB &=& \kAccessibilityPPB\\
-    \kAccessibilityPC &=& \kAccessibilityPPC \cup \{(\kStateTPP, \kStateUPP) \in \kStatesP \times \kStatesP \mid (\refinement^{-1}(\kStateTPP), \refinement^{-1}(\kStateUPP)) \in \kAccessibilityC \}\\
+    \kAccessibilityPC &=& \{(\kStateTPP, \kStateUPP) \in \kStatesP \times \kStatesP \mid (\refinement^{-1}(\kStateTPP), \refinement^{-1}(\kStateUPP)) \in \kAccessibilityC \}\\
     \kValuationP &=& \kValuationPP
 \end{eqnarray*}
 where $\agentB \in \agents \setminus \agentsC$, $\agentC \in \agentsC$, and for every $\kStateTPP \in \kStatesPP$ we denote by $\refinement^{-1}(\kStateTPP)$ the unique $\kStateT \in \kStates$ such that $(\kStateT, \kStateTPP) \in \refinement^{-1}$.
+
+We note for every $\agentC \in \agentsC$ that $\kAccessibilityPPC \subseteq \kAccessibilityPC$ as for every $(\kStateTPP, \kStateUPP) \in \kAccessibilityPPC$ by {\bf back-$\agentC$} for $\refinement$ we have that $(\refinement^{-1}(\kStateTPP), \refinement^{-1}(\kStateUPP)) \in \kAccessibilityC$ and therefore $(\kStateTPP, \kStateUPP) \in \kAccessibilityPPC$ by the definition of $\kAccessibilityPPC$.
 
 We will show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP} \simulatesCs \kPModelPP{\kStateSPP}$.
 
@@ -329,15 +331,13 @@ By construction $\kStateTPP \in \kValuationPP(\atomP)$ if and only if $\kStateTP
 \paragraph{forth-$\agentD$}
 Let $\kStateU \in \kSuccessorsD{\kStateT}$.
 By {\bf forth-$\agentD$} for $\refinement$ there exists $\kStateUPP \in \kSuccessorsPPD{\kStateTPP}$ such that $(\kStateU, \kStateUPP) \in \refinement$.
-By construction $\kSuccessorsPPD{\kStateTPP} \subseteq \kSuccessorsPD{\kStateTPP}$ so $\kStateUPP \in \kSuccessorsPD{\kStateTPP}$.
+If $\agentD \in \agentsC$ then from above we have that $\kAccessibilityPPD \subseteq \kAccessibilityPD$, and if $\agentD \notin \agentsC$ then $\kAccessibilityPD = \kAccessibilityPPD$.
+Then $\kSuccessorsPPD{\kStateTPP} \subseteq \kSuccessorsPD{\kStateTPP}$ so $\kStateUPP \in \kSuccessorsPD{\kStateTPP}$.
 
 \paragraph{back-$\agentA$}
 Let $\kStateUPP \in \kSuccessorsPA{\kStateTPP}$.
-Suppose that $\agentA \in \agentsC$ and $\kStateUPP \notin \kSuccessorsPPA{\kStateTPP}$.
-Then by construction we must have $\refinement^{-1}(\kStateUPP) \in \kSuccessorsA{\refinement^{-1}(\kStateTPP)}$.
+By construction we must have $\refinement^{-1}(\kStateUPP) \in \kSuccessorsA{\refinement^{-1}(\kStateTPP)}$.
 As $(\kStateT, \kStateTPP) \in \refinement$ then $\refinement^{-1}(\kStateTPP) = \kStateT$ so $\refinement^{-1}(\kStateUPP) \in \kSuccessorsA{\refinement^{-1}(\kStateTPP)}$ and $(\refinement^{-1}(\kStateUPP), \kStateUPP) \in \refinement$.
-Suppose that $\kStateUPP \in \kSuccessorsPPA{\kStateTPP}$.
-By {\bf back-$\agentA$} for $\refinement$ there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $(\kStateT, \kStateTPP) \in \refinement$.
 
 Therefore $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSPP}$ and $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSPP}$.
 

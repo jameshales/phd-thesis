@@ -375,6 +375,61 @@
 \newcommand{\kPModelTuplePPP}{\kPModelTuple[\prime\prime\prime]}
 \newcommand{\kPModelAndTuplePPP}{\kPModelAndTuple[\prime\prime\prime]}
 
+%%%% Kripke models (with four '\prime's) %%%%
+
+% Kripke states
+\newcommand{\kStateSPPPP}{\kStateS[\prime\prime\prime\prime]}
+\newcommand{\kStateTPPPP}{\kStateT[\prime\prime\prime\prime]}
+\newcommand{\kStateUPPPP}{\kStateU[\prime\prime\prime\prime]}
+\newcommand{\kStateVPPPP}{\kStateV[\prime\prime\prime\prime]}
+\newcommand{\kStateWPPPP}{\kStateW[\prime\prime\prime\prime]}
+\newcommand{\kStateXPPPP}{\kStateX[\prime\prime\prime\prime]}
+\newcommand{\kStateYPPPP}{\kStateY[\prime\prime\prime\prime]}
+\newcommand{\kStateZPPPP}{\kStateZ[\prime\prime\prime\prime]}
+\newcommand{\kStatesTPPPP}{\kStatesT[\prime\prime\prime\prime]}
+\newcommand{\kStatesUPPPP}{\kStatesU[\prime\prime\prime\prime]}
+\newcommand{\kStatesVPPPP}{\kStatesV[\prime\prime\prime\prime]}
+\newcommand{\kStatesWPPPP}{\kStatesW[\prime\prime\prime\prime]}
+
+% Kripke model components
+\newcommand{\kStatesPPPP}{\kStates[\prime\prime\prime\prime]}
+\newcommand{\kAccessibilityPPPP}{\kAccessibility[\prime\prime\prime\prime]}
+\newcommand{\kAccessibilityRelPPPP}{\kAccessibilityRel[\prime\prime\prime\prime]}
+\newcommand{\kValuationPPPP}{\kValuation[\prime\prime\prime\prime]}
+\newcommand{\kSuccessorsPPPP}{\kSuccessors[\prime\prime\prime\prime]}
+\newcommand{\kPredecessorsPPPP}{\kPredecessors[\prime\prime\prime\prime]}
+
+\newcommand{\kAccessibilityPPPPA}{\kAccessibilityPPPP{\agentA}}
+\newcommand{\kSuccessorsPPPPA}{\kSuccessorsPPPP{\agentA}}
+\newcommand{\kPredecessorsPPPPA}{\kPredecessorsPPPP{\agentA}}
+
+\newcommand{\kAccessibilityPPPPB}{\kAccessibilityPPPP{\agentB}}
+\newcommand{\kSuccessorsPPPPB}{\kSuccessorsPPPP{\agentB}}
+\newcommand{\kPredecessorsPPPPB}{\kPredecessorsPPPP{\agentB}}
+
+\newcommand{\kAccessibilityPPPPC}{\kAccessibilityPPPP{\agentC}}
+\newcommand{\kSuccessorsPPPPC}{\kSuccessorsPPPP{\agentC}}
+\newcommand{\kPredecessorsPPPPC}{\kPredecessorsPPPP{\agentC}}
+
+\newcommand{\kAccessibilityPPPPD}{\kAccessibilityPPPP{\agentD}}
+\newcommand{\kSuccessorsPPPPD}{\kSuccessorsPPPP{\agentD}}
+\newcommand{\kPredecessorsPPPPD}{\kPredecessorsPPPP{\agentD}}
+
+% Kripke frames
+\newcommand{\kFramePPPP}{\kFrame[\prime\prime\prime\prime]}
+\newcommand{\kFrameTuplePPPP}{\kFrameTuple[\prime\prime\prime\prime]}
+\newcommand{\kFrameAndTuplePPPP}{\kFrameAndTuple[\prime\prime\prime\prime]}
+
+% Kripke models
+\newcommand{\kModelPPPP}{\kModel[\prime\prime\prime\prime]}
+\newcommand{\kModelTuplePPPP}{\kModelTuple[\prime\prime\prime\prime]}
+\newcommand{\kModelAndTuplePPPP}{\kModelAndTuple[\prime\prime\prime\prime]}
+
+% Pointed Kripke models
+\newcommand{\kPModelPPPP}{\kPModel[\prime\prime\prime\prime]}
+\newcommand{\kPModelTuplePPPP}{\kPModelTuple[\prime\prime\prime\prime]}
+\newcommand{\kPModelAndTuplePPPP}{\kPModelAndTuple[\prime\prime\prime\prime]}
+
 %%%% Action models (with a '\prime') %%%%
 
 % Action states
@@ -664,6 +719,18 @@
 \newcommand{\exec}{\otimes}
 \newcommand{\actionE}[1]{{\langle {#1} \rangle}}
 \newcommand{\actionA}[1]{{[ {#1} ]}}
+
+% Bisimulation quantified modal operators
+\newcommand{\somebisims}[1]{{\tilde\exists {#1} . }}
+\newcommand{\allbisims}[1]{{\tilde\forall {#1} . }}
+
+\newcommand{\somebisimsP}{\somebisims{\atomP}}
+\newcommand{\somebisimsQ}{\somebisims{\atomQ}}
+\newcommand{\somebisimsR}{\somebisims{\atomR}}
+
+\newcommand{\allbisimsP}{\allbisims{\atomP}}
+\newcommand{\allbisimsQ}{\allbisims{\atomQ}}
+\newcommand{\allbisimsR}{\allbisims{\atomR}}
 
 % Refinement modal operators
 \newcommand{\somerefs}[1][\empty]{{\exists_{#1}}}

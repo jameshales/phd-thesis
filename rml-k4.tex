@@ -1,4 +1,4 @@
-\chapter{Refinement modal logic \classKF{}}\label{rml-k4}
+of the agents $\agentsB$ \chapter{Refinement modal logic: \classKF{}}\label{rml-k4}
 
 In this chapter we consider in greater detail the logic \logicRmlKF{} in the setting of \classKF{}.
 Unlike previous chapters we do not present a sound and complete axiomatisation or a provably correct translation.
@@ -145,7 +145,7 @@ Let $\kModelAndTuple$ be a Kripke model where:
 \end{figure}
 
 The model $\kModel$ is represented in Figure~\ref{model-naturals}.
-We note that $\kModel \in \classKFF$.
+We note that $\kModel \in \classKF$.
 
 We claim that $\kPModel{\omega}$ is modally indistinguishable from $\kPModel{\omega'}$.
 To show this we show the following intermediate results:
@@ -214,6 +214,449 @@ By Lemma~\ref{refinements-infinite-paths-formula} this implies that $\kPModel{\o
 \end{proof}
 
 \section{Expressivity: bisimulation quantified modal logic}\label{rml-k4-bqml}
+
+In this section we show that \logicRmlKF{} is (non-strictly) less expressive than the bisimulation quantified modal logic \logicBqmlKF{}.
+We direct the reader to Appendix~\ref{bqml} for the required technical background for bisimulation quantified modal logics.
+
+Bozzelli, et al.~\cite{bozzelli:2014b} characterised refinement quantification as bisimulation quantification plus relativisation, inspired by the characterisation of refinements as bisimulations plus model restrictions, as we saw in Corollary~\ref{refinement-subrelations}.
+A consequence of this characterisation is that \logicRmlK{} is non-strictly less expressive than \logicBqmlK{}, and can be demonstrated by a translation from \langRml{} formulas to \langBqml{} formulas, replacing each refinement quantifier with a bisimulation quantifier, where the bisimulation quantifier quantifies over a fresh propositional atom, and the formula inside the bisimulation quantifier is the formula from the refinement quantifier, but relativised with respect to the fresh propositional atom.
+Of course, the provably correct translation from Chapter~\ref{rml-k} gives a stronger expressivity result, specifically that \logicRmlK{} is equally expressive as \logicK{}, and so it follows trivially that \logicRmlK{} is non-strictly less expressive than \logicBqmlK{}.
+
+In the previous section we showed that \logicRmlKF{} is strictly more expressive than \logicKF{}, so we do not trivially get that \logicRmlKF{} is non-strictly less expressive than \logicBqmlKF{}.
+The results by Bozzelli, et al.~\cite{bozzelli:2014b} are specific to the setting of \classK{}, but they are trivially adapted to the setting of \classKF{}.
+In this section we mostly restate the results of Bozzelli, et al.~\cite{bozzelli:2014b} with minor modifications for the setting of \classKF{}.
+
+The results by Bozzelli, et al.~\cite{bozzelli:2014b} relied on a characterisation of refinements as $\atomP$-bisimulation followed by a restriction of the accessibility based on the valuation of $\atomP$.
+We adapt this characterisation to the setting of \classKF{}.
+In line with our previous results we use the notion of multi-agent refinement rather than the notion of single-agent refinement used by Bozzelli, et al.
+We first define the model restriction that we will use:
+
+\begin{definition}[Model with accessibility restricted by an atomic proposition]
+Let $\agentsB \subseteq \agents$ be a set of agents, let $\atomP \in \atoms$ be a propositional atom and let $\kModelAndTuple$ be a Kripke model.
+Then the {\em model $\kModel$ with $\agentsB$-accessibility restricted by $\atomP$} is the Kripke model $\kModel[(\agentsB, \atomP)]$ where $\kModel[(\agentsB, \atomP)] = (\kStates, \kAccessibilityP{}, \kValuation)$ where for every $\agentB \in \agentsB$: $\kAccessibilityPB \subseteq \kAccessibilityB$ where $(\kStateS, \kStateT) \in \kAccessibilityPB$ if and only if $(\kStateS, \kStateT) \in \kAccessibilityB$ and $\kPModel{\kStateT} \entails \atomP$; and for every $\agentC \in \agents \setminus \agentsB$: $\kAccessibilityPC = \kAccessibilityC$.
+\end{definition}
+
+We note that all Kripke models restricted in such a way are refinements of the original Kripke model.
+
+\begin{lemma}\label{rml-k4-restriction-refinement}
+Let $\agentsB \subseteq \agents$ be a set of agents, let $\atomP \in \atoms$ be a propositional atom, let $\kPModel{\kStateS} \in \classKF$ be a Kripke model, and let $\kPModel[(\agentsB, \atomP)]{\kStateS}$ be the model $\kModel$ with $\agentsB$-accessibility restricted by $\atomP$.
+Then $\kPModel{\kStateS} \simulatesBs \kPModel[(\agentsB, \atomP)]{\kStateS}$.
+\end{lemma}
+
+\begin{proof}
+As $\kModel[(\agentsB, \atomP)]$ is defined by removing $\agentsB$-edges from $\kModel$ then this follows directly from Proposition~\ref{subrelations-refinement}.
+\end{proof}
+
+We note that in the setting of \classKF{} all Kripke models restricted in such a way are \classKF{} models.
+
+\begin{lemma}\label{rml-k4-restriction-k4}
+Let $\agentsB \subseteq \agents$ be a set of agents, let $\atomP \in \atoms$ be a propositional atom, let $\kModel \in \classKF$ be a Kripke model, and let $\kModel[(\agentsB, \atomP)]$ be the model $\kModel$ with $\agentsB$-accessibility restricted by $\atomP$.
+Then $\kModelP \in \classKF$.
+\end{lemma}
+
+\begin{proof}
+Let $\agentB \in \agentsB$, and let $(\kStateS, \kStateT), (\kStateT, \kStateU) \in \kAccessibilityPB$.
+By construction $\kAccessibilityPB \subseteq \kAccessibilityA$ so $(\kStateS, \kStateT), (\kStateT, \kStateU) \in \kAccessibilityB$.
+Then $(\kStateS, \kStateU) \in \kAccessibilityA$ follows from the transitivity of $\kAccessibilityA$.
+By construction as $(\kStateT, \kStateU) \in \kAccessibilityPA$ then $\kPModel{\kStateU} \entails \atomP$.
+Then by construction $(\kStateS, \kStateU) \in \kAccessibilityPA$.
+Therefore $\kAccessibilityPB$ is transitive.
+Let $\agentC \in \agents \setminus \agentsB$.
+By construction $\kAccessibilityPC = \kAccessibilityC$ so as $\kAccessibilityC$ is transitive so is $\kAccessibilityPC$.
+Therefore $\kModelP \in \classKF$.
+\end{proof}
+
+We now adapt a lemma from Bozzelli, et al.~\cite{bozzelli:2014b} to the setting of \classKF{}.
+
+\begin{lemma}\label{rml-k4-refinement-p-bisimulation}
+Let $\agentsB \subseteq \agents$ be a set of agents, let $\atomP \in \atoms$ be a propositional atom, and let $\kPModelAndTuple{\kStateS}, \kPModelAndTuplePP{\kStateSPP} \in \classKF$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesB \kPModelPP{\kStateSPP}$.
+There exists a pointed Kripke model $\kPModelP{\kStateSP} \in \classKF$ where $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$ is the model $\kModelP$ with $\agentsB$-accessibility restricted by $\atomP$, such that $\kPModel{\kStateS} \bisimilar[\atomP] \kPModelP{\kStateS}$ and $\kPModelPP{\kStateSP} \bisimilar[\atomP] \kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$.
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{refinement-expansion} there exists a pointed Kripke model $\kPModelPPP{\kStateSPPP}$ such that $\kPModelPP{\kStateSPP} \bisimilar \kPModelPPP{\kStateSPPP}$ and $\kPModel{\kStateS} \simulates[(\agentsB \cup \agentsC)] \kPModelPPP{\kStateSPPP}$ via an expanded $(\agentsB \cup \agentsC)$-refinement.
+Suppose that there exists a pointed Kripke model $\kPModelP{\kStateSP} \in \classKF$ where $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$ is the model $\kModelP$ with $\agentsB$-accessibility restricted by $\atomP$, such that $\kPModel{\kStateS} \bisimilar[\atomP] \kPModelP{\kStateS}$ and $\kPModelPPP{\kStateSPPP} \bisimilar[\atomP] \kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$.
+As $\kPModelPP{\kStateSPP} \bisimilar \kPModelPPP{\kStateSPPP}$ then we have that $\kPModelPP{\kStateSPP} \bisimilar[\atomP] \kPModelPPP{\kStateSPPP}$ and so $\kPModelPP{\kStateSPP} \bisimilar[\atomP] \kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$.
+
+Then without loss of generality we assume that $\kModel$ and $\kModelPP$ are disjoint Kripke models such that $\kPModel{\kStateS} \simulates[(\agentsB \cup \agentsC)] \kPModelPP{\kStateSPP}$ via an expanded $(\agentsB \cup \agentsC)$-refinement $\refinement \subseteq \kStates \times \kStatesPP$.
+For every $\kStateTPP \in \kStatesPP$ we denote by $\refinement^{-1}(\kStateTPP)$ the unique $\kStateT \in \kStates$ such that $(\kStateT, \kStateTPP) \in \refinement^{-1}$.
+
+Let $\kPModelAndTupleP{\kStateSPP}$ where:
+\begin{eqnarray*}
+    \kStatesP &=& \kStates \cup \kStatesPP\\
+    \kAccessibilityPB &=& \kAccessibilityB \cup \kAccessibilityPPB \cup \{(\kStateTPP, \kStateU)  \mid (\kStateT, \kStateTPP) \in \refinement, \kStateU \in \kSuccessorsB{\kStateT}\}\\
+    \kAccessibilityPC &=& \kAccessibilityC \cup \kAccessibilityPPC\\
+    \kValuationP(\atomP) &=& \kStatesPP\\
+    \kValuationP(\atomQ) &=& \kValuation(\atomQ) \cup \kValuationPP(\atomQ)
+\end{eqnarray*}
+where $\agentB \in \agentsB$, $\agentC \in \agents \setminus \agentsB$, and $\atomQ \in \atoms \setminus \{\atomP\}$.
+
+We show that $\kModelP \in \classKF$.
+Let $\agentA \in \agents$.
+We note that $\kAccessibilityPA$ is composed from the union of $\kAccessibilityA$ and $\kAccessibilityPPA$ (which are relations defined over disjoint domains) and if $\agentA \in \agentsB$ some additional relationships from states in $\kStatesPP$ to states in $\kStates$.
+So we consider the following cases:
+
+\begin{description}
+    \item[Case $(\kStateT, \kStateU), (\kStateU, \kStateV) \in \kAccessibilityA \subseteq \kAccessibilityPA$:] \hfill
+        $(\kStateT, \kStateV) \in \kAccessibilityA \subseteq \kAccessibilityPA$ follows from the transitivity of $\kAccessibilityA$.
+    \item[Case $(\kStateTPP, \kStateUPP), (\kStateUPP, \kStateVPP) \in \kAccessibilityPPA \subseteq \kAccessibilityPA$:] \hfill
+        $(\kStateTPP, \kStateVPP) \in \kAccessibilityPPA \subseteq \kAccessibilityPA$ follows from the transitivity of $\kAccessibilityPPA$.
+    \item[Case $(\kStateTPP, \kStateUPP) \in \kAccessibilityPPA \subseteq \kAccessibilityPA$ and $(\kStateUPP, \kStateV) \in \kAccessibilityPA$ for some $(\kStateU, \kStateUPP) \in \refinement$, $\kStateV \in \kSuccessorsA{\kStateU}$:]
+        As $\refinement$ is an expanded refinement then $\kStateT = \refinement^{-1}(\kStateTPP) \in \kStates$ is the unique state such that $(\kStateT, \kStateTPP) \in \refinement$.
+        As $\kStateUPP \in \kSuccessorsPPA{\kStateTPP}$ then by {\bf back-$\agentA$} for $\refinement$ there exists $\kStateX \in \kSuccessors{}{\kStateT}$ such that $(\kStateX, \kStateUPP) \in \refinement$.
+        As $\refinement$ is an expanded refinement then there is a unique state $\kStateX \in \kStates$ such that $(\kStateX, \kStateUPP) \in \refinement$, and as $(\kStateU, \kStateUPP) \in \refinement$ then $\kStateX = \kStateU$.
+        Then $(\kStateT, \kStateU), (\kStateU, \kStateV) \in \kAccessibilityA$ so by the transitivity of $\kAccessibilityA$ we have $(\kStateT, \kStateV) \in \kAccessibilityA$.
+        As $(\kStateT, \kStateTPP) \in \refinement$ and $\kStateV \in \kSuccessors{}{\kStateT}$ then by construction $(\kStateTPP, \kStateV) \in \kAccessibilityPA$.
+\end{description}
+
+Therefore $\kAccessibilityPA$ is transitive and $\kModelP \in \classKF$.
+
+We show that $\kPModel{\kStateS} \bisimilar[\atomP] \kPModelP{\kStateSPP}$.
+Let $\bisimulation' \subseteq \kStates \times \kStatesP$ where $\bisimulation' = \refinement \cup \{(\kStateT, \kStateT) \mid \kStateT \in \kStates\}$.
+We show that $\bisimulation'$ is a $\atomP$-bisimulation between $\kPModel{\kStateS}$ and $\kPModelP{\kStateSPP}$.
+Let $\atomQ \in \atoms \setminus \{\atomP\}$, $\agentA \in \agents$.
+We show by cases that the relationships in $\bisimulation'$ satisfy the conditions {\bf atoms-$\atomQ$}, {\bf forth-$\agentA$}, and {\bf back-$\agentA$}.
+
+\begin{description}
+    \item[Case $(\kStateT, \kStateT) \in \bisimulation'$ where $\kStateT \in \kStates$:]
+        \hfill
+        \begin{description}
+            \item[atoms-$\atomQ$] 
+                By construction $\kStateT \in \kValuation(\atomQ)$ if and only if $\kStateT \in \kValuationP(\atomQ)$.
+            \item[forth-$\agentA$]
+                Let $\kStateU \in \kSuccessorsA{\kStateT}$.
+                By construction $\kSuccessorsA{\kStateT} \subseteq \kSuccessorsPA{\kStateT}$.
+                Then $\kStateU \in \kSuccessorsPA{\kStateT}$ and by construction $(\kStateU, \kStateU) \in \bisimulation'$.
+            \item[back-$\agentA$]
+                Let $\kStateUP \in \kSuccessorsPA{\kStateT}$.
+                By construction $\kSuccessorsPA{\kStateT} = \kSuccessorsA{\kStateT}$.
+                Then $\kStateUP \in \kSuccessorsA{\kStateT}$ and $(\kStateUP, \kStateUP) \in \bisimulation'$.
+        \end{description}
+    \item[Case $(\kStateT, \kStateTPP) \in \refinement \subseteq \bisimulation'$:]
+        \hfill
+        \begin{description}
+            \item[atoms-$\atomQ$] 
+                By {\bf atoms-$\atomQ$} for $\refinement$, $\kStateT \in \kValuation(\atomQ)$ if and only if $\kStateTPP \in \kValuationPP(\atomQ)$.
+                As $\atomQ \neq \atomP$ then by construction $\kStateTPP \in \kValuationPP(\atomQ)$ if and only if $\kStateTPP \in \kValuationP(\atomQ)$.
+            \item[forth-$\agentA$]
+                Let $\kStateU \in \kSuccessorsA{\kStateT}$.
+                Suppose that $\agentA \in \agentsB$.
+                As $\kStateT \in \refinement^{-1}(\kStateTPP)$ and $\kStateU \in \kSuccessorsA{\kStateT}$ then by construction $\kStateU \in \kSuccessorsPA{\kStateTPP}$.
+                By construction $(\kStateU, \kStateU) \in \bisimulation'$.
+                Suppose that $\agentA \notin \agentsB$.
+                By {\bf forth-$\agentA$} for $\refinement$ there exists $\kStateUPP \in \kSuccessorsPPA{\kStateTPP}$ such that $(\kStateU, \kStateUPP) \in \refinement \subseteq \bisimulation'$.
+                By construction $\kSuccessorsPPA{\kStateTPP} \subseteq \kSuccessorsPA{\kStateTPP}$.
+                Then $\kStateUPP \in \kSuccessorsPA{\kStateTPP}$.
+            \item[back-$\agentA$]
+                Let $\kStateUPP \in \kSuccessorsPA{\kStateTPP}$.
+                Suppose that $\kStateUPP \in \kStates$.
+                By construction $\kStateUPP \in \kSuccessorsA{\refinement^{-1}(\kStateTPP)}$.
+                By construction $(\kStateUPP, \kStateUPP) \in \bisimulation'$.
+                Suppose that $\kStateUPP \in \kStatesPP$.
+                Then by construction $\kStateUPP \in \kSuccessorsPPA{\kStateTPP}$.
+                By {\bf back-$\agentA$} for $\refinement$ there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $(\kStateU, \kStateUPP) \in \refinement \subseteq \bisimulation'$.
+        \end{description}
+\end{description}
+
+Therefore $\bisimulation'$ is a $\atomP$-bisimulation between $\kPModel{\kStateS}$ and $\kPModelP{\kStateSPP}$ and $\kPModel{\kStateS} \bisimilar[\atomP] \kPModelP{\kStateSPP}$.
+
+Let $\kPModel[\prime(\agentsB, \atomP)]{\kStateSPP} = ((\kStateSP, \kAccessibility[\prime(\agentsB, \atomP)]{}, \kValuationP), \kStateSPP)$ be the model $\kPModelP{\kStateSPP}$ with accessibility restricted by $\atomP$.
+
+We show that $\kPModelPP{\kStateSP} \bisimilar[\atomP] \kPModel[\prime(\agentsB, \atomP)]{\kStateSPP}$.
+Let $\bisimulation'' \subseteq \kStatesPP \times \kStatesP$ where $\bisimulation'' = \{\kStateTPP, \kStateTPP) \mid \kStateTPP \in \kStatesPP\}$.
+We show that $\bisimulation''$ is a $\atomP$-bisimulation between $\kPModelPP{\kStateSPP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSPP}$.
+Let $\atomQ \in \atoms \setminus \{\atomP\}$, $\agentA \in \agents$, and $(\kStateTPP, \kStateTPP) \in \bisimulation''$ where $\kStateTPP \in \kStatesPP$.
+We show by cases that the relationships in $\bisimulation''$ satisfy the conditions {\bf atoms-$\atomQ$}, {\bf forth-$\agentA$}, and {\bf back-$\agentA$}.
+
+\begin{description}
+    \item[atoms-$\atomQ$] 
+        By construction $\kStateTPP \in \kValuationPP(\atomQ)$ if and only if $\kStateTPP \in \kValuationP(\atomQ)$.
+    \item[forth-$\agentA$]
+        Let $\kStateUPP \in \kSuccessorsPPA{\kStateTPP}$.
+        By construction $\kSuccessorsPPA{\kStateT} \subseteq \kSuccessorsPA{\kStateTPP}$ so $\kStateUPP \in \kSuccessorsPA{\kStateTPP}$.
+        By construction as $\kStateUPP \in \kStatesPP$ then $\kStateUPP \in \kValuationP(\atomP)$ so $\kPModelP{\kStateUPP} \entails \atomP$.
+        Then $\kStateUPP \in \kSuccessorsA[\prime(\agentsB, \atomP)]{\kStateTPP}$ and by construction $(\kStateUPP, \kStateUPP) \in \bisimulation''$.
+    \item[back-$\agentA$]
+        Let $\kStateUPP \in \kSuccessorsA[\prime(\agentsB, \atomP)]{\kStateT}$.
+        By construction $\kSuccessorsA[\prime(\agentsB, \atomP)]{\kStateT} \subseteq \kSuccessorsPPA{\kStateT}$.
+        Then $\kStateUPP \in \kSuccessorsPPA{\kStateTPP}$ and by construction $(\kStateUPP, \kStateUPP) \in \bisimulation''$.
+\end{description}
+
+Therefore $\bisimulation''$ is a $\atomP$-bisimulation between $\kPModelPP{\kStateSPP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSPP}$, and $\kPModelPP{\kStateSP} \bisimilar[\atomP] \kPModel[\prime(\agentsB, \atomP)]{\kStateSPP}$.
+\end{proof}
+
+The results by Bozzelli, et al.~\cite{bozzelli:2014b} also relied on a notion of relativisation of \langBqml{} formulas with respect to a specific agent.
+We use essentially the same notion of relativisation, but generalised for our multi-agent notion of refinement.
+
+\begin{definition}[Relativisation]
+Let $\agentsB \subseteq \agents$ be a set of agents, let $\atomP \in \atoms$ be a propositional atom, and let $\phi \in \langBqml$ be a bisimulation quantified modal formula not containing $\atomP$.
+The {\em relativisation} $\phi^{(\agentsB, \atomP)}$ of a formula $\phi$ of the agents $\agentsB$ to the propositional atom $\atomP$ is defined inductively as follows:
+\begin{eqnarray*}
+    \atomQ^{(\agentsB, \atomP)} &=& \atomQ\\
+    (\lnot \phi)^{(\agentsB, \atomP)} &=& \lnot (\phi^{(\agentsB, \atomP)})\\
+    (\phi \land \psi)^{(\agentsB, \atomP)} &=& \phi^{(\agentsB, \atomP)} \land \psi^{(\agentsB, \atomP)}\\
+    (\necessaryB \phi)^{(\agentsB, \atomP)} &=& \necessaryB (\atomP \implies \phi^{(\agentsB, \atomP)})\\
+    (\necessaryC \phi)^{(\agentsB, \atomP)} &=& \necessaryC \phi^{(\agentsB, \atomP)}\\
+    (\allbisimsQ \phi)^{(\agentsB, \atomP)} &=& \allbisimsQ \phi^{(\agentsB, \atomP)}\\
+\end{eqnarray*}
+where $\atomQ \neq \atomP$, $\agentB \in \agentsB$, and $\agentC \in \agents \setminus \agentsB$.
+\end{definition}
+
+Bozzelli, et al.~\cite{bozzelli:2014b} gave a result relating this relativisation to models with their accessibility restricted by propositional atoms. 
+We adapt this result to the setting of \classKF{} and for our modified definitions.
+
+\begin{lemma}\label{rml-k4-relativisation-restriction}
+Let $\agentsB \subseteq \agents$ be a set of agents, let $\atomP \in \atoms$ be a propositional atom, let $\phi \in \langBqml$ be a bisimulation quantified modal formula, let $\kPModel{\kStateS} \in \classKF$ be a pointed Kripke model, and let $\kPModel[(\agentsB, \atomP)]{\kStateS}$ be the model $\kPModel{\kStateS}$ with $\agentsB$-accessibility restricted by $\atomP$.
+Then $\kPModel{\kStateS} \entails_\logicBqmlKF \phi^{(\agentsB, \atomP)}$ if and only if $\kPModelP{\kStateS} \entails_\logicBqmlKF \phi$.
+\end{lemma}
+
+\begin{proof}
+We show by induction on the structure of $\phi$ that for every $\kPModel{\kStateS} \in \classKF$: $\kPModel{\kStateS} \entails \phi^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \phi$, where $\kPModel[(\agentsB, \atomP)]{\kStateS}$ is the model $\kPModel{\kStateS}$ with accessibility restricted by $\atomP$.
+Let $\kPModel{\kStateS} \in \classKF$.
+We consider each case:
+\begin{description}
+    \item[Case $\atomQ$ where $\atomQ \neq \atomP$:] \hfill\\
+        By definition $\kPModel{\kStateS} \entails \atomQ^{(\agentsB, \atomP)}$ if and only if $\kPModel{\kStateS} \entails \atomQ$.
+        By construction $\kPModel{\kStateS} \entails \atomQ$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \atomQ$.
+    \item[Case $\lnot \phi$ and $\phi \land \psi$:] \hfill\\
+        Follows trivially from the induction hypothesis.
+    \item[Case $\necessaryB \phi$ where $\agentB \in \agentsB$:] \hfill\\
+        By definition $\kPModel{\kStateS} \entails (\necessaryB \phi)^{(\agentsB, \atomP)}$ if and only if $\kPModel{\kStateS} \entails \necessaryB (\atomP \implies \phi^{(\agentsB, \atomP)})$.
+        By definition $\kPModel{\kStateS} \entails \necessaryB (\atomP \implies \phi^{(\agentsB, \atomP)})$ if and only if for every $\kStateT \in \kSuccessorsB{\kStateS}$: $\kPModel{\kStateT} \entails \atomP$ implies that  $\kPModel{\kStateS} \entails \phi^{(\agentsB, \atomP)}$.
+        By the induction hypothesis $\kPModel{\kStateT} \entails \phi^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateT} \entails \phi$.
+        Then for every $\kStateT \in \kSuccessorsB{\kStateS}$: $\kPModel{\kStateT} \entails \atomP$ implies that  $\kPModel{\kStateS} \entails \phi^{(\agentsB, \atomP)}$; if and only if for every $\kStateT \in \kSuccessorsB{\kStateS}$: $\kPModel{\kStateT} \entails \atomP$ implies that $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \phi$.
+        By construction $\kStateT \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateS}$ if and only if $\kStateT \in \kSuccessorsB{\kStateS}$ and $\kPModel{\kStateT} \entails \atomP$.
+        Then for every $\kStateT \in \kSuccessorsB{\kStateS}$: $\kPModel{\kStateT} \entails \atomP$ implies that $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \phi$; if and only if for every $\kStateT \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateS}$: $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \phi$.
+        By definition for every $\kStateT \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateS}$: $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \phi$; if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \necessaryB \phi$.
+    \item[Case $\necessaryC \phi$ where $\agentC \in \agents \setminus \agentsB$]:
+        By definition $\kPModel{\kStateS} \entails (\necessaryC \phi)^{(\agentsB, \atomP)}$ if and only if $\kPModel{\kStateS} \entails \necessaryC \phi^{(\agentsB, \atomP)}$.
+        By definition $\kPModel{\kStateS} \entails \necessaryC \phi^{(\agentsB, \atomP)}$ if and only if for every $\kStateT \in \kSuccessorsC{\kStateS}$: $\kPModel{\kStateT} \entails \phi^{(\agentsB, \atomP)}$.
+        By the induction hypothesis $\kPModel{\kStateT} \entails \phi^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateT} \entails \phi$ and by construction $\kSuccessorsC[(\agentsB, \atomP)]{\kStateT} = \kSuccessorsC{\kStateT}$.
+        Then for every $\kStateT \in \kSuccessorsC{\kStateS}$: $\kPModel{\kStateT} \entails \phi^{(\agentsB, \atomP)}$; if and only if for every $\kStateT \in \kSuccessorsC[(\agentsB, \atomP)]{\kStateS}$: $\kPModel[(\agentsB, \atomP)]{\kStateT} \entails \phi$.
+        By definition for every $\kStateT \in \kSuccessorsC[(\agentsB, \atomP)]{\kStateS}$: $\kPModel[(\agentsB, \atomP)]{\kStateT} \entails \phi^{(\agentsB, \atomP)}$; if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \necessaryC \phi$. 
+    \item[Case $\somebisimsQ \phi$ where $\atomQ \neq \atomP$:] \hfill\\
+        By definition $\kPModel{\kStateS} \entails (\somebisimsQ \phi)^{(\agentsB, \atomP)}$ if and only if $\kPModel{\kStateS} \entails \somebisimsQ \phi^{(\agentsB, \atomP)}$.
+        By definition $\kPModel{\kStateS} \entails \somebisimsQ \phi^{(\agentsB, \atomP)}$ if and only if there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \phi^{(\agentsB, \atomP)}$.
+        By the induction hypothesis $\kPModelP{\kStateSP} \entails \phi^{(\agentsB, \atomP)}$ if and only if $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \phi$.
+        So $\kPModel{\kStateS} \entails (\somebisimsQ \phi)^{(\agentsB, \atomP)}$ if and only if there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \phi$.
+
+        By definition we also have that $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \somebisimsQ \phi$ if and only if there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateSPP} \entails \phi$.
+
+        We will show that there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \phi$ if and only if there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateSPP} \entails \phi$.
+
+        Suppose there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$, via some $\atomQ$-bisimulation $\bisimulation \subseteq \kStates \times \kStatesP$, and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \phi$.
+        We show that $\bisimulation$ is also a $\atomQ$-bisimulation between $\kPModel[(\agentsB, \atomP)]{\kStateS}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$.
+        Let $\atomR \in \atoms \setminus \{\atomQ\}$, $\agentB \in \agentsB$, $\agentC \in \agents \setminus \agentsB$, and $(\kStateT, \kStateTP) \in \refinement$:
+
+        \paragraph{atoms-$\atomR$}
+        By definition $\kStateT \in \kValuation[(\agentsB, \atomP)](\atomR)$ if and only if $\kStateT \in \kValuation(\atomR)$.
+        By {\bf atoms-$\atomR$} for $\bisimulation$ between $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ we have $\kStateT \in \kValuation(\atomR)$ if and only if $\kStateTP \in \kValuationP(\atomR)$.
+        By definition $\kStateTP \in \kValuationP(\atomR)$ if and only if $\kStateT \in \kValuation[\prime(\agentsB, \atomP)](\atomR)$.
+
+        \paragraph{forth-$\agentB$}
+        Let $\kStateU \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateT}$.
+        By definition $\kSuccessorsB[(\agentsB, \atomP)]{\kStateT} \subseteq \kSuccessorsB{\kStateT}$ so $\kStateU \in \kSuccessorsB{\kStateT}$.
+        By {\bf forth-$\agentB$} for $\bisimulation$ between $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ there exists $\kStateUP \in \kSuccessorsPB{\kStateTP}$ such that $(\kStateU, \kStateUP) \in \bisimulation$.
+        As $\kStateU \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateT}$ then $\kPModel{\kStateU} \entails \atomP$ so $\kStateU \in \kValuation(\atomP)$.
+        By {\bf atoms-$\atomP$} for $\bisimulation$ between $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ we have $\kStateU \in \kValuation(\atomP)$ if and only if $\kStateUP \in \kValuationP(\atomP)$.
+        Then $\kPModelP{\kStateUP} \entails \atomP$ so by construction $\kStateUP \in \kSuccessorsPB{\kStateTP}$.
+
+        \paragraph{forth-$\agentC$}
+        Let $\kStateU \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateT}$.
+        By definition $\kSuccessorsB[(\agentsB, \atomP)]{\kStateT} \subseteq \kSuccessorsB{\kStateT}$ so $\kStateU \in \kSuccessorsB{\kStateT}$.
+        By {\bf forth-$\agentB$} for $\bisimulation$ between $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ there exists $\kStateUP \in \kSuccessorsPB{\kStateTP}$ such that $(\kStateU, \kStateUP) \in \bisimulation$.
+        By construction $\kSuccessorsB[\prime(\agentsB, \atomP)]{\kStateTP} = \kSuccessorsPB{\kStateTP}$ so $\kStateUP \in \kSuccessorsPB{\kStateTP}$.
+
+        \paragraph{back-$\agentB$}
+        Follows from symmetrical reasoning to {\bf forth-$\agentB$}.
+
+        \paragraph{back-$\agentC$}
+        Follows from symmetrical reasoning to {\bf forth-$\agentC$}.
+
+        Therefore $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \phi$.
+
+        Suppose there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModelPP{\kStateSPP}$, via some $\atomQ$-bisimulation $\bisimulation \subseteq \kStates \times \kStatesPP$, and $\kPModelPP{\kStateSPP} \entails \phi$.
+        Let $\kPModelAndTupleP{\kStateSPP}$ where:
+        \begin{eqnarray*}
+            \kStatesP &=& \kStates \cup \kStatesPP\\
+            \kAccessibilityPB &=& \kAccessibilityB \cup \kAccessibilityPPB \cup \{(\kStateTP, \kStateU) \mid (\kStateT, \kStateTP) \in \bisimulation, \kStateU \in \kSuccessorsB{\kStateT} \cap \kValuation(\atomP)\}\\
+            \kAccessibilityPC &=& \kAccessibilityC \cup \kAccessibilityPPC\\
+            \kValuationP(\atomR) &=& \kValuation(\atomR) \cup \kValuationPP(\atomR)
+        \end{eqnarray*}
+        where $\agentB \in \agentsB$, $\agentC \in \agents \setminus \agentsB$, $\atomR \in \atoms$.
+
+        We note that $\kModelP \in \classKF$ by the same reasoning as used for the similar construction in Lemma~\ref{rml-k4-refinement-p-bisimulation}.
+
+        We show that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSPP}$.
+        Let $\bisimulation' \subseteq \kStates \times \kStatesP$ where $\bisimulation' = \bisimulation \cup \{(\kStateT, \kStateT) \mid \kStateT \in \kStates\}$.
+        We show that $\bisimulation'$ is a $\atomQ$-bisimulation between $\kPModel{\kStateS}$ and $\kPModelP{\kStateSPP}$.
+        Let $\atomR \in \atoms \setminus \{\atomQ\}$, $\agentB \in \agentsB$, $\agentC \in \agents \setminus \agentsB$.
+        We show by cases that the relationships in $\bisimulation'$ satisfy the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentB$}, {\bf back-$\agentB$}, {\bf forth-$\agentC$}, and {\bf back-$\agentC$}.
+        \begin{description}
+            \item[{Case $(\kStateT, \kStateTPP) \in \bisimulation \subseteq \bisimulation'$:}]
+                \hfill
+                \begin{description}
+                    \item[atoms-$\atomR$] 
+                        By construction $\kStateT \in \kValuation(\atomR)$ if and only if $\kStateT \in \kValuation[(\agentsB, \atomP)](\atomR)$.
+                        By {\bf atoms-$\atomR$} for $\bisimulation$ we have $\kStateT \in \kValuation[(\agentsB, \atomP)](\atomR)$ if and only if $\kStateTPP \in \kValuationPP(\atomR)$.
+                        By construction $\kStateTPP \in \kValuationPP(\atomR)$ if and only if $\kStateTPP \in \kValuationP(\atomR)$.
+                    \item[forth-$\agentB$]
+                        Let $\kStateU \in \kSuccessorsB{\kStateT}$.
+                        Suppose that $\kStateU \in \kValuation(\atomP)$.
+                        Then by construction $\kStateU \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateT}$.
+                        By {\bf forth-$\agentB$} for $\bisimulation$ there exists $\kStateUPP \in \kSuccessorsPPB{\kStateTPP} \subseteq \kSuccessorsPB{\kStateTPP}$ such that $(\kStateU, \kStateUPP) \in \bisimulation \subseteq \bisimulation'$.
+                        Suppose that $\kStateU \notin \kValuation(\atomP)$.
+                        Then by construction $\kStateU \in \kSuccessorsPB{\kStateT}$ and $(\kStateU, \kStateU) \in \bisimulation'$.
+                    \item[back-$\agentB$]
+                        Let $\kStateUPP \in \kSuccessorsPB{\kStateTPP}$.
+                        By construction as $\kStateUPP \in \kStatesPP$ then $\kStateUPP \in \kSuccessorsPPB{\kStateTPP}$.
+                        By {\bf forth-$\agentB$} for $\bisimulation$ there exists $\kStateU \in \kSuccessorsB[(\agentsB, \atomP)] \subseteq \kSuccessorsB{\kStateT}$ such that $(\kStateU, \kStateUPP) \in \bisimulation \subseteq \bisimulation'$.
+                    \item[forth-$\agentC$]
+                        Let $\kStateU \in \kSuccessorsC{\kStateT}$.
+                        By construction $\kStateU \in \kSuccessorsC[(\agentsB, \atomP)]{\kStateT}$.
+                        By {\bf forth-$\agentC$} for $\bisimulation$ there exists $\kStateUPP \in \kSuccessorsPPC{\kStateTPP} \subseteq \kSuccessorsPC{\kStateTPP}$ such that $(\kStateU, \kStateUPP) \in \bisimulation \subseteq \bisimulation'$.
+                    \item[back-$\agentC$]
+                        Follows from the same reasoning as {\bf back-$\agentB$}.
+                \end{description}
+            \item[{Case $(\kStateT, \kStateT) \in \bisimulation'$ where $\kStateT \in \kStates$:}]
+                \hfill
+                \begin{description}
+                    \item[atoms-$\atomR$] 
+                        By construction $\kStateT \in \kValuation(\atomR)$ if and only if $\kStateT \in \kValuationP(\atomR)$.
+                    \item[forth-$\agentB$]
+                        Let $\kStateU \in \kSuccessorsB{\kStateT}$.
+                        By construction $\kStateU \in \kSuccessorsPB{\kStateT}$ and $(\kStateU, \kStateU) \in \bisimulation'$.
+                    \item[back-$\agentB$]
+                        Let $\kStateU \in \kSuccessorsPB{\kStateT}$.
+                        By construction $\kStateU \in \kSuccessorsB{\kStateT}$ and $(\kStateU, \kStateU) \in \bisimulation'$.
+                    \item[forth-$\agentC$]
+                        Follows from the same reasoning as {\bf forth-$\agentB$}.
+                    \item[back-$\agentC$]
+                        Follows from the same reasoning as {\bf back-$\agentB$}.
+                \end{description}
+        \end{description}
+
+        Therefore $\bisimulation'$ is a $\atomQ$-bisimulation between $\kPModel{\kStateS}$ and $\kPModelP{\kStateSPP}$ and $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSPP}$.
+
+        We show that $\kPModel{\kStateS} \bisimilar \kPModel[\prime(\agentsB, \atomP)]{\kStateSPP}$.
+        Let $\bisimulation'' \subseteq \kStatesPP \times \kStatesP$ where $\bisimulation'' = \{(\kStateTPP, \kStateTPP) \mid (\kStateT, \kStateTPP) \in \bisimulation\}$.
+        We show that $\bisimulation'$ is a bisimulation between $\kPModelPP{\kStateSPP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSPP}$.
+        Let $\atomR \in \atoms$, $\agentA \in \agents$, $(\kStateTPP, \kStateTPP) \in \bisimulation''$ for some $(\kStateT, \kStateTPP) \in \bisimulation$.
+        We show that the relationships in $\bisimulation'$ satisfy the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentA$}, and {\bf back-$\agentA$}.
+
+        \paragraph{atoms-$\atomR$}
+        By construction $\kStateTPP \in \kValuationPP(\atomR)$ if and only if $\kStateTPP \in \kValuationP(\atomR)$.
+
+        \paragraph{forth-$\agentA$}
+        Let $\kStateUPP \in \kSuccessorsPPA{\kStateTPP}$.
+        Suppose that $\agentA \in \agentsB$.
+        By construction there exists $\kStateT \in \kStates$ such that $(\kStateT, \kStateTPP) \in \bisimulation$.
+        By {\bf back-$\agentA$} for $\bisimulation$ there exists $\kStateU \in \kSuccessorsA[(\agentsB, \atomP)]{\kStateT}$ such that $(\kStateU, \kStateUPP) \in \bisimulation$.
+        By construction $\kStateU \in \kValuation(\atomP)$.
+        By {\bf atoms-$\atomP$} for $\bisimulation''$ we have $\kStateUPP \in \kValuation(\atomP)$.
+        By construction $\kStateUPP \in \kSuccessorsA[\prime(\agentsB, \atomP)]{\kStateTPP}$ and $(\kStateUPP, \kStateUPP) \in \bisimulation''$.
+        Suppose that $\agentA \notin \agentsB$.
+        By {\bf back-$\agentA$} for $\bisimulation$ there exists $\kStateU \in \kSuccessorsA[(\agentsB, \atomP)]{\kStateT}$ such that $(\kStateU, \kStateUPP) \in \bisimulation$.
+        By construction $\kSuccessorsA[\prime(\agentsB, \atomP)]{\kStateTPP} = \kSuccessorsPPA{\kStateTPP}$.
+        Then $\kStateUPP \in \kSuccessorsA[\prime(\agentsB, \atomP)]{\kStateTPP}$ and by construction $(\kStateUPP, \kStateUPP) \in \bisimulation''$.
+
+        \paragraph{back-$\agentA$}
+        Let $\kStateUPP \in \kSuccessorsA[\prime(\agentsB, \atomP)]{\kStateTPP}$.
+        By construction there exists $\kStateT \in \kStates$ such that $(\kStateT, \kStateTPP) \in \bisimulation$.
+        By {\bf back-$\agentA$} for $\bisimulation$ there exists $\kStateU \in \kSuccessorsA[(\agentsB, \atomP)]{\kStateT}$ such that $(\kStateU, \kStateUPP) \in \bisimulation$.
+        By construction as $\kStateUPP \in \kSuccessorsA[\prime(\agentsB, \atomP)]{\kStateTPP}$ then $\kStateUPP \notin \kValuationP(\atomP)$.
+        Then $\kStateUPP \in \kSuccessorsPPA{\kStateTPP}$ and by construction $(\kStateUPP, \kStateUPP) \in \bisimulation''$.
+
+        Therefore $\bisimulation''$ is a bisimulation between $\kPModelPP{\kStateSPP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSPP}$ and $\kPModel{\kStateS} \bisimilar \kPModel[\prime(\agentsB, \atomP)]{\kStateSPP}$.
+        As $\kPModelPP{\kStateSPP} \entails \phi$ then by bisimulation invariance we have $\kPModel[\prime(\agentsB, \atomP)]{\kStateSPP} \entails \phi$.
+
+        Therefore $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSPP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSPP} \entails \phi$.
+
+        Therefore $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \phi$ if and only if there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateSPP} \entails \phi$.
+
+        Therefore $\kPModel{\kStateS} \entails (\somebisimsQ \phi)^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \somebisimsQ \phi$.
+\end{description}
+\end{proof}
+
+Given this relativisation we can define a translation from \langRml{} formulas to \langBqml{} formulas.
+
+\begin{definition}
+We define the translation $\tau : \langRml \to \langBqml$ by the following inductive definition:
+\begin{eqnarray*}
+    \tau(\atomQ) &=& \atomQ\\
+    \tau(\lnot \phi) &=& \lnot \tau(\phi)\\
+    \tau(\phi \land \psi) &=& \tau(\phi) \land \tau(\psi)\\
+    \tau(\necessaryA \phi) &=& \necessaryA \tau(\phi)\\
+    \tau(\allrefsBs \phi) &=& \allbisimsP (\tau(\phi))^{(\agentsB, \atomP)}
+\end{eqnarray*}
+where $\atomQ \in \atoms$, $\agentA \in \agents$, $\agentsB \subseteq \agents$, and $\atomP \in \atoms$ where $\atomP$ is a fresh atom that does not appear in $\tau(\phi)$.
+\end{definition}
+
+\begin{theorem}\label{rml-k4-bqml-translation}
+Let $\phi \in \langRml$ be a refinement modal formula.
+Then for every $\kPModel{\kStateS} \in \classKF$: $\kPModel{\kStateS} \entails_\logicRmlKF \phi$ if and only if$\kPModel{\kStateS} \entails_\logicBqmlKF \tau(\phi)$.
+\end{theorem}
+
+\begin{proof}
+We show by induction on the structure of $\phi \in \langRml$ that for every $\kPModel{\kStateS} \in \classKF$: $\kPModel{\kStateS} \entails_\logicRmlKF \phi$ if and only if$\kPModel{\kStateS} \entails_\logicBqmlKF \tau(\phi)$.
+The propositional and modal cases follow directly from the semantics of \logicRmlKF{} and \logicBqmlKF{} and the induction hypothesis, so we show only the case involving refinement quantifiers.
+
+Let $\kPModel{\kStateS} \in \classKF$.
+
+Suppose that $\kPModel{\kStateS} \entails_\logicRmlKF \somerefsBs \phi$.
+Then there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails_\logicRmlKF \phi$.
+By the induction hypothesis we have $\kPModelP{\kStateSP} \entails_\logicBqmlKF \tau(\phi)$, so $\kPModelP{\kStateSP} \entails_\logicBqmlKF \tau(\phi)$.
+By Lemma~\ref{rml-k4-refinement-p-bisimulation} there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomP] \kPModelPP{\kStateSPP}$ and $\kPModelP{\kStateSP} \bisimilar[\atomP] \kPModel[\prime\prime(\agentsB, \atomP)]{\kStateSPP}$.
+As $\atomP$ does not appear in $\tau(\phi)$, $\kPModelP{\kStateSP} \entails_\logicBqmlKF \tau(\phi)$ and $\kPModelP{\kStateSP} \bisimilar[\atomP] \kPModel[\prime\prime(\agentsB, \atomP)]{\kStateSPP}$ then $\kPModel[\prime\prime(\agentsB, \atomP)]{\kStateSPP} \entails_\logicBqmlKF \tau(\phi)$.
+As $\kPModel[\prime\prime(\agentsB, \atomP)]{\kStateSPP} \entails_\logicBqmlKF \tau(\phi)$ then by Lemma~\ref{rml-k4-relativisation-restriction} we have $\kPModelPP{\kStateSPP} \entails_\logicBqmlKF (\tau(\phi))^{(\agentsB, \atomP)}$.
+Then there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomP] \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateSPP} \entails_\logicBqmlKF (\tau(\phi))^{(\agentsB, \atomP)}$.
+Therefore $\kPModel{\kStateS} \entails_\logicBqmlKF \somebisimsP (\tau(\phi))^{(\agentsB, \atomP)}$.
+
+Suppose that $\kPModel{\kStateS} \entails_\logicBqmlKF \somebisimsP (\tau(\phi))^{(\agentsB, \atomP)}$.
+Then there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomP] \kPModelP{\kStateSP}$, via some $\atomP$-bisimulation $\bisimulation \subseteq \kStates \times \kStatesP$, and $\kPModelP{\kStateSP} \entails_\logicBqmlKF (\tau(\phi))^{(\agentsB, \atomP)}$.
+By Lemma~\ref{rml-k4-relativisation-restriction} we have $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails_\logicBqmlKF \tau(\phi)$.
+By Lemma~\ref{rml-k4-restriction-refinement} we note that $\kPModelP{\kStateSP} \simulatesBs \kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$, say via some $\agentsB$-refinement $\refinement' \subseteq \kStatesP \times \kStatesP$, and by Lemma~\ref{rml-k4-restriction-k4} we note that $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \in \classKF$.
+By the induction hypothesis we have $\kPModel[\prime(\agentsB, \atomP)]{\kStateSPP} \entails_\logicRml \phi$.
+
+Let $\kPModelAndTuplePP{\kStateSPP}$ where:
+\begin{eqnarray*}
+    \kStateSPP &=& \kStatesP\\
+    \kAccessibilityPPA &=& \kAccessibilityA[\prime(\agentsB, \atomP)]\\
+    \kValuationPP(\atomP) &=& \{\kStateTP \mid (\kStateT, \kStateUP) \in \bisimulation, (\kStateUP, \kStateTP) \in \refinement', \kStateT \in \kValuation(\atomP)\}\\
+    \kValuationPP(\atomQ) &=& \kValuationP(\atomQ)\\
+\end{eqnarray*}
+where $\agentA \in \agents$ and $\atomQ \in \atoms \setminus \{\atomP\}$.
+
+We show that $\kPModel{\kStateS} \simulatesBs \kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$.
+Let $\refinement'' \subseteq \kStates \times \kStatesPP$ where $\refinement'' = \bisimulation \circ \refinement'$.
+We show that $\refinement''$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$.
+Let $\atomQ \in \atoms$, $\agentC \in \agents \setminus \agentsB$, $\agentA \in \agents$, and $(\kStateT, \kStateTP) \in \refinement''$ for some $(\kStateT, \kStateTP) \in \bisimulation$ and $(\kStateTP, \kStateTPP) \in \refinement'$.
+
+\paragraph{atoms-$\atomQ$}
+Suppose that $\atomQ = \atomP$.
+By hypothesis $(\kStateT, \kStateTP) \in \bisimulation$ and $(\kStateTP, \kStateTPP) \in \refinement'$.
+Then by construction $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateTPP \in \kValuationPP(\atomP)$.
+Suppose that $\atomQ \neq \atomP$.
+By {\bf atoms-$\atomQ$} for $\bisimulation$ we have $\kStateT \in \kValuation(\atomQ)$ if and only if $\kStateTP \in \kValuationP(\atomQ)$.
+By {\bf atoms-$\atomQ$} for $\refinement'$ we have $\kStateTP \in \kValuationP(\atomQ)$ if and only if $\kStateTPP \in \kValuationP(\atomQ)$.
+By construction $\kStateTPP \in \kValuationPP(\atomQ)$ if and only if $\kStateTPP \in \kValuationP(\atomQ)$.
+
+\paragraph{forth-$\agentC$}
+Let $\kStateU \in \kSuccessorsC{\kStateT}$.
+By {\bf forth-$\agentC$} for $\bisimulation$ there exists $\kStateUP \in \kSuccessorsPC{\kStateTP}$ such that $(\kStateU, \kStateUP) \in \bisimulation$.
+By {\bf forth-$\agentC$} for $\refinement'$ there exists $\kStateUPP \in \kSuccessorsC[\prime(\agentsB, \atomP)]{\kStateTPP} = \kSuccessorsPPC{\kStateTPP}$ such that $(\kStateUP, \kStateUPP) \in \refinement'$.
+Then $(\kStateU, \kStateUPP) \in \refinement''$.
+
+\paragraph{back-$\agentA$}
+Follows from symmetrical reasoning to {\bf forth-$\agentC$}.
+
+Therefore $\refinement''$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$ so $\kPModel{\kStateS} \simulatesBs \kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$.
+Therefore $\kPModel{\kStateS} \entails \somerefsBs \phi$.
+\end{proof}
+
+\begin{corollary}
+The logic \logicRmlKF{} is (non-strictly) less expressive than \logicBqmlKF{}.
+\end{corollary}
 
 \section{Expressivity: tangled modal logic}\label{rml-k4-tangle}
 

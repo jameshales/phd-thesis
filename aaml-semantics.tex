@@ -1,4 +1,14 @@
-\section{Syntax and semantics}
+\section{Syntax and semantics}\label{aaml-semantics}
+
+In this section we introduce the syntax and semantics of the arbitrary action model logic.
+Like our treatment of \logicRml{}, we consider \logicAaml{} in different settings, including \classK{}, \classKFF{}, and \classS{}.
+The definitions that we give here generalise to these different settings.
+Unlike our treatment of \logicRml{}, we don't give any semantic results that are common to all of these settings.
+As our main results in \logicAaml{} are to show that the action model quantifiers of \logicAaml{} are equivalent to the refinement quantifiers of \logicRml{} in the settings we consider, all of the semantic results from \logicRml{} also apply to \logicAaml{} in these settings.
+For the same reason we use the same syntax for action model quantifiers and refinement quantifiers.
+
+We begin with a definition of the syntax of \logicAaml{}.
+As in action model logic, the syntax of \logicAaml{} is parameterised by a set of action signatures.
 
 \begin{definition}[Language of arbitrary action model logic]
 Let \aSignatureFamily{} be a non-empty, countable set of action signatures.
@@ -15,7 +25,21 @@ $$
 where $\atomP \in \atoms$, $\agentA \in \agents$, $\agentsB \subseteq \agents$, $\aSignatureAndTuple \in \aSignatureFamily$, $\aStatesT \subseteq \aStates$, and the number of parameters to a given action signature $\aSignature$ is determined by the number of designated actions in the action signature.
 \end{definition}
 
-\begin{definition}[Semantics of arbitrary action model logic]\label{aaml-semantics}
+We use all of the standard abbreviations from action model logic and refinement modal logic.
+
+The formula $\allacts \phi$ may be read as ``every action model results in $\phi$ becoming true'' and the formula $\someacts \phi$ may be read as ``some action model results in $\phi$ becoming true''.
+
+The use of the subscript $\agentsB$ in the quantifiers $\allactsBs$ and $\someactsBs$ restricts the action models under consideration to action models that result in a $\agentsB$-refinement of the original Kripke model.
+So the formula $\allactsBs \phi$ may be reas as ``every action model results in $\phi$ becoming true if it results in a $\agentsB$-refinement'' and the formula $\someactsBs \phi$ may be read as ``some action model results in $\phi$ becoming true and results in a $\agentsB$-refinement''.
+This addition is mostly for the purposes of showing a full correspondence between action model quantifiers and refinement quantifiers.
+Although we do not consider it in greater detail here, the notion of restricting the results of executing action models to $\agentsB$-refinements seems like it would be useful.
+For example, $\agentsB$-refinements can be partially characterised as those Kripke models that preserve the truth of $\agentsB$-positive formulas, restricting the learning of new information to agents in $\agentsB$.
+So an alternative reading of the formula $\allactsBs \phi$ may be ``every action model where only agents in $\agentsB$ learn new information results in $\phi$ becoming true'' and an alternative reading of the formula $\someactsBs \phi$ may be ``some action model where only agents in $\agentsB$ learn new information results in $\phi$ becoming true''.
+
+We define the semantics of \logicAaml{}.
+As in action model logic, the semantics of \logicAaml{} is parameterised by a set of action signatures.
+
+\begin{definition}[Semantics of arbitrary action model logic]
 Let \classC{} be a class of Kripke models and let \aSignatureFamily{} be a non-empty, countable set of action signatures, let $\phi \in \langAaml(\aSignatureFamily)$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
 The interpretation of the formula $\phi$ in the logic \logicAamlC{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in action model logic, defined in Definition~\ref{aml-semantics}, with the additional inductive case:
 $$
@@ -32,9 +56,20 @@ We are interested in the following variants of arbitrary action model logic:
     \item \logicAamlS{} interpreted over the class of \classS{} Kripke frames and the language of arbitrary action model logic $\langAaml(\classS)$ with action signatures defined on the class of finite \classS{} Kripke frames.
 \end{itemize}
 
-\begin{definition}[Alternative semantics of arbitrary action model logic]\label{aaml-semantics-alt}
+We note that by Proposition~\ref{action-models-refinements} the result of executing any action model is a $\agents$-refinement, so the action model quantifiers $\allactsAs$ and $\someactsAs$, abbreviated as $\allacts$ and $\someacts$ respectively, correspond to unrestricted action model quantification.
+Given this we can observe that the semantics of the action model quantifiers $\allacts$ and $\someacts$ are defined similarly to the semantics of the public announcement quantifier of \logicApal{}.
+One notable difference is that whilst the public announcement quantifier of \logicApal{} does not quantify over public announcements that themselves contain quantifiers, the action model quantifier of \logicAaml{} makes no such restriction.
+The action model quantifiers of \logicAaml{} quantify over action models that may themselves contain quantifiers in their preconditions.
+As we will show in the following sections, the logics \logicAamlK{}, \logicAamlKFF{}, and \logicAamlS{} are expressively equivalent to their underlying modal logics \logicK{}, \logicKFF{}, and \logicS{} respectively, so any action model containing quantifiers is equivalent to an action model not containing any quantifiers, so a restriction like that from \logicApal{} is unnecessary.
+
+In the following sections we show that the action model quantifiers of \logicAaml{} are equivalent to the refinement quantifiers of \logicRml{} in the settings of \classK{}, \classKFF{}, and \classS{}.
+We show the equivalence by showing that if there exists a refinement where a given formula is satisfied then we can construct a finite action model that results in that formula being satisfied.
+The converse we have already shown; if there exists a (possibly infinite) action model that results in a given formula being satisfied then by Proposition~\ref{action-models-refinements} the result of executing the action model is itself a refinement, so there exists a refinement where the formula is satisfied.
+We rely heavily on results from action model logic and \logicRml{}, particularly the axioms from both, so we find it useful to define a logic, which we call refinement action model logic (\logicRaml{}), that extends action model logic with refinement quantifiers.
+
+\begin{definition}[Semantics of refinement action model logic]
 Let \classC{} be a class of Kripke models and let \aSignatureFamily{} be a non-empty, countable set of action signatures, let $\phi \in \langAaml(\aSignatureFamily)$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
-The interpretation of the formula $\phi$ in the logic \logicAamlC{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in action model logic, defined in Definition~\ref{aml-semantics}, with the additional inductive case:
+The interpretation of the formula $\phi$ in the logic \logicRamlC{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in action model logic, defined in Definition~\ref{aml-semantics}, with the additional inductive case:
 $$
 \begin{array}{lcl}
     \kPModel{\kStateS} \entails \allactsBs \phi & \text{ iff } & \text{for every } \kPModelP{\kStateSP} \in \classC \text{ if } \kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP} \text{ then } \kPModelP{\kStateSP} \entails \phi
@@ -42,42 +77,11 @@ $$
 $$
 \end{definition}
 
-\begin{proposition}\label{aaml-validities}
-Let $\classC$ be a class of Kripke frames and let \aSignatureFamily{} be a non-empty, countable set of action signatures such that for every $\kModel \in \classC$, $\aModel \in \aSignatureFamily$ we have $\kModel \exec \aModel \in \classC$. Then:
-$$
-\begin{array}{l}
-    \entails_\logicAamlC \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
-    \entails_\logicAamlC \phi \text{ implies } \entails_\logicAamlC \allrefsBs \phi\\
-    \entails_\logicAamlC \allrefsBs \phi \implies \phi\\
-    \entails_\logicAamlC \allrefsBs \phi \implies \allrefsBs \allrefsBs \phi\\
-    \entails_\logicAamlC \phi^+ \implies \allrefsBs \phi^+
-\end{array}
-$$
-where $\agentsB \subseteq \agents$, $\phi, \psi \in \langAaml(\aSignatureFamily)$ and $\phi^+ \in \langMlPlus$.
-\end{proposition}
+As with \logicAaml{} we are interested in the following variants of refinement action model logic:
+\begin{itemize}
+    \item \logicRamlK{} interpreted over the class of \classK{} Kripke frames and the language of arbitrary action model logic $\langAaml(\classK)$ with action signatures defined on the class of finite \classK{} Kripke frames.
+    \item \logicRamlKFF{} interpreted over the class of \classKFF{} Kripke frames and the language of arbitrary action model logic $\langAaml(\classKFF)$ with action signatures defined on the class of finite \classKFF{} Kripke frames.
+    \item \logicRamlS{} interpreted over the class of \classS{} Kripke frames and the language of arbitrary action model logic $\langAaml(\classS)$ with action signatures defined on the class of finite \classS{} Kripke frames.
+\end{itemize}
 
-\begin{proposition}\label{aaml-mckinsey}
-Let $\classC \in \{\classK, \classKFF, \classKD, \classS\}$. Then:
-$$
-\begin{array}{l}
-    \entails_\logicAamlC \allrefsBs \somerefsBs \phi \implies \somerefsBs \allrefsBs \phi\\
-    \entails_\logicAamlC (\allrefsBs \somerefsBs \phi \land \allrefsBs \somerefsBs \psi) \implies \somerefsBs (\phi \land \psi)
-\end{array}
-$$
-where $\agentsB \subseteq \agents$ and $\phi, \psi \in \langAaml$.
-\end{proposition}
-
-\begin{proposition}\label{aaml-church-rosser}
-Let $\classC \in \{\classK, \classKFF, \classS\}$. Then:
-$$
-\begin{array}{l}
-    \entails_\logicAamlC \somerefsBs \allrefsBs \phi \implies \allrefsBs \somerefsBs \phi
-\end{array}
-$$
-where $\agentsB \subseteq \agents$ and $\phi \in \langAaml$.
-\end{proposition}
-
-\begin{proposition}
-Let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
-Then for every $\phi \in \langAaml$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
-\end{proposition}
+In the following sections we will show that results from action model logic and \logicRml{} apply to the combined logic \logicRaml{}, and use these results to show that formulas of \langAaml{} have the same interpretation in both \logicAaml{} and \logicRaml{}.

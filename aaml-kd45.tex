@@ -1,29 +1,64 @@
-\section{K45}
+\section{K45}\label{aaml-kd45}
 
-\begin{definition}[Axiomatisation \axiomAamlKFF{}]
+In this section we consider in greater detail the logic \logicAamlKFF{} in the setting of \classKFF{}.
+The main result of this section is that the action model quantifiers of \logicAamlKFF{} are equivalent to the refinement quantifiers of \logicRmlKFF{}.
+We show this equivalence by showing that if there exists a refinement where a given formula is satisfied then we can construct a finite action model that results in that formula being satisfied.
+
+As in the previous section, we rely heavily on results from action model logic \logicAmlKFF{} and the refinement modal logic \logicRmlKFF{}, particularly the axioms from both.
+We use the combined logic \logicRamlKFF{} so that we can use results from \logicAmlKFF{} and \logicRmlKFF{} with a combined syntax, semantics and proof theory.
+
+We first note that as the syntax and semantics of \logicRamlKFF{} are formed by combining the semantics of \logicAmlKFF{} and \logicRmlKFF{}, then \logicAmlKFF{} and \logicRmlKFF{} agree with \logicRamlKFF{} on formulas from their respective sublanguages.
+
+\begin{lemma}\label{raml-k45-aml}
+The logics \logicRamlKFF{} and \logicAmlKFF{} agree on all formulas of \langAml{}.
+That is, for every $\phi \in \langAml$, $\kPModel{\kStateS} \in \classKFF$: $\kPModel{\kStateS} \entails_\logicRamlKFF \phi$ if and only if $\kPModel{\kStateS} \entails_\logicAmlKFF \phi$.
+\end{lemma}
+
+\begin{lemma}\label{raml-k45-rml}
+The logics \logicRamlKFF{} and \logicAmlKFF{} agree on all formulas of \langRml{}.
+That is, for every $\phi \in \langRml$, $\kPModel{\kStateS} \in \classKFF$: $\kPModel{\kStateS} \entails_\logicRamlKFF \phi$ if and only if $\kPModel{\kStateS} \entails_\logicRmlKFF \phi$.
+\end{lemma}
+
+These results follow directly from the definitions.
+
+Given this we can give a sound and complete axiomatisation for \logicRamlKFF{} by combining the axiomatisations for \logicAmlKFF{} and \logicRmlKFF{}.
+
+\begin{definition}[Axiomatisation \axiomRamlKFF{}]\label{raml-k45-axiomatisation}
 The axiomatisation \axiomAamlKFF{} is a substitution schema consisting of the axioms and rules of \axiomAmlKFF{} and the axioms and rules of \axiomRmlKFF{}.
 \end{definition}
 
-\begin{theorem}
-The axiomatisation \axiomRmlKFF{} is sound and strongly complete with respect to the semantics of the logic \logicAamlKFF{}.
-\end{theorem}
+\begin{lemma}\label{raml-k45-sound-complete}
+The axiomatisation \axiomRamlKFF{} is sound and strongly complete with respect to the semantics of the logic \logicRamlKFF{}.
+\end{lemma}
 
-\begin{proof}
-Soundness of the axioms and rules from \axiomAmlKFF{} and \axiomRmlKFF{} follow from the same reasoning used to show that they are sound in \logicAmlKFF{} and \logicRmlKFF{} respectively.
-Strong completeness follows from similar reasoning as in the proof of strong completeness of \axiomAamlK{} in Theorem~\ref{aaml-k-sound-complete}.
-\end{proof}
+Soundness and completeness follows from the same reasoning used to show soundness and completeness of \axiomRamlK{} in Lemma~\ref{raml-k-sound-complete}.
+The provably correct translation also implies that \logicRamlKFF{} is expressively equivalent to \logicKFF{}.
+
+\begin{corollary}\label{raml-k45-expressive-equivalence}
+The logic \logicRamlKFF{} is expressively equivalent to the logic \logicKFF{}.
+\end{corollary}
+
+From expressive equivalence we have that \logicRmlKFF{} is compact and decidable.
 
 \begin{corollary}
-The logic \logicAamlKFF{} is expressively equivalent to the logic \logicKFF{}.
+The logic \logicRamlKFF{} is compact.
 \end{corollary}
 
 \begin{corollary}
-The logic \logicAamlKFF{} is compact.
+The satisfiability problem for the logic \logicRamlKFF{} is decidable.
 \end{corollary}
 
-\begin{corollary}
-The satisfiability problem for the logic \logicAamlKFF{} is decidable.
-\end{corollary}
+Similar to \logicRamlK{}, we note that most results from \logicAmlKFF{} and \logicRmlKFF{} generalise to \logicRamlKFF{} trivially thanks to a combination of \logicRamlKFF{} agreeing with \logicAmlKFF{} and \logicRmlKFF{} on their respective sublanguages, and the expressive equivalence of \logicRamlKFF{} and \logicKFF{}.
+
+We now move on to our main result, that the action model quantifiers of \logicAamlKFF{} are equivalent to the refinement quantifiers of \logicRmlKFF{}.
+We show this equivalence by showing that if there exists a refinement where a given formula is satisfied then we can construct a finite action model that results in that formula being satisfied.
+The converse we have already shown; if there exists a (possibly infinite) action model that results in a given formula being satisfied then by Proposition~\ref{action-models-refinements} the result of executing the action model is itself a refinement, so there exists a refinement where the formula is satisfied.
+
+We show our result using an inductive construction for a given formula.
+Our construction is based on the construction used for \logicRamlK{} in the previous section, and is very similar to the constructions used to show the soundness of the axioms {\bf RK45}, {\bf RComm}, and {\bf RDist} in \logicRmlKFF{}.
+We reuse the alternating disjunctive normal form we used for \logicRmlKFF{}, and we separate our inductive steps into two lemmas for each syntactic case from the alternating disjunctive normal form.
+In \logicRmlKFF{} we relied on the fact that $\agentsB$-restricted modal formulas are preserved in $\agentsB$-bisimilar Kripke models.
+We rely on a similar notion of $\agentsB$-bisimilarity for action models, which we define now.
 
 \begin{definition}[$\agentsB$-bisimilarity of action models]
 Let $\agentsB \subseteq \agents$ be a set of agents and let $\aPModelAndTuple{\aStateS}$ and $\aPModelAndTupleP{\aStateSP}$ be pointed action models.
@@ -39,7 +74,9 @@ For every $\aStateT \in \aSuccessorsB{\aStateS}$ there exists $\aStateTP \in \aS
 For every $\aStateTP \in \aSuccessorsPB{\aStateSP}$ there exists $\aStateT \in \aSuccessorsB{\aStateS}$ such that $\aPModel{\aStateT} \bisimilar \aPModelP{\aStateTP}$.
 \end{definition}
 
-\begin{lemma}
+We show that $\agentsB$-bisimilar action models result in the same $\agentsB$-restricted modal formulas.
+
+\begin{lemma}\label{action-b-bisimulation-results}
 Let $\agentsB \subseteq \agents$ be a set of agents, let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ and let $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar[\agentsB] \aPModelP{\aStateSP}$.
 Then $\kPModel{\kStateS} \entails \aPrecondition(\aStateS)$ if and only if $\kPModelP{\kStateSP} \entails \aPreconditionP(\aStateSP)$ and (when they are defined) $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP} \exec \aPModelP{\aStateSP}$.
 \end{lemma}
@@ -74,7 +111,14 @@ Let $\agentsB \subseteq \agents$ be a set of agents and let $\aPModel{\aStateS}$
 Then for every pointed Kripke model $\kPModel{\kStateS}$ and every $\agentsB$-restricted modal formula $\phi \in \langAaml$ we have that $\kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi$ if and only if $\kPModel{\kStateS} \entails \actionA{\aPModelP{\aStateSP}} \phi$.
 \end{corollary}
 
-\begin{lemma}\label{aaml-kff-choice}
+\begin{proof}
+This result follows from essentially the same reasoning as the analogous result, Proposition~\ref{aml-bisimilar-actions}, for bisimilar action models, using Lemma~\ref{action-b-bisimulation-results} in place of the analogous Proposition~\ref{action-bisimulation-results}.
+\end{proof}
+
+We use this lemma in the construction used for our main result.
+We first show the case where the given formula is a disjunction.
+
+\begin{lemma}\label{aaml-k45-choice}
 Let $\agentsB \subseteq \agents$, 
 let $\phi = \alpha \lor \beta \in \langAaml$, and 
 let $\aPModel[\alpha]{\aStatesT[\alpha]} \in \classAmKFF$ and $\aPModel[\beta]{\aStatesT[\beta]} \in \classAmKFF$ be action models such that 
@@ -90,11 +134,13 @@ $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$, and
 for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classKFF$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{lemma}
 
-\begin{proof}[Proof (Sketch)]
+\begin{proof}[Proof]
 We use the same construction and reasoning as in the proof of Lemma~\ref{aaml-k-choice}, noting additionally that the disjoint union of two $\classAmKFF$ action models is also a $\classAmKFF$ action model.
 \end{proof}
 
-\begin{lemma}\label{aaml-kff-covers}
+We next show the case where the given formula is a conjunction of a propositional formula and cover operators.
+
+\begin{lemma}\label{aaml-k45-covers}
 Let $\agentsB, \agentsC \subseteq \agents$, 
 let $\phi = \pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC \in \langAaml$ where $\pi \in \langPl$, and 
 for every $\agentC \in \agentsC$, $\gamma \in \agentsC$
@@ -229,7 +275,7 @@ By {\bf back-$\agentA$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ 
 Therefore $\refinement$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
 \end{proof}
 
-\begin{theorem}\label{aaml-kff-synthesis}
+\begin{theorem}\label{aaml-k45-synthesis}
 Let $\agentsB \subseteq \agents$ and let $\phi \in \langAaml$.
 There exists an action model $\aPModelAndTuple{\aStatesT} \in \classAmKFF$ such that 
 $\entails \actionA{\aPModel{\aStatesT}} \phi$,
@@ -237,13 +283,16 @@ $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$, and
 for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{theorem}
 
-\begin{proof}[Proof (Sketch)]
-We use similar reasoning to the proof of Theorem~\ref{aaml-k-synthesis}, using Lemma~\ref{aaml-kff-choice} and Lemma~\ref{aaml-kff-covers} to inductively construct an action model.
-We convert the formula to alternating disjunctive normal form instead of disjunctive normal form, which ensures that the construction from Lemma~\ref{aaml-kff-covers} can be applied inductively to the formula, by satisfying the requirement that $\coversC$~operators are only applied to sets of $(\agents \setminus \{\agentC\})$-restricted modal formulas.
+\begin{proof}[Proof]
+We use the same reasoning used to show the analogous result for \logicAamlK{}, in Theorem~\ref{aaml-k-synthesis}, using Lemma~\ref{aaml-k45-choice} and Lemma~\ref{aaml-k45-covers} for the inductive steps, to inductively construct an action model.
+We convert the formula to alternating disjunctive normal form instead of disjunctive normal form, which ensures that the construction from Lemma~\ref{aaml-k45-covers} can be applied inductively to the formula, by satisfying the requirement that $\coversC$~operators are only applied to sets of $(\agents \setminus \{\agentC\})$-restricted modal formulas.
 \end{proof}
 
-\begin{corollary}\label{aaml-kff-semantics-equivalent}
-The semantics of \logicAamlKFF{} as defined in Definition~\ref{aaml-semantics} and the alternative semantics of Definition~\ref{aaml-semantics-alt} are equivalent.
-\end{corollary}
+\begin{theorem}\label{aaml-k45-semantics-equivalent}
+The semantics of \logicAamlKFF{} and the semantics of \logicRamlKFF{} agree on all formulas of \langAaml{}.
+That is, for every $\phi \in \langAaml$, $\kPModel{\kStateS} \in \classKFF$: $\kPModel{\kStateS} \entails_\logicAamlKFF \phi$ if and only if $\kPModel{\kStateS} \entails_\logicAamlKFF \phi$.
+\end{theorem}
 
-This follows from the same reasoning as used by Corollary~\ref{aaml-k-semantics-equivalent}.
+\begin{proof}
+We use the same reasoning used to show the analogous result for \logicAamlK{}, in Theorem~\ref{aaml-k-semantics-equivalent}, using Theorem~\ref{aaml-k45-synthesis} in place of the analogous Theorem~\ref{aaml-k-synthesis}.
+\end{proof}

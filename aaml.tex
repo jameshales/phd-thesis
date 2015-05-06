@@ -1,5 +1,16 @@
 \chapter{Arbitrary action model logic}\label{aaml}
 
+In this chapter we introduce the arbitrary action model logic (\logicAaml{}) and consider the logic in greater detail in the settings of \classK{}, \classKFF{}, and \classS{}.
+\logicAaml{} extends the action model logic with quantifiers that denote either that every action model results in a statement becoming true or that some action model results in a statement becoming true.
+This is similar to how \logicApal{} extends public announcement logic.
+The main results of this chapter are to show that the action model quantifiers of \logicAaml{} are equivalent to the refinement quantifiers of \logicRml{} in the settings of \classK{}, \classKFF{}, and \classS{}.
+As a consequence, most of the results for \logicRml{} from the previous chapters also hold in \logicAaml{} in these settings.
+We show the equivalence by showing that if there exists a refinement where a given formula is satisfied then we can construct a finite action model that results in that formula being satisfied.
+This equivalence further justifies our interpretation of refinement quantifiers as quantifiers for epistemic updates.
+In Section~\ref{aaml-semantics} we introduce the syntax and semantics of \logicAaml{}.
+In Section~\ref{aaml-k}, Section~\ref{aaml-kd45}, and Section~\ref{aaml-s5} we consider \logicAaml{} in greater detail in the settings of \classK{}, \classKFF{}, and \classS{} respectively.
+In each setting we show that the action model quantifiers of \logicAaml{} are equivalent to the refinement quantifiers of \logicRml{}.
+
 \input{aaml-semantics.tex}
 \input{aaml-k.tex}
 \input{aaml-kd45.tex}

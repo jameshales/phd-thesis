@@ -1,29 +1,64 @@
-\section{S5}
+\section{S5}\label{aaml-s5}
 
-\begin{definition}[Axiomatisation \axiomAamlS{}]
+In this section we consider in greater detail the logic \logicAamlS{} in the setting of \classS{}.
+The main result of this section is that the action model quantifiers of \logicAamlS{} are equivalent to the refinement quantifiers of \logicRmlS{}.
+We show this equivalence by showing that if there exists a refinement where a given formula is satisfied then we can construct a finite action model that results in that formula being satisfied.
+
+As in the previous sections, we rely heavily on results from action model logic \logicAmlS{} and the refinement modal logic \logicRmlS{}, particularly the axioms from both.
+We use the combined logic \logicRamlS{} so that we can use results from \logicAmlS{} and \logicRmlS{} with a combined syntax, semantics and proof theory.
+
+We first note that as the syntax and semantics of \logicRamlS{} are formed by combining the semantics of \logicAmlS{} and \logicRmlS{}, then \logicAmlS{} and \logicRmlS{} agree with \logicRamlS{} on formulas from their respective sublanguages.
+
+\begin{lemma}\label{raml-s5-aml}
+The logics \logicRamlS{} and \logicAmlS{} agree on all formulas of \langAml{}.
+That is, for every $\phi \in \langAml$, $\kPModel{\kStateS} \in \classS$: $\kPModel{\kStateS} \entails_\logicRamlS \phi$ if and only if $\kPModel{\kStateS} \entails_\logicAmlS \phi$.
+\end{lemma}
+
+\begin{lemma}\label{raml-s5-rml}
+The logics \logicRamlS{} and \logicAmlS{} agree on all formulas of \langRml{}.
+That is, for every $\phi \in \langRml$, $\kPModel{\kStateS} \in \classS$: $\kPModel{\kStateS} \entails_\logicRamlS \phi$ if and only if $\kPModel{\kStateS} \entails_\logicRmlS \phi$.
+\end{lemma}
+
+These results follow directly from the definitions.
+
+Given this we can give a sound and complete axiomatisation for \logicRamlS{} by combining the axiomatisations for \logicAmlS{} and \logicRmlS{}.
+
+\begin{definition}[Axiomatisation \axiomRamlKFF{}]\label{raml-s5-axiomatisation}
 The axiomatisation \axiomAamlS{} is a substitution schema consisting of the axioms and rules of \axiomAmlS{} and the axioms and rules of \axiomRmlS{}.
 \end{definition}
 
-\begin{theorem}
-The axiomatisation \axiomRmlS{} is sound and strongly complete with respect to the semantics of the logic \logicAamlS{}.
-\end{theorem}
+\begin{lemma}\label{raml-s5-sound-complete}
+The axiomatisation \axiomRamlS{} is sound and strongly complete with respect to the semantics of the logic \logicRamlS{}.
+\end{lemma}
 
-\begin{proof}
-Soundness of the axioms and rules from \axiomAmlS{} and \axiomRmlS{} follow from the same reasoning used to show that they are sound in \logicAmlS{} and \logicRmlS{} respectively.
-Strong completeness follows from similar reasoning as in the proof of strong completeness of \axiomAamlK{} in Theorem~\ref{aaml-k-sound-complete}.
-\end{proof}
+Soundness and completeness follows from the same reasoning used to show soundness and completeness of \axiomRamlK{} in Lemma~\ref{raml-k-sound-complete}.
+The provably correct translation also implies that \logicRamlS{} is expressively equivalent to \logicS{}.
+
+\begin{corollary}\label{raml-s5-expressive-equivalence}
+The logic \logicRamlS{} is expressively equivalent to the logic \logicS{}.
+\end{corollary}
+
+From expressive equivalence we have that \logicRmlS{} is compact and decidable.
 
 \begin{corollary}
-The logic \logicAamlS{} is expressively equivalent to the logic \logicS{}.
+The logic \logicRamlS{} is compact.
 \end{corollary}
 
 \begin{corollary}
-The logic \logicAamlS{} is compact.
+The satisfiability problem for the logic \logicRamlS{} is decidable.
 \end{corollary}
 
-\begin{corollary}
-The satisfiability problem for the logic \logicAamlS{} is decidable.
-\end{corollary}
+Similar to \logicRamlK{}, we note that most results from \logicAmlS{} and \logicRmlS{} generalise to \logicRamlS{} trivially thanks to a combination of \logicRamlS{} agreeing with \logicAmlS{} and \logicRmlS{} on their respective sublanguages, and the expressive equivalence of \logicRamlS{} and \logicS{}.
+
+We now move on to our main result, that the action model quantifiers of \logicAamlS{} are equivalent to the refinement quantifiers of \logicRmlS{}.
+We show this equivalence by showing that if there exists a refinement where a given formula is satisfied then we can construct a finite action model that results in that formula being satisfied.
+The converse we have already shown; if there exists a (possibly infinite) action model that results in a given formula being satisfied then by Proposition~\ref{action-models-refinements} the result of executing the action model is itself a refinement, so there exists a refinement where the formula is satisfied.
+
+We show our result using an inductive construction for a given formula.
+Our construction is based on the construction used for \logicRamlK{} in the previous section, and is very similar to the constructions used to show the soundness of the axioms {\bf RS5}, {\bf RComm}, and {\bf RDist} in \logicRmlS{}.
+We reuse the notion of explicit formulas we used for \logicRmlS{}, and we separate our inductive steps into two lemmas, one for disjunctions of formulas, and another for explicit formulas.
+
+We first show the case where the given formula is a disjunction.
 
 \begin{lemma}\label{aaml-s5-choice}
 Let $\agentsB \subseteq \agents$, 
@@ -41,9 +76,11 @@ $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$, and
 for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classS$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{lemma}
 
-\begin{proof}[Proof (Sketch)]
+\begin{proof}[Proof]
 We use the same construction and reasoning as in the proof of Lemma~\ref{aaml-k-choice}, noting additionally that the disjoint union of two $\classAmS$ action models is also a $\classAmS$ action model.
 \end{proof}
+
+We next show the case where the given formula is an explicit formula.
 
 \begin{lemma}\label{aaml-s5-covers}
 Let $\agentsB \subseteq \agents$, 
@@ -296,12 +333,16 @@ for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPMode
 \end{theorem}
 
 \begin{proof}[Proof (Sketch)]
-We use similar reasoning to the proof of Theorem~\ref{aaml-k-synthesis}, using Lemma~\ref{aaml-s5-choice} and Lemma~\ref{aaml-s5-covers} to inductively construct an action model.
-We convert the formula to alternating disjunctive normal form instead of disjunctive normal form, which ensures that the construction from Lemma~\ref{aaml-s5-covers} can be applied inductively to the formula, by satisfying the requirement that $\coversC$~operators are only applied to sets of $(\agents \setminus \{\agentC\})$-restricted modal formulas.
+We use the same reasoning used to show the analogous result for \logicAamlK{}, Theorem~\ref{aaml-k-synthesis}, using Lemma~\ref{aaml-s5-choice} and Lemma~\ref{aaml-s5-covers} for the inductive steps, to inductively construct an action model.
+We convert the formula to a disjunction of explicit formulas, which ensures that the construction from Lemma~\ref{aaml-s5-covers} can be applied inductively to the formula.
+As in the provably correct translation for \logicRmlS{} at each inductive step we must convert the given formula to a disjunction of explicit formulas, but the induction remains well-founded despite these additional conversion steps, as at each step the modal depth of the formula decreases.
 \end{proof}
 
-\begin{corollary}\label{aaml-s5-semantics-equivalent}
-The semantics of \logicAamlS{} as defined in Definition~\ref{aaml-semantics} and the alternative semantics of Definition~\ref{aaml-semantics-alt} are equivalent.
-\end{corollary}
+\begin{theorem}\label{aaml-s5-semantics-equivalent}
+The semantics of \logicAamlS{} and the semantics of \logicRamlS{} agree on all formulas of \langAaml{}.
+That is, for every $\phi \in \langAaml$, $\kPModel{\kStateS} \in \classS$: $\kPModel{\kStateS} \entails_\logicAamlS \phi$ if and only if $\kPModel{\kStateS} \entails_\logicAamlS \phi$.
+\end{theorem}
 
-This follows from the same reasoning as used by Corollary~\ref{aaml-k-semantics-equivalent}.
+\begin{proof}
+We use the same reasoning used to show the analogous result for \logicAamlK{}, in Theorem~\ref{aaml-k-semantics-equivalent}, using Theorem~\ref{aaml-s5-synthesis} in place of the analogous Theorem~\ref{aaml-k-synthesis}.
+\end{proof}

@@ -1,32 +1,85 @@
-\section{K}
+\section{\classK{}}\label{aaml-k}
 
-\begin{definition}[Axiomatisation \axiomAamlK{}]
+In this section we consider in greater detail the logic \logicAamlK{} in the setting of \classK{}.
+The main result of this section is that the action model quantifiers of \logicAamlK{} are equivalent to the refinement quantifiers of \logicRmlK{}.
+We show this equivalence by showing that if there exists a refinement where a given formula is satisfied then we can construct a finite action model that results in that formula being satisfied.
+
+We rely heavily on results from action model logic \logicAmlK{} and the refinement modal logic \logicRmlK{}, particularly the axioms from both.
+In the previous section we defined the logic \logicRamlK{} that extends action model logic with refinement quantifiers, so that we can use results from \logicAmlK{} and \logicRmlK{} with a combined syntax, semantics and proof theory.
+
+We first note that as the syntax and semantics of \logicRamlK{} are formed by combining the semantics of \logicAmlK{} and \logicRmlK{}, then \logicAmlK{} and \logicRmlK{} agree with \logicRamlK{} on formulas from their respective sublanguages.
+
+\begin{lemma}\label{raml-k-aml}
+The logics \logicRamlK{} and \logicAmlK{} agree on all formulas of \langAml{}.
+That is, for every $\phi \in \langAml$, $\kPModel{\kStateS} \in \classK$: $\kPModel{\kStateS} \entails_\logicRamlK \phi$ if and only if $\kPModel{\kStateS} \entails_\logicAmlK \phi$.
+\end{lemma}
+
+\begin{lemma}\label{raml-k-rml}
+The logics \logicRamlK{} and \logicAmlK{} agree on all formulas of \langRml{}.
+That is, for every $\phi \in \langRml$, $\kPModel{\kStateS} \in \classK$: $\kPModel{\kStateS} \entails_\logicRamlK \phi$ if and only if $\kPModel{\kStateS} \entails_\logicRmlK \phi$.
+\end{lemma}
+
+These results follow directly from the definitions.
+
+Given this we can give a sound and complete axiomatisation for \logicRamlK{} by combining the axiomatisations for \logicAmlK{} and \logicRmlK{}.
+
+\begin{definition}[Axiomatisation \axiomRamlK{}]\label{raml-k-axiomatisation}
 The axiomatisation \axiomAamlK{} is a substitution schema consisting of the axioms and rules of \axiomAmlK{} and the axioms and rules of \axiomRmlK{}.
 \end{definition}
 
-\begin{theorem}\label{aaml-k-sound-complete}
-The axiomatisation \axiomRmlK{} is sound and strongly complete with respect to the semantics of the logic \logicAamlK{}.
+\begin{theorem}\label{raml-k-sound-complete}
+The axiomatisation \axiomRamlK{} is sound and strongly complete with respect to the semantics of the logic \logicRamlK{}.
 \end{theorem}
 
-\begin{proof}[Proof (Sketch)]
-Soundness of the axioms and rules from \axiomAmlK{} and \axiomRmlK{} follow from the same reasoning used to show that they are sound in \logicAmlK{} and \logicRmlK{} respectively.
-Strong completeness follows from similar reasoning as in the proof of strong completeness of \axiomRmlK{} in Lemma~\ref{rml-k-sound-complete}.
-We note that the axioms of \axiomAmlK{} form a set of reduction axioms that can be used to provably translate any formula containing action model operators but not refinement quantifiers into an equivalent modal formula.
-Likewise the axioms of \axiomRmlK{} form a set of reduction axioms that can be used to provably translate any formula containing refinement quantifiers but not action model operators into an equivalent modal formula.
-These methods can be combined to provably translate any formula containing action model operators and refinement quantifiers into an equivalent modal formula, by iteratively translating subformulas containing action model operators but not refinement quantifiers using the former method, and subformulas containing refinement quantifiers but not action model operators using the latter method.
+\begin{proof}[Proof]
+Soundness of the axioms and rules of \axiomAmlK{} and \axiomRmlK{} follow from the same reasoning used to show that they are sound in \logicAmlK{} and \logicRmlK{} respectively.
+Alternatively we can show that the axioms and rules of \axiomAmlK{} and \axiomRmlK{} are sound in \logicRamlK{} for formulas from the languages \langAml{} and \langRml{} respectively, as the logics \logicAmlK{} and \logicRmlK{} agree with \logicRamlK{} on all formulas of \langAml{} and \langRml{} respectively.
+These restricted axioms are all that is required for the following completeness proof via provably correct translation to work.
+After we have shown expressive equivalence between \logicRamlK{} and \logicK{} we can easily show soundness of versions of the axioms and rules of \axiomAmlK{} and \axiomRmlK{} that apply for formulas from the full language \langAaml{}. 
+
+Strong completeness follows from essentially the same reasoning used to show the strong completeness of \axiomRmlK{} in Lemma~\ref{rml-k-sound-complete}, using a provably correct translation from \langAaml{} to \langMl{}.
+As the action model logic \logicAmlK{} is expressively equivalent to the underlying modal logic \logicK{} using the reduction axioms of \axiomAmlK{} there is a provably correct translation from \langAml{} to \langMl{}.
+Likewise, as the refinement model logic \logicRmlK{} is expressively equivalent to the underlying modal logic \logicK{} using the reduction axioms of \axiomRmlK{} there is a provably correct translation from \langRml{} to \langMl{}.
+These provably correct translations can be combined into a provably correct translation from \langAaml{} to \langMl{}, by inductively applying the provably correct translation for \logicAmlK{} to subformulas containing action model operators but not refinement quantifiers, and applying the provably correct translation for \logicRmlK{} to subformulas containing refinement quantifiers but not action model operators.
 \end{proof}
 
-\begin{corollary}\label{aaml-k-expressive-equivalence}
-The logic \logicAamlK{} is expressively equivalent to the logic \logicK{}.
+The provably correct translation also implies that \logicRamlK{} is expressively equivalent to \logicK{}.
+
+\begin{corollary}\label{raml-k-expressive-equivalence}
+The logic \logicRamlK{} is expressively equivalent to the logic \logicK{}.
+\end{corollary}
+
+From expressive equivalence we have that \logicRmlK{} is compact and decidable.
+
+\begin{corollary}
+The logic \logicRamlK{} is compact.
 \end{corollary}
 
 \begin{corollary}
-The logic \logicAamlK{} is compact.
+The satisfiability problem for the logic \logicRamlK{} is decidable.
 \end{corollary}
 
-\begin{corollary}
-The satisfiability problem for the logic \logicAamlK{} is decidable.
-\end{corollary}
+We note that most results from \logicAmlK{} and \logicRmlK{} generalise to \logicRamlK{} trivially thanks to a combination of \logicRamlK{} agreeing with \logicAmlK{} and \logicRmlK{} on their respective sublanguages, and the expressive equivalence of \logicRamlK{} and \logicK{}.
+For example, in Chapter~\ref{rml} we showed that \logicRmlK{} has the Church-Rosser property; that is, $\entails_\logicRmlK \allrefsBs \somerefsBs \phi \implies \somerefsBs \allrefsBs \phi$ for every $\phi \in \langRml$.
+By Lemma~\ref{raml-k-rml} we have $\entails_\logicRamlK \allrefsBs \somerefsBs \phi \implies \somerefsBs \allrefsBs \phi$ for every $\phi \in \langRml$.
+By Corollary~\ref{raml-k-expressive-equivalence} every $\phi \in \langAaml$ has an equivalent $\phi' \in \langMl \subseteq \langRml$.
+Therefore we have $\entails_\logicRamlK \allrefsBs \somerefsBs \phi \implies \somerefsBs \allrefsBs \phi$ for every $\phi \in \langAaml$.
+
+We now move on to our main result, that the action model quantifiers of \logicAamlK{} are equivalent to the refinement quantifiers of \logicRmlK{}.
+We show this equivalence by showing that if there exists a refinement where a given formula is satisfied then we can construct a finite action model that results in that formula being satisfied.
+The converse we have already shown; if there exists a (possibly infinite) action model that results in a given formula being satisfied then by Proposition~\ref{action-models-refinements} the result of executing the action model is itself a refinement, so there exists a refinement where the formula is satisfied.
+
+One way of stating our eventual result is as follows: for every $\phi \in \langAaml$, $\kPModel{\kStateS} \in \classK$ there exists $\aPModel{\aStateS} \in \classAmK$ such that $\kPModel{\kStateS} \entails \somerefs \phi \implies \actionE{\aPModel{\aStateS}} \phi$.
+This statement allows a different action model for each Kripke model in order to result in the given formula.
+We actually show a stronger result: for every $\phi \in \langAaml$ there exists $\aPModel{\aStateS} \in \classAmK$ such that $\entails \actionA{\aPModel{\aStateS}} \phi$ and $\entails \actionE{\aPModel{\aStateS}} \phi \iff \somerefs \phi$.
+This statement requires that there be a single action model that will result in the given formula for every Kripke model.
+This allows us to use such action models in settings such as the proof theory where formulas are not interpreted with respect to just a single Kripke model.
+
+We show our result using an inductive construction for a given formula.
+Our construction is very similar to the constructions used to show the soundness of the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} in \logicRmlK{}.
+We reuse the disjunctive normal form we used for \logicRmlK{}, and we separate our inductive steps into two lemmas for each syntactic case from the disjunctive normal form.
+
+We first show the case where the given formula is a disjunction.
 
 \begin{lemma}\label{aaml-k-choice}
 Let $\agentsB \subseteq \agents$, 
@@ -88,6 +141,8 @@ Then there exists $\aStateS \in \aStatesT$ such that $\kPModel{\kStateS} \entail
 From above, $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}$, so $\kPModel{\kStateS} \entails \someactsBs \phi$.
 Therefore $\entails \actionE{\aPModel{\aStatesT}} \phi \implies \someactsBs \phi$.
 \end{proof}
+
+We next show the case where the given formula is a conjunction of a propositional formula and cover operators.
 
 \begin{lemma}\label{aaml-k-covers}
 Let $\agentsB, \agentsC \subseteq \agents$, 
@@ -288,8 +343,9 @@ Let $\kStateUP \in \kSuccessorsPA{\kStateTP}$.
 By {\bf back-$\agentA$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $(\kStateU, \kStateUP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
 
 Therefore $\refinement$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
-
 \end{proof}
+
+We combine the two previous lemmas into an inductive construction that works for all formulas.
 
 \begin{theorem}\label{aaml-k-synthesis}
 Let $\agentsB \subseteq \agents$ and let $\phi \in \langAaml$.
@@ -300,7 +356,7 @@ for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPMode
 \end{theorem}
 
 \begin{proof}
-Without loss of generality, by Corollary~\ref{aaml-k-expressive-equivalence} we may assume that $\phi \in \langMl$ and by Lemma~\ref{dnf-equivalent} we may further assume that $\phi$ is in disjunctive normal form.
+Without loss of generality, by Corollary~\ref{raml-k-expressive-equivalence} we may assume that $\phi \in \langMl$ and by Lemma~\ref{dnf-equivalent} we may further assume that $\phi$ is in disjunctive normal form.
 Then we proceed by induction on the structure of $\phi$.  
 Suppose that $\phi = \pi \land \bigwedge_{\agentC \in \agentsC} \Gamma_\agentC$ where $\pi \in \langPl$, $\agentsC \subseteq \agents$ and for every $\agentC \in \agentsC$, $\Gamma_\agentC \subseteq \langMl$ is a finite set of modal formulas.
 We note that the base case for the induction occurs when for every $\agentC \in \agentsC$, $\Gamma_\agentC = \emptyset$.
@@ -329,32 +385,35 @@ $\entails \actionE{\aPModel{\aStateS}} \phi \iff \someactsBs \phi$, and
 for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{proof}
 
-\begin{corollary}\label{aaml-k-semantics-equivalent}
-The semantics of \logicAamlK{} as defined in Definition~\ref{aaml-semantics} and the alternative semantics of Definition~\ref{aaml-semantics-alt} are equivalent.
-\end{corollary}
+Given this result we can show that the logics \logicAamlK{} and \logicRamlK{} agree on all \langAaml{} formulas.
+
+\begin{theorem}\label{aaml-k-semantics-equivalent}
+The semantics of \logicAamlK{} and the semantics of \logicRamlK{} agree on all formulas of \langAaml{}.
+That is, for every $\phi \in \langAaml$, $\kPModel{\kStateS} \in \classK$: $\kPModel{\kStateS} \entails_\logicAamlK \phi$ if and only if $\kPModel{\kStateS} \entails_\logicAamlK \phi$.
+\end{theorem}
 
 \begin{proof}
-For convenience we will use the notation $\kPModel{\kStateS} \entails_\exec \phi$ to denote that $\kPModel{\kStateS} \entails \phi$ according to the semantics of Definition~\ref{aaml-semantics} and the notation $\kPModel{\kStateS} \entails_{\simulates} \phi$ to denote that $\kPModel{\kStateS} \entails \phi$ according to the semantics of Definition~\ref{aaml-semantics-alt}.
-
 Let $\phi \in \langAaml$.
-We show by induction on the structure of $\phi$ that for every $\kPModel{\kStateS} \in \classK$, $\kPModel{\kStateS} \entails_\exec \phi$ if and only $\kPModel{\kStateS} \entails_{\simulates} \phi$.
-The cases where $\phi = \atomP$, $\phi = \lnot \psi$,  $\phi = \psi \land \chi$, $\phi = \necessaryA \psi$ or $\phi = \actionA{\aPModel{\aStateS}} \psi$ where $\atomP \in \atoms$ and $\psi, \chi \in \langAaml$ are straight-forward as these cases are handled identically for the two definitions of the semantics.
+We show by induction on the structure of $\phi$ that for every $\kPModel{\kStateS} \in \classK$, $\kPModel{\kStateS} \entails_\logicAamlK \phi$ if and only $\kPModel{\kStateS} \entails_\logicRamlK \phi$.
+The cases where $\phi = \atomP$, $\phi = \lnot \psi$,  $\phi = \psi \land \chi$, $\phi = \necessaryA \psi$ or $\phi = \actionA{\aPModel{\aStateS}} \psi$ where $\atomP \in \atoms$ and $\psi, \chi \in \langAaml$ follow directly from the semantics of \logicAamlK{} and \logicRamlK{}.
 
-Suppose that $\phi = \someactsBs \psi$ where $\psi \in \langAaml$.
+Suppose that $\phi = \someactsBs \psi$ where $\psi \in \langAaml$. 
+We will show that $\kPModel{\kStateS} \entails_\logicAamlK \someactsBs \psi$ if and only if $\kPModel{\kStateS} \entails_\logicRamlK \someactsBs \psi$.
 
-Suppose that $\kPModel{\kStateS} \entails_\exec \someactsBs \psi$.
-Then there exists an action model $\aPModelAndTuple{\aStateS} \in \aSignatureFamily$ such that $\kPModel{\kStateS} \entails_\exec \aPrecondition(\aStateS)$, $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}$, and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_\exec \psi$.
-By the induction hypothesis we have $\kPModel{\kStateS} \entails_{\simulates} \aPrecondition(\aStateS)$ and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_{\simulates} \psi$.
-As $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}$ then $\kPModel{\kStateS} \entails_{\simulates} \someactsBs \psi$.
+Suppose that $\kPModel{\kStateS} \entails_\logicAamlK \someactsBs \psi$.
+Then there exists an action model $\aPModelAndTuple{\aStateS} \in \aSignatureFamily$ such that $\kPModel{\kStateS} \entails_\logicAamlK \aPrecondition(\aStateS)$, $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}$, and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_\logicAamlK \psi$.
+By Lemma~\ref{action-models-refinements} we have $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}$.
+By the induction hypothesis we have $\kPModel{\kStateS} \entails_\logicRamlK \aPrecondition(\aStateS)$ and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_\logicRamlK \psi$.
+Therefore $\kPModel{\kStateS} \entails_\logicRamlK \someactsBs \psi$.
 
-Suppose that $\kPModel{\kStateS} \entails_{\simulates} \someactsBs \psi$.
+Suppose that $\kPModel{\kStateS} \entails_\logicRamlK \someactsBs \psi$.
 From Theorem~\ref{aaml-k-synthesis} there exists an action model $\aPModel{\aStatesT} \in \classAmK$ such that 
-$\entails_{\simulates} \actionA{\aPModel{\aStatesT}} \psi$,
-$\entails_{\simulates} \actionE{\aPModel{\aStatesT}} \psi \iff \someactsBs \psi$, and
-for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails_{\simulates} \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
-Without loss of generality, by Corollary~\ref{aaml-k-expressive-equivalence} we assume that $\aPModel{\aStatesT}$ has preconditions defined on \langMl{}.
-Then $\kPModel{\kStateS} \entails_{\simulates} \actionE{\aPModel{\aStatesT}} \psi$ and so there exists $\aStateT \in \aStatesT$ such that $\kPModel{\kStateS} \entails_{\simulates} \aPrecondition(\aStateT)$, $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$, and $\kPModel{\kStateS} \exec \aPModel{\aStateT} \entails_{\simulates} \psi$.
-As $\aPrecondition(\aStateT) \in \langMl$ then $\kPModel{\kStateS} \entails_{\exec} \aPrecondition(\aStateT)$
-By the induction hypothesis $\kPModel{\kStateS} \exec \aPModel{\aStateT} \entails_{\exec} \psi$.
-Therefore $\kPModel{\kStateS} \entails_\exec \someactsBs \psi$.
+$\entails_\logicRamlK \actionA{\aPModel{\aStatesT}} \psi$,
+$\entails_\logicRamlK \actionE{\aPModel{\aStatesT}} \psi \iff \someactsBs \psi$, and
+for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails_\logicRamlK \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
+Without loss of generality, by Corollary~\ref{raml-k-expressive-equivalence} we assume that $\aPModel{\aStatesT}$ has preconditions defined on \langMl{}.
+Then $\kPModel{\kStateS} \entails_\logicRamlK \actionE{\aPModel{\aStatesT}} \psi$ and so there exists $\aStateT \in \aStatesT$ such that $\kPModel{\kStateS} \entails_\logicRamlK \aPrecondition(\aStateT)$, $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$, and $\kPModel{\kStateS} \exec \aPModel{\aStateT} \entails_\logicRamlK \psi$.
+As $\aPrecondition(\aStateT) \in \langMl$ then $\kPModel{\kStateS} \entails_\logicAamlK \aPrecondition(\aStateT)$
+By the induction hypothesis $\kPModel{\kStateS} \exec \aPModel{\aStateT} \entails_\logicAamlK \psi$.
+Therefore $\kPModel{\kStateS} \entails_\logicAamlK \someactsBs \psi$.
 \end{proof}

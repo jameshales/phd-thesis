@@ -444,6 +444,58 @@ $\entails \actionE{\aPModel{\aStateS}} \phi \iff \someactsBs \phi$, and
 for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{proof}
 
+We give an example of the action models synthesised by the above procedure.
+
+\begin{example}
+Suppose that we want an action model that will result in $\necessaryA \atomP \land \lnot \necessaryB \atomP$ whenever possible.
+We note that $\necessaryA \atomP \land \lnot \necessaryB \atomP$ is equivalent to the disjunctive normal formula $\coversA \emptyset \land \coversB \{\lnot \atomP, \top\} \lor \coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}$.
+Then inductively following the constructions given in Lemma~\ref{aaml-k-choice} and Lemma~\ref{aaml-k-covers} we get the action model $\aPModel{\aStatesT}$ shown in Figure~\ref{aaml-k-example}.
+We note that $\entails \actionA{\aPModel{\aStateT}} (\necessaryA \atomP \land \lnot \necessaryB \atomP)$ and $\entails \somerefs (\necessaryA \atomP \land \lnot \necessaryB \atomP) \implies \actionE{\aPModel{\aStatesT}} (\necessaryA \atomP \land \lnot \necessaryB \atomP)$.
+
+\begin{figure}
+    \caption{An action model $\aPModel{\aStatesT}$ that results in $\necessaryA \atomP \land \lnot \necessaryB \atomP$ whenever possible, produced by our synthesis procedure.}\label{aaml-k-example}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+        \node (left) {\underline{$\someacts (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})$}};
+        \node (ls) [above of=left] {$\top$};
+        \node (lbnp) [left of=ls] {$\someacts \lnot \atomP$};
+        \node (lbt) [left of=lbnp] {$\someacts \top$};
+        \node (lbnps) [above of=lbnp] {$\top$};
+        \node (lbts) [above of=lbt] {$\top$};
+
+        \node (right) [below of=left] {\underline{$\someacts (\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\})$}};
+        \node (rs) [below of=right] {$\top$};
+        \node (rap) [left of=rs] {$\someacts \atomP$};
+        \node (rbnp) [left of=rap] {$\someacts \lnot \atomP$};
+        \node (rbt) [left of=rbnp] {$\someacts \top$};
+        \node (raps) [below of=rap] {$\top$};
+        \node (rbnps) [below of=rbnp] {$\top$};
+        \node (rbts) [below of=rbt] {$\top$};
+
+        \path[every node/.style={font=\sffamily\small},->]
+            (left) edge [swap] node {$\agentB$} (lbnp)
+                  edge [swap] node {$\agentB$} (lbt)
+                  edge [swap] node {$\agents \setminus \{\agentA, \agentB\}$} (ls)
+            (lbnp) edge node {$\agents$} (lbnps)
+            (lbt) edge node {$\agents$} (lbts)
+            (ls) edge [loop above] node {$\agents$} (ls)
+            (lbnps) edge [loop above] node {$\agents$} (lbnps)
+            (lbts) edge [loop above] node {$\agents$} (lbts)
+            (right) edge node {$\agentA$} (rap)
+                  edge node {$\agentB$} (rbnp)
+                  edge node {$\agentB$} (rbt)
+                  edge node {$\agents \setminus \{\agentA, \agentB\}$} (rs)
+            (rap) edge node {$\agents$} (raps)
+            (rbnp) edge node {$\agents$} (rbnps)
+            (rbt) edge node {$\agents$} (rbts)
+            (rs) edge [loop below] node {$\agents$} (rs)
+            (raps) edge [loop below] node {$\agents$} (raps)
+            (rbnps) edge [loop below] node {$\agents$} (rbnps)
+            (rbts) edge [loop below] node {$\agents$} (rbts);
+    \end{tikzpicture}
+\end{figure}
+\end{example}
+
 Given this result we can show that the logics \logicAamlK{} and \logicRamlK{} agree on all \langAaml{} formulas.
 
 \begin{theorem}\label{aaml-k-semantics-equivalent}

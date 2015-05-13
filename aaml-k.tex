@@ -188,12 +188,40 @@ Without loss of generality we assume that each $\aModel[\gamma]$ for every $\age
 We construct the action model $\aPModelAndTuple{\aStateTest}$ where:
 \begin{eqnarray*}
     \aStates &=& \{\aStateTest, \aStateSkip\} \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aStates[\gamma]\\
-    \aAccessibilityA &=& \{(\aStateTest, \aStateT[\gamma]) \mid \gamma \in \Gamma_\agentA, \aStateT[\gamma] \in \aStatesT[\gamma]\} \cup \{(\aStateSkip, \aStateSkip)\} \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aAccessibilityA[\gamma] \text{ for } \agentA \in \agentsC\\
-    \aAccessibilityA &=& \{(\aStateTest, \aStateSkip), (\aStateSkip, \aStateSkip)\} \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aAccessibilityA[\gamma] \text{ for } \agentA \in \agents \setminus \agentsC\\
+    \aAccessibilityC &=& \{(\aStateTest, \aStateT[\gamma]) \mid \gamma \in \Gamma_\agentC, \aStateT[\gamma] \in \aStatesT[\gamma]\} \cup \{(\aStateSkip, \aStateSkip)\} \cup \bigcup_{\agentD \in \agentsC, \gamma \in \Gamma_\agentD} \aAccessibilityC[\gamma]\\
+    \aAccessibilityB &=& \{(\aStateTest, \aStateSkip), (\aStateSkip, \aStateSkip)\} \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aAccessibilityB[\gamma]\\
     \aPrecondition &=& \{(\aStateTest, \someactsBs \phi), (\aStateSkip, \top)\} \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aPrecondition[\gamma]
 \end{eqnarray*}
+where $\agentC \in \agentsC$ and $\agentB \in \agents \setminus \agentsC$.
 
-\todo[inline]{Diagram}
+\begin{figure}
+    \caption{A schematic of the constructed action model.}\label{aaml-k-construction}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+
+    \node (test) {$\someactsBs \phi$};
+    \node (mTd) [below=7em of test] {$\cdots$};
+    \node (mTc1gn) [left=2.5em of mTd] {$\aPModel[\gamma^{\agentC_1}]{\aStatesT[\gamma^{\agentC_1}_1]}$};
+    \node (mTc1d) [left=2.5em of mTc1gn] {$\cdots$};
+    \node (mTc1g1) [left=2.5em of mTc1d] {$\aPModel[\gamma^{\agentC_1}]{\aStatesT[\gamma^{\agentC_1}_{n_1}]}$};
+    \node (mTcmg1) [right=2.5em of mTd] {$\aPModel[\gamma^{\agentC_m}]{\aStatesT[\gamma^{\agentC_m}_1]}$};
+    \node (mTcmd) [right=2.5em of mTcmg1] {$\cdots$};
+    \node (mTcmgn) [right=2.5em of mTcmd] {$\aPModel[\gamma^{\agentC_m}]{\aStatesT[\gamma^{\agentC_m}_{n_m}]}$};
+    \node (skip) [above=7em of test] {$\top$};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (skip) edge [loop right] node {$\agents$} (skip)
+        (test) edge node {$\agentC_1$} (mTc1g1)
+               edge node {$\agentC_1$} (mTc1gn)
+               edge [swap] node {$\agentC_m$} (mTcmg1)
+               edge [swap] node {$\agentC_m$} (mTcmgn)
+               edge node {$\agents \setminus \{\agentC_1, \dots, \agentC_m\}$} (skip);
+    \end{tikzpicture}
+\end{figure}
+
+A schematic of the action model $\aPModel{\aStateTest}$ and an overview of our construction is shown in Figure~\ref{aaml-k-construction}.
+Here we can see that $\aPModel{\aStateTest}$ is formed by taking each action model $\aPModel[\gamma]{\aStatesT[\gamma]}$ for $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$ and combining them into a single model with a new state with the precondition $\someactsBs \phi$.
+This is similar to the construction used to show the soundness of the axiom {\bf RK} in \logicRmlK{}, but it deals with all agents in $\agentsC$ at once, rather than a single agent at a time.
 
 We note for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateS[\gamma] \in \aStates[\gamma]$ that $\aPModel{\aStateS[\gamma]} \bisimilar \aPModel[\gamma]{\aStateS[\gamma]}$, as by construction $\aModel$ contains the disjoint union of each $\aModel[\gamma]$ and no outward-facing edges are added to any state from $\aStates[\gamma]$ in $\aModel$.
 

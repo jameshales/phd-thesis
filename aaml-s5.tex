@@ -131,12 +131,74 @@ We construct the action model $\aPModelAndTuple{\aStateTest}$ where:
 
 We note that by construction $\aModel \in \classAmS$.
 
-\todo[inline]{Diagram}
+\begin{figure}
+    \caption{A schematic of the constructed action model.}\label{aaml-s5-construction}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+
+    \node (test) {$\someactsBs \phi$};
+    \node (skip) [above=7em of test] {$\top$};
+
+    \node (mTPd) [below=7em of test] {$\cdots$};
+    \node (mTPc1gn) [left=2.5em of mTPd] {$\aPModel{\aPStatesT[\agentC_1, \gamma^{\agentC_1}_1]}$};
+    \node (mTPc1d) [left=2.5em of mTPc1gn] {$\cdots$};
+    \node (mTPc1g1) [left=2.5em of mTPc1d] {$\aPModel{\aPStatesT[\agentC_1, \gamma^{\agentC_1}_{n_1}]}$};
+    \node (mTPcmg1) [right=2.5em of mTPd] {$\aPModel{\aPStatesT[\agentC_m, \gamma^{\agentC_m}_1]}$};
+    \node (mTPcmd) [right=2.5em of mTPcmg1] {$\cdots$};
+    \node (mTPcmgn) [right=2.5em of mTPcmd] {$\aPModel{\aPStatesT[\agentC_m, \gamma^{\agentC_m}_{n_m}]}$};
+
+    \node (mTc1gnvd) [below of=mTPc1gn] {$\vdots$};
+    \node (mTc1g1vd) [below of=mTPc1g1] {$\vdots$};
+    \node (mTcmg1vd) [below of=mTPcmg1] {$\vdots$};
+    \node (mTcmgnvd) [below of=mTPcmgn] {$\vdots$};
+    \node (mTdd) [below of=mTPd] {};
+
+    \node (mTd) [below=7em of mTdd] {$\cdots$};
+    \node (mTc1gn) [left=2.5em of mTd] {$\aPModel[\agentC_1, \gamma^{\agentC_1}]{\aStatesT[\agentC_1, \gamma^{\agentC_1}_1]}$};
+    \node (mTc1d) [left=2.5em of mTc1gn] {$\cdots$};
+    \node (mTc1g1) [left=2.5em of mTc1d] {$\aPModel[\agentC_1, \gamma^{\agentC_1}]{\aStatesT[\agentC_1, \gamma^{\agentC_1}_{n_1}]}$};
+    \node (mTcmg1) [right=2.5em of mTd] {$\aPModel[\agentC_m, \gamma^{\agentC_m}]{\aStatesT[\agentC_m, \gamma^{\agentC_m}_1]}$};
+    \node (mTcmd) [right=2.5em of mTcmg1] {$\cdots$};
+    \node (mTcmgn) [right=2.5em of mTcmd] {$\aPModel[\agentC_m, \gamma^{\agentC_m}]{\aStatesT[\agentC_m, \gamma^{\agentC_m}_{n_m}]}$};
+
+      \path[every node/.style={font=\sffamily\small},<->]
+        (skip) edge [loop right] node {$\agents$} (skip)
+        (test) edge node {$\agentC_1$} (mTPc1g1)
+               edge node {$\agentC_1$} (mTPc1gn)
+               edge [swap] node {$\agentC_m$} (mTPcmg1)
+               edge [swap] node {$\agentC_m$} (mTPcmgn)
+               edge node {$\agents \setminus \{\agentC_1, \dots, \agentC_m\}$} (skip)
+               edge [loop right] node {$\agents$} (skip)
+        (mTPc1g1) edge node {$\agents$} (mTc1g1vd)
+                  edge [loop left,distance=1em] node {$\agents$} (mTPc1g1)
+                  edge [<->,bend right] node {$\agentC_1$} (mTPc1gn)
+        (mTPc1gn) edge node {$\agents$} (mTc1gnvd)
+                  edge [loop right,distance=1em] node {$\agents$} (mTPc1gn)
+        (mTPcmg1) edge node {$\agents$} (mTcmg1vd)
+                  edge [loop left,distance=1em] node {$\agents$} (mTPcmg1)
+                  edge [<->,bend right] node {$\agentC_m$} (mTPcmgn)
+        (mTPcmgn) edge node {$\agents$} (mTcmgnvd)
+                  edge [loop right,distance=1em] node {$\agents$} (mTPcmgn)
+        (mTc1g1) edge node {$\agents$} (mTc1g1vd)
+                 edge [loop left,distance=1em] node {$\agents$} (mTc1g1)
+        (mTc1gn) edge node {$\agents$} (mTc1gnvd)
+                 edge [loop right,distance=1em] node {$\agents$} (mTc1gn)
+        (mTcmg1) edge node {$\agents$} (mTcmg1vd)
+                 edge [loop left,distance=1em] node {$\agents$} (mTcmg1)
+        (mTcmgn) edge node {$\agents$} (mTcmgnvd)
+                 edge [loop right,distance=1em] node {$\agents$} (mTcmgn);
+    \end{tikzpicture}
+\end{figure}
+
+A schematic of the action model $\aPModel{\aStateTest}$ and an overview of our construction is shown in Figure~\ref{aaml-s5-construction}.
+This is similar to the construction used to show the soundness of the axiom {\bf S5} in \logicRmlS{}, but it deals with all agents in $\agentsC$ at once, rather than a single agent at a time.
+Here we can see that each of the action models, $\aPModel[\agentC_1,\gamma_1]{\aStatesT[\agentC_1, \gamma_1]}, \dots, \aPModel[\agentC_1,\gamma_{n_1}]{\aStatesT[\agentC_1, \gamma_{n_1}]} \dots \aPModel[\agentC_m,\gamma_1]{\aStatesT[\agentC_m, \gamma_1]}, \dots, \aPModel[\agentC_m,\gamma_{n_m}]{\aStatesT[\agentC_m, \gamma_{n_m}]}$, are combined into the larger action model $\aPModel{\aStateTest}$.
+We can see the use of the proxy states $\aPModel[\agentC_1,\gamma_1]{\aPStatesT[\agentC_1, \gamma_1]}, \dots, \aPModel[\agentC_1,\gamma_{n_1}]{\aPStatesT[\agentC_1, \gamma_{n_1}]} \dots \aPModel[\agentC_m,\gamma_1]{\aPStatesT[\agentC_m, \gamma_1]}, \dots, \aPModel[\agentC_m,\gamma_{n_m}]{\aPStatesT[\agentC_m, \gamma_{n_m}]}$, which have all of the $(\agents \setminus \{\agentC\})$-successors of the respective action models.
+Unlike the construction used for \logicAamlKFF{} the proxy states are {\em not} $(\agents \setminus \{\agentC\})$-bisimilar to the respective original action model states.
+This is because in order to ensure that $\aPModel \in \classS$ the $(\agents \setminus \{\agentC\})$-edges from proxy states to original action model states must be symmetrical.
 
 Unlike the constructions used in \logicAamlK{} and \logicAamlKFF{}, the construction used here does not preserve the bisimilarity of states from each of the action models $\aModel[\agentA, \gamma]$, so we need a different approach to show that $\entails \actionA{\aPModel{\aStateS}} \phi$, and $\entails \actionE{\aPModel{\aStateS}} \phi \iff \someactsBs \phi$.
 There is a parallel here with the different approach used to show the soundness of the axiomatisation of \logicRmlS{} as compared to the approaches used for \logicRmlK{} and \logicRmlKFF{}.
-
-% TODO Show that \aPrecondition(\aStatesT[\agentA, \gamma]) = \someactsBs \gamma
 
 Let $\Delta = \{\delta' \leq \delta \mid \agentC \in \agentsC, \lambda \in \Lambda_\agentC, \delta \in \lambda\}$, as defined in the definition of explicit formulas in Definition~\ref{explicit-formulas}.
 We show by induction on the structure of formulas in $\Delta$, for every $\delta \in \Delta$, $\gamma \in \Gamma_\agentA$ that:

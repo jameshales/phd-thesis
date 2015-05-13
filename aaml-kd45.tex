@@ -191,7 +191,73 @@ We construct the action model $\aPModelAndTuple{\aStateTest}$ where:
 
 We note that by construction $\aModel \in \classAmKFF$.
 
-\todo[inline]{Diagram}
+\begin{figure}
+    \caption{A schematic of the constructed action model.}\label{aaml-k45-construction}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+
+    \node (test) {$\someactsBs \phi$};
+    \node (skip) [above=7em of test] {$\top$};
+
+    \node (mTPd) [below=7em of test] {$\cdots$};
+    \node (mTPc1gn) [left=2.5em of mTPd] {$\aPModel{\aPStatesT[\agentC_1, \gamma^{\agentC_1}_1]}$};
+    \node (mTPc1d) [left=2.5em of mTPc1gn] {$\cdots$};
+    \node (mTPc1g1) [left=2.5em of mTPc1d] {$\aPModel{\aPStatesT[\agentC_1, \gamma^{\agentC_1}_{n_1}]}$};
+    \node (mTPcmg1) [right=2.5em of mTPd] {$\aPModel{\aPStatesT[\agentC_m, \gamma^{\agentC_m}_1]}$};
+    \node (mTPcmd) [right=2.5em of mTPcmg1] {$\cdots$};
+    \node (mTPcmgn) [right=2.5em of mTPcmd] {$\aPModel{\aPStatesT[\agentC_m, \gamma^{\agentC_m}_{n_m}]}$};
+
+    \node (mTc1gnvd) [below of=mTPc1gn] {$\vdots$};
+    \node (mTc1g1vd) [below of=mTPc1g1] {$\vdots$};
+    \node (mTcmg1vd) [below of=mTPcmg1] {$\vdots$};
+    \node (mTcmgnvd) [below of=mTPcmgn] {$\vdots$};
+    \node (mTdd) [below of=mTPd] {};
+
+    \node (mTd) [below=7em of mTdd] {$\cdots$};
+    \node (mTc1gn) [left=2.5em of mTd] {$\aPModel[\agentC_1, \gamma^{\agentC_1}]{\aStatesT[\agentC_1, \gamma^{\agentC_1}_1]}$};
+    \node (mTc1d) [left=2.5em of mTc1gn] {$\cdots$};
+    \node (mTc1g1) [left=2.5em of mTc1d] {$\aPModel[\agentC_1, \gamma^{\agentC_1}]{\aStatesT[\agentC_1, \gamma^{\agentC_1}_{n_1}]}$};
+    \node (mTcmg1) [right=2.5em of mTd] {$\aPModel[\agentC_m, \gamma^{\agentC_m}]{\aStatesT[\agentC_m, \gamma^{\agentC_m}_1]}$};
+    \node (mTcmd) [right=2.5em of mTcmg1] {$\cdots$};
+    \node (mTcmgn) [right=2.5em of mTcmd] {$\aPModel[\agentC_m, \gamma^{\agentC_m}]{\aStatesT[\agentC_m, \gamma^{\agentC_m}_{n_m}]}$};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (skip) edge [loop right] node {$\agents$} (skip)
+        (test) edge node {$\agentC_1$} (mTPc1g1)
+               edge node {$\agentC_1$} (mTPc1gn)
+               edge [swap] node {$\agentC_m$} (mTPcmg1)
+               edge [swap] node {$\agentC_m$} (mTPcmgn)
+               edge node {$\agents \setminus \{\agentC_1, \dots, \agentC_m\}$} (skip)
+        (mTPc1g1) edge node {$\agents \setminus \{\agentC_1\}$} (mTc1g1vd)
+                  edge [loop left,distance=1em] node {$\agentC_1$} (mTPc1g1)
+                  edge [<->,bend right] node {$\agentC_1$} (mTPc1gn)
+        (mTPc1gn) edge node {$\agents \setminus \{\agentC_1\}$} (mTc1gnvd)
+                  edge [loop right,distance=1em] node {$\agentC_1$} (mTPc1gn)
+        (mTPcmg1) edge node {$\agents \setminus \{\agentC_m\}$} (mTcmg1vd)
+                  edge [loop left,distance=1em] node {$\agentC_m$} (mTPcmg1)
+                  edge [<->,bend right] node {$\agentC_m$} (mTPcmgn)
+        (mTPcmgn) edge node {$\agents \setminus \{\agentC_m\}$} (mTcmgnvd)
+                  edge [loop right,distance=1em] node {$\agentC_1$} (mTPcmgn)
+        (mTc1g1) edge node {$\agents \setminus \{\agentC_1\}$} (mTc1g1vd)
+        (mTc1gn) edge node {$\agents \setminus \{\agentC_1\}$} (mTc1gnvd)
+        (mTcmg1) edge node {$\agents \setminus \{\agentC_m\}$} (mTcmg1vd)
+        (mTcmgn) edge node {$\agents \setminus \{\agentC_m\}$} (mTcmgnvd);
+    \end{tikzpicture}
+\end{figure}
+
+We call each state $\aPStateT[\agentC, \gamma]$ a ``proxy state'' for the corresponding state $\aStateT[\agentC, \gamma]$.
+Similar to the construction used to show the soundness of the axiom {\bf RK45} in \logicRmlKFF{} the intention is that each proxy state $\aPStateT[\agentC, \gamma]$ is $(\agents \setminus \{\agentC\})$-bisimilar to the corresponding state $\aStateT[\agentC, \gamma]$.
+In general we cannot have the $\aStateT[\agentC, \gamma]$ states be direct $\agentC$-successors of $\aStateTest$ whilst also having $\aPModel{\aStateT[\agentC, \gamma]} \bisimilar \aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]}$.
+This is because our construction would require additional $\agentC$-edges from the $\aStateT[\agentC, \gamma]$ states in order to satisfy the transitive and Euclidean properties of \classKFF{}.
+We introduce proxy states to act a proxy for the non-$\agentC$-successors of the corresponding refinement state, so that $\aPModel{\aPStateT[\agentC, \gamma]} \bisimilar[(\agents \setminus \{\agentC\})] \aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]}$.
+As each $\gamma$ is a $(\agents \setminus \{\agentC\})$-restricted modal formula, and $(\agents \setminus \{\agentC\})$-bisimilar action models agree on $(\agents \setminus \{\agentC\})$-restricted modal formulas, this is enough to ensure that $\aPModel{\aPStateT[\agentC, \gamma]} \entails \gamma$.
+
+A schematic of the action model $\aPModel{\aStateTest}$ and an overview of our construction is shown in Figure~\ref{aaml-k45-construction}.
+This is similar to the construction used to show the soundness of the axiom {\bf RK45} in \logicRmlKFF{}, but it deals with all agents in $\agentsC$ at once, rather than a single agent at a time.
+Here we can see that each of the action models, $\aPModel[\agentC_1,\gamma_1]{\aStatesT[\agentC_1, \gamma_1]}, \dots, \aPModel[\agentC_1,\gamma_{n_1}]{\aStatesT[\agentC_1, \gamma_{n_1}]} \dots \aPModel[\agentC_m,\gamma_1]{\aStatesT[\agentC_m, \gamma_1]}, \dots, \aPModel[\agentC_m,\gamma_{n_m}]{\aStatesT[\agentC_m, \gamma_{n_m}]}$, are combined into the larger action model $\aPModel{\aStateTest}$.
+We can see the use of the proxy states $\aPModel[\agentC_1,\gamma_1]{\aPStatesT[\agentC_1, \gamma_1]}, \dots, \aPModel[\agentC_1,\gamma_{n_1}]{\aPStatesT[\agentC_1, \gamma_{n_1}]} \dots \aPModel[\agentC_m,\gamma_1]{\aPStatesT[\agentC_m, \gamma_1]}, \dots, \aPModel[\agentC_m,\gamma_{n_m}]{\aPStatesT[\agentC_m, \gamma_{n_m}]}$, which have all of the $(\agents \setminus \{\agentC\})$-successors of the respective action models.
+We note that the proxy states are $(\agents \setminus \{\agentC\})$-bisimilar to the respective action models, and therefore result in the same respective $(\agents \setminus \{\agentC\})$-restricted formulas $\gamma_1, \dots, \gamma_n$.
+We note that the proxy states have additional transitive and Euclidean edges in order to ensure that $\aModel \in \classKFF$, and these additional edges are why the proxy states are not fully bisimilar to the respective action models.
 
 We note for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateS[\agentC, \gamma] \in \aStates[\agentC, \gamma]$ that $\aPModel{\aStateS[\agentC, \gamma]} \bisimilar \aPModel[\agentC, \gamma]{\aStateS[\agentC, \gamma]}$, as by construction $\aModel$ contains the disjoint union of each $\aModel[\agentC, \gamma]$ and no outward-facing edges are added to any state from $\aStates[\agentC, \gamma]$ in $\aModel$.
 

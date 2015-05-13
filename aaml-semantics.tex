@@ -8,7 +8,7 @@ As our main results in \logicAaml{} are to show that the action model quantifier
 For the same reason we use the same syntax for action model quantifiers and refinement quantifiers.
 
 We begin with a definition of the syntax of \logicAaml{}.
-As in action model logic, the syntax of \logicAaml{} is parameterised by a set of action signatures.
+As in action model logic, the syntax of \logicAaml{} is parameterised by a class of Kripke models, \classC{}, and a set of action signatures, \aSignatureFamily{}.
 
 \begin{definition}[Language of arbitrary action model logic]
 Let \aSignatureFamily{} be a non-empty, countable set of action signatures.
@@ -37,7 +37,6 @@ For example, $\agentsB$-refinements can be partially characterised as those Krip
 So an alternative reading of the formula $\allactsBs \phi$ may be ``every action model where only agents in $\agentsB$ learn new information results in $\phi$ becoming true'' and an alternative reading of the formula $\someactsBs \phi$ may be ``some action model where only agents in $\agentsB$ learn new information results in $\phi$ becoming true''.
 
 We define the semantics of \logicAaml{}.
-As in action model logic, the semantics of \logicAaml{} is parameterised by a set of action signatures.
 
 \begin{definition}[Semantics of arbitrary action model logic]
 Let \classC{} be a class of Kripke models and let \aSignatureFamily{} be a non-empty, countable set of action signatures, let $\phi \in \langAaml(\aSignatureFamily)$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
@@ -58,9 +57,10 @@ We are interested in the following variants of arbitrary action model logic:
 
 We note that by Proposition~\ref{action-models-refinements} the result of executing any action model is a $\agents$-refinement, so the action model quantifiers $\allactsAs$ and $\someactsAs$, abbreviated as $\allacts$ and $\someacts$ respectively, correspond to unrestricted action model quantification.
 Given this we can observe that the semantics of the action model quantifiers $\allacts$ and $\someacts$ are defined similarly to the semantics of the public announcement quantifier of \logicApal{}.
-One notable difference is that whilst the public announcement quantifier of \logicApal{} does not quantify over public announcements that themselves contain quantifiers, the action model quantifier of \logicAaml{} makes no such restriction.
-The action model quantifiers of \logicAaml{} quantify over action models that may themselves contain quantifiers in their preconditions.
-As we will show in the following sections, the logics \logicAamlK{}, \logicAamlKFF{}, and \logicAamlS{} are expressively equivalent to their underlying modal logics \logicK{}, \logicKFF{}, and \logicS{} respectively, so any action model containing quantifiers is equivalent to an action model not containing any quantifiers, so a restriction like that from \logicApal{} is unnecessary.
+One notable difference is that whilst \logicApal{} permits public announcements of formulas containing public announcement quantifiers, the public announcement quantifiers do not quantify over public announcements that themselves contain quantifiers, whereas the action model quantifier of \logicAaml{} makes no such restriction.
+We will show in the following sections that such a restriction is unnecessary in the settings that we consider; the logics \logicAamlK{}, \logicAamlKFF{}, and \logicAamlS{} are expressively equivalent to their underlying modal logics, \logicK{}, \logicKFF{}, and \logicS{} respectively, so any action model containing quantifiers is equivalent to an action model without quantifiers.
+
+\todo[inline]{Example of \logicAaml{}}
 
 In the following sections we show that the action model quantifiers of \logicAaml{} are equivalent to the refinement quantifiers of \logicRml{} in the settings of \classK{}, \classKFF{}, and \classS{}.
 We show the equivalence by showing that if there exists a refinement where a given formula is satisfied then we can construct a finite action model that results in that formula being satisfied.

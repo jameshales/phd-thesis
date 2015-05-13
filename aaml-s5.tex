@@ -4,8 +4,8 @@ In this section we consider in greater detail the logic \logicAamlS{} in the set
 The main result of this section is that the action model quantifiers of \logicAamlS{} are equivalent to the refinement quantifiers of \logicRmlS{}.
 We show this equivalence by showing that if there exists a refinement where a given formula is satisfied then we can construct a finite action model that results in that formula being satisfied.
 
-As in the previous sections, we rely heavily on results from action model logic \logicAmlS{} and the refinement modal logic \logicRmlS{}, particularly the axioms from both.
-We use the combined logic \logicRamlS{} so that we can use results from \logicAmlS{} and \logicRmlS{} with a combined syntax, semantics and proof theory.
+As in the previous sections, we rely heavily on results from the action model logic \logicAmlS{} and the refinement modal logic \logicRmlS{}, particularly the axioms from both.
+We use the combined refinement action model logic \logicRamlS{} so that we can use results from \logicAmlS{} and \logicRmlS{} with a combined syntax, semantics and proof theory.
 
 We first note that as the syntax and semantics of \logicRamlS{} are formed by combining the semantics of \logicAmlS{} and \logicRmlS{}, then \logicAmlS{} and \logicRmlS{} agree with \logicRamlS{} on formulas from their respective sublanguages.
 
@@ -23,8 +23,31 @@ These results follow directly from the definitions.
 
 Given this we can give a sound and complete axiomatisation for \logicRamlS{} by combining the axiomatisations for \logicAmlS{} and \logicRmlS{}.
 
-\begin{definition}[Axiomatisation \axiomRamlKFF{}]\label{raml-s5-axiomatisation}
-The axiomatisation \axiomAamlS{} is a substitution schema consisting of the axioms and rules of \axiomAmlS{} and the axioms and rules of \axiomRmlS{}.
+\begin{definition}[Axiomatisation \axiomRamlS{}]\label{raml-s5-axiomatisation}
+The axiomatisation \axiomRamlS{} is a substitution schema consisting of the axioms and rules of \axiomAmlS{} and the axioms and rules of \axiomRmlS{}:
+$$
+\begin{array}{rl}
+    {\bf P}     & \text{All propositional tautologies}\\
+    {\bf K}     & \proves \necessaryA (\phi \implies \psi) \implies (\necessaryA \phi \implies \necessaryA \psi)\\
+    {\bf T}     & \proves \necessaryA \phi \implies \phi\\
+    {\bf 5}     & \proves \possibleA \phi \implies \necessaryA \possibleA \phi\\
+    {\bf AP} & \proves \actionA{\aPModel{\aStateS}} \atomP \iff (\aPrecondition(\aStateS) \implies \atomP)\\
+    {\bf AN} & \proves \actionA{\aPModel{\aStateS}} \lnot \phi \iff (\aPrecondition(\aStateS) \implies \lnot \actionA{\aPModel{\aStateS}} \phi)\\
+    {\bf AC} & \proves \actionA{\aPModel{\aStateS}} (\phi \land \psi) \iff (\actionA{\aPModel{\aStateS}} \phi \land \actionA{\aPModel{\aStateS}} \psi)\\
+    {\bf AK} & \proves \actionA{\aPModel{\aStateS}} \necessaryA \phi \iff (\aPrecondition(\aStateS) \implies \necessaryA \bigwedge_{\aStateT \in \aSuccessorsA{\aStateS}} \actionA{\aPModel{\aStateT}} \phi)\\
+    {\bf AU} & \proves \actionA{\aPModel{\aStatesT}} \phi \iff \bigwedge_{\aStateT \in \aStatesT} \actionA{\aPModel{\aStateT}} \phi\\
+    {\bf R} & \proves \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
+    {\bf RP} & \proves \allrefsBs \pi \iff \pi\\
+    {\bf RS5} & \proves \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA) \iff (\somerefsBs \gamma_0 \land \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma) \text{ where } \agentA \in \agentsB\\
+    {\bf RComm} & \proves \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA) \iff (\somerefsBs \gamma_0 \land \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}) \text{ where } \agentA \notin \agentsB\\
+    {\bf RDist} & \proves \somerefsBs (\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA) \iff \bigwedge_{\agentA \in \agents} \somerefsBs (\gamma_0 \land \coversA \Gamma_\agentA)\\
+    {\bf MP}    & \text{From } \proves \phi \implies \psi \text{ and } \proves \phi \text{ infer } \proves \psi\\
+    {\bf NecK}  & \text{From } \proves \phi \text{ infer } \proves \necessaryA \phi\\
+    {\bf NecA} & \text{From } \proves \phi \text{ infer } \proves \actionA{\aPModel{\aStatesT}} \phi\\
+    {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
+\end{array}
+$$
+where $\phi, \psi \in \langAaml$, $\agentA \in \agents$, $\aPModel{\aStateS} \in \classAmS$, $\atomP \in \atoms$, $\pi \in \langPl$, $\agentsB, \agentsC \subseteq \agents$, $\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA$ is an explicit formula and for every $\agentA \in \agents$, $\gamma_0 \land \coversA \Gamma_\agentA$ is an explicit formula.
 \end{definition}
 
 \begin{lemma}\label{raml-s5-sound-complete}
@@ -58,7 +81,7 @@ We show our result using an inductive construction for a given formula.
 Our construction is based on the construction used for \logicRamlK{} in the previous section, and is very similar to the constructions used to show the soundness of the axioms {\bf RS5}, {\bf RComm}, and {\bf RDist} in \logicRmlS{}.
 We reuse the notion of explicit formulas we used for \logicRmlS{}, and we separate our inductive steps into two lemmas, one for disjunctions of formulas, and another for explicit formulas.
 
-We first show the case where the given formula is a disjunction.
+First, the case where hte given formula is a disjunction is handled exactly as it was for \logicAamlK{}.
 
 \begin{lemma}\label{aaml-s5-choice}
 Let $\agentsB \subseteq \agents$, 
@@ -84,15 +107,15 @@ We next show the case where the given formula is an explicit formula.
 
 \begin{lemma}\label{aaml-s5-covers}
 Let $\agentsB \subseteq \agents$, 
-let $\phi = \gamma_0 \land \bigwedge_{\atomQ \in \atomsQ} \atomQ \land \bigwedge_{\atomQ' \in \atomsQ'} \atomQ' \land \bigwedge_{\agentA \in \agents} \coverA \Gamma_\agentA \in \langMl$ be an explicit formula where $\atomsQ, \atomsQ' \subseteq \atoms$, and 
+let $\phi = \gamma_0 \land \pi \land \bigwedge_{\agentA \in \agents} \coverA \Gamma_\agentA \in \langMl$ be an explicit formula, and 
 for every $\agentA \in \agents$, $\gamma \in \agents$
 let $\aPModelAndTuple[\agentA, \gamma]{\aStatesT[\agentA, \gamma]} \in \classAmS$ be an action model such that 
 $\entails \actionA{\aPModel[\agentA, \gamma]{\aStatesT[\agentA, \gamma]}} \gamma$,
 $\entails \actionE{\aPModel[\agentA, \gamma]{\aStatesT[\agentA, \gamma]}} \gamma \iff \someactsBs \gamma$, and
 for every $\aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]$, $\kPModel{\kStateS} \in \classS$ if $\kPModel{\kStateS} \entails \aPrecondition[\agentA, \gamma](\aStateT[\agentA, \gamma])$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel[\agentA, \gamma]{\aStateT[\agentA, \gamma]}$.
 Then there exists an action model $\aPModel{\aStatesT} \in \classAmS$ such that 
-$\entails \actionA{\aPModel{\aStatesT}} \phi$, and 
-$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
+$\entails \actionA{\aPModel{\aStatesT}} \phi$,
+$\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$, and 
 for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classS$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{lemma}
 
@@ -108,13 +131,15 @@ We construct the action model $\aPModelAndTuple{\aStateTest}$ where:
 
 We note that by construction $\aModel \in \classAmS$.
 
+\todo[inline]{Diagram}
+
 Unlike the constructions used in \logicAamlK{} and \logicAamlKFF{}, the construction used here does not preserve the bisimilarity of states from each of the action models $\aModel[\agentA, \gamma]$, so we need a different approach to show that $\entails \actionA{\aPModel{\aStateS}} \phi$, and $\entails \actionE{\aPModel{\aStateS}} \phi \iff \someactsBs \phi$.
 There is a parallel here with the different approach used to show the soundness of the axiomatisation of \logicRmlS{} as compared to the approaches used for \logicRmlK{} and \logicRmlKFF{}.
 
 % TODO Show that \aPrecondition(\aStatesT[\agentA, \gamma]) = \someactsBs \gamma
 
-Let $\Delta = \{\delta \in \langMl \mid \agentA \in \agents, \gamma \in \Gamma_\agentA, \delta \subseteq \gamma\}$.
-By induction on the structure of formulas in $\Delta$ we show for every $\delta \in \Delta$ that:
+Let $\Delta = \{\delta' \leq \delta \mid \agentC \in \agentsC, \lambda \in \Lambda_\agentC, \delta \in \lambda\}$, as defined in the definition of explicit formulas in Definition~\ref{explicit-formulas}.
+We show by induction on the structure of formulas in $\Delta$, for every $\delta \in \Delta$, $\gamma \in \Gamma_\agentA$ that:
 
 \begin{enumerate}
     \item For every $\agentA \in \agents$: $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \delta \implies \actionA{\aPModel{\aStateTest}} \delta$.
@@ -123,112 +148,131 @@ By induction on the structure of formulas in $\Delta$ we show for every $\delta 
 \end{enumerate}
 
 Let $\delta \in \Delta$, $\agentA \in \agents$, $\gamma \in \Gamma_\agentA$, $\aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]$, and $\aStateS[\agentA, \gamma] \in \aStates[\agentA, \gamma]$.
+We show by cases that the above properties hold:
 
-Suppose that $\delta = \atomP$ where $\atomP \in \atoms$.
+\begin{enumerate}
+    \item We show that $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \delta \implies \actionA{\aPModel{\aStateTest}} \delta$.
 
-By hypothesis $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \gamma_0$, and $\entails \actionE{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \gamma_0 \iff \someactsBs \gamma_0$ and so we have $\entails \actionE{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \top \iff \someactsBs \gamma_0$.
-By {\bf AU} and {\bf AP} we have that $\entails \bigvee_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} \aPrecondition[\agentA, \gamma_0](\aStateT[\agentA, \gamma_0]) \iff \someactsBs \gamma_0$.
-For every $\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]$ by construction $\aPrecondition(\aPStateT[\agentA, \gamma_0]) = \aPrecondition[\agentA, \gamma_0](\aStateT[\agentA, \gamma_0])$ so we have that $\entails \bigvee_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} \aPrecondition(\aPStateT[\agentA, \gamma_0]) \iff \someactsBs \gamma_0$.
-We also have that $\entails \phi \implies \gamma_0$ so $\entails \someactsBs \phi \implies \someactsBs \gamma_0$ and $\entails \someactsBs \phi \implies \bigvee_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} \aPrecondition(\aPStateT[\agentA, \gamma_0])$.
-Then $\entails (\bigvee_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} \aPrecondition(\aPStateT[\agentA, \gamma_0]) \implies \atomP) \implies (\someactsBs \phi \implies \atomP)$.
-By {\bf AP} and {\bf AU} we have that $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \atomP \implies \actionA{\aPModel{\aStateTest}} \atomP $.
+        \begin{description}
+            \item[Case $\delta = \atomP$ where $\atomP \in \atoms$:] \hfill\\
+                By hypothesis $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \gamma_0$, and $\entails \actionE{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \gamma_0 \iff \someactsBs \gamma_0$ and so we have $\entails \actionE{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \top \iff \someactsBs \gamma_0$.
+                By {\bf AU} and {\bf AP} we have that $\entails \bigvee_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} \aPrecondition[\agentA, \gamma_0](\aStateT[\agentA, \gamma_0]) \iff \someactsBs \gamma_0$.
+                For every $\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]$ by construction $\aPrecondition(\aPStateT[\agentA, \gamma_0]) = \aPrecondition[\agentA, \gamma_0](\aStateT[\agentA, \gamma_0])$ so we have that $\entails \bigvee_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} \aPrecondition(\aPStateT[\agentA, \gamma_0]) \iff \someactsBs \gamma_0$.
+                We also have that $\entails \phi \implies \gamma_0$ so $\entails \someactsBs \phi \implies \someactsBs \gamma_0$ and $\entails \someactsBs \phi \implies \bigvee_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} \aPrecondition(\aPStateT[\agentA, \gamma_0])$.
+                Then $\entails (\bigvee_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} \aPrecondition(\aPStateT[\agentA, \gamma_0]) \implies \atomP) \implies (\someactsBs \phi \implies \atomP)$.
+                By {\bf AP} and {\bf AU} we have that $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \atomP \implies \actionA{\aPModel{\aStateTest}} \atomP $.
+            \item[Case $\delta = \lnot \psi$ where $\psi \in \Delta$:] \hfill\\
+                Follows directly from the induction hypothesis.
+            \item[Case $\delta = \psi \land \chi$ where $\psi, \chi \in \Delta$:] \hfill\\
+                Follows directly from the induction hypothesis.
+            \item[Case $\delta = \necessaryA \psi$ where $\psi \in \Delta$:] \hfill\\
+                By {\bf AU} and {\bf AK} we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryA \psi \iff \bigwedge_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} (\aPrecondition(\aPStateT[\agentA, \gamma_0]) \implies \necessaryA \bigwedge_{\aStateU \in \aSuccessorsA{\aPStateT[\agentA, \gamma_0]}} \actionA{\aPModel{\aStateU}} \psi)$.
+                By construction for every $\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]$ we have $\aSuccessorsA{\aPStateT[\agentA, \gamma_0]} = \{\aStateTest\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \aPStatesT[\agentA, \gamma]$ so by {\bf AU} we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryA \psi \iff \bigwedge_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} (\aPrecondition(\aPStateT[\agentA, \gamma_0]) \implies \necessaryA (\actionA{\aPModel{\aStateTest}} \psi \land \bigwedge_{\gamma \in \Gamma_\agentA} \actionA{\aPModel{\aPStatesT[\agentA, \gamma]}} \psi))$.
+                By propositional reasoning we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryA \psi \iff (\bigvee_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} \aPrecondition(\aPStateT[\agentA, \gamma_0]) \implies \necessaryA (\actionA{\aPModel{\aStateTest}} \psi \land \bigwedge_{\gamma \in \Gamma_\agentA} \actionA{\aPModel{\aPStatesT[\agentA, \gamma]}} \psi))$.
+                From above we have $\entails \bigvee_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} \aPrecondition(\aPStateT[\agentA, \gamma_0]) \iff \someactsBs \gamma_0$
+                so $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryA \psi \iff (\someactsBs \gamma_0 \implies \necessaryA (\actionA{\aPModel{\aStateTest}} \psi \land \bigwedge_{\gamma \in \Gamma_\agentA} \actionA{\aPModel{\aPStatesT[\agentA, \gamma]}} \psi))$.
+                By construction $\aSuccessorsA{\aStateTest} = \{\aStateTest\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \aPStatesT[\agentA, \gamma]$ so by {\bf AU} we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryA \psi \iff (\someactsBs \gamma_0 \implies \necessaryA \bigwedge_{\aStateU \in \aSuccessorsA{\aStateTest}} \actionA{\aPModel{\aStateU}} \psi)$.
+                From above $\entails \someactsBs \phi \implies \someactsBs \gamma_0$ and so $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryA \psi \implies (\someactsBs \phi \implies \necessaryA \bigwedge_{\aStateU \in \aSuccessorsA{\aStateTest}} \actionA{\aPModel{\aStateU}} \psi)$
+                By {\bf AK} we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryA \psi \implies \actionA{\aPModel{\aStateTest}} \necessaryA \psi$.
+            \item[Case $\delta = \necessaryC \psi$ where $\agentC \neq \agentA$ and $\psi \in \Delta$:] \hfill\\
+                By {\bf AK} we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition(\aPStateT[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU \in \aSuccessorsC{\aPStateT[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
+                By construction $\aPrecondition(\aPStateT[\agentA, \gamma])= \aPrecondition[\agentA, \gamma](\aStateT[\agentA, \gamma]) = \aPrecondition(\aStateT[\agentA, \gamma])$ so we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition(\aStateT[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU \in \aSuccessorsC{\aPStateT[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
+                By construction $\aSuccessorsC{\aPStateT[\agentA, \gamma]} = \aSuccessorsC{\aStateT[\agentA, \gamma]}$ so we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition(\aStateT[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU \in \aSuccessorsC{\aStateT[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
+                By {\bf AK} we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryC \psi \iff \actionA{\aPModel{\aStateT[\agentA, \gamma]}} \necessaryC \psi$.
+        \end{description}
+    \item We show that $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \delta \iff \actionA{\aPModel{\aStateT[\agentA, \gamma]}} \delta$.
 
-By construction $\aPrecondition(\aPStateT[\agentA, \gamma]) = \aPrecondition[\agentA, \gamma](\aStateT[\agentA, \gamma]) = \aPrecondition(\aStateT[\agentA, \gamma])$ so $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \atomP \iff \actionA{\aPModel{\aStateT[\agentA, \gamma]}} \atomP$ follows trivially from {\bf AP}.
+        \begin{description}
+            \item[Case $\delta = \atomP$ where $\atomP \in \atoms$:] \hfill\\
+                By construction $\aPrecondition(\aPStateT[\agentA, \gamma]) = \aPrecondition[\agentA, \gamma](\aStateT[\agentA, \gamma]) = \aPrecondition(\aStateT[\agentA, \gamma])$ so $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \atomP \iff \actionA{\aPModel{\aStateT[\agentA, \gamma]}} \atomP$ follows trivially from {\bf AP}.
+            \item[Case $\delta = \lnot \psi$ where $\psi \in \Delta$:] \hfill\\
+                Follows directly from the induction hypothesis.
+            \item[Case $\delta = \psi \land \chi$ where $\psi, \chi \in \Delta$:] \hfill\\
+                Follows directly from the induction hypothesis.
+            \item[Case $\delta = \necessaryA \psi$ where $\psi \in \Delta$:] \hfill\\
+                As $\phi$ is an explicit formula then either $\entails \gamma \implies \necessaryA \psi$ or $\entails \gamma \implies \lnot \necessaryA \psi$.
+                Suppose that $\entails \gamma \implies \necessaryA \psi$.
+                By hypothesis $\entails \actionA{\aPModel[\agentA, \gamma]{\aStateT[\agentA, \gamma]}} \gamma$ so we have $\entails \actionA{\aPModel[\agentA, \gamma]{\aStateT[\agentA, \gamma]}} \necessaryA \psi$.
+                By the properties of explicit formulas for every $\gamma' \in \Gamma_\agentA$ we have $\entails \gamma' \implies \psi$.
+                By hypothesis for every $\gamma' \in \Gamma_\agentA$ we have $\entails \actionA{\aPModel[\agentA, \gamma']{\aStatesT[\agentA, \gamma']}} \gamma'$ so we have $\entails \actionA{\aPModel[\agentA, \gamma']{\aStatesT[\agentA, \gamma']}} \psi$.
+                By the induction hypothesis for every $\gamma' \in \Gamma_\agentA$, $\aStateT[\agentA, \gamma'] \in \aStatesT[\agentA, \gamma']$ from
+                $\entails \actionA{\aPModel[\agentA, \gamma']{\aStateT[\agentA, \gamma']}} \psi$ we have
+                $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma']}} \psi$ and so we have
+                $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma']}} \psi$.
+                By the properties of explicit formulas we have $\gamma_0 \in \Gamma_\agentA$, so $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \psi$ and by the induction hypothesis $\entails \actionA{\aPModel{\aStateTest}} \psi$.
+                By {\bf AK} we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition(\aPStateT[\agentA, \gamma]) \implies \necessaryA \bigwedge_{\aStateU \in \aSuccessorsA{\aPStateT[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
+                By construction $\aPrecondition(\aPStateT[\agentA, \gamma]) = \aPrecondition(\aPStateT[\agentA, \gamma])$ so we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition(\aStateT[\agentA, \gamma]) \implies \necessaryA \bigwedge_{\aStateU \in \aSuccessorsA{\aPStateT[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
+                By construction $\aSuccessorsA{\aPStateT[\agentA, \gamma]} = \{\aStateTest\} \cup \bigcup_{\gamma' \in \Gamma_\agentA} \aPStatesT[\agentA, \gamma']$ so by {\bf AU} we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition(\aStateT[\agentA, \gamma]) \implies \necessaryA (\actionA{\aPModel{\aStateTest}} \psi \land \bigwedge_{\gamma' \in \Gamma_\agentA} \actionA{\aPModel{\aPStatesT[\agentA, \gamma']}} \psi))$.
+                From above we have $\entails \actionA{\aPModel{\aStateTest}} \psi$ and for every $\gamma' \in \Gamma_\agentA$ we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma']}} \psi$.
+                Therefore $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryA \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateT[\agentA, \gamma]}} \necessaryA \psi$.
+                Suppose that $\entails \gamma \implies \lnot \necessaryA \psi$.
+                By hypothesis $\entails \actionA{\aPModel[\agentA, \gamma]{\aStatesT[\agentA, \gamma]}} \gamma$ so we have $\entails \lnot \actionA{\aPModel[\agentA, \gamma]{\aStatesT[\agentA, \gamma]}} \necessaryA \psi$.
+                By the properties of explicit formulas there exists $\gamma' \in \Gamma_\agentA$ such that $\entails \gamma' \implies \lnot \psi$.
+                By hypothesis we have $\entails \actionA{\aPModel[\agentA, \gamma']{\aStatesT[\agentA, \gamma']}} \gamma'$ so we have $\entails \actionA{\aPModel[\agentA, \gamma']{\aStatesT[\agentA, \gamma']}} \lnot \psi$.
+                Then for every $\aStateT[\agentA, \gamma'] \in \aStatesT[\agentA, \gamma']$ we have $\entails \lnot \actionA{\aPModel[\agentA, \gamma']{\aStateT[\agentA, \gamma']}} \psi$.
+                For every $\aStateT[\agentA, \gamma'] \in \aStatesT[\agentA, \gamma']$ by the induction hypothesis we have $\entails \actionA{\aPModel[\agentA, \gamma']{\aStateT[\agentA, \gamma']}} \psi \iff \actionA{\aPModel{\aPStateT[\agentA, \gamma']}} \psi$ and so $\entails \lnot \actionA{\aPModel{\aPStateT[\agentA, \gamma']}} \psi$.
+                By {\bf AK} we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition(\aPStateT[\agentA, \gamma]) \implies \necessaryA \bigwedge_{\aStateU \in \aSuccessorsA{\aPStateT[\agentA, \gamma]}}  \actionA{\aPModel{\aStateU}} \psi)$.
+                As $\aPStateT[\agentA, \gamma'] \in \aSuccessorsA{\aPStateT[\agentA, \gamma]}$ and $\entails \lnot \actionA{\aPModel{\aPStateT[\agentA, \gamma']}} \psi$ then $\entails \lnot \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryA \psi$.
+                Therefore $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryA \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateT[\agentA, \gamma]}} \necessaryA \psi$.
+            \item[Case $\delta = \necessaryC \psi$ where $\agentC \neq \agentA$ and $\psi \in \Delta$:] \hfill\\
+                By {\bf AK} we have $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition(\aStateS[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsC{\aStateS[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
+                By construction
+                $\aSuccessorsC{\aStateS[\agentA, \gamma]} = \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}$ or 
+                $\aSuccessorsC{\aStateS[\agentA, \gamma]} = \{\aPStateU[\agentA, \gamma] \mid \aStateU[\agentA, \gamma] \in \aSuccessorsC[\agentA, \gamma]{\aStateT[\agentA, \gamma]} \cap \aStatesT[\agentA, \gamma]\} \cup \aSuccessorsC[\agentA, \gamma]{\aStateT[\agentA, \gamma]}$ where $\aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]$.
+                Suppose that $\aSuccessorsC{\aStateS[\agentA, \gamma]} = \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}$.
+                By construction $\aPrecondition(\aStateS[\agentA, \gamma]) = \aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma])$ so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsC{\aStateS[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
+                From above $\aSuccessorsC{\aStateS[\agentA, \gamma]} = \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}$ so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
+                By the induction hypothesis for every $\aStateU[\agentA, \gamma] \in \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}$ we have $\entails \actionA{\aPModel{\aStateU[\agentA, \gamma]}} \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateU[\agentA, \gamma]}} \psi$ so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \actionA{\aPModel[\agentA, \gamma]{\aStateU[\agentA, \gamma]}} \psi)$.
+                By {\bf AK} we have $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryC \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \necessaryC \psi$.
+                Suppose that $\aSuccessorsC{\aStateS[\agentA, \gamma]} = \{\aPStateU[\agentA, \gamma] \mid \aStateU[\agentA, \gamma] \in \aSuccessorsC[\agentA, \gamma]{\aStateT[\agentA, \gamma]} \cap \aStatesT[\agentA, \gamma]\} \cup \aSuccessorsC[\agentA, \gamma]{\aStateT[\agentA, \gamma]}$ where $\aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]$.
+                By the induction hypothesis for every $\aStateU[\agentA, \gamma] \in \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}$ we have $\entails \actionA{\aPModel{\aStateU[\agentA, \gamma]}} \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateU[\agentA, \gamma]}} \psi$ and if $\aStateU[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]$ we have $\entails \actionA{\aPModel{\aPStateU[\agentA, \gamma]}} \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateU[\agentA, \gamma]}} \psi$, so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \actionA{\aPModel[\agentA, \gamma]{\aStateU[\agentA, \gamma]}} \psi)$.
+                By {\bf AK} we have $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryC \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \necessaryC \psi$.
+        \end{description}
+    \item We show that $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \delta \iff \actionA{\aPModel[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \delta$.
 
-By construction $\aPrecondition(\aStateS[\agentA, \gamma]) = \aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma])$ so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \atomP \iff \actionA{\aPModel[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \delta$ follows trivially from {\bf AP}.
+        \begin{description}
+            \item[Case $\delta = \atomP$ where $\atomP \in \atoms$:] \hfill\\
+                By construction $\aPrecondition(\aStateS[\agentA, \gamma]) = \aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma])$ so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \atomP \iff \actionA{\aPModel[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \delta$ follows trivially from {\bf AP}.
+            \item[Case $\delta = \lnot \psi$ where $\psi \in \Delta$:] \hfill\\
+                Follows directly from the induction hypothesis.
+            \item[Case $\delta = \psi \land \chi$ where $\psi, \chi \in \Delta$:] \hfill\\
+                Follows directly from the induction hypothesis.
+            \item[Case $\delta = \necessaryA \psi$ where $\psi \in \Delta$:] \hfill\\
+                By {\bf AK} we have $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition(\aStateS[\agentA, \gamma]) \implies \necessaryA \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsA{\aStateS[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
+                By construction $\aPrecondition(\aStateS[\agentA, \gamma]) = \aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma])$ so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma]) \implies \necessaryA \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsA{\aStateS[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
+                By construction $\aSuccessorsA{\aStateS[\agentA, \gamma]} = \aSuccessorsA[\agentA, \gamma]{\aStateS[\agentA, \gamma]}$ so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma]) \implies \necessaryA \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsA[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \actionA{\aPModel{\aStateU[\agentA, \gamma]}} \psi)$.
+                By the induction hypothesis for every $\aStateU[\agentA, \gamma] \in \aSuccessorsA[\agentA, \gamma]{\aStateS[\agentA, \gamma]}$ we have $\entails \actionA{\aPModel{\aStateU[\agentA, \gamma]}} \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateU[\agentA, \gamma]}} \psi$ so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma]) \implies \necessaryA \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsA[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \actionA{\aPModel[\agentA, \gamma]{\aStateU[\agentA, \gamma]}} \psi)$.
+                By {\bf AK} we have $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryA \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \necessaryA \psi$.
+            \item[Case $\delta = \necessaryC \psi$ where $\agentC \neq \agentA$ and $\psi \in \Delta$:] \hfill\\
+                As $\phi$ is an explicit formula then either $\entails \gamma_0 \implies \necessaryC \psi$ or $\entails \gamma_0 \implies \lnot \necessaryC \psi$.
+                Suppose that $\entails \gamma_0 \implies \necessaryC \psi$.
+                By hypothesis $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \gamma_0$ 
+                so we have $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi$.
+                From the above cases we have
+                $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi \iff \actionA{\aPModel{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi$, and
+                $\entails \actionA{\aPModel{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi \iff \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryC \psi$, 
+                therefore $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryC \psi$.
+                By hypothesis $\entails \actionA{\aPModel[\agentC, \gamma_0]{\aStatesT[\agentC, \gamma_0]}} \gamma_0$ 
+                so we have $\entails \actionA{\aPModel[\agentC, \gamma_0]{\aStatesT[\agentC, \gamma_0]}} \necessaryC \psi$.
+                From the above cases we have 
+                $\entails \actionA{\aPModel[\agentC, \gamma_0]{\aStatesT[\agentC, \gamma_0]}} \necessaryC \psi \iff \actionA{\aPModel{\aStatesT[\agentC, \gamma_0]}} \necessaryC \psi$, 
+                $\entails \actionA{\aPModel{\aStatesT[\agentC, \gamma_0]}} \necessaryC \psi \iff \actionA{\aPModel{\aPStatesT[\agentC, \gamma_0]}} \necessaryC \psi$, and
+                $\entails \actionA{\aPModel{\aPStatesT[\agentC, \gamma_0]}} \necessaryC \psi \implies \actionA{\aPModel{\aStateTest}} \necessaryC \psi$, 
+                therefore $\entails \actionA{\aPModel{\aStateTest}} \necessaryC \psi$.
+                Therefore $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryC \psi \implies \actionA{\aPModel{\aStateTest}} \necessaryC \psi$.
+                Suppose that $\entails \gamma_0 \implies \lnot \necessaryC \psi$.
+                By hypothesis $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \gamma_0$ 
+                so we have $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \lnot \necessaryC \psi$ and
+                $\entails \lnot \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi$.
+                From the above cases we have
+                $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi \iff \actionA{\aPModel{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi$, and
+                $\entails \actionA{\aPModel{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi \iff \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryC \psi$, 
+                therefore $\entails \lnot \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryC \psi$.
+                Therefore $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryC \psi \implies \actionA{\aPModel{\aStateTest}} \necessaryC \psi$.
+        \end{description}
+\end{enumerate}
 
-Suppose that $\delta = \lnot \psi$ or $\delta = \psi \land \chi$ where $\psi, \chi \in \Delta$.
-These cases follow directly from the induction hypothesis.
-
-Suppose that $\delta = \necessaryA \psi$ where $\psi \in \Delta$.
-
-By {\bf AU} and {\bf AK} we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryA \psi \iff \bigwedge_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} (\aPrecondition(\aPStateT[\agentA, \gamma_0]) \implies \necessaryA \bigwedge_{\aStateU \in \aSuccessorsA{\aPStateT[\agentA, \gamma_0]}} \actionA{\aPModel{\aStateU}} \psi)$.
-By construction for every $\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]$ we have $\aSuccessorsA{\aPStateT[\agentA, \gamma_0]} = \{\aStateTest\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \aPStatesT[\agentA, \gamma]$ so by {\bf AU} we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryA \psi \iff \bigwedge_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} (\aPrecondition(\aPStateT[\agentA, \gamma_0]) \implies \necessaryA (\actionA{\aPModel{\aStateTest}} \psi \land \bigwedge_{\gamma \in \Gamma_\agentA} \actionA{\aPModel{\aPStatesT[\agentA, \gamma]}} \psi))$.
-By propositional reasoning we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryA \psi \iff (\bigvee_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} \aPrecondition(\aPStateT[\agentA, \gamma_0]) \implies \necessaryA (\actionA{\aPModel{\aStateTest}} \psi \land \bigwedge_{\gamma \in \Gamma_\agentA} \actionA{\aPModel{\aPStatesT[\agentA, \gamma]}} \psi))$.
-From above we have $\entails \bigvee_{\aStateT[\agentA, \gamma_0] \in \aStatesT[\agentA, \gamma_0]} \aPrecondition(\aPStateT[\agentA, \gamma_0]) \iff \someactsBs \gamma_0$
-so $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryA \psi \iff (\someactsBs \gamma_0 \implies \necessaryA (\actionA{\aPModel{\aStateTest}} \psi \land \bigwedge_{\gamma \in \Gamma_\agentA} \actionA{\aPModel{\aPStatesT[\agentA, \gamma]}} \psi))$.
-By construction $\aSuccessorsA{\aStateTest} = \{\aStateTest\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \aPStatesT[\agentA, \gamma]$ so by {\bf AU} we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryA \psi \iff (\someactsBs \gamma_0 \implies \necessaryA \bigwedge_{\aStateU \in \aSuccessorsA{\aStateTest}} \actionA{\aPModel{\aStateU}} \psi)$.
-From above $\entails \someactsBs \phi \implies \someactsBs \gamma_0$ and so $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryA \psi \implies (\someactsBs \phi \implies \necessaryA \bigwedge_{\aStateU \in \aSuccessorsA{\aStateTest}} \actionA{\aPModel{\aStateU}} \psi)$
-By {\bf AK} we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryA \psi \implies \actionA{\aPModel{\aStateTest}} \necessaryA \psi$.
-
-As $\phi$ is an explicit formula then either $\entails \gamma \implies \necessaryA \psi$ or $\entails \gamma \implies \lnot \necessaryA \psi$.
-Suppose that $\entails \gamma \implies \necessaryA \psi$.
-By hypothesis $\entails \actionA{\aPModel[\agentA, \gamma]{\aStateT[\agentA, \gamma]}} \gamma$ so we have $\entails \actionA{\aPModel[\agentA, \gamma]{\aStateT[\agentA, \gamma]}} \necessaryA \psi$.
-By the properties of explicit formulas for every $\gamma' \in \Gamma_\agentA$ we have $\entails \gamma' \implies \psi$.
-By hypothesis for every $\gamma' \in \Gamma_\agentA$ we have $\entails \actionA{\aPModel[\agentA, \gamma']{\aStatesT[\agentA, \gamma']}} \gamma'$ so we have $\entails \actionA{\aPModel[\agentA, \gamma']{\aStatesT[\agentA, \gamma']}} \psi$.
-By the induction hypothesis for every $\gamma' \in \Gamma_\agentA$, $\aStateT[\agentA, \gamma'] \in \aStatesT[\agentA, \gamma']$ from
-$\entails \actionA{\aPModel[\agentA, \gamma']{\aStateT[\agentA, \gamma']}} \psi$ we have
-$\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma']}} \psi$ and so we have
-$\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma']}} \psi$.
-By the properties of explicit formulas we have $\gamma_0 \in \Gamma_\agentA$, so $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \psi$ and by the induction hypothesis $\entails \actionA{\aPModel{\aStateTest}} \psi$.
-By {\bf AK} we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition(\aPStateT[\agentA, \gamma]) \implies \necessaryA \bigwedge_{\aStateU \in \aSuccessorsA{\aPStateT[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
-By construction $\aPrecondition(\aPStateT[\agentA, \gamma]) = \aPrecondition(\aPStateT[\agentA, \gamma])$ so we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition(\aStateT[\agentA, \gamma]) \implies \necessaryA \bigwedge_{\aStateU \in \aSuccessorsA{\aPStateT[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
-By construction $\aSuccessorsA{\aPStateT[\agentA, \gamma]} = \{\aStateTest\} \cup \bigcup_{\gamma' \in \Gamma_\agentA} \aPStatesT[\agentA, \gamma']$ so by {\bf AU} we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition(\aStateT[\agentA, \gamma]) \implies \necessaryA (\actionA{\aPModel{\aStateTest}} \psi \land \bigwedge_{\gamma' \in \Gamma_\agentA} \actionA{\aPModel{\aPStatesT[\agentA, \gamma']}} \psi))$.
-From above we have $\entails \actionA{\aPModel{\aStateTest}} \psi$ and for every $\gamma' \in \Gamma_\agentA$ we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma']}} \psi$.
-Therefore $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryA \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateT[\agentA, \gamma]}} \necessaryA \psi$.
-Suppose that $\entails \gamma \implies \lnot \necessaryA \psi$.
-By hypothesis $\entails \actionA{\aPModel[\agentA, \gamma]{\aStatesT[\agentA, \gamma]}} \gamma$ so we have $\entails \lnot \actionA{\aPModel[\agentA, \gamma]{\aStatesT[\agentA, \gamma]}} \necessaryA \psi$.
-By the properties of explicit formulas there exists $\gamma' \in \Gamma_\agentA$ such that $\entails \gamma' \implies \lnot \psi$.
-By hypothesis we have $\entails \actionA{\aPModel[\agentA, \gamma']{\aStatesT[\agentA, \gamma']}} \gamma'$ so we have $\entails \actionA{\aPModel[\agentA, \gamma']{\aStatesT[\agentA, \gamma']}} \lnot \psi$.
-Then for every $\aStateT[\agentA, \gamma'] \in \aStatesT[\agentA, \gamma']$ we have $\entails \lnot \actionA{\aPModel[\agentA, \gamma']{\aStateT[\agentA, \gamma']}} \psi$.
-For every $\aStateT[\agentA, \gamma'] \in \aStatesT[\agentA, \gamma']$ by the induction hypothesis we have $\entails \actionA{\aPModel[\agentA, \gamma']{\aStateT[\agentA, \gamma']}} \psi \iff \actionA{\aPModel{\aPStateT[\agentA, \gamma']}} \psi$ and so $\entails \lnot \actionA{\aPModel{\aPStateT[\agentA, \gamma']}} \psi$.
-By {\bf AK} we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition(\aPStateT[\agentA, \gamma]) \implies \necessaryA \bigwedge_{\aStateU \in \aSuccessorsA{\aPStateT[\agentA, \gamma]}}  \actionA{\aPModel{\aStateU}} \psi)$.
-As $\aPStateT[\agentA, \gamma'] \in \aSuccessorsA{\aPStateT[\agentA, \gamma]}$ and $\entails \lnot \actionA{\aPModel{\aPStateT[\agentA, \gamma']}} \psi$ then $\entails \lnot \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryA \psi$.
-Therefore $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryA \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateT[\agentA, \gamma]}} \necessaryA \psi$.
-
-By {\bf AK} we have $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition(\aStateS[\agentA, \gamma]) \implies \necessaryA \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsA{\aStateS[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
-By construction $\aPrecondition(\aStateS[\agentA, \gamma]) = \aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma])$ so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma]) \implies \necessaryA \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsA{\aStateS[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
-By construction $\aSuccessorsA{\aStateS[\agentA, \gamma]} = \aSuccessorsA[\agentA, \gamma]{\aStateS[\agentA, \gamma]}$ so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma]) \implies \necessaryA \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsA[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \actionA{\aPModel{\aStateU[\agentA, \gamma]}} \psi)$.
-By the induction hypothesis for every $\aStateU[\agentA, \gamma] \in \aSuccessorsA[\agentA, \gamma]{\aStateS[\agentA, \gamma]}$ we have $\entails \actionA{\aPModel{\aStateU[\agentA, \gamma]}} \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateU[\agentA, \gamma]}} \psi$ so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryA \psi \iff (\aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma]) \implies \necessaryA \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsA[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \actionA{\aPModel[\agentA, \gamma]{\aStateU[\agentA, \gamma]}} \psi)$.
-By {\bf AK} we have $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryA \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \necessaryA \psi$.
-
-Suppose that $\delta = \necessaryC \psi$ where $\agentC \neq \agentA$ and $\psi \in \Delta$.
-
-By {\bf AK} we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition(\aPStateT[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU \in \aSuccessorsC{\aPStateT[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
-By construction $\aPrecondition(\aPStateT[\agentA, \gamma])= \aPrecondition[\agentA, \gamma](\aStateT[\agentA, \gamma]) = \aPrecondition(\aStateT[\agentA, \gamma])$ so we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition(\aStateT[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU \in \aSuccessorsC{\aPStateT[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
-By construction $\aSuccessorsC{\aPStateT[\agentA, \gamma]} = \aSuccessorsC{\aStateT[\agentA, \gamma]}$ so we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition(\aStateT[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU \in \aSuccessorsC{\aStateT[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
-By {\bf AK} we have $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \necessaryC \psi \iff \actionA{\aPModel{\aStateT[\agentA, \gamma]}} \necessaryC \psi$.
-
-By {\bf AK} we have $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition(\aStateS[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsC{\aStateS[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
-By construction
-$\aSuccessorsC{\aStateS[\agentA, \gamma]} = \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}$ or 
-$\aSuccessorsC{\aStateS[\agentA, \gamma]} = \{\aPStateU[\agentA, \gamma] \mid \aStateU[\agentA, \gamma] \in \aSuccessorsC[\agentA, \gamma]{\aStateT[\agentA, \gamma]} \cap \aStatesT[\agentA, \gamma]\} \cup \aSuccessorsC[\agentA, \gamma]{\aStateT[\agentA, \gamma]}$ where $\aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]$.
-Suppose that $\aSuccessorsC{\aStateS[\agentA, \gamma]} = \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}$.
-By construction $\aPrecondition(\aStateS[\agentA, \gamma]) = \aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma])$ so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsC{\aStateS[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
-From above $\aSuccessorsC{\aStateS[\agentA, \gamma]} = \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}$ so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \actionA{\aPModel{\aStateU}} \psi)$.
-By the induction hypothesis for every $\aStateU[\agentA, \gamma] \in \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}$ we have $\entails \actionA{\aPModel{\aStateU[\agentA, \gamma]}} \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateU[\agentA, \gamma]}} \psi$ so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \actionA{\aPModel[\agentA, \gamma]{\aStateU[\agentA, \gamma]}} \psi)$.
-By {\bf AK} we have $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryC \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \necessaryC \psi$.
-Suppose that $\aSuccessorsC{\aStateS[\agentA, \gamma]} = \{\aPStateU[\agentA, \gamma] \mid \aStateU[\agentA, \gamma] \in \aSuccessorsC[\agentA, \gamma]{\aStateT[\agentA, \gamma]} \cap \aStatesT[\agentA, \gamma]\} \cup \aSuccessorsC[\agentA, \gamma]{\aStateT[\agentA, \gamma]}$ where $\aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]$.
-By the induction hypothesis for every $\aStateU[\agentA, \gamma] \in \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}$ we have $\entails \actionA{\aPModel{\aStateU[\agentA, \gamma]}} \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateU[\agentA, \gamma]}} \psi$ and if $\aStateU[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]$ we have $\entails \actionA{\aPModel{\aPStateU[\agentA, \gamma]}} \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateU[\agentA, \gamma]}} \psi$, so $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryC \psi \iff (\aPrecondition[\agentA, \gamma](\aStateS[\agentA, \gamma]) \implies \necessaryC \bigwedge_{\aStateU[\agentA, \gamma] \in \aSuccessorsC[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \actionA{\aPModel[\agentA, \gamma]{\aStateU[\agentA, \gamma]}} \psi)$.
-By {\bf AK} we have $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \necessaryC \psi \iff \actionA{\aPModel[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \necessaryC \psi$.
-
-As $\phi$ is an explicit formula then either $\entails \gamma_0 \implies \necessaryC \psi$ or $\entails \gamma_0 \implies \lnot \necessaryC \psi$.
-Suppose that $\entails \gamma_0 \implies \necessaryC \psi$.
-By hypothesis $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \gamma_0$ 
-so we have $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi$.
-From the above cases we have
-$\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi \iff \actionA{\aPModel{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi$, and
-$\entails \actionA{\aPModel{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi \iff \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryC \psi$, 
-therefore $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryC \psi$.
-By hypothesis $\entails \actionA{\aPModel[\agentC, \gamma_0]{\aStatesT[\agentC, \gamma_0]}} \gamma_0$ 
-so we have $\entails \actionA{\aPModel[\agentC, \gamma_0]{\aStatesT[\agentC, \gamma_0]}} \necessaryC \psi$.
-From the above cases we have 
-$\entails \actionA{\aPModel[\agentC, \gamma_0]{\aStatesT[\agentC, \gamma_0]}} \necessaryC \psi \iff \actionA{\aPModel{\aStatesT[\agentC, \gamma_0]}} \necessaryC \psi$, 
-$\entails \actionA{\aPModel{\aStatesT[\agentC, \gamma_0]}} \necessaryC \psi \iff \actionA{\aPModel{\aPStatesT[\agentC, \gamma_0]}} \necessaryC \psi$, and
-$\entails \actionA{\aPModel{\aPStatesT[\agentC, \gamma_0]}} \necessaryC \psi \implies \actionA{\aPModel{\aStateTest}} \necessaryC \psi$, 
-therefore $\entails \actionA{\aPModel{\aStateTest}} \necessaryC \psi$.
-Therefore $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryC \psi \implies \actionA{\aPModel{\aStateTest}} \necessaryC \psi$.
-Suppose that $\entails \gamma_0 \implies \lnot \necessaryC \psi$.
-By hypothesis $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \gamma_0$ 
-so we have $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \lnot \necessaryC \psi$ and
-$\entails \lnot \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi$.
-From the above cases we have
-$\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi \iff \actionA{\aPModel{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi$, and
-$\entails \actionA{\aPModel{\aStatesT[\agentA, \gamma_0]}} \necessaryC \psi \iff \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryC \psi$, 
-therefore $\entails \lnot \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryC \psi$.
-Therefore $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma_0]}} \necessaryC \psi \implies \actionA{\aPModel{\aStateTest}} \necessaryC \psi$.
-
-Therefore for every $\agentA \in \agents$ we have $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \gamma_0 \implies \actionA{\aPModel{\aStateTest}} \gamma_0$ and
+Then for every $\agentA \in \agents$ we have $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \gamma_0 \implies \actionA{\aPModel{\aStateTest}} \gamma_0$ and
 for every $\gamma \in \Gamma_\agentA$ we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma]}} \gamma \iff \actionA{\aPModel[\agentA, \gamma]{\aStatesT[\agentA, \gamma]}} \gamma$.
 By hypothesis we have $\entails \actionA{\aPModel[\agentA, \gamma_0]{\aStatesT[\agentA, \gamma_0]}} \gamma_0$ so from above we have $\entails \actionA{\aPModel{\aStateTest}} \gamma_0$.
 For every $\gamma' \in \Gamma_\agentA$ by hypothesis we have $\entails \actionA{\aPModel[\agentA, \gamma']{\aStatesT[\agentA, \gamma']}} \gamma'$ so from above we have $\entails \actionA{\aPModel{\aPStatesT[\agentA, \gamma']}} \gamma'$.
@@ -256,72 +300,73 @@ We define $\refinement \subseteq \kStates \times \kStatesP$ where:
 \bigcup \{\{(\kStateT, (\kStateT, \aPStateT[\agentA, \gamma]))\} \cup \refinement^{\kStateT, \aStateT[\agentA, \gamma]} \mid \agentA \in \agents, \gamma \in \Gamma_\agentA, \aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma], \kStateT \in \kSuccessorsC{\kStateT}, \kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentA, \gamma])\}
 \end{eqnarray*}
 
-We claim that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{(\kStateS, \aStateTest)}$.
+We show that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{(\kStateS, \aStateTest)}$.
 Let $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentD \in \agents \setminus \agentsB$.
+We show by cases that the relationships in $\refinement$ satisfy the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentD$}, and {\bf back-$\agentA$}.
 
-\paragraph{atoms-$\atomP$}
-Consider $(\kStateT, (\kStateT, \aStateTest)) \in \refinement$ where $\kStateT \in \kStates$ and $\kPModel{\kStateT} \entails \someactsBs \phi$.
-By construction $\kStateS \in \kValuation(\atomP)$ if and only if $(\kStateS, \aStateTest) \in \kValuationP(\atomP)$.
+\begin{description}
+    \item[{Case $(\kStateT, (\kStateT, \aStateTest)) \in \refinement$ where $\kStateT \in \kStates$ and $\kPModel{\kStateT} \entails \someactsBs \phi$:}] \hfill\\
+        \begin{description}
+            \item[atom-$\atomP$]
+                By construction $\kStateS \in \kValuation(\atomP)$ if and only if $(\kStateS, \aStateTest) \in \kValuationP(\atomP)$.
+            \item[forth-$\agentD$]
+                Let $\kStateU \in \kSuccessorsD{\kStateS}$.
+                By construction $\kPModel{\kStateT} \entails \someactsBs \phi$, and in particular $\kPModel{\kStateT} \entails \someactsBs (\gamma_0 \land \coversD \Gamma_\agentD)$.
+                As $\agentD \notin \agentsB$, by the \axiomAamlS{} axiom {\bf RComm} we have that $\kPModel{\kStateT} \entails \someactsBs \gamma_0 \land \coversD \{\someactsBs \gamma' \mid \gamma' \in \Gamma_\agentD\}$ and by the definition of the cover operator we have that $\kPModel{\kStateT} \entails \necessaryD \bigvee_{\gamma' \in \Gamma_\agentD} \someactsBs \gamma'$ so there exists $\gamma' \in \Gamma_\agentD$ such that $\kPModel{\kStateU} \entails \someactsBs \gamma'$.
+                By hypothesis $\entails \someactsBs \gamma' \implies \actionE{\aPModel[\agentD, \gamma']{\aStatesT[\agentD, \gamma']}} \gamma'$ so there exists $\aStateT[\agentD, \gamma'] \in \aStatesT[\agentD, \gamma']$ such that $\kPModel{\kStateU} \entails \aPrecondition[\agentD, \gamma'](\aStateT[\agentD, \gamma'])$.
+                By construction $\aPStateT[\agentD, \gamma'] \in \aSuccessorsD{\aStateTest}$ and $\aPrecondition(\aPStateT[\agentD, \gamma']) = \aPrecondition[\agentD, \gamma'](\aStateT[\agentD, \gamma'])$ so $\kPModel{\kStateU} \entails \aPrecondition(\aPStateT[\agentD, \gamma'])$, $(\kStateU, \aPStateT[\agentD, \gamma']) \in \kSuccessorsPD{(\kStateS, \aStateTest)}$, and $(\kStateU, (\kStateU, \aPStateT[\agentD, \gamma'])) \in \refinement$.
+            \item[back-$\agentA$]
+                Let $(\kStateU, \aPStateT[\agentA, \gamma]) \in \kSuccessorsPA{(\kStateT, \aStateTest)}$ where $\gamma \in \Gamma_\agentA$ and $\aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]$.
+                By construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $\kPModel{\kStateU} \entails \aPrecondition(\aPStateT[\agentA, \gamma])$ so by construction $(\kStateU, (\kStateU, \aPStateT[\agentA, \gamma])) \in \refinement$.
+                Let $(\kStateU, \aStateTest) \in \kSuccessorsPA{(\kStateT, \aStateTest)}$.
+                By construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $\kPModel{\kStateU} \entails \somerefsBs \phi$ so $(\kStateU, (\kStateU, \aStateTest)) \in \refinement$.
+        \end{description}
+    \item[{Case $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma])) \in \refinement$ where $\agentC \in \agents$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$:}] \hfill\\
+        \begin{description}
+            \item[atom-$\atomP$]
+                By construction $\kStateT \in \kValuation(\atomP)$ if and only if $(\kStateT, \aStateT[\agentC, \gamma]) \in \kValuationP(\atomP)$.
+            \item[forth-$\agentD$]
+                Suppose that $\agentD = \agentC$.
+                Let $\kStateU \in \kSuccessorsD{\kStateT}$.
+                As $\kModel \in \classS$ then by transitivity $\kStateU \in \kSuccessorsD{\kStateS}$.
+                By hypothesis $\kPModel{\kStateS} \entails \someactsBs \phi$, and in particular $\kPModel{\kStateS} \entails \someactsBs (\gamma_0 \land \coversD \Gamma_\agentD)$.
+                As $\agentD \notin \agentsB$, by the \axiomAamlS{} axiom {\bf RComm} we have that $\kPModel{\kStateS} \entails \someactsBs \gamma_0 \land \coversD \{\someactsBs \gamma' \mid \gamma' \in \Gamma_\agentD\}$ and by the definition of the cover operator we have that $\kPModel{\kStateS} \entails \necessaryD \bigvee_{\gamma' \in \Gamma_\agentD} \someactsBs \gamma'$ so there exists $\gamma' \in \Gamma_\agentD$ such that $\kPModel{\kStateU} \entails \someactsBs \gamma'$.
+                By hypothesis $\entails \someactsBs \gamma' \implies \actionE{\aPModel[\agentC, \gamma']{\aStatesT[\agentC, \gamma']}} \gamma'$ so there exists $\aStateU[\agentC, \gamma'] \in \aStatesT[\agentC, \gamma']$ such that $\kPModel{\kStateU} \entails \aPrecondition[\agentC, \gamma'](\aStateU[\agentC, \gamma'])$.
+                By construction $\aPStateU[\agentC, \gamma'] \in \aSuccessorsD{\aPStateT[\agentC, \gamma]}$ and $\aPrecondition(\aPStateU[\agentC, \gamma']) = \aPrecondition[\agentC, \gamma'](\aStateU[\agentC, \gamma'])$ so $\kPModel{\kStateU} \entails \aPrecondition(\aPStateU[\agentC, \gamma'])$, $(\kStateU, \aPStateU[\agentC, \gamma']) \in \kSuccessorsPD{(\kStateT, \aPStateT[\agentC, \gamma])}$, and $(\kStateU, (\kStateU, \aPStateU[\agentC, \gamma'])) \in \refinement$.
 
-Consider $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma])) \in \refinement$ where $\agentC \in \agents$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
-By construction $\kStateT \in \kValuation(\atomP)$ if and only if $(\kStateT, \aStateT[\agentC, \gamma]) \in \kValuationP(\atomP)$.
-
-Consider $(\kStateT, (\kStateU, \aStateU)) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agents$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
-From {\bf atoms-$\atomP$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ we have that $\kStateT \in \kValuation(\atomP)$ if and only if $(\kStateU, \aStateU) \in \kValuation[\agentC, \gamma](\atomP)$.
-By construction $(\kStateU, \aStateU) \in \kValuation[\agentC, \gamma](\atomP)$ if and only if $\kStateU \in \kValuation(\atomP)$ if and only if $(\kStateU, \aStateU) \in \kValuationP(\atomP)$.
-
-\paragraph{forth-$\agentD$}
-Consider $(\kStateT, (\kStateT, \aStateTest)) \in \refinement$ where $\kStateT \in \kStates$ and $\kPModel{\kStateT} \entails \someactsBs \phi$.
-Let $\kStateU \in \kSuccessorsD{\kStateS}$.
-By construction $\kPModel{\kStateT} \entails \someactsBs \phi$, and in particular $\kPModel{\kStateT} \entails \someactsBs (\gamma_0 \land \coversD \Gamma_\agentD)$.
-As $\agentD \notin \agentsB$, by the \axiomAamlS{} axiom {\bf RComm} we have that $\kPModel{\kStateT} \entails \someactsBs \gamma_0 \land \coversD \{\someactsBs \gamma' \mid \gamma' \in \Gamma_\agentD\}$ and by the definition of the cover operator we have that $\kPModel{\kStateT} \entails \necessaryD \bigvee_{\gamma' \in \Gamma_\agentD} \someactsBs \gamma'$ so there exists $\gamma' \in \Gamma_\agentD$ such that $\kPModel{\kStateU} \entails \someactsBs \gamma'$.
-By hypothesis $\entails \someactsBs \gamma' \implies \actionE{\aPModel[\agentD, \gamma']{\aStatesT[\agentD, \gamma']}} \gamma'$ so there exists $\aStateT[\agentD, \gamma'] \in \aStatesT[\agentD, \gamma']$ such that $\kPModel{\kStateU} \entails \aPrecondition[\agentD, \gamma'](\aStateT[\agentD, \gamma'])$.
-By construction $\aPStateT[\agentD, \gamma'] \in \aSuccessorsD{\aStateTest}$ and $\aPrecondition(\aPStateT[\agentD, \gamma']) = \aPrecondition[\agentD, \gamma'](\aStateT[\agentD, \gamma'])$ so $\kPModel{\kStateU} \entails \aPrecondition(\aPStateT[\agentD, \gamma'])$, $(\kStateU, \aPStateT[\agentD, \gamma']) \in \kSuccessorsPD{(\kStateS, \aStateTest)}$, and $(\kStateU, (\kStateU, \aPStateT[\agentD, \gamma'])) \in \refinement$.
-
-Consider $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma])) \in \refinement$ where $\agentC \in \agents$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
-Suppose that $\agentD = \agentC$.
-Let $\kStateU \in \kSuccessorsD{\kStateT}$.
-As $\kModel \in \classS$ then by transitivity $\kStateU \in \kSuccessorsD{\kStateS}$.
-By hypothesis $\kPModel{\kStateS} \entails \someactsBs \phi$, and in particular $\kPModel{\kStateS} \entails \someactsBs (\gamma_0 \land \coversD \Gamma_\agentD)$.
-As $\agentD \notin \agentsB$, by the \axiomAamlS{} axiom {\bf RComm} we have that $\kPModel{\kStateS} \entails \someactsBs \gamma_0 \land \coversD \{\someactsBs \gamma' \mid \gamma' \in \Gamma_\agentD\}$ and by the definition of the cover operator we have that $\kPModel{\kStateS} \entails \necessaryD \bigvee_{\gamma' \in \Gamma_\agentD} \someactsBs \gamma'$ so there exists $\gamma' \in \Gamma_\agentD$ such that $\kPModel{\kStateU} \entails \someactsBs \gamma'$.
-By hypothesis $\entails \someactsBs \gamma' \implies \actionE{\aPModel[\agentC, \gamma']{\aStatesT[\agentC, \gamma']}} \gamma'$ so there exists $\aStateU[\agentC, \gamma'] \in \aStatesT[\agentC, \gamma']$ such that $\kPModel{\kStateU} \entails \aPrecondition[\agentC, \gamma'](\aStateU[\agentC, \gamma'])$.
-By construction $\aPStateU[\agentC, \gamma'] \in \aSuccessorsD{\aPStateT[\agentC, \gamma]}$ and $\aPrecondition(\aPStateU[\agentC, \gamma']) = \aPrecondition[\agentC, \gamma'](\aStateU[\agentC, \gamma'])$ so $\kPModel{\kStateU} \entails \aPrecondition(\aPStateU[\agentC, \gamma'])$, $(\kStateU, \aPStateU[\agentC, \gamma']) \in \kSuccessorsPD{(\kStateT, \aPStateT[\agentC, \gamma])}$, and $(\kStateU, (\kStateU, \aPStateU[\agentC, \gamma'])) \in \refinement$.
-Suppose that $\agentD \neq \agentC$.
-Let $\kStateU \in \kSuccessorsD{\kStateT}$.
-As $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$ then by hypothesis $(\kStateT, (\kStateT, \aStateT[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]}$.
-By {\bf forth-$\agentD$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $(\kStateV, \aStateV[\agentC, \gamma]) \in \kSuccessorsPD{(\kStateT, \aStateT[\agentC, \gamma])} = \kSuccessorsPD{(\kStateT, \aPStateT[\agentC, \gamma])}$ such that $(\kStateU, (\kStateV, \aStateV[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
-
-Consider $(\kStateT, \kStateTP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agents$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
-Let $\kStateU \in \kSuccessorsD{\kStateT}$.
-By {\bf forth-$\agentD$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $(\kStateV, \aStateV) \in \kSuccessorsD[\agentC, \gamma]{\kStateTP}$ such that $(\kStateU, (\kStateV, \aStateV)) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
-By construction $\aStateV \in \aSuccessorsD[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \subseteq \aSuccessorsPD{\aStateT[\agentC, \gamma]}$ so $(\kStateV, \aStateV) \in \kSuccessorsPD{\kStateTP}$.
-
-\paragraph{back-$\agentA$}
-Consider $(\kStateT, (\kStateT, \aStateTest)) \in \refinement$ where $\kStateT \in \kStates$ and $\kPModel{\kStateT} \entails \someactsBs \phi$.
-Let $(\kStateU, \aPStateT[\agentA, \gamma]) \in \kSuccessorsPA{(\kStateT, \aStateTest)}$ where $\gamma \in \Gamma_\agentA$ and $\aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]$.
-By construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $\kPModel{\kStateU} \entails \aPrecondition(\aPStateT[\agentA, \gamma])$ so by construction $(\kStateU, (\kStateU, \aPStateT[\agentA, \gamma])) \in \refinement$.
-Let $(\kStateU, \aStateTest) \in \kSuccessorsPA{(\kStateT, \aStateTest)}$.
-By construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $\kPModel{\kStateU} \entails \somerefsBs \phi$ so $(\kStateU, (\kStateU, \aStateTest)) \in \refinement$.
-
-Consider $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma])) \in \refinement$ where $\agentC \in \agents$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
-Let $(\kStateU, \aPStateU[\agentC, \gamma']) \in \kSuccessorsPA{(\kStateT, \aPStateT[\agentC, \gamma])}$ where $\gamma' \in \Gamma_\agentC$ and $\aPStateU[\agentC, \gamma'] \in \aStatesT[\agentC, \gamma']$.
-As $\kModel \in \classS$ then by transitivity $\kStateU \in \kSuccessorsD{\kStateS}$.
-As $(\kStateU, \aPStateU[\agentC, \gamma']) \in \kStatesP$ then $\kPModel{\kStateU} \entails \aPrecondition(\aPStateU[\agentC, \gamma'])$ so by construction $(\kStateU, (\kStateU, \aPStateU[\agentC, \gamma'])) \in \refinement$.
-Let $(\kStateU, \aStateTest) \in \kSuccessorsPA{(\kStateT, \aPStateT[\agentC, \gamma])}$.
-By construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $\kPModel{\kStateU} \entails \somerefsBs \phi$ so $(\kStateU, (\kStateU, \aStateTest)) \in \refinement$.
-
-Consider $(\kStateT, (\kStateU, \aStateU[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agents$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$.
-Let $(\kStateV, \aStateV) \in \kSuccessorsPA{\kStateTP}$.
-By construction
-$\aSuccessorsA{\aStateU[\agentC, \gamma]} = \aSuccessorsA[\agentC, \gamma]{\aStateU[\agentC, \gamma]}$ or 
-$\aSuccessorsA{\aStateU[\agentC, \gamma]} = \{\aPStateV[\agentC, \gamma] \mid \aStateV[\agentC, \gamma] \in \aSuccessorsA[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \cap \aStatesT[\agentC, \gamma]\} \cup \aSuccessorsA[\agentC, \gamma]{\aStateT[\agentC, \gamma]}$ where $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$.
-Suppose that $\aStateV \in \aSuccessorsA[\agentC, \gamma]{\aStateU[\agentC, \gamma]}$.
-By {\bf back-$\agentA$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $(\kStateU, \kStateUP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
-Suppose that $\aStateV \in \{\aPStateV[\agentC, \gamma] \mid \aStateV[\agentC, \gamma] \in \aSuccessorsA[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \cap \aStatesT[\agentC, \gamma]\}$ where $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$.
-By construction $\kStateV \in \kSuccessorsA{\kStateT}$ and $\kPModel{\kStateV} \entails \aPrecondition(\aStateV)$ so $(\kStateV, (\kStateV, \aStateV)) \in \refinement$.
+                Suppose that $\agentD \neq \agentC$.
+                Let $\kStateU \in \kSuccessorsD{\kStateT}$.
+                As $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$ then by hypothesis $(\kStateT, (\kStateT, \aStateT[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]}$.
+                By {\bf forth-$\agentD$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $(\kStateV, \aStateV[\agentC, \gamma]) \in \kSuccessorsPD{(\kStateT, \aStateT[\agentC, \gamma])} = \kSuccessorsPD{(\kStateT, \aPStateT[\agentC, \gamma])}$ such that $(\kStateU, (\kStateV, \aStateV[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
+            \item[back-$\agentA$]
+                Let $(\kStateU, \aPStateU[\agentC, \gamma']) \in \kSuccessorsPA{(\kStateT, \aPStateT[\agentC, \gamma])}$ where $\gamma' \in \Gamma_\agentC$ and $\aPStateU[\agentC, \gamma'] \in \aStatesT[\agentC, \gamma']$.
+                As $\kModel \in \classS$ then by transitivity $\kStateU \in \kSuccessorsD{\kStateS}$.
+                As $(\kStateU, \aPStateU[\agentC, \gamma']) \in \kStatesP$ then $\kPModel{\kStateU} \entails \aPrecondition(\aPStateU[\agentC, \gamma'])$ so by construction $(\kStateU, (\kStateU, \aPStateU[\agentC, \gamma'])) \in \refinement$.
+                Let $(\kStateU, \aStateTest) \in \kSuccessorsPA{(\kStateT, \aPStateT[\agentC, \gamma])}$.
+                By construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $\kPModel{\kStateU} \entails \somerefsBs \phi$ so $(\kStateU, (\kStateU, \aStateTest)) \in \refinement$.
+        \end{description}
+    \item[{Case $(\kStateT, (\kStateU, \aStateU)) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agents$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$:}] \hfill\\
+        \begin{description}
+            \item[atom-$\atomP$]
+                From {\bf atoms-$\atomP$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ we have that $\kStateT \in \kValuation(\atomP)$ if and only if $(\kStateU, \aStateU) \in \kValuation[\agentC, \gamma](\atomP)$.
+                By construction $(\kStateU, \aStateU) \in \kValuation[\agentC, \gamma](\atomP)$ if and only if $\kStateU \in \kValuation(\atomP)$ if and only if $(\kStateU, \aStateU) \in \kValuationP(\atomP)$.
+            \item[forth-$\agentD$]
+                Let $\kStateU \in \kSuccessorsD{\kStateT}$.
+                By {\bf forth-$\agentD$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $(\kStateV, \aStateV) \in \kSuccessorsD[\agentC, \gamma]{\kStateTP}$ such that $(\kStateU, (\kStateV, \aStateV)) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
+                By construction $\aStateV \in \aSuccessorsD[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \subseteq \aSuccessorsPD{\aStateT[\agentC, \gamma]}$ so $(\kStateV, \aStateV) \in \kSuccessorsPD{\kStateTP}$.
+            \item[back-$\agentA$]
+                Let $(\kStateV, \aStateV) \in \kSuccessorsPA{\kStateTP}$.
+                By construction
+                $\aSuccessorsA{\aStateU[\agentC, \gamma]} = \aSuccessorsA[\agentC, \gamma]{\aStateU[\agentC, \gamma]}$ or 
+                $\aSuccessorsA{\aStateU[\agentC, \gamma]} = \{\aPStateV[\agentC, \gamma] \mid \aStateV[\agentC, \gamma] \in \aSuccessorsA[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \cap \aStatesT[\agentC, \gamma]\} \cup \aSuccessorsA[\agentC, \gamma]{\aStateT[\agentC, \gamma]}$ where $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$.
+                Suppose that $\aStateV \in \aSuccessorsA[\agentC, \gamma]{\aStateU[\agentC, \gamma]}$.
+                By {\bf back-$\agentA$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $(\kStateU, \kStateUP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
+                Suppose that $\aStateV \in \{\aPStateV[\agentC, \gamma] \mid \aStateV[\agentC, \gamma] \in \aSuccessorsA[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \cap \aStatesT[\agentC, \gamma]\}$ where $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$.
+                By construction $\kStateV \in \kSuccessorsA{\kStateT}$ and $\kPModel{\kStateV} \entails \aPrecondition(\aStateV)$ so $(\kStateV, (\kStateV, \aStateV)) \in \refinement$.
+        \end{description}
+\end{description}
 
 Therefore $\refinement$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
-
 \end{proof}
 
 \begin{theorem}\label{aaml-s5-synthesis}
@@ -346,3 +391,31 @@ That is, for every $\phi \in \langAaml$, $\kPModel{\kStateS} \in \classS$: $\kPM
 \begin{proof}
 We use the same reasoning used to show the analogous result for \logicAamlK{}, in Theorem~\ref{aaml-k-semantics-equivalent}, using Theorem~\ref{aaml-s5-synthesis} in place of the analogous Theorem~\ref{aaml-k-synthesis}.
 \end{proof}
+
+As a consequence of the equivalence between \logicAamlS{} and \logicRamlS{}, we get as corollaries all of the results that we have previously shown for \logicRamlS{}.
+
+\begin{corollary}
+The logics \logicAamlS{} and \logicAmlS{} agree on all formulas of \langAml{}.
+That is, for every $\phi \in \langAml$, $\kPModel{\kStateS} \in \classK$: $\kPModel{\kStateS} \entails_\logicAamlK \phi$ if and only if $\kPModel{\kStateS} \entails_\logicAmlK \phi$.
+\end{corollary}
+
+\begin{corollary}
+The logics \logicAamlS{} and \logicRmlS{} agree on all formulas of \langRml{}.
+That is, for every $\phi \in \langRml$, $\kPModel{\kStateS} \in \classK$: $\kPModel{\kStateS} \entails_\logicAamlK \phi$ if and only if $\kPModel{\kStateS} \entails_\logicRmlK \phi$.
+\end{corollary}
+
+\begin{corollary}
+The axiomatisation \axiomRamlS{} is sound and strongly complete with respect to the semantics of the logic \logicAamlS{}.
+\end{corollary}
+
+\begin{corollary}
+The logic \logicAamlS{} is expressively equivalent to the logic \logicS{}.
+\end{corollary}
+
+\begin{corollary}
+The logic \logicAamlS{} is compact.
+\end{corollary}
+
+\begin{corollary}
+The satisfiability problem for the logic \logicAamlS{} is decidable.
+\end{corollary}

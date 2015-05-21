@@ -1,3 +1,72 @@
 \chapter{Bisimulation quantified modal logic}\label{bqml}
 
-\todo[inline]{Semantics of BQML}
+In this appendix we define the syntax and semantics of the bisimulation quantified modal logic of Ghilardi and Zawadowski~\cite{ghilardi:2002}, and Visser~\cite{visser:1996}.
+The bisimulation quantified modal logic extends modal logic with quantifiers over the pointed Kripke models that are bisimilar to the currently considered Kripke model, except for the valuation of a propositional atom.
+We use the bisimulation quantified modal logic in Chapter~\ref{rml-k4} to show that the refinement modal logic \logicRmlKF{} is non-strictly less expressive than the bisimulation quantified modal logic \logicBqmlKF{}.
+The proof of this result relies only on the semantics of the bisimulation quantified modal logic.
+We also note that \logicRmlKF{} is decidable as a consequence of the decidability of \logicBqmlKF{}.
+
+We first define the notion of bisimulation used by bisimulation quantified modal logic.
+This is essentially the same as the standard definition of bisimulation, except that the condition {\bf atoms} is relaxed for a designated propositional atom.
+
+\begin{definition}[$\atomP$-bisimulation]
+Let $\kModelAndTuple$ and $\kModelAndTupleP$ be Kripke models, and let $\atomP \in \atoms$ be a propositional atom.
+A non-empty relation $\bisimulation \subseteq \kStates \times \kStatesP$ is a {\em $\atomP$-bisimulation} if and only if for every $\atomQ \in \atoms \setminus \{\atomP\}$, $\agentA \in \agents$ and $(\kStateS, \kStateSP) \in \bisimulation$ the following conditions, {\bf atoms-$\atomQ$}, {\bf forth-$\agentA$} and {\bf back-$\agentA$} holds:
+
+\paragraph{atoms-$\atomQ$}
+$\kStateS \in \kValuation(\atomQ)$ if and only if $\kStateSP \in \kValuationP(\atomQ)$.
+
+\paragraph{forth-$\agentA$}
+For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $(\kStateT, \kStateTP) \in \bisimulation$.
+
+\paragraph{back-$\agentA$}
+For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTP) \in \bisimulation$.
+
+If there exists a $\atomP$-bisimulation $\bisimulation$ such that $(\kStateS, \kStateSP) \in \bisimulation$ then we say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $\atomP$-bisimilar} and we denote this by $\kPModel{\kStateS} \bisimilar[\atomP] \kPModelP{\kStateSP}$.
+\end{definition}
+
+We define the syntax of bisimulation quantified modal logic.
+
+\begin{definition}[Language of bisimulation quantified modal logic]
+The {\em language of bisimulation quantified modal logic}, \langBqml{}, is defined inductively as:
+$$
+\phi ::= 
+    \atomP \mid
+    \varX \mid
+    \lnot \phi \mid
+    \phi \land \phi \mid
+    \necessaryA \phi \mid
+    \allbisimsP \phi
+$$
+where $\atomP \in \atoms$, and $\agentA \in \agents$.
+\end{definition}
+
+We use all of the standard abbreviations from modal logic, in addition to the abbreviation $\somebisimsP \phi ::= \lnot \allbisimsP \lnot \phi$.
+
+The formula $\allbisimsP \phi$ may be read as ``in every $\atomP$-bisimilar Kripke model $\phi$ is true'' and the formula $\somerefsBs \phi$ may be read as ``in some $\atomP$-bisimilar Kripke model $\phi$ is true''.
+
+We now define the semantics of the bisimulation quantified modal logic.
+The semantics are defined in terms of a parameterised class of Kripke frames, \classC{}, which could stand for \classK{}, \classKF{}, \classKFF{}, etc. or for any other class of Kripke frames so defined.
+Similar to refinement modal logic, the parameterised class of Kripke frames restricts the $\atomP$-bisimilar Kripke models that are considered by the bisimulation quantifiers.
+
+\begin{definition}[Semantics of bisimulation quantified modal logic]
+Let $\classC$ be a class of Kripke frames, let $\phi \in \langBqml$, and let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model.
+The interpretation of the formula $\phi$ in the logic \logicBqmlC{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in modal logic, defined in Definition~\ref{ml-semantics}, with the additional inductive case:
+$$
+\begin{array}{lcl}
+    \kPModel{\kStateS} \entails \allbisimsP \phi & \text{ iff } & \text{for every } \kPModelP{\kStateSP} \in \classC \text{ if } \kPModel{\kStateS} \bisimilar[\atomP] \kPModelP{\kStateSP} \text{ then } \kPModelP{\kStateSP} \entails \phi
+\end{array}
+$$
+\end{definition}
+
+We note the following two results.
+
+\begin{proposition}
+The logic \logicBqmlKF{} is expressively equivalent to \logicMuKF{}
+\end{proposition}
+
+\begin{proposition}
+The logic \logicBqmlKF{} is decidable.
+\end{proposition}
+
+These results are shown by French~\cite{french-decidability:2006}.

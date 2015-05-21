@@ -1,6 +1,10 @@
 \chapter{Modal $\mu$-calculus}\label{mu}
 
-\todo[inline]{Introduction, explanation, more results (?)}
+In this appendix we define the syntax and semantics of the modal $\mu$-calculus.
+The modal $\mu$-calculus extends modal logic with a least fixed point operator $\mu$ and a greatest fixed point operator $\nu$.
+We use the modal $\mu$-calculus in Chapter~\ref{rml-k4} to show that the refinement modal logic \logicRmlKF{} is strictly less expressive than the modal $\mu$-calculus \logicMuKF{}.
+The proof of this result relies only on the semantics of the modal $\mu$-calculus.
+For an introductory text on the modal $\mu$-calculus we direct the reader to the book by Arnold and Niwinski~\cite{arnold:2001}.
 
 Let $\variables$ be a non-empty, countable set of variables.
 
@@ -20,6 +24,9 @@ where $\atomP \in \atoms$, $\agentA \in \agents$ and $\varX \in \variables$, and
 
 We use all of the standard abbreviations from modal logic, in addition to the abbreviation $\gfpX \phi ::= \lnot \lfpX \lnot \phi$.
 
+We now define the semantics of the modal $\mu$-calculus.
+The semantics are defined in terms of a paramterised class of Kripke frames, \classC{}, which could stand for \classK{}, \classKF{}, \classKFF{}, etc. or for any other class of Kripke frames so defined.
+
 \begin{definition}[Semantics of modal $\mu$-calculus]\label{mu-semantics}
 Let $\classC$ be a class of Kripke frames, let $\phi \in \langMu$, let $\kPModelAndTuple{\kStateS} \in \classC$ be a pointed Kripke model and let $\kAssignment : \varX \to \powerset(\kStates)$ be a function from variables to sets of states.
 The set of states $\interpretation[\kAssignment]{\phi} \subseteq \kStates$ where $\phi$ is satisfied with respect to an assignment $\kAssignment$ is defined inductively as follows:
@@ -32,7 +39,3 @@ The set of states $\interpretation[\kAssignment]{\phi} \subseteq \kStates$ where
 \end{eqnarray*}
 where $\kAssignmentSubstitute{\kStatesT}{\varX}$ is the assignment such that $\kAssignmentSubstitute{\kStatesT}{\varX}(\varX) = \kStatesT$ and $\kAssignmentSubstitute{\kStatesT}{\varX}(\varY) = \kAssignment(\varY)$ for $\varY \neq \varX$. 
 \end{definition}
-
-\begin{proposition}
-The logics \logicMuK{}, \logicMuKF{}, \logicMuKFF{}, \logicMuKD{}, \logicMuSF{} and \logicMuS{} are strictly more expressive than the respective logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{} and \logicS{}.
-\end{proposition}

@@ -1,12 +1,12 @@
 \chapter{Literature review}\label{literature}
 
-Dynamic epistemic logics are logics of change of knowledge used to reason about how knowledge changes in response to epistemic updates.
+Dynamic epistemic are used to reason about how knowledge changes in response to epistemic updates.
 Often the effects of epistemic updates on knowledge can be unintuitive or surprising: sometimes announcing a true statement makes it become false, as in Fitch's knowability paradox~\cite{fitch:1963}; sometimes repeating a statement can provide different information each time it is repeated, as in the muddy children puzzle~\cite{barwise:1981, vanditmarsch:2007}. 
 Being able to reason about changes in knowledge has applications in a range of areas:
 in artificial intelligence and information science we want to represent and reason about updates in knowledge bases and ontologies;
 in the study of network protocols and computer security we want to ensure that information communicated through a network results in the desired knowledge-based goals and doesn't result in the leaking of sensitive information; and
 in economics and game theory we want to reason about processes or games with imperfect knowledge, where actions may provide players with additional information that's required to inform their decisions.
-For some applications it's useful to know the effects of specific epistemic updates~\cite{plaza:1989,baltag:1998}, such as when a robot updates its internal knowledge base with with new sensor information, when a participant in a network protocol sends or receives a message containing new information, or a player in a game performs an action that reveals additional information about the game state.
+For some applications it's useful to know the effects of specific epistemic updates~\cite{plaza:1989,baltag:1998}, such as when a robot updates its internal knowledge base with with new sensor information, when a participant in a network protocol sends or receives a message containing new information, or when a player in a game performs an action that reveals additional information about the game state.
 At other times it's useful to reason about arbitrary epistemic updates, quantifying over epistemic updates in a goal-directed fashion~\cite{balbiani:2007,agotnes:2010,vanditmarsch:2009}, such as when a robot must sense enough of its environment to navigate an area, when a protocol designer must design a protocol that achieves desired knowledge-based goals without leaking sensitive information, or when a player in a game must choose a strategy that increases the information available in order to better inform their decisions.
 Formal logics of knowledge have existed for many decades~\cite{vonwright:1951,hintikka:1957,hintikka:1961,hintikka:1962}, whilst logics for reasoning about the effects of specific epistemic updates have only arisen relatively recently~\cite{plaza:1989,gerbrandy:1997,baltag:1998}. 
 Much more recently logics for reasoning about arbitrary epistemic updates have been considered~\cite{balbiani:2007,vanditmarsch:2009,agotnes:2010}, and logics of this variety are the focus of our research.
@@ -24,7 +24,7 @@ For example, we could say ``Alice knows that Alice knows that the coin has lande
 The semantics for many modal logics, including epistemic logic, are based in relational structures known as Kripke models~\cite{kripke:1963,blackburn:2001}.
 A Kripke model is a relational structure over a set of ``worlds'', where each world has a set of propositional atoms that are true at that world, and each agent has an accessibility relation defined over the worlds.
 The worlds of a Kripke model can be seen as representing the possible ways that the ``real'' world could be.
-An agent considers another world to be ``possible'' from a given world if that world is accessible from the given world through the agent's accessibility relation in the Kripke model.
+We say that an agent considers another world to be ``possible'' from a given world if that world is accessible from the given world through the agent's accessibility relation in the Kripke model.
 An agent may consider multiple worlds to be possible, representing the agent's uncertainty as to which world is the real world.
 An agent is said to ``know'' that a statement is true in a given world if that statement is true on each of the worlds that the agent considers possible from the given world.
 Generally speaking, the more worlds that an agent considers possible, the less the agent knows.
@@ -86,7 +86,7 @@ Dynamic epistemic logics consider how knowledge changes as a result of epistemic
 For our purposes we generally assume that epistemic updates are purely informative, so they may cause knowledge to change, but not the truth of the propositional atoms that the knowledge is about.
 For example, after flipping a coin, if Alice were to tell Bob ``The coin has landed heads up'', this would be a purely informative epistemic update, as the effect is only on Alice and Bob's knowledge.
 However the act of Alice flipping the coin would not be purely informative, as it has an effect outside of Alice and Bob's knowledge, specifically on the truth of the statement that ``The coin has landed heads up''.
-We also assume that epistemic updates increases certainty about information monotonically, so they may not cause agents to forget or revise information that they were previously certain of.
+We also assume that epistemic updates increases information monotonically, so they may not cause agents to forget or revise information that they previously received.
 For example, if Alice wasn't wearing her glasses when she looked at the coin she might look again and tell Bob that actually the coin landed tails up, causing Bob to revise the information he was previously offered.
 If Alice looks yet again she might tell Bob that she's now unsure about whether the coin has landed heads up, causing Bob to forget the information he was previously offered, as it was possibly unreliable.
 There are models for epistemic updates that permit propositional change~\cite{vanbenthem:2006} or that that permit revision of information~\cite{alchourron:1985}, however they are not the focus of the present work.
@@ -134,7 +134,8 @@ Action models are relational structures similar to Kripke models.
 An action model is a relational structure over a set of ``actions'', where each action has a precondition determining when the action can take place, and each agent has an accessibility relation defined over the actions.
 The actions of an action model can be seen as representing the possible epistemic updates that may have occurred.
 As in a Kripke model, agents may consider actions to be ``possible'', and an agent considering multiple actions possible represents the agent's uncertainty as to which epistemic update has actually occurred.
-For example, when Alice looks at the coin after flipping it, she only considers one epistemic update to have been possible: where she learns that the coin has landed heads up; Bob however considers two epistemic updates to have been possible: one where Alice learns that the coin has landed heads up, and one where Alice learns that the coin has landed tails up.
+For example, when Alice looks at the coin after flipping it, she only considers one epistemic update to have been possible: where she learns that the coin has landed heads up.
+Bob however considers two epistemic updates to have been possible: one where Alice learns that the coin has landed heads up; and one where Alice learns that the coin has landed tails up.
 This uncertainty is represented in an action model by having separate actions in the action model, one representing Alice learning that the coin has landed heads up and one representing Alice learning that the coin has landed tails up, and giving Alice and Bob different accessibility relations over the actions, so that Alice only considers one action possible, but Bob considers both actions possible.
 
 The action model logic was introduced by Baltag, Solecki and Moss~\cite{baltag:1998, baltag:1999}.
@@ -220,7 +221,8 @@ These logics extend epistemic logic or dynamic epistemic logics for specific epi
 These quantifiers could be applied to the development of network protocols, where we want to reason about the existence of epistemic protocols that achieve desired knowledge-based goals, or in the verification of secure computer systems, where we want to guarantee that no sequence of operations in the system will lead to sensitive information being leaked to unauthorised agents.
 
 A closely related problem is that of synthesising epistemic updates that achieve desired knowledge-based goals.
-For example, in the development of network protocols, if a protocol exists that would achieve a desired knowledge-based goal, then in principle a synthesis procedure could be applied to construct a specific protocol that can be used in practice, or in the verification of secure computer systems, if there is a sequence of operations that results in the system leaking sensitive information, then a synthesis procedure could be applied to construct an example of such a sequence of operations, assisting in debugging and securing the system.
+For example, in the development of network protocols, if a protocol exists that would achieve a desired knowledge-based goal, then in principle a synthesis procedure could be applied to construct a specific protocol that can be used in practice.
+Another example, in the verification of secure computer systems, if there is a sequence of operations that results in the system leaking sensitive information, then a synthesis procedure could be applied to construct an example of such a sequence of operations, assisting in debugging and securing the system.
 
 \subsection{Arbitrary public announcement logic}
 
@@ -282,7 +284,7 @@ Aucher~\cite{aucher:2011,aucher:2012} provides sequent calcului to derive (iii) 
 The particular case of epistemic planning gives a method to determine, given a formula describing an initial knowledge situation, and a formula describing a desired knowledge situation, a formula describing an action model that takes us from the initial situation to the desired situation.
 If the formula describing the action model is satisfiable then we can produce a specific action model that takes us from the initial situation to the desired situation.
 Otherwise if the formula describing the action model is unsatisfiable then we know that no such action model exists.
-Aucher~\cite{aucher:2011,aucher:2012} also shows how to build formulas that capture respectively all that can be inferred about (iii) given (i) and (ii), (ii) given (i) and (iii), and (i) given (ii) and (iii), and although these results are presented in the setting of multi-agent \classK{}, notes that they are trivially extended to other modal settings.
+Aucher~\cite{aucher:2011,aucher:2012} also shows how to build formulas that capture respectively all that can be inferred about (iii) given (i) and (ii), (ii) given (i) and (iii), and (i) given (ii) and (iii), and although these results are presented in the setting of multi-agent \classK{}, Aucher notes that they are trivially extended to other modal settings.
 
 \subsection{Other related logics}
 
@@ -309,7 +311,8 @@ In particular, if two pointed Kripke models are bisimilar, then they are indisti
 Bisimulations are closely related to refinements, which we consider in greater detail in the following chapters.
 For two Kripke models to be considered bisimilar there must exist a relation that satisfies three conditions known as {\bf atoms}, {\bf forth} and {\bf back}.
 For a Kripke model to be a refinement of another Kripke model there must exist a relation that satisfies {\bf atoms} and {\bf back}.
-van Ditmarsch and French~\cite{vanditmarsch:2009} noted the relationship between bisimulation quantifiers and refinement quantifiers and Bozzelli, et al.~\cite{bozzelli:2014b} later showed that refinement quantifiers can be expressed using bisimulation quantifiers.
+Thus refinements can be seen as generalisations of bisimulations, as they relax the {\bf forth} property of bisimulations.
+van Ditmarsch and French~\cite{vanditmarsch:2009} noted the relationship between bisimulation quantifiers and refinement quantifiers and Bozzelli, et al.~\cite{bozzelli:2014b} later showed that refinement quantifiers can be expressed using bisimulation quantifiers in the setting of multi-agent \classK{}.
 
 \subsection{Refinement modal logic}
 

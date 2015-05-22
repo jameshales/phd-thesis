@@ -40,52 +40,9 @@ Consider the epistemic model $\kPModel{\kStateS}$ from Example~\ref{example-ml}.
 In Example~\ref{example-pal} we showed that $\kPModel{\kStateS} \entails \announceE{\knowsA \atomP} \knowsB \atomP$ so it follows that $\kPModel{\kStateS} \entails \somepas \knowsB \atomP$.
 \end{example}
 
-We provide an axiomatisation for the logic \logicApalS{}.
+\todo[inline]{Improve example}
 
-\begin{definition}[Necessity and possibility forms]
-Consider a new symbol $\sharp$.
-The {\em necessity forms} are defined inductively as:
-$$\psi(\sharp) ::= \sharp \mid (\phi \implies \psi(\sharp)) \mid \announceA{\phi} \psi(\sharp) \mid \knows[\agentA] \psi(\sharp)$$ where $\phi \in \langPapal$ and $\agentA \in \agents$.
-
-The {\em possibility forms} are defined inductively as:
-$$\psi(\sharp) ::= \sharp \mid (\phi \land \psi(\sharp)) \mid \announceE{\phi} \psi(\sharp) \mid \suspects[\agentA] \psi(\sharp)$$
-where $\phi \in \langPapal$ and $\agentA \in \agents$.
-\end{definition}
-
-A possibility form is the dual of a necessity form.
-Necessity and possibility forms contain a unique occurrence of the symbol $\sharp$.
-If $\psi(\sharp)$ is a necessity or possibility form and $\phi \in \langApal$ then $\psi(\phi) ::= \psi(\sharp)[\phi/\sharp]$, where $\psi(\sharp)[\phi/\sharp]$ is $\psi(\sharp)$ with the symbol $\sharp$ replaced with the formula $\phi$, and $\psi(\phi) \in \langApal$.
-
-\begin{definition}[Axiomatisation \axiomApalS{}]
-The axiomatisation \axiomApalS{} is a substitution schema consisting of the axioms and rules of \axiomPalS{} along with the following additional axioms and rules:
-$$
-\begin{array}{rl}
-    {\bf A+} & \proves \allpas \phi \implies \announceA{\psi} \phi \text{ where } \psi  \in \langMl\\
-    {\bf R+^\omega} & \text{From } \proves \nu(\announceA{\psi} \phi) \text{ for every } \psi \in \langMl \text{ infer } \nu(\allpas \phi)
-\end{array}
-$$
-where $\nu(\sharp)$ is a necessity form.
-\end{definition}
-
-\begin{proposition}
-The axiomatisation \axiomApalS{} is sound and strongly complete with respect to the semantics of the logic \logicApalS{}.
-\end{proposition}
-
-We note that the axiomatisation \axiomApalS{} is an infinitary axiomatisation, as the rule ${\bf R+^\omega}$ requires an infinite number of premises.
-As a consequence the axiomatisation is not recursively enumerable.
-The rule ${\bf R+^\omega}$ can be replaced with a finitary rule of the form:
-$$
-\begin{array}{rl}
-    {\bf R+^1} & \text{From } \proves \nu(\announceA{\atomP} \phi) \text{ infer } \nu(\allpas \phi)
-\end{array}
-$$
-where $\nu(\sharp)$ is a necessity form and $\atomP$ is a fresh atom.
-
-We also restate some results about \logicApalS{} and its proof theory.
-
-\begin{proposition}
-The axiomatisation \axiomApalS{} substituting the rule ${\bf R+^\omega}$ with the rule ${\bf R+^1}$ is sound and {\em weakly} complete with respect to the semantics of the logic \logicApalS{}.
-\end{proposition}
+\todo[inline]{Remarks}
 
 \begin{proposition}
 The logic \logicApalS{} is strictly more expressive than the logic \logicPalS{}.

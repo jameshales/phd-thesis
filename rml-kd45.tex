@@ -1,6 +1,6 @@
 \chapter{Refinement modal logic: \classKFF{} and \classKD{}}\label{rml-kd45}
 
-In this chapter we consider in greater detail the logics \logicRmlKFF{} and \logicRmlKD{}, in the settings of \classKFF{} and \classKD{} respectively.
+In this chapter we consider results specific to the logics \logicRmlKFF{} and \logicRmlKD{}, in the settings of \classKFF{} and \classKD{} respectively.
 As in the previous chapter we present sound and complete axiomatisations, provably correct translations from \langRml{} to \langMl{}, and expressive equivalence, compactness and decidability results.
 As noted previously, the logic \logicRmlK{} is not a sublogic of \logicRmlKFF{} or \logicRmlKD{}, so our previous results in \logicRmlK{} do not all apply in these settings.
 In particular, the axioms {\bf RK}, and {\bf RComm} from \axiomRmlK{} are not sound in \logicRmlKFF{} or \logicRmlKD{}, so we must find replacement axioms.
@@ -740,7 +740,7 @@ Then $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ follows from the sa
 Therefore $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 \end{proof}
 
-Again we use similar reasoning to show that the axiom {\bf RComm} from \axiomRmlKD{} is sound.
+Again we use similar reasoning to show that the axiom {\bf RComm} from \axiomRmlK{} is sound.
 Recall that the axiom {\bf RComm} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ where $\agentsB \subseteq \agents$, $\agentA \notin \agentsB$, and $\Gamma_\agentA \subseteq \langRml$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
 This accounts for the additional requirement in \logicRmlKD{} that refinements must be serial.
 Similar to {\bf RK45} and {\bf RKD45}, the difference between {\bf RComm} in \axiomRmlKFF{} and {\bf RComm} in \axiomRmlKD{} is the requirement that $\Gamma_\agentA$ be a non-empty set of formulas, which accounts for the additional requirement in \logicRmlKD{} that refinements must be serial.
@@ -943,7 +943,7 @@ $$
 
 As above we can recognise that equivalences (\ref{rml-kd45-or}) and (\ref{rml-kd45-cover}) are reduction axioms that can be used to push refinement quantifiers past propositional connectives and modalities in formulas in alternating disjunctive normal form.
 We note that the equivalence (\ref{rml-kd45-cover}) only applies to formulas where the cover operators are applied to non-empty sets of formulas, a condition that the alternating disjunctive normal form does not guarantee.
-However we can get around this limitation by using theorem \ref{rml-kd45-cover-empty}, noting due to the seriality of \classKD{} that cover operators applied to empty sets of formulas are always false, and so a conjunction including such a cover operator is also false.
+However we can get around this limitation by using Theorem~\ref{rml-kd45-cover-empty}, noting due to the seriality of \classKD{} that cover operators applied to empty sets of formulas are always false, and so a conjunction including such a cover operator is also false.
 
 Before we give our provably correct translations we give two lemmas each for \axiomRmlKFF{} and \axiomRmlKD{}.
 
@@ -982,7 +982,7 @@ Every refinement modal formula is provably equivalent to a modal formula using t
 \end{lemma}
 
 \begin{proof}
-We use essentially the same reasoning to that used to show the same result in \axiomRmlK{} in Lemma~\ref{rml-k-ml-equivalent}.
+We show this using similar reasoning to the analogous Lemma~\ref{rml-k-ml-equivalent} for \axiomRmlK{}.
 We convert subformulas to alternating disjunctive normal form instead of disjunctive normal form, which ensures that $\coversA$~operators are only applied to sets of $(\agents \setminus \{\agentA\})$-restricted modal formulas, allowing the equivalences from Lemma~\ref{rml-k45-theorems} to be applied inductively.
 \end{proof}
 
@@ -991,8 +991,8 @@ Every refinement modal formula is provably equivalent to a modal formula using t
 \end{lemma}
 
 \begin{proof}
-We use essentially the same reasoning as in Lemma~\ref{rml-k-ml-equivalent} for \axiomRmlK{}.
-As in Lemma~\ref{rml-k45-ml-equivalent} above, we convert subformulas to alternating disjunctive normal form instead of disjunctive normal form, which ensures that $\coversA$~operators are only applied to sets of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
+We use modified reasoning from the proof of Lemma~\ref{rml-k45-ml-equivalent} for \axiomRmlKFF{}.
+As in Lemma~\ref{rml-k45-ml-equivalent} we convert subformulas to alternating disjunctive normal form instead of disjunctive normal form, which ensures that $\coversA$~operators are only applied to sets of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
 However the corresponding equivalences from Lemma~\ref{rml-kd45-theorems} also require that $\coversA$~operators only be applied to non-empty sets of formulas.
 We satisfy this requirement by using equivalence (\ref{rml-kd45-cover-empty}) to replace $\coversA$~operators applied to empty sets of formulas with the propositional formula $\bot$, so a subformula of the form $\pi \land \coversA \Gamma_\agentA \land \bigwedge_{\agentC \in \agentsC \setminus \{\agentA\}} \coversC \Gamma_\agentC$ becomes $(\pi \land \bot) \land \bigwedge_{\agentC \in \agentsC \setminus \{\agentA\}} \coversC \Gamma_\agentC$, or simply $\bot$.
 This allows the equivalences from Lemma~\ref{rml-kd45-theorems} to be applied inductively.
@@ -1029,6 +1029,8 @@ The logic \logicRmlKD{} is expressively equivalent to the logic \logicKD{}.
 \end{corollary}
 
 Finally from expressive equivalence we have that \logicRmlKFF{} and \logicRmlKD{} are compact and decidable.
+
+Finally, as \logicRmlKFF{} and \logicRmlKD{} are expressively equivalent to \logicKFF{} and \logicKF{} respectively, and \logicKFF{} and \logicKD{} are compact and decidable, we also have that \logicRmlKFF{} and \logicRmlKD{} are compact and decidable.
 
 \begin{corollary}
 The logics \logicRmlKFF{} and \logicRmlKD{} are compact.

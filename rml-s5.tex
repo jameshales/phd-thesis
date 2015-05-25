@@ -1,6 +1,6 @@
 \chapter{Refinement modal logic: \classS{}}\label{rml-s5}
 
-In this chapter we consider in greater detail the logic \logicRmlS{} in the setting of \classS{}.
+In this chapter we consider results specific to the logic \logicRmlS{} in the setting of \classS{}.
 As in previous chapters we present a sound and complete axiomatisation, a provably correct translation from \langRml{} to \langMl{}, and expressive equivalence, compactness and decidability results.
 As noted previously, the logics \logicRmlK{}, \logicRmlKFF{}, and \logicKD{} are not sublogics of \logicRmlS{}, so our previous results in \logicRmlK{}, \logicRmlKFF{}, and \logicKD{} do not all apply in this setting.
 In particular the axioms {\bf RK}, {\bf RComm}, and {\bf RDist}, and the corresponding axioms from \logicRmlKFF{} and \logicRmlKD{} are not sound in \logicRmlS{}, so once again we must find replacement axioms.
@@ -933,7 +933,7 @@ Without loss of generality we assume that there exists $\delta \in \lambda$ such
 As $\delta \in \Delta$ then $\delta \in \Delta \setminus \lambda'$.
 Then $\proves \tau(\lambda) \implies \delta$ and $\proves \tau(\lambda') \implies \lnot \delta$ so $\proves \lnot (\tau(\lambda) \land \tau(\lambda'))$.
 Therefore for every $\lambda, \lambda' \in \powerset(\Delta)$ if $\lambda \neq \lambda'$ then $\tau(\lambda)$ and $\tau(\lambda')$ are inconsistent,
-and by contrapositive, if $\tau(\lambda)$ and $\tau(\lambda')$ are consistent then $\lambda = \lambda'$.
+so by contrapositive, if $\tau(\lambda)$ and $\tau(\lambda')$ are consistent then $\lambda = \lambda'$.
 
 By propositional reasoning we have:
 $$

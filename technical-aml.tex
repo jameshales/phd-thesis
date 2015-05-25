@@ -251,9 +251,11 @@ We denote the {\em modal depth of $\phi$} by $d(\phi)$ and define it inductively
     d(\lnot \phi) &=& d(\phi)\\
     d(\phi \land \psi) &=& max(d(\phi), d(\psi))\\
     d(\necessaryA \phi) &=& d(\phi) + 1\\
-    d(\actionA{\aPModel{\aStateS}} \phi) &=& d(\phi)
+    d(\actionA{\aPModel{\aStateS}} \phi) &=& d(\phi) % TODO -- Problematic - modal depth of preconditions?
 \end{eqnarray*}
 \end{definition}
+
+\todo[inline]{Remove notion of modal depth specific to \logicAml{}. Not needed in general.}
 
 \begin{proposition}
 Let $n \in \naturals$,

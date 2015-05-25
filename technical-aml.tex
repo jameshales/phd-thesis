@@ -126,59 +126,6 @@ We will sometimes take the `disjoint' union of two action models that are not ac
 The operation of sequential composition of action models is intended to represent the epistemic update that is formed by sequentially performing two epistemic updates.
 Indeed we note that $\entails \actionA{\aPModel{\aStatesT} \compose \aPModelP{\aStatesTP}} \phi \iff \actionA{\aPModel{\aStatesT}} \actionA{\aPModelP{\aStatesTP}} \phi$.
 
-Using the \aSkip{} and \aCrash{} action models, along with the operations of disjoint union and sequential composition we may define an extended language of action model logic.
-
-\begin{definition}[Language of action model logic (extended)]
-Let \aSignatureFamily{} be a non-empty, countable set of action signatures.
-The {\em language of action model logic} with action signatures \aSignatureFamily{}, $\langAml(\aSignatureFamily)$, is inductively defined as:
-$$
-\phi ::=
-    \atomP \mid
-    \lnot \phi \mid
-    \phi \land \phi \mid
-    \necessaryA \phi \mid
-    \actionA{\alpha} \phi
-$$
-where $\atomP \in \atoms$, $\agentA \in \agents$, and the {\em language of action model logic actions} with action signatures \aSignatureFamily{}, $\langAmlAct(\aSignatureFamily)$, is inductively defined as:
-$$
-\alpha ::=
-    \aSkip \mid
-    \aCrash \mid
-    \aSignature \aStatesT, \phi, \dots, \phi \mid
-    \alpha \choice \alpha \mid
-    \alpha \compose \alpha
-$$
-where $\aSignatureAndTuple \in \aSignatureFamily$, $\aStatesT \subseteq \aStates$, and the number of parameters to a given action signature $\aSignature$ is determined by the number of designated actions in the action signature.
-\end{definition}
-
-We use all of the standard abbreviations from action model logic.
-The semantics of formulas of this extended language should be obvious.
-We note that formulas of the extended language can be translated back into the basic language using the equivalences listed above.
-
-We note the following algebraic properties of action model logic actions:
-
-\begin{proposition}
-Let $\alpha, \beta, \gamma \in \langAmlAct$ and let $\phi \in \langAml$. Then the following are valid in \logicAmlC{}.
-$$
-\begin{array}{l}
-    \entails \actionA{\alpha \choice \beta} \phi \iff (\actionA{\alpha} \phi \land \actionA{\beta} \phi) \label{afl-axiom-choice}\\
-    \entails \actionA{\alpha \choice \alpha} \phi \iff \actionA{\alpha} \phi\\
-    \entails \actionA{\alpha \choice \beta} \phi \iff \actionA{\beta \choice \alpha} \phi\\
-    \entails \actionA{(\alpha \choice \beta) \choice \gamma} \phi \iff \actionA{\alpha \choice (\beta \choice \gamma)} \phi\\
-    \entails \actionA{\alpha \compose \beta} \phi \iff \actionA{\alpha} \actionA{\beta} \phi \label{afl-axiom-sequential}\\
-    \entails \actionA{(\alpha \compose \beta) \compose \gamma} \phi \iff \actionA{\alpha \compose (\beta \compose \gamma)} \phi\\
-    \entails \actionA{(\alpha \choice \beta) \compose \gamma} \phi \iff \actionA{(\alpha \compose \gamma) \choice (\beta \compose \gamma)} \phi\\
-    \entails \phi \iff \actionE{\aSkip} \phi\\
-    \entails \actionA{\alpha \compose \aSkip} \phi \iff \actionA{\alpha} \phi\\
-    \entails \actionA{\aSkip \compose \alpha} \phi \iff \actionA{\alpha} \phi\\
-    \entails \actionA{\aCrash} \bot\\
-    \entails \actionA{\alpha \choice \aCrash} \phi \iff \actionA{\alpha} \phi\\
-    \entails \actionA{\alpha \compose \aCrash} \bot\\
-    \entails \actionA{\aCrash \compose \alpha} \bot
-\end{array}
-$$
-\end{proposition}
-
 Similar to Kripke models there is a notion of bisimilarity of action models.
 
 \begin{definition}[Bisimulation of action models]

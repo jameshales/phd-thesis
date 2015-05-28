@@ -1,6 +1,6 @@
 \section{\classK{}}\label{aaml-k}
 
-In this section we consider in greater detail the logic \logicAamlK{} in the setting of \classK{}.
+In this section we consider results specific to the logic \logicAamlK{} in the setting of \classK{}.
 The main result of this section is that the action model quantifiers of \logicAamlK{} are equivalent to the refinement quantifiers of \logicRmlK{}.
 We show this equivalence by showing that if there exists a refinement where a given formula is satisfied then we can construct a finite action model that results in that formula being satisfied.
 
@@ -20,6 +20,7 @@ That is, for every $\phi \in \langRml$, $\kPModel{\kStateS} \in \classK$: $\kPMo
 \end{lemma}
 
 These results follow directly from the definitions.
+We note that these results only apply for \langAml{} and \langRml{} formulas respectively, and do not consider \langAaml{} formulas that contain both action model operators and quantifiers. 
 
 Given these results we can give a sound and complete axiomatisation for \logicRamlK{} by combining the axiomatisations for \logicAmlK{} and \logicRmlK{}.
 
@@ -48,6 +49,17 @@ $$
 where $\phi, \psi \in \langAaml$, $\agentA \in \agents$, $\aPModel{\aStateS} \in \classAmK$, $\atomP \in \atoms$, $\pi \in \langPl$, $\agentsB, \agentsC \subseteq \agents$, and for every $\agentA \in \agents$: $\Gamma_\agentA \subseteq \langRml$ is a finite set of formulas.
 \end{definition}
 
+We note that the axiomatisation \axiomRamlK{} is closed under substitution of equivalents.
+
+\begin{lemma}
+Let $\phi, \psi, \chi \in \langAaml$ be formulas and let $\atomP \in \atoms$ be a propositional atom.
+If $\proves \psi \iff \chi$ then $\proves \phi[\psi\backslash\atomP] \iff \phi[\chi\backslash\atomP]$.
+\end{lemma}
+
+This is shown by combining the reasoning that \axiomAmlK{} and \axiomRmlK{} are closed under substitution of equivalents.
+
+We show that \axiomRamlK{} is sound and complete.
+
 \begin{theorem}\label{raml-k-sound-complete}
 The axiomatisation \axiomRamlK{} is sound and strongly complete with respect to the semantics of the logic \logicRamlK{}.
 \end{theorem}
@@ -56,13 +68,15 @@ The axiomatisation \axiomRamlK{} is sound and strongly complete with respect to 
 Soundness of the axioms and rules of \axiomAmlK{} and \axiomRmlK{} follow from the same reasoning used to show that they are sound in \logicAmlK{} and \logicRmlK{} respectively.
 Alternatively we can show that the axioms and rules of \axiomAmlK{} and \axiomRmlK{} are sound in \logicRamlK{} for formulas from the languages \langAml{} and \langRml{} respectively, as the logics \logicAmlK{} and \logicRmlK{} agree with \logicRamlK{} on all formulas of \langAml{} and \langRml{} respectively.
 These restricted axioms are all that is required for the following completeness proof via provably correct translation to work.
-After we have shown expressive equivalence between \logicRamlK{} and \logicK{} we can easily show soundness of versions of the axioms and rules of \axiomAmlK{} and \axiomRmlK{} that apply for formulas from the full language \langAaml{}. 
+After we have shown expressive equivalence between \logicRamlK{} and \logicK{} we can easily show soundness of versions of the axioms and rules of \axiomAmlK{} and \axiomRmlK{} that apply for formulas from the full language \langAaml{} by relying on substitution of equivalents.
 
 Strong completeness follows from essentially the same reasoning used to show the strong completeness of \axiomRmlK{} in Lemma~\ref{rml-k-sound-complete}, using a provably correct translation from \langAaml{} to \langMl{}.
 As the action model logic \logicAmlK{} is expressively equivalent to the underlying modal logic \logicK{} using the reduction axioms of \axiomAmlK{} there is a provably correct translation from \langAml{} to \langMl{}.
 Likewise, as the refinement model logic \logicRmlK{} is expressively equivalent to the underlying modal logic \logicK{} using the reduction axioms of \axiomRmlK{} there is a provably correct translation from \langRml{} to \langMl{}.
-These provably correct translations can be combined into a provably correct translation from \langAaml{} to \langMl{}, by inductively applying the provably correct translation for \logicAmlK{} to subformulas containing action model operators but not refinement quantifiers, and applying the provably correct translation for \logicRmlK{} to subformulas containing refinement quantifiers but not action model operators.
+These provably correct translations can be combined into a provably correct translation from \langAaml{} to \langMl{}, by inductively applying the provably correct translation for \logicAmlK{} to subformulas containing action model operators but not refinement quantifiers, and applying the provably correct translation for \logicRmlK{} to subformulas containing refinement quantifiers but not action model operators, relying on closure under substitution of equivalents to allow us to replace such subformulas with equivalent \langMl{} formulas.
 \end{proof}
+
+We note that, much like the provably correct translation for \logicRmlK{}, the provably correct translations we have presented here can result in a non-elementary increase in the size compared to the original formula.
 
 The provably correct translation also implies that \logicRamlK{} is expressively equivalent to \logicK{}.
 
@@ -101,7 +115,7 @@ This allows us to use such action models in settings such as the proof theory wh
 
 We show our result using an inductive construction for a given formula.
 Our construction is very similar to the constructions used to show the soundness of the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} in \logicRmlK{}.
-We reuse the disjunctive normal form we used for \logicRmlK{}, and we separate our inductive steps into two lemmas for each syntactic case from the disjunctive normal form.
+We reuse the disjunctive normal form we used for \logicRmlK{}, defined in Definition~\ref{dnf}, and we separate our inductive steps into two lemmas for each syntactic case from the disjunctive normal form.
 
 We first show the case where the given formula is a disjunction.
 
@@ -273,7 +287,8 @@ Let $\agentC \in \agentsC$.
 (\ref{aaml-covers-9}) follows from the above note that $\aModel[\gamma]{\aStateT[\gamma]} \bisimilar \aPModel{\aStateT[\gamma]}$;
 (\ref{aaml-covers-10}) follows from \axiomRamlK{} axiom {\bf AU};
 (\ref{aaml-covers-14}) follows from propositional disjunction introduction;
-(\ref{aaml-covers-15}) follows from the construction of $\aModel$; and
+(\ref{aaml-covers-15}) follows from the construction of $\aModel$;
+(\ref{aaml-covers-16}) follows from propositional disjunction introduction; and
 (\ref{aaml-covers-17}) follows from \axiomRamlK{} axiom {\bf AK}.
 
 We show that $\entails \actionA{\aPModel{\aStateTest}} \bigwedge_{\gamma \in \Gamma_\agentC} \possibleC \gamma$, for every $\agentC \in \agentsC$.
@@ -444,58 +459,6 @@ $\entails \actionE{\aPModel{\aStateS}} \phi \iff \someactsBs \phi$, and
 for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{proof}
 
-We give an example of the action models synthesised by the above procedure.
-
-\begin{example}
-Suppose that we want an action model that will result in $\necessaryA \atomP \land \lnot \necessaryB \atomP$ whenever possible.
-We note that $\necessaryA \atomP \land \lnot \necessaryB \atomP$ is equivalent to the disjunctive normal formula $\coversA \emptyset \land \coversB \{\lnot \atomP, \top\} \lor \coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}$.
-Then inductively following the constructions given in Lemma~\ref{aaml-k-choice} and Lemma~\ref{aaml-k-covers} we get the action model $\aPModel{\aStatesT}$ shown in Figure~\ref{aaml-k-example}.
-We note that $\entails \actionA{\aPModel{\aStateT}} (\necessaryA \atomP \land \lnot \necessaryB \atomP)$ and $\entails \somerefs (\necessaryA \atomP \land \lnot \necessaryB \atomP) \implies \actionE{\aPModel{\aStatesT}} (\necessaryA \atomP \land \lnot \necessaryB \atomP)$.
-
-\begin{figure}
-    \caption{An action model $\aPModel{\aStatesT}$ that results in $\necessaryA \atomP \land \lnot \necessaryB \atomP$ whenever possible, produced by our synthesis procedure.}\label{aaml-k-example}
-    \centering
-    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
-        \node (left) {\underline{$\someacts (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})$}};
-        \node (ls) [above of=left] {$\top$};
-        \node (lbnp) [left of=ls] {$\someacts \lnot \atomP$};
-        \node (lbt) [left of=lbnp] {$\someacts \top$};
-        \node (lbnps) [above of=lbnp] {$\top$};
-        \node (lbts) [above of=lbt] {$\top$};
-
-        \node (right) [below of=left] {\underline{$\someacts (\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\})$}};
-        \node (rs) [below of=right] {$\top$};
-        \node (rap) [left of=rs] {$\someacts \atomP$};
-        \node (rbnp) [left of=rap] {$\someacts \lnot \atomP$};
-        \node (rbt) [left of=rbnp] {$\someacts \top$};
-        \node (raps) [below of=rap] {$\top$};
-        \node (rbnps) [below of=rbnp] {$\top$};
-        \node (rbts) [below of=rbt] {$\top$};
-
-        \path[every node/.style={font=\sffamily\small},->]
-            (left) edge [swap] node {$\agentB$} (lbnp)
-                  edge [swap] node {$\agentB$} (lbt)
-                  edge [swap] node {$\agents \setminus \{\agentA, \agentB\}$} (ls)
-            (lbnp) edge node {$\agents$} (lbnps)
-            (lbt) edge node {$\agents$} (lbts)
-            (ls) edge [loop above] node {$\agents$} (ls)
-            (lbnps) edge [loop above] node {$\agents$} (lbnps)
-            (lbts) edge [loop above] node {$\agents$} (lbts)
-            (right) edge node {$\agentA$} (rap)
-                  edge node {$\agentB$} (rbnp)
-                  edge node {$\agentB$} (rbt)
-                  edge node {$\agents \setminus \{\agentA, \agentB\}$} (rs)
-            (rap) edge node {$\agents$} (raps)
-            (rbnp) edge node {$\agents$} (rbnps)
-            (rbt) edge node {$\agents$} (rbts)
-            (rs) edge [loop below] node {$\agents$} (rs)
-            (raps) edge [loop below] node {$\agents$} (raps)
-            (rbnps) edge [loop below] node {$\agents$} (rbnps)
-            (rbts) edge [loop below] node {$\agents$} (rbts);
-    \end{tikzpicture}
-\end{figure}
-\end{example}
-
 Given this result we can show that the logics \logicAamlK{} and \logicRamlK{} agree on all \langAaml{} formulas.
 
 \begin{theorem}\label{aaml-k-semantics-equivalent}
@@ -554,5 +517,91 @@ The logic \logicAamlK{} is compact.
 \end{corollary}
 
 \begin{corollary}
+The model-checking problem for the logic \logicAamlK{} is decidable.
+\end{corollary}
+
+\begin{corollary}
 The satisfiability problem for the logic \logicAamlK{} is decidable.
 \end{corollary}
+
+Similar to \logicRmlK{}, the provably correct translation from \langAaml{} to \langMl{} may result in a non-elementary increase in size compared to the original formula.
+Therefore any algorithm that relies on the provably correct translation will have a non-elementary complexity.
+We leave the consideration of better complexity bounds and succinctness results for \logicAamlK{} to future work.
+
+The proof of Theorem~\ref{aaml-k-synthesis} and the associated lemmas describe a recursive synthesis procedure that can be applied in order to construct action models that result in desired knowledge goals.
+Suppose that we have an initial knowledge state involving knowledge and a desired knowledge goal, and we would like to achieve our desired knowledge goal through a specific epistemic update from our initial knowledge state.
+That is, given a pointed Kripke model $\kPModel{\kStateS} \in \classK$, and a formula $\phi \in \langAaml$ we want to find a specific action model $\aPModel{\aStatesT} \in \classAmK$ such that $\kPModel{\kStateS} \entails \actionE{\aPModel{\aStatesT}} \phi$.
+However whether this is possible depends on the initial knowledge state and the desired knowledge goal.
+For example, if $\kPModel{\kStateS} \entails \necessaryA \bot$ and $\phi = \possible \top$, then for every $\aPModel{\aStatesT} \in \classAmK$ we have $\kPModel{\kStateS} \nentails \actionE{\aPModel{\aStatesT}} \possible \top$.
+So we can only find a specific epistemic update that achieves our desired knowledge goal if the desired knowledge goal can be achieved by some epistemic update from our initial knowledge state. 
+To rephrase using the language of \logicAaml{}: if $\kPModel{\kStateS} \entails \someacts \phi$ then we want to find a specific $\aPModel{\aStatesT} \in \classAmK$ such that $\kPModel{\kStateS} \entails \actionE{\aPModel{\aStatesT}} \phi$; if $\kPModel{\kStateS} \nentails \someacts \phi$ then clearly we can't find any such action model.
+It should be clear that by using the synthesis procedure described in Theorem~\ref{aaml-k-synthesis} we can find such an action model, when such an action model exists.
+In fact the action model given by Theorem~\ref{aaml-k-synthesis} depends only on $\phi$ and not on $\kPModel{\kStateS}$, so what we get is a single, specific action model $\aPModel{\aStatesT} \in \classAmK$, corresponding to $\phi$, such that $\entails \someacts \phi \iff \actionE{\aPModel{\aStatesT}} \phi$ and $\entails \actionA{\aPModel{\aStatesT}} \phi$.
+That is, the same action model for $\phi$ can be executed on any initial Kripke model to achieve the desired knowledge goal, whenever that knowledge goal cab be achieved by some epistemic update from that initial Kripke model.
+
+We note that as the synthesis procedure described in Theorem~\ref{aaml-k-synthesis} relies on the expressive equivalence of \logicRamlK{} and \logicK{}, and the provably correct translation from \langAaml{} to \langMl{} may result in a non-elementary increase in size compared to the original formula, the action model produced by the synthesis procedure may be non-elementary in size compared to the original formula.
+However if the original formula is already in \langMl{} and in disjunctive normal form, then we note that the procedure constructs an action model that is linearithmic in size compared to the original disjunctive normal formula.
+The number of states in the action model is linear in size compared to the original disjunctive normal formula.
+This can be noted as the construction step in Lemma~\ref{aaml-k-covers} is performed at most once for each subformula of the original disjunctive normal formula and introduces only two new states, whilst the construction step in Lemma~\ref{aaml-k-choice} introduces no new states.
+The number of relationships in the action model is also linear in size compared to the original disjunctive normal formula, as we note that each state has at most two in-bound edges for each agent, including possibly one reflexive state, and one edge from another state.
+As the number of states is linear in size compared to the original disjunctive normal formula, then a state can be represented in logarithmic space, so the accessibility relations can be represented in linearithmic space.
+As the preconditions of each state correspond to a subformula of the original disjunctive normal formula, or $\top$, then a subformula can be represented in logarithmic space, by identifying it as the $i$th symbol in the formula, so the precondition function can be represented in linearithmic space.
+If we had an improved provably correct translation from \langAaml{} to \langMl{} then the size of the action models produced by this synthesis procedure would be correspondingly improved.
+Bozzelli, et al.~\cite{bozzelli:2014a} showed that \logicRmlK{} is at least doubly exponentially more succinct than \logicK{}, a result that carries over to \logicAamlK{}, so there are limits to this improvement.
+However the synthesis procedure results in action models that have a great degree of redundancy, so the size of the action model may be reduced through other means.
+We leave the consideration of synthesis procedures with improved complexity to future work.
+
+We give an example of an application of the action models synthesised by the above procedure.
+
+\begin{example}
+Suppose that we want an action model that will result in $\necessaryA \atomP \land \lnot \necessaryB \atomP$ whenever possible.
+We note that $\necessaryA \atomP \land \lnot \necessaryB \atomP$ is equivalent to the disjunctive normal formula $\coversA \emptyset \land \coversB \{\lnot \atomP, \top\} \lor \coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}$.
+Then inductively following the constructions given in Lemma~\ref{aaml-k-choice} and Lemma~\ref{aaml-k-covers} we get the multi-pointed action model $\aPModel{\aStatesT}$ shown in Figure~\ref{aaml-k-example}.
+That $\entails \actionA{\aPModel{\aStateT}} (\necessaryA \atomP \land \lnot \necessaryB \atomP)$ and $\entails \somerefs (\necessaryA \atomP \land \lnot \necessaryB \atomP) \implies \actionE{\aPModel{\aStatesT}} (\necessaryA \atomP \land \lnot \necessaryB \atomP)$ can easily be demonstrated by applying the \axiomAmlK{} axioms.
+We note that there is an amount of redundancy in the action model, such as multiple identical states with the precondition $\top$, and some states that are subsumed by other states, such as the $\someacts \lnot \atomP$ states, which are subsumed by the $\someacts \top$ states, which are in turn subsumed by the $\top$ states.
+We leave as an exercise to the reader the identification of the smaller action model that results from removing these redundancies.
+Automated techniques could in princple identify these redundancies and produce smaller action models.
+
+\begin{figure}
+    \caption{An action model $\aPModel{\aStatesT}$ that results in $\necessaryA \atomP \land \lnot \necessaryB \atomP$ whenever possible, produced by our synthesis procedure.}\label{aaml-k-example}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+        \node (left) {\underline{$\someacts (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})$}};
+        \node (ls) [above of=left] {$\top$};
+        \node (lbnp) [left of=ls] {$\someacts \lnot \atomP$};
+        \node (lbt) [left of=lbnp] {$\someacts \top$};
+        \node (lbnps) [above of=lbnp] {$\top$};
+        \node (lbts) [above of=lbt] {$\top$};
+
+        \node (right) [below of=left] {\underline{$\someacts (\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\})$}};
+        \node (rs) [below of=right] {$\top$};
+        \node (rap) [left of=rs] {$\someacts \atomP$};
+        \node (rbnp) [left of=rap] {$\someacts \lnot \atomP$};
+        \node (rbt) [left of=rbnp] {$\someacts \top$};
+        \node (raps) [below of=rap] {$\top$};
+        \node (rbnps) [below of=rbnp] {$\top$};
+        \node (rbts) [below of=rbt] {$\top$};
+
+        \path[every node/.style={font=\sffamily\small},->]
+            (left) edge [swap] node {$\agentB$} (lbnp)
+                  edge [swap] node {$\agentB$} (lbt)
+                  edge [swap] node {$\agents \setminus \{\agentA, \agentB\}$} (ls)
+            (lbnp) edge node {$\agents$} (lbnps)
+            (lbt) edge node {$\agents$} (lbts)
+            (ls) edge [loop above] node {$\agents$} (ls)
+            (lbnps) edge [loop above] node {$\agents$} (lbnps)
+            (lbts) edge [loop above] node {$\agents$} (lbts)
+            (right) edge node {$\agentA$} (rap)
+                  edge node {$\agentB$} (rbnp)
+                  edge node {$\agentB$} (rbt)
+                  edge node {$\agents \setminus \{\agentA, \agentB\}$} (rs)
+            (rap) edge node {$\agents$} (raps)
+            (rbnp) edge node {$\agents$} (rbnps)
+            (rbt) edge node {$\agents$} (rbts)
+            (rs) edge [loop below] node {$\agents$} (rs)
+            (raps) edge [loop below] node {$\agents$} (raps)
+            (rbnps) edge [loop below] node {$\agents$} (rbnps)
+            (rbts) edge [loop below] node {$\agents$} (rbts);
+    \end{tikzpicture}
+\end{figure}
+\end{example}

@@ -633,7 +633,7 @@ We next recall the disjunctive normal of Janin and Walukiewicz~\cite{janin:1995}
 We note that the original work by Janin and Walukiewicz~\cite{janin:1995} used a different syntax for the cover operator, and additionally featured the modal $\mu$-calculus fixed-point operators.
 Our syntax follows that of Bilkova, Palmigiano and Venema~\cite{bilkova:2008} primarily to be consistent with the established literature in \logicRml{}~\cite{vanditmarsch:2009,vanditmarsch:2010}.
 
-\begin{definition}[Disjunctive normal form]
+\begin{definition}[Disjunctive normal form]\label{dnf}
 A formula in {\em disjunctive normal form} is inductively defined as:
 $$
 \phi ::= \pi \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB \mid \phi \lor \phi
@@ -696,6 +696,8 @@ Substituting $\epsilon_{\gamma,\gamma'}$ for $\gamma \land \gamma'$ after applyi
 
 We note that we have shown a semantic equivalence between \langMl{} formulas and formulas in disjunctive normal form.
 As \axiomK{} is a sound and complete axiomatisation for \logicK{} then this is also a provable equivalence in \axiomK{}, and as the axioms and rules of \axiomK{} are included in the axiomatisation \axiomRmlK{} this is also a provable equivalence in \axiomRmlK{}.
+
+We also note that, much like the disjunctive normal form for propositional logic, converting a modal formula to the disjunctive normal form introduced here can result in an exponential increase in the size compared to the original formula.
 
 Given the disjunctive normal form, we will show that the reduction axioms of \axiomRmlK{} may be applied to formulas in disjunctive normal form in order to give a provably correct translation.
 We first show some useful theorems in \axiomRmlK{}.
@@ -978,6 +980,13 @@ By substitution of equivalents, substiting $\psi''$ for $\somerefsBs \psi$ in $\
 By the induction hypothesis $\phi'$ is provably equivalent to a modal formula and therefore $\phi$ is provably equivalent to a modal formula.
 \end{proof}
 
+We note that the provably correct translation we have presented here can result in a non-elementary increase in the size compared to the original formula.
+This is because the provably correct translation relies on converting subformulas to disjunctive normal form, which can result in an exponential increase in size compared to the original subformula.
+When the formula contains nested quantifiers the provably correct translation requires repeated conversions to disjunctive normal form, with an exponential increase in size each time.
+For example, in the formula $\somerefsBs \lnot \somerefsBs \phi$, where $\phi \in \langMl$, the subformula $\phi$ must first be converted to disjunctive normal form, resulting in an exponential increase in size compared to $\phi$, the reduction axioms of \axiomRmlK{} are applied to convert $\somerefsBs \phi$ to an equivalent modal formula $\phi'$, then $\lnot \phi'$ must be converted to disjunctive normal form, resulting in another exponential increase in size, before the reduction axioms are applied again to finish the provably correct translation.
+In this example there may be a doubly exponential increase in size.
+However in general the increase in size may be an iterated exponentiation of degree proportional to the highest nested quantifier depth in the original formula.
+
 Given the provably correct translation we have that \axiomRmlK{} is sound and complete.
 
 \begin{theorem}\label{rml-k-sound-complete}
@@ -1014,5 +1023,17 @@ The logic \logicRmlK{} is compact.
 \end{corollary}
 
 \begin{corollary}
+The model-checking problem for the logic \logicRmlK{} is decidable.
+\end{corollary}
+
+\begin{corollary}
 The satisfiability problem for the logic \logicRmlK{} is decidable.
 \end{corollary}
+
+As we noted above, the provably correct translation from \langRml{} to \langMl{} may result in a non-elementary increase in size compared to the original formula.
+Therefore any algorithm that relies on the provably correct translation will have a non-elementary complexity.
+Bozzelli, et al.~\cite{bozzelli:2014a} have shown that the satisfiability problem for the single-agent variant of \logicRmlK{} is $\mathrm{AEXP_{pol}}$-complete, and
+Achilleos and Lampis~\cite{achilleos:2013} showed that the model-checking problem for the single-agent variant of \logicRmlK{} is PSPACE-complete,
+which are both a considerable improvement over the naive, non-elementary satisfiability and model-checking procedures given by using the provably correct translation.
+Bozzelli, et al.~\cite{bozzelli:2014a} have also shown that \logicRmlK{} is at least doubly exponentially more succinct than \logicK{}, which is interesting because, at least in the single-agent variant, the satisfiability problem for \logicRmlK{} is only singly exponentially harder than the satisfability problem for \logicK{}. 
+We leave the consideration of better complexity bounds for the multi-agent variant of \logicRmlK{} to future work.

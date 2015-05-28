@@ -100,7 +100,7 @@ Essentially we use the same axioms {\bf RK}, {\bf RComm} and {\bf RDist} from \a
 This restriction ensures that the interaction between formulas in the cover operator due to transitivity and Euclideaness are explicitly represented.
 We formalise this notion with $\agentsB$-restricted modal formulas.
 
-\begin{definition}[$\agentsB$-restricted modal formulas]
+\begin{definition}[$\agentsB$-restricted modal formulas]\label{b-restricted}
 Let $\agentsB \subseteq \agents$ be a set of agents.
 A $\agentsB$-restricted modal formula is inductively defined as:
 $$
@@ -210,7 +210,7 @@ However with a modification of the construction we can ensure a restricted form 
 As the axioms {\bf RK45}, {\bf RKD45}, {\bf RComm}, and {\bf RDist} may only be applied to $\agentsB$-restricted modal formulas this allows us to show the soundness of these axioms.
 
 We note that the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{} are very similar, the only difference being that the axioms of \axiomRmlKD{} require that the cover operators in the axioms {\bf RKD45}, {\bf RComm}, and {\bf RDist} be applied to non-empty sets of formulas, accounting for the additional requirement of seriality in \classKD{}.
-As such we will only show prove the soundness of the axioms of \axiomRmlKFF{} in full detail, noting that the same proof techniques work for \axiomRmlKD{} with some minor considerations for the differences.
+As such we will only prove the soundness of the axioms of \axiomRmlKFF{} in full detail, noting that the same proof techniques work for \axiomRmlKD{} with some minor considerations for the differences.
 
 We begin by defining $\agentsB$-bisimilarity.
 
@@ -820,7 +820,7 @@ This ensures that when we repeatedly apply the axioms {\bf RK45}, {\bf RKD45}, {
 
 We first define our normal form, called alternating disjunctive normal form.
 
-\begin{definition}[Alternating disjunctive normal form]
+\begin{definition}[Alternating disjunctive normal form]\label{adnf}
 Let $\agentsB \subseteq \agents$ be a set of agents.
 A formula in {\em $\agentsB$-alternating disjunctive normal form} is inductively defined as:
 $$
@@ -869,6 +869,8 @@ We can then translate the resulting formula into $\agentsB$-alternating disjunct
 We note that we have shown a semantic equivalence between \langMl{} formulas and formulas in alternating disjunctive normal form.
 As \axiomKFF{} is a sound and complete axiomatisation for \logicKFF{} then this is also a provable equivalence in \axiomKFF{}, and as the axioms and rules of \axiomKFF{} are included in the axiomatisation \axiomRmlKFF{} this is also a provable equivalence in \axiomRmlKFF{}.
 Likewise this is a provable equivalence in \axiomRmlKD{}.
+
+We also note that, much like the disjunctive normal form introduced in the previous chapter, converting a modal formula to the alternating disjunctive normal form introduced here can result in an exponential increase in the size compared to the original formula.
 
 Given the disjunctive normal form, we will show that the reduction axioms of \axiomRmlKFF{} and \axiomRmlKD{} may be applied to formulas in disjunctive normal form in order to give a provably correct translation.
 We first show some useful theorems in \axiomRmlKFF{} and \axiomRmlKD{}.
@@ -998,6 +1000,8 @@ We satisfy this requirement by using equivalence (\ref{rml-kd45-cover-empty}) to
 This allows the equivalences from Lemma~\ref{rml-kd45-theorems} to be applied inductively.
 \end{proof}
 
+We note that, much like the provably correct translation for \logicRmlK{}, the provably correct translations we have presented here can result in a non-elementary increase in the size compared to the original formula.
+
 Given the provably correct translation we have that \axiomRmlKFF{} and \axiomRmlKD{} are sound and complete.
 
 \begin{theorem}\label{rml-k45-sound-complete}
@@ -1037,5 +1041,14 @@ The logics \logicRmlKFF{} and \logicRmlKD{} are compact.
 \end{corollary}
 
 \begin{corollary}
+The model-checking problems for the logics \logicRmlKFF{} and \logicRmlKD{} are decidable.
+\end{corollary}
+
+\begin{corollary}
 The satisfiability problems for the logics \logicRmlKFF{} and \logicRmlKD{} are decidable.
 \end{corollary}
+
+As we noted above, the provably correct translation from \langRml{} to \langMl{} may result in a non-elementary increase in size compared to the original formula.
+Therefore any algorithm that relies on the provably correct translation will have a non-elementary complexity.
+Unlike \logicRmlK{} complexity bounds for the model-checking and satisfiability problems have not been considered for \logicRmlKFF{} and \logicRmlKD{}, neither has the succinctness of \logicRmlKFF{} and \logicRmlKD{} been considered.
+We leave the consideration of better complexity bounds and succinctness results for \logicRmlKFF{} and \logicRmlKD{} to future work.

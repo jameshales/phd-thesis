@@ -1,9 +1,8 @@
 \section{Modal logic}\label{ml}
 
-\todo[inline]{Subformula $\leq$ notation}
-
 We recall standard definitions and results from modal logic.
 For an introductory text on modal logic we direct the reader to the books by Blackburn, de~Rijke and Venema~\cite{blackburn:2001}, and Hughes and Cresswell~\cite{hughes:1996}.
+Many simple or well-known propositions are given without proof and left as an exercise for the curious reader.
 
 \subsection{Syntax and semantics}
 
@@ -30,6 +29,7 @@ $\phi \implies \psi ::= \lnot \phi \lor \psi$; and
 $\phi \iff \psi ::= (\phi \implies \psi) \land (\psi \implies \phi)$.
 We also use the abbreviation $\possibleA \phi ::= \lnot \necessaryA \lnot \phi$.
 When we are working in a single-agent setting we will write $\necessary$ and $\possible$ instead of $\necessaryA$ and $\possibleA$.
+We write $\psi \leq \phi$ to denote that $\psi$ is a subformula or is equal to $\phi$.
 
 The formula $\necessaryA \phi$ may be read as ``agent $\agentA$ {\em knows} that $\phi$ is true'', or ``agent $\agentA$ {\em believes} that $\phi$ is true'', depending on which terminology is appropriate for the setting we are working in.
 The formula $\possibleA \phi$ may be read as ``agent $\agentA$ considers it possible that $\phi$ is true''.
@@ -235,7 +235,6 @@ The relational operator $\bisimilar$ is an equivalence relation (reflexive, tran
 Bisimilar Kripke models are equivalent under modal validity.
 
 \begin{proposition}\label{modal-bisimulation-invariance}
-\todo{Citation}
 Let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
 Then for every $\phi \in \langMl$:
 $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
@@ -252,7 +251,6 @@ We say that $\kModel$ is {\em modally saturated} if and only if for every $\agen
 For modally saturated Kripke models, modal equivalence implies bisimilarity.
 
 \begin{proposition}\label{modal-hennessy-milner}
-\todo{Citation}
 Let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMl$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 Then $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
 \end{proposition}
@@ -274,7 +272,6 @@ Every finite Kripke model is image-finite.
 \end{proposition}
 
 \begin{proposition}
-\todo{Citation}
 Every image-finite Kripke model is modally saturated.
 \end{proposition}
 
@@ -283,13 +280,11 @@ Thus for finite or image-finite Kripke models it is also the case that modal equ
 Bisimulations can be computed in polynomial time for finite Kripke models.
 
 \begin{proposition}
-\todo{Citation}
 Let $\kModel$ and $\kModelP$ be Kripke models such that $\kModel \bisimilar \kModelP$.
 There is a unique, maximal bisimulation between $\kModel$ and $\kModelP$.
 \end{proposition}
 
 \begin{proposition}
-\todo{Citation}
 Let $\kModel$ and $\kModelP$ be finite Kripke models defined on a finite set of propositional atoms such that $\kModel \bisimilar \kModelP$.
 The maximal bisimulation between $\kModel$ and $\kModelP$ can be computed in polynomial time.
 \end{proposition}
@@ -311,13 +306,11 @@ The {\em bisimulation contraction} of $\kModel$ is the quotient model $\kModelAn
 \end{definition}
 
 \begin{proposition}
-\todo{Citation}
 Let $\kModelAndTuple$ be a Kripke model and let $\kModelP$ be the bisimulation contraction of $\kModel$.
 Then for every $\kStateS, \kStateT \in \kStates$: $\kPModelP{[\kStateS]} \bisimilar \kPModelP{[\kStateT]}$ if and only if $[\kStateS] = [\kStateT]$.
 \end{proposition}
 
 \begin{proposition}
-\todo{Citation}
 Let $\kModelAndTuple$ be a Kripke model and let $\kModelP$ be the bisimulation contraction of $\kModel$.
 Then for every $\kStateS \in \kStates$: $\kPModel{\kStateS} \bisimilar \kPModelP{[\kStateS]}$.
 \end{proposition}
@@ -417,8 +410,6 @@ Then the axiomatisations \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \a
 \end{itemize}
 \end{definition}
 
-\todo[inline]{Citation}
-
 We are interested in properties of the proof theories of the logics we consider.
 
 \begin{definition}[Soundness and completeness]
@@ -428,11 +419,8 @@ If every set of formulas that is consistent according to an axiomatisation is sa
 \end{definition}
 
 \begin{proposition}
-\todo{Citation}
 The axiomatisations \axiomK{}, \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} are sound and strongly complete with respect to the semantics of the respective logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{}, and \logicS{}.
 \end{proposition}
-
-\todo[inline]{Citation}
 
 \begin{definition}[Substitution of equivalents]
 Let $\lang$ be a logical language defined on the propositional atoms $\atoms$.
@@ -440,7 +428,6 @@ An axiomatisation allows {\em substitution of equivalents} if and only if for ev
 \end{definition}
 
 \begin{proposition}
-\todo{Citation}
 The axiomatisations \axiomK{}, \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} allow substitution of equivalents.
 \end{proposition}
 
@@ -451,7 +438,6 @@ If every (possibly infinite) set of formulas that is finitely satisfiable accord
 \end{definition}
 
 \begin{proposition}
-\todo{Citation}
 The logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{}, and \logicS{} are compact.
 \end{proposition}
 

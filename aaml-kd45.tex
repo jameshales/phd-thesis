@@ -1,6 +1,6 @@
 \section{K45}\label{aaml-kd45}
 
-In this section we consider in greater detail the logic \logicAamlKFF{} in the setting of \classKFF{}.
+In this section we consider results specific to the logic \logicAamlKFF{} in the setting of \classKFF{}.
 The main result of this section is that the action model quantifiers of \logicAamlKFF{} are equivalent to the refinement quantifiers of \logicRmlKFF{}.
 We show this equivalence by showing that if there exists a refinement where a given formula is satisfied then we can construct a finite action model that results in that formula being satisfied.
 
@@ -20,6 +20,7 @@ That is, for every $\phi \in \langRml$, $\kPModel{\kStateS} \in \classKFF$: $\kP
 \end{lemma}
 
 These results follow directly from the definitions.
+We note that these results only apply for \langAml{} and \langRml{} formulas respectively, and do not consider \langAaml{} formulas that contain both action model operators and quantifiers. 
 
 Given this we can give a sound and complete axiomatisation for \logicRamlKFF{} by combining the axiomatisations for \logicAmlKFF{} and \logicRmlKFF{}.
 
@@ -50,11 +51,27 @@ $$
 where $\phi, \psi \in \langAaml$, $\agentA \in \agents$, $\aPModel{\aStateS} \in \classAmKFF$, $\atomP \in \atoms$, $\pi \in \langPl$, $\agentsB, \agentsC \subseteq \agents$, and for every $\agentA \in \agents$: $\Gamma_\agentA$ is a finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
 \end{definition}
 
+We note that the axiomatisation \axiomRamlKFF{} is closed under substitution of equivalents.
+
+\begin{lemma}
+Let $\phi, \psi, \chi \in \langAaml$ be formulas and let $\atomP \in \atoms$ be a propositional atom.
+If $\proves \psi \iff \chi$ then $\proves \phi[\psi\backslash\atomP] \iff \phi[\chi\backslash\atomP]$.
+\end{lemma}
+
+This is shown by combining the reasoning that \axiomAmlKFF{} and \axiomRmlKFF{} are closed under substitution of equivalents.
+
+We also note that the axiomatisation \axiomRamlKFF{} is sound and complete.
+
 \begin{lemma}\label{raml-k45-sound-complete}
 The axiomatisation \axiomRamlKFF{} is sound and strongly complete with respect to the semantics of the logic \logicRamlKFF{}.
 \end{lemma}
 
 Soundness and completeness follows from the same reasoning used to show soundness and completeness of \axiomRamlK{} in Lemma~\ref{raml-k-sound-complete}.
+Soundness follows from the same reasoning that the axioms are sound in \logicAmlKFF{} and \logicRmlKFF{}.
+Completeness follows from a provably correct translation from \langAaml{} to \langMl{} that is formed by combining the provably correct translations from \langAml{} and \langRml{} to \langMl{}.
+
+We note that, much like the provably correct translation for \logicRmlS{}, the provably correct translations we have presented here can result in a non-elementary increase in the size compared to the original formula.
+
 The provably correct translation also implies that \logicRamlKFF{} is expressively equivalent to \logicKFF{}.
 
 \begin{corollary}\label{raml-k45-expressive-equivalence}
@@ -79,7 +96,7 @@ The converse we have already shown; if there exists a (possibly infinite) action
 
 We show our result using an inductive construction for a given formula.
 Our construction is based on the construction used for \logicRamlK{} in the previous section, and is very similar to the constructions used to show the soundness of the axioms {\bf RK45}, {\bf RComm}, and {\bf RDist} in \logicRmlKFF{}.
-We reuse the alternating disjunctive normal form we used for \logicRmlKFF{}, and we separate our inductive steps into two lemmas for each syntactic case from the alternating disjunctive normal form.
+We reuse the alternating disjunctive normal form we used for \logicRmlKFF{}, defined in Definition~\ref{adnf}, and we separate our inductive steps into two lemmas for each syntactic case from the alternating disjunctive normal form.
 In \logicRmlKFF{} we relied on the fact that $\agentsB$-restricted modal formulas are preserved in $\agentsB$-bisimilar Kripke models.
 We rely on a similar notion of $\agentsB$-bisimilarity for action models, which we define now.
 
@@ -98,6 +115,7 @@ For every $\aStateTP \in \aSuccessorsPB{\aStateSP}$ there exists $\aStateT \in \
 \end{definition}
 
 We show that $\agentsB$-bisimilar action models result in the same $\agentsB$-restricted modal formulas.
+Recall that $\agentsB$-restricted modal formulas were defined in Definition~\ref{b-restricted}.
 
 \begin{lemma}\label{action-b-bisimulation-results}
 Let $\agentsB \subseteq \agents$ be a set of agents, let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ and let $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar[\agentsB] \aPModelP{\aStateSP}$.
@@ -184,10 +202,11 @@ Without loss of generality we assume that each $\aModel[\agentC, \gamma]$ for ev
 We construct the action model $\aPModelAndTuple{\aStateTest}$ where:
 \begin{eqnarray*}
     \aStates &=& \{\aStateTest, \aStateSkip\} \cup \{\aPStateT[\agentC, \gamma] \mid \agentC \in \agentsC, \gamma \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]\} \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aStates[\agentC, \gamma]\\
-    \aAccessibilityA &=& \{(\aStateTest, \aPStateT[\agentA, \gamma]) \mid \gamma \in \Gamma_\agentA, \aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]\} \cup \{(\aStateSkip, \aStateSkip)\} \\&&\quad \cup \{(\aPStateT[\agentA, \gamma], \aPStateU[\agentA, \gamma']) \mid \gamma, \gamma' \in \Gamma_\agentA, \aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma], \aStateU[\agentA, \gamma'] \in \aStatesT[\agentA, \gamma']\} \\&& \quad \cup \{(\aPStateT[\agentC, \gamma], \aStateU[\agentC, \gamma]) \mid \agentC \in \agentsC \setminus \{\agentA\}, \gamma \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma], \aStateU[\agentC, \gamma] \in \aSuccessorsA[\agentC, \gamma]{\aStateT[\agentC, \gamma]}\}  \\&& \quad \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aAccessibilityA[\agentC, \gamma] \text{ for } \agentA \in \agentsC\\
-    \aAccessibilityA &=& \{(\aStateTest, \aStateSkip), (\aStateSkip, \aStateSkip)\} \\&& \quad \cup \{(\aPStateT[\agentC, \gamma], \aStateU[\agentC, \gamma]) \mid \agentC \in \agentsC, \gamma \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma], \aStateU[\agentC, \gamma] \in \aSuccessorsA[\agentC, \gamma]{\aStateT[\agentC, \gamma]}\} \\&&\quad \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aAccessibilityA[\agentC, \gamma] \text{ for } \agentA \in \agents \setminus \agentsC\\
+    \aAccessibilityC &=& \{(\aStateTest, \aPStateT[\agentC, \gamma]) \mid \gamma \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]\} \cup \{(\aStateSkip, \aStateSkip)\} \\&&\quad \cup \{(\aPStateT[\agentC, \gamma], \aPStateU[\agentC, \gamma']) \mid \gamma, \gamma' \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma], \aStateU[\agentC, \gamma'] \in \aStatesT[\agentC, \gamma']\} \\&& \quad \cup \{(\aPStateT[\agentD, \gamma], \aStateU[\agentD, \gamma]) \mid \agentD \in \agentsC \setminus \{\agentC\}, \gamma \in \Gamma_\agentD, \aStateT[\agentD, \gamma] \in \aStatesT[\agentD, \gamma], \aStateU[\agentD, \gamma] \in \aSuccessorsC[\agentD, \gamma]{\aStateT[\agentD, \gamma]}\}  \\&& \quad \cup \bigcup_{\agentD \in \agentsC, \gamma \in \Gamma_\agentD} \aAccessibilityC[\agentD, \gamma]\\
+    \aAccessibilityB &=& \{(\aStateTest, \aStateSkip), (\aStateSkip, \aStateSkip)\} \\&& \quad \cup \{(\aPStateT[\agentD, \gamma], \aStateU[\agentD, \gamma]) \mid \agentD \in \agentsC, \gamma \in \Gamma_\agentD, \aStateT[\agentD, \gamma] \in \aStatesT[\agentD, \gamma], \aStateU[\agentD, \gamma] \in \aSuccessorsB[\agentD, \gamma]{\aStateT[\agentD, \gamma]}\} \\&&\quad \cup \bigcup_{\agentD \in \agentsC, \gamma \in \Gamma_\agentD} \aAccessibilityB[\agentD, \gamma] \text{ for } \agentA \in \agents \setminus \agentsC\\
     \aPrecondition &=& \{(\aStateTest, \someactsBs \phi), (\aStateSkip, \top)\} \\&&\quad \cup \{(\aPStateT[\agentC, \gamma], \aPrecondition[\agentC, \gamma](\aStateT[\agentC, \gamma])) \mid \agentC \in \agentsC, \gamma \in \Gamma_\agentsC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]\} \\&&\quad \cup \bigcup_{\agentC \in \agentsC, \gamma \in \Gamma_\agentC} \aPrecondition[\agentC, \gamma]
 \end{eqnarray*}
+where $\agentC \in \agentsC$, and $\agentB \in \agents \setminus \agentsC$.
 
 We note that by construction $\aModel \in \classAmKFF$.
 
@@ -257,11 +276,11 @@ This is similar to the construction used to show the soundness of the axiom {\bf
 Here we can see that each of the action models, $\aPModel[\agentC_1,\gamma_1]{\aStatesT[\agentC_1, \gamma_1]}, \dots, \aPModel[\agentC_1,\gamma_{n_1}]{\aStatesT[\agentC_1, \gamma_{n_1}]} \dots \aPModel[\agentC_m,\gamma_1]{\aStatesT[\agentC_m, \gamma_1]}, \dots, \aPModel[\agentC_m,\gamma_{n_m}]{\aStatesT[\agentC_m, \gamma_{n_m}]}$, are combined into the larger action model $\aPModel{\aStateTest}$.
 We can see the use of the proxy states $\aPModel[\agentC_1,\gamma_1]{\aPStatesT[\agentC_1, \gamma_1]}, \dots, \aPModel[\agentC_1,\gamma_{n_1}]{\aPStatesT[\agentC_1, \gamma_{n_1}]} \dots \aPModel[\agentC_m,\gamma_1]{\aPStatesT[\agentC_m, \gamma_1]}, \dots, \aPModel[\agentC_m,\gamma_{n_m}]{\aPStatesT[\agentC_m, \gamma_{n_m}]}$, which have all of the $(\agents \setminus \{\agentC\})$-successors of the respective action models.
 We note that the proxy states are $(\agents \setminus \{\agentC\})$-bisimilar to the respective action models, and therefore result in the same respective $(\agents \setminus \{\agentC\})$-restricted formulas $\gamma_1, \dots, \gamma_n$.
-We note that the proxy states have additional transitive and Euclidean edges in order to ensure that $\aModel \in \classKFF$, and these additional edges are why the proxy states are not fully bisimilar to the respective action models.
+We can also see that the proxy states have additional transitive and Euclidean edges in order to ensure that $\aModel \in \classKFF$, and these additional edges are why the proxy states are not fully bisimilar to the respective action models.
 
-We note for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateS[\agentC, \gamma] \in \aStates[\agentC, \gamma]$ that $\aPModel{\aStateS[\agentC, \gamma]} \bisimilar \aPModel[\agentC, \gamma]{\aStateS[\agentC, \gamma]}$, as by construction $\aModel$ contains the disjoint union of each $\aModel[\agentC, \gamma]$ and no outward-facing edges are added to any state from $\aStates[\agentC, \gamma]$ in $\aModel$.
+We also note for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateS[\agentC, \gamma] \in \aStates[\agentC, \gamma]$ that $\aPModel{\aStateS[\agentC, \gamma]} \bisimilar \aPModel[\agentC, \gamma]{\aStateS[\agentC, \gamma]}$, as by construction $\aModel$ contains the disjoint union of each $\aModel[\agentC, \gamma]$ and no outward-facing edges are added to any state from $\aStates[\agentC, \gamma]$ in $\aModel$.
 
-We further note for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$ that $\aPModel{\aPStateT[\agentC, \gamma]} \bisimilar[(\agents \setminus \{\agentC\})] \aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]}$, as by construction the precondition and $(\agents \setminus \{\agentC\})$-successors of $\aPStateT[\agentC, \gamma]$ are the same as $\aStateT[\agentC, \gamma]$.
+We further observe for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$ that $\aPModel{\aPStateT[\agentC, \gamma]} \bisimilar[(\agents \setminus \{\agentC\})] \aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]}$, as by construction the precondition and $(\agents \setminus \{\agentC\})$-successors of $\aPStateT[\agentC, \gamma]$ are the same as $\aStateT[\agentC, \gamma]$.
 As $\gamma$ is a $(\agents \setminus \{\agentC\})$-restricted modal formula then if we let $\aPStatesT[\agentC, \gamma] = \{\aPStateT[\agentC, \gamma] \mid \aStateT[\agentC, \gamma]\}$ we have that
 $\entails \actionA{\aPModel{\aPStatesT[\agentC, \gamma]}} \gamma$, and
 $\entails \actionE{\aPModel{\aPStatesT[\agentC, \gamma]}} \gamma \iff \someactsBs \gamma$.
@@ -270,7 +289,7 @@ We show that
 $\entails \actionA{\aPModel{\aStateTest}} \phi$, and 
 $\entails \actionE{\aPModel{\aStateTest}} \phi \iff \someactsBs \phi$
 by using the same reasoning as in the proof of Lemma~\ref{aaml-k-covers},
-but substituting occurrences of $\aPModel{\aPStatesT[\agentC, \gamma]}$ with $\aPModel{\aStatesT[\agentC, \gamma]}$, noting from above that these states have the same required properties.
+but substituting occurrences of $\aPModel{\aPStatesT[\agentC, \gamma]}$ with $\aPModel{\aStatesT[\agentC, \gamma]}$, noting from above that these states each satisfy the corresponding formulas $\gamma$, as required in the proof of Lemma~\ref{aaml-k-covers}.
 
 We next show that for every $\kPModel{\kStateS} \in \classKFF$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateTest)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
 Let $\kPModel{\kStateS} \in \classKFF$ such that $\kPModel{\kStateS} \entails \aPrecondition(\aStateTest)$.
@@ -279,7 +298,7 @@ From above $\aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \bisimilar \aPM
 Proposition~\ref{action-bisimulation-results} we have that $\kPModel{\kStateT} \exec \aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \bisimilar \kPModel{\kStateT} \exec \aPModel{\aStateT[\agentC, \gamma]}$.
 From Corollary~\ref{bisimilar-refinement} and Proposition~\ref{refinements-preorder} we have that $\kPModel{\kStateT} \simulatesBs \kPModel{\kStateT} \exec \aPModel{\aStateT[\agentC, \gamma]}$ (say via a $\agentsB$-refinement $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$).
 
-Let $\kPModelP{(\kStateS, \aStateTest)} = \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
+Let $\kPModelAndTupleP{(\kStateS, \aStateTest)} = \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
 We define $\refinement \subseteq \kStates \times \kStatesP$ where:
 \begin{eqnarray*}
 \refinement &=& 
@@ -346,12 +365,12 @@ We show by cases that the relationships in $\refinement$ satisfy the conditions 
                 As $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$ then by hypothesis $(\kStateT, (\kStateT, \aStateT[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]}$.
                 By {\bf forth-$\agentD$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $(\kStateV, \aStateV[\agentC, \gamma]) \in \kSuccessorsPD{(\kStateT, \aStateT[\agentC, \gamma])} = \kSuccessorsPD{(\kStateT, \aPStateT[\agentC, \gamma])}$ such that $(\kStateU, (\kStateV, \aStateV[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
             \item[back-$\agentA$]
-                Suppose that $\agentA = \agentsC$.
+                Suppose that $\agentA \in \agentsC$.
                 Let $(\kStateU, \aPStateU[\agentC, \gamma']) \in \kSuccessorsPA{(\kStateT, \aPStateT[\agentC, \gamma])}$ where $\gamma' \in \Gamma_\agentC$ and $\aPStateU[\agentC, \gamma'] \in \aStatesT[\agentC, \gamma']$.
                 As $\kModel \in \classKFF$ then by transitivity $\kStateU \in \kSuccessorsD{\kStateS}$.
                 As $(\kStateU, \aPStateU[\agentC, \gamma']) \in \kStatesP$ then $\kPModel{\kStateU} \entails \aPrecondition(\aPStateU[\agentC, \gamma'])$ so by construction $(\kStateU, (\kStateU, \aPStateU[\agentC, \gamma'])) \in \refinement$.
 
-                Suppose that $\agentA \neg \agentsC$.
+                Suppose that $\agentA \notin \agentsC$.
                 Let $(\kStateU, \aStateU[\agentC, \gamma]) \in \kSuccessorsPA{(\kStateT, \aPStateT[\agentC, \gamma])}$ where $\aStateU[\agentC, \gamma] \in \aSuccessorsA{\aStateT[\agentC, \gamma]} = \aSuccessorsA{\aPStateT[\agentC, \gamma]}$.
                 As $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$ then by hypothesis $(\kStateT, (\kStateT, \aStateT[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]}$.
                 By {\bf back-$\agentA$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $\kStateV \in \kSuccessorsA{\kStateT}$ such that $(\kStateV, (\kStateU, \aStateU[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
@@ -419,5 +438,20 @@ The logic \logicAamlKFF{} is compact.
 \end{corollary}
 
 \begin{corollary}
+The model-checking problem for the logic \logicAamlKFF{} is decidable.
+\end{corollary}
+
+\begin{corollary}
 The satisfiability problem for the logic \logicAamlKFF{} is decidable.
 \end{corollary}
+
+Similar to \logicAamlK{}, discussed in the previous section, the provably correct translation from \langAaml{} to \langMl{} may result in a non-elementary increase in size compared to the original formula.
+Therefore any algorithm that relies on the provably correct translation will have a non-elementary complexity.
+We leave the consideration of better complexity bounds and succinctness results for \logicAamlKFF{} to future work.
+
+Also similar to \logicAamlK{}, the proof of Theorem~\ref{aaml-k45-synthesis} and the associated lemmas describe a recursive synthesis procedure that can be applied in order to construct action models that result in desired knowledge goals.
+The action model given by Theorem~\ref{aaml-s5-synthesis} depends only on the desired knowledge goal, and not on the initial knowledge state, so the action model can be executed on any initial Kripke model to achieve the desired knowledge goal, whenever that knowledge goal cab be achieved by some epistemic update from that initial Kripke model.
+Similar to \logicAamlK{}, as the synthesis procedure relies on the expressive equivalence of \logicRamlKFF{} and \logicKFF{}, and the provably correct translation from \langAaml{} to \langMl{} may result in a non-elementary increase in size compared to the original formula, the action model produced by the synthesis procedure may be non-elementary in size compared to the original formula.
+If the original formula is already in \langMl{} and in alternating disjunctive normal form, then the action model is linearithmic in size compared to the original alternating disjunctive normal formula.
+If we had an improved provably correct translation from \langAaml{} to \langMl{} then the size of the action models produced by this synthesis procedure would be correspondingly improved.
+We leave the consideration of synthesis procedures with improved complexity to future work.

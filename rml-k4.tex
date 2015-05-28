@@ -1,6 +1,6 @@
 \chapter{Refinement modal logic: \classKF{}}\label{rml-k4}
 
-In this chapter we consider in greater detail the logic \logicRmlKF{} in the setting of \classKF{}.
+In this chapter we consider results specific to the logic \logicRmlKF{} in the setting of \classKF{}.
 The main results of this chapter are expressivity results.
 We show that the logic \logicRmlKF{} is strictly more expressive than the underlying modal logic \logicKF{}, and strictly less expressive than the bisimulation quantified modal logic \logicBqmlKF{}, and the modal $\mu$-calculus \logicMuKF{}.
 A corollary of the latter results are that \logicRmlKF{} is decidable, via a semantically correct translation from \langRml{} to \langBqml{}.
@@ -83,7 +83,9 @@ We proceed by induction on $n \in \naturals$:
         \paragraph{atoms} Trivial.
 
         \paragraph{forth} Let $k \in \kSuccessors{}{i}$.
+
         Suppose that $k \geq n - 1$. Then from the induction hypothesis $\kPModel{k} \bisimilar [n-1] \kPModel{j - 1}$.
+
         Suppose that $k < n - 1$. Then $k < n - 1 < j$ and $k \in \kSuccessors{}{j}$, so we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
 
         \paragraph{back} Symmetrical reasoning to {\bf forth}.
@@ -99,8 +101,11 @@ We proceed by induction on $n \in \naturals$:
         \paragraph{forth} Let $k \in \kSuccessors{}{n}$. Then $k \in \kSuccessors{}{\omega'}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
 
         \paragraph{back} Let $k \in \kSuccessors{}{\omega'}$. 
+
         Suppose that $k = \omega'$. Then $n - 1 \in \kSuccessors{}{n}$ and by the induction hypothesis $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{\omega'}$. 
+
         Suppose that $k \neq \omega'$ and $k < n$. Then $k \in \kSuccessors{}{n}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+
         Suppose that $k \neq \omega'$ and $k \geq n$. Then $n - 1 \in \kSuccessors{}{n}$ and from above $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{k}$.
 
     \item We show that $\kPModel{\omega} \bisimilar[n] \kPModel{\omega'}$.
@@ -114,7 +119,9 @@ We proceed by induction on $n \in \naturals$:
         \paragraph{forth} Let $k \in \kSuccessors{}{\omega}$. Then $k \in \kSuccessors{}{\omega'}$ and from above we have that $\kPModel{k} \bisimilar \kPModel{k}$.
 
         \paragraph{back} Let $k \in \kSuccessors{}{\omega'}$.
+
         Suppose that $k = \omega'$. Then $n - 1 \in \kSuccessors{}{\omega}$ and from above $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{\omega'}$.
+
         Suppose that $k \neq \omega'$. Then $k \in \kSuccessors{}{\omega}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
 \end{enumerate}
 
@@ -125,6 +132,10 @@ From above $\kPModel{\omega} \bisimilar[n] \kPModel{\omega'}$ so $\kPModel{\omeg
 Therefore $\kPModel{\omega}$ is modally indistinguishable from $\kPModel{\omega'}$.
 
 Next we will show that the refinement modal formula $\somerefs (\possible \top \land \necessary \possible \top)$ can distinguish between $\kPModel{\omega}$ and $\kPModel{\omega'}$.
+Although we do not show it formally here, this distinguishing formula corresponds to the semantic property that there exists an infinite path starting from the designated state in a pointed Kripke model.
+It should be clear from the construction of $\kModel$ that $\omega'$ has an infinite path, consisting of repeatedly following the reflexive edge, whereas $\omega$ does not have an infinite path, as the longest path from any successor $n \in \kSuccessors{}{\omega}$ has at most $n - 1$ steps until it reaches the state $0$ where the path must end.
+
+We proceed with model checking using to show that $\kPModel{\omega}$ and $\kPModel{\omega'}$ disagree on the interpretation of this distinguishing formula.
 
 We first show that $\kPModel{\omega'} \entails \somerefs (\possible \top \land \necessary \possible \top)$.
 Let $\kPModelAndTupleP{\omega'}$ where:
@@ -170,6 +181,12 @@ Therefore \logicRmlKF{} is strictly more expressive than \logicKF{}.
 In this section we show that \logicRmlKF{} is (non-strictly) less expressive than the bisimulation quantified modal logic \logicBqmlKF{}.
 As a corollary we also have that \logicRmlKF{} is non-strictly less expressive than the modal $\mu$-calculus \logicMuKF{}, as \logicBqmlKF{} and \logicMuKF{} are expressively equivalent.
 We direct the reader to Appendix~\ref{bqml} for the required technical background for bisimulation quantified modal logics.
+
+We recall that \logicBqml{} extends modal logic with quantifiers over the pointed Kripke models that are bisimilar to the currently considered Kripke model, except for the valuation of a given propositional atom.
+This notion of bisimilarity except for a given propositional atom is called $\atomP$-bisimilarity, and is the same as the usual notion of bisimulation except that the condition {\bf atoms-$\atomP$} is relaxed just for the given atom $\atomP$.
+In \logicBqml{} the formula $\allbisimsP \phi$ may be read as ``in every $\atomP$-bisimilar Kripke model $\phi$ is true'' and the formula $\somerefsBs \phi$ may be read as ``in some $\atomP$-bisimilar Kripke model $\phi$ is true''.
+Similar to refinement modal logic, different variants of \logicBqml{} restrict the $\atomP$-bisimilar Kripke models that the quantifiers consider to Kripke models from a given class of Kripke frames.
+So in \logicBqmlKF{} the quantifiers only consider $\atomP$-bisimilar Kripke models from \classKF{}.
 
 In previous chapters we considered \logicRml{} in the settings of \classK{}, \classKFF{}, \classKD{}, and \classS{}, and in each setting showed that \logicRml{} is expressively equivalent to the respective underlying modal logic.
 As a consequence we trivially get that \logicRml{} is non-strictly less expressive than \logicBqml{} in these settings.
@@ -281,7 +298,7 @@ We show by cases that the relationships in $\bisimulation'$ satisfy the conditio
 
 \begin{description}
     \item[Case $(\kStateT, \kStateT) \in \bisimulation'$ where $\kStateT \in \kStates$:]
-        \hfill\\
+        \hfill
         \begin{description}
             \item[atoms-$\atomQ$] 
                 By construction $\kStateT \in \kValuation(\atomQ)$ if and only if $\kStateT \in \kValuationP(\atomQ)$.
@@ -295,25 +312,29 @@ We show by cases that the relationships in $\bisimulation'$ satisfy the conditio
                 Then $\kStateUP \in \kSuccessorsA{\kStateT}$ and $(\kStateUP, \kStateUP) \in \bisimulation'$.
         \end{description}
     \item[Case $(\kStateT, \kStateTPP) \in \refinement \subseteq \bisimulation'$:]
-        \hfill\\
+        \hfill
         \begin{description}
             \item[atoms-$\atomQ$] 
                 By {\bf atoms-$\atomQ$} for $\refinement$, $\kStateT \in \kValuation(\atomQ)$ if and only if $\kStateTPP \in \kValuationPP(\atomQ)$.
                 As $\atomQ \neq \atomP$ then by construction $\kStateTPP \in \kValuationPP(\atomQ)$ if and only if $\kStateTPP \in \kValuationP(\atomQ)$.
             \item[forth-$\agentA$]
                 Let $\kStateU \in \kSuccessorsA{\kStateT}$.
+
                 Suppose that $\agentA \in \agentsB$.
                 As $\kStateT \in \refinement^{-1}(\kStateTPP)$ and $\kStateU \in \kSuccessorsA{\kStateT}$ then by construction $\kStateU \in \kSuccessorsPA{\kStateTPP}$.
                 By construction $(\kStateU, \kStateU) \in \bisimulation'$.
+
                 Suppose that $\agentA \notin \agentsB$.
                 By {\bf forth-$\agentA$} for $\refinement$ there exists $\kStateUPP \in \kSuccessorsPPA{\kStateTPP}$ such that $(\kStateU, \kStateUPP) \in \refinement \subseteq \bisimulation'$.
                 By construction $\kSuccessorsPPA{\kStateTPP} \subseteq \kSuccessorsPA{\kStateTPP}$.
                 Then $\kStateUPP \in \kSuccessorsPA{\kStateTPP}$.
             \item[back-$\agentA$]
                 Let $\kStateUPP \in \kSuccessorsPA{\kStateTPP}$.
+
                 Suppose that $\kStateUPP \in \kStates$.
                 By construction $\kStateUPP \in \kSuccessorsA{\refinement^{-1}(\kStateTPP)}$.
                 By construction $(\kStateUPP, \kStateUPP) \in \bisimulation'$.
+
                 Suppose that $\kStateUPP \in \kStatesPP$.
                 Then by construction $\kStateUPP \in \kSuccessorsPPA{\kStateTPP}$.
                 By {\bf back-$\agentA$} for $\refinement$ there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $(\kStateU, \kStateUPP) \in \refinement \subseteq \bisimulation'$.
@@ -366,11 +387,33 @@ where $\atomQ \neq \atomP$, $\agentB \in \agentsB$, and $\agentC \in \agents \se
 
 The intent of $(\agentsB, \atomP)$-relativisation is to capture the notion of $(\agentsB, \atomP)$-restriction syntactically.
 Bozzelli, et al.~\cite{bozzelli:2014b} gave a result demonstrating that given a \langBqml{} formula and a Kripke model, the interpretation of the $(\agentsB, \atomP)$-relativisation of the formula on the Kripke model is equivalent to the interpretation of the formula on the $(\agentsB, \atomP)$-restriction of the Kripke model.
+This is represented with a schematic diagram in Figure~\ref{rml-k4-relativisation-restriction-diagram}.
 We adapt this result to the setting of \classKF{} and for our modified definitions.
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+
+        \node (s) {$\entails \necessaryA (\atomP \implies \phi)$};
+        \node (++) [above of=s] {$\entails \atomP \land \phi$};
+        \node (-+) [left of=++] {$\entails \lnot \atomP \land \phi$};
+        \node (--) [right of=++] {$\entails \lnot \atomP \land \lnot \phi$};
+
+        \node (s') [right=14em of s] {$\entails \necessaryA \phi$};
+        \node (++') [above of=s'] {$\entails \phi$};
+
+      \path[every node/.style={font=\sffamily\small},->]
+          (s)  edge node {$\agentA$} (++)
+               edge node {$\agentA$} (-+)
+               edge [swap] node {$\agentA$} (--)
+          (s') edge node {$\agentA$} (++');
+    \end{tikzpicture}
+    \caption{A schematic showing the intended relationship between the $(\agentA, \atomP)$-restriction of a Kripke model and the $(\agentA, \atomP)$-relativisation of a formula. The Kripke model on the right is the $(\agentA, \atomP)$-restriction of the Kripke model on the left, and the formula on the left is the $(\agentA, \atomP)$-relativisation of the formula on the right.}\label{rml-k4-relativisation-restriction-diagram}
+\end{figure}
 
 \begin{lemma}\label{rml-k4-relativisation-restriction}
 Let $\agentsB \subseteq \agents$ be a set of agents, let $\atomP \in \atoms$ be a propositional atom, let $\phi \in \langBqml$ be a bisimulation quantified modal formula, let $\kPModel{\kStateS} \in \classKF$ be a pointed Kripke model, and let $\kPModel[(\agentsB, \atomP)]{\kStateS}$ be the $(\agentsB, \atomP)$-restriction of $\kPModel{\kStateS}$.
-Then $\kPModel{\kStateS} \entails_\logicBqmlKF \phi^{(\agentsB, \atomP)}$ if and only if $\kPModelP{\kStateS} \entails_\logicBqmlKF \phi$.
+Then $\kPModel{\kStateS} \entails_\logicBqmlKF \phi^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails_\logicBqmlKF \phi$.
 \end{lemma}
 
 \begin{proof}
@@ -407,6 +450,7 @@ We consider each case:
 
         We will show that there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \phi$ if and only if there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateSPP} \entails \phi$.
 
+        ($\Rightarrow$)
         Suppose there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$, via some $\atomQ$-bisimulation $\bisimulation \subseteq \kStates \times \kStatesP$, and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \phi$.
         We show that $\bisimulation$ is also a $\atomQ$-bisimulation between $\kPModel[(\agentsB, \atomP)]{\kStateS}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$.
         Let $\atomR \in \atoms \setminus \{\atomQ\}$, $\agentB \in \agentsB$, $\agentC \in \agents \setminus \agentsB$, and $(\kStateT, \kStateTP) \in \refinement$:
@@ -438,6 +482,7 @@ We consider each case:
 
         Therefore $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \phi$.
 
+        ($\Leftarrow$)
         Suppose there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModelPP{\kStateSPP}$, via some $\atomQ$-bisimulation $\bisimulation \subseteq \kStates \times \kStatesPP$, and $\kPModelPP{\kStateSPP} \entails \phi$.
         Let $\kPModelAndTupleP{\kStateSPP}$ where:
         \begin{eqnarray*}
@@ -457,7 +502,7 @@ We consider each case:
         We show by cases that the relationships in $\bisimulation'$ satisfy the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentB$}, {\bf back-$\agentB$}, {\bf forth-$\agentC$}, and {\bf back-$\agentC$}.
         \begin{description}
             \item[{Case $(\kStateT, \kStateTPP) \in \bisimulation \subseteq \bisimulation'$:}]
-                \hfill\\
+                \hfill
                 \begin{description}
                     \item[atoms-$\atomR$] 
                         By construction $\kStateT \in \kValuation(\atomR)$ if and only if $\kStateT \in \kValuation[(\agentsB, \atomP)](\atomR)$.
@@ -465,6 +510,7 @@ We consider each case:
                         By construction $\kStateTPP \in \kValuationPP(\atomR)$ if and only if $\kStateTPP \in \kValuationP(\atomR)$.
                     \item[forth-$\agentB$]
                         Let $\kStateU \in \kSuccessorsB{\kStateT}$.
+
                         Suppose that $\kStateU \in \kValuation(\atomP)$.
                         Then by construction $\kStateU \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateT}$.
                         By {\bf forth-$\agentB$} for $\bisimulation$ there exists $\kStateUPP \in \kSuccessorsPPB{\kStateTPP} \subseteq \kSuccessorsPB{\kStateTPP}$ such that $(\kStateU, \kStateUPP) \in \bisimulation \subseteq \bisimulation'$.
@@ -482,7 +528,7 @@ We consider each case:
                         Follows from the same reasoning as {\bf back-$\agentB$}.
                 \end{description}
             \item[{Case $(\kStateT, \kStateT) \in \bisimulation'$ where $\kStateT \in \kStates$:}]
-                \hfill\\
+                \hfill
                 \begin{description}
                     \item[atoms-$\atomR$] 
                         By construction $\kStateT \in \kValuation(\atomR)$ if and only if $\kStateT \in \kValuationP(\atomR)$.
@@ -512,12 +558,14 @@ We consider each case:
 
         \paragraph{forth-$\agentA$}
         Let $\kStateUPP \in \kSuccessorsPPA{\kStateTPP}$.
+
         Suppose that $\agentA \in \agentsB$.
         By construction there exists $\kStateT \in \kStates$ such that $(\kStateT, \kStateTPP) \in \bisimulation$.
         By {\bf back-$\agentA$} for $\bisimulation$ there exists $\kStateU \in \kSuccessorsA[(\agentsB, \atomP)]{\kStateT}$ such that $(\kStateU, \kStateUPP) \in \bisimulation$.
         By construction $\kStateU \in \kValuation(\atomP)$.
         By {\bf atoms-$\atomP$} for $\bisimulation''$ we have $\kStateUPP \in \kValuation(\atomP)$.
         By construction $\kStateUPP \in \kSuccessorsA[\prime(\agentsB, \atomP)]{\kStateTPP}$ and $(\kStateUPP, \kStateUPP) \in \bisimulation''$.
+
         Suppose that $\agentA \notin \agentsB$.
         By {\bf back-$\agentA$} for $\bisimulation$ there exists $\kStateU \in \kSuccessorsA[(\agentsB, \atomP)]{\kStateT}$ such that $(\kStateU, \kStateUPP) \in \bisimulation$.
         By construction $\kSuccessorsA[\prime(\agentsB, \atomP)]{\kStateTPP} = \kSuccessorsPPA{\kStateTPP}$.
@@ -539,6 +587,8 @@ We consider each case:
 
         Therefore $\kPModel{\kStateS} \entails (\somebisimsQ \phi)^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \somebisimsQ \phi$.
 \end{description}
+
+Therefore by induction on the structure of $\phi$ we have for every $\kPModel{\kStateS} \in \classKF$: $\kPModel{\kStateS} \entails \phi^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \phi$.
 \end{proof}
 
 Using relativisation we can define a translation from \langRml{} formulas to \langBqml{} formulas.
@@ -561,7 +611,7 @@ We rely on the partial characterisation of $\agentsB$-refinements as $(\agentsB,
 
 \begin{theorem}\label{rml-k4-bqml-translation}
 Let $\phi \in \langRml$ be a refinement modal formula.
-Then for every $\kPModel{\kStateS} \in \classKF$: $\kPModel{\kStateS} \entails_\logicRmlKF \phi$ if and only if$\kPModel{\kStateS} \entails_\logicBqmlKF \tau(\phi)$.
+Then for every $\kPModel{\kStateS} \in \classKF$: $\kPModel{\kStateS} \entails_\logicRmlKF \phi$ if and only if $\kPModel{\kStateS} \entails_\logicBqmlKF \tau(\phi)$.
 \end{theorem}
 
 \begin{proof}
@@ -570,6 +620,7 @@ The propositional and modal cases follow directly from the semantics of \logicRm
 
 Let $\kPModel{\kStateS} \in \classKF$.
 
+($\Rightarrow$)
 Suppose that $\kPModel{\kStateS} \entails_\logicRmlKF \somerefsBs \phi$.
 Then there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails_\logicRmlKF \phi$.
 By the induction hypothesis we have $\kPModelP{\kStateSP} \entails_\logicBqmlKF \tau(\phi)$, so $\kPModelP{\kStateSP} \entails_\logicBqmlKF \tau(\phi)$.
@@ -579,6 +630,7 @@ As $\kPModel[\prime\prime(\agentsB, \atomP)]{\kStateSPP} \entails_\logicBqmlKF \
 Then there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomP] \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateSPP} \entails_\logicBqmlKF (\tau(\phi))^{(\agentsB, \atomP)}$.
 Therefore $\kPModel{\kStateS} \entails_\logicBqmlKF \somebisimsP (\tau(\phi))^{(\agentsB, \atomP)}$.
 
+($\Leftarrow$)
 Suppose that $\kPModel{\kStateS} \entails_\logicBqmlKF \somebisimsP (\tau(\phi))^{(\agentsB, \atomP)}$.
 Then there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomP] \kPModelP{\kStateSP}$, via some $\atomP$-bisimulation $\bisimulation \subseteq \kStates \times \kStatesP$, and $\kPModelP{\kStateSP} \entails_\logicBqmlKF (\tau(\phi))^{(\agentsB, \atomP)}$.
 By Lemma~\ref{rml-k4-relativisation-restriction} we have $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails_\logicBqmlKF \tau(\phi)$.
@@ -603,6 +655,7 @@ Let $\atomQ \in \atoms$, $\agentC \in \agents \setminus \agentsB$, $\agentA \in 
 Suppose that $\atomQ = \atomP$.
 By hypothesis $(\kStateT, \kStateTP) \in \bisimulation$ and $(\kStateTP, \kStateTPP) \in \refinement'$.
 Then by construction $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateTPP \in \kValuationPP(\atomP)$.
+
 Suppose that $\atomQ \neq \atomP$.
 By {\bf atoms-$\atomQ$} for $\bisimulation$ we have $\kStateT \in \kValuation(\atomQ)$ if and only if $\kStateTP \in \kValuationP(\atomQ)$.
 By {\bf atoms-$\atomQ$} for $\refinement'$ we have $\kStateTP \in \kValuationP(\atomQ)$ if and only if $\kStateTPP \in \kValuationP(\atomQ)$.
@@ -647,12 +700,12 @@ The Kripke model was constructed in such a way that the two designated states ar
 However as one designated state has an infinite path and the other doesn't, they disagree on the interpretation of the given \langRml{} formula.
 
 We use a very similar semantic property and construction here to show that \logicRmlKF{} is strictly less expressive than \logicMuKF{}.
-The distinguishing \langMu{} formula that we will use corresponds roughly to the semantic property that there exists an infinite path starting from the designated state in a pointed Kripke model, along which $\possible \necessary \atomP$ and $\possible \necessary \lnot \atomP$ is satisfied infinitely often.
+The distinguishing \langMu{} formula that we will use corresponds roughly to the semantic property that there exists an infinite path starting from the designated state in a pointed Kripke model, along which $\possible \necessary \atomP$ and $\possible \necessary \lnot \atomP$ are satisfied infinitely often.
 To show that no \langRml{} formula corresponds to this semantic property we demonstrate a \classKF{} Kripke model with two designated states, one with an appropriate infinite path, and one without.
 Both states also had terminating paths of length $n$ for every $n \in \naturals$, along which $\possible \necessary \atomP$ and $\possible \necessary \lnot \atomP$ are satisfied $n$ times.
 To show that the two states agree on the interpretation of all \langRml{} formulas we use a notion similar to $n$-bisimilarity, which we call $n$-mutual refinements.
 We show that the two designated states of the Kripke model are $n$-mutual refinements and therefore they agree on the interpretation of all \langRml{} formulas. 
-However as one designated state has an appropriate infinite path and the other deosnt', they disagree on the intepretation of the given \langMu{} formula.
+However as one designated state has an appropriate infinite path and the other doesnt', they disagree on the intepretation of the given \langMu{} formula.
 
 We first define $n$-mutual refinements.
 
@@ -784,7 +837,7 @@ $$
 We show that $\refinement$ satisfies {\bf atoms-$\atomP$} and {\bf back} for every $(\kStateS, \kStateSP) \in \refinement$.
 
 \begin{description}
-    \item[Case: $(\kStateS, \kStateS) \in \refinement$]\hfill\\
+    \item[Case: $(\kStateS, \kStateS) \in \refinement$]\hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 Trivial.
@@ -792,20 +845,23 @@ We show that $\refinement$ satisfies {\bf atoms-$\atomP$} and {\bf back} for eve
                 Let $\kStateT \in \kSuccessors{}{\kStateS}$. 
                 By construction $(\kStateT, \kStateT) \in \refinement$.
         \end{description}
-    \item[Case: $(0, n) \in \refinement$ where $n \in \naturals$:]\hfill\\
+    \item[Case: $(0, n) \in \refinement$ where $n \in \naturals$:]\hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $0 \in \kValuation(\atomP)$ and $n \in \kValuation(\atomP)$.
             \item[back]
                 Let $k^* \in \kSuccessors{}{n}$.
+
                 Suppose that $k^* = k$ where $k \in \naturals$.
                 By construction $0 \in \kSuccessors{}{0}$ and $(0, k) \in \refinement$.
+
                 Suppose that $k^* = k^+$ where $k \in \naturals$.
                 By construction $0^+ \in \kSuccessors{}{0}$ and $(0^+, k^+) \in \refinement$.
+
                 Suppose that $k^* = k^-$ where $k \in \naturals$.
                 By construction $0^- \in \kSuccessors{}{0}$ and $(0^-, k^-) \in \refinement$.
         \end{description}
-    \item[Case: $(n, 0) \in \refinement$ where $n \in \naturals$:]\hfill\\
+    \item[Case: $(n, 0) \in \refinement$ where $n \in \naturals$:]\hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $n \in \kValuation(\atomP)$ and $0 \in \kValuation(\atomP)$.
@@ -813,7 +869,7 @@ We show that $\refinement$ satisfies {\bf atoms-$\atomP$} and {\bf back} for eve
                 Let $k^* \in \kSuccessors{}{0}$.
                 By construction $k^* \in \kSuccessors{}{n}$ and $(k^*, k^*) \in \refinement$.
         \end{description}
-    \item[Case: $(0^+, n^+) \in \refinement$ where $n \in \naturals$:]\hfill\\
+    \item[Case: $(0^+, n^+) \in \refinement$ where $n \in \naturals$:]\hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $0^+ \in \kValuation(\atomP)$ and $n^+ \in \kValuation(\atomP)$.
@@ -821,7 +877,7 @@ We show that $\refinement$ satisfies {\bf atoms-$\atomP$} and {\bf back} for eve
                 Let $n^+ \in \kSuccessors{}{n^+}$.
                 By construction $0^+ \in \kSuccessors{}{n^+}$ and $(0^+, n^+) \in \refinement$.
         \end{description}
-    \item[Case: $(0^-, n^-) \in \refinement$ where $n \in \naturals$:]\hfill\\
+    \item[Case: $(0^-, n^-) \in \refinement$ where $n \in \naturals$:]\hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $0^- \notin \kValuation(\atomP)$ and $n^- \notin \kValuation(\atomP)$.
@@ -829,7 +885,7 @@ We show that $\refinement$ satisfies {\bf atoms-$\atomP$} and {\bf back} for eve
                 Let $n^- \in \kSuccessors{}{n^0}$.
                 By construction $0^- \in \kSuccessors{}{n^-}$ and $(0^-, n^-) \in \refinement$.
         \end{description}
-    \item[Case: $(\omega, n) \in \refinement$ where $n \in \naturals$:]\hfill\\
+    \item[Case: $(\omega, n) \in \refinement$ where $n \in \naturals$:]\hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $\omega \in \kValuation(\atomP)$ and $n \in \kValuation(\atomP)$.
@@ -837,7 +893,7 @@ We show that $\refinement$ satisfies {\bf atoms-$\atomP$} and {\bf back} for eve
                 Let $k^* \in \kSuccessors{}{n}$.
                 By construction $k^* \in \kSuccessors{}{\omega}$ and $(k^*, k^*) \in \refinement$.
         \end{description}
-    \item[Case: $(\omega', n) \in \refinement$ where $n \in \naturals$:]\hfill\\
+    \item[Case: $(\omega', n) \in \refinement$ where $n \in \naturals$:]\hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $\omega' \in \kValuation(\atomP)$ and $n \in \kValuation(\atomP)$.
@@ -845,7 +901,7 @@ We show that $\refinement$ satisfies {\bf atoms-$\atomP$} and {\bf back} for eve
                 Let $k^* \in \kSuccessors{}{n}$.
                 By construction $k^* \in \kSuccessors{}{\omega}$ and $(k^*, k^*) \in \refinement$.
         \end{description}
-    \item[Case: $(0, \omega) \in \refinement$:]\hfill\\
+    \item[Case: $(0, \omega) \in \refinement$:]\hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $0 \in \kValuation(\atomP)$ and $\omega \in \kValuation(\atomP)$.
@@ -853,38 +909,46 @@ We show that $\refinement$ satisfies {\bf atoms-$\atomP$} and {\bf back} for eve
                 Let $k^* \in \kSuccessors{}{\omega}$.
                 Suppose that $k^* = k$ where $k \in \naturals$.
                 By construction $0 \in \kSuccessors{}{0}$ and $(0, k) \in \refinement$.
+
                 Suppose that $k^* = k^+$ where $k \in \naturals$.
                 By construction $0^+ \in \kSuccessors{}{0}$ and $(0^+, k^+) \in \refinement$.
+
                 Suppose that $k^* = k^-$ where $k \in \naturals$.
                 By construction $0^- \in \kSuccessors{}{0}$ and $(0^-, k^-) \in \refinement$.
         \end{description}
-    \item[Case: $(0, \omega') \in \refinement$:]\hfill\\
+    \item[Case: $(0, \omega') \in \refinement$:]\hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $0 \in \kValuation(\atomP)$ and $\omega' \in \kValuation(\atomP)$.
             \item[back]
                 Let $k^* \in \kSuccessors{}{\omega'}$.
+
                 Suppose that $k^* = \omega'$.
                 By construction $0 \in \kSuccessors{}{\omega'}$ and $(0, \omega') \in \refinement$.
+
                 Suppose that $k^* = k$ where $k \in \naturals$.
                 By construction $0 \in \kSuccessors{}{0}$ and $(0, k) \in \refinement$.
+
                 Suppose that $k^* = k^+$ where $k \in \naturals$.
                 By construction $0^+ \in \kSuccessors{}{0}$ and $(0^+, k^+) \in \refinement$.
+
                 Suppose that $k^* = k^-$ where $k \in \naturals$.
                 By construction $0^- \in \kSuccessors{}{0}$ and $(0^-, k^-) \in \refinement$.
         \end{description}
-    \item[Case: $(\omega, \omega') \in \refinement$:]\hfill\\
+    \item[Case: $(\omega, \omega') \in \refinement$:]\hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $\omega \in \kValuation(\atomP)$ and $\omega' \in \kValuation(\atomP)$.
             \item[back]
                 Let $k^* \in \kSuccessors{}{\omega'}$.
+
                 Suppose that $k^* = \omega'$.
                 By construction $0 \in \kSuccessors{}{\omega}$ and $(0, \omega') \in \refinement$.
+
                 Suppose that $k^* \neq \omega'$.
                 By construction $k^* \in \kSuccessors{}{\omega}$ and $(k^*, k^*) \in \refinement$.
         \end{description}
-    \item[Case: $(\omega', \omega) \in \refinement$:]\hfill\\
+    \item[Case: $(\omega', \omega) \in \refinement$:]\hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $\omega' \in \kValuation(\atomP)$ and $\omega \in \kValuation(\atomP)$.
@@ -920,14 +984,19 @@ We proceed by induction on $n \in \naturals$.
     \paragraph{forth}
 
     Let $k^* \in \kSuccessors{}{i}$.
+
     Suppose that $k^* = k$ where $k \in \naturals$ and $k \geq n - 1$.
     Then from the induction hypothesis $\kPModel{k} \bisimilar [n-1] \kPModel{j - 1}$.
+
     Suppose that $k^* = k$ where $k \in \naturals$ and $k < n - 1$.
     Then $k < n - 1 < j$ so $k \in \kSuccessors{}{j}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+
     Suppose that $k^* = 0^+$.
     Then $0^+ \in \kSuccessors{}{j}$ and we trivially have that $\kPModel{0^+} \bisimilar \kPModel{0^+}$.
+
     Suppose that $k^* = k^+$ where $k \in \naturals$ and $k > 0$.
     Then $j^+ \in \kSuccessors{}{j}$ and as $j \geq n > 0$ we trivially have that $\kPModel{k^+} \bisimilar \kPModel{k^+}$.
+
     Suppose that $k^* = k^-$ for $k \in \naturals$. This follows from similar reasoning to the case where $k^* = k^+$.
 
     \paragraph{back}
@@ -953,9 +1022,12 @@ We proceed by induction on $n \in \naturals$.
     \paragraph{back}
 
     Let $k \in \kSuccessors{}{\omega'}$. 
+
     Suppose that $k = \omega'$. 
     Then $n - 1 \in \kSuccessors{}{n}$ and by the induction hypothesis $\kPModel{n - 1} \bisimilar{n - 1} \kPModel{\omega'}$.
+
     Suppose that $k \neq \omega'$ and $k < n$. Then $k \in \kSuccessors{}{n}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+
     Suppose that $k \geq n$. Then $n - 1 \in \kSuccessors{}{n}$ and from above we have that $\kPModel{k} \bisimref[n - 1] \kPModel{n - 1}$.
     
     \item We show that $\kPModel{\omega} \bisimref[n] \kPModel{\omega'}$.
@@ -977,8 +1049,10 @@ We proceed by induction on $n \in \naturals$.
     \paragraph{back}
 
     Let $k \in \kSuccessors{}{\omega'}$.
+
     Suppose that $k = \omega'$.
     Then $n - 1 \in \kSuccessors{}{\omega}$ and from above we have that $\kPModel{n - 1} \bisimref[n - 1] \kPModel{\omega'}$.
+
     Suppose that $k \neq \omega'$.
     Then $k \in \kSuccessors{}{\omega}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
 \end{enumerate}
@@ -990,7 +1064,10 @@ From above $\kPModel{\omega} \bisimref[n] \kPModel{\omega'}$ so $\kPModel{\omega
 Therefore $\kPModel{\omega}$ is refinement modally indistinguishable from $\kPModel{\omega'}$.
 
 We next show that the states $\kPModel{\omega}$ and $\kPModel{\omega'}$ are distinguishable by the modal $\mu$-calculus logic formula $\gfp{\varX} (\possible (\varX \land \possible \necessary \atomP) \land \possible (\varX \land \possible \necessary \neg \atomP))$.
-We proceed with model checking using the modal $\mu$-calculus.
+Although we do not show it formally here, this distinguishing formula corresponds to the semantic property that there exists an infinite path starting from the designated state in a pointed Kripke model, along which there is always a successor state on the path where $\possible \necessary \atomP$ is satisfied and there is always a successor state on the path where $\possible \necessary \lnot \atomP$ is satisfied.
+It should be clear from the construction of $\kModel$ that $\omega'$ has such a infinite path, consisting of repeatedly following the reflexive edge, whereas $\omega$ does not have such an infinite path, as any infinite path from $\omega$ must include one of the reflexive states, either: a $k^+$ state for $k \in \naturals$, where no successors satisfy $\possible \necessary \lnot \atomP$; a $k^-$ state for $k \in \naturals$, where no successors satisfy $\possible \necessary \atomP$; or $0$, where no successors satisfy either $\possible \necessary \atomP$ or $\possible \necessary \lnot \atomP$.
+
+We proceed with model checking using the modal $\mu$-calculus to show that $\kPModel{\omega}$ and $\kPModel{\omega'}$ disagree on the interpretation of this distinguishing formula.
 
 For any assignment $\kAssignment$ we have the following:
 \begin{eqnarray*}

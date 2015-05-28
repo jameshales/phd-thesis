@@ -1060,6 +1060,9 @@ Therefore $\phi$ is equivalent to a disjunction of explicit formulas.
 We note that we have shown a semantic equivalence between \langMl{} formulas and disjunctions of explicit formulas.
 As \axiomS{} is a sound and complete axiomatisation for \logicS{} then this is also a provable equivalence in \axiomS{}, and as the axioms and rules of \axiomS{} are included in the axiomatisation \axiomRmlS{} this is also a provable in \axiomRmlS{}.
 
+We also note that converting a modal formula to a disjunction of explicit formulas can result in an exponential increase in the size compared to the original formula.
+This is essentially because the conversion requires introducing disjuncts considering power sets of subformulas.
+
 Given this equivalence with disjunctions of explicit formulas, we will show that the reduction axioms of \axiomRmlS{} may be applied to disjunctions of explicit formulas in order to give a provably correct translation.
 
 We first show some useful theorems in \axiomRmlS{}.
@@ -1135,6 +1138,8 @@ Soundness is shown in Lemma~\ref{rml-s5-sound}.
 Strong completeness follows from similar reasoning used in the proof of strong completeness of \logicRmlK{} in Lemma~\ref{rml-k-sound-complete}.
 \end{proof}
 
+We note that, much like the provably correct translation for \logicRmlK{}, the provably correct translations we have presented here can result in a non-elementary increase in the size compared to the original formula.
+
 The provably correct translation also implies that \logicRmlS{} is expressively equivalent to \logicS{}.
 
 \begin{corollary}
@@ -1148,5 +1153,14 @@ The logic \logicRmlS{} is compact.
 \end{corollary}
 
 \begin{corollary}
+The model-checking problem for the logic \logicRmlS{} is decidable.
+\end{corollary}
+
+\begin{corollary}
 The satisfiability problem for the logic \logicRmlS{} is decidable.
 \end{corollary}
+
+As we noted above, the provably correct translation from \langRml{} to \langMl{} may result in a non-elementary increase in size compared to the original formula.
+Therefore any algorithm that relies on the provably correct translation will have a non-elementary complexity.
+Unlike \logicRmlK{} complexity bounds for the model-checking and satisfiability problems have not been considered for \logicRmlS{}, neither has the succinctness of \logicRmlS{} been considered.
+We leave the consideration of better complexity bounds and succinctness results for \logicRmlS{} to future work.

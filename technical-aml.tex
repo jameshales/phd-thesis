@@ -2,6 +2,7 @@
 
 We recall definitions and results from the action model logic of Baltag, Moss and Solecki~\cite{baltag:1998,baltag:2004}.
 For an introductory text on action model logic we direct the reader to the book by van Ditmarsch, van der Hoek and Kooi~\cite{vanditmarsch:2007}.
+Many simple or well-known propositions are given without proof and left as an exercise for the curious reader.
 
 \begin{definition}[Action models]
 Let \lang{} be a logical language.
@@ -97,7 +98,7 @@ We note that as $\top$ and $\bot$ are in the language $\langAml(\aSignatureFamil
 However a given $\aSignatureFamily$ may not contain any action signature that would allow one to construct \aSkip{} or \aCrash{}, so statements about \aSkip{} and \aCrash{} may not be allowed by the language $\langAml(\aSignatureFamily)$.
 
 \begin{definition}[Disjoint union]\label{aml-choice}
-    Let $\aPModelAndTuple{\aStatesT}$ and $\aPModelAndTupleP{\aStatesTP}$ be action models.
+    Let $\aPModelAndTuple{\aStatesT}$ and $\aPModelAndTupleP{\aStatesTP}$ be action models such that $\aStates$ and $\aStatesP$ are disjoint.
     We denote the {\em disjoint union of $\aPModel{\aStatesT}$ and $\aPModelP{\aStatesTP}$} as $\aPModel{\aStatesT} \choice \aPModelP{\aStatesTP}$ and define it as $\aPModel{\aStatesT} \choice \aPModelP{\aStatesTP} = \aPModelAndTuplePP{\aStatesTPP}$ where:
     \begin{eqnarray*}
         \aStatesPP &=& \aStates \cup \aStatesP\\
@@ -190,20 +191,6 @@ If there exists an $n$-bisimulation $\bisimulation_0, \dots, \bisimulation_n$ th
 If there exists an $n$-bisimulation $\bisimulation_0, \dots, \bisimulation_n$ such that $\aStateS \bisimulation_n \aStateSP$ then we say that $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ are {\em $n$-bisimilar} and we denote this by $\aPModel{\aStateS} \bisimilar[n] \aPModelP{\aStateSP}$.
 \end{definition}
 
-\begin{definition}[Modal depth]
-Let $\phi \in \langAml$.
-We denote the {\em modal depth of $\phi$} by $d(\phi)$ and define it inductively as:
-\begin{eqnarray*}
-    d(\atomP) &=& 0\\
-    d(\lnot \phi) &=& d(\phi)\\
-    d(\phi \land \psi) &=& max(d(\phi), d(\psi))\\
-    d(\necessaryA \phi) &=& d(\phi) + 1\\
-    d(\actionA{\aPModel{\aStateS}} \phi) &=& d(\phi) % TODO -- Problematic - modal depth of preconditions?
-\end{eqnarray*}
-\end{definition}
-
-\todo[inline]{Remove notion of modal depth specific to \logicAml{}. Not needed in general.}
-
 \begin{proposition}
 Let $n \in \naturals$,
 let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$ and
@@ -215,15 +202,19 @@ Then $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar[n] \kPModelP{\kStat
 Let $n \in \naturals$,
 let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$ and
 let $\aPModel{\aStateS}$ be a pointed action model.
-Then for every $\phi \in \langAml$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
+Then for every $\phi \in \langMl$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 \end{proposition}
 
 \begin{proposition}
 Let $n \in \naturals$,
 let $\kPModel{\kStateS}$ be a pointed Kripke model and
 let $\aPModel{\aStateS}, \aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar[n] \aPModelP{\aStateSP}$.
-Then for every $\phi \in \langAml$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi$ if and only if $\kPModel{\kStateS} \entails \actionA{\aPModelP{\aStateSP}} \phi$.
+Then for every $\phi \in \langMl$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi$ if and only if $\kPModel{\kStateS} \entails \actionA{\aPModelP{\aStateSP}} \phi$.
 \end{proposition}
+
+We note that for the sake of simplicity we give the previous two propositions in terms of \langMl{} formulas rather than \langAml{} formulas.
+This is so that we need not introduce a separate definition of modal depth for \langAml{} formulas, which would have to take into account the modal depth of preconditions in action models appearing in subformulas of the form $\actionA{\aPModel{\aStateS}} \phi$.
+We note that in the settings we consider \logicAml{} is expressively equivalent to modal logic, so we can get the same results for \langAml{} formulas by first converting to an equivalent \langMl{} formula and using the notion of modal depth for \langMl{}.
 
 \begin{definition}[Axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{}]
 The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} are substitution schemas consisting of the respective axioms and rules of \axiomK{}, \axiomKFF{}, and \axiomS{} along with the following additional axioms and rules:
@@ -239,6 +230,11 @@ $$
 $$
 where $\phi, \psi \in \langAml$, $\aPModel{\aStateS} \in \classAmK$, $\atomP \in \atoms$, and $\agentA \in \agents$.
 \end{definition}
+
+We note that the axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} form sets of reduction axioms, admitting a provably correct translation from the language \langAml{} of action model logic to the language \langMl{} of modal logic.
+This works as the axioms {\bf AN}, {\bf AC}, {\bf AK}, and {\bf AU} may be applied to ``push'' the action model operators past negations, conjunctions, and modalities, until they are applied only to propositional atoms, where the axiom {\bf AP} may be applied to replace the formula with a modal formula.
+This bears a strong resemblance to the axiomatisation \axiomPalS{} given for public announcement logic in a previous section.
+Assuming that the axioms are sound we then have that \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are expressively equivalent to \logicK{}, \logicKFF{}, and \logicS{} respectively, so we get other results for the logic from the corresponding results for \logicK{}, \logicKFF{}, and \logicS{}.
 
 \begin{proposition}
 The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} are sound and strongly complete with respect to the semantics of the respective logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{}.

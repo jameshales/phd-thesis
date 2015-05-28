@@ -1,6 +1,7 @@
 \section{S5}\label{aaml-s5}
 
-In this section we consider in greater detail the logic \logicAamlS{} in the setting of \classS{}.
+In this section we consider results specific to the logic \logicAamlS{} in the setting of \classS{}.
+This setting is significant as it is the traditional setting for epistemic logic and dynamic epistemic logic.
 The main result of this section is that the action model quantifiers of \logicAamlS{} are equivalent to the refinement quantifiers of \logicRmlS{}.
 We show this equivalence by showing that if there exists a refinement where a given formula is satisfied then we can construct a finite action model that results in that formula being satisfied.
 
@@ -20,6 +21,7 @@ That is, for every $\phi \in \langRml$, $\kPModel{\kStateS} \in \classS$: $\kPMo
 \end{lemma}
 
 These results follow directly from the definitions.
+We note that these results only apply for \langAml{} and \langRml{} formulas respectively, and do not consider \langAaml{} formulas that contain both action model operators and quantifiers. 
 
 Given this we can give a sound and complete axiomatisation for \logicRamlS{} by combining the axiomatisations for \logicAmlS{} and \logicRmlS{}.
 
@@ -50,11 +52,27 @@ $$
 where $\phi, \psi \in \langAaml$, $\agentA \in \agents$, $\aPModel{\aStateS} \in \classAmS$, $\atomP \in \atoms$, $\pi \in \langPl$, $\agentsB, \agentsC \subseteq \agents$, $\gamma_0 \land \bigwedge_{\agentA \in \agents} \coversA \Gamma_\agentA$ is an explicit formula and for every $\agentA \in \agents$, $\gamma_0 \land \coversA \Gamma_\agentA$ is an explicit formula.
 \end{definition}
 
+We note that the axiomatisation \axiomRamlS{} is closed under substitution of equivalents.
+
+\begin{lemma}
+Let $\phi, \psi, \chi \in \langAaml$ be formulas and let $\atomP \in \atoms$ be a propositional atom.
+If $\proves \psi \iff \chi$ then $\proves \phi[\psi\backslash\atomP] \iff \phi[\chi\backslash\atomP]$.
+\end{lemma}
+
+This is shown by combining the reasoning that \axiomAmlS{} and \axiomRmlS{} are closed under substitution of equivalents.
+
+We also note that the axiomatisation \axiomRamlS{} is sound and complete.
+
 \begin{lemma}\label{raml-s5-sound-complete}
 The axiomatisation \axiomRamlS{} is sound and strongly complete with respect to the semantics of the logic \logicRamlS{}.
 \end{lemma}
 
 Soundness and completeness follows from the same reasoning used to show soundness and completeness of \axiomRamlK{} in Lemma~\ref{raml-k-sound-complete}.
+Soundness follows from the same reasoning that the axioms are sound in \logicAmlS{} and \logicRmlS{}.
+Completeness follows from a provably correct translation from \langAaml{} to \langMl{} that is formed by combining the provably correct translations from \langAml{} and \langRml{} to \langMl{}.
+
+We note that, much like the provably correct translation for \logicRmlS{}, the provably correct translations we have presented here can result in a non-elementary increase in the size compared to the original formula.
+
 The provably correct translation also implies that \logicRamlS{} is expressively equivalent to \logicS{}.
 
 \begin{corollary}\label{raml-s5-expressive-equivalence}
@@ -81,7 +99,7 @@ We show our result using an inductive construction for a given formula.
 Our construction is based on the construction used for \logicRamlK{} in the previous section, and is very similar to the constructions used to show the soundness of the axioms {\bf RS5}, {\bf RComm}, and {\bf RDist} in \logicRmlS{}.
 We reuse the notion of explicit formulas we used for \logicRmlS{}, and we separate our inductive steps into two lemmas, one for disjunctions of formulas, and another for explicit formulas.
 
-First, the case where hte given formula is a disjunction is handled exactly as it was for \logicAamlK{}.
+First, the case where the given formula is a disjunction is handled exactly as it was for \logicAamlK{}.
 
 \begin{lemma}\label{aaml-s5-choice}
 Let $\agentsB \subseteq \agents$, 
@@ -128,6 +146,7 @@ We construct the action model $\aPModelAndTuple{\aStateTest}$ where:
     \aAccessibilityA &=& (\{\aStateTest\} \cup \{\aPStateT[\agentA, \gamma] \mid \gamma \in \Gamma_\agentA, \aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]\})^2\\&&\quad \cup \bigcup_{\agentC \in \agents \setminus \{\agentA\}, \gamma \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]} (\{\aPStateU[\agentC, \gamma] \mid \aStateU[\agentC, \gamma] \in \aSuccessorsA[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \cap \aStatesT[\agentC, \gamma]\} \cup \aSuccessorsA[\agentC, \gamma]{\aStateT[\agentC, \gamma]})^2 \\&&\quad\cup \bigcup_{\agentC \in \agents, \gamma \in \Gamma_\agentC} \aAccessibilityA[\agentC, \gamma]\\
     \aPrecondition &=& \{(\aStateTest, \someactsBs \phi)\} \cup \{(\aPStateT[\agentA, \gamma], \aPrecondition[\agentA, \gamma](\aStateT[\agentA, \gamma])) \mid \agentA \in \agents, \gamma \in \Gamma_\agentA, \aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]\} \cup \bigcup_{\agentA \in \agents, \gamma \in \Gamma_\agentA} \aPrecondition[\agentA, \gamma]
 \end{eqnarray*}
+where $\agentA \in \agents$.
 
 We note that by construction $\aModel \in \classAmS$.
 
@@ -198,7 +217,7 @@ Unlike the construction used for \logicAamlKFF{} the proxy states are {\em not} 
 This is because in order to ensure that $\aPModel \in \classS$ the $(\agents \setminus \{\agentC\})$-edges from proxy states to original action model states must be symmetrical.
 
 Unlike the constructions used in \logicAamlK{} and \logicAamlKFF{}, the construction used here does not preserve the bisimilarity of states from each of the action models $\aModel[\agentA, \gamma]$, so we need a different approach to show that $\entails \actionA{\aPModel{\aStateS}} \phi$, and $\entails \actionE{\aPModel{\aStateS}} \phi \iff \someactsBs \phi$.
-There is a parallel here with the different approach used to show the soundness of the axiomatisation of \logicRmlS{} as compared to the approaches used for \logicRmlK{} and \logicRmlKFF{}.
+There is a parallel here with the different problems experienced in \logicRmlS{} and the approach used to show the soundness of the axiomatisation of \logicRmlS{}, as compared to the approaches used for \logicRmlK{} and \logicRmlKFF{}.
 
 Let $\Delta = \{\delta' \leq \delta \mid \agentC \in \agentsC, \lambda \in \Lambda_\agentC, \delta \in \lambda\}$, as defined in the definition of explicit formulas in Definition~\ref{explicit-formulas}.
 We show by induction on the structure of formulas in $\Delta$, for every $\delta \in \Delta$, $\gamma \in \Gamma_\agentA$ that:
@@ -479,5 +498,21 @@ The logic \logicAamlS{} is compact.
 \end{corollary}
 
 \begin{corollary}
+The model-checking problem for the logic \logicAamlS{} is decidable.
+\end{corollary}
+
+\begin{corollary}
 The satisfiability problem for the logic \logicAamlS{} is decidable.
 \end{corollary}
+
+Similar to \logicAamlK{}, discussed in a previous section, the provably correct translation from \langAaml{} to \langMl{} may result in a non-elementary increase in size compared to the original formula.
+Therefore any algorithm that relies on the provably correct translation will have a non-elementary complexity.
+We leave the consideration of better complexity bounds and succinctness results for \logicAamlS{} to future work.
+
+Also similar to \logicAamlK{}, the proof of Theorem~\ref{aaml-s5-synthesis} and the associated lemmas describe a recursive synthesis procedure that can be applied in order to construct action models that result in desired knowledge goals.
+The action model given by Theorem~\ref{aaml-s5-synthesis} depends only on the desired knowledge goal, and not on the initial knowledge state, so the action model can be executed on any initial Kripke model to achieve the desired knowledge goal, whenever that knowledge goal cab be achieved by some epistemic update from that initial Kripke model.
+Similar to \logicAamlK{}, as the synthesis procedure relies on the expressive equivalence of \logicRamlS{} and \logicS{}, and the provably correct translation from \langAaml{} to \langMl{} may result in a non-elementary increase in size compared to the original formula, the action model produced by the synthesis procedure may be non-elementary in size compared to the original formula.
+Unlike \logicAamlK{}, if the original formula is already in \langMl{} and is a disjunction of explicit formulas, then the action model may not be linearithmic in size compared to the original disjunction of explicit formulas.
+This is because unlike the synthesis procedure of \logicAamlK{}, which relies on disjunctive normal formulas, the subformulas of an explicit formula are not explicit formulas, and will require a conversion to a disjunction of explicit formulas in order to continue the synthesis procedure.
+This may result in an exponential increase in formula size at each step, which will also correspondingly increase the size of the synthesised action model.
+We leave the consideration of synthesis procedures with improved complexity to future work.

@@ -133,12 +133,12 @@ Let $\kPModelAndTuple{\kStateS}$ be a Kripke model where:
     \kValuation(\atomQ) &=& \{\kStateU, \kStateV\}
 \end{eqnarray*}
 
-Then $\interpretation[\kModel]{\knowsA \atomP} = \{\kStateS, \kStateT\}$, and so $\kPModelP{\kStateS} = \restrict{\kPModel{\kStateS}}{\knowsA \atomP}$ is the model restriction of $\kPModel{\kStateS}$ to the states $\{\kStateS, \kStateT\}$, depicted in Figure~\ref{example-pal-figure}.  
-In the resulting model restriction we have that $\kPModelP{\kStateS} \entails \knowsB \atomQ$, and so in the original model we therefore have $\kPModel{\kStateS} \entails \announceE{\knowsA \atomP} \knowsB \atomQ$.
+Then $\interpretation[\kModel]{\knowsA \atomP} = \{\kStateS, \kStateT\}$, so $\kPModelP{\kStateS} = \restrict{\kPModel{\kStateS}}{\knowsA \atomP}$ is the model restriction of $\kPModel{\kStateS}$ to the states $\{\kStateS, \kStateT\}$, depicted in Figure~\ref{example-pal-figure}.  
+In the resulting model restriction we have that $\kPModelP{\kStateS} \entails \knowsB \atomQ$, so in the original model we therefore have $\kPModel{\kStateS} \entails \announceE{\knowsA \atomP} \knowsB \atomQ$.
 That is, after it is publicly announced that $\agentA$ knows that $\atomP$ is true, then agent $\agentB$ knows that $\atomQ$ is true.
 
-We also note that $\interpretation[\kModel]{\atomP \land \lnot \knowsB \atomP} = \{\kStateS, \kStateT\}$, and so $\kPModelP{\kStateS} = \restrict{\kPModel{\kStateS}}{\atomP \land \lnot \knowsB \atomP}$.
-However in the resulting model restriction we have that $\kPModelP{\kStateS} \entails \lnot \knowsB (\atomP \land \lnot \knowsB \atomP)$, and so in the original model we therefore have $\kPModel{\kStateS} \entails \announceE{\atomP \land \lnot \knowsB \atomP} \lnot \knowsB (\atomP \land \lnot \knowsB \atomP)$.
+We also note that $\interpretation[\kModel]{\atomP \land \lnot \knowsB \atomP} = \{\kStateS, \kStateT\}$, so $\kPModelP{\kStateS} = \restrict{\kPModel{\kStateS}}{\atomP \land \lnot \knowsB \atomP}$.
+However in the resulting model restriction we have that $\kPModelP{\kStateS} \entails \lnot \knowsB (\atomP \land \lnot \knowsB \atomP)$, so in the original model we therefore have $\kPModel{\kStateS} \entails \announceE{\atomP \land \lnot \knowsB \atomP} \lnot \knowsB (\atomP \land \lnot \knowsB \atomP)$.
 That is, after it is publicly announced that $\atomP$ is true and agent $\agentB$ doesn't know that $\atomP$ is true, then $\agentB$ doesn't know this fact.
 \end{example}
 
@@ -160,7 +160,7 @@ $$
 
 We note that the axiomatisation \axiomPalS{} forms a set of reduction axioms, admitting a provably correct translation from the language \langPal{} of public announcement logic to the language \langMl{} of modal logic.
 This works as the axioms {\bf AN}, {\bf AC}, {\bf AK}, and {\bf AA} may be applied to ``push'' the public announcement operators past negations, conjunctions, modalities and other public announcement operators, until they are applied only to propositional atoms, where the axiom {\bf AP} may be applied to replace the formula with a modal formula.
-Assuming that the axioms are sound we then have that \logicPalS{} is expressively equivalent to \logicS{} and so we get other results for the logic from the corresponding results for \logicS{}.
+Assuming that the axioms are sound we then have that \logicPalS{} is expressively equivalent to \logicS{} so we get other results for the logic from the corresponding results for \logicS{}.
 
 \begin{proposition}
 The axiomatisation \axiomPalS{} is sound and strongly complete with respect to the semantics of the logic \logicPalS{}.

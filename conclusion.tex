@@ -53,7 +53,8 @@ In contrast to the arbitrary action model logic, the system of DEL-sequents does
 Rather, all reasoning about arbitrary action models is performed at the meta-logical level.
 The particular case of epistemic planning with DEL-sequents gives a method to determine, given a formula describing an initial knowledge situation, and a formula describing a desired knowledge situation, a formula describing an action model that takes us from the initial situation to the desired situation.
 If the formula describing the action model is satisfiable then we can produce a specific action model that takes us from the initial situation to the desired situation.
-This essentially corresponds to having a single action model quantifier at the meta-logical level.
+Otherwise if the formula describing the action model is unsatisfiable then we know that no such action model exists.
+This essentially corresponds to having a single action model quantifier at the meta-logical level, that can only quantify over quantifier-free formulas.
 With \logicAaml{} we are able to directly express and reason about complex statements involving action model quantifiers at the logical level.
 For example, we can nest quantifiers to reason about the existence of an action model that results in a situation where all subsequent action model executions will preserve a given property.
 Having action model quantifiers in the logic also allowed us to show that action model quantifiers are equivalent to refinement quantifiers, and that action model quantifiers add no expressivity to modal logic in the settings we considered.

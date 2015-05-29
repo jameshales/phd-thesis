@@ -4,6 +4,8 @@ We recall definitions and results from the action model logic of Baltag, Moss an
 For an introductory text on action model logic we direct the reader to the book by van Ditmarsch, van der Hoek and Kooi~\cite{vanditmarsch:2007}.
 Many simple or well-known propositions are given without proof and left as an exercise for the curious reader.
 
+We first introduce action models.
+
 \begin{definition}[Action models]
 Let \lang{} be a logical language.
 An {\em action model with preconditions defined on \lang{}}, $\aModelAndTuple$ consists of an underlying Kripke frame $\aFrameAndTuple$ along with a {\em precondition function} $\aPrecondition : \aStates \to \lang$, which is a function from actions to formulas.
@@ -16,15 +18,23 @@ We use similar notation and terminology to Kripke models when discussing action 
 Similar to Kripke models, when we ascribe relational properties or frame properties to an action model we actually ascribe those properties to its underlying Kripke frame.
 When the language that an action model is defined on is clear from context we will simply refer to an {\em action model}, without explicit reference to the language.
 
+As the action model logic will reason about the effects of specific action models, we need to represent action models in the language of action model logic.
+However action models are defined with respect to a logical language which their preconditions are defined over.
+To avoid a circular definition Baltag and Moss~\cite{baltag:2004} use the notion of an action signature.
+
 \begin{definition}[Action signature]
 An {\em action signature}, $\aSignatureAndTuple$ consists of an underlying Kripke frame $\aFrameAndTuple$ along with a non-repeating list of {\em non-trivial actions}, $\aStateS_1, \dots, \aStateS_n \in \aStates$.
-Let $\lang$ be a logical language and let $\phi_1, \dots, \phi_n \in \lang$ be a list of formulas.
-Then we obtain an action model $\aSignature(\phi_1, \dots, \phi_n) = \aModelTuple$ where $\aPrecondition(\aStateS_i) = \phi_i$ for $i = 1, \dots, n$ and $\aPrecondition(\aStateS) = \top$ otherwise.
+
+Let $\lang$ be a logical language where $\top \in \lang$, and let $\phi_1, \dots, \phi_n \in \lang$ be a list of formulas.
+Then we can obtain an action model $\aSignature(\phi_1, \dots, \phi_n) = \aModelTuple$ with preconditions defined on $\lang$, where $\aPrecondition(\aStateS_i) = \phi_i$ for $i = 1, \dots, n$ and $\aPrecondition(\aStateS) = \top$ otherwise.
 The {\em trivial actions} are so named because their preconditions are always set to $\top$.
 \end{definition}
 
 When we ascribe relational or frame properties to an action model or signature we actually ascribe those properties to its underlying Kripke frame.
 As we will often work with action models and signatures rather than Kripke frames we overload the notation for classes of Kripke frames to also refer to classes of action models or signatures.
+
+In the language of action model logic we use action signatures instead of action models.
+However the syntax allows for applying a list of formulas to an action signature, so we can construct an action model by combining the action signature with the list of formulas.
 
 \begin{definition}[Language of action model logic]
 Let \aSignatureFamily{} be a non-empty, countable set of action signatures.
@@ -214,7 +224,7 @@ Then for every $\phi \in \langMl$ such that $d(\phi) \leq n$: $\kPModel{\kStateS
 
 We note that for the sake of simplicity we give the previous two propositions in terms of \langMl{} formulas rather than \langAml{} formulas.
 This is so that we need not introduce a separate definition of modal depth for \langAml{} formulas, which would have to take into account the modal depth of preconditions in action models appearing in subformulas of the form $\actionA{\aPModel{\aStateS}} \phi$.
-We note that in the settings we consider \logicAml{} is expressively equivalent to modal logic, so we can get the same results for \langAml{} formulas by first converting to an equivalent \langMl{} formula and using the notion of modal depth for \langMl{}.
+We note that in the settings we consider \logicAml{} is expressively equivalent to modal logic, so we can get the same results for \langAml{} formulas by first converting to an equivalent \langMl{} formula and using the notion of modal depth for \langMl{} for the converted formula.
 
 \begin{definition}[Axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{}]
 The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} are substitution schemas consisting of the respective axioms and rules of \axiomK{}, \axiomKFF{}, and \axiomS{} along with the following additional axioms and rules:
@@ -232,8 +242,8 @@ where $\phi, \psi \in \langAml$, $\aPModel{\aStateS} \in \classAmK$, $\atomP \in
 \end{definition}
 
 We note that the axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} form sets of reduction axioms, admitting a provably correct translation from the language \langAml{} of action model logic to the language \langMl{} of modal logic.
+
 This works as the axioms {\bf AN}, {\bf AC}, {\bf AK}, and {\bf AU} may be applied to ``push'' the action model operators past negations, conjunctions, and modalities, until they are applied only to propositional atoms, where the axiom {\bf AP} may be applied to replace the formula with a modal formula.
-This bears a strong resemblance to the axiomatisation \axiomPalS{} given for public announcement logic in a previous section.
 Assuming that the axioms are sound we then have that \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are expressively equivalent to \logicK{}, \logicKFF{}, and \logicS{} respectively, so we get other results for the logic from the corresponding results for \logicK{}, \logicKFF{}, and \logicS{}.
 
 \begin{proposition}

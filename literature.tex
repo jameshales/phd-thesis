@@ -1,6 +1,6 @@
 \chapter{Literature review}\label{literature}
 
-Dynamic epistemic are used to reason about how knowledge changes in response to epistemic updates.
+Dynamic epistemic logics are used to reason about how knowledge changes in response to epistemic updates.
 Often the effects of epistemic updates on knowledge can be unintuitive or surprising: sometimes announcing a true statement makes it become false, as in Fitch's knowability paradox~\cite{fitch:1963}; sometimes repeating a statement can provide different information each time it is repeated, as in the muddy children puzzle~\cite{barwise:1981, vanditmarsch:2007}. 
 Being able to reason about changes in knowledge has applications in a range of areas:
 in artificial intelligence and information science we want to represent and reason about updates in knowledge bases and ontologies;
@@ -284,6 +284,7 @@ Aucher~\cite{aucher:2011,aucher:2012} provides sequent calcului to derive (iii) 
 The particular case of epistemic planning gives a method to determine, given a formula describing an initial knowledge situation, and a formula describing a desired knowledge situation, a formula describing an action model that takes us from the initial situation to the desired situation.
 If the formula describing the action model is satisfiable then we can produce a specific action model that takes us from the initial situation to the desired situation.
 Otherwise if the formula describing the action model is unsatisfiable then we know that no such action model exists.
+This essentially corresponds to having a single action model quantifier at the meta-logical level, that can only quantify over quantifier-free formulas.
 Aucher~\cite{aucher:2011,aucher:2012} also shows how to build formulas that capture respectively all that can be inferred about (iii) given (i) and (ii), (ii) given (i) and (iii), and (i) given (ii) and (iii), and although these results are presented in the setting of multi-agent \classK{}, Aucher notes that they are trivially extended to other modal settings.
 
 \subsection{Other related logics}

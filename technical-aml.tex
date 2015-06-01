@@ -84,6 +84,11 @@ We are interested in the following variants of action model logic:
     \item \logicAmlS{} interpreted over the class of \classS{} Kripke frames and the language of action model logic $\langAml(\classS)$ with action signatures defined on the class of finite \classS{} Kripke frames.
 \end{itemize}
 
+For Kripke models we often use $\kModel \in \classC$ as a shorthand to denote that $\kModel$ is a Kripke model with an underlying Kripke frame $\kFrame$ where $\kFrame \in \classC$.
+For action models we use a similar shorthand, $\aModel \in \classAmC$ to denote that $\aModel$ is an action model with an underlying Kripke frame $\kFrame$ where $\kFrame \in \classC$.
+
+As we will be working with \logicAmlKFF{} and \logicAmlS{} we note that the result of executing any \classAmKFF{} action model on a \classKFF{} Kripke model is another \classKFF{} Kripke model, and similarly the result of executing any \classAmS{} on a \classS{} Kripke model is another \classS{} Kripke model.
+
 \begin{proposition}
     Let $\kModel \in \classKFF$ and $\aModel \in \classAmKFF$. Then $\kModel \exec \aModel \in \classKFF$.
 \end{proposition}
@@ -95,6 +100,27 @@ We are interested in the following variants of action model logic:
 We give some examples of \logicAml{}.
 
 \begin{example}\label{example-pal-ml}
+Let $\kPModelAndTupleP{\kStateS}$ be a Kripke model where:
+\begin{eqnarray*}
+    \kStatesP &=& \{\kStateS, \kStateT, \kStateU\}\\
+    \kAccessibilityPA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU)\}\\
+    \kAccessibilityPB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU)\}\\
+    \kValuationP(\atomP) &=& \{\kStateS, \kStateU\}
+\end{eqnarray*}
+and let $\aPModelAndTuple{\aStateS}$ be an action model where:
+\begin{eqnarray*}
+    \aStates &=& \{\aStateS\}\\
+    \aAccessibilityA = \aAccessibilityB &=& \{(\aStateS, \aStateS)\}\\\
+    \aPrecondition(\aStateS) &=& \lnot \knowsB \atomP
+\end{eqnarray*}
+Then $\kPModelP{\kStateS} \exec \aPModel{\aStateS} = \kPModelAndTuple{(\kStateS, \aStateS)}$ where:
+\begin{eqnarray*}
+    \kStates &=& \{(\kStateS, \aStateS), (\kStateT, \aStateS)\}\\
+    \kAccessibilityA &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS))\}\\
+    \kAccessibilityB &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateS, \aStateS), (\kStateT, \aStateS)), ((\kStateT, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS))\}\\
+    \kValuation(\atomP) &=& \{(\kStateS, \aStateS)\}
+\end{eqnarray*}
+
 \begin{figure}
     \caption{An example of a Kripke model and the result of publicly announcing $\lnot \knowsB \atomP$ in that Kripke model.}\label{example-pal-ml-figure}
     \centering
@@ -132,26 +158,6 @@ We give some examples of \logicAml{}.
         (s') [<->] edge node {$\agentB$} (t');
     \end{tikzpicture}
 \end{figure}
-Let $\kPModelAndTupleP{\kStateS}$ be a Kripke model where:
-\begin{eqnarray*}
-    \kStatesP &=& \{\kStateS, \kStateT, \kStateU\}\\
-    \kAccessibilityPA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU)\}\\
-    \kAccessibilityPB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU)\}\\
-    \kValuationP(\atomP) &=& \{\kStateS, \kStateU\}
-\end{eqnarray*}
-and let $\aPModelAndTuple{\aStateS}$ be an action model where:
-\begin{eqnarray*}
-    \aStates &=& \{\aStateS\}\\
-    \aAccessibilityA = \aAccessibilityB &=& \{(\aStateS, \aStateS)\}\\\
-    \aPrecondition(\aStateS) &=& \lnot \knowsB \atomP
-\end{eqnarray*}
-Then $\kPModelP{\kStateS} \exec \aPModel{\aStateS} = \kPModelAndTuple{(\kStateS, \aStateS)}$ where:
-\begin{eqnarray*}
-    \kStates &=& \{(\kStateS, \aStateS), (\kStateT, \aStateS)\}\\
-    \kAccessibilityA &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS))\}\\
-    \kAccessibilityB &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateS, \aStateS), (\kStateT, \aStateS)), ((\kStateT, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS))\}\\
-    \kValuation(\atomP) &=& \{(\kStateS, \aStateS)\}
-\end{eqnarray*}
 
 The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$, and the action model $\aPModel{\aStateS}$ are shown in Figure~\ref{example-pal-ml-figure}.
 We note that $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are essentially the same as the Kripke models from Example~\ref{example-ml}.
@@ -219,7 +225,7 @@ and let $\aPModelAndTuple{\aStateS}$ be an action model where:
     \aAccessibilityA &=& \{(\aStateS, \aStateS), (\aStateS, \aStateT), (\aStateT, \aStateS), (\aStateT, \aStateT)\}\\\
     \aAccessibilityB &=& \{(\aStateS, \aStateS), (\aStateT, \aStateT)\}\\\
     \aPrecondition(\aStateS) &=& \top\\
-    \aPrecondition(\aStateT) &=& \atomP\\
+    \aPrecondition(\aStateT) &=& \atomP
 \end{eqnarray*}
 Then $\kPModel{\kStateS} \exec \aPModel{\aStateS} = \kPModelAndTupleP{(\kStateS, \aStateS)}$ where:
 \begin{eqnarray*}

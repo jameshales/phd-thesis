@@ -103,7 +103,7 @@ We give some examples of \logicAml{}.
       \node[label=above left:{$\kStateS$}] (s) {\underline{$\{\atomP\}$}};
       \node[label=above left:{$\kStateT$}] (t) [above of=s] {$\{\}$};
       \node[label=above left:{$\kStateU$}] (u) [below of=s] {$\{\atomP\}$};
-      \node[label=above:{$\kPModel{\kStateS}$},draw=black, fit=(s) (t) (u), inner sep=3.5em, dashed, rounded corners] {};
+      \node[label=above:{$\kPModelP{\kStateS}$},draw=black, fit=(s) (t) (u), inner sep=3.5em, dashed, rounded corners] {};
 
       \path[every node/.style={font=\sffamily\small},->]
         (s) edge [loop left] node {$\agentA, \agentB$} (s)
@@ -112,9 +112,19 @@ We give some examples of \logicAml{}.
         (s) [<->] edge node {$\agentB$} (t)
         (s) edge node {$\agentA$} (u);
 
-      \node[label=above right:{$\kStateS$}] (s') [right=11em of s]{\underline{$\{\atomP\}$}};
-      \node[label=above right:{$\kStateT$}] (t') [above of=s'] {$\{\}$};
-      \node[label=above:{$\kPModelP{\kStateS}$},draw=black, fit=(s') (t'), inner sep=3.5em, dashed, rounded corners] {};
+      \node [right=4em of s] (exec) {$\exec$};
+
+      \node[label=above left:{$\aStateS$}] [right = 4em of exec] (as) {\underline{$\lnot \knowsB \atomP$}};
+      \node[label=above:{$\aPModel{\aStateS}$},draw=black, fit=(as), inner sep=3.5em, dashed, rounded corners] {};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (as) edge [loop left] node {$\agentA, \agentB$} (as);
+
+      \node [right=4em of as] (equals) {$=$};
+
+      \node[label=above right:{$(\kStateS, \aStateS)$}] (s') [right=4em of equals]{\underline{$\{\atomP\}$}};
+      \node[label=above right:{$(\kStateT, \aStateS)$}] (t') [above of=s'] {$\{\}$};
+      \node[label=above:{$\kPModelP{(\kStateS, \aStateS)}$},draw=black, fit=(s') (t'), inner sep=3.5em, dashed, rounded corners] {};
 
       \path[every node/.style={font=\sffamily\small},->]
         (s') edge [loop right] node {$\agentA, \agentB$} (s')
@@ -122,15 +132,114 @@ We give some examples of \logicAml{}.
         (s') [<->] edge node {$\agentB$} (t');
     \end{tikzpicture}
 \end{figure}
-We recall the Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ given in Example~\ref{example-ml}.
-The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are shown in Figure~\ref{example-pal-ml-figure}.
+Let $\kPModelAndTupleP{\kStateS}$ be a Kripke model where:
+\begin{eqnarray*}
+    \kStatesP &=& \{\kStateS, \kStateT, \kStateU\}\\
+    \kAccessibilityPA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU)\}\\
+    \kAccessibilityPB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU)\}\\
+    \kValuationP(\atomP) &=& \{\kStateS, \kStateU\}
+\end{eqnarray*}
+and let $\aPModelAndTuple{\aStateS}$ be an action model where:
+\begin{eqnarray*}
+    \aStates &=& \{\aStateS\}\\
+    \aAccessibilityA = \aAccessibilityB &=& \{(\aStateS, \aStateS)\}\\\
+    \aPrecondition(\aStateS) &=& \lnot \knowsB \atomP
+\end{eqnarray*}
+Then $\kPModelP{\kStateS} \exec \aPModel{\aStateS} = \kPModelAndTuple{(\kStateS, \aStateS)}$ where:
+\begin{eqnarray*}
+    \kStates &=& \{(\kStateS, \aStateS), (\kStateT, \aStateS)\}\\
+    \kAccessibilityA &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS))\}\\
+    \kAccessibilityB &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateS, \aStateS), (\kStateT, \aStateS)), ((\kStateT, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS))\}\\
+    \kValuation(\atomP) &=& \{(\kStateS, \aStateS)\}
+\end{eqnarray*}
+
+The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$, and the action model $\aPModel{\aStateS}$ are shown in Figure~\ref{example-pal-ml-figure}.
+We note that $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are essentially the same as the Kripke models from Example~\ref{example-ml}.
+We also note that the action model $\aPModel{\aStateS}$ has essentially the same effect as a public announcement of $\lnot \knowsB \atomP$.
 
 The Kripke model $\kPModelP{\kStateS}$ models the situation where Alice has looked at the coin, and considers it possible that Bob saw the coin.
 Supposing that Bob were to publicly announce that he didn't see the coin, then $\kPModel{\kStateS}$ would model the result of this public announcement.
-We can see this as $\interpretation[\kModelP]{\lnot \knowsB \atomP} = \{\kStateS, \kStateT\}$ and so $\kPModel{\kStateS} = \restrict{\kPModelP{\kStateS}}{\lnot \knowsB \atomP}$.
-From Example~\ref{example-ml} we have that $\kPModelP{\kStateS} \entails \lnot \knowsA \lnot \knowsB \atomP$ and $\kPModel{\kStateS} \entails \knowsA \lnot \knowsB \atomP$.
-Therefore we have that $\kPModelP{\kStateS} \entails \announceE{\lnot \knowsB \atomP} \knowsA \lnot \knowsB \atomP$.
+From Example~\ref{example-ml} we have that $\kPModelP{\kStateS} \entails_\logicAmlK \knowsA \lnot \knowsB \atomP$.
+Therefore we have that $\kPModelP{\kStateS} \entails_\logicAmlK \actionE{\aPModel{\aStateS}} \knowsA \lnot \knowsB \atomP$.
 So although initially Alice considers it possible that Bob saw the coin, after Bob publicly announces that he didn't, she knows that Bob didn't see the coin.
+\end{example}
+
+\begin{example}\label{example-pal-ml-reverse}
+\begin{figure}
+    \caption{An example of a Kripke model and the result of executing an action model in that Kripke model.}\label{example-pal-ml-reverse-figure}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+
+      \node[label=above right:{$\kStateS$}] (s') {\underline{$\{\atomP\}$}};
+      \node[label=above right:{$\kStateT$}] (t') [above of=s'] {$\{\}$};
+      \node[label=above:{$\kPModel{\kStateS}$},draw=black, fit=(s') (t'), inner sep=3.5em, dashed, rounded corners] {};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (s') edge [loop right] node {$\agentA, \agentB$} (s')
+        (t') edge [loop right] node {$\agentA, \agentB$} (t')
+        (s') [<->] edge node {$\agentB$} (t');
+
+      \node [right=4em of s] (exec) {$\exec$};
+
+      \node[label=above left:{$\aStateS$}] [right = 4em of exec] (as) {\underline{$\top$}};
+      \node[label=above left:{$\aStateT$}] [below of = as] (at) {$\atomP$};
+      \node[label=above:{$\aPModel{\aStateS}$},draw=black, fit=(as) (at), inner sep=3.5em, dashed, rounded corners] {};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (as) edge [loop left] node {$\agentA, \agentB$} (as)
+        (as) edge [<->] node {$\agentA$} (at)
+        (at) edge [loop left] node {$\agentA, \agentB$} (at);
+
+      \node [right=4em of as] (equals) {$=$};
+
+      \node[label=above left:{$(\kStateS, \aStateS)$}] (s) [right=4em of equals] {\underline{$\{\atomP\}$}};
+      \node[label=above left:{$(\kStateT, \aStateS)$}] (t) [above of=s] {$\{\}$};
+      \node[label=above left:{$(\kStateS, \aStateT)$}] (u) [below of=s] {$\{\atomP\}$};
+      \node[label=above:{$\kPModelP{(\kStateS, \aStateS)}$},draw=black, fit=(s) (t) (u), inner sep=3.5em, dashed, rounded corners] {};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (s) edge [loop left] node {$\agentA, \agentB$} (s)
+        (t) edge [loop left] node {$\agentA, \agentB$} (t)
+        (u) edge [loop left] node {$\agentA, \agentB$} (u)
+        (s) [<->] edge node {$\agentB$} (t)
+        (s) edge node {$\agentA$} (u);
+
+    \end{tikzpicture}
+\end{figure}
+Let $\kPModelAndTuple{\kStateS}$ be a Kripke model where:
+\begin{eqnarray*}
+    \kStates &=& \{\kStateS, \kStateT\}\\
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
+    \kValuation(\atomP) &=& \{\kStateS\}
+\end{eqnarray*}
+and let $\aPModelAndTuple{\aStateS}$ be an action model where:
+\begin{eqnarray*}
+    \aStates &=& \{\aStateS, \aStateT\}\\
+    \aAccessibilityA &=& \{(\aStateS, \aStateS), (\aStateS, \aStateT), (\aStateT, \aStateS), (\aStateT, \aStateT)\}\\\
+    \aAccessibilityB &=& \{(\aStateS, \aStateS), (\aStateT, \aStateT)\}\\\
+    \aPrecondition(\aStateS) &=& \top\\
+    \aPrecondition(\aStateT) &=& \atomP\\
+\end{eqnarray*}
+Then $\kPModel{\kStateS} \exec \aPModel{\aStateS} = \kPModelAndTupleP{(\kStateS, \aStateS)}$ where:
+\begin{eqnarray*}
+    \kStatesP &=& \{(\kStateS, \aStateS), (\kStateT, \aStateS), (\kStateU, \aStateT)\}\\
+    \kAccessibilityPA &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS)), ((\kStateS, \aStateS), (\kStateU, \aStateT)), ((\kStateU, \aStateT), (\kStateS, \aStateS)), ((\kStateU, \aStateT), (\kStateU, \aStateT))\}\\
+    \kAccessibilityPB &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateS, \aStateS), (\kStateT, \aStateS)), ((\kStateT, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS)), ((\kStateU, \aStateT), (\kStateU, \aStateT))\}\\
+    \kValuationP(\atomP) &=& \{(\kStateS, \aStateS), (\kStateU, \aStateT)\}
+\end{eqnarray*}
+
+The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$, and the action model $\aPModel{\aStateS}$ are shown in Figure~\ref{example-pal-ml-reverse-figure}.
+We note that $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are essentially the same as (are isomorphic to) the Kripke models from Example~\ref{example-ml}.
+
+The Kripke model $\kPModel{\kStateS}$ models the situation where Alice has looked at the coin and is certain that Bob didn't see the coin.
+Supposing that Alice were to leave the room with the coin in it, Alice would consider it possible that Bob looked at the coin.
+From Example~\ref{example-ml} we have that $\kPModelP{\kStateS} \entails_\logicAmlK \possibleA \knowsB \atomP$.
+Therefore we have that $\kPModel{\kStateS} \entails_\logicAmlK \actionE{\aPModel{\aStateS}} \possibleA \knowsB \atomP$.
+So although initially Alice knew that Bob didn't see the coin, after leaving the room Alice considers it possible that Bob saw at the coin.
+
+We note that $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are essentially the same as (are isomorphic to) the Kripke models from the previous example, Example~\ref{example-pal-ml}.
+This demonstrates that in some situations the effects of an action model can be reversed by another action model. 
 \end{example}
 
 \begin{example}\label{example-pal}
@@ -155,9 +264,9 @@ So although initially Alice considers it possible that Bob saw the coin, after B
         (s) edge node {$\agentB$} (u)
         (t) [swap] edge node {$\agentB$} (v);
 
-      \node[label=above left:{$\kStateS$}] (s') [right=9em of s]{\underline{$\{\atomP, \atomQ\}$}};
-      \node[label=below left:{$\kStateT$}] (t') [below of=s'] {$\{\atomP\}$};
-      \node[label=above:{$\restrict{\kPModel{\kStateS}}{\knowsA \atomP}$},draw=black, fit=(s') (t'), inner sep=3em, dashed, rounded corners] {};
+      \node[label=above left:{$(\kStateS, \aStateS)$}] (s') [right=9em of s]{\underline{$\{\atomP, \atomQ\}$}};
+      \node[label=below left:{$(\kStateT, \aStateS)$}] (t') [below of=s'] {$\{\atomP\}$};
+      \node[label=above:{$\kPModelP{(\kStateS, \aStateS)}$},draw=black, fit=(s') (t'), inner sep=3em, dashed, rounded corners] {};
 
       \path[every node/.style={font=\sffamily\small},->]
         (s') edge [loop above] node {$\agentA, \agentB$} (s')
@@ -166,25 +275,38 @@ So although initially Alice considers it possible that Bob saw the coin, after B
     \end{tikzpicture}
 \end{figure}
 Let $\kPModelAndTuple{\kStateS}$ be a Kripke model where:
-
 \begin{eqnarray*}
     \kStates &=& \{\kStateS, \kStateT, \kStateU, \kStateV\}\\
     \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU), (\kStateU, \kStateV), (\kStateV, \kStateU), (\kStateV, \kStateV)\}\\
     \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU), (\kStateT, \kStateT), (\kStateT, \kStateV), (\kStateV, \kStateT), (\kStateV, \kStateV)\}\\
     \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
-    \kValuation(\atomQ) &=& \{\kStateU, \kStateV\}
+    \kValuation(\atomQ) &=& \{\kStateS, \kStateU\}
 \end{eqnarray*}
+and let $\aPModelAndTuple{\aStateS}$ be an action model where:
+\begin{eqnarray*}
+    \aStates &=& \{\aStateS\}\\
+    \aAccessibilityA = \aAccessibilityB &=& \{(\aStateS, \aStateS)\}\\\
+    \aPrecondition(\aStateS) &=& \atomP \land \lnot \knowsB \atomP
+\end{eqnarray*}
+Then $\kPModel{\kStateS} \exec \aPModel{\aStateS} = \kPModelAndTupleP{(\kStateS, \aStateS)}$ where:
+\begin{eqnarray*}
+    \kStatesP &=& \{(\kStateS, \aStateS), (\kStateT, \aStateS)\}\\
+    \kAccessibilityPA &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateS, \aStateS), (\kStateT, \aStateS)), ((\kStateT, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS))\}\\
+    \kAccessibilityPB &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS))\}\\
+    \kValuationP(\atomP) &=& \{(\kStateS, \aStateS), (\kStateT, \aStateS)\}\\
+    \kValuationP(\atomQ) &=& \{(\kStateS, \aStateS)\}
+\end{eqnarray*}
+The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are shown in Figure~\ref{example-pal-figure}.
+We note that the action model $\aPModel{\aStateS}$ has essentially the same effect as a public announcement of $\atomP \land \lnot \knowsB \atomP$.
 
-Then $\interpretation[\kModel]{\knowsA \atomP} = \{\kStateS, \kStateT\}$, so $\kPModelP{\kStateS} = \restrict{\kPModel{\kStateS}}{\knowsA \atomP}$ is the model restriction of $\kPModel{\kStateS}$ to the states $\{\kStateS, \kStateT\}$, depicted in Figure~\ref{example-pal-figure}.  
-In the resulting model restriction we have that $\kPModelP{\kStateS} \entails \knowsB \atomQ$, so in the original model we therefore have $\kPModel{\kStateS} \entails \announceE{\knowsA \atomP} \knowsB \atomQ$.
-That is, after it is publicly announced that $\agentA$ knows that $\atomP$ is true, then agent $\agentB$ knows that $\atomQ$ is true.
+In the resulting model we have that $\kPModelP{\kStateS} \entails_\logicAmlK \knowsB \atomQ$, so in the original model we have $\kPModel{\kStateS} \entails_\logicAmlK \actionE{\aPModel{\aStateS}} \knowsB \atomQ$.
+That is, publicly announcing that $\atomP$ is true and agent $\agentB$ doesn't know that $\atomP$ is true results in agent $\agentB$ knowing that $\atomQ$ is true.
 
-We also note that $\interpretation[\kModel]{\atomP \land \lnot \knowsB \atomP} = \{\kStateS, \kStateT\}$, so $\kPModelP{\kStateS} = \restrict{\kPModel{\kStateS}}{\atomP \land \lnot \knowsB \atomP}$.
-However in the resulting model restriction we have that $\kPModelP{\kStateS} \entails \lnot \knowsB (\atomP \land \lnot \knowsB \atomP)$, so in the original model we therefore have $\kPModel{\kStateS} \entails \announceE{\atomP \land \lnot \knowsB \atomP} \lnot \knowsB (\atomP \land \lnot \knowsB \atomP)$.
-That is, after it is publicly announced that $\atomP$ is true and agent $\agentB$ doesn't know that $\atomP$ is true, then $\agentB$ doesn't know this fact.
+In the resulting model we also have that $\kPModelP{\kStateS} \entails_\logicAmlK \lnot (\atomP \land \lnot \knowsB \atomP)$, so in the original model we have $\kPModel{\kStateS} \entails_\logicAmlK \actionE{\aPModel{\aStateS}} \lnot (\atomP \land \lnot \knowsB \atomP)$.
+That is, publicly announcing that $\atomP \land \lnot \knowsB \atomP$ is true results in $\atomP \land \lnot \knowsB \atomP$ becoming false.
+
+Although we do not show it formally here, the effects of this action model cannot be reversed by another action model.
 \end{example}
-
-\todo[inline]{\logicAml{} example}
 
 \begin{definition}[Skip and crash]
     We define the action models \aSkip{} and \aCrash{} as follows:

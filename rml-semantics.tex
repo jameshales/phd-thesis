@@ -95,31 +95,31 @@ Therefore $\kPModel{\kStateS} \entails_\logicRmlS \allrefsB \knowsA \atomP$.
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
-      \node[label=above right:{$\kStateS$}] (s) {\underline{$\{\atomP\}$}};
-      \node[label=above right:{$\kStateT$}] (t) [left of=s] {$\{\}$};
-      \node[label=above left:{$\kStateU$}] (u) [right of=s] {$\{\atomP\}$};
-      \node[label=left:{$\kPModel{\kStateS}$},draw=black, fit=(s) (t) (u), inner sep=3em, dashed, rounded corners] {};
+      \node[label=above left:{$\kStateS$}] (s) {\underline{$\{\atomP\}$}};
+      \node[label=above left:{$\kStateT$}] (t) [above of=s] {$\{\}$};
+      \node[label=above left:{$\kStateU$}] (u) [below of=s] {$\{\atomP\}$};
+      \node[label=above:{$\kPModel{\kStateS}$},draw=black, fit=(s) (t) (u), inner sep=3.5em, dashed, rounded corners] {};
 
       \path[every node/.style={font=\sffamily\small},->]
-        (s) edge [loop above] node {$\agentA, \agentB$} (s)
-        (t) edge [loop above] node {$\agentA, \agentB$} (t)
-        (u) edge [loop above] node {$\agentA, \agentB$} (u)
+        (s) edge [loop left] node {$\agentA, \agentB$} (s)
+        (t) edge [loop left] node {$\agentA, \agentB$} (t)
+        (u) edge [loop left] node {$\agentA, \agentB$} (u)
         (s) [<->] edge node {$\agentB$} (t)
         (s) edge node {$\agentA$} (u);
 
-      \node[label=below left:{$\kStateS$}] (s') [below=9em of s]{\underline{$\{\atomP\}$}};
-      \node[label=below right:{$\kStateT$}] (t') [left of=s'] {$\{\}$};
-      \node[label=left:{$\kPModelP{\kStateS}$},draw=black, fit=(s') (t'), inner sep=3em, dashed, rounded corners] {};
+      \node[label=above right:{$\kStateS$}] (s') [right=11em of s]{\underline{$\{\atomP\}$}};
+      \node[label=above right:{$\kStateT$}] (t') [above of=s'] {$\{\}$};
+      \node[label=above:{$\kPModelP{\kStateS}$},draw=black, fit=(s') (t'), inner sep=3.5em, dashed, rounded corners] {};
 
       \path[every node/.style={font=\sffamily\small},->]
-        (s') edge [loop below] node {$\agentA, \agentB$} (s')
-        (t') edge [loop below] node {$\agentA, \agentB$} (t')
+        (s') edge [loop right] node {$\agentA, \agentB$} (s')
+        (t') edge [loop right] node {$\agentA, \agentB$} (t')
         (s') [<->] edge node {$\agentB$} (t');
       
       \path[every node/.style={font=\sffamily\small},<->,dotted]
         (s') edge node {$\simulatesA$} (s)
         (t') edge node {$\simulatesA$} (t)
-        (s') edge [->] node {$\simulatesA$} (u);
+        (s') edge [->,bend left] node {$\simulatesA$} (u);
     \end{tikzpicture}
 \end{figure}
 

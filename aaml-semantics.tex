@@ -61,7 +61,124 @@ One notable difference is that whilst \logicApal{} permits public announcements 
 We will show in the following sections that such a restriction is unnecessary in the settings that we consider; the logics \logicAamlK{}, \logicAamlKFF{}, and \logicAamlS{} are expressively equivalent to their underlying modal logics, \logicK{}, \logicKFF{}, and \logicS{} respectively, so any action model containing quantifiers is equivalent to an action model without quantifiers.
 Despite the action model quantifiers quantifying over more epistemic updates that public announcement quantifiers, the public announcement quantifiers are in fact more powerful than action model quantifiers, at least in the setting of \classS{}, as \logicApalS{} is strictly more expressive than \logicS{} and is undecidable, whereas \logicAamlS{} is expressively equivalent to \logicS{} and is decidable.
 
-\todo[inline]{Example of \logicAaml{}}
+We give some examples of \logicAaml{}.
+
+\begin{example}
+\begin{figure}
+    \caption{An example of two Kripke models that are refinements of each other.}\label{example-aaml-figure}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+
+      \node[label=above right:{$\kStateS$}] (s') {\underline{$\{\atomP\}$}};
+      \node[label=above right:{$\kStateT$}] (t') [above of=s'] {$\{\}$};
+      \node[label=above:{$\kPModel{\kStateS}$},draw=black, fit=(s') (t'), inner sep=3.5em, dashed, rounded corners] {};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (s') edge [loop right] node {$\agentA, \agentB$} (s')
+        (t') edge [loop right] node {$\agentA, \agentB$} (t')
+        (s') [<->] edge node {$\agentB$} (t');
+
+      \node[label=above left:{$\kStateS$}] (s) [right=11em of s] {\underline{$\{\atomP\}$}};
+      \node[label=above left:{$\kStateT$}] (t) [above of=s] {$\{\}$};
+      \node[label=above left:{$\kStateU$}] (u) [below of=s] {$\{\atomP\}$};
+      \node[label=above:{$\kPModelP{\kStateS}$},draw=black, fit=(s) (t) (u), inner sep=3.5em, dashed, rounded corners] {};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (s) edge [loop left] node {$\agentA, \agentB$} (s)
+        (t) edge [loop left] node {$\agentA, \agentB$} (t)
+        (u) edge [loop left] node {$\agentA, \agentB$} (u)
+        (s) [<->] edge node {$\agentB$} (t)
+        (s) edge node {$\agentA$} (u);
+    \end{tikzpicture}
+\end{figure}
+
+Let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateS}$ be Kripke models where:
+\begin{eqnarray*}
+    \kStates &=& \{\kStateS, \kStateT\}\\
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
+    \kValuation(\atomP) &=& \{\kStateS\}
+\end{eqnarray*}
+and:
+\begin{eqnarray*}
+    \kStatesP &=& \{\kStateS, \kStateT, \kStateU\}\\
+    \kAccessibilityPA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU)\}\\
+    \kAccessibilityPB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU)\}\\
+    \kValuationP(\atomP) &=& \{\kStateS, \kStateU\}
+\end{eqnarray*}
+
+The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are shown in Figure~\ref{example-aaml-figure}.
+We note that $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are essentially the same as (are isomorphic to) the Kripke models from Example~\ref{example-pal-ml} and Example~\ref{example-pal}.
+In Example~\ref{example-pal-ml} we showed that $\kPModelP{\kStateS}$ is the result of executing an action model on $\kPModel{\kStateS}$, and in Example~\ref{example-pal} we showed that $\kPModel{\kStateS}$ is the result of executing an action model on $\kPModelP{\kStateS}$.
+
+We note that $\kPModelP{\kStateS} \entails_\logicAamlK \knowsA \lnot \knowsB \atomP$.
+As $\kPModelP{\kStateS}$ is the result of executing an action model on $\kPModel{\kStateS}$ we have that $\kPModel{\kStateS} \entails_\logicAamlK \someacts \knowsA \lnot \knowsB \atomP$.
+
+We note that $\kPModel{\kStateS} \entails_\logicAamlK \lnot \knowsA \lnot \knowsB \atomP$.
+As $\kPModel{\kStateS}$ is the result of executing an action model on $\kPModelP{\kStateS}$ we have that $\kPModel{\kStateS} \entails_\logicAamlK \someacts \lnot \knowsA \lnot \knowsB \atomP$.
+\end{example}
+
+\begin{example}
+\begin{figure}
+    \caption{An example of a Kripke model and refinement.}\label{example-aaml-2-figure}
+    \centering
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+
+      \node[label=above right:{$\kStateS$}] (s) {\underline{$\{\atomP, \atomQ\}$}};
+      \node[label=below right:{$\kStateT$}] (t) [below of=s] {$\{\atomP\}$};
+      \node[label=above left:{$\kStateU$}] (u) [left of=s] {$\{\atomQ\}$};
+      \node[label=below left:{$\kStateV$}] (v) [left of=t] {$\{\}$};
+      \node[label=above:{$\kPModel{\kStateS}$},draw=black, fit=(s) (t) (u) (v), inner sep=3em, dashed, rounded corners] {};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (s) edge [loop above] node {$\agentA, \agentB$} (s)
+        (t) edge [loop below] node {$\agentA, \agentB$} (t)
+        (u) edge [loop above] node {$\agentA, \agentB$} (u)
+        (v) edge [loop below] node {$\agentA, \agentB$} (v)
+        (s) [<->] edge node {$\agentA$} (t)
+        (u) [swap] edge node {$\agentA$} (v)
+        (s) edge node {$\agentB$} (u)
+        (t) [swap] edge node {$\agentB$} (v);
+
+      \node[label=above left:{$\kStateS$}] (s') [right=9em of s]{\underline{$\{\atomP, \atomQ\}$}};
+      \node[label=below left:{$\kStateT$}] (t') [below of=s'] {$\{\atomP\}$};
+      \node[label=above:{$\restrict{\kPModel{\kStateS}}{\knowsA \atomP}$},draw=black, fit=(s') (t'), inner sep=3em, dashed, rounded corners] {};
+
+      \path[every node/.style={font=\sffamily\small},->]
+        (s') edge [loop above] node {$\agentA, \agentB$} (s')
+        (t') edge [loop below] node {$\agentA, \agentB$} (t')
+        (s') [<->] edge node {$\agentA$} (t');
+    \end{tikzpicture}
+\end{figure}
+
+Let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateS}$ be Kripke models where:
+\begin{eqnarray*}
+    \kStates &=& \{\kStateS, \kStateT, \kStateU, \kStateV\}\\
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU), (\kStateU, \kStateV), (\kStateV, \kStateU), (\kStateV, \kStateV)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU), (\kStateT, \kStateT), (\kStateT, \kStateV), (\kStateV, \kStateT), (\kStateV, \kStateV)\}\\
+    \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
+    \kValuation(\atomQ) &=& \{\kStateS, \kStateU\}
+\end{eqnarray*}
+and:
+\begin{eqnarray*}
+    \kStates &=& \{\kStateS, \kStateT\}\\
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
+    \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
+    \kValuation(\atomQ) &=& \{\kStateS\}
+\end{eqnarray*}
+
+The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are shown in Figure~\ref{example-aaml-2-figure}.
+We note that $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are essentially the same as (are isomorphic to) the Kripke models from Example~\ref{example-pal}.
+In Example~\ref{example-pal} we showed that $\kPModelP{\kStateS}$ is the result of executing an action model on $\kPModel{\kStateS}$.
+
+We note that $\kPModelP{\kStateS} \entails_\logicAamlK \knowsA \atomP$.
+Let $\aPModel{\aStateS} \in \classAmK$ such that $\kPModelP{\kStateS} \entails_\logicAamlK \aPrecondition(\aStateS)$.
+By Proposition~\ref{action-models-refinements} we have that $\kPModelP{\kStateS} \simulates \kPModelP{\kStateS} \exec \aPModel{\aStateS}$.
+As $\knowsA \atomP$ is a positive formula and $\kPModelP{\kStateS} \simulates \kPModelP{\kStateS} \exec \aPModel{\aStateS}$, from Proposition~\ref{refinements-preserve-positive} we that $\kPModelP{\kStateS} \exec \aPModel{\aStateS} \entails_\logicAamlK \knowsA \atomP$.
+Therefore $\kPModelP{\kStateS} \entails_\logicAamlK \allacts \knowsA \atomP$.
+As $\kPModelP{\kStateS}$ is the result of executing an action model in $\kPModel{\kStateS}$ we have that $\kPModel{\kStateS} \entails_\logicAamlK \someacts \allacts \knowsA \atomP$.
+\end{example}
 
 In the following sections we show that the action model quantifiers of \logicAaml{} are equivalent to the refinement quantifiers of \logicRml{} in the settings of \classK{}, \classKFF{}, and \classS{}.
 We show the equivalence by showing that if there exists a refinement where a given formula is satisfied then we can construct a finite action model that results in that formula being satisfied.

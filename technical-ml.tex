@@ -141,6 +141,16 @@ If every finite subset of $\Phi$ is satisfiable in \{$\kPModel{\kStatesT}$, $\kM
 
 We write $\interpretation[\kModel]{\phi}$ to denote the set of states where $\phi$ is valid, where $\interpretation[\kModel]{\phi} = \{\kStateS \in \kStates \mid \kPModel{\kStateS} \entails \phi\}$.
 
+In the following chapters we will rely heavily on the cover operator of Janin and Walukiewicz~\cite{janin:1995}, following the definitions given by B{\'i}lkov{\'a}, Palmigiano and Venema~\cite{bilkova:2008}.
+In the following chapters we use the cover operator to state axioms for \logicRml{} and \logicAaml{}, and to provide the synthesis procedures for \logicAaml{}.
+The cover operator is an abbreviation for a conjunction of an arbitrary number of modalities that happens to be convenient for such purposes.
+The cover operator is defined by the syntactic abbreviation $\coversA \Gamma ::= \necessaryA \bigvee_{\gamma \in \Gamma} \gamma \land \bigwedge_{\gamma \in \Gamma} \possibleA \gamma$, where $\Gamma$ is a finite set of formulas.
+Semantically, we have $\kPModel{\kStateS} \entails \coversA \Gamma$ if and only if: for every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\gamma \in \Gamma$ such that $\kPModel{\kStateT} \entails \gamma$; and for every $\gamma \in \Gamma$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $\kPModel{\kStateT} \entails \gamma$.
+
+\pagebreak
+
+We give an example of modal logic.
+
 \begin{example}\label{example-ml}
 Let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateS}$ be pointed Kripke models where:
 \begin{eqnarray*}
@@ -157,7 +167,7 @@ and:
     \kValuationP(\atomP) &=& \{\kStateS, \kStateU\}
 \end{eqnarray*}
 
-\begin{figure}[b!]
+\begin{figure}
     \caption{Two example Kripke models, modelling the situations described in Example~\ref{example-ml-formula}.}\label{example-ml-figure}
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
@@ -233,6 +243,8 @@ We first note that the relational operator $\bisimilar$ for bisimilarity forms a
 The relational operator $\bisimilar$ is an equivalence relation (reflexive, transitive and symmetric) on Kripke models.
 \end{proposition}
 
+\pagebreak
+
 Bisimilar Kripke models are equivalent under modal validity.
 
 \begin{proposition}\label{modal-bisimulation-invariance}
@@ -277,6 +289,8 @@ Every image-finite Kripke model is modally saturated.
 \end{proposition}
 
 Thus for finite or image-finite Kripke models it is also the case that modal equivalence implies bisimilarity.
+
+\pagebreak
 
 Bisimulations can be computed in polynomial time for finite Kripke models.
 
@@ -340,9 +354,13 @@ For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \
 If there exists an $n$-bisimulation $\bisimulation_0, \dots, \bisimulation_n$ such that $(\kStateS, \kStateSP) \in \bisimulation_n$ then we say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $n$-bisimilar} and we denote this by $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$.
 \end{definition}
 
+Similar to the relational operator for bisimilarity, $\bisimilar$, we note that the relational operator $\bisimilar[n]$ for $n$-bisimilarity forms an equivalence relation.
+
 \begin{proposition}
 The relation $\bisimilar[n]$ is an equivalence relation on Kripke models.
 \end{proposition}
+
+\pagebreak
 
 Similar to bisimilarity, there is a partial correspondence between $n$-bisimilarity and equivalence under depth-limited modal equivalence.
 

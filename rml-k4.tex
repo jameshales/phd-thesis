@@ -56,7 +56,7 @@ Let $\kModelAndTuple$ be a Kripke model where:
         (omega') edge node {} (3)
             edge [loop right] node {} (omega');
     \end{tikzpicture}
-    \caption{The model $\kModel$, omitting implied transitive edges.}\label{model-naturals}
+    \caption{The model $\kModel$, omitting implied transitive edges. The state $\omega$ has only finite paths whilst the state $\omega'$ has an infinite path due to its reflexive edge.}\label{model-naturals}
 \end{figure}
 
 The model $\kModel$ is represented in Figure~\ref{model-naturals}.
@@ -79,16 +79,17 @@ We proceed by induction on $n \in \naturals$:
         Suppose that $n = 0$. Then we trivially have that $\kPModel{i} \bisimilar[0] \kPModel{j}$.
 
         Suppose that $n > 0$.
+        \begin{description}
+            \item[atoms] Trivial.
 
-        \paragraph{atoms} Trivial.
+            \item[forth] Let $k \in \kSuccessors{}{i}$.
 
-        \paragraph{forth} Let $k \in \kSuccessors{}{i}$.
+            Suppose that $k \geq n - 1$. By the induction hypothesis $\kPModel{k} \bisimilar [n-1] \kPModel{j - 1}$.
 
-        Suppose that $k \geq n - 1$. Then from the induction hypothesis $\kPModel{k} \bisimilar [n-1] \kPModel{j - 1}$.
+            Suppose that $k < n - 1$. Then $k < n - 1 < j$ and $k \in \kSuccessors{}{j}$, so we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
 
-        Suppose that $k < n - 1$. Then $k < n - 1 < j$ and $k \in \kSuccessors{}{j}$, so we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
-
-        \paragraph{back} Symmetrical reasoning to {\bf forth}.
+            \item[back] Symmetrical reasoning to {\bf forth}.
+        \end{description}
 
     \item We show that $\kPModel{n} \bisimilar[n] \kPModel{\omega'}$.
 
@@ -96,17 +97,19 @@ We proceed by induction on $n \in \naturals$:
 
         Suppose that $n > 0$.
 
-        \paragraph{atoms} Trivial.
+        \begin{description}
+            \item[atoms] Trivial.
 
-        \paragraph{forth} Let $k \in \kSuccessors{}{n}$. Then $k \in \kSuccessors{}{\omega'}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+            \item[forth] Let $k \in \kSuccessors{}{n}$. Then $k \in \kSuccessors{}{\omega'}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
 
-        \paragraph{back} Let $k \in \kSuccessors{}{\omega'}$. 
+            \item[back] Let $k \in \kSuccessors{}{\omega'}$. 
 
-        Suppose that $k = \omega'$. Then $n - 1 \in \kSuccessors{}{n}$ and by the induction hypothesis $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{\omega'}$. 
+                Suppose that $k = \omega'$. Then $n - 1 \in \kSuccessors{}{n}$ and by the induction hypothesis $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{\omega'}$. 
 
-        Suppose that $k \neq \omega'$ and $k < n$. Then $k \in \kSuccessors{}{n}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+                Suppose that $k \neq \omega'$ and $k < n$. Then $k \in \kSuccessors{}{n}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
 
-        Suppose that $k \neq \omega'$ and $k \geq n$. Then $n - 1 \in \kSuccessors{}{n}$ and from above $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{k}$.
+                Suppose that $k \neq \omega'$ and $k \geq n$. Then $n - 1 \in \kSuccessors{}{n}$ and from above $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{k}$.
+        \end{description}
 
     \item We show that $\kPModel{\omega} \bisimilar[n] \kPModel{\omega'}$.
 
@@ -114,15 +117,17 @@ We proceed by induction on $n \in \naturals$:
 
         Suppose that $n > 0$.
 
-        \paragraph{atoms} Trivial.
+        \begin{description}
+            \item[atoms] Trivial.
 
-        \paragraph{forth} Let $k \in \kSuccessors{}{\omega}$. Then $k \in \kSuccessors{}{\omega'}$ and from above we have that $\kPModel{k} \bisimilar \kPModel{k}$.
+            \item[forth] Let $k \in \kSuccessors{}{\omega}$. Then $k \in \kSuccessors{}{\omega'}$ and from above we have that $\kPModel{k} \bisimilar \kPModel{k}$.
 
-        \paragraph{back} Let $k \in \kSuccessors{}{\omega'}$.
+            \item[back] Let $k \in \kSuccessors{}{\omega'}$.
 
-        Suppose that $k = \omega'$. Then $n - 1 \in \kSuccessors{}{\omega}$ and from above $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{\omega'}$.
+                Suppose that $k = \omega'$. Then $n - 1 \in \kSuccessors{}{\omega}$ and from above $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{\omega'}$.
 
-        Suppose that $k \neq \omega'$. Then $k \in \kSuccessors{}{\omega}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+                Suppose that $k \neq \omega'$. Then $k \in \kSuccessors{}{\omega}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+        \end{description}
 \end{enumerate}
 
 Therefore $\kPModel{\omega} \bisimilar[n] \kPModel{\omega'}$ for every $n \in \naturals$.
@@ -145,7 +150,8 @@ Let $\kPModelAndTupleP{\omega'}$ where:
     \kValuationP(\atomP) &=& \emptyset
 \end{eqnarray*}
 
-We note that $\kPModelP{\omega'} \in \classKF$, $\kPModel{\omega'} \simulatesBs \kPModelP{\omega'}$, and $\kPModelP{\omega'} \entails \possible \top \land \necessary \possible \top$.
+We note that by construction $\kPModelP{\omega'} \in \classKF$.
+We also note that $\kPModel{\omega'} \simulatesBs \kPModelP{\omega'}$, and $\kPModelP{\omega'} \entails \possible \top \land \necessary \possible \top$.
 Therefore $\kPModelP{\omega'} \entails \somerefs (\possible \top \land \necessary \possible \top)$.
 
 We next show that $\kPModel{\omega} \nentails \somerefs (\possible \top \land \necessary \possible \top)$.
@@ -385,11 +391,6 @@ The {\em $(\agentsB, \atomP)$-relativisation} $\phi^{(\agentsB, \atomP)}$ of a f
 where $\atomQ \neq \atomP$, $\agentB \in \agentsB$, and $\agentC \in \agents \setminus \agentsB$.
 \end{definition}
 
-The intent of $(\agentsB, \atomP)$-relativisation is to capture the notion of $(\agentsB, \atomP)$-restriction syntactically.
-Bozzelli, et al.~\cite{bozzelli:2014b} gave a result demonstrating that given a \langBqml{} formula and a Kripke model, the interpretation of the $(\agentsB, \atomP)$-relativisation of the formula on the Kripke model is equivalent to the interpretation of the formula on the $(\agentsB, \atomP)$-restriction of the Kripke model.
-This is represented with a schematic diagram in Figure~\ref{rml-k4-relativisation-restriction-diagram}.
-We adapt this result to the setting of \classKF{} and for our modified definitions.
-
 \begin{figure}
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
@@ -411,6 +412,11 @@ We adapt this result to the setting of \classKF{} and for our modified definitio
     \caption{A schematic showing the intended relationship between the $(\agentA, \atomP)$-restriction of a Kripke model and the $(\agentA, \atomP)$-relativisation of a formula. The Kripke model on the right is the $(\agentA, \atomP)$-restriction of the Kripke model on the left, and the formula on the left is the $(\agentA, \atomP)$-relativisation of the formula on the right.}\label{rml-k4-relativisation-restriction-diagram}
 \end{figure}
 
+The intent of $(\agentsB, \atomP)$-relativisation is to capture the notion of $(\agentsB, \atomP)$-restriction syntactically.
+Bozzelli, et al.~\cite{bozzelli:2014b} gave a result demonstrating that given a \langBqml{} formula and a Kripke model, the interpretation of the $(\agentsB, \atomP)$-relativisation of the formula on the Kripke model is equivalent to the interpretation of the formula on the $(\agentsB, \atomP)$-restriction of the Kripke model.
+This is represented with a schematic diagram in Figure~\ref{rml-k4-relativisation-restriction-diagram}.
+We adapt this result to the setting of \classKF{} and for our modified definitions.
+
 \begin{lemma}\label{rml-k4-relativisation-restriction}
 Let $\agentsB \subseteq \agents$ be a set of agents, let $\atomP \in \atoms$ be a propositional atom, let $\phi \in \langBqml$ be a bisimulation quantified modal formula, let $\kPModel{\kStateS} \in \classKF$ be a pointed Kripke model, and let $\kPModel[(\agentsB, \atomP)]{\kStateS}$ be the $(\agentsB, \atomP)$-restriction of $\kPModel{\kStateS}$.
 Then $\kPModel{\kStateS} \entails_\logicBqmlKF \phi^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails_\logicBqmlKF \phi$.
@@ -419,39 +425,41 @@ Then $\kPModel{\kStateS} \entails_\logicBqmlKF \phi^{(\agentsB, \atomP)}$ if and
 \begin{proof}
 We show by induction on the structure of $\phi$ that for every $\kPModel{\kStateS} \in \classKF$: $\kPModel{\kStateS} \entails \phi^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \phi$, where $\kPModel[(\agentsB, \atomP)]{\kStateS}$ is the $(\agentsB, \atomP)$-restriction of $\kPModel{\kStateS}$.
 Let $\kPModel{\kStateS} \in \classKF$.
+
 We consider each case:
 \begin{description}
-    \item[Case $\atomQ$ where $\atomQ \neq \atomP$:] \hfill\\
+    \item[Case $\phi = \atomQ$ where $\atomQ \neq \atomP$:] \hfill\\
         By definition $\kPModel{\kStateS} \entails \atomQ^{(\agentsB, \atomP)}$ if and only if $\kPModel{\kStateS} \entails \atomQ$.
         By construction $\kPModel{\kStateS} \entails \atomQ$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \atomQ$.
-    \item[Case $\lnot \phi$ and $\phi \land \psi$:] \hfill\\
+    \item[Case $\phi = \lnot \psi$ and $\phi = \psi \land \chi$:] \hfill\\
         Follows trivially from the induction hypothesis.
-    \item[Case $\necessaryB \phi$ where $\agentB \in \agentsB$:] \hfill\\
-        By definition $\kPModel{\kStateS} \entails (\necessaryB \phi)^{(\agentsB, \atomP)}$ if and only if $\kPModel{\kStateS} \entails \necessaryB (\atomP \implies \phi^{(\agentsB, \atomP)})$.
-        By definition $\kPModel{\kStateS} \entails \necessaryB (\atomP \implies \phi^{(\agentsB, \atomP)})$ if and only if for every $\kStateT \in \kSuccessorsB{\kStateS}$: $\kPModel{\kStateT} \entails \atomP$ implies that  $\kPModel{\kStateS} \entails \phi^{(\agentsB, \atomP)}$.
-        By the induction hypothesis $\kPModel{\kStateT} \entails \phi^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateT} \entails \phi$.
-        Then for every $\kStateT \in \kSuccessorsB{\kStateS}$: $\kPModel{\kStateT} \entails \atomP$ implies that  $\kPModel{\kStateS} \entails \phi^{(\agentsB, \atomP)}$; if and only if for every $\kStateT \in \kSuccessorsB{\kStateS}$: $\kPModel{\kStateT} \entails \atomP$ implies that $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \phi$.
+    \item[Case $\phi = \necessaryB \psi$ where $\agentB \in \agentsB$:] \hfill\\
+        By definition $\kPModel{\kStateS} \entails (\necessaryB \psi)^{(\agentsB, \atomP)}$ if and only if $\kPModel{\kStateS} \entails \necessaryB (\atomP \implies \psi^{(\agentsB, \atomP)})$.
+        By definition $\kPModel{\kStateS} \entails \necessaryB (\atomP \implies \psi^{(\agentsB, \atomP)})$ if and only if for every $\kStateT \in \kSuccessorsB{\kStateS}$: $\kPModel{\kStateT} \entails \atomP$ implies that  $\kPModel{\kStateS} \entails \psi^{(\agentsB, \atomP)}$.
+        By the induction hypothesis $\kPModel{\kStateT} \entails \psi^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateT} \entails \psi$.
+        Then for every $\kStateT \in \kSuccessorsB{\kStateS}$: $\kPModel{\kStateT} \entails \atomP$ implies that  $\kPModel{\kStateS} \entails \psi^{(\agentsB, \atomP)}$; if and only if for every $\kStateT \in \kSuccessorsB{\kStateS}$: $\kPModel{\kStateT} \entails \atomP$ implies that $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \psi$.
         By construction $\kStateT \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateS}$ if and only if $\kStateT \in \kSuccessorsB{\kStateS}$ and $\kPModel{\kStateT} \entails \atomP$.
-        Then for every $\kStateT \in \kSuccessorsB{\kStateS}$: $\kPModel{\kStateT} \entails \atomP$ implies that $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \phi$; if and only if for every $\kStateT \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateS}$: $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \phi$.
-        By definition for every $\kStateT \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateS}$: $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \phi$; if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \necessaryB \phi$.
-    \item[Case $\necessaryC \phi$ where $\agentC \in \agents \setminus \agentsB$]:
-        By definition $\kPModel{\kStateS} \entails (\necessaryC \phi)^{(\agentsB, \atomP)}$ if and only if $\kPModel{\kStateS} \entails \necessaryC \phi^{(\agentsB, \atomP)}$.
-        By definition $\kPModel{\kStateS} \entails \necessaryC \phi^{(\agentsB, \atomP)}$ if and only if for every $\kStateT \in \kSuccessorsC{\kStateS}$: $\kPModel{\kStateT} \entails \phi^{(\agentsB, \atomP)}$.
-        By the induction hypothesis $\kPModel{\kStateT} \entails \phi^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateT} \entails \phi$ and by construction $\kSuccessorsC[(\agentsB, \atomP)]{\kStateT} = \kSuccessorsC{\kStateT}$.
-        Then for every $\kStateT \in \kSuccessorsC{\kStateS}$: $\kPModel{\kStateT} \entails \phi^{(\agentsB, \atomP)}$; if and only if for every $\kStateT \in \kSuccessorsC[(\agentsB, \atomP)]{\kStateS}$: $\kPModel[(\agentsB, \atomP)]{\kStateT} \entails \phi$.
-        By definition for every $\kStateT \in \kSuccessorsC[(\agentsB, \atomP)]{\kStateS}$: $\kPModel[(\agentsB, \atomP)]{\kStateT} \entails \phi^{(\agentsB, \atomP)}$; if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \necessaryC \phi$. 
-    \item[Case $\somebisimsQ \phi$ where $\atomQ \neq \atomP$:] \hfill\\
-        By definition $\kPModel{\kStateS} \entails (\somebisimsQ \phi)^{(\agentsB, \atomP)}$ if and only if $\kPModel{\kStateS} \entails \somebisimsQ \phi^{(\agentsB, \atomP)}$.
-        By definition $\kPModel{\kStateS} \entails \somebisimsQ \phi^{(\agentsB, \atomP)}$ if and only if there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \phi^{(\agentsB, \atomP)}$.
-        By the induction hypothesis $\kPModelP{\kStateSP} \entails \phi^{(\agentsB, \atomP)}$ if and only if $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \phi$.
-        So $\kPModel{\kStateS} \entails (\somebisimsQ \phi)^{(\agentsB, \atomP)}$ if and only if there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \phi$.
+        Then for every $\kStateT \in \kSuccessorsB{\kStateS}$: $\kPModel{\kStateT} \entails \atomP$ implies that $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \psi$; if and only if for every $\kStateT \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateS}$: $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \psi$.
+        By definition for every $\kStateT \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateS}$: $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \psi$; if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \necessaryB \psi$.
+\pagebreak
+    \item[Case $\phi = \necessaryC \psi$ where $\agentC \in \agents \setminus \agentsB$]:
+        By definition $\kPModel{\kStateS} \entails (\necessaryC \psi)^{(\agentsB, \atomP)}$ if and only if $\kPModel{\kStateS} \entails \necessaryC \psi^{(\agentsB, \atomP)}$.
+        By definition $\kPModel{\kStateS} \entails \necessaryC \psi^{(\agentsB, \atomP)}$ if and only if for every $\kStateT \in \kSuccessorsC{\kStateS}$: $\kPModel{\kStateT} \entails \psi^{(\agentsB, \atomP)}$.
+        By the induction hypothesis $\kPModel{\kStateT} \entails \psi^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateT} \entails \psi$ and by construction $\kSuccessorsC[(\agentsB, \atomP)]{\kStateT} = \kSuccessorsC{\kStateT}$.
+        Then for every $\kStateT \in \kSuccessorsC{\kStateS}$: $\kPModel{\kStateT} \entails \psi^{(\agentsB, \atomP)}$; if and only if for every $\kStateT \in \kSuccessorsC[(\agentsB, \atomP)]{\kStateS}$: $\kPModel[(\agentsB, \atomP)]{\kStateT} \entails \psi$.
+        By definition for every $\kStateT \in \kSuccessorsC[(\agentsB, \atomP)]{\kStateS}$: $\kPModel[(\agentsB, \atomP)]{\kStateT} \entails \psi^{(\agentsB, \atomP)}$; if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \necessaryC \psi$. 
+    \item[Case $\phi = \somebisimsQ \psi$ where $\atomQ \neq \atomP$:] \hfill\\
+        By definition $\kPModel{\kStateS} \entails (\somebisimsQ \psi)^{(\agentsB, \atomP)}$ if and only if $\kPModel{\kStateS} \entails \somebisimsQ \psi^{(\agentsB, \atomP)}$.
+        By definition $\kPModel{\kStateS} \entails \somebisimsQ \psi^{(\agentsB, \atomP)}$ if and only if there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \psi^{(\agentsB, \atomP)}$.
+        By the induction hypothesis $\kPModelP{\kStateSP} \entails \psi^{(\agentsB, \atomP)}$ if and only if $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \psi$.
+        So $\kPModel{\kStateS} \entails (\somebisimsQ \psi)^{(\agentsB, \atomP)}$ if and only if there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \psi$.
 
-        By definition we also have that $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \somebisimsQ \phi$ if and only if there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateSPP} \entails \phi$.
+        By definition we also have that $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \somebisimsQ \psi$ if and only if there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateSPP} \entails \psi$.
 
-        We will show that there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \phi$ if and only if there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateSPP} \entails \phi$.
+        We will show that there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \psi$ if and only if there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateSPP} \entails \psi$.
 
         ($\Rightarrow$)
-        Suppose there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$, via some $\atomQ$-bisimulation $\bisimulation \subseteq \kStates \times \kStatesP$, and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \phi$.
+        Suppose there exists $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$, via some $\atomQ$-bisimulation $\bisimulation \subseteq \kStates \times \kStatesP$, and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \psi$.
         We show that $\bisimulation$ is also a $\atomQ$-bisimulation between $\kPModel[(\agentsB, \atomP)]{\kStateS}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$.
         Let $\atomR \in \atoms \setminus \{\atomQ\}$, $\agentB \in \agentsB$, $\agentC \in \agents \setminus \agentsB$, and $(\kStateT, \kStateTP) \in \refinement$:
 
@@ -480,10 +488,10 @@ We consider each case:
         \paragraph{back-$\agentC$}
         Follows from symmetrical reasoning to {\bf forth-$\agentC$}.
 
-        Therefore $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \phi$.
+        Therefore $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \psi$.
 
         ($\Leftarrow$)
-        Suppose there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModelPP{\kStateSPP}$, via some $\atomQ$-bisimulation $\bisimulation \subseteq \kStates \times \kStatesPP$, and $\kPModelPP{\kStateSPP} \entails \phi$.
+        Suppose there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModelPP{\kStateSPP}$, via some $\atomQ$-bisimulation $\bisimulation \subseteq \kStates \times \kStatesPP$, and $\kPModelPP{\kStateSPP} \entails \psi$.
         Let $\kPModelAndTupleP{\kStateSPP}$ where:
         \begin{eqnarray*}
             \kStatesP &=& \kStates \cup \kStatesPP\\
@@ -579,16 +587,16 @@ We consider each case:
         Then $\kStateUPP \in \kSuccessorsPPA{\kStateTPP}$ and by construction $(\kStateUPP, \kStateUPP) \in \bisimulation''$.
 
         Therefore $\bisimulation''$ is a bisimulation between $\kPModelPP{\kStateSPP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSPP}$ and $\kPModel{\kStateS} \bisimilar \kPModel[\prime(\agentsB, \atomP)]{\kStateSPP}$.
-        As $\kPModelPP{\kStateSPP} \entails \phi$ then by bisimulation invariance we have $\kPModel[\prime(\agentsB, \atomP)]{\kStateSPP} \entails \phi$.
+        As $\kPModelPP{\kStateSPP} \entails \psi$ then by bisimulation invariance we have $\kPModel[\prime(\agentsB, \atomP)]{\kStateSPP} \entails \psi$.
 
-        Therefore $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSPP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSPP} \entails \phi$.
+        Therefore $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSPP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSPP} \entails \psi$.
 
-        Therefore $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \phi$ if and only if there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateSPP} \entails \phi$.
+        Therefore $\kPModelP{\kStateSP} \in \classKF$ such that $\kPModel{\kStateS} \bisimilar[\atomQ] \kPModelP{\kStateSP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \entails \psi$ if and only if there exists $\kPModelPP{\kStateSPP} \in \classKF$ such that $\kPModel[(\agentsB, \atomP)]{\kStateS} \bisimilar[\atomQ] \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateSPP} \entails \psi$.
 
-        Therefore $\kPModel{\kStateS} \entails (\somebisimsQ \phi)^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \somebisimsQ \phi$.
+        Therefore $\kPModel{\kStateS} \entails (\somebisimsQ \psi)^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \somebisimsQ \psi$.
 \end{description}
 
-Therefore by induction on the structure of $\phi$ we have for every $\kPModel{\kStateS} \in \classKF$: $\kPModel{\kStateS} \entails \phi^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \phi$.
+Therefore by induction on the structure of $\psi$ we have for every $\kPModel{\kStateS} \in \classKF$: $\kPModel{\kStateS} \entails \psi^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \psi$.
 \end{proof}
 
 Using relativisation we can define a translation from \langRml{} formulas to \langBqml{} formulas.
@@ -828,11 +836,11 @@ To show that $\kPModel{\omega}$ and $\kPModel{\omega'}$ are indistinguishable by
 That $\kPModel{\omega} \refines \kPModel{\omega'}$ is trivial, as $\omega$ is the same as $\omega'$ except for the reflexive edge, so we need only show that $\kPModel{\omega'} \refines \kPModel{\omega}$.
 
 Let $\refinement \subseteq \kStates \times \kStates$ be defined as follows:
-$$
-\refinement = \{(\kStateS, \kStateS) \mid \kStateS \in \kStates\} \cup
-\{(0, n), (n, 0), (0^+, n^+), (0^-, n^-), (\omega, n), (\omega', n) \mid n \in \naturals\} \cup
-\{(0, \omega), (0, \omega'), (\omega, \omega'), (\omega', \omega)\}
-$$
+\begin{eqnarray*}
+\refinement &=& \{(\kStateS, \kStateS) \mid \kStateS \in \kStates\} \cup
+    \{(0, \omega), (0, \omega'), (\omega, \omega'), (\omega', \omega)\} \cup  \\&&\quad
+    \{(0, n), (n, 0), (0^+, n^+), (0^-, n^-), (\omega, n), (\omega', n) \mid n \in \naturals\}
+\end{eqnarray*}
 
 We show that $\refinement$ satisfies {\bf atoms-$\atomP$} and {\bf back} for every $(\kStateS, \kStateSP) \in \refinement$.
 

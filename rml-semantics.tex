@@ -5,6 +5,8 @@ Compared to previous treatments of \logicRml{}, which considered \logicRml{} spe
 The definitions that we give here generalise to these different settings, and the semantic results that we give here are common to all or most of the settings that we consider.
 In the following chapters we consider these settings in more detail, providing results specific to each setting.
 
+\pagebreak
+
 We begin with a definition of the syntax of \logicRml{}.
 
 \begin{definition}[Language of refinement modal logic]
@@ -80,13 +82,13 @@ We recall the Kripke model $\kPModel{\kStateS}$ given in Example~\ref{example-ml
 The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are shown in Figure~\ref{example-rml-pal-figure}.
 We note that $\kPModel{\kStateS}, \kPModelP{\kStateS} \in \classS$.
 
-In Example~\ref{example-pal} we showed that $\kPModelP{\kStateS} \entails \knowsB \atomQ$ and in Example~\ref{example-refinement-pal} we showed that $\kPModel{\kStateS} \simulatesB \kPModelP{\kStateS}$.
-Therefore we have that $\kPModel{\kStateS} \entails_\logicRmlS \somerefsB \knowsB \atomQ$.
+In Example~\ref{example-pal} we showed that $\kPModelP{\kStateS} \entails_\logicRmlK \knowsB \atomQ$ and in Example~\ref{example-refinement-pal} we showed that $\kPModel{\kStateS} \simulatesB \kPModelP{\kStateS}$.
+Therefore we have that $\kPModel{\kStateS} \entails_\logicRmlK \somerefsB \knowsB \atomQ$.
 
-In Example~\ref{example-ml} we showed that $\kPModel{\kStateS} \entails \knowsA \atomP$.
+In Example~\ref{example-ml} we showed that $\kPModel{\kStateS} \entails_\logicRmlK \knowsA \atomP$.
 Let $\kPModelPP{\kStateSPP} \in \classS$ such that $\kPModel{\kStateS} \simulatesA \kPModelPP{\kStateSPP}$.
-As $\knowsA \atomP$ is a $\agentB$-positive formula then by Proposition~\ref{refinements-preserve-positive} we have that $\kPModelPP{\kStateSPP} \entails \knowsA \atomP$.
-Therefore $\kPModel{\kStateS} \entails_\logicRmlS \allrefsB \knowsA \atomP$.
+As $\knowsA \atomP$ is a $\agentB$-positive formula then by Proposition~\ref{refinements-preserve-positive} we have that $\kPModelPP{\kStateSPP} \entails_\logicRmlK \knowsA \atomP$.
+Therefore $\kPModel{\kStateS} \entails_\logicRmlK \allrefsB \knowsA \atomP$.
 \end{example}
 
 \begin{example}
@@ -126,27 +128,36 @@ Therefore $\kPModel{\kStateS} \entails_\logicRmlS \allrefsB \knowsA \atomP$.
 We recall the Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ given in Example~\ref{example-refinement-aml}.
 The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are shown in Figure~\ref{example-rml-aml-figure}.
 
-We note that $\kPModelP{\kStateS} \entails \knowsA \lnot \knowsB \atomP$ and in Example~\ref{example-refinement-aml} we showed that $\kPModel{\kStateS} \simulatesA \kPModel{\kStateS}$.
-Therefore we have that $\kPModelP{\kStateS} \entails_\logicRmlS{} \somerefsA \knowsA \lnot \knowsB \atomP$.
-Furthermore we note that $\kPModel{\kStateS} \entails \lnot \knowsA \lnot \knowsB \atomP$ and in Example~\ref{example-refinement-aml} we showed that $\kPModelP{\kStateS} \simulatesA \kPModel{\kStateS}$.
-Therefore we have that $\kPModelP{\kStateS} \entails_\logicRmlS{} \somerefsA (\knowsA \lnot \knowsB \atomP \land \somerefsA \lnot \knowsA \lnot \knowsB \atomP)$.
+We note that $\kPModelP{\kStateS} \entails_\logicRmlK \knowsA \lnot \knowsB \atomP$ and in Example~\ref{example-refinement-aml} we showed that $\kPModel{\kStateS} \simulatesA \kPModelP{\kStateS}$.
+Let $\kPModelPP{\kStateSPP} \in \classK$ such that $\kPModelP{\kStateS} \simulatesA \kPModelPP{\kStateSPP}$.
+As $\knowsA \lnot \knowsB \atomP$ is a $\agentA$-positive formula, $\kPModelP{\kStateS} \entails_\logicRmlK \knowsA \lnot \knowsB \atomP$, and $\kPModelP{\kStateS} \simulatesA \kPModelPP{\kStateSPP}$, then by Proposition~\ref{refinements-preserve-positive} we have $\kPModelPP{\kStateSPP} \entails_\logicRmlK \knowsA \lnot \knowsB \atomP$.
+Then $\kPModelP{\kStateS} \entails \allrefsA \knowsA \lnot \knowsB \atomP$.
+As $\kPModel{\kStateS} \simulatesA \kPModelP{\kStateS}$ then $\kPModel{\kStateS} \entails \somerefsA \allrefsA \knowsA \lnot \knowsB \atomP$.
+
+Therefore we have that $\kPModel{\kStateS} \entails_\logicRmlK{} \somerefsA \knowsA \lnot \knowsB \atomP$.
+
+We note that $\kPModel{\kStateS} \entails_\logicRmlK \lnot \knowsA \lnot \knowsB \atomP$ and in Example~\ref{example-refinement-aml} we showed that $\kPModelP{\kStateS} \simulatesA \kPModel{\kStateS}$.
+Therefore we have that $\kPModelP{\kStateS} \entails_\logicRmlK{} \somerefsA (\knowsA \lnot \knowsB \atomP \land \somerefsA \lnot \knowsA \lnot \knowsB \atomP)$.
 \end{example}
+
+\pagebreak
 
 Whereas in modal logic the parameterised class of Kripke frames restricts the Kripke models that modal formulas are interpreted on, in \logicRml{} the parameterised class of Kripke frames also restricts the refinements that are considered by the refinement quantifiers.
 The motivation for this can be understood in the epistemic setting, where we consider refinements to correspond to the results of epistemic updates.
 In the epistemic logic \logicS{}, the frame conditions of \classS{} correspond to rules about knowledge, such as the truth of knowledge, and positive and negative introspection of knowledge.
 Intuitively we'd expect that epistemic updates should be able to change knowledge, but not the rules about knowledge itself, so we'd expect that epistemic updates should take us from \classS{} Kripke models to \classS{} Kripke models.
+This is the behaviour we experience in logics such as public announcement logic or action model logic.
 In the logic \logicRmlS{}, the restriction on refinement quantifiers ensures that the only refinements that are considered are \classS{} refinements, satisfying our intuition about epistemic updates.
 
 Previous treatments of \logicRml{} didn't make this additional restriction in the semantics, as these treatments specifically considered \logicRmlK{}, where restricting refinements to \classK{} would be redundant~\cite{vanditmarsch:2009,vanditmarsch:2010}.
-However van Ditmarsch, French and Pinchinat~\cite{vanditmarsch:2010} suggested the semantics presented here in order to generalise \logicRml{} to other modal settings, such as \classS{} and \classKF{}.   
+van Ditmarsch, French and Pinchinat~\cite{vanditmarsch:2010} suggested the semantics presented here in order to generalise \logicRml{} to other modal settings, such as \classS{} and \classKF{}.   
 
 Previous treatments of \logicRml{} also didn't use the more general notion of refinements that we use here.
 van Ditmarsch and French~\cite{vanditmarsch:2009} considered a notion of refinements corresponding to our notion of $\agents$-refinements, with the corresponding formulation of \logicRml{} introducing $\allrefs$ quantifiers which quantify over $\agents$-refinements.
 van Ditmarsch, French and Pinchinat~\cite{vanditmarsch:2010} subsequently considered a notion of refinements corresponding to our notion of $\agentA$-refinements, with the corresponding formulation of \logicRml{} introducing $\allrefsA$ quantifiers which quantify over $\agentA$-refinements.
 We note that our formulation of \logicRml{} is at least as expressive as previous formulations, the previous logics being syntactic restrictions of the logic presented here.
 We will later show that \logicRml{} is expressively equivalent to modal logic in the settings of \classK{}, \classKFF{}, \classKD{}, and \classS{}, so in these settings our formulation is expressively equivalent to the previous formulations.
-We prefer to formulate \logicRml{} in terms of $\agentsB$-refinements rather than $\agents$-refinements or $\agentA$-refinements because it gives a more direct indication of the capabilities of the logic, and because many results for $\agents$-refinements and $\agentA$-refinements generalise to results about $\agentsB$-refinements.
+We prefer to formulate \logicRml{} in terms of $\agentsB$-refinements rather than $\agents$-refinements or $\agentA$-refinements because it gives a more direct indication of the capabilities of the logic, which is important for a logic that in many settings we consider is expressively equivalent to modal logic, and because many results for $\agents$-refinements and $\agentA$-refinements generalise to results about $\agentsB$-refinements.
 
 As an aside we note that van Ditmarsch, French and Pinchinat~\cite{vanditmarsch:2010} were able to reason about $\agents$-refinements using $\agentA$-refinement quantifiers by introducing the syntactic abbreviation $\allrefsAs \phi ::= \allrefs[\agentA_1] \allrefs[\agentA_2] \cdots \allrefs[\agentA_n] \phi$ where $\agents = \{\agentA_1, \agentA_2, \dots, \agentA_n\}$.
 We can generalise this notion with the following results.
@@ -170,7 +181,7 @@ Let $\agentsB = \{\agentB_1, \agentB_2, \dots, \agentB_n\}$ be a set of two or m
 Then $\kPModel{\kStateS} \entails_\logicRmlK \somerefsBs \phi$ if and only if $\kPModel{\kStateS} \entails_\logicRmlK \somerefs[\agentB_1] \somerefs[\agentB_2] \cdots \somerefs[\agentB_n] \phi$.
 \end{corollary}
 
-However these results are specific to \logicRmlK{} and are not general to \logicRmlC{} for any class of Kripke frames \classC{}.
+These results are specific to \logicRmlK{} and are not general to \logicRmlC{} for any class of Kripke frames \classC{}.
 In order to generalise these results to settings other than \classK{} we require a modification of Proposition~\ref{refinement-decomposition} that gives us intermediate refinements that belong to the appropriate class.
 For many classes of Kripke models this is a simple matter to do, and we note that for \classKF{}, \classKFF{}, \classKD{}, and \classS{}, if the original Kripke model and its refinement belong to the appropriate class then the intermediate refinement given in the proof of Proposition~\ref{refinement-agent-decomposition} already gives intermediate refinements from the appropriate class.
 
@@ -200,6 +211,7 @@ Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}, \kPModelPP{\kStateSPP} \in \class
         so by modus ponens $\kPModelP{\kStateSP} \entails \psi$.
         Therefore $\kPModel{\kStateS} \entails \allrefsBs \psi$
         and $\kPModel{\kStateS} \entails \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)$.
+\pagebreak
     \item[(\ref{rml-validity-necr})] \hfill \\
         We show that $\entails_\logicRmlC \phi$ implies $\entails_\logicRmlC \allrefsBs \phi$.
 
@@ -236,6 +248,8 @@ This gives the $\allrefsBs$ operator all of the appearances of a modal operator,
 The validity (\ref{rml-validity-rp}) corresponds to the property that refinements preserve positive formulas.
 This validity prevents the logic from being closed under uniform substitution in many settings, meaning that the $\allrefsBs$ operator is not a normal modal operator.
 
+We give an example to demonstrate the failure of closure under uniform substitution in \logicRmlK{}.
+
 \begin{example}\label{example-uniform-substitution}
 By (\ref{rml-validity-rp}) from Proposition~\ref{rml-validities} we have that $\entails_\logicRmlK{} \atomP \implies \allrefsA \atomP$.
 The formula $\possibleA \atomP \implies \allrefsA \possibleA \atomP$ is a uniform substitution of $\atomP \implies \allrefs \atomP$, substituting $\possibleA \atomP$ for $\atomP$.
@@ -247,7 +261,7 @@ Let $\kPModelAndTuple{\kStateS}$ and $\kPModelP{\kStateS} = ((\kStates, \kAccess
     \kValuation(\atomP) &=& \{\kStateT\}\\
     \kAccessibilityPA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}
 \end{eqnarray*}
-Then $\kPModel{\kStateS} \entails_\logicRmlK{} \possibleA \atomP$, $\kPModel{\kStateS} \simulatesA \kPModelP{\kStateS}$, and $\kPModelP{\kStateS} \nentails_\logicRmlK{} \possibleA \atomP$.
+Then $\kPModel{\kStateS} \entails_\logicRmlK{} \possibleA \atomP$, $\kPModel{\kStateS} \simulatesA \kPModelP{\kStateS}$, and $\kPModelP{\kStateS} \nentails_\logicRmlK{} \possibleA \atomP$.\\
 Therefore $\kPModel{\kStateS} \nentails_\logicRmlK{} \possibleA \atomP \implies \allrefsA \possibleA \atomP$.
 \end{example}
 
@@ -299,7 +313,7 @@ However this is a trivial result, as refinement modal equivalence implies modal 
 In the following chapters we consider \logicRml{} in a variety of modal settings, specifically \classK{}, \classKF{}, \classKFF{}, \classKD{}, and \classS{}.
 We now give a few properties that are common to some or all of these settings.
 
-We show that refinement quantifiers satisfy the Church-Rosser, McKinsey and finality properties in the settings of \classK{}, \classKF{}, \classKFF{}, \classKD{}, \classSF{}, and \classS{}.
+We show that refinement quantifiers satisfy the Church-Rosser, McKinsey and finality properties in the settings of \classK{}, \classKF{}, \classKFF{}, \classKD{}, and \classS{}.
 To do so we first introduce the notion of minimal and least refinements.
 
 \begin{definition}[Minimal and least refinements]\label{minimal-refinement}
@@ -329,8 +343,10 @@ Then there exists $\kPModelPP{\kStateSPP} \in \classC$ such that $\kPModelP{\kSt
 As $\kPModelP{\kStateSP}$ is a minimal $\agentsB$-refinement in \classC{} then $\kPModelP{\kStateSP} \bisimilar \kPModelPP{\kStateSPP}$ and by bisimulation invariance we have $\kPModelP{\kStateSP} \entails \phi$.
 \end{proof}
 
-We show that every Kripke model in \classK{}, \classKF{}, \classKFF{}, \classKD{}, \classSF{}, and \classS{} has a minimal refinement.
+We show that every Kripke model in \classK{}, \classKF{}, \classKFF{}, \classKD{}, and \classS{} has a minimal refinement.
 In all but \classKD{} this minimal refinement is also a least refinement.
+
+\pagebreak
 
 \begin{proposition}\label{minimal-refinement-k-k4-k45}
 Every Kripke model in \classK{}, \classKF{}, and \classKFF{} has a least $\agentsB$-refinement.
@@ -384,28 +400,28 @@ Therefore $\kPModelP{\kStateS}$ is a least $\agentsB$-refinement of $\kPModel{\k
 \end{proof}
 
 \begin{proposition}\label{minimal-refinement-s4-s5}
-Every Kripke model in \classSF{}, and \classS{} has a minimal $\agentsB$-refinement that is unique up to bisimulation.
+Every Kripke model in \classS{} has a minimal $\agentsB$-refinement that is unique up to bisimulation.
 \end{proposition}
 
 \begin{proof}
-Let $\classC \in \{\classSF, \classS\}$ and let $\kPModelAndTuple{\kStateS} \in \classC$.
+Let $\kPModelAndTuple{\kStateS} \in \classS$.
 We define $\kPModelP{\kStateS} = ((\kStates, \kAccessibilityP{}, \kValuation), \kStateS)$ where for every $\agentA \in \agents$, $\kStateT \in \kStates$, if $\agentA \in \agentsB$ then $\kSuccessorsPA{\kStateT} = \{\kStateT\}$ and if $\agentA \notin \agentsB$ then $\kSuccessorsPA{\kStateT} = \kSuccessorsA{\kStateT}$.
-We note that $\kPModelP{\kStateS} \in \classC$.
+We note that $\kPModelP{\kStateS} \in \classS$.
 By Proposition~\ref{subrelations-refinement} we have that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateS}$.
 
-Let $\kPModelPP{\kStateSPP} \in \classC$ such that $\kPModelP{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$, via some $\agentsB$-refinement $\refinement$.
+Let $\kPModelPP{\kStateSPP} \in \classS$ such that $\kPModelP{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$, via some $\agentsB$-refinement $\refinement$.
 We show that $\refinement$ is a bisimulation between $\kPModelP{\kStateS}$ and $\kPModelPP{\kStateSPP}$.
 We already have that $(\kStateS, \kStateSPP) \in \refinement$, and {\bf atoms-$\atomP$}, {\bf forth-$\agentC$}, and {\bf back-$\agentA$} for every $\atomP \in \atoms$, $\agentC \in \agents \setminus \agentsB$, and $\agentA \in \agents$, so we need only show {\bf forth-$\agentB$} for $\agentB \in \agentsB$.
 Let $(\kStateT, \kStateTPP) \in \refinement$, $\agentB \in \agentsB$, and $\kStateU \in \kSuccessorsPB{\kStateT}$.
 By construction $\kSuccessorsPB{\kStateT} = \{\kStateT\}$ so $\kStateU = \kStateT$.
-As $\kPModelPP \in \classC$ (where \classC{} requires reflexivity) by reflexivity we have that $\kStateTPP \in \kSuccessorsPPB{\kStateTPP}$ and by hypothesis we have $(\kStateT, \kStateTPP) \in \refinement$, so {\bf forth-$\agentB$} holds.
+As $\kPModelPP \in \classS$ by reflexivity we have that $\kStateTPP \in \kSuccessorsPPB{\kStateTPP}$ and by hypothesis we have $(\kStateT, \kStateTPP) \in \refinement$, so {\bf forth-$\agentB$} holds.
 So $\refinement$ is a bisimulation between $\kPModelP{\kStateS}$ and $\kPModelPP{\kStateSPP}$ and $\kPModelP{\kStateS} \bisimilar \kPModelPP{\kStateSPP}$.
-Therefore $\kPModelP{\kStateS}$ is a minimal $\agentsB$-refinement of $\kPModel{\kStateS}$ in \classC{}.
+Therefore $\kPModelP{\kStateS}$ is a minimal $\agentsB$-refinement of $\kPModel{\kStateS}$ in \classS{}.
 
-Let $\kPModelPP{\kStateSPP} \in \classC$ such that $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$.
-From above there exists a minimal $\agentsB$-refinement, $\kPModelPPP{\kStateSPPP}$, of $\kPModelPP{\kStateSPP}$ in \classC{}.
-We note that if there exists $\agentB \in \agentsB$, $\kStateTPPP \in \kStatesPPP$ such that $\kSuccessorsPPB{\kStateTPPP} \neq \{\kStateTPPP\}$ then $\kPModelPPP{\kStateSPPP}$ is not a minimal $\agentsB$-refinement in \classC{}, as we can form a non-bisimilar $\agentsB$-refinement by setting $\kSuccessorsPPB{\kStateTPPP} = \{\kStateTPPP\}$ for every $\agentB \in \agentsB$, $\kStateTPPP \in \kStatesPPP$.
-By contrapositive as $\kPModelPPP{\kStateSPPP}$ is a minimal $\agentsB$-refinement in \classC{} then for every $\agentB \in \agentsB$, $\kStateTPPP \in \kStatesPPP$ we must have $\kSuccessorsPPB{\kStateTPPP} = \{\kStateTPPP\}$.
+Let $\kPModelPP{\kStateSPP} \in \classS$ such that $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$.
+From above there exists a minimal $\agentsB$-refinement, $\kPModelPPP{\kStateSPPP}$, of $\kPModelPP{\kStateSPP}$ in \classS{}.
+We note that if there exists $\agentB \in \agentsB$, $\kStateTPPP \in \kStatesPPP$ such that $\kSuccessorsPPB{\kStateTPPP} \neq \{\kStateTPPP\}$ then $\kPModelPPP{\kStateSPPP}$ is not a minimal $\agentsB$-refinement in \classS{}, as we can form a non-bisimilar $\agentsB$-refinement by setting $\kSuccessorsPPB{\kStateTPPP} = \{\kStateTPPP\}$ for every $\agentB \in \agentsB$, $\kStateTPPP \in \kStatesPPP$.
+By contrapositive as $\kPModelPPP{\kStateSPPP}$ is a minimal $\agentsB$-refinement in \classS{} then for every $\agentB \in \agentsB$, $\kStateTPPP \in \kStatesPPP$ we must have $\kSuccessorsPPB{\kStateTPPP} = \{\kStateTPPP\}$.
 
 Suppose that $\kPModel{\kStateS} \simulatesBs \kPModelPPP{\kStateSPPP}$ via a $\agentsB$-refinement $\refinement$ from $\kPModel{\kStateS}$ to $\kPModelPPP{\kStateSPPP}$.
 We show that $\refinement$ is a $\agentsB$-refinement from $\kPModelP{\kStateS}$ to $\kPModelPPP{\kStateSPPP}$.
@@ -455,10 +471,10 @@ Therefore $\kPModelP{\kStateS} \bisimilar \kPModelPP{\kStateSPP}$ and $\kPModelP
 
 We note that in \classKD{} not every Kripke model has a least $\agentsB$-refinement.
 
-We show that refinement quantifiers satisfy the McKinsey and finality properties in the settings of \classK{}, \classKF{}, \classKFF{}, \classKD{}, \classSF{}, and \classS{}.
+We show that refinement quantifiers satisfy the McKinsey and finality properties in the settings of \classK{}, \classKF{}, \classKFF{}, \classKD{}, and \classS{}.
 
 \begin{proposition}\label{rml-mckinsey}
-Let $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classSF, \classS\}$. Then:
+Let $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classS\}$. Then:
 $$
 \begin{array}{l}
     \entails_\logicRmlC \allrefsBs \somerefsBs \phi \implies \somerefsBs \allrefsBs \phi\\
@@ -469,23 +485,23 @@ where $\agentsB \subseteq \agents$ and $\phi, \psi \in \langRml$.
 \end{proposition}
 
 \begin{proof}
-Let $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classSF, \classS\}$, let $\kPModel{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \entails_\logicRmlC \allrefsBs \somerefsBs \phi$.
+Let $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classS\}$, let $\kPModel{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \entails_\logicRmlC \allrefsBs \somerefsBs \phi$.
 By Proposition~\ref{minimal-refinement-k-k4-k45}, Proposition~\ref{minimal-refinement-s4-s5}, and Proposition~\ref{minimal-refinement-kd45} there exists $\kPModelP{\kStateSP} \in \classC$ such that $\kPModelP{\kStateSP}$ is a minimal $\agentsB$-refinement in \classC{} of $\kPModel{\kStateS}$.
 As $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ then $\kPModelP{\kStateSP} \entails_\logicRmlC \somerefsBs \phi$.
 By Proposition~\ref{minimal-refinement-collapse} we have $\kPModelP{\kStateSP} \entails_\logicRmlC \allrefsBs \phi$.
 As $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ then $\kPModel{\kStateS} \entails_\logicRmlC \somerefsBs \allrefsBs \phi$.
 
-Let $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classSF, \classS\}$, let $\kPModel{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \entails_\logicRmlC \allrefsBs \somerefsBs \phi \land \allrefsBs \somerefsBs \psi$.
+Let $\classC \in \{\classK, \classKF, \classKFF, \classKD, \classS\}$, let $\kPModel{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \entails_\logicRmlC \allrefsBs \somerefsBs \phi \land \allrefsBs \somerefsBs \psi$.
 By Proposition~\ref{minimal-refinement-k-k4-k45}, Proposition~\ref{minimal-refinement-s4-s5}, and Proposition~\ref{minimal-refinement-kd45} there exists $\kPModelP{\kStateSP} \in \classC$ such that $\kPModelP{\kStateSP}$ is a minimal $\agentsB$-refinement in \classC{} of $\kPModel{\kStateS}$.
 As $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ then $\kPModelP{\kStateSP} \entails_\logicRmlC \somerefsBs \phi$ and $\kPModelP{\kStateSP} \entails_\logicRmlC \somerefsBs \psi$.
 By Proposition~\ref{minimal-refinement-collapse} we have $\kPModelP{\kStateSP} \entails_\logicRmlC \phi$ and $\kPModelP{\kStateSP} \entails_\logicRmlC \psi$.
 As $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ then $\kPModel{\kStateS} \entails_\logicRmlC \somerefsBs (\phi \land \psi)$.
 \end{proof}
 
-The converse of the McKinsey property, the Church-Rosser property, also holds in the settings of \classK{}, \classKF{}, \classKFF{}, \classSF{}, and \classS{}.
+The converse of the McKinsey property, the Church-Rosser property, also holds in the settings of \classK{}, \classKF{}, \classKFF{}, and \classS{}.
 
 \begin{proposition}\label{rml-church-rosser}
-Let $\classC \in \{\classK, \classKF, \classKFF, \classSF, \classS\}$. Then:
+Let $\classC \in \{\classK, \classKF, \classKFF, \classS\}$. Then:
 $$
 \begin{array}{l}
     \entails_\logicRmlC \somerefsBs \allrefsBs \phi \implies \allrefsBs \somerefsBs \phi
@@ -495,7 +511,7 @@ where $\agentsB \subseteq \agents$ and $\phi \in \langRml$.
 \end{proposition}
 
 \begin{proof}
-Let $\classC \in \{\classK, \classKF, \classKFF, \classSF, \classS\}$, let $\kPModel{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \entails_\logicRmlC \somerefsBs \allrefsBs \phi$.
+Let $\classC \in \{\classK, \classKF, \classKFF, \classS\}$, let $\kPModel{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \entails_\logicRmlC \somerefsBs \allrefsBs \phi$.
 There exists $\kPModelP{\kStateS} \in \classC$ such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \allrefsBs \phi$.
 By Proposition~\ref{minimal-refinement-k-k4-k45}, and Proposition~\ref{minimal-refinement-s4-s5} there exists a least $\agentsB$-refinement, $\kPModelPP{\kStateSPP}$ of $\kPModel{\kStateS}$ in \classS{}.
 As $\kPModelPP{\kStateSPP}$ is a least $\agentsB$-refinement of $\kPModel{\kStateS}$ and $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateS}$ then $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
@@ -509,7 +525,7 @@ Therefore $\kPModel{\kStateS} \entails \allrefsBs \somerefsBs \phi$.
 The proof that \logicRml{} has the McKinsey and finality properties in the above settings relies on the fact that every Kripke model has a minimal refinement in the corresponding classes of Kripke frames.
 The proof that \logicRml{} has the Church-Rosser property on the other hand relies on the fact that every Kripke model has a {\em least} refinement in the corresponding class of Kripke frames.
 For \classK{}, \classKF{}, and \classKFF{} the least refinement is the refinement where each state has no $\agentsB$-successors.
-For \classSF{} and \classS{} the least refinement is the refinement where each state only has the reflexive $\agentsB$-successor.
+For \classS{} the least refinement is the refinement where each state only has the reflexive $\agentsB$-successor.
 However in the setting of \classKD{} the minimal refinements are the refinements where each state has a single $\agentsB$-successor, and there may be multiple such refinements that are distinct with respect to bisimulation.
 This is why not every \classKD{} Kripke model has a least refinement, and why \logicRmlKD{} does not have the McKinsey property.
 
@@ -571,7 +587,7 @@ We finish with some meta-logical results for the modal settings that we will con
 We show that \logicRml{} is not closed under uniform substitution for each of these settings.
 
 \begin{proposition}
-The logics \logicRmlK{}, \logicRmlKF{}, \logicRmlKFF{}, \logicRmlKD{}, \logicRmlSF{} and \logicRmlS{} are not closed under uniform substitution.
+The logics \logicRmlK{}, \logicRmlKF{}, \logicRmlKFF{}, \logicRmlKD{}, and \logicRmlS{} are not closed under uniform substitution.
 \end{proposition}
 
 \begin{proof}
@@ -587,7 +603,7 @@ However in \logicRml{} the class of Kripke frames also restricts the refinements
 This means that a property that holds for \logicRml{} in a given class of Kripke frames does not necessarily hold for \logicRml{} in a subclass of the given class of Kripke frames.
 
 \begin{proposition}\label{rml-not-sublogics}
-The logic \logicRmlK{} is not a sublogic of \logicRmlKF{}, \logicRmlKFF{}, \logicRmlKD{}, \logicRmlSF{} or \logicRmlS{}.
+The logic \logicRmlK{} is not a sublogic of \logicRmlKF{}, \logicRmlKFF{}, \logicRmlKD{}, or \logicRmlS{}.
 \end{proposition}
 
 \begin{proof}
@@ -596,7 +612,7 @@ That is, refinements in \logicRmlK{} need not be transitive.
 If we start from a Kripke model $\kPModel{\kStateS} \in \classK$, such that $\kPModel{\kStateS} \entails \possibleA (\lnot \atomP \land \possibleA \atomP)$, we can find a refinement $\kPModelP{\kStateSP} \in \classK$ such that 
 $\kPModelP{\kStateSP} \somerefs (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$ simply by removing the transitive $\agentA$-edges from $\kPModelP{\kStateS}$.
 This is permissible as the frame conditions for \classK{} do not require that Kripke models be transitive.
-However the logics \logicRmlKF{}, \logicRmlKFF{}, \logicRmlKD{}, \logicRmlSF{} or \logicRmlS{} do require that Kripke models be transitive.
+However the logics \logicRmlKF{}, \logicRmlKFF{}, \logicRmlKD{}, or \logicRmlS{} do require that Kripke models be transitive.
 In these settings we have that $\entails (\possibleA \possibleA \atomP \implies \possibleA \atomP)$ and by (\ref{rml-validity-necr}) from Proposition~\ref{rml-validities} we have that $\entails \allrefs (\possibleA \possibleA \atomP \implies \possibleA \atomP)$.
 \end{proof}
 

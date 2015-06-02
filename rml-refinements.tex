@@ -32,6 +32,23 @@ In informal settings we often use the term ``refinement'' to refer to the genera
 We provide some examples of refinements.
 
 \begin{example}\label{example-refinement-pal}
+Let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateS}$ be pointed Kripke models where:
+\begin{eqnarray*}
+    \kStates &=& \{\kStateS, \kStateT, \kStateU, \kStateV\}\\
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU), (\kStateU, \kStateV), (\kStateV, \kStateU), (\kStateV, \kStateV)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU), (\kStateT, \kStateT), (\kStateT, \kStateV), (\kStateV, \kStateT), (\kStateV, \kStateV)\}\\
+    \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
+    \kValuation(\atomQ) &=& \{\kStateS, \kStateU\}
+\end{eqnarray*}
+and:
+\begin{eqnarray*}
+    \kStatesP &=& \{\kStateS, \kStateT\}\\
+    \kAccessibilityPA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
+    \kAccessibilityPB &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
+    \kValuationP(\atomP) &=& \{\kStateS, \kStateT\}\\
+    \kValuationP(\atomQ) &=& \{\kStateS\}
+\end{eqnarray*}
+
 \begin{figure}
     \caption{An example of a Kripke model and refinement.}\label{example-refinement-pal-figure}
     \centering
@@ -68,38 +85,39 @@ We provide some examples of refinements.
     \end{tikzpicture}
 \end{figure}
 
-Let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateS}$ be Kripke models where:
-\begin{eqnarray*}
-    \kStates &=& \{\kStateS, \kStateT, \kStateU, \kStateV\}\\
-    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU), (\kStateU, \kStateV), (\kStateV, \kStateU), (\kStateV, \kStateV)\}\\
-    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU), (\kStateT, \kStateT), (\kStateT, \kStateV), (\kStateV, \kStateT), (\kStateV, \kStateV)\}\\
-    \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
-    \kValuation(\atomQ) &=& \{\kStateS, \kStateU\}
-\end{eqnarray*}
-and:
-\begin{eqnarray*}
-    \kStates &=& \{\kStateS, \kStateT\}\\
-    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
-    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
-    \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
-    \kValuation(\atomQ) &=& \{\kStateS\}
-\end{eqnarray*}
-
 The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are shown in Figure~\ref{example-refinement-pal-figure}.
 We note that $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are essentially the same as (are isomorphic to) the Kripke models from Example~\ref{example-pal}.
 In Example~\ref{example-pal} we showed that $\kPModelP{\kStateS}$ is the result of executing an action model on $\kPModel{\kStateS}$.
 
 We note that $\kPModel{\kStateS} \simulatesB \kPModelP{\kStateS}$ via the $\agentB$-refinement $\refinement = \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}$.
-It is a simple matter to check that {\bf atoms-$\atomP$}, {\bf atoms-$\atomQ$}, {\bf forth-$\agentA$}, {\bf back-$\agentA$} and {\bf back-$\agentB$} hold for $\refinement$.
+It is simple to check that {\bf atoms-$\atomP$}, {\bf atoms-$\atomQ$}, {\bf forth-$\agentA$}, {\bf back-$\agentA$} and {\bf back-$\agentB$} hold for $\refinement$.
 
 We also show that $\kPModelP{\kStateS} \not\simulatesB \kPModel{\kStateS}$ by the following argument.
-Suppose that $\refinement' \subseteq \kStatesP \times \kStates$ is a relation from $\kPModel{\kStateS}$ to $\kPModel{\kStateS}$ such that $\refinement'$ satisfies {\bf atoms-$\atomP$} and $(\kStateS, \kStateS) \in \refinement'$.
+Suppose that $\refinement' \subseteq \kStatesP \times \kStates$ is a relation from $\kPModelP{\kStateS}$ to $\kPModel{\kStateS}$ such that $\refinement'$ satisfies {\bf atoms-$\atomP$} and $(\kStateS, \kStateS) \in \refinement'$.
 As $\kStateU \in \kSuccessorsPB{\kStateS}$ then in order for $\refinement'$ to satisfy {\bf back-$\agentB$} there must exist some $\kStateX \in \kSuccessorsPB{\kStateS}$ such that $(\kStateX, \kStateU) \in \refinement'$.
-However as $\kStateU \notin \kValuation(\atomP)$ but $\kStateS, \kStateT \in \kValuationP(\atomP)$ then as $\refinement'$ satisfies {\bf atoms-$\atomP$} we must have $(\kStateS, \kStateU) \notin \refinement'$ and $(\kStateT, \kStateU) \notin \refinement'$.
-Therefore $\refinement'$ does not satisfy {\bf back-$\agentB$} and is not a $\agentB$-refinement.
+However $\kStateU \notin \kValuation(\atomP)$ but $\kStateS, \kStateT \in \kValuationP(\atomP)$ so, as $\refinement'$ satisfies {\bf atoms-$\atomP$}, we must have $(\kStateS, \kStateU) \notin \refinement'$ and $(\kStateT, \kStateU) \notin \refinement'$.
+Then $\refinement'$ does not satisfy {\bf back-$\agentB$} and is not a $\agentB$-refinement.
+Therefore there does not exist a $\agentB$-refinement from $\kPModelP{\kStateS}$ to $\kPModel{\kStateS}$ and $\kPModelP{\kStateS} \not\simulatesB \kPModel{\kStateS}$.
 \end{example}
 
+\vfill
+
 \begin{example}\label{example-refinement-aml}
+Let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateS}$ be Kripke models where:
+\begin{eqnarray*}
+    \kStates &=& \{\kStateS, \kStateT\}\\
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
+    \kValuation(\atomP) &=& \{\kStateS\}\\
+\end{eqnarray*}
+and:
+\begin{eqnarray*}
+    \kStatesP &=& \{\kStateS, \kStateT, \kStateU\}\\
+    \kAccessibilityPA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU)\}\\
+    \kAccessibilityPB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU)\}\\
+    \kValuationP(\atomP) &=& \{\kStateS, \kStateU\}
+\end{eqnarray*}
+
 \begin{figure}
     \caption{An example of two Kripke models that are refinements of each other.}\label{example-refinement-aml-figure}
     \centering
@@ -133,21 +151,6 @@ Therefore $\refinement'$ does not satisfy {\bf back-$\agentB$} and is not a $\ag
     \end{tikzpicture}
 \end{figure}
 
-Let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateS}$ be Kripke models where:
-\begin{eqnarray*}
-    \kStates &=& \{\kStateS, \kStateT\}\\
-    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
-    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
-    \kValuation(\atomP) &=& \{\kStateS\}
-\end{eqnarray*}
-and:
-\begin{eqnarray*}
-    \kStatesP &=& \{\kStateS, \kStateT, \kStateU\}\\
-    \kAccessibilityPA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU)\}\\
-    \kAccessibilityPB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU)\}\\
-    \kValuationP(\atomP) &=& \{\kStateS, \kStateU\}
-\end{eqnarray*}
-
 The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are shown in Figure~\ref{example-refinement-aml-figure}.
 We note that $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are essentially the same as (are isomorphic to) the Kripke models from Example~\ref{example-pal-ml} and Example~\ref{example-pal}.
 In Example~\ref{example-pal-ml} we showed that $\kPModelP{\kStateS}$ is the result of executing an action model on $\kPModel{\kStateS}$, and in Example~\ref{example-pal} we showed that $\kPModel{\kStateS}$ is the result of executing an action model on $\kPModelP{\kStateS}$.
@@ -159,12 +162,13 @@ This demonstrates that in some situations two non-bisimilar Kripke models can be
 This mirrors Example~\ref{example-pal}, where we demonstrated that in some situations the effects of an action model can be reversed by another action model. 
 \end{example}
 
-As mentioned previously, we consider the existence of a refinement between two Kripke models to indicate that one Kripke model is the result of an epistemic update of the other Kripke model.
-In Example~\ref{example-refinement-pal} we saw an example where a public announcement results in a refinement of the original Kripke model and in Example~\ref{example-refinement-aml} we saw an example where executing an action model results in a refinement of the original Kripke model.
+\pagebreak
+
+As mentioned previously, the existence of a refinement between two Kripke models can be seen as indicating that one Kripke model is the result of an epistemic update of the other.
+In the previous examples we saw examples where executing an action model results in a refinement of the original Kripke model.
 For the remainder of this section we will discuss properties of refinements, with a particular focus on the relationship between refinements and epistemic updates.
 
-We begin with some properties that should be obvious from the definition of refinements.
-
+We begin with some properties that follow directly from the definition of refinements.
 We note that the conditions for a refinement are weaker than the conditions for a bisimulation. 
 
 \begin{proposition}\label{bisimulation-refinement}
@@ -199,8 +203,6 @@ Let $\agentsB \subseteq \agentsC \subseteq \agents$ be sets of agents and let $\
 If $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ then $\kPModel{\kStateS} \simulatesCs \kPModelP{\kStateSP}$.
 \end{corollary}
 
-All of the above results follow directly from the definition of refinements and bisimulations.
-
 Similar to bisimulations, refinements over sets of agents may be composed to form new refinements.
 However as refinements over different sets of agents relax {\bf forth} for different sets of agents, then composing such refinements results in a refinement that relaxes {\bf forth} for both sets of agents.
 
@@ -210,7 +212,7 @@ Then $\refinement \circ \refinement' \subseteq \kStates \times \kStatesPP$ is a 
 \end{proposition}
 
 \begin{proof}
-    We will show that the relation $\refinement'' = \refinement \circ \refinement' \subseteq \kStates \times \kStatesPP$ is a $(\agentsB \cup \agentsC)$-refinement from $\kPModel{\kStateS}$ to $\kPModelPP{\kStateSPP}$ and therefore $\kPModel{\kStateS} \simulates[(\agentsB \cup \agentsC)] \kPModelPP{\kStateSPP}$.
+    We will show that the relation $\refinement'' = \refinement \circ \refinement' \subseteq \kStates \times \kStatesPP$ is a $(\agentsB \cup \agentsC)$-refinement from $\kPModel{\kStateS}$ to $\kPModelPP{\kStateSPP}$.
 We note that $(\kStateS, \kStateSPP) \in \refinement''$ if and only if there exists $\kStateSP \in \kStatesP$ such that $(\kStateS, \kStateSP) \in \refinement$ and $(\kStateSP, \kStateSPP) \in \refinement'$.
 Let $\atomP \in \atoms$, $\agentA \in \agents$, $\agentC \in \agents \setminus (\agentsB \cup \agentsC)$, and $(\kStateS, \kStateSPP) \in \refinement''$ where there exists $\kStateSP \in \kStatesP$ such that $(\kStateS, \kStateSP) \in \refinement$ and $(\kStateSP, \kStateSPP) \in \refinement'$.
 We show that the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentC$} and {\bf back-$\agentA$} hold.
@@ -233,7 +235,7 @@ As $(\kStateSP, \kStateSPP) \in \refinement'$ from {\bf back-$\agentA$} for $\re
 As $(\kStateS, \kStateSP) \in \refinement$ from {\bf back-$\agentA$} for $\refinement$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTP) \in \refinement$.
 Therefore there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTPP) \in \refinement''$.
 
-Therefore $\refinement''$ is a $(\agentsB \cup \agentsC)$-refinement from $\kPModel{\kStateS}$ to $\kPModelPP{\kStateSPP}$ and therefore $\kPModel{\kStateS} \simulates[(\agentsB \cup \agentsC)] \kPModelPP{\kStateSPP}$.
+Therefore $\refinement''$ is a $(\agentsB \cup \agentsC)$-refinement from $\kPModel{\kStateS}$ to $\kPModelPP{\kStateSPP}$ and $\kPModel{\kStateS} \simulates[(\agentsB \cup \agentsC)] \kPModelPP{\kStateSPP}$.
 \end{proof}
 
 Similar to the relational operator $\bisimilar$ for bisimilarity, we note that the relational operator $\simulatesBs$ for refinements is reflexive and transitive.
@@ -258,6 +260,8 @@ This was demonstrated in Example~\ref{example-refinement-pal}, where Kripke mode
 The refinements of a Kripke model may be characterised as being formed by taking a bisimilar Kripke model, such as by duplicating states and their relationships (satisfying {\bf atoms}, {\bf forth}, and {\bf back}) and then removing edges for some agents (relaxing {\bf forth} for some agents).
 We formalise this intuition using the notion of an expanded refinement.
 An expanded refinement is a refinement from one Kripke model to another Kripke model where every state in the latter is mapped by the refinement at most one state from the former.
+
+\pagebreak
 
 \begin{definition}\label{expanded-refinement}
 Let $\agentsB \subseteq \agents$ be a set of agents, let $\kModelAndTuple$ and $\kModelAndTupleP$, and let $\refinement \subseteq \kStates \times \kStatesP$ be a $\agentsB$-refinement from $\kModel$ to $\kModelP$.
@@ -325,7 +329,8 @@ By construction $\kStateUP \in \kSuccessorsPA{\kStateTP}$ and $(\kStateUP, (\kSt
 Therefore $\bisimulation''$ is a bisimulation between $\kPModelP{\kStateSP}$ and $\kPModelPP{(\kStateS, \kStateSP)}$ and $\kPModelP{\kStateSP} \bisimilar \kPModelPP{(\kStateS, \kStateSP)}$.
 \end{proof}
 
-To formalise our intuition about refinements, we show a more general result, using the notion of an expanded refinement to show that we can decompose a refinement over a set of agents into refinements over smaller sets of agents, giving us the converse of Proposition~\ref{refinement-composition}.
+To formalise our intuition about refinements, we show a more general result.
+Using the notion of an expanded refinement we show that we can decompose a refinement over a set of agents into refinements over smaller sets of agents, giving us the converse of Proposition~\ref{refinement-composition}.
 
 \begin{proposition}\label{refinement-decomposition}
 Let $\agentsB, \agentsC \subseteq \agents$ be sets of agents, and let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTuplePP{\kStateSPP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulates[(\agentsB \cup \agentsC)] \kPModelPP{\kStateSPP}$.
@@ -614,7 +619,7 @@ If we consider the preservation of positive formulas to be a minimal requirement
 
 Of course, refinements are not {\em the most general} notion of epistemic updates, as for example, models of belief revision permit agents to forget or revise previous information~\cite{alchourron:1985}, likewise models of epistemic updates with awareness can cause agents to forget information~\cite{vanditmarsch:2012}, and such updates do not preserve positive formulas.
 However refinements do generalise forms of epistemic updates such as public announcements~\cite{plaza:1989,gerbrandy:1997}, arrow updates~\cite{kooi:2011a} and action models~\cite{baltag:1999, baltag:2004}.
-As action models generalise public announcements and arrow updates, we will consider in closer detail the relationship between refinements and the results of action models.
+As action models generalise public announcements and arrow updates, we will consider the relationship between refinements and the results of action models.
 
 van Ditmarsch and French~\cite{vanditmarsch:2009} showed that executing an action model results in a refinement.
 We restate this result.

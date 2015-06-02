@@ -137,7 +137,13 @@ for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPMode
 
 \begin{proof}
 Without loss of generality we assume that $\aModel[\alpha]$ and $\aModel[\beta]$ are disjoint.
-We construct the action model $\aPModel{\aStatesT} = \aPModel[\alpha]{\aStatesT[\alpha]} \choice \aPModel[\beta]{\aStatesT[\beta]} = \aPModelTuple{\aStatesT}$ where the disjoint union of action models is defined in Definition~\ref{aml-choice}.  
+We construct the action model $\aPModelAndTuple{\aStatesT}$ as the disjoint union of $\aModel[\alpha]$ and $\aModel[\beta]$ where:
+    \begin{eqnarray*}
+        \aStates &=& \aStates[\alpha] \cup \aStates[\beta]\\
+        \aAccessibilityA &=& \aAccessibilityA[\alpha] \cup \aAccessibilityA[\beta]\\
+        \aPrecondition &=& \aPrecondition[\alpha] \cup \aPrecondition[\beta]\\
+        \aStatesT &=& \aStatesT[\alpha] \cup \aStatesT[\beta]
+    \end{eqnarray*}
 As $\aModel$ is formed by the disjoint union of $\aModel[\alpha]$ and $\aModel[\beta]$ we note that each state of $\aModel[\alpha]$ and $\aModel[\beta]$ is bisimilar to the corresponding state in $\aModel$.
 
 We first show that for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.

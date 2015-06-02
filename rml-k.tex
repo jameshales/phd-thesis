@@ -62,6 +62,8 @@ Hence the cover operator also serves as a convenient notation to restrict conjun
 In Section~\ref{rml-k-soundness} we will see that the semantics of the cover operator are convenient for showing the soundness of these axioms.
 In Section~\ref{rml-k-completeness} we see that the cover operator allows a convenient disjunctive normal form for modal formulas, which we use in our provably correct translation from \langRml{} to \langMl{}.
 
+\pagebreak
+
 Finally we give an example derivation using the axiomatisation \axiomRmlK{}.
 
 \begin{example}\label{rml-k-example-derivation}
@@ -161,7 +163,7 @@ A schematic of the Kripke model $\kPModelP{\kStateSP}$ and an overview of our co
 Here we can see that each of the $\agentsB$-refinements at successors, $\kPModel[\gamma_1]{\kStateT[\gamma_1]}, \dots, \kPModel[\gamma_n]{\kStateT[\gamma_n]}$, are combined into the larger Kripke model $\kPModelP{\kStateSP}$.
 From this schematic representation we can clearly see that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$.
 We note that there are $\agentA$-successors of $\kPModel{\kStateS}$ that do not satisfy any $\somerefsBs \gamma_i$ and do not correspond to any $\agentsB$-refinement $\kPModel[\gamma_i]{\kStateT[\gamma_i]}$.
-This is permissible as $\agentA \in \agentsB$ and so {\bf forth-$\agentA$} is not required in order for $\kPModelP{\kStateSP}$ to be a $\agentsB$-refinement of $\kPModel{\kStateS}$.
+This is permissible as $\agentA \in \agentsB$, so {\bf forth-$\agentA$} is not required in order for $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ to hold.
 
 To show that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$ we will show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
 
@@ -429,6 +431,8 @@ Finally $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$ follows from the
 Therefore $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 \end{proof}
 
+\pagebreak
+
 We next show that the axiom {\bf RDist} is sound.
 Recall that the axiom {\bf RDist} takes the form of $\proves \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$ where $\agentsB, \agentsC \subseteq \agents$ and for every $\agentC \in \agentsC$: $\Gamma_\agentC \subseteq \langRml$ is a finite set of formulas.
 
@@ -576,7 +580,7 @@ Finally $\kPModelP{\kStateSP} \entails \bigwedge_{\agentC \in \agentsC} \coversC
 Therefore $\kPModel{\kStateS} \entails \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$.
 \end{proof}
 
-Finally we show that the axiomatisation \axiomRmlK{} is sound.
+Finally, given these lemmas we note that the axiomatisation \axiomRmlK{} is sound.
 
 \begin{lemma}\label{rml-k-sound}
 The axiomatisation \axiomRmlK{} is sound with respect to the semantics of the logic \logicRmlK{}.
@@ -602,6 +606,8 @@ We provide these details because the presentation of the disjunctive normal form
 In Chapter~\ref{rml-kd45} we introduce a similar normal form in order to show the completeness of the axiomatisations for \logicRmlKFF{} and \logicRmlKD{}.
 
 We first recall the negation normal form, as an intermediate step before the disjunctive normal form.
+
+\pagebreak
 
 \begin{definition}[Negation normal form]
 A formula in {\em negation normal form} is inductively defined as:
@@ -778,6 +784,10 @@ where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\age
         \proves \lnot \somerefsBs \phi \implies \lnot \somerefsBs \lnot (\lnot \phi \lor \lnot \psi) & \text{Defn. of $\somerefsBs$}\\
         \proves \somerefsBs \lnot (\lnot \phi \lor \lnot \psi) \implies \somerefsBs \phi  & {\bf P}\\
         \proves \somerefsBs (\phi \land \psi) \implies \somerefsBs \phi  & {\bf P}\\
+    \end{array}
+    $$
+    $$
+    \begin{array}{ll}
         \proves \lnot \psi \implies (\lnot \phi \lor \lnot \psi) & {\bf P}\\
         \proves \allrefsBs (\lnot \psi \implies (\lnot \phi \lor \lnot \psi)) & {\bf NecR}\\
         \proves \allrefsBs (\lnot \psi \implies (\lnot \phi \lor \lnot \psi)) \implies (\allrefsBs \lnot \psi \implies \allrefsBs (\lnot \phi \lor \lnot \psi)) & {\bf R}\\
@@ -785,7 +795,7 @@ where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\age
         \proves \lnot \somerefsBs \psi \implies \lnot \somerefsBs \lnot (\lnot \phi \lor \lnot \psi) & \text{Defn. of $\somerefsBs$}\\
         \proves \somerefsBs \lnot (\lnot \phi \lor \lnot \psi) \implies \somerefsBs \psi  & {\bf P}\\
         \proves \somerefsBs (\phi \land \psi) \implies \somerefsBs \psi  & {\bf P}\\
-        \proves \somerefsBs (\phi \land \psi) \implies (\phi \land \somerefsBs \psi) & {\bf P}
+        \proves \somerefsBs (\phi \land \psi) \implies (\somerefsBs \phi \land \somerefsBs \psi) & {\bf P}
     \end{array}
     $$
 
@@ -897,49 +907,56 @@ If $\proves \psi \iff \chi$ then $\proves \phi[\psi\backslash\atomP] \iff \phi[\
 \begin{proof}
 We proceed by induction on the structure of $\phi$.
 
-Suppose that $\phi = \atomP$.
-Then $\atomP[\psi\backslash\atomP] = \psi$ and $\atomP[\chi\backslash\atomP] = \chi$ and by hypothesis $\proves \psi \iff \chi$ so by {\bf P} we have $\proves \atomP[\psi\backslash\atomP] \iff \atomP[\chi\backslash\atomP]$.
+\begin{description}
+    \item[Case $\phi = \atomP$:]\hfill\\
+        Then $\atomP[\psi\backslash\atomP] = \psi$ and $\atomP[\chi\backslash\atomP] = \chi$ and by hypothesis $\proves \psi \iff \chi$ so by {\bf P} we have $\proves \atomP[\psi\backslash\atomP] \iff \atomP[\chi\backslash\atomP]$.
 
-Suppose that $\phi = \atomQ$ where $\atomQ \in \atoms$ and $\atomQ \neq \atomP$.
-Then $\atomQ[\psi\backslash\atomP] = \atomQ$ and $\atomQ[\chi\backslash\atomP] = \atomQ$ so by {\bf P} we have $\proves \atomQ[\psi\backslash\atomP] \iff \atomQ[\chi\backslash\atomP]$.
+    \item[Case $\phi = \atomQ$ where $\atomQ \in \atoms$ and $\atomQ \neq \atomP$:]\hfill\\
+        Then $\atomQ[\psi\backslash\atomP] = \atomQ$ and $\atomQ[\chi\backslash\atomP] = \atomQ$ so by {\bf P} we have $\proves \atomQ[\psi\backslash\atomP] \iff \atomQ[\chi\backslash\atomP]$.
 
-Suppose that $\phi = \lnot \alpha$.
-By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$.
-Then by {\bf P} we have $\proves \lnot \alpha[\psi\backslash\atomP] \iff \lnot \alpha[\chi\backslash\atomP]$.
+    \item[Case $\phi = \lnot \alpha$:]\hfill\\
+        By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$.
+        Then by {\bf P} we have $\proves \lnot \alpha[\psi\backslash\atomP] \iff \lnot \alpha[\chi\backslash\atomP]$.
 
-Suppose that $\phi = \alpha \land \beta$.
-By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$ and $\proves \beta[\psi\backslash\atomP] \iff \beta[\chi\backslash\atomP]$.
-Then by {\bf P} we have $\proves (\alpha[\psi\backslash\atomP] \land \beta[\psi\backslash\atomP]) \iff (\alpha[\chi\backslash\atomP] \land \beta[\chi\backslash\atomP])$.
+    \item[Case $\phi = \alpha \land \beta$:]\hfill\\
+        By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$ and $\proves \beta[\psi\backslash\atomP] \iff \beta[\chi\backslash\atomP]$.
+        Then by {\bf P} we have $\proves (\alpha[\psi\backslash\atomP] \land \beta[\psi\backslash\atomP]) \iff (\alpha[\chi\backslash\atomP] \land \beta[\chi\backslash\atomP])$.
 
-Suppose that $\phi = \necessaryA \alpha$.
-By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$.
-By {\bf NecK} we have $\proves \necessaryA (\alpha[\psi\backslash\atomP] \implies \alpha[\chi\backslash\atomP])$ and by {\bf K} we have $\proves \necessaryA \alpha[\psi\backslash\atomP] \implies \necessaryA \alpha[\chi\backslash\atomP]$.
-Likewise by {\bf NecK} we have $\proves \necessaryA (\alpha[\chi\backslash\atomP] \implies \alpha[\psi\backslash\atomP])$ and by {\bf K} we have $\proves \necessaryA \alpha[\chi\backslash\atomP] \implies \necessaryA \alpha[\psi\backslash\atomP]$.
-Then by {\bf P} we have $\proves \necessaryA \alpha[\psi\backslash\atomP] \iff \necessaryA \alpha[\chi\backslash\atomP]$.
+    \item[Case $\phi = \necessaryA \alpha$:]\hfill\\
+        By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$.
+        By {\bf NecK} we have $\proves \necessaryA (\alpha[\psi\backslash\atomP] \implies \alpha[\chi\backslash\atomP])$ and by {\bf K} we have $\proves \necessaryA \alpha[\psi\backslash\atomP] \implies \necessaryA \alpha[\chi\backslash\atomP]$.
+        Likewise by {\bf NecK} we have $\proves \necessaryA (\alpha[\chi\backslash\atomP] \implies \alpha[\psi\backslash\atomP])$ and by {\bf K} we have $\proves \necessaryA \alpha[\chi\backslash\atomP] \implies \necessaryA \alpha[\psi\backslash\atomP]$.
+        Then by {\bf P} we have $\proves \necessaryA \alpha[\psi\backslash\atomP] \iff \necessaryA \alpha[\chi\backslash\atomP]$.
 
-Suppose that $\phi = \allrefsBs \alpha$.
-By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$.
-By {\bf NecR} we have $\proves \allrefsBs (\alpha[\psi\backslash\atomP] \implies \alpha[\chi\backslash\atomP])$ and by {\bf R} we have $\proves \allrefsBs \alpha[\psi\backslash\atomP] \implies \allrefsBs \alpha[\chi\backslash\atomP]$.
-Likewise by {\bf NecR} we have $\proves \allrefsBs (\alpha[\chi\backslash\atomP] \implies \alpha[\psi\backslash\atomP])$ and by {\bf R} we have $\proves \allrefsBs \alpha[\chi\backslash\atomP] \implies \allrefsBs \alpha[\psi\backslash\atomP]$.
-Then by {\bf P} we have $\proves \allrefsBs \alpha[\psi\backslash\atomP] \iff \allrefsBs \alpha[\chi\backslash\atomP]$.
+    \item[Case $\phi = \allrefsBs \alpha$:]\hfill\\
+        By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$.
+        By {\bf NecR} we have $\proves \allrefsBs (\alpha[\psi\backslash\atomP] \implies \alpha[\chi\backslash\atomP])$ and by {\bf R} we have $\proves \allrefsBs \alpha[\psi\backslash\atomP] \implies \allrefsBs \alpha[\chi\backslash\atomP]$.
+        Likewise by {\bf NecR} we have $\proves \allrefsBs (\alpha[\chi\backslash\atomP] \implies \alpha[\psi\backslash\atomP])$ and by {\bf R} we have $\proves \allrefsBs \alpha[\chi\backslash\atomP] \implies \allrefsBs \alpha[\psi\backslash\atomP]$.
+        Then by {\bf P} we have $\proves \allrefsBs \alpha[\psi\backslash\atomP] \iff \allrefsBs \alpha[\chi\backslash\atomP]$.
+\end{description}
 \end{proof}
 
 Now that we have shown the equivalences of Lemma~\ref{rml-k-theorems}, and that \axiomRmlK{} is closed under substitution of equivalents we can give an alternative version of the proof in Example~\ref{rml-k-example-derivation}.
 
 \begin{example}
 We show that $\proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff \possibleB \lnot \atomP$ using the axiomatisation \axiomRmlK{}.
-$$
-\begin{array}{ll}
-    \proves (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff ((\coversA \{\atomP\} \lor \coversA \emptyset) \land \coversB \{\lnot \atomP, \top\}) & \text{Defn. of $\covers$}\\
-    \proves (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff ((\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}) \lor (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})) & \text{Defn. of $\covers$}\\
-    \proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff \somerefsA ((\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}) \lor (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})) & \text{Substitution of equivalents}\\
-    \proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff (\somerefsA (\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}) \lor \somerefsA (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})) & \text{(\ref{rml-k-or}) from Lemma~\ref{rml-k-theorems}}\\
-    \proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff ((\possibleA \somerefsA \atomP \land \possibleB \somerefsA \lnot \atomP \land \possibleB \somerefsA \top) \lor (\top \land \possibleB \somerefsA \lnot \atomP \land \possibleB \somerefsA \top)) & \text{(\ref{rml-k-cover}) from Lemma~\ref{rml-k-theorems}}\\
-    \proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff ((\possibleA \atomP \land \possibleB \lnot \atomP \land \possibleB \top) \lor (\top \land \possibleB \lnot \atomP \land \possibleB \top)) & {\bf RP}\\
-    \proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff (\possibleB \lnot \atomP \land \possibleB \top) & {\bf P}\\
-    \proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff \possibleB \lnot \atomP & \text{Modal reasoning}\\
-\end{array}
-$$
+Let $\phi = \necessaryA \atomP \land \lnot \necessaryB \atomP$.
+Then:
+\begin{align}
+    \proves & \phi \iff ((\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}) \lor (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})) \label{rml-k-example-derivation-2}\\
+    \proves & \somerefsA \phi \iff \somerefsA ((\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}) \lor (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})) \label{rml-k-example-derivation-3}\\
+    \proves & \somerefsA \phi \iff (\somerefsA (\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}) \lor \somerefsA (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})) \label{rml-k-example-derivation-4}\\
+    \proves & \somerefsA \phi \iff ((\possibleA \somerefsA \atomP \land \possibleB \somerefsA \lnot \atomP \land \possibleB \somerefsA \top) \lor (\top \land \possibleB \somerefsA \lnot \atomP \land \possibleB \somerefsA \top)) \label{rml-k-example-derivation-5}\\
+    \proves & \somerefsA \phi \iff ((\possibleA \atomP \land \possibleB \lnot \atomP \land \possibleB \top) \lor (\top \land \possibleB \lnot \atomP \land \possibleB \top)) \label{rml-k-example-derivation-6}\\
+    \proves & \somerefsA \phi \iff (\possibleB \lnot \atomP \land \possibleB \top) \label{rml-k-example-derivation-7}\\
+    \proves & \somerefsA \phi \iff \possibleB \lnot \atomP \label{rml-k-example-derivation-8}
+\end{align}
+(\ref{rml-k-example-derivation-2}) follow from the definition of the cover operator;
+(\ref{rml-k-example-derivation-3}) follows from the closure of \axiomRmlK{} under substitution of equivalents;
+(\ref{rml-k-example-derivation-4}) follows from (\ref{rml-k-or}) from Lemma~\ref{rml-k-theorems};
+(\ref{rml-k-example-derivation-5}) follows from (\ref{rml-k-cover}) from Lemma~\ref{rml-k-theorems};
+(\ref{rml-k-example-derivation-6}) follows from {\bf RP};
+and (\ref{rml-k-example-derivation-8}) follows from propositional and modal reasoning.
 \end{example}
 
 We now show that the reduction axioms of \logicRmlK{} admit a provably correct translation from \langRml{} to \langMl{}.
@@ -986,6 +1003,8 @@ When the formula contains nested quantifiers the provably correct translation re
 For example, in the formula $\somerefsBs \lnot \somerefsBs \phi$, where $\phi \in \langMl$, the subformula $\phi$ must first be converted to disjunctive normal form, resulting in an exponential increase in size compared to $\phi$, the reduction axioms of \axiomRmlK{} are applied to convert $\somerefsBs \phi$ to an equivalent modal formula $\phi'$, then $\lnot \phi'$ must be converted to disjunctive normal form, resulting in another exponential increase in size, before the reduction axioms are applied again to finish the provably correct translation.
 In this example there may be a doubly exponential increase in size.
 However in general the increase in size may be an iterated exponentiation of degree proportional to the highest nested quantifier depth in the original formula.
+
+\pagebreak
 
 Given the provably correct translation we have that \axiomRmlK{} is sound and complete.
 

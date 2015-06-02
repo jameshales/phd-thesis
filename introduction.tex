@@ -16,12 +16,12 @@ Notable works include the public announcement logic of Plaza~\cite{plaza:1989} a
 These logics extend epistemic logic with operators that denote that a given, specific epistemic update results in a statement becoming true, allowing us to answer questions such as ``Will I learn about quantifying over epistemic updates from reading this dissertation?''.
 Both logics represent changes in knowledge as operations that take a Kripke model representing a situation involving knowledge, and a model representing an epistemic update, and produces a new Kripke model, representing the result of the epistemic update.
 These operations for performing epistemic updates on Kripke models give a powerful method for modelling and reasoning about the full effects of a specific epistemic update in a specific situation, allowing us to answer questions such as ``What will I learn from reading this dissertation?'' by obtaining a model of the full result of a specific update.
-However many natural questions about changes in knowledge are not questions about specific epistemic updates, such as ``{\em How} can I learn about quantifying over epistemic updates?''.
+However many natural questions about changes in knowledge are not questions about specific epistemic updates, such as ``How can I learn about quantifying over epistemic updates?''.
 
 More recent work in dynamic epistemic logic has considered how knowledge changes in response to arbitrary epistemic updates, by quantifying over epistemic updates.
 Notable works include the arbitrary public announcement logic (\logicApal{}) of Balbiani, et al.~\cite{balbiani:2007} and the group announcement logic (\logicGal{}) of {\AA}gotnes, et al.~\cite{agotnes:2008,agotnes:2010}, which each introduce logics for quantifying over epistemic updates.
 These logics extend public announcement logic with quantifiers that denote that every epistemic update results in a statement becoming true, or dually, that some epistemic update results in a statement becoming true, allowing us to answer questions such as ``Can I learn about quantifying over epistemic updates (through some epistemic update)?''.
-Supposing that the answer is in the affirmative we might subsequently ask ``How can I learn about quantifying over epistemic updates?'', expecting an example of a specific epistemic update that will result in the desired change in knowledge.
+Supposing that the answer is in the affirmative we might subsequently ask ``How can I learn about quantifying over epistemic updates?'', expecting an example of a specific epistemic update that will result in the desired change in knowledge, such as reading this dissertation.
 In principle, such questions may be answered by model-checking, satisfiability and synthesis procedures for these logics.
 Although \logicApal{} and \logicGal{} both have model-checking procedures~\cite{agotnes:2010}, the satisfiability problems for these logics are undecidable~\cite{agotnes:2014}.
 In the present work we consider several decidable logics for quantifying over epistemic updates, in the same style as \logicApal{} and \logicGal{}, but quantifying much more general forms of epistemic updates: refinement modal logic, and arbitrary action model logic.
@@ -41,6 +41,19 @@ Like \logicRml{}, we consider \logicAaml{} in a variety of settings, including m
 In these settings we provide sound and complete axiomatisations, we show that \logicAaml{} is compact and decidable, and that \logicAaml{} is expressively equivalent to modal logic, via a provably correct translation from the language of \logicAaml{} to the language of the underlying modal logic.
 We achieve these results simply by showing that the action model quantifiers of \logicAaml{} are equivalent to the refinement quantifiers of \logicRml{}, and therefore the results from \logicRml{} can be adapted to \logicAaml{} rather trivially.
 We show this equivalence by providing a synthesis procedure that, given a desired change in knowledge, constructs a specific action model that will result in the desired change in knowledge whenever a refinement exists where that change in knowledge is satisfied.
+
+Logics for quantifying over epistemic updates may see applications in areas such as robotics and artificial intelligence, economics and game theory, knowledge bases and ontologies, the development of network protocols, and the verification of secure computer systems.
+Many of these domains include epistemic planning problems, where epistemic updates must be chosen in order to meet knowledge-based goals.
+For example, a robot may have to use its sensors to gain enough information about its surroundings in order to plan a path through an area.
+Similarly, a player in a game with imperfect information may have to choose moves that provide it with additional information in order to reliably choose a winning strategy.
+Logics for specific epistemic updates can determine whether a given epistemic update satisfies a knowledge-based goal.
+However in epistemic planning problems a suitable epistemic update is initially unknown, and it may also be unknown whether a suitable epistemic update even exists.
+Logics for quantifying over epistemic updates, such as \logicApal{}, \logicGal{}, \logicRml{}, and \logicAaml{} determine whether epistemic updates that result in desired knowledge-based goals exist.
+In contrast to \logicApal{} and \logicGal{}, which are undecidable, in the present work we show that \logicRml{} and \logicAaml{} are decidable in a number of multi-agent modal settings.
+Decidable logics are more suitable for some practical applications, as some knowledge-based situations cannot be completely and uniquely described by the finite Kripke models required for model-checking procedures to be applicable.
+In addition, in the present work we also demonstrate synthesis procedures for \logicAaml{} in a number of multi-agent modal settings.
+Supposing that there exists an action model that results in a desired knowledge-based goal, the synthesis procedures will provide a specific action model that results in the knowledge-based goal.
+The synthesis procedures that we provide depend only on the knowledge-based goal, so are applicable regardless of the initial knowledge situation.
 
 The rest of this work is organised as follows.
 In Chapter~\ref{literature} we provide a literature review of epistemic logic and dynamic epistemic logic, giving context and motivation to the present work.

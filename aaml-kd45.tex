@@ -11,18 +11,20 @@ We first note that as the syntax and semantics of \logicRamlKFF{} are formed by 
 
 \begin{lemma}\label{raml-k45-aml}
 The logics \logicRamlKFF{} and \logicAmlKFF{} agree on all formulas of \langAml{}.
-That is, for every $\phi \in \langAml$, $\kPModel{\kStateS} \in \classKFF$: $\kPModel{\kStateS} \entails_\logicRamlKFF \phi$ if and only if $\kPModel{\kStateS} \entails_\logicAmlKFF \phi$.
+That is, for every $\phi \in \langAml$, $\kPModel{\kStateS} \in \classKFF$: $\kPModel{\kStateS} \entails_\logicRamlKFF \phi$ iff $\kPModel{\kStateS} \entails_\logicAmlKFF \phi$.
 \end{lemma}
 
 \begin{lemma}\label{raml-k45-rml}
 The logics \logicRamlKFF{} and \logicAmlKFF{} agree on all formulas of \langRml{}.
-That is, for every $\phi \in \langRml$, $\kPModel{\kStateS} \in \classKFF$: $\kPModel{\kStateS} \entails_\logicRamlKFF \phi$ if and only if $\kPModel{\kStateS} \entails_\logicRmlKFF \phi$.
+That is, for every $\phi \in \langRml$, $\kPModel{\kStateS} \in \classKFF$: $\kPModel{\kStateS} \entails_\logicRamlKFF \phi$ iff $\kPModel{\kStateS} \entails_\logicRmlKFF \phi$.
 \end{lemma}
 
 These results follow directly from the definitions.
 We note that these results only apply for \langAml{} and \langRml{} formulas respectively, and do not consider \langAaml{} formulas that contain both action model operators and quantifiers. 
 
-Given this we can give a sound and complete axiomatisation for \logicRamlKFF{} by combining the axiomatisations for \logicAmlKFF{} and \logicRmlKFF{}.
+Given these results we can give a sound and complete axiomatisation for \logicRamlKFF{} by combining the axiomatisations for \logicAmlKFF{} and \logicRmlKFF{}.
+
+\pagebreak
 
 \begin{definition}[Axiomatisation \axiomRamlKFF{}]\label{raml-k45-axiomatisation}
 The axiomatisation \axiomRamlKFF{} is a substitution schema consisting of the axioms and rules of \axiomAmlKFF{} and the axioms and rules of \axiomRmlKFF{}:
@@ -75,7 +77,7 @@ We note that, much like the provably correct translation for \logicRmlS{}, the p
 The provably correct translation also implies that \logicRamlKFF{} is expressively equivalent to \logicKFF{}.
 
 \begin{corollary}\label{raml-k45-expressive-equivalence}
-The logic \logicRamlKFF{} is expressively equivalent to the logic \logicKFF{}.
+The logic \logicRamlKFF{} is expressively equivalent to \logicKFF{}.
 \end{corollary}
 
 From expressive equivalence we have that \logicRmlKFF{} is compact and decidable.
@@ -85,7 +87,7 @@ The logic \logicRamlKFF{} is compact.
 \end{corollary}
 
 \begin{corollary}
-The satisfiability problem for the logic \logicRamlKFF{} is decidable.
+The model-checking and satisfiability problems for the logic \logicRamlKFF{} are decidable.
 \end{corollary}
 
 Similar to \logicRamlK{}, we note that most results from \logicAmlKFF{} and \logicRmlKFF{} generalise to \logicRamlKFF{} trivially thanks to a combination of \logicRamlKFF{} agreeing with \logicAmlKFF{} and \logicRmlKFF{} on their respective sublanguages, and the expressive equivalence of \logicRamlKFF{} and \logicKFF{}.
@@ -219,12 +221,12 @@ We note that by construction $\aModel \in \classAmKFF$.
     \node (skip) [above=7em of test] {$\top$};
 
     \node (mTPd) [below=7em of test] {$\cdots$};
-    \node (mTPc1gn) [left=2.5em of mTPd] {$\aPModel{\aPStatesT[\agentC_1, \gamma^{\agentC_1}_1]}$};
-    \node (mTPc1d) [left=2.5em of mTPc1gn] {$\cdots$};
-    \node (mTPc1g1) [left=2.5em of mTPc1d] {$\aPModel{\aPStatesT[\agentC_1, \gamma^{\agentC_1}_{n_1}]}$};
-    \node (mTPcmg1) [right=2.5em of mTPd] {$\aPModel{\aPStatesT[\agentC_m, \gamma^{\agentC_m}_1]}$};
-    \node (mTPcmd) [right=2.5em of mTPcmg1] {$\cdots$};
-    \node (mTPcmgn) [right=2.5em of mTPcmd] {$\aPModel{\aPStatesT[\agentC_m, \gamma^{\agentC_m}_{n_m}]}$};
+    \node (mTPc1gn) [left=1.5em of mTPd] {$\aPModel{\aPStatesT[\agentC_1, \gamma^{\agentC_1}_1]}$};
+    \node (mTPc1d) [left=1.5em of mTPc1gn] {$\cdots$};
+    \node (mTPc1g1) [left=1.5em of mTPc1d] {$\aPModel{\aPStatesT[\agentC_1, \gamma^{\agentC_1}_{n_1}]}$};
+    \node (mTPcmg1) [right=1.5em of mTPd] {$\aPModel{\aPStatesT[\agentC_m, \gamma^{\agentC_m}_1]}$};
+    \node (mTPcmd) [right=1.5em of mTPcmg1] {$\cdots$};
+    \node (mTPcmgn) [right=1.5em of mTPcmd] {$\aPModel{\aPStatesT[\agentC_m, \gamma^{\agentC_m}_{n_m}]}$};
 
     \node (mTc1gnvd) [below of=mTPc1gn] {$\vdots$};
     \node (mTc1g1vd) [below of=mTPc1g1] {$\vdots$};
@@ -233,12 +235,12 @@ We note that by construction $\aModel \in \classAmKFF$.
     \node (mTdd) [below of=mTPd] {};
 
     \node (mTd) [below=7em of mTdd] {$\cdots$};
-    \node (mTc1gn) [left=2.5em of mTd] {$\aPModel[\agentC_1, \gamma^{\agentC_1}]{\aStatesT[\agentC_1, \gamma^{\agentC_1}_1]}$};
-    \node (mTc1d) [left=2.5em of mTc1gn] {$\cdots$};
-    \node (mTc1g1) [left=2.5em of mTc1d] {$\aPModel[\agentC_1, \gamma^{\agentC_1}]{\aStatesT[\agentC_1, \gamma^{\agentC_1}_{n_1}]}$};
-    \node (mTcmg1) [right=2.5em of mTd] {$\aPModel[\agentC_m, \gamma^{\agentC_m}]{\aStatesT[\agentC_m, \gamma^{\agentC_m}_1]}$};
-    \node (mTcmd) [right=2.5em of mTcmg1] {$\cdots$};
-    \node (mTcmgn) [right=2.5em of mTcmd] {$\aPModel[\agentC_m, \gamma^{\agentC_m}]{\aStatesT[\agentC_m, \gamma^{\agentC_m}_{n_m}]}$};
+    \node (mTc1gn) [left=1.5em of mTd] {$\aPModel[\agentC_1, \gamma^{\agentC_1}]{\aStatesT[\agentC_1, \gamma^{\agentC_1}_1]}$};
+    \node (mTc1d) [left=1.5em of mTc1gn] {$\cdots$};
+    \node (mTc1g1) [left=1.5em of mTc1d] {$\aPModel[\agentC_1, \gamma^{\agentC_1}]{\aStatesT[\agentC_1, \gamma^{\agentC_1}_{n_1}]}$};
+    \node (mTcmg1) [right=1.5em of mTd] {$\aPModel[\agentC_m, \gamma^{\agentC_m}]{\aStatesT[\agentC_m, \gamma^{\agentC_m}_1]}$};
+    \node (mTcmd) [right=1.5em of mTcmg1] {$\cdots$};
+    \node (mTcmgn) [right=1.5em of mTcmd] {$\aPModel[\agentC_m, \gamma^{\agentC_m}]{\aStatesT[\agentC_m, \gamma^{\agentC_m}_{n_m}]}$};
 
       \path[every node/.style={font=\sffamily\small},->]
         (skip) edge [loop right] node {$\agents$} (skip)
@@ -312,7 +314,7 @@ Let $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentD \in \agents \setminu
 We show by cases that the relationships in $\refinement$ satisfy the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentD$}, and {\bf back-$\agentA$}.
 
 \begin{description}
-    \item[{Case $(\kStateS, (\kStateS, \aStateTest)) \in \refinement$:}] \hfill \\
+    \item[{Case $(\kStateS, (\kStateS, \aStateTest)) \in \refinement$:}] \hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $\kStateS \in \kValuation(\atomP)$ if and only if $(\kStateS, \aStateTest) \in \kValuationP(\atomP)$.
@@ -336,7 +338,7 @@ We show by cases that the relationships in $\refinement$ satisfy the conditions 
                 Let $(\kStateT, \aStateSkip) \in \kSuccessorsPA{(\kStateS, \aStateTest)}$.
                 By construction $\kStateT \in \kSuccessorsA{\kStateS}$ and $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$.
         \end{description}
-    \item[{Case $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$ where $\kStateT \in \kStates$:}] \hfill \\
+    \item[{Case $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$ where $\kStateT \in \kStates$:}] \hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $\kStateT \in \kValuation(\atomP)$ if and only if $(\kStateT, \aStateSkip) \in \kValuationP(\atomP)$.
@@ -347,7 +349,7 @@ We show by cases that the relationships in $\refinement$ satisfy the conditions 
                 Let $(\kStateU, \aStateSkip) \in \kSuccessorsPA{(\kStateT, \aStateSkip)}$.
                 By construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $(\kStateU, (\kStateU, \aStateSkip)) \in \refinement$.
         \end{description}
-    \item[{Case $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma])) \in \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$:}] \hfill \\
+    \item[{Case $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma])) \in \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$:}] \hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $\kStateT \in \kValuation(\atomP)$ if and only if $(\kStateT, \aStateT[\agentC, \gamma]) \in \kValuationP(\atomP)$.
@@ -375,7 +377,7 @@ We show by cases that the relationships in $\refinement$ satisfy the conditions 
                 As $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$ then by hypothesis $(\kStateT, (\kStateT, \aStateT[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]}$.
                 By {\bf back-$\agentA$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $\kStateV \in \kSuccessorsA{\kStateT}$ such that $(\kStateV, (\kStateU, \aStateU[\agentC, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
         \end{description}
-    \item[{Case $(\kStateT, \kStateTP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$:}] \hfill \\
+    \item[{Case $(\kStateT, \kStateTP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$:}] \hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 From {\bf atoms-$\atomP$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ we have that $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateTP \in \kValuationP(\atomP)$.
@@ -390,6 +392,8 @@ We show by cases that the relationships in $\refinement$ satisfy the conditions 
 
 Therefore $\refinement$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
 \end{proof}
+
+We combine the two previous lemmas into an inductive construction that works for all formulas.
 
 \begin{theorem}\label{aaml-k45-synthesis}
 Let $\agentsB \subseteq \agents$ and let $\phi \in \langAaml$.
@@ -430,7 +434,7 @@ The axiomatisation \axiomRamlKFF{} is sound and strongly complete with respect t
 \end{corollary}
 
 \begin{corollary}
-The logic \logicAamlKFF{} is expressively equivalent to the logic \logicKFF{}.
+The logic \logicAamlKFF{} is expressively equivalent to \logicKFF{}.
 \end{corollary}
 
 \begin{corollary}
@@ -438,11 +442,7 @@ The logic \logicAamlKFF{} is compact.
 \end{corollary}
 
 \begin{corollary}
-The model-checking problem for the logic \logicAamlKFF{} is decidable.
-\end{corollary}
-
-\begin{corollary}
-The satisfiability problem for the logic \logicAamlKFF{} is decidable.
+The model-checking and satisfiability problems for the logic \logicAamlKFF{} are decidable.
 \end{corollary}
 
 Similar to \logicAamlK{}, discussed in the previous section, the provably correct translation from \langAaml{} to \langMl{} may result in a non-elementary increase in size compared to the original formula.

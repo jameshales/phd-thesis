@@ -86,7 +86,7 @@ The logic \logicRamlS{} is compact.
 \end{corollary}
 
 \begin{corollary}
-The satisfiability problem for the logic \logicRamlS{} is decidable.
+The model-checking and satisfiability problems for the logic \logicRamlS{} are decidable.
 \end{corollary}
 
 Similar to \logicRamlK{}, we note that most results from \logicAmlS{} and \logicRmlS{} generalise to \logicRamlS{} trivially thanks to a combination of \logicRamlS{} agreeing with \logicAmlS{} and \logicRmlS{} on their respective sublanguages, and the expressive equivalence of \logicRamlS{} and \logicS{}.
@@ -144,7 +144,7 @@ We construct the action model $\aPModelAndTuple{\aStateTest}$ where:
 \begin{eqnarray*}
     \aStates &=& \{\aStateTest\} \cup \{\aPStateT[\agentA, \gamma] \mid \agentA \in \agents, \gamma \in \Gamma_\agentA, \aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]\} \cup \bigcup_{\agentA \in \agents, \gamma \in \Gamma_\agentA} \aStates[\agentA, \gamma]\\
     \aAccessibilityA &=& (\{\aStateTest\} \cup \{\aPStateT[\agentA, \gamma] \mid \gamma \in \Gamma_\agentA, \aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]\})^2\\&&\quad \cup \bigcup_{\agentC \in \agents \setminus \{\agentA\}, \gamma \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]} (\{\aPStateU[\agentC, \gamma] \mid \aStateU[\agentC, \gamma] \in \aSuccessorsA[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \cap \aStatesT[\agentC, \gamma]\} \cup \aSuccessorsA[\agentC, \gamma]{\aStateT[\agentC, \gamma]})^2 \\&&\quad\cup \bigcup_{\agentC \in \agents, \gamma \in \Gamma_\agentC} \aAccessibilityA[\agentC, \gamma]\\
-    \aPrecondition &=& \{(\aStateTest, \someactsBs \phi)\} \cup \{(\aPStateT[\agentA, \gamma], \aPrecondition[\agentA, \gamma](\aStateT[\agentA, \gamma])) \mid \agentA \in \agents, \gamma \in \Gamma_\agentA, \aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]\} \cup \bigcup_{\agentA \in \agents, \gamma \in \Gamma_\agentA} \aPrecondition[\agentA, \gamma]
+    \aPrecondition &=& \{(\aStateTest, \someactsBs \phi)\} \cup \{(\aPStateT[\agentA, \gamma], \aPrecondition[\agentA, \gamma](\aStateT[\agentA, \gamma])) \mid \agentA \in \agents, \gamma \in \Gamma_\agentA, \aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]\} \cup \\&&\quad \bigcup_{\agentA \in \agents, \gamma \in \Gamma_\agentA} \aPrecondition[\agentA, \gamma]
 \end{eqnarray*}
 where $\agentA \in \agents$.
 
@@ -159,12 +159,12 @@ We note that by construction $\aModel \in \classAmS$.
     \node (skip) [above=7em of test] {$\top$};
 
     \node (mTPd) [below=7em of test] {$\cdots$};
-    \node (mTPc1gn) [left=2.5em of mTPd] {$\aPModel{\aPStatesT[\agentC_1, \gamma^{\agentC_1}_1]}$};
-    \node (mTPc1d) [left=2.5em of mTPc1gn] {$\cdots$};
-    \node (mTPc1g1) [left=2.5em of mTPc1d] {$\aPModel{\aPStatesT[\agentC_1, \gamma^{\agentC_1}_{n_1}]}$};
-    \node (mTPcmg1) [right=2.5em of mTPd] {$\aPModel{\aPStatesT[\agentC_m, \gamma^{\agentC_m}_1]}$};
-    \node (mTPcmd) [right=2.5em of mTPcmg1] {$\cdots$};
-    \node (mTPcmgn) [right=2.5em of mTPcmd] {$\aPModel{\aPStatesT[\agentC_m, \gamma^{\agentC_m}_{n_m}]}$};
+    \node (mTPc1gn) [left=1.5em of mTPd] {$\aPModel{\aPStatesT[\agentC_1, \gamma^{\agentC_1}_1]}$};
+    \node (mTPc1d) [left=1.5em of mTPc1gn] {$\cdots$};
+    \node (mTPc1g1) [left=1.5em of mTPc1d] {$\aPModel{\aPStatesT[\agentC_1, \gamma^{\agentC_1}_{n_1}]}$};
+    \node (mTPcmg1) [right=1.5em of mTPd] {$\aPModel{\aPStatesT[\agentC_m, \gamma^{\agentC_m}_1]}$};
+    \node (mTPcmd) [right=1.5em of mTPcmg1] {$\cdots$};
+    \node (mTPcmgn) [right=1.5em of mTPcmd] {$\aPModel{\aPStatesT[\agentC_m, \gamma^{\agentC_m}_{n_m}]}$};
 
     \node (mTc1gnvd) [below of=mTPc1gn] {$\vdots$};
     \node (mTc1g1vd) [below of=mTPc1g1] {$\vdots$};
@@ -173,12 +173,12 @@ We note that by construction $\aModel \in \classAmS$.
     \node (mTdd) [below of=mTPd] {};
 
     \node (mTd) [below=7em of mTdd] {$\cdots$};
-    \node (mTc1gn) [left=2.5em of mTd] {$\aPModel[\agentC_1, \gamma^{\agentC_1}]{\aStatesT[\agentC_1, \gamma^{\agentC_1}_1]}$};
-    \node (mTc1d) [left=2.5em of mTc1gn] {$\cdots$};
-    \node (mTc1g1) [left=2.5em of mTc1d] {$\aPModel[\agentC_1, \gamma^{\agentC_1}]{\aStatesT[\agentC_1, \gamma^{\agentC_1}_{n_1}]}$};
-    \node (mTcmg1) [right=2.5em of mTd] {$\aPModel[\agentC_m, \gamma^{\agentC_m}]{\aStatesT[\agentC_m, \gamma^{\agentC_m}_1]}$};
-    \node (mTcmd) [right=2.5em of mTcmg1] {$\cdots$};
-    \node (mTcmgn) [right=2.5em of mTcmd] {$\aPModel[\agentC_m, \gamma^{\agentC_m}]{\aStatesT[\agentC_m, \gamma^{\agentC_m}_{n_m}]}$};
+    \node (mTc1gn) [left=1.5em of mTd] {$\aPModel[\agentC_1, \gamma^{\agentC_1}]{\aStatesT[\agentC_1, \gamma^{\agentC_1}_1]}$};
+    \node (mTc1d) [left=1.5em of mTc1gn] {$\cdots$};
+    \node (mTc1g1) [left=1.5em of mTc1d] {$\aPModel[\agentC_1, \gamma^{\agentC_1}]{\aStatesT[\agentC_1, \gamma^{\agentC_1}_{n_1}]}$};
+    \node (mTcmg1) [right=1.5em of mTd] {$\aPModel[\agentC_m, \gamma^{\agentC_m}]{\aStatesT[\agentC_m, \gamma^{\agentC_m}_1]}$};
+    \node (mTcmd) [right=1.5em of mTcmg1] {$\cdots$};
+    \node (mTcmgn) [right=1.5em of mTcmd] {$\aPModel[\agentC_m, \gamma^{\agentC_m}]{\aStatesT[\agentC_m, \gamma^{\agentC_m}_{n_m}]}$};
 
       \path[every node/.style={font=\sffamily\small},<->]
         (skip) edge [loop right] node {$\agents$} (skip)
@@ -227,6 +227,8 @@ We show by induction on the structure of formulas in $\Delta$, for every $\delta
     \item For every $\agentA \in \agents$, $\gamma \in \Gamma_\agentA$, $\aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]$: $\entails \actionA{\aPModel{\aPStateT[\agentA, \gamma]}} \delta \iff \actionA{\aPModel{\aStateT[\agentA, \gamma]}} \delta$.
     \item For every $\agentA \in \agents$, $\gamma \in \Gamma_\agentA$, $\aStateS[\agentA, \gamma] \in \aStates[\agentA, \gamma]$: $\entails \actionA{\aPModel{\aStateS[\agentA, \gamma]}} \delta \iff \actionA{\aPModel[\agentA, \gamma]{\aStateS[\agentA, \gamma]}} \delta$.
 \end{enumerate}
+
+\pagebreak
 
 Let $\delta \in \Delta$, $\agentA \in \agents$, $\gamma \in \Gamma_\agentA$, $\aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]$, and $\aStateS[\agentA, \gamma] \in \aStates[\agentA, \gamma]$.
 We show by cases that the above properties hold:
@@ -386,7 +388,7 @@ Let $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentD \in \agents \setminu
 We show by cases that the relationships in $\refinement$ satisfy the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentD$}, and {\bf back-$\agentA$}.
 
 \begin{description}
-    \item[{Case $(\kStateT, (\kStateT, \aStateTest)) \in \refinement$ where $\kStateT \in \kStates$ and $\kPModel{\kStateT} \entails \someactsBs \phi$:}] \hfill\\
+    \item[{Case $(\kStateT, (\kStateT, \aStateTest)) \in \refinement$ where $\kStateT \in \kStates$ and $\kPModel{\kStateT} \entails \someactsBs \phi$:}] \hfill
         \begin{description}
             \item[atom-$\atomP$]
                 By construction $\kStateS \in \kValuation(\atomP)$ if and only if $(\kStateS, \aStateTest) \in \kValuationP(\atomP)$.
@@ -402,7 +404,7 @@ We show by cases that the relationships in $\refinement$ satisfy the conditions 
                 Let $(\kStateU, \aStateTest) \in \kSuccessorsPA{(\kStateT, \aStateTest)}$.
                 By construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $\kPModel{\kStateU} \entails \somerefsBs \phi$ so $(\kStateU, (\kStateU, \aStateTest)) \in \refinement$.
         \end{description}
-    \item[{Case $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma])) \in \refinement$ where $\agentC \in \agents$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$:}] \hfill\\
+    \item[{Case $(\kStateT, (\kStateT, \aPStateT[\agentC, \gamma])) \in \refinement$ where $\agentC \in \agents$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$:}] \hfill
         \begin{description}
             \item[atom-$\atomP$]
                 By construction $\kStateT \in \kValuation(\atomP)$ if and only if $(\kStateT, \aStateT[\agentC, \gamma]) \in \kValuationP(\atomP)$.
@@ -426,7 +428,7 @@ We show by cases that the relationships in $\refinement$ satisfy the conditions 
                 Let $(\kStateU, \aStateTest) \in \kSuccessorsPA{(\kStateT, \aPStateT[\agentC, \gamma])}$.
                 By construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $\kPModel{\kStateU} \entails \somerefsBs \phi$ so $(\kStateU, (\kStateU, \aStateTest)) \in \refinement$.
         \end{description}
-    \item[{Case $(\kStateT, (\kStateU, \aStateU)) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agents$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$:}] \hfill\\
+    \item[{Case $(\kStateT, (\kStateU, \aStateU)) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agents$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$:}] \hfill
         \begin{description}
             \item[atom-$\atomP$]
                 From {\bf atoms-$\atomP$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ we have that $\kStateT \in \kValuation(\atomP)$ if and only if $(\kStateU, \aStateU) \in \kValuation[\agentC, \gamma](\atomP)$.
@@ -449,6 +451,8 @@ We show by cases that the relationships in $\refinement$ satisfy the conditions 
 
 Therefore $\refinement$ is a $\agentsB$-refinement and $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
 \end{proof}
+
+We combine the two previous lemmas into an inductive construction that works for all formulas.
 
 \begin{theorem}\label{aaml-s5-synthesis}
 Let $\agentsB \subseteq \agents$ and let $\phi \in \langAaml$.
@@ -498,11 +502,7 @@ The logic \logicAamlS{} is compact.
 \end{corollary}
 
 \begin{corollary}
-The model-checking problem for the logic \logicAamlS{} is decidable.
-\end{corollary}
-
-\begin{corollary}
-The satisfiability problem for the logic \logicAamlS{} is decidable.
+The model-checking and satisfiability problems for the logic \logicAamlS{} are decidable.
 \end{corollary}
 
 Similar to \logicAamlK{}, discussed in a previous section, the provably correct translation from \langAaml{} to \langMl{} may result in a non-elementary increase in size compared to the original formula.

@@ -30,8 +30,8 @@ We use all of the standard abbreviations from modal logic, in addition to the ab
 The formula $\allacts \phi$ may be read as ``every action model results in $\phi$ becoming true'' and the formula $\someacts \phi$ may be read as ``some action model results in $\phi$ becoming true''.
 
 The use of the subscript $\agentsB$ in the quantifiers $\allactsBs$ and $\someactsBs$ restricts the action models under consideration to action models that result in a $\agentsB$-refinement of the original Kripke model.
-So the formula $\allactsBs \phi$ may be read as ``every action model results in $\phi$ becoming true if it results in a $\agentsB$-refinement'' and the formula $\someactsBs \phi$ may be read as ``some action model results in $\phi$ becoming true and results in a $\agentsB$-refinement''.
-This addition is mostly for the purposes of showing a full correspondence between action model quantifiers and refinement quantifiers.
+The formula $\allactsBs \phi$ may be read as ``every action model results in $\phi$ becoming true if it results in a $\agentsB$-refinement'' and the formula $\someactsBs \phi$ may be read as ``some action model results in $\phi$ becoming true and results in a $\agentsB$-refinement''.
+This addition is for the purposes of showing a full correspondence between action model quantifiers and refinement quantifiers.
 Although we do not consider it in greater detail here, the notion of restricting the results of executing action models to $\agentsB$-refinements seems like it would be useful.
 For example, $\agentsB$-refinements can be partially characterised as those Kripke models that preserve the truth of $\agentsB$-positive formulas, restricting the learning of new information to agents in $\agentsB$.
 So an alternative reading of the formula $\allactsBs \phi$ may be ``every action model where only agents in $\agentsB$ learn new information results in $\phi$ becoming true'' and an alternative reading of the formula $\someactsBs \phi$ may be ``some action model where only agents in $\agentsB$ learn new information results in $\phi$ becoming true''.
@@ -47,6 +47,8 @@ $$
 \end{array}
 $$
 \end{definition}
+
+\pagebreak
 
 We are interested in the following variants of arbitrary action model logic:
 \begin{itemize}
@@ -64,8 +66,23 @@ Despite the action model quantifiers quantifying over more epistemic updates tha
 We give some examples of \logicAaml{}.
 
 \begin{example}
+Let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateS}$ be Kripke models where:
+\begin{eqnarray*}
+    \kStates &=& \{\kStateS, \kStateT\}\\
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
+    \kValuation(\atomP) &=& \{\kStateS\}
+\end{eqnarray*}
+and:
+\begin{eqnarray*}
+    \kStatesP &=& \{\kStateS, \kStateT, \kStateU\}\\
+    \kAccessibilityPA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU)\}\\
+    \kAccessibilityPB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU)\}\\
+    \kValuationP(\atomP) &=& \{\kStateS, \kStateU\}
+\end{eqnarray*}
+
 \begin{figure}
-    \caption{An example of two Kripke models that are refinements of each other.}\label{example-aaml-figure}
+    \caption{Two Kripke models that are each the result of executing an action model on the other.}\label{example-aaml-figure}
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
@@ -92,21 +109,6 @@ We give some examples of \logicAaml{}.
     \end{tikzpicture}
 \end{figure}
 
-Let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateS}$ be Kripke models where:
-\begin{eqnarray*}
-    \kStates &=& \{\kStateS, \kStateT\}\\
-    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
-    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
-    \kValuation(\atomP) &=& \{\kStateS\}
-\end{eqnarray*}
-and:
-\begin{eqnarray*}
-    \kStatesP &=& \{\kStateS, \kStateT, \kStateU\}\\
-    \kAccessibilityPA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU)\}\\
-    \kAccessibilityPB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU)\}\\
-    \kValuationP(\atomP) &=& \{\kStateS, \kStateU\}
-\end{eqnarray*}
-
 The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are shown in Figure~\ref{example-aaml-figure}.
 We note that $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are essentially the same as (are isomorphic to) the Kripke models from Example~\ref{example-pal-ml} and Example~\ref{example-pal}.
 In Example~\ref{example-pal-ml} we showed that $\kPModelP{\kStateS}$ is the result of executing an action model on $\kPModel{\kStateS}$, and in Example~\ref{example-pal} we showed that $\kPModel{\kStateS}$ is the result of executing an action model on $\kPModelP{\kStateS}$.
@@ -119,8 +121,25 @@ As $\kPModel{\kStateS}$ is the result of executing an action model on $\kPModelP
 \end{example}
 
 \begin{example}
+Let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateS}$ be Kripke models where:
+\begin{eqnarray*}
+    \kStates &=& \{\kStateS, \kStateT, \kStateU, \kStateV\}\\
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU), (\kStateU, \kStateV), (\kStateV, \kStateU), (\kStateV, \kStateV)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU), (\kStateT, \kStateT), (\kStateT, \kStateV), (\kStateV, \kStateT), (\kStateV, \kStateV)\}\\
+    \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
+    \kValuation(\atomQ) &=& \{\kStateS, \kStateU\}
+\end{eqnarray*}
+and:
+\begin{eqnarray*}
+    \kStates &=& \{\kStateS, \kStateT\}\\
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
+    \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
+    \kValuation(\atomQ) &=& \{\kStateS\}
+\end{eqnarray*}
+
 \begin{figure}
-    \caption{An example of a Kripke model and refinement.}\label{example-aaml-2-figure}
+    \caption{An example of a Kripke model and the result of executing an action model.}\label{example-aaml-2-figure}
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
@@ -151,23 +170,6 @@ As $\kPModel{\kStateS}$ is the result of executing an action model on $\kPModelP
     \end{tikzpicture}
 \end{figure}
 
-Let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateS}$ be Kripke models where:
-\begin{eqnarray*}
-    \kStates &=& \{\kStateS, \kStateT, \kStateU, \kStateV\}\\
-    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU), (\kStateU, \kStateV), (\kStateV, \kStateU), (\kStateV, \kStateV)\}\\
-    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU), (\kStateT, \kStateT), (\kStateT, \kStateV), (\kStateV, \kStateT), (\kStateV, \kStateV)\}\\
-    \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
-    \kValuation(\atomQ) &=& \{\kStateS, \kStateU\}
-\end{eqnarray*}
-and:
-\begin{eqnarray*}
-    \kStates &=& \{\kStateS, \kStateT\}\\
-    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
-    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
-    \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
-    \kValuation(\atomQ) &=& \{\kStateS\}
-\end{eqnarray*}
-
 The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are shown in Figure~\ref{example-aaml-2-figure}.
 We note that $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are essentially the same as (are isomorphic to) the Kripke models from Example~\ref{example-pal}.
 In Example~\ref{example-pal} we showed that $\kPModelP{\kStateS}$ is the result of executing an action model on $\kPModel{\kStateS}$.
@@ -180,9 +182,11 @@ Therefore $\kPModelP{\kStateS} \entails_\logicAamlK \allacts \knowsA \atomP$.
 As $\kPModelP{\kStateS}$ is the result of executing an action model in $\kPModel{\kStateS}$ we have that $\kPModel{\kStateS} \entails_\logicAamlK \someacts \allacts \knowsA \atomP$.
 \end{example}
 
+\pagebreak
+
 In the following sections we show that the action model quantifiers of \logicAaml{} are equivalent to the refinement quantifiers of \logicRml{} in the settings of \classK{}, \classKFF{}, and \classS{}.
 We show the equivalence by showing that if there exists a refinement where a given formula is satisfied then we can construct a finite action model that results in that formula being satisfied.
-The converse we have already shown; if there exists a (possibly infinite) action model that results in a given formula being satisfied then by Proposition~\ref{action-models-refinements} the result of executing the action model is itself a refinement, so there exists a refinement where the formula is satisfied.
+We have already shown the converse: if there exists an action model that results in a given formula being satisfied then by Proposition~\ref{action-models-refinements} the result of executing the action model is itself a refinement, so there exists a refinement where the formula is satisfied.
 We rely heavily on results from action model logic and \logicRml{}, particularly the axioms from both, so we find it useful to define a logic, which we call refinement action model logic (\logicRaml{}), that extends action model logic with refinement quantifiers.
 
 \begin{definition}[Semantics of refinement action model logic]
@@ -203,3 +207,5 @@ As with \logicAaml{} we are interested in the following variants of refinement a
 \end{itemize}
 
 In the following sections we will show that results from action model logic and \logicRml{} apply to the combined logic \logicRaml{}, and use these results to show that formulas of \langAaml{} have the same interpretation in both \logicAaml{} and \logicRaml{}.
+
+\pagebreak

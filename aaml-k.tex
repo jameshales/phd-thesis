@@ -24,6 +24,8 @@ We note that these results only apply for \langAml{} and \langRml{} formulas res
 
 Given these results we can give a sound and complete axiomatisation for \logicRamlK{} by combining the axiomatisations for \logicAmlK{} and \logicRmlK{}.
 
+\pagebreak
+
 \begin{definition}[Axiomatisation \axiomRamlK{}]\label{raml-k-axiomatisation}
 The axiomatisation \axiomRamlK{} is a substitution schema consisting of the axioms and rules of \axiomAmlK{} and the axioms and rules of \axiomRmlK{}:
 $$
@@ -91,7 +93,7 @@ The logic \logicRamlK{} is compact.
 \end{corollary}
 
 \begin{corollary}
-The satisfiability problem for the logic \logicRamlK{} is decidable.
+The model-checking and satisfiability problems for the logic \logicRamlK{} are decidable.
 \end{corollary}
 
 We note that most results from \logicAmlK{} and \logicRmlK{} generalise to \logicRamlK{} trivially thanks to a combination of \logicRamlK{} agreeing with \logicAmlK{} and \logicRmlK{} on their respective sublanguages, and the expressive equivalence of \logicRamlK{} and \logicK{}.
@@ -201,6 +203,8 @@ $\entails \actionA{\aPModel{\aStatesT}} \phi$, and
 $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
 for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateT)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$.
 \end{lemma}
+
+\pagebreak
 
 \begin{proof}
 Without loss of generality we assume that each $\aModel[\gamma]$ for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$ is disjoint.
@@ -369,12 +373,12 @@ We define $\refinement \subseteq \kStates \times \kStatesP$ where:
 \bigcup \{\refinement^{\kStateT, \aStateT[\agentC, \gamma]} \mid \agentC \in \agentsC, \gamma \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma], \kStateT \in \kSuccessorsC{\kStateT}, \kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])\}
 \end{eqnarray*}
 
-We show that $\refinement$ is a $\agentsB$-refinement from $\kModel{\kStateS}$ to $\kModelP{(\kStateS, \aStateTest)}$.
+We show that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{(\kStateS, \aStateTest)}$.
 Let $\atomP \in \atoms$, $\agentA \in \agents$ and $\agentD \in \agents \setminus \agentsB$.
 We show by cases that the relationships in $\refinement$ satisfy the conditions {\bf atoms-$\atomP$}, {\bf forth-$\agentD$}, and {\bf back-$\agentA$}.
 
 \begin{description}
-    \item[{Case $(\kStateS, (\kStateS, \aStateTest)) \in \refinement$:}] \hfill\\
+    \item[{Case $(\kStateS, (\kStateS, \aStateTest)) \in \refinement$:}]\hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $\kStateS \in \kValuation(\atomP)$ if and only if $(\kStateS, \aStateTest) \in \kValuationP(\atomP)$.
@@ -397,7 +401,7 @@ We show by cases that the relationships in $\refinement$ satisfy the conditions 
                 Let $(\kStateT, \aStateSkip) \in \kSuccessorsPA{(\kStateS, \aStateTest)}$.
                 By construction $\kStateT \in \kSuccessorsA{\kStateS}$ and $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$.
         \end{description}
-    \item[{Case $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$ where $\kStateT \in \kStates$:}] \hfill\\
+    \item[{Case $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$ where $\kStateT \in \kStates$:}] \hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $\kStateT \in \kValuation(\atomP)$ if and only if $(\kStateT, \aStateSkip) \in \kValuationP(\atomP)$.
@@ -406,9 +410,9 @@ We show by cases that the relationships in $\refinement$ satisfy the conditions 
                 By construction $\aStateSkip \in \aSuccessorsD{\aStateSkip}$ and $\kPModel{\kStateU} \entails \aPrecondition(\aStateSkip)$, so $(\kStateU, \aStateSkip) \in \kSuccessorsPD{(\kStateT, \aStateSkip)}$ and $(\kStateU, (\kStateU, \aStateSkip)) \in \refinement$.
             \item[back-$\agentA$]
                 Let $(\kStateU, \aStateSkip) \in \kSuccessorsPA{(\kStateT, \aStateSkip)}$.
-                By construction $\kStateU \in \kSuccessorsA{\kStateT}$ and $(\kStateU, (\kStateU, \aStateSkip)) \in \refinement$.
+                By construction $\kStateU \in \kSuccessorsA{\kStateT}$ \\and $(\kStateU, (\kStateU, \aStateSkip)) \in \refinement$.
         \end{description}
-    \item[{Case $(\kStateT, \kStateTP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$:}] \hfill\\
+    \item[{Case $(\kStateT, \kStateTP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$:}]\hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By {\bf atoms-$\atomP$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ we have that $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateTP \in \kValuationP(\atomP)$.
@@ -482,9 +486,8 @@ We will show that $\kPModel{\kStateS} \entails_\logicAamlK \someactsBs \psi$ if 
 
 Suppose that $\kPModel{\kStateS} \entails_\logicAamlK \someactsBs \psi$.
 Then there exists an action model $\aPModelAndTuple{\aStateS} \in \aSignatureFamily$ such that $\kPModel{\kStateS} \entails_\logicAamlK \aPrecondition(\aStateS)$, $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}$, and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_\logicAamlK \psi$.
-By Lemma~\ref{action-models-refinements} we have $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}$.
-By the induction hypothesis we have $\kPModel{\kStateS} \entails_\logicRamlK \aPrecondition(\aStateS)$ and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_\logicRamlK \psi$.
-Therefore $\kPModel{\kStateS} \entails_\logicRamlK \someactsBs \psi$.
+By the induction hypothesis we have $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_\logicRamlK \psi$.
+As $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}$ and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \entails_\logicRamlK \psi$ then $\kPModel{\kStateS} \entails_\logicRamlK \someactsBs \psi$.
 
 Suppose that $\kPModel{\kStateS} \entails_\logicRamlK \someactsBs \psi$.
 From Theorem~\ref{aaml-k-synthesis} there exists an action model $\aPModel{\aStatesT} \in \classAmK$ such that 
@@ -495,7 +498,9 @@ Without loss of generality, by Corollary~\ref{raml-k-expressive-equivalence} we 
 Then $\kPModel{\kStateS} \entails_\logicRamlK \actionE{\aPModel{\aStatesT}} \psi$ and so there exists $\aStateT \in \aStatesT$ such that $\kPModel{\kStateS} \entails_\logicRamlK \aPrecondition(\aStateT)$, $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateT}$, and $\kPModel{\kStateS} \exec \aPModel{\aStateT} \entails_\logicRamlK \psi$.
 As $\aPrecondition(\aStateT) \in \langMl$ then $\kPModel{\kStateS} \entails_\logicAamlK \aPrecondition(\aStateT)$
 By the induction hypothesis $\kPModel{\kStateS} \exec \aPModel{\aStateT} \entails_\logicAamlK \psi$.
-Therefore $\kPModel{\kStateS} \entails_\logicAamlK \someactsBs \psi$.
+Then $\kPModel{\kStateS} \entails_\logicAamlK \someactsBs \psi$.
+
+Therefore by induction over $\phi$ we have for every $\kPModel{\kStateS} \in \classK$: $\kPModel{\kStateS} \entails_\logicAamlK \phi$ if and only if $\kPModel{\kStateS} \entails_\logicAamlK \phi$.
 \end{proof}
 
 As a consequence of the equivalence between \logicAamlK{} and \logicRamlK{}, we get as corollaries all of the results that we have previously shown for \logicRamlK{}.
@@ -523,11 +528,7 @@ The logic \logicAamlK{} is compact.
 \end{corollary}
 
 \begin{corollary}
-The model-checking problem for the logic \logicAamlK{} is decidable.
-\end{corollary}
-
-\begin{corollary}
-The satisfiability problem for the logic \logicAamlK{} is decidable.
+The model-checking and satisfiability problems for the logic \logicAamlK{} are decidable.
 \end{corollary}
 
 Similar to \logicRmlK{}, the provably correct translation from \langAaml{} to \langMl{} may result in a non-elementary increase in size compared to the original formula.
@@ -557,7 +558,7 @@ Bozzelli, et al.~\cite{bozzelli:2014a} showed that \logicRmlK{} is at least doub
 However the synthesis procedure results in action models that have a great degree of redundancy, so the size of the action model may be reduced through other means.
 We leave the consideration of synthesis procedures with improved complexity to future work.
 
-We give an example of an application of the action models synthesised by the above procedure.
+Finally we give an example of an application of the action models synthesised by the above procedure.
 
 \begin{example}
 Suppose that we want an action model that will result in $\necessaryA \atomP \land \lnot \necessaryB \atomP$ whenever possible.
@@ -566,12 +567,12 @@ Then inductively following the constructions given in Lemma~\ref{aaml-k-choice} 
 That $\entails \actionA{\aPModel{\aStateT}} (\necessaryA \atomP \land \lnot \necessaryB \atomP)$ and $\entails \somerefs (\necessaryA \atomP \land \lnot \necessaryB \atomP) \implies \actionE{\aPModel{\aStatesT}} (\necessaryA \atomP \land \lnot \necessaryB \atomP)$ can easily be demonstrated by applying the \axiomAmlK{} axioms.
 We note that there is an amount of redundancy in the action model, such as multiple identical states with the precondition $\top$, and some states that are subsumed by other states, such as the $\someacts \lnot \atomP$ states, which are subsumed by the $\someacts \top$ states, which are in turn subsumed by the $\top$ states.
 We leave as an exercise to the reader the identification of the smaller action model that results from removing these redundancies.
-Automated techniques could in princple identify these redundancies and produce smaller action models.
+Automated techniques could in principle identify these redundancies and produce smaller action models.
 
-\begin{figure}
+\begin{figure}[b!]
     \caption{An action model $\aPModel{\aStatesT}$ that results in $\necessaryA \atomP \land \lnot \necessaryB \atomP$ whenever possible, produced by our synthesis procedure.}\label{aaml-k-example}
     \centering
-    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=6em,thick]
         \node (left) {\underline{$\someacts (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})$}};
         \node (ls) [above of=left] {$\top$};
         \node (lbnp) [left of=ls] {$\someacts \lnot \atomP$};
@@ -611,3 +612,5 @@ Automated techniques could in princple identify these redundancies and produce s
     \end{tikzpicture}
 \end{figure}
 \end{example}
+
+\pagebreak

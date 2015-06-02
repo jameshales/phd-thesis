@@ -370,7 +370,7 @@ We note that the proxy states have additional transitive and Euclidean edges in 
 From this schematic representation we can clearly see that $\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$.
 It is less clear that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$, but we will show this next.
 We note that there are $\agentA$-successors of $\kPModel{\kStateS}$ that do not satisfy any $\somerefsBs \gamma_i$ and do not correspond to any $\agentsB$-refinement $\kPModel[\gamma_i]{\kStateT[\gamma_i]}$.
-This is permissible as $\agentA \in \agentsB$ and so {\bf forth-$\agentA$} is not required in order for $\kPModelP{\kStateSP}$ to be a $\agentsB$-refinement of $\kPModel{\kStateS}$.
+This is permissible as $\agentA \in \agentsB$, so {\bf forth-$\agentA$} is not required in order for $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ to hold.
 
 To show that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$ we will show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
 

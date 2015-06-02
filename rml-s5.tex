@@ -125,6 +125,8 @@ In Section~\ref{rml-s5-completeness} we will show that every modal formula is eq
 
 We now present our axiomatisation for \logicRmlS{}.
 
+\pagebreak
+
 \begin{definition}[Axiomatisation \axiomRmlS{}]
     The axiomatisation \axiomRmlS{} is a substitution schema consisting of the axioms and rules of \axiomS{} along with the following additional axioms and rules:
 $$
@@ -160,7 +162,6 @@ $$
     \proves (\atomP \land \possibleB \lnot \atomP) \iff \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) & \text{Defn. of $\possibleB$}
 \end{array}
 $$
-We note that this derivation differs from the derivation using \axiomRmlKD{} in Example~\ref{rml-kd45-example-derivation} in the use of the axiom {\bf T} to show that $\atomP \iff (\atomP \land \possibleA \atomP)$ and that $(\atomP \land \necessaryA \atomP \land \possibleA \atomP) \iff \necessaryA \atomP$.
 \end{example}
 
 \section{Soundness}\label{rml-s5-soundness}
@@ -279,7 +280,6 @@ We note that by construction $\kModelP \in \classS$.
         (mg1) edge [loop left,distance=1em] node {$\agents$} (mg1)
         (mgn) edge [loop right,distance=1em] node {$\agents$} (mgn)
         (ms) edge [->,dashed,bend left=90,min distance=10em] node {$\simulatesBs$} (sp)
-        (ms) edge [->,draw=none,dashed,bend right=90,min distance=10em] node {} (sp)
         (sp) edge node {$\agentA$} (mp1)
              edge [swap] node {$\agentA$} (mpn)
              edge [loop below,distance=1em] node {$\agents$} (sp)
@@ -310,9 +310,9 @@ We can see the use of the proxy states $\kPModelP{\kStateS_{\gamma_1}}, \dots, \
 Unlike the construction used for {\bf RK45} the proxy states are {\em not} $(\agents \setminus \{\agentA\})$-bisimilar to the respective refinements states.
 This is because in order to ensure that $\kPModelP \in \classS$ the $(\agents \setminus \{\agentA\})$-edges from proxy states to refinement states must be symmetrical.
 From this schematic representation we can clearly see that $\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$.
-It is less clear that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$, or that each $\kPModelP{\kStateSP_{\gamma_i}} \entails \gamma_i$, but we show these next.
+It is less clear that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$, or that $\kPModelP{\kStateSP_{\gamma_i}} \entails \gamma_i$, but we show these next.
 We note that there are $\agentA$-successors of $\kPModel{\kStateS}$ that do not satisfy any $\somerefsBs \gamma_i$ and do not correspond to any $\agentsB$-refinement $\kPModel[\gamma_i]{\kStateT[\gamma_i]}$.
-This is permissible as $\agentA \in \agentsB$ and so {\bf forth-$\agentA$} is not required in order for $\kPModelP{\kStateSP}$ to be a $\agentsB$-refinement of $\kPModel{\kStateS}$.
+This is permissible as $\agentA \in \agentsB$, so {\bf forth-$\agentA$} is not required in order for $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ to hold.
 
 To show that $\kPModelP{\kStateSP_{\gamma_0}} \entails \coversA (\gamma_0 \land \Gamma_\agentA)$ we will show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP_{\gamma_0}}$ and $\kPModelP{\kStateSP_{\gamma_0}} \entails \coversA (\gamma_0 \land \Gamma_\agentA)$.
 
@@ -560,7 +560,7 @@ We note that by construction $\kModelP \in \classS$.
         (mgn) edge [loop right,distance=1em] node {$\agents$} (mgn)
         (mgr) edge [loop right,distance=1em] node {$\agents$} (mgr)
         (ms) edge [dashed,bend left=90,min distance=10em] node {$\simulatesBs$} (sp)
-        (ms) edge [draw=none,dashed,bend right=90,min distance=10em] node {} (sp)
+        %(ms) edge [draw=none,dashed,bend right=90,min distance=10em] node {} (sp)
         (sp) edge node {$\agentA$} (mp1)
              edge [swap] node {$\agentA$} (mpn)
              edge [swap] node {$\agentA$} (mpr)
@@ -739,7 +739,7 @@ We note that by construction $\kModelP \in \classS$.
         (mtn1) edge [loop left,distance=1em] node {$\agents$} (mtn1)
         (mtnm) edge [loop right,distance=1em] node {$\agents$} (mtnm)
         (ms) edge [->,dashed,bend left=90,min distance=10em] node {$\simulatesBs$} (sp)
-        (ms) edge [draw=none,dashed,bend right=90,min distance=10em] node {} (sp)
+        %(ms) edge [draw=none,dashed,bend right=90,min distance=10em] node {} (sp)
         (sp) edge node {$\agentC_1$} (mt11)
              edge node {$\agentC_1$} (mt1m)
              edge [swap] node {$\agentC_n$} (mtn1)
@@ -1014,7 +1014,9 @@ $$
 \proves \chi \iff \bigvee_{\lambda_{\agentC_1} \in \Lambda_{\agentC_1}} \cdots \bigvee_{\lambda_{\agentC_m} \in \Lambda_{\agentC_m}} \left(\pi \land \bigwedge_{\agentC \in \agentsC} \left(\lambda_\agentC \land \coversC \{\tau(\lambda) \mid \lambda \in \Lambda_\agentC\} \right) \right)
 $$
 
-So $\chi$ is equivalent to a disjunction of formulas of the form $\omega = \pi \land \bigwedge_{\agentC \in \agentsC} \left(\lambda_\agentC \land \coversC \{\tau(\lambda) \mid \lambda \in \Lambda_\agentC\} \right)$, where for every $\agentC \in \agentsC$, $\lambda_\agentC \in \Lambda_\agentC$.
+So $\chi$ is equivalent to a disjunction of formulas of the form:
+$$\omega = \pi \land \bigwedge_{\agentC \in \agentsC} \left(\lambda_\agentC \land \coversC \{\tau(\lambda) \mid \lambda \in \Lambda_\agentC\} \right)$$
+where for every $\agentC \in \agentsC$, $\lambda_\agentC \in \Lambda_\agentC$.
 We will show that if $\omega$ is consistent then it is equivalent to an explicit formula.
 If $\omega$ is inconsistent then we can safely remove it from the overall disjunction.
 
@@ -1105,7 +1107,7 @@ Let $\phi \in \langMl$ be a modal formula.
 If $\proves_\axiomS \phi$ then $\proves_\axiomRmlS \phi$.
 \end{lemma}
 
-We also note that \axiomRmlS{} satisfies substitution of equivalents.
+We also note that \axiomRmlS{} are closed under substitution of equivalents.
 
 \begin{lemma}\label{rml-s5-substitution-equivalents}
 Let $\phi, \psi, \chi \in \langRml$ be formulas and let $\atomP \in \atoms$ be a propositional atom.
@@ -1126,6 +1128,8 @@ We convert subformulas to disjunctions of explicit formulas instead of formulas 
 In order for the equivalences from Lemma~\ref{rml-s5-theorems} to be applied inductively to the subformula we must at each stage convert to a disjunction of explicit formulas again.
 We note that by Lemma~\ref{explicit-equivalent} converting a formula to a disjunction of explicit formulas does not increase the modal depth of the formula, so the induction remains well-founded despite these additional conversion steps, as at each step the modal depth of the formula decreases.
 \end{proof}
+
+\pagebreak
 
 Given the provably correct translation we have that \axiomRmlS{} is sound and complete.
 

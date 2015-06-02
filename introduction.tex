@@ -48,12 +48,12 @@ For example, a robot may have to use its sensors to gain enough information abou
 Similarly, a player in a game with imperfect information may have to choose moves that provide it with additional information in order to reliably choose a winning strategy.
 Logics for specific epistemic updates can determine whether a given epistemic update satisfies a knowledge-based goal.
 However in epistemic planning problems a suitable epistemic update is initially unknown, and it may also be unknown whether a suitable epistemic update even exists.
-Logics for quantifying over epistemic updates, such as \logicApal{}, \logicGal{}, \logicRml{}, and \logicAaml{} determine whether epistemic updates that result in desired knowledge-based goals exist.
+Logics for quantifying over epistemic updates, such as \logicApal{}, \logicGal{}, \logicRml{}, and \logicAaml{} can determine whether epistemic updates that result in desired knowledge-based goals exist.
 In contrast to \logicApal{} and \logicGal{}, which are undecidable, in the present work we show that \logicRml{} and \logicAaml{} are decidable in a number of multi-agent modal settings.
-Decidable logics are more suitable for some practical applications, as some knowledge-based situations cannot be completely and uniquely described by the finite Kripke models required for model-checking procedures to be applicable.
+Decidable logics are more suitable for some practical applications, as knowledge-based situations cannot always be completely and uniquely described by the finite Kripke models required for model-checking procedures to be applicable.
 In addition, in the present work we also demonstrate synthesis procedures for \logicAaml{} in a number of multi-agent modal settings.
 Supposing that there exists an action model that results in a desired knowledge-based goal, the synthesis procedures will provide a specific action model that results in the knowledge-based goal.
-The synthesis procedures that we provide depend only on the knowledge-based goal, so are applicable regardless of the initial knowledge situation.
+In contrast to the epistemic updates produced by the model-checking procedures of \logicApal{} and \logicGal{}, which are specific to an initial finite Kripke model, the synthesis procedures that we provide for \logicAaml{} depend only on the knowledge-based goal, so are applicable regardless of the initial (possibly infinite) Kripke model.
 
 The rest of this work is organised as follows.
 In Chapter~\ref{literature} we provide a literature review of epistemic logic and dynamic epistemic logic, giving context and motivation to the present work.
@@ -63,3 +63,10 @@ In Chapter~\ref{rml-k}, Chapter~\ref{rml-kd45}, and Chapter~\ref{rml-s5} we cons
 In Chapter~\ref{rml-k4} we consider in greater detail \logicRml{} in the setting of \classKF{}, showing that it is decidable and that its expressivity lies strictly between that of modal logic and the modal $\mu$-calculus.
 In Chapter~\ref{aaml} we introduce the syntax and semantics of \logicAaml{}, and consider in greater detail \logicAaml{} in the settings of multi-agent \classK{}, \classKFF{}, and \classS{}, where we provide a synthesis procedure for \logicAaml{} and show that action model quantifiers are equivalent to refinement quantifiers, providing as corollaries sound and complete axiomatisations, provably correct translations from the language of \logicAaml{} to modal logic, and expressive equivalence, compactness and decidability results.
 Finally in Chapter~\ref{conclusion} we summarise our results, and outline on-going work and open questions.
+
+Many of the results presented here have been previously published elsewhere.
+In Chapter~\ref{rml-k} the sound and complete axiomatisation of \logicRml{} in the setting of multi-agent \classK{}, and related results, previously appeared in Bozzelli, et al.~\cite{bozzelli:2014b}.
+In Chapter~\ref{rml-kd45} and Chapter~\ref{rml-s5} the sound and complete axiomatisation of \logicRml{} in the setting of multi-agent \classKD{} and \classS{}, and related results, previously appeared in Hales, French and Davies~\cite{hales:2012}.
+Similar results in the setting of single-agent \classKD{} and \classS{} previously appeared in Hales, French and Davies~\cite{hales:2011a}.
+In Chapter~\ref{aaml} the action model synthesis procedure for \logicAaml{} in the setting of multi-agent \classK{}, and related results, previously appeared in Hales~\cite{hales:2013}, and similar results in the setting of multi-agent \classKFF{} and \classS{} previously appeared in French, Hales, and Tay~\cite{hales:2014}.
+The results of Chapter~\ref{rml-k4}, showing that the expressivity of \logicRml{} in the setting of \classKF{} lies strictly between that of modal logic and the modal $\mu$-calculus, is part of unpublished joint work with Tim French and Sophie Pinchinat.

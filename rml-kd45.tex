@@ -30,7 +30,10 @@ Hence some or all of {\bf RK}, {\bf RComm}, and {\bf RDist} must not be sound fo
 As we noted in Chapter~\ref{rml}, the logic \logicRmlK{} is not a sublogic of \logicRmlKFF{} or \logicRmlKD{} essentially because each logic quantifies over refinements with different frame conditions.
 We gave a specific example, noting that in \logicRmlK{} refinements need not be transitive, so we have $\entails_\logicRmlK{} \possibleA (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$, but in \logicRmlKFF{} and \logicRmlKD{} all refinements must be transitive, so we have $\entails \allrefsA (\possibleA \possibleA \atomP \implies \possibleA \atomP)$ and hence $
 \entails \lnot (\possibleA (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP))$.
-We show how the first validity could be derived using the axiomatisation \axiomRmlK{}.
+
+\pagebreak
+
+We show how the first validity could be derived using \axiomRmlK{}.
 $$
 \begin{array}{ll}
     \proves \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP) \iff \somerefsA \coversA \{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\} & \text{Defn. of $\covers$}\\
@@ -88,6 +91,8 @@ A similar problem arises with the axiom {\bf RK} in the setting of \logicRmlKFF{
 In \logicRmlK{} refinements need not be Euclidean, so we have $\entails_\logicRmlK{} \possibleA \atomP \implies \somerefsA (\possibleA \atomP \land \lnot \necessaryA \possibleA \atomP)$, but in \logicRmlKFF{} and \logicRmlKD{} all refinements must be Euclidean, so we have $\entails \allrefs (\possibleA \atomP \implies \necessaryA \possibleA \atomP)$ and hence $\entails \lnot (\possibleA \atomP \implies \somerefsA (\possibleA \atomP \land \lnot \necessaryA \possibleA \atomP))$.
 The contradiction becomes obvious once we convert $\possibleA \atomP \land \lnot \necessaryA \possibleA \atomP$ to the equivalent $\possibleA \atomP \land \lnot \possibleA \atomP$, and again {\bf RK} behaves as desired if applied to the formula in this syntactic form.
 
+\pagebreak
+
 The problem with our initial attempt at applying the axiom {\bf RK} occurred because we had a set of formulas, $\{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$ that was contradictory when taken together in a cover operator, as in $\coverA \{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$, but considered individually each formula is satisfiable in a refinement of a successor, as in $\possibleA \somerefsA (\lnot \atomP \land \possibleA \atomP) \land \possibleA \somerefsA \lnot \atomP$.
 The solution we have seen here is to rewrite the formula $\coversA \{\lnot \atomP \land \possibleA \atomP, \lnot \atomP\}$ into the equivalent $\coversA \{\atomP \land \lnot \atomP, \lnot \atomP\}$ where we now have a contradiction if we consider the formulas individually, as in $\possibleA \somerefsA (\atomP \land \lnot \atomP) \land \possibleA \somerefsA \lnot \atomP$.
 Rewriting the formula in this way explicitly represents the interaction due to transitivity and Euclideaness between the formulas in the cover operator.
@@ -132,6 +137,12 @@ $$
 where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\agentsB, \agentsC \subseteq \agents$, and for every $\agentA \in \agents$: $\Gamma_\agentA$ is a finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
 \end{definition}
 
+We note that the axiomatisation \axiomRmlKFF{} is essentially the same as the axiomatisation \axiomRmlK{}, except that we place additional syntactic restrictions on the sets of formulas $\Gamma_\agentA$ appearing in the axioms {\bf RK45}, {\bf RComm}, and {\bf RDist}.
+
+\pagebreak
+
+The axiomatisation \axiomRmlKD{} is defined similarly.
+
 \begin{definition}[Axiomatisation \axiomRmlKD{}]
 The axiomatisation \axiomRmlKD{} is a substitution schema consisting of the axioms and rules of \axiomKD{} along with the following additional axioms and rules:
 $$
@@ -151,6 +162,8 @@ We emphasise that the only difference between \axiomRmlKFF{} and \axiomRmlKD{} i
 This accounts for the only difference between \classKFF{} and \classKD{}: we require seriality in \classKD{}, but not in \classKFF{}.
 We note that strictly speaking, {\bf RComm} and {\bf RDist} are sound in \logicRmlKD{} when the cover operators are applied to empty sets of formulas, but this is derivable from the other axioms using the fact that $\proves \lnot \coversA \emptyset$ in \axiomKFF{}.
 
+\pagebreak
+
 Finally we give some example derivations using the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{}.
 
 \begin{example}\label{rml-k45-example-derivation}
@@ -166,7 +179,7 @@ $$
     \proves \possibleB \lnot \atomP \iff ((\somerefsA \coversA \{\atomP\} \lor \somerefsA \coversA \emptyset) \land \somerefsA \coversB \{\lnot \atomP, \top\}) & {\bf RComm}\\
     \proves \possibleB \lnot \atomP \iff ((\somerefsA \coversA \{\atomP\} \land \somerefsA \coversB \{\lnot \atomP, \top\}) \lor (\somerefsA \coversA \emptyset \land \somerefsA \coversB \{\lnot \atomP, \top\})) & {\bf P}\\
     \proves \possibleB \lnot \atomP \iff (\somerefsA (\coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}) \lor \somerefsA (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})) & {\bf RDist}\\
-    \proves \possibleB \lnot \atomP \iff (\somerefsA (\necessaryA \atomP \land \possibleA \atomP \land \possibleB \lnot \atomP) \lor \somerefsA (\necessaryA \bot \land \possibleB \lnot \atomP)) & \text{Defn. of $\coversA$ and $\coversB$}\\
+    \proves \possibleB \lnot \atomP \iff (\somerefsA (\necessaryA \atomP \land \possibleA \atomP \land \possibleB \lnot \atomP) \lor \somerefsA (\necessaryA \bot \land \possibleB \lnot \atomP)) & \text{Defn. of $\coversA$}\\
     \proves \possibleB \lnot \atomP \iff (\somerefsA (\necessaryA \atomP \land \possibleA \atomP \land \possibleB \lnot \atomP) \lor \somerefsA (\necessaryA \atomP \land \lnot \possibleA \atomP \land \possibleB \lnot \atomP)) & \text{Modal reasoning}\\
     \proves \possibleB \lnot \atomP \iff \somerefsA (\necessaryA \atomP \land \possibleB \lnot \atomP) & {\bf P}\\
     \proves \possibleB \lnot \atomP \iff \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) & \text{Defn. of $\possibleB$}
@@ -174,6 +187,11 @@ $$
 $$
 We note that this is essentially the same as the derivation in Example~\ref{rml-k-example-derivation} using the axiomatisation \axiomRmlK{}.
 \end{example}
+
+\pagebreak
+
+We show a similar derivation using \axiomRmlKD{}.
+We note that due to the presence of the {\bf D} axiom in \axiomRmlKD{} the equivalence that we derive is slightly different to the equivalence shown in the previous derivation.
 
 \begin{example}\label{rml-kd45-example-derivation}
 We show that $\proves \somerefsA (\necessaryA \atomP \land \lnot \necessaryB \atomP) \iff (\possibleA \atomP \land \possibleB \lnot \atomP)$ using the axiomatisation \axiomRmlKD{}.
@@ -241,18 +259,23 @@ Let $\phi \in \langMl$ be a $\agentsB$-restricted modal formula.
 Assume without loss of generality that all $\necessaryB$~operators are expressed instead as $\possibleB$~operators.
 We show that $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$ by induction on the structure of $\phi$.
 
-Suppose that $\phi = \atomP$ for $\atomP \in \atoms$.
-Then $\kPModel{\kStateS} \entails \atomP$ if and only if $\kStateS \in \kValuation(\atomP)$.
-As $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ then $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
-Therefore $\kStateSP \in \kValuationP(\atomP)$ if and only if $\kPModelP{\kStateSP} \entails \atomP$.
+\begin{description}
+    \item[Case $\phi = \atomP$ where $\atomP \in \atoms$:]\hfill\\
+        Then $\kPModel{\kStateS} \entails \atomP$ if and only if $\kStateS \in \kValuation(\atomP)$.
+        As $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ then $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
+        Therefore $\kStateSP \in \kValuationP(\atomP)$ if and only if $\kPModelP{\kStateSP} \entails \atomP$.
 
-Suppose that $\phi = \lnot \psi$ or $\phi = \psi \land \chi$ for $\agentsB$-restricted modal formulas $\psi, \chi \in \langMl$.
-These follow directly from the induction hypothesis.
+    \item[Case $\phi = \lnot \psi$ for $\agentsB$-restricted modal formula $\psi \in \langMl$:]\hfill\\
+        Follows directly from the induction hypothesis.
 
-Suppose that $\phi = \possible[\agentB] \psi$ for $\agentB \in \agentsB$ and $\psi \in \langMl$.
-Then $\kPModel{\kStateS} \entails \necessary[\agentB] \psi$ if and only if there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $\kPModel{\kStateT} \entails \psi$.
-As $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ then if there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $\kPModel{\kStateT} \entails \psi$ if and only if there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kPModelP{\kStateTP} \entails \psi$ (as we can find a bisimilar $\kStateTP$ for every $\kStateT$ and vice-versa).
-Therefore there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $\kPModelP{\kStateTP} \entails \psi$ if and only if $\kPModelP{\kStateS} \entails \necessary[\agentB] \psi$.
+    \item[Case $\phi = \psi \land \chi$ for $\agentsB$-restricted modal formulas $\psi, \chi \in \langMl$:]\hfill\\
+        Follows directly from the induction hypothesis.
+
+    \item[{Case $\phi = \possibleB \psi$ for $\agentB \in \agentsB$ and $\psi \in \langMl$:}]
+        Then $\kPModel{\kStateS} \entails \possibleB \psi$ if and only if there exists $\kStateT \in \kSuccessorsB{\kStateS}$ such that $\kPModel{\kStateT} \entails \psi$.
+        As $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ then there exists $\kStateT \in \kSuccessorsB{\kStateS}$ such that $\kPModel{\kStateT} \entails \psi$ if and only if there exists $\kStateTP \in \kSuccessorsPB{\kStateSP}$ such that $\kPModelP{\kStateTP} \entails \psi$ (as we can find a bisimilar $\kStateTP$ for every $\kStateT$ and vice-versa).
+        Therefore there exists $\kStateTP \in \kSuccessorsPB{\kStateSP}$ such that $\kPModelP{\kStateTP} \entails \psi$ if and only if $\kPModelP{\kStateS} \entails \necessary[\agentB] \psi$.
+\end{description}
 \end{proof}
 
 We use this lemma to show the soundness of {\bf RK45}, {\bf RKD45}, {\bf RComm}, and {\bf RDist}.
@@ -384,6 +407,7 @@ We show by cases that the relationships in $\refinement$ satisfy the conditions 
                 By construction $\kSuccessorsPB{\kStateSP} = \kSuccessorsB{\kStateS}$.
                 Then $\kStateT \in \kSuccessorsB{\kStateS}$ and by construction $(\kStateT, \kStateT) \in \refinement$.
         \end{description}
+\pagebreak
     \item[Case $(\kStateT_\gamma, \kStateSP_\gamma) \in \refinement$ where $\gamma \in \Gamma_\agentA$:]
         \hfill
         \begin{description}
@@ -495,7 +519,7 @@ Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
     \kStatesP &=& \{\kStateSP\} \cup \{\kStateSP_\gamma \mid \gamma \in \Gamma_\agentA\} \cup \{\kStateSP_{\kStateT} \mid \kStateT \in \kSuccessorsA{\kStateS}\} \cup \kStates \cup \bigcup_{\gamma \in \Gamma_\agentA} \kStates[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kStates[\kStateT]\\
     \kAccessibilityPA &=& \{(\kStateSP, \kStateSP_\gamma) \mid \gamma \in \Gamma_\agentA\} \cup \{(\kStateSP, \kStateSP_{\kStateT}) \mid \kStateT \in \kSuccessorsA{\kStateS}\} \cup \{(\kStateSP_x, \kStateSP_y) \mid x, y \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}\} \cup \\&&\quad \kAccessibilityA \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityA[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kAccessibilityA[\kStateT]\\
     \kAccessibilityPB &=& \{(\kStateSP, \kStateT) \mid \kStateT \in \kSuccessorsB{\kStateS}\} \cup \{(\kStateSP_\gamma, \kStateT[\gamma]) \mid \gamma \in \Gamma_\agentA, \kStateT[\gamma] \in \kSuccessorsB[\gamma]{\kStateS[\gamma]}\} \cup \\&&\quad \{(\kStateSP_{\kStateT}, \kStateU[\kStateT]) \mid \kStateT \in \kSuccessorsB{\kStateS}, \kStateU[\kStateT] \in \kSuccessorsB[\gamma]{\kStateS[\kStateT]}\} \cup \kAccessibilityB \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityB[\gamma] \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kAccessibilityB[\kStateT]\\
-    \kValuationP(\atomP) &=& \{\kStateSP \mid \kStateS \in \kValuation(\atomP)\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \{\kStateSP_\gamma \mid \kStateS[\gamma] \in \kValuation[\gamma](\atomP)\} \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \{\kStateSP_{\kStateT} \mid \kStateS[\kStateT] \in \kValuation[\kStateT](\atomP)\} \cup \kValuation(\atomP) \cup \bigcup_{\gamma \in \Gamma_\agentA} \kValuation[\gamma](\atomP) \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kValuation[\kStateT](\atomP)
+    \kValuationP(\atomP) &=& \{\kStateSP \mid \kStateS \in \kValuation(\atomP)\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \{\kStateSP_\gamma \mid \kStateS[\gamma] \in \kValuation[\gamma](\atomP)\} \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \{\kStateSP_{\kStateT} \mid \kStateS[\kStateT] \in \kValuation[\kStateT](\atomP)\} \cup \\&&\quad \kValuation(\atomP) \cup \bigcup_{\gamma \in \Gamma_\agentA} \kValuation[\gamma](\atomP) \cup \bigcup_{\kStateT \in \kSuccessorsA{\kStateS}} \kValuation[\kStateT](\atomP)
 \end{eqnarray*}
 where $\kStateSP$, $\kStateSP_\gamma$ for every $\gamma \in \Gamma_\agentA$ and $\kStateSP_{\kStateT}$ for every $\kStateT \in \kSuccessorsA{\kStateS}$ are fresh states not appearing in $\kStates$, $\kStates[\gamma]$ for any $\gamma \in \Gamma_\agentA$ or $\kStates[\kStateT]$ for any $\kStateT \in \kSuccessorsA{\kStateS}$, and $\agentB \in \agents \setminus \{\agentA\}$.
 \begin{figure}
@@ -564,6 +588,8 @@ However in contrast to the construction used for {\bf RK45} we note that here ev
 This is required as $\agentA \in \agentsB$ and so {\bf forth-$\agentA$} is required in order for $\kPModelP{\kStateSP}$ to be a $\agentsB$-refinement of $\kPModel{\kStateS}$.
 From this schematic representation we can clearly see that $\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$.
 It is less clear that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$, but we will show this next.
+
+\pagebreak
 
 To show that $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$ we will show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \entails \coversA \Gamma_\agentA$.
 
@@ -742,7 +768,6 @@ Therefore $\kPModel{\kStateS} \entails \somerefsBs \coversA \Gamma_\agentA$.
 
 Again we use similar reasoning to show that the axiom {\bf RComm} from \axiomRmlK{} is sound.
 Recall that the axiom {\bf RComm} takes the form of $\proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$ where $\agentsB \subseteq \agents$, $\agentA \notin \agentsB$, and $\Gamma_\agentA \subseteq \langRml$ is a non-empty, finite set of $(\agents \setminus \{\agentA\})$-restricted modal formulas.
-This accounts for the additional requirement in \logicRmlKD{} that refinements must be serial.
 Similar to {\bf RK45} and {\bf RKD45}, the difference between {\bf RComm} in \axiomRmlKFF{} and {\bf RComm} in \axiomRmlKD{} is the requirement that $\Gamma_\agentA$ be a non-empty set of formulas, which accounts for the additional requirement in \logicRmlKD{} that refinements must be serial.
 
 \begin{lemma}\label{rml-kd45-rcomm}
@@ -785,7 +810,7 @@ The axiom {\bf RDist} from the axiomatisation \axiomRmlKFF{} is sound with respe
 The proof of Lemma~\ref{rml-k45-rdist} applies with minor considerations in the setting of \logicRmlKD{}, simply replacing occurrences of \classKFF{} with \classKD{}.
 \end{proof}
 
-Finally we show that the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{} are sound.
+Finally we note that the axiomatisations \axiomRmlKFF{} and \axiomRmlKD{} are sound.
 
 \begin{lemma}\label{rml-k45-sound}
 The axiomatisation \axiomRmlKFF{} is sound with respect to the semantics of the logic \logicRmlKFF{}.
@@ -806,6 +831,8 @@ The soundness of the axioms and rules of \axiomKD{} with respect to the semantic
 The soundness of {\bf R}, {\bf RP} and {\bf NecR} follow from Proposition~\ref{rml-validities}.
 The soundness of {\bf RKD45}, {\bf RComm} and {\bf RDist} were shown in the previous lemmas.
 \end{proof}
+
+\pagebreak
 
 \section{Completeness}\label{rml-kd45-completeness}
 
@@ -961,9 +988,9 @@ Let $\phi \in \langMl$ be a modal formula.
 If $\proves_\axiomKD \phi$ then $\proves_\axiomRmlKD \phi$.
 \end{lemma}
 
-These lemmas follow from essentially the same reasoning as used to show Lemma~\ref{rml-k-ml-provability} for \axiomRmlK{}.
+These lemmas follow from the same reasoning used to show the analogous result for \axiomRmlK{} in Lemma~\ref{rml-k-ml-provability}.
 
-Secondly we show that \axiomRmlKFF{} and \axiomRmlKD{} satisfy substitution of equivalents.
+Secondly we show that \axiomRmlKFF{} and \axiomRmlKD{} are closed under substitution of equivalents.
 
 \begin{lemma}\label{rml-k45-substitution-equivalents}
 Let $\phi, \psi, \chi \in \langRml$ be formulas and let $\atomP \in \atoms$ be a propositional atom.
@@ -975,7 +1002,7 @@ Let $\phi, \psi, \chi \in \langRml$ be formulas and let $\atomP \in \atoms$ be a
 If $\proves_\axiomRmlKD \psi \iff \chi$ then $\proves_\axiomRmlKD \phi[\psi\backslash\atomP] \iff \phi[\chi\backslash\atomP]$.
 \end{lemma}
 
-These lemmas follow from essentially the same reasoning as used to show Lemma~\ref{rml-k-substitution-equivalents} for \axiomRmlK{}.
+Similarly these lemmas follow from the same reasoning used to show that \axiomRmlK{} is closed under substitution of equivalents in Lemma~\ref{rml-k-substitution-equivalents}.
 
 We now show that the reduction axioms of \logicRmlKFF{} and \logicRmlKD{} admit provably correct translations from \langRml{} to \langMl{}.
 
@@ -1021,6 +1048,8 @@ The axiomatisation \axiomRmlKFF{} is sound and strongly complete with respect to
 Soundness is shown in Lemma~\ref{rml-kd45-sound}.
 Strong completeness follows from the same reasoning as in Lemma~\ref{rml-k-sound-complete} for \axiomRmlK{}, using the provably correct translation from Lemma~\ref{rml-kd45-ml-equivalent}.
 \end{proof}
+
+\pagebreak
 
 The provably correct translations also imply that \logicRmlKFF{} is expressively equivalent to \logicKFF{} and \logicRmlKD{} is expressively equivalent to \logicKD{}.
 

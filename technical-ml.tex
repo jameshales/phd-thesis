@@ -63,6 +63,8 @@ we write $\kPredecessorsA{\kStateT}$ to denote the set of predecessor states $\k
 We will be working with a variety of modal logics that are defined by relational properties on Kripke frames.
 We define those relational properties here.
 
+\pagebreak
+
 \begin{definition}[Relational properties]
 Let $\kStates$ be a set and let $\kAccessibilityRel \subseteq \kStates \times \kStates$ be a binary relation on $\kStates$. 
 Then we say that $\kAccessibilityRel$ is \ldots
@@ -87,7 +89,6 @@ We define the following classes of Kripke frames:
     \item The class \classKF{} of all transitive Kripke frames.
     \item The class \classKFF{} of all transitive and Euclidean Kripke frames.
     \item The class \classKD{} of all serial, transitive and Euclidean Kripke frames.
-    \item The class \classSF{} of all reflexive and transitive Kripke frames.
     \item The class \classS{} of all reflexive, transitive and Euclidean Kripke frames.
 \end{itemize}
 \end{definition}
@@ -121,7 +122,7 @@ $$
 $$
 \end{definition}
 
-In particular we are interested in the modal logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{} and \logicS{} for the respective classes of Kripke frames \classK{}, \classKF{}, \classKFF{}, \classKD{}, \classSF{} and \classS{}.
+In particular we are interested in the modal logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, and \logicS{} for the respective classes of Kripke frames \classK{}, \classKF{}, \classKFF{}, \classKD{}, and \classS{}.
 
 Let $\kPModel{\kStateS} \in \classC$ be a pointed Kripke model,
 let $\kFrame \in \classC$ be a Kripke frame.
@@ -141,7 +142,22 @@ If every finite subset of $\Phi$ is satisfiable in \{$\kPModel{\kStatesT}$, $\kM
 We write $\interpretation[\kModel]{\phi}$ to denote the set of states where $\phi$ is valid, where $\interpretation[\kModel]{\phi} = \{\kStateS \in \kStates \mid \kPModel{\kStateS} \entails \phi\}$.
 
 \begin{example}\label{example-ml}
-\begin{figure}
+Let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateS}$ be pointed Kripke models where:
+\begin{eqnarray*}
+    \kStates &=& \{\kStateS, \kStateT\}\\
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
+    \kValuation(\atomP) &=& \{\kStateS\}
+\end{eqnarray*}
+and:
+\begin{eqnarray*}
+    \kStatesP &=& \{\kStateS, \kStateT, \kStateU\}\\
+    \kAccessibilityPA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU)\}\\
+    \kAccessibilityPB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU)\}\\
+    \kValuationP(\atomP) &=& \{\kStateS, \kStateU\}
+\end{eqnarray*}
+
+\begin{figure}[b!]
     \caption{Two example Kripke models, modelling the situations described in Example~\ref{example-ml-formula}.}\label{example-ml-figure}
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
@@ -168,21 +184,6 @@ We write $\interpretation[\kModel]{\phi}$ to denote the set of states where $\ph
         (s) [<->] edge node {$\agentB$} (t);
     \end{tikzpicture}
 \end{figure}
-
-Let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateS}$ be Kripke models where:
-\begin{eqnarray*}
-    \kStates &=& \{\kStateS, \kStateT\}\\
-    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
-    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
-    \kValuation(\atomP) &=& \{\kStateS\}
-\end{eqnarray*}
-and:
-\begin{eqnarray*}
-    \kStatesP &=& \{\kStateS, \kStateT, \kStateU\}\\
-    \kAccessibilityPA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU)\}\\
-    \kAccessibilityPB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU)\}\\
-    \kValuationP(\atomP) &=& \{\kStateS, \kStateU\}
-\end{eqnarray*}
 The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are shown in Figure~\ref{example-ml-figure}.
 
 Recall that in Example~\ref{example-ml-formula} we described a situation where Alice has flipped a coin and, being careful that Bob can't see it, she looks at the coin and sees that it has landed heads up.
@@ -292,6 +293,7 @@ The maximal bisimulation between $\kModel$ and $\kModelP$ can be computed in pol
 These results are shown by Goranko and Otto~\cite[pp. 273-274]{goranko:2006}.
 
 We can define a bisimulation-minimal version of a Kripke model by `merging' bisimilar states as in the bisimulation contraction, resulting in a Kripke model where no two states are bisimilar.
+Bisimulation contracted Kripke models are useful because bisimilarity of states corresponds precisely to equality of states, so in a bisimulation contracted Kripke model no two distinct states are bisimilar to one another.
 
 \begin{definition}[Bisimulation contraction]
 Let $\kModelAndTuple$ be a Kripke model,
@@ -305,10 +307,14 @@ The {\em bisimulation contraction} of $\kModel$ is the quotient model $\kModelAn
 \end{eqnarray*}
 \end{definition}
 
+We note that bisimilarity of states corresponds precisely to equality of states in bisimulation contracted Kripke models.
+
 \begin{proposition}
 Let $\kModelAndTuple$ be a Kripke model and let $\kModelP$ be the bisimulation contraction of $\kModel$.
 Then for every $\kStateS, \kStateT \in \kStates$: $\kPModelP{[\kStateS]} \bisimilar \kPModelP{[\kStateT]}$ if and only if $[\kStateS] = [\kStateT]$.
 \end{proposition}
+
+We also note that the bisimulation contraction of a Kripke model is bisimilar to the original Kripke model.
 
 \begin{proposition}
 Let $\kModelAndTuple$ be a Kripke model and let $\kModelP$ be the bisimulation contraction of $\kModel$.
@@ -331,15 +337,14 @@ For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\kStateTP \in \kS
 \paragraph{back-$i$-$\agentA$}
 For every $\kStateTP \in \kSuccessorsPA{\kStateSP}$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $(\kStateT, \kStateTP) \in \bisimulation_i$.
 
-If there exists an $n$-bisimulation $\bisimulation_0, \dots, \bisimulation_n$ that is a total relation between $\kStates$ and $\kStatesP$ then we say that $\kModel$ and $\kModelP$ are {\em bisimilar} and we denote this by $\kModel \bisimilar \kModelP$.
 If there exists an $n$-bisimulation $\bisimulation_0, \dots, \bisimulation_n$ such that $(\kStateS, \kStateSP) \in \bisimulation_n$ then we say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $n$-bisimilar} and we denote this by $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$.
 \end{definition}
-
-Similar to bisimilarity, there is a partial correspondence between $n$-bisimilarity and equivalence under depth-limited modal equivalence.
 
 \begin{proposition}
 The relation $\bisimilar[n]$ is an equivalence relation on Kripke models.
 \end{proposition}
+
+Similar to bisimilarity, there is a partial correspondence between $n$-bisimilarity and equivalence under depth-limited modal equivalence.
 
 \begin{definition}[Modal depth]
 Let $\phi \in \langMl$.
@@ -365,6 +370,11 @@ Then $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$.
 
 These results follow from similar reasoning to the corresponding results for bisimilarity.
 
+We note that if two pointed Kripke models are $n$-bisimilar for all $n \in \naturals$ then they must agree on all modal formulas.
+However this does not in general imply that the two pointed Kripke models are bisimilar.
+
+\pagebreak
+
 \subsection{Axiomatisations}
 
 We now introduce the proof theory for modal logics, first providing an axiomatisations for the logic \logicK{}.
@@ -387,9 +397,9 @@ Let $\Phi \subseteq \langMl$ be a (possibly infinite) set of formulas.
 If there exists $\phi_1, \dots, \phi_n \in \Phi$ such that $\proves (\phi_1 \land \cdots \land \phi_n) \implies \phi$ then we say that $\phi$ is {\em deducible} from $\Phi$ and we write $\Phi \proves \phi$.
 If $\Phi \proves \bot$ then we say that $\Phi$ is {\em inconsistent}, and if $\Phi \nproves \bot$ then we say that $\Phi$ is {\em consistent}.
 
-We also provide axiomatisations for the logics \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{}, and \logicS{}, by extending the axiomatisation \axiomK{} with additional axioms.
+We also provide axiomatisations for the logics \logicKF{}, \logicKFF{}, \logicKD{}, and \logicS{}, by extending the axiomatisation \axiomK{} with additional axioms.
 
-\begin{definition}[Axiomatisations \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{}]
+\begin{definition}[Axiomatisations \axiomKF{}, \axiomKFF{}, \axiomKD{}, and \axiomS{}]
 We define the following axioms:
 $$
 \begin{array}{rl}
@@ -400,12 +410,13 @@ $$
 \end{array}
 $$
 
-Then the axiomatisations \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} consist of the axioms and rules of \axiomK{} along with the following respective additional axioms:
+\pagebreak
+
+Then the axiomatisations \axiomKF{}, \axiomKFF{}, \axiomKD{}, and \axiomS{} consist of the axioms and rules of \axiomK{} along with the following respective additional axioms:
 \begin{itemize}
     \item \axiomKF{}: {\bf 4}
     \item \axiomKFF{}: {\bf 4} and {\bf 5}
     \item \axiomKD{}: {\bf D}, {\bf 4} and {\bf 5}
-    \item \axiomSF{}: {\bf T} and {\bf 4}
     \item \axiomS{}: {\bf T} and {\bf 5}
 \end{itemize}
 \end{definition}
@@ -419,16 +430,16 @@ If every set of formulas that is consistent according to an axiomatisation is sa
 \end{definition}
 
 \begin{proposition}
-The axiomatisations \axiomK{}, \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} are sound and strongly complete with respect to the semantics of the respective logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{}, and \logicS{}.
+The axiomatisations \axiomK{}, \axiomKF{}, \axiomKFF{}, \axiomKD{}, and \axiomS{} are sound and strongly complete with respect to the semantics of the respective logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, and \logicS{}.
 \end{proposition}
 
 \begin{definition}[Substitution of equivalents]
 Let $\lang$ be a logical language defined on the propositional atoms $\atoms$.
-An axiomatisation allows {\em substitution of equivalents} if and only if for every $\phi, \psi, \psi' \in \lang$, and $\atomP \in \atoms$: $\proves \psi \iff \psi'$ implies $\proves \phi[\psi/\atomP] \iff \phi[\psi'/\atomP]$.
+An axiomatisation is closed under {\em substitution of equivalents} if and only if for every $\phi, \psi, \psi' \in \lang$, and $\atomP \in \atoms$: $\proves \psi \iff \psi'$ implies $\proves \phi[\psi/\atomP] \iff \phi[\psi'/\atomP]$.
 \end{definition}
 
 \begin{proposition}
-The axiomatisations \axiomK{}, \axiomKF{}, \axiomKFF{}, \axiomKD{}, \axiomSF{}, and \axiomS{} allow substitution of equivalents.
+The axiomatisations \axiomK{}, \axiomKF{}, \axiomKFF{}, \axiomKD{}, and \axiomS{} are closed under substitution of equivalents.
 \end{proposition}
 
 We are also interested in properties of the logics themselves.
@@ -438,7 +449,7 @@ If every (possibly infinite) set of formulas that is finitely satisfiable accord
 \end{definition}
 
 \begin{proposition}
-The logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, \logicSF{}, and \logicS{} are compact.
+The logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, and \logicS{} are compact.
 \end{proposition}
 
 \begin{definition}[Model-checking problem]
@@ -461,6 +472,8 @@ The satisfiability problems for the logics \logicK{}, \logicKF{}, \logicKFF{}, \
 \end{proposition}
 
 In the following sections and chapters we will compare the expressive power of the logics that we consider to other logics, often to an underlying modal logic.
+
+\pagebreak
 
 \begin{definition}[Expressivity]
 If a logic can express all of the semantic properties that another logic can then we say that the logic is {\em at least as expressive} as the other logic.

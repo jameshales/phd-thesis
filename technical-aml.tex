@@ -4,6 +4,8 @@ We recall definitions and results from the action model logic of Baltag, Moss an
 For an introductory text on action model logic we direct the reader to the book by van Ditmarsch, van der Hoek and Kooi~\cite{vanditmarsch:2007}.
 Many simple or well-known propositions are given without proof and left as an exercise for the curious reader.
 
+\subsection{Syntax and semantics}
+
 We first introduce action models.
 
 \begin{definition}[Action models]
@@ -15,10 +17,10 @@ A {\em multi-pointed action model} $\aPModelAndTuple{\aStatesT}$ consists of an 
 \end{definition}
 
 We use similar notation and terminology to Kripke models when discussing action models.
-Similar to Kripke models, when we ascribe relational properties or frame properties to an action model we actually ascribe those properties to its underlying Kripke frame.
+When we ascribe relational properties or frame properties to an action model we actually ascribe those properties to its underlying Kripke frame.
 When the language that an action model is defined on is clear from context we will simply refer to an {\em action model}, without explicit reference to the language.
 
-As the action model logic will reason about the effects of specific action models, we need to represent action models in the language of action model logic.
+As the action model logic reasons about the effects of specific action models, we need to represent action models in the language of action model logic.
 However action models are defined with respect to a logical language which their preconditions are defined over.
 To avoid a circular definition Baltag and Moss~\cite{baltag:2004} use the notion of an action signature.
 
@@ -88,6 +90,8 @@ For Kripke models we often use $\kModel \in \classC$ as a shorthand to denote th
 For action models we use a similar shorthand, $\aModel \in \classAmC$ to denote that $\aModel$ is an action model with an underlying Kripke frame $\kFrame$ where $\kFrame \in \classC$.
 
 As we will be working with \logicAmlKFF{} and \logicAmlS{} we note that the result of executing any \classAmKFF{} action model on a \classKFF{} Kripke model is another \classKFF{} Kripke model, and similarly the result of executing any \classAmS{} on a \classS{} Kripke model is another \classS{} Kripke model.
+
+\pagebreak
 
 \begin{proposition}
     Let $\kModel \in \classKFF$ and $\aModel \in \classAmKFF$. Then $\kModel \exec \aModel \in \classKFF$.
@@ -171,6 +175,29 @@ So although initially Alice considers it possible that Bob saw the coin, after B
 \end{example}
 
 \begin{example}\label{example-pal-ml-reverse}
+Let $\kPModelAndTuple{\kStateS}$ be a Kripke model where:
+\begin{eqnarray*}
+    \kStates &=& \{\kStateS, \kStateT\}\\
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
+    \kValuation(\atomP) &=& \{\kStateS\}
+\end{eqnarray*}
+and let $\aPModelAndTuple{\aStateS}$ be an action model where:
+\begin{eqnarray*}
+    \aStates &=& \{\aStateS, \aStateT\}\\
+    \aAccessibilityA &=& \{(\aStateS, \aStateS), (\aStateS, \aStateT), (\aStateT, \aStateS), (\aStateT, \aStateT)\}\\\
+    \aAccessibilityB &=& \{(\aStateS, \aStateS), (\aStateT, \aStateT)\}\\\
+    \aPrecondition(\aStateS) &=& \top\\
+    \aPrecondition(\aStateT) &=& \atomP
+\end{eqnarray*}
+Then $\kPModel{\kStateS} \exec \aPModel{\aStateS} = \kPModelAndTupleP{(\kStateS, \aStateS)}$ where:
+\begin{eqnarray*}
+    \kStatesP &=& \{(\kStateS, \aStateS), (\kStateT, \aStateS), (\kStateU, \aStateT)\}\\
+    \kAccessibilityPA &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS)), ((\kStateS, \aStateS), (\kStateU, \aStateT)), ((\kStateU, \aStateT), (\kStateS, \aStateS)), ((\kStateU, \aStateT), (\kStateU, \aStateT))\}\\
+    \kAccessibilityPB &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateS, \aStateS), (\kStateT, \aStateS)), ((\kStateT, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS)), ((\kStateU, \aStateT), (\kStateU, \aStateT))\}\\
+    \kValuationP(\atomP) &=& \{(\kStateS, \aStateS), (\kStateU, \aStateT)\}
+\end{eqnarray*}
+
 \begin{figure}
     \caption{An example of a Kripke model and the result of executing an action model in that Kripke model.}\label{example-pal-ml-reverse-figure}
     \centering
@@ -212,28 +239,6 @@ So although initially Alice considers it possible that Bob saw the coin, after B
 
     \end{tikzpicture}
 \end{figure}
-Let $\kPModelAndTuple{\kStateS}$ be a Kripke model where:
-\begin{eqnarray*}
-    \kStates &=& \{\kStateS, \kStateT\}\\
-    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateT, \kStateT)\}\\
-    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT)\}\\
-    \kValuation(\atomP) &=& \{\kStateS\}
-\end{eqnarray*}
-and let $\aPModelAndTuple{\aStateS}$ be an action model where:
-\begin{eqnarray*}
-    \aStates &=& \{\aStateS, \aStateT\}\\
-    \aAccessibilityA &=& \{(\aStateS, \aStateS), (\aStateS, \aStateT), (\aStateT, \aStateS), (\aStateT, \aStateT)\}\\\
-    \aAccessibilityB &=& \{(\aStateS, \aStateS), (\aStateT, \aStateT)\}\\\
-    \aPrecondition(\aStateS) &=& \top\\
-    \aPrecondition(\aStateT) &=& \atomP
-\end{eqnarray*}
-Then $\kPModel{\kStateS} \exec \aPModel{\aStateS} = \kPModelAndTupleP{(\kStateS, \aStateS)}$ where:
-\begin{eqnarray*}
-    \kStatesP &=& \{(\kStateS, \aStateS), (\kStateT, \aStateS), (\kStateU, \aStateT)\}\\
-    \kAccessibilityPA &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS)), ((\kStateS, \aStateS), (\kStateU, \aStateT)), ((\kStateU, \aStateT), (\kStateS, \aStateS)), ((\kStateU, \aStateT), (\kStateU, \aStateT))\}\\
-    \kAccessibilityPB &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateS, \aStateS), (\kStateT, \aStateS)), ((\kStateT, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS)), ((\kStateU, \aStateT), (\kStateU, \aStateT))\}\\
-    \kValuationP(\atomP) &=& \{(\kStateS, \aStateS), (\kStateU, \aStateT)\}
-\end{eqnarray*}
 
 The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$, and the action model $\aPModel{\aStateS}$ are shown in Figure~\ref{example-pal-ml-reverse-figure}.
 We note that $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are essentially the same as (are isomorphic to) the Kripke models from Example~\ref{example-ml}.
@@ -249,7 +254,30 @@ This demonstrates that in some situations the effects of an action model can be 
 \end{example}
 
 \begin{example}\label{example-pal}
-\begin{figure}
+Let $\kPModelAndTuple{\kStateS}$ be a Kripke model where:
+\begin{eqnarray*}
+    \kStates &=& \{\kStateS, \kStateT, \kStateU, \kStateV\}\\
+    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU), (\kStateU, \kStateV), (\kStateV, \kStateU), (\kStateV, \kStateV)\}\\
+    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU), (\kStateT, \kStateT), (\kStateT, \kStateV), (\kStateV, \kStateT), (\kStateV, \kStateV)\}\\
+    \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
+    \kValuation(\atomQ) &=& \{\kStateS, \kStateU\}
+\end{eqnarray*}
+and let $\aPModelAndTuple{\aStateS}$ be an action model where:
+\begin{eqnarray*}
+    \aStates &=& \{\aStateS\}\\
+    \aAccessibilityA = \aAccessibilityB &=& \{(\aStateS, \aStateS)\}\\\
+    \aPrecondition(\aStateS) &=& \atomP \land \lnot \knowsB \atomP
+\end{eqnarray*}
+Then $\kPModel{\kStateS} \exec \aPModel{\aStateS} = \kPModelAndTupleP{(\kStateS, \aStateS)}$ where:
+\begin{eqnarray*}
+    \kStatesP &=& \{(\kStateS, \aStateS), (\kStateT, \aStateS)\}\\
+    \kAccessibilityPA &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateS, \aStateS), (\kStateT, \aStateS)), ((\kStateT, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS))\}\\
+    \kAccessibilityPB &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS))\}\\
+    \kValuationP(\atomP) &=& \{(\kStateS, \aStateS), (\kStateT, \aStateS)\}\\
+    \kValuationP(\atomQ) &=& \{(\kStateS, \aStateS)\}
+\end{eqnarray*}
+
+\begin{figure}[b!]
     \caption{An example of a Kripke model and the result of publicly announcing $\knowsA \atomP$ in that Kripke model.}\label{example-pal-figure}
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
@@ -280,33 +308,14 @@ This demonstrates that in some situations the effects of an action model can be 
         (s') [<->] edge node {$\agentA$} (t');
     \end{tikzpicture}
 \end{figure}
-Let $\kPModelAndTuple{\kStateS}$ be a Kripke model where:
-\begin{eqnarray*}
-    \kStates &=& \{\kStateS, \kStateT, \kStateU, \kStateV\}\\
-    \kAccessibilityA &=& \{(\kStateS, \kStateS), (\kStateS, \kStateT), (\kStateT, \kStateS), (\kStateT, \kStateT), (\kStateU, \kStateU), (\kStateU, \kStateV), (\kStateV, \kStateU), (\kStateV, \kStateV)\}\\
-    \kAccessibilityB &=& \{(\kStateS, \kStateS), (\kStateS, \kStateU), (\kStateU, \kStateS), (\kStateU, \kStateU), (\kStateT, \kStateT), (\kStateT, \kStateV), (\kStateV, \kStateT), (\kStateV, \kStateV)\}\\
-    \kValuation(\atomP) &=& \{\kStateS, \kStateT\}\\
-    \kValuation(\atomQ) &=& \{\kStateS, \kStateU\}
-\end{eqnarray*}
-and let $\aPModelAndTuple{\aStateS}$ be an action model where:
-\begin{eqnarray*}
-    \aStates &=& \{\aStateS\}\\
-    \aAccessibilityA = \aAccessibilityB &=& \{(\aStateS, \aStateS)\}\\\
-    \aPrecondition(\aStateS) &=& \atomP \land \lnot \knowsB \atomP
-\end{eqnarray*}
-Then $\kPModel{\kStateS} \exec \aPModel{\aStateS} = \kPModelAndTupleP{(\kStateS, \aStateS)}$ where:
-\begin{eqnarray*}
-    \kStatesP &=& \{(\kStateS, \aStateS), (\kStateT, \aStateS)\}\\
-    \kAccessibilityPA &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateS, \aStateS), (\kStateT, \aStateS)), ((\kStateT, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS))\}\\
-    \kAccessibilityPB &=& \{((\kStateS, \aStateS), (\kStateS, \aStateS)), ((\kStateT, \aStateS), (\kStateT, \aStateS))\}\\
-    \kValuationP(\atomP) &=& \{(\kStateS, \aStateS), (\kStateT, \aStateS)\}\\
-    \kValuationP(\atomQ) &=& \{(\kStateS, \aStateS)\}
-\end{eqnarray*}
+
 The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are shown in Figure~\ref{example-pal-figure}.
 We note that the action model $\aPModel{\aStateS}$ has essentially the same effect as a public announcement of $\atomP \land \lnot \knowsB \atomP$.
 
 In the resulting model we have that $\kPModelP{\kStateS} \entails_\logicAmlK \knowsB \atomQ$, so in the original model we have $\kPModel{\kStateS} \entails_\logicAmlK \actionE{\aPModel{\aStateS}} \knowsB \atomQ$.
 That is, publicly announcing that $\atomP$ is true and agent $\agentB$ doesn't know that $\atomP$ is true results in agent $\agentB$ knowing that $\atomQ$ is true.
+
+\pagebreak
 
 In the resulting model we also have that $\kPModelP{\kStateS} \entails_\logicAmlK \lnot (\atomP \land \lnot \knowsB \atomP)$, so in the original model we have $\kPModel{\kStateS} \entails_\logicAmlK \actionE{\aPModel{\aStateS}} \lnot (\atomP \land \lnot \knowsB \atomP)$.
 That is, publicly announcing that $\atomP \land \lnot \knowsB \atomP$ is true results in $\atomP \land \lnot \knowsB \atomP$ becoming false.
@@ -314,50 +323,7 @@ That is, publicly announcing that $\atomP \land \lnot \knowsB \atomP$ is true re
 Although we do not show it formally here, the effects of this action model cannot be reversed by another action model.
 \end{example}
 
-\begin{definition}[Skip and crash]
-    We define the action models \aSkip{} and \aCrash{} as follows:
-    \begin{eqnarray*}
-        \aSkip &=& ((\{\aStateS\}, \{(\aStateS, \aStateS)\}, \{(\aStateS, \top)\}), \aStateS)\\
-        \aCrash &=& ((\{\aStateS\}, \{(\aStateS, \aStateS)\}, \{(\aStateS, \bot)\}), \aStateS)
-    \end{eqnarray*}
-\end{definition}
-
-The action model \aSkip{} is intended to represent an epistemic update that always succeeds and has no effect,
-whereas the action model \aCrash{} is intended to represent an epistemic update that never succeeds.
-Indeed we note that $\entails \actionE{\aSkip} \top$, $\entails \actionA{\aSkip} \phi \iff \phi$ and $\entails \lnot \actionE{\aCrash} \top$.
-
-We note that as $\top$ and $\bot$ are in the language $\langAml(\aSignatureFamily)$ for any set of action signatures $\aSignatureFamily$, and so \aSkip{} and \aCrash{} are action models with preconditions defined on $\langAml(\aSignatureFamily)$.
-However a given $\aSignatureFamily$ may not contain any action signature that would allow one to construct \aSkip{} or \aCrash{}, so statements about \aSkip{} and \aCrash{} may not be allowed by the language $\langAml(\aSignatureFamily)$.
-
-\begin{definition}[Disjoint union]\label{aml-choice}
-    Let $\aPModelAndTuple{\aStatesT}$ and $\aPModelAndTupleP{\aStatesTP}$ be action models such that $\aStates$ and $\aStatesP$ are disjoint.
-    We denote the {\em disjoint union of $\aPModel{\aStatesT}$ and $\aPModelP{\aStatesTP}$} as $\aPModel{\aStatesT} \choice \aPModelP{\aStatesTP}$ and define it as $\aPModel{\aStatesT} \choice \aPModelP{\aStatesTP} = \aPModelAndTuplePP{\aStatesTPP}$ where:
-    \begin{eqnarray*}
-        \aStatesPP &=& \aStates \cup \aStatesP\\
-        \aAccessibilityPPA &=& \aAccessibilityA \cup \aAccessibilityPA\\
-        \aPreconditionPP &=& \aPrecondition \cup \aPreconditionP\\
-        \aStatesTPP &=& \aStatesT \cup \aStatesTP
-    \end{eqnarray*}
-\end{definition}
-
-The operation of disjoint union of action models is intended to represent the epistemic update that is formed by the non-deterministic choice between two epistemic updates.
-Indeed we note that $\entails \actionA{\aPModel{\aStatesT} \choice \aPModelP{\aStatesTP}} \phi \iff (\actionA{\aPModel{\aStatesT}} \phi \land \actionA{\aPModelP{\aStatesTP}} \phi)$.
-
-We will sometimes take the `disjoint' union of two action models that are not actually disjoint and we assume in this case that we implicitly rename the actions in each action model so that the domains become disjoint before taking the disjoint union.
-
-\begin{definition}[Sequential composition]\label{aml-composition}
-    Let $\aPModelAndTuple{\aStatesT}$ and $\aPModelAndTupleP{\aStatesTP}$ be action models.
-    We denote the {\em sequential composition of $\aPModel{\aStatesT}$ and $\aPModelP{\aStatesTP}$} as $\aPModel{\aStatesT} \compose \aPModelP{\aStatesTP}$ and define it as $\aPModel{\aStatesT} \compose \aPModelP{\aStatesTP} = \aPModelAndTuplePP{\aStatesTPP}$ where:
-    \begin{eqnarray*}
-        \aStatesPP &=& \aStates \times \aStatesP\\
-        (\aStateS, \aStateSP) \aAccessibilityPPA (\aStateT, \aStateTP) &\text{ iff }& \aStateS \aAccessibilityA \aStateT \text{ and } \aStateSP \aAccessibilityPA \aStateTP\\
-        \aPreconditionPP((\aStateS, \aStateSP)) &=& \aPrecondition(\aStateS) \land \actionA{\aPModel{\aStateS}} \aPreconditionP(\aStateSP)\\
-        \aStatesTPP &=& \aStatesT \times \aStatesTP
-    \end{eqnarray*}
-\end{definition}
-
-The operation of sequential composition of action models is intended to represent the epistemic update that is formed by sequentially performing two epistemic updates.
-Indeed we note that $\entails \actionA{\aPModel{\aStatesT} \compose \aPModelP{\aStatesTP}} \phi \iff \actionA{\aPModel{\aStatesT}} \actionA{\aPModelP{\aStatesTP}} \phi$.
+\subsection{Bisimulation and bisimilarity}
 
 Similar to Kripke models there is a notion of bisimilarity of action models.
 
@@ -382,7 +348,7 @@ If there exists a bisimulation $\bisimulation$ such that $\aStateS \bisimulation
 The relation $\bisimilar$ is an equivalence relation on action models.
 \end{proposition}
 
-Bisimilar action models have bisimilar results on bisimilar Kripke models.
+We note that bisimilar action models have bisimilar results on bisimilar Kripke models.
 
 \begin{proposition}\label{action-bisimulation-results}
 Let $\kModel$ and $\kModelP$ be pointed Kripke models such that $\kModel \bisimilar \kModelP$ and
@@ -419,9 +385,14 @@ For every $\aStateT \in \aSuccessorsA{\aStateS}$ there exists $\aStateTP \in \aS
 \paragraph{back-$i$-$\agentA$}
 For every $\aStateTP \in \aSuccessorsPA{\aStateSP}$ there exists $\aStateT \in \aSuccessorsA{\aStateS}$ such that $\aStateT \bisimulation_i \aStateTP$.
 
-If there exists an $n$-bisimulation $\bisimulation_0, \dots, \bisimulation_n$ that is a total relation between $\aStates$ and $\aStatesP$ then we say that $\aModel$ and $\aModelP$ are {\em $n$-bisimilar} and we denote this by $\aModel \bisimilar[n] \aModelP$.
 If there exists an $n$-bisimulation $\bisimulation_0, \dots, \bisimulation_n$ such that $\aStateS \bisimulation_n \aStateSP$ then we say that $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ are {\em $n$-bisimilar} and we denote this by $\aPModel{\aStateS} \bisimilar[n] \aPModelP{\aStateSP}$.
 \end{definition}
+
+\begin{proposition}
+The relation $\bisimilar[n]$ is an equivalence relation on action models.
+\end{proposition}
+
+We note that $n$-bisimilar action models have $n$-bisimilar results on $n$-bisimilar Kripke models.
 
 \begin{proposition}
 Let $n \in \naturals$,
@@ -444,9 +415,9 @@ let $\aPModel{\aStateS}, \aPModelP{\aStateSP}$ be pointed action models such tha
 Then for every $\phi \in \langMl$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi$ if and only if $\kPModel{\kStateS} \entails \actionA{\aPModelP{\aStateSP}} \phi$.
 \end{proposition}
 
-We note that for the sake of simplicity we give the previous two propositions in terms of \langMl{} formulas rather than \langAml{} formulas.
-This is so that we need not introduce a separate definition of modal depth for \langAml{} formulas, which would have to take into account the modal depth of preconditions in action models appearing in subformulas of the form $\actionA{\aPModel{\aStateS}} \phi$.
-We note that in the settings we consider \logicAml{} is expressively equivalent to modal logic, so we can get the same results for \langAml{} formulas by first converting to an equivalent \langMl{} formula and using the notion of modal depth for \langMl{} for the converted formula.
+\subsection{Axiomatisations}
+
+We recall the proof theory for action model logic, providing axiomatisations for the logics \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{}.
 
 \begin{definition}[Axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{}]
 The axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} are substitution schemas consisting of the respective axioms and rules of \axiomK{}, \axiomKFF{}, and \axiomS{} along with the following additional axioms and rules:
@@ -464,7 +435,6 @@ where $\phi, \psi \in \langAml$, $\aPModel{\aStateS} \in \classAmK$, $\atomP \in
 \end{definition}
 
 We note that the axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} form sets of reduction axioms, admitting a provably correct translation from the language \langAml{} of action model logic to the language \langMl{} of modal logic.
-
 This works as the axioms {\bf AN}, {\bf AC}, {\bf AK}, and {\bf AU} may be applied to ``push'' the action model operators past negations, conjunctions, and modalities, until they are applied only to propositional atoms, where the axiom {\bf AP} may be applied to replace the formula with a modal formula.
 Assuming that the axioms are sound we then have that \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are expressively equivalent to \logicK{}, \logicKFF{}, and \logicS{} respectively, so we get other results for the logic from the corresponding results for \logicK{}, \logicKFF{}, and \logicS{}.
 

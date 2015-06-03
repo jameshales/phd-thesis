@@ -1,4 +1,4 @@
-\section{S5}\label{aaml-s5}
+\section{\classS{}}\label{aaml-s5}
 
 In this section we consider results specific to the logic \logicAamlS{} in the setting of \classS{}.
 This setting is significant as it is the traditional setting for epistemic logic and dynamic epistemic logic.
@@ -210,7 +210,7 @@ We note that by construction $\aModel \in \classAmS$.
 \end{figure}
 
 A schematic of the action model $\aPModel{\aStateTest}$ and an overview of our construction is shown in Figure~\ref{aaml-s5-construction}.
-This is similar to the construction used to show the soundness of the axiom {\bf S5} in \logicRmlS{}, but it deals with all agents in $\agentsC$ at once, rather than a single agent at a time.
+This is similar to the construction used to show the soundness of the axiom {\bf RS5} in \logicRmlS{}, but it deals with all agents in $\agentsC$ at once, rather than a single agent at a time.
 Here we can see that each of the action models, $\aPModel[\agentC_1,\gamma_1]{\aStatesT[\agentC_1, \gamma_1]}, \dots, \aPModel[\agentC_1,\gamma_{n_1}]{\aStatesT[\agentC_1, \gamma_{n_1}]} \dots \aPModel[\agentC_m,\gamma_1]{\aStatesT[\agentC_m, \gamma_1]}, \dots, \aPModel[\agentC_m,\gamma_{n_m}]{\aStatesT[\agentC_m, \gamma_{n_m}]}$, are combined into the larger action model $\aPModel{\aStateTest}$.
 We can see the use of the proxy states $\aPModel[\agentC_1,\gamma_1]{\aPStatesT[\agentC_1, \gamma_1]}, \dots, \aPModel[\agentC_1,\gamma_{n_1}]{\aPStatesT[\agentC_1, \gamma_{n_1}]} \dots \aPModel[\agentC_m,\gamma_1]{\aPStatesT[\agentC_m, \gamma_1]}, \dots, \aPModel[\agentC_m,\gamma_{n_m}]{\aPStatesT[\agentC_m, \gamma_{n_m}]}$, which have all of the $(\agents \setminus \{\agentC\})$-successors of the respective action models.
 Unlike the construction used for \logicAamlKFF{} the proxy states are {\em not} $(\agents \setminus \{\agentC\})$-bisimilar to the respective original action model states.

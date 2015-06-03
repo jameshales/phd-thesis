@@ -656,7 +656,7 @@ We show this result again for our more general definition of refinements.
 Whereas van Ditmarsch and French~\cite{vanditmarsch:2009} showed this result using the common knowledge operator, our result is without the common knowledge operator.
 
 \begin{proposition}
-Let $\kPModel{\kStateS}$ be a finite Kripke model and let $\kPModelP{\kStateSP}$ be a (possibly infinte) Kripke model such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
+Let $\kPModel{\kStateS}$ be a finite Kripke model and let $\kPModelP{\kStateSP}$ be a (possibly infinite) Kripke model such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
 Then there exists an action model $\aPModel{\aStateS}$ such that $\kPModel{\kStateS} \entails \aPrecondition(\aStateS)$ and $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar \kPModelP{\kStateSP}$.
 \end{proposition}
 
@@ -762,7 +762,7 @@ The relation $\refinement_0$ can be computed in $O(||\kStates|| \times ||\kState
 Let $i \in \naturals$.
 Given $\refinement_i$ we compute the relation $\refinement_{i+1} \subseteq \refinement_i$ such that $(\kStateS, \kStateSP) \in \refinement_{i+1}$ if and only if for every $\agentA \in \agents$ and $\agentC \in \agents \setminus \agentsB$ the pair $(\kStateS, \kStateSP)$ satisfies the conditions {\bf forth-$\agentC$} and {\bf back-$\agentA$}.
 The relation $\refinement_{i+1}$ can be computed in $O(||\kStates|| \times ||\kStatesP|| \times ||\kAccessibilityRel|| \times ||\kAccessibilityRelP||)$ time.
-We repreat this process until we reach a fixed point, called $\refinement_n$.
+We repeat this process until we reach a fixed point, called $\refinement_n$.
 The process cannot be repeated more than $||\kStates|| \times ||\kStatesP||$ times, as $||\refinement_0|| \leq ||\kStates|| \times ||\kStatesP||$.
 Therefore $\refinement_n$ can be computed in polynomial time.
 

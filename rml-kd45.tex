@@ -149,7 +149,7 @@ $$
 \begin{array}{rl}
     {\bf R} & \proves \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)\\
     {\bf RP} & \proves \allrefsBs \atomP \iff \atomP\\
-    {\bf RKD45} & \proves \somerefsBs \coversA \Gamma'_\agentA \iff \bigwedge_{\gamma' \in \Gamma'_\agentA} \possibleA \somerefsBs \gamma' \text{ where } \agentA \in \agentsB\\
+    {\bf RKD45} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma \text{ where } \agentA \in \agentsB\\
     {\bf RComm} & \proves \somerefsBs \coversA \Gamma_\agentA \iff \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\} \text{ where } \agentA \notin \agentsB\\
     {\bf RDist} & \proves \somerefsBs \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC \iff \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC\\
     {\bf NecR} & \text{From } \proves \phi \text{ infer } \proves \allrefsBs \phi
@@ -160,7 +160,7 @@ where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\age
 
 We emphasise that the only difference between \axiomRmlKFF{} and \axiomRmlKD{} is that in \axiomRmlKD{} we require that the cover operators in the axioms {\bf RKD45}, {\bf RComm}, and {\bf RDist} be applied to non-empty sets of formulas.
 This accounts for the only difference between \classKFF{} and \classKD{}: we require seriality in \classKD{}, but not in \classKFF{}.
-We note that strictly speaking, {\bf RComm} and {\bf RDist} are sound in \logicRmlKD{} when the cover operators are applied to empty sets of formulas, but this is derivable from the other axioms using the fact that $\proves \lnot \coversA \emptyset$ in \axiomKFF{}.
+We note that strictly speaking, {\bf RComm} and {\bf RDist} are sound in \logicRmlKD{} when the cover operators are applied to empty sets of formulas, but this is derivable from the other axioms using the fact that $\proves \lnot \coversA \emptyset$ in \axiomKD{}.
 
 \pagebreak
 

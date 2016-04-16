@@ -294,6 +294,7 @@ The only additional consideration required for \logicRmlKFF{} is that the refine
 
 ($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classKFF$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
+Without loss of generality we assume that each of the $\kStates[\gamma]$ are pair-wise disjoint.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RKD45} equivalence.
 
 Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
@@ -512,6 +513,7 @@ The only additional consideration required for \logicRmlKFF{} is that the refine
 ($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classKFF$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
 For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\gamma \in \Gamma_\agentA$ and $\kPModelAndTuple[\kStateT]{\kStateS[\kStateT]} \in \classKFF$ such that $\kPModel{\kStateT} \simulatesBs \kPModel[\kStateT]{\kStateS[\kStateT]}$ and $\kPModel[\kStateT]{\kStateS[\kStateT]} \entails \gamma$.
+Without loss of generality we assume that each of the $\kStates[\gamma]$ and $\kStates[\kStateT]$ are pair-wise disjoint.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RComm} equivalence.
 
 Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:

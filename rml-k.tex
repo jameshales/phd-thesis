@@ -119,6 +119,7 @@ Therefore $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \po
 We show that $\entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma \implies \somerefsBs \coversA \Gamma_\agentA$ where $\agentA \in \agentsB$.
 Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classK$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
+Without loss of generality we assume that each of the $\kStates[\gamma]$ are pair-wise disjoint.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RK} equivalence.
 
 Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
@@ -283,6 +284,7 @@ We show that $\entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\age
 Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classK$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
 For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\gamma \in \Gamma_\agentA$ and $\kPModelAndTuple[\kStateT]{\kStateS[\kStateT]} \in \classK$ such that $\kPModel{\kStateT} \simulatesBs \kPModel[\kStateT]{\kStateS[\kStateT]}$ and $\kPModel[\kStateT]{\kStateS[\kStateT]} \entails \gamma$.
+Without loss of generality we assume that each of the $\kStates[\gamma]$ and $\kStates[\kStateT]$ are pair-wise disjoint.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RComm} equivalence.
 
 Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:
@@ -448,6 +450,7 @@ Therefore $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \someref
 
 ($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classK$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$.
 For every $\agentC \in \agentsC$ there exists $\kPModel[\agentC]{\kStateS[\agentC]} \in \classK$ such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentC]{\kStateS[\agentC]}$ and $\kPModel[\agentC]{\kStateS[\agentC]} \entails \coversC \Gamma_\agentC$.
+Without loss of generality we assume that each of the $\kStates[\agentC]$ are pair-wise disjoint.
 We use these refinements to construct a single larger refinement to satisfy the left-hand-side of the {\bf RDist} equivalence.
 
 Let $\kPModelAndTupleP{\kStateSP}$ be a pointed Kripke model where:

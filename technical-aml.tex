@@ -442,8 +442,10 @@ $$
 where $\phi, \psi \in \langAml$, $\aPModel{\aStateS} \in \classAmK$, $\atomP \in \atoms$, and $\agentA \in \agents$.
 \end{definition}
 
-We note that the axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} form sets of reduction axioms, admitting a provably correct translation from the language \langAml{} of action model logic to the language \langMl{} of modal logic.
+We note that the axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} are closed under substitutions of equivalents.
+We also note that the axiomatisations \axiomAmlK{}, \axiomAmlKFF{}, and \axiomAmlS{} form sets of reduction axioms, admitting a provably correct translation from the language \langAml{} of action model logic to the language \langMl{} of modal logic.
 This works as the axioms {\bf AN}, {\bf AC}, {\bf AK}, and {\bf AU} may be applied to ``push'' the action model operators past negations, conjunctions, and modalities, until they are applied only to propositional atoms, where the axiom {\bf AP} may be applied to replace the formula with a modal formula.
+The reduction axioms do not define how to push an action model operator past another action model operator, so the reduction must be applied to the inner-most action model operators first, relying on closure under substitution of equivalents to operate on action model operators nested within other operators in the formula.
 Assuming that the axioms are sound we then have that \logicAmlK{}, \logicAmlKFF{}, and \logicAmlS{} are expressively equivalent to \logicK{}, \logicKFF{}, and \logicS{} respectively, so we get other results for the logic from the corresponding results for \logicK{}, \logicKFF{}, and \logicS{}.
 
 \begin{proposition}

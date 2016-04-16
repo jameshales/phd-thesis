@@ -478,7 +478,7 @@ Then $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ if and only if there
 
 \begin{proof}
 We can show by induction over $i = 2, 3, \dots, n$ that the claim holds for $\agentsB_i = \{\agentB_1, \agentB_2, \dots, \agentB_i\}$, 
-in the base case using Proposition~\ref{refinement-agent-decomposition} directly where $\agentsB_2 = \{\agentB_1\} \cup \{\agentB_2\}$, and
+in the base case using Proposition~\ref{refinement-agent-decomposition} directly where $\agentsB_2 = \{\agentB_1, \agentB_2\}$, and
 in the inductive case using Proposition~\ref{refinement-agent-decomposition} again, where $\agentsB_{i + 1} = \agentsB_i \cup \{\agentB_{i + 1}\}$.
 \end{proof}
 
@@ -487,21 +487,21 @@ We now attempt to formalise this general notion of epistemic updates.
 
 Following the general model used by public announcements and action models, we model an epistemic update as a transition from one pointed Kripke model, $\kPModel{\kStateS}$ to another, $\kPModelP{\kStateSP}$.
 When we describe an epistemic update as purely informative we mean that this transition preserves the truth of propositional atoms and their negations.
-Formally, if $\kPModel{\kStateS} \entails \atomP$ then we require that $\kPModelP{\kStateSP} \entails \atomP$ and if $\kPModel{\kStateS} \entails \lnot \atomP$ then we require that $\kPModelP{\kStateSP} \entails \lnot \atomP$.
+If $\kPModel{\kStateS} \entails \atomP$ then we require that $\kPModelP{\kStateSP} \entails \atomP$ and if $\kPModel{\kStateS} \entails \lnot \atomP$ then we require that $\kPModelP{\kStateSP} \entails \lnot \atomP$.
 However it's less clear what we mean when we say that epistemic updates increase certainty of information monotonically.
 Intuitively we mean that an epistemic update cannot cause an agent to forget or revise information that they were previously certain of, but this leaves open the question of what information agents are ``certain of''.
 At a first approximation we might say that epistemic updates should preserve all knowledge.
 That is, anything that an agent knows before an epistemic update, the agent should continue to know after an epistemic update.
 When we only consider knowledge of the truth of propositional atoms then this approximation seems reasonable.
 Epistemic updates preserve the truth of propositional atoms, so if an agent knows that a propositional atom is true, then the agent can be certain that this information won't change as the result of an epistemic update, so after an epistemic update the agent should continue to know that the propositional atom is true.
-Formally, if $\kPModel{\kStateS} \entails \knowsA \atomP$ then we require that $\kPModelP{\kStateSP} \entails \knowsA \atomP$.
+If $\kPModel{\kStateS} \entails \knowsA \atomP$ then we require that $\kPModelP{\kStateSP} \entails \knowsA \atomP$.
 However the truth of all information should not always be preserved by epistemic updates.
 We expect that epistemic updates should provide agents with additional information, so there should be situations where an agent knows something after an epistemic update that they didn't know before the epistemic update.
 For example, if an agent doesn't know that a propositional atom is true before an epistemic update, then it's reasonable for the agent to know that the propositional atom is true after an epistemic update.
-Formally, if $\kPModel{\kStateS} \entails \lnot \knowsA \atomP$ then it would be reasonable if $\kPModelP{\kStateSP} \entails \knowsA \atomP$.
+If $\kPModel{\kStateS} \entails \lnot \knowsA \atomP$ this shouldn't rule out $\kPModelP{\kStateSP} \entails \knowsA \atomP$.
 So information about a lack of knowledge should not always be preserved by epistemic updates.
 Then if an agent has information that is true before an epistemic update, but the truth of the information isn't preserved by an epistemic updates, then it's reasonable, and in some cases expected, that after the epistemic update the agent no longer knows that the information is true.
-Formally, if $\kPModel{\kStateS} \entails \knowsA \lnot \knowsB \atomP$ and $\kPModelP{\kStateSP} \entails \knowsB \atomP$ then it would be reasonable if $\kPModelP{\kStateSP} \entails \lnot \knowsA \lnot \knowsB \atomP$.
+If $\kPModel{\kStateS} \entails \knowsA \lnot \knowsB \atomP$ and $\kPModelP{\kStateSP} \entails \knowsB \atomP$ this shouldn't prevent $\kPModelP{\kStateSP} \entails \lnot \knowsA \lnot \knowsB \atomP$.
 So rather than our first approximation, that epistemic updates should preserve all knowledge, we see that it's more reasonable that epistemic updates only preserve knowledge about information that has its truth preserved by epistemic updates.
 We formalise this notion with the definition of positive formulas.
 

@@ -201,13 +201,15 @@ where $\agentsB \subseteq \agents$, $\phi, \psi \in \langRml$ and $\phi^+ \in \l
 \end{proposition}
 
 \begin{proof}
-Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}, \kPModelPP{\kStateSPP} \in \classC$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ and $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
 \begin{description}
     \item[(\ref{rml-validity-r})]  \hfill \\
         We show that $\entails_\logicRmlC \allrefsBs (\phi \implies \psi) \implies (\allrefsBs \phi \implies \allrefsBs \psi)$.
 
+        Let $\kPModel{\kStateS} \in \classC$.
         Suppose that $\kPModel{\kStateS} \entails \allrefsBs (\phi \implies \psi)$ and $\kPModel{\kStateS} \entails \allrefsBs \phi$.
-        Then $\kPModelP{\kStateSP} \entails \phi \implies \psi$
+        Then for every $\kPModelP{\kStateSP} \in \classC$
+        such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$
+        we have $\kPModelP{\kStateSP} \entails \phi \implies \psi$
         and $\kPModelP{\kStateSP} \entails \phi$,
         so by modus ponens $\kPModelP{\kStateSP} \entails \psi$.
         Therefore $\kPModel{\kStateS} \entails \allrefsBs \psi$
@@ -217,25 +219,37 @@ Let $\kPModel{\kStateS}, \kPModelP{\kStateSP}, \kPModelPP{\kStateSPP} \in \class
         We show that $\entails_\logicRmlC \phi$ implies $\entails_\logicRmlC \allrefsBs \phi$.
 
         Suppose that $\entails \phi$. 
-        Then $\kPModelP{\kStateSP} \entails \phi$ and so $\kPModel{\kStateS} \entails \allrefsBs \phi$.
+        Let $\kPModel{\kStateS} \in \classC$.
+        Then for every $\kPModelP{\kStateSP} \in \classC$
+        such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$
+        from $\entails \phi$
+        we have $\kPModelP{\kStateSP} \entails \phi$,
+        and so $\kPModel{\kStateS} \entails \allrefsBs \phi$.
         Therefore $\entails \allrefsBs \phi$
     \item[(\ref{rml-validity-rt})] \hfill \\
         We show that $\entails_\logicRmlC \allrefsBs \phi \implies \phi$.
 
-        Suppose that $\kPModel{\kStateS} \entails \allrefsBs \phi$.
+        Let $\kPModel{\kStateS} \in \classC$
+        such that $\kPModel{\kStateS} \entails \allrefsBs \phi$.
         By Proposition~\ref{refinements-preorder} we have that $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS}$ and so $\kPModel{\kStateS} \entails \phi$.
         Therefore $\kPModel{\kStateS} \entails \allrefsBs \phi \implies \phi$.
     \item[(\ref{rml-validity-r4})] \hfill \\
         We show that $\entails_\logicRmlC \allrefsBs \phi \implies \allrefsBs \allrefsBs \phi$.
 
-        Suppose that $\kPModel{\kStateS} \entails \allrefsBs \phi$.
+        Let $\kPModel{\kStateS} \in \classC$
+        such that $\kPModel{\kStateS} \entails \allrefsBs \phi$,
+        and let $\kPModelP{\kStateSP}, \kPModelPP{\kStateSPP} \in \classC$
+        such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
         By Proposition~\ref{refinements-preorder} we have that $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$ and so $\kPModelPP{\kStateSPP} \entails \phi$ and $\kPModel{\kStateS} \entails \allrefsBs \allrefsBs \phi$.
         Therefore $\kPModel{\kStateS} \entails \allrefsBs \phi \implies \allrefsBs \allrefsBs \phi$.
     \item[(\ref{rml-validity-rp})] \hfill \\
-        We show that $\entails_\logicRmlC \phi^+ \implies \allrefsBs \phi^+$ where $\phi^+ \in \langMlPlus$.
+        We show that $\entails_\logicRmlC \phi^+ \implies \allrefsBs \phi^+$ where $\phi^+ \in \langMlPlusBs$.
 
-        Suppose that $\kPModel{\kStateS} \entails \phi^+$.
-        By Proposition~\ref{refinements-preserve-positive} we have that $\kPModelP{\kStateSP} \entails \phi^+$ and so $\kPModel{\kStateS} \entails \allrefsBs \phi^+$.
+        Let $\kPModel{\kStateS} \in \classC$
+        such that $\kPModel{\kStateS} \entails \phi^+$.
+        Then for every $\kPModelP{\kStateSP} \in \classC$
+        such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$
+        by Proposition~\ref{refinements-preserve-positive} we have that $\kPModelP{\kStateSP} \entails \phi^+$ and so $\kPModel{\kStateS} \entails \allrefsBs \phi^+$.
         Therefore $\kPModel{\kStateS} \entails \phi^+ \implies \allrefsBs \phi^+$.
 \end{description}
 \end{proof}

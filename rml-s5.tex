@@ -33,7 +33,7 @@ These examples also show that the axiom {\bf RK} is not sound in the logic \logi
 
 In Chapter~\ref{rml-kd45} we modified the axioms {\bf RK}, {\bf RComm}, and {\bf RDist} to be sound in the logics \logicRmlKFF{} and \logicRmlKD{} by placing a syntactic restriction on the axioms, prohibiting the direct nesting of modalities belonging to the same agent.
 This syntactic restriction is not sufficient to ensure that the axioms are sound in \logicRmlS{}.
-In particular, in \logicRmlKFF{} and \logicRmlKD{} refinements need not be reflexive, so we have $\entails (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\lnot \atomP \land \necessaryA \atomP)$, but in \logicRmlS{} all refinements must be reflexive, so we have $\entails \allrefs \lnot (\lnot \atomP \land \necessaryA \atomP)$ and hence $\entails \lnot ((\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\lnot \atomP \land \necessaryA \atomP))$.
+In particular, in \logicRmlKFF{} and \logicRmlKD{} refinements need not be reflexive, so we have $\entails (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\lnot \atomP \land \necessaryA \atomP)$, but in \logicRmlS{} all refinements must be reflexive, so we have $\entails \allrefsA \lnot (\lnot \atomP \land \necessaryA \atomP)$ and hence $\entails \lnot ((\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\lnot \atomP \land \necessaryA \atomP))$.
 We can show how this first validity could be derived using the axiomatisations \axiomRmlKFF{} or \axiomRmlKD{}.
 $$
 \begin{array}{ll}

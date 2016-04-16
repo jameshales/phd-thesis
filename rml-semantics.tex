@@ -590,10 +590,10 @@ We note that $\kPModel{\kStateS} \simulatesA \kPModelP{\kStateS}$ and $\kPModel{
 We note that $\kPModelP{\kStateS}$ and $\kPModelPP{\kStateS}$ are minimal $\agentA$-refinements of $\kPModel{\kStateS}$ in \classKD{}.
 We also note that $\kPModelP{\kStateS} \not\simulatesA \kPModelPP{\kStateS}$ and $\kPModelPP{\kStateS} \not\simulatesA \kPModelP{\kStateS}$, so neither are least refinements.
 
-We note that $\kPModelP{\kStateS} \entails_\logicRmlKD\necessaryA \atomP$ and $\kPModelPP{\kStateSP} \entails_\logicRmlKD\necessaryA \lnot \atomP$.
-As $\necessaryA \atomP$ and $\necessaryA \lnot \atomP$ are $\agentA$-positive formulas then by (\ref{rml-validity-rp}) from Proposition~\ref{rml-validities} we have that $\kPModelP{\kStateS} \entails_\logicRmlKD\allrefsA \necessaryA \atomP$ and $\kPModelPP{\kStateSP} \entails_\logicRmlKD\allrefsA \necessaryA \lnot \atomP$.
+We note that $\kPModelP{\kStateS} \entails_\logicRmlKD\necessaryA \atomP$ and $\kPModelPP{\kStateU} \entails_\logicRmlKD\necessaryA \lnot \atomP$.
+As $\necessaryA \atomP$ and $\necessaryA \lnot \atomP$ are $\agentA$-positive formulas then by (\ref{rml-validity-rp}) from Proposition~\ref{rml-validities} we have that $\kPModelP{\kStateS} \entails_\logicRmlKD\allrefsA \necessaryA \atomP$ and $\kPModelPP{\kStateU} \entails_\logicRmlKD\allrefsA \necessaryA \lnot \atomP$.
 Then $\kPModel{\kStateS} \entails_\logicRmlKD\somerefsA \allrefsA \necessaryA \atomP$.
-However in \classKD{} due to seriality we have that $\entails_\logicRmlKD\necessaryA \lnot \atomP \implies \lnot \necessaryA \atomP$ so as $\kPModelPP{\kStateSP} \entails_\logicRmlKD\allrefsA \necessaryA \lnot \atomP$ we have that $\kPModelPP{\kStateSP} \entails_\logicRmlKD\allrefsA \lnot \necessaryA \atomP$ and so we have that $\kPModelPP{\kStateS} \nentails_\logicRmlKD\somerefsA \necessaryA \atomP$.
+However in \classKD{} due to seriality we have that $\entails_\logicRmlKD\necessaryA \lnot \atomP \implies \lnot \necessaryA \atomP$ so as $\kPModelPP{\kStateU} \entails_\logicRmlKD\allrefsA \necessaryA \lnot \atomP$ we have that $\kPModelPP{\kStateU} \entails_\logicRmlKD\allrefsA \lnot \necessaryA \atomP$ and so we have that $\kPModelPP{\kStateS} \nentails_\logicRmlKD\somerefsA \necessaryA \atomP$.
 Therefore $\kPModel{\kStateS} \entails_\logicRmlKD\somerefsA \lnot \somerefsA \necessaryA \atomP$ and so $\kPModel{\kStateS} \nentails_\logicRmlKD\allrefsA \somerefsA \necessaryA \atomP$.
 \end{example}
 

@@ -171,13 +171,13 @@ Then $\kPModelP{\kStateS} \exec \aPModel{\aStateS} = \kPModelAndTuple{(\kStateS,
     \end{tikzpicture}
 \end{figure}
 
-The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$, and the action model $\aPModel{\aStateS}$ are shown in Figure~\ref{example-pal-ml-figure}.
-We note that $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are essentially the same as the Kripke models from Example~\ref{example-ml}.
+The Kripke models $\kPModel{(\kStateS, \aStateS)}$ and $\kPModelP{\kStateS}$, and the action model $\aPModel{\aStateS}$ are shown in Figure~\ref{example-pal-ml-figure}.
+We note that $\kPModel{(\kStateS, \aStateS)}$ and $\kPModelP{\kStateS}$ are essentially the same as the Kripke models from Example~\ref{example-ml}.
 We also note that the action model $\aPModel{\aStateS}$ has essentially the same effect as a public announcement of $\lnot \knowsB \atomP$.
 
 The Kripke model $\kPModelP{\kStateS}$ models the situation where Alice has looked at the coin, and considers it possible that Bob saw the coin.
-Supposing that Bob were to publicly announce that he didn't see the coin, then $\kPModel{\kStateS}$ would model the result of this public announcement.
-From Example~\ref{example-ml} we have that $\kPModelP{\kStateS} \entails_\logicAmlK \knowsA \lnot \knowsB \atomP$.
+Supposing that Bob were to publicly announce that he didn't see the coin, then $\kPModel{(\kStateS, \aStateS)}$ would model the result of this public announcement.
+From Example~\ref{example-ml} we have that $\kPModel{(\kStateS, \aStateS)} \entails_\logicAmlK \knowsA \lnot \knowsB \atomP$.
 Therefore we have that $\kPModelP{\kStateS} \entails_\logicAmlK \actionE{\aPModel{\aStateS}} \knowsA \lnot \knowsB \atomP$.
 So although initially Alice considers it possible that Bob saw the coin, after Bob publicly announces that he didn't, she knows that Bob didn't see the coin.
 \end{example}

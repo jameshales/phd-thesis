@@ -60,6 +60,9 @@ where $\atomP \in \atoms$, $\agentA \in \agents$, $\aSignatureAndTuple \in \aSig
 We use all of the standard abbreviations from modal logic, in addition to the abbreviations 
 $\actionA{\aPModel{\aStatesT}} \phi ::= \actionA{\aSignature \aStatesT, \phi_1, \dots, \phi_n} \phi$ where $\aModel = \aSignature(\phi_1, \dots, \phi_n)$ and 
 $\actionE{\aPModel{\aStatesT}} \phi ::= \lnot \actionA{\aPModel{\aStatesT}} \lnot \phi$.
+Where $\aStatesT = \{\aStateS\}$ we use the abbreviations 
+$\actionA{\aPModel{\{\aStateS\}}} \phi ::= \actionA{\aPModel{\aStateS}} \phi$ and
+$\actionE{\aPModel{\{\aStateS\}}} \phi ::= \actionE{\aPModel{\aStateS}} \phi$.
 
 \begin{definition}[Semantics of action model logic]\label{aml-semantics}
 Let \classC{} be a class of Kripke models and let \aSignatureFamily{} be a non-empty, countable set of action signatures.

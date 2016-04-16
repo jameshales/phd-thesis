@@ -413,7 +413,7 @@ Then $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar[n] \kPModelP{\kStat
 Let $n \in \naturals$,
 let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[n] \kPModelP{\kStateSP}$ and
 let $\aPModel{\aStateS}$ be a pointed action model.
-Then for every $\phi \in \langMl$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
+Then for every $\phi \in \langMl$ such that $d(\phi) \leq n$: $\kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi$ if and only if $\kPModelP{\kStateSP} \entails \actionA{\aPModel{\aStateS}} \phi$.
 \end{proposition}
 
 \begin{proposition}

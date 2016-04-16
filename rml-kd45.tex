@@ -882,7 +882,7 @@ By the induction hypothesis for every $\agentC \in \agentsC$, $\gamma \in \Gamma
 For every $\agentC \in \agentsC$, let $\Gamma'_\agentC = \{\gamma' \mid \gamma \in \Gamma_\agentC\}$.
 Let $\phi' = \pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma'_\agentC$.
 Then $\entails \phi \iff \phi'$.
-Here we note that for every $\agentC \in \agentC$, $\gamma' \in \Gamma'_\agentC$ may contain $\coversC$ modalities at the top level, and so we use some equivalences to correct this.
+Here we note that for every $\agentC \in \agentsC$, $\gamma' \in \Gamma'_\agentC$ may contain $\coversC$ modalities at the top level, and so we use some equivalences to correct this.
 We pull the disjunctions within each cover operator up one level using the following equivalence:
 $$
 \entails \coversC (\{\psi \lor \chi\} \cup \Gamma) \iff \coversC (\{\psi\} \cup \Gamma) \lor \coversC (\{\chi\} \cup \Gamma) \lor \coversC (\{\psi, \chi\} \cup \Gamma)

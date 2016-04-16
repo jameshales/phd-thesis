@@ -199,14 +199,12 @@ The Kripke models $\kPModel{\kStateS}$ and $\kPModelP{\kStateS}$ are shown in Fi
 Recall that in Example~\ref{example-ml-formula} we described a situation where Alice has flipped a coin and, being careful that Bob can't see it, she looks at the coin and sees that it has landed heads up.
 The Kripke model $\kPModel{\kStateS}$ models this situation, as we note that:
 $\kPModel{\kStateS} \entails \atomP$;
-$\kPModel{\kStateS} \entails \atomP$;
 $\kPModel{\kStateS} \entails \knowsA \atomP$;
 $\kPModel{\kStateS} \entails \lnot \knowsB \atomP$; and
 $\kPModel{\kStateS} \entails \knowsA \lnot \knowsB \atomP$.
 
 In Example~\ref{example-ml-formula} a second situation was described where Alice was not as careful and Alice considers it possible that Bob saw the coin.
 The Kripke model $\kPModelP{\kStateS}$ models this situation as we note that:
-$\kPModelP{\kStateS} \entails \atomP$;
 $\kPModelP{\kStateS} \entails \atomP$;
 $\kPModelP{\kStateS} \entails \knowsA \atomP$; and
 $\kPModelP{\kStateS} \entails \lnot \knowsA \lnot \knowsB \atomP$.

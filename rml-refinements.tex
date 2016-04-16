@@ -664,7 +664,7 @@ Then there exists an action model $\aPModel{\aStateS}$ such that $\kPModel{\kSta
 Without loss of generality assume that $\kPModel{\kStateS}$ is bisimulation contracted.
 Let $\refinement \subseteq \kStates \times \kStatesP$ be a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
 
-For every $\kStateT, \kStateU \in \kStates$ such that $\kStateT \neq \kStateU$, as $\kModel$ is bisimulation contracted then $\kPModel{\kStateT} \nbisimilar \kPModel{\kStateU}$, from Proposition~\ref{modal-hennessy-milner} there exists $\phi_{\kStateT, \kStateU} \in \langMl$ such that $\kPModel{\kStateT} \entails \phi_{\kStateT, \kStateU}$ but $\kPModel{\kStateU} \nentails \phi_{\kStateT, \kStateU}$.
+For every $\kStateT, \kStateU \in \kStates$ such that $\kStateT \neq \kStateU$, as $\kModel$ is bisimulation contracted then $\kPModel{\kStateT} \nbisimilar \kPModel{\kStateU}$, hence from Proposition~\ref{modal-hennessy-milner} there exists $\phi_{\kStateT, \kStateU} \in \langMl$ such that $\kPModel{\kStateT} \entails \phi_{\kStateT, \kStateU}$ but $\kPModel{\kStateU} \nentails \phi_{\kStateT, \kStateU}$.
 For every $\kStateT \in \kStates$ let $\phi_{\kStateT} = \bigwedge_{\kStateU \in \kStates \setminus \{\kStateT\}} \phi_{\kStateT, \kStateU}$.
 Then for every $\kStateT, \kStateU \in \kStates$ we have that $\kPModel{\kStateU} \entails \phi_{\kStateT}$ if and only if $\kStateU = \kStateT$.
 

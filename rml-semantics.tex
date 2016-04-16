@@ -333,8 +333,8 @@ To do so we first introduce the notion of minimal and least refinements.
 
 \begin{definition}[Minimal and least refinements]\label{minimal-refinement}
 Let $\classC$ be a class of Kripke frames, let $\agentsB \subseteq \agents$ be a set of agents, and let $\kPModel{\kStateS}, \kPModelP{\kStateSP} \in \classC$ be Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
-Then $\kPModelP{\kStateSP}$ is a {\em minimal $\agentsB$-refinement} of $\kPModel{\kStateS}$ in \classC{} if and only if for every $\kPModelPP{\kStateSPP} \in \classC$ if $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$ then $\kPModelP{\kStateSP} \bisimilar \kPModelPP{\kStateSPP}$.
-Also $\kPModelP{\kStateSP}$ is a {\em least $\agentsB$-refinement} of $\kPModel{\kStateS}$ in \classC{} if and only if for every $\kPModelPP{\kStateSPP} \in \classC$ we have $\kPModelPP{\kStateSP} \simulatesBs \kPModelP{\kStateSP}$.
+Then $\kPModelP{\kStateSP}$ is a {\em minimal $\agentsB$-refinement} of $\kPModel{\kStateS}$ in \classC{} if and only if: for every $\kPModelPP{\kStateSPP} \in \classC$ if $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$ then $\kPModelP{\kStateSP} \bisimilar \kPModelPP{\kStateSPP}$.
+Also $\kPModelP{\kStateSP}$ is a {\em least $\agentsB$-refinement} of $\kPModel{\kStateS}$ in \classC{} if and only if: for every $\kPModelPP{\kStateSPP} \in \classC$ if $\kPModel{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$ we have $\kPModelPP{\kStateSP} \simulatesBs \kPModelP{\kStateSP}$.
 \end{definition}
 
 Minimal and least refinements are of interest to us here as refinement quantifiers collapse trivially in minimal refinements.

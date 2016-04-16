@@ -477,9 +477,9 @@ Then $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ if and only if there
 \end{corollary}
 
 \begin{proof}
-We can show by induction over $i = 2, 3, \dots, n$ that the claim holds for $\agentsB_i = \{\agentsB_1, \agentsB_2, \dots, \agentsB_i\}$, 
-in the base case using Proposition~\ref{refinement-agent-decomposition} directly where $\agentsB_2 = \{\agentsB_1\} \cup \{\agentsB_2\}$, and
-in the inductive case using Proposition~\ref{refinement-agent-decomposition} again, where $\agentsB_{i + 1} = \agentsB_i \cup \{\agentsB_{i + 1}\}$.
+We can show by induction over $i = 2, 3, \dots, n$ that the claim holds for $\agentsB_i = \{\agentB_1, \agentB_2, \dots, \agentB_i\}$, 
+in the base case using Proposition~\ref{refinement-agent-decomposition} directly where $\agentsB_2 = \{\agentB_1\} \cup \{\agentB_2\}$, and
+in the inductive case using Proposition~\ref{refinement-agent-decomposition} again, where $\agentsB_{i + 1} = \agentsB_i \cup \{\agentB_{i + 1}\}$.
 \end{proof}
 
 van Ditmarsch and French~\cite{vanditmarsch:2009} motivated their work in refinement modal logic by observing that refinements correspond to a very general notion of epistemic updates, in accordance with our informal understanding of epistemic updates as purely informative and monotonically increasing certainty about information.

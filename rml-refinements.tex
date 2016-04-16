@@ -271,7 +271,7 @@ Then $\refinement$ is an {\em expanded $\agentsB$-refinement from $\kModel$ to $
 Every refinement is bisimilar to a Kripke model with an expanded refinement.
 
 \begin{lemma}\label{refinement-expansion}
-Let $\agentsB \subseteq \agents$ be a set of agents, let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
+Let $\agentsB \subseteq \agents$ be a set of agents, let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$, and let $\refinement \subseteq \kStates \times \kStatesP$ be a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP}$.
 Then there exists a pointed Kripke model $\kPModelPP{\kStateSPP}$ such that $\kPModelP{\kStateSP} \bisimilar \kPModelPP{\kStateSPP}$ and $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$ via an expanded $\agentsB$-refinement.
 \end{lemma}
 
@@ -288,7 +288,7 @@ Let $\refinement' \subseteq \kStates \times \kStatesPP$ be a relation where:
 $$
 \refinement' = \{(\kStateT, (\kStateT, \kStateTP)) \mid (\kStateT, \kStateTP) \in \refinement\}
 $$
-We note that for every $(\kStateT, \kStateTP) \in \kStatesPP$ there exists a unique $\kStateT \in \kStates$ such that $(\kStateT, (\kStateT, \kStateTP)) \in \refinement'$.
+By construction every $(\kStateT, \kStateTP) \in \kStateSPP$ has the unique $\kStateT \in \kStates$ such that $(\kStateT, (\kStateT, \kStateTP)) \in \refinement'$.
 We show that $\refinement'$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelPP{(\kStateS, \kStateSP)}$.
 Let $\atomP \in \atoms$, $\agentA \in \agents$, $\agentC \in \agents \setminus \agentsB$, and $(\kStateT, (\kStateT, \kStateTP)) \in \refinement'$.
 

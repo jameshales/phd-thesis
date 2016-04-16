@@ -625,7 +625,7 @@ The logic \logicRmlK{} is not a sublogic of \logicRmlKF{}, \logicRmlKFF{}, \logi
 In \logicRmlK{} we have that $\entails \possibleA (\lnot \atomP \land \possibleA \atomP) \implies \somerefsA (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$.
 That is, refinements in \logicRmlK{} need not be transitive.
 If we start from a Kripke model $\kPModel{\kStateS} \in \classK$, such that $\kPModel{\kStateS} \entails \possibleA (\lnot \atomP \land \possibleA \atomP)$, we can find a refinement $\kPModelP{\kStateSP} \in \classK$ such that 
-$\kPModelP{\kStateSP} \somerefs (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$ simply by removing the transitive $\agentA$-edges from $\kPModelP{\kStateS}$.
+$\kPModelP{\kStateSP} \entails \somerefs (\possibleA \possibleA \atomP \land \lnot \possibleA \atomP)$ simply by removing the transitive $\agentA$-edges from $\kPModelP{\kStateS}$.
 This is permissible as the frame conditions for \classK{} do not require that Kripke models be transitive.
 However the logics \logicRmlKF{}, \logicRmlKFF{}, \logicRmlKD{}, or \logicRmlS{} do require that Kripke models be transitive.
 In these settings we have that $\entails (\possibleA \possibleA \atomP \implies \possibleA \atomP)$ and by (\ref{rml-validity-necr}) from Proposition~\ref{rml-validities} we have that $\entails \allrefs (\possibleA \possibleA \atomP \implies \possibleA \atomP)$.

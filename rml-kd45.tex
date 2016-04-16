@@ -796,8 +796,8 @@ The only additional consideration required for \logicRmlKFF{} is that the refine
 
 ($\Leftarrow$) Let $\kPModelAndTuple{\kStateS} \in \classKFF$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \bigwedge_{\agentC \in \agentsC} \somerefsBs \coversC \Gamma_\agentC$.
 For every $\agentC \in \agentsC$ there exists $\kPModel[\agentC]{\kStateS[\agentC]} \in \classKFF$ such that $\kPModel{\kStateS} \simulatesBs \kPModel[\agentC]{\kStateS[\agentC]}$ and $\kPModel[\agentC]{\kStateS[\agentC]} \entails \coversC \Gamma_\agentC$.
-We show that $\kPModel{\kStateS} \entails \somerefsBs ( \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC)$ using the same reasoning as in the proof of soundness of {\bf RDist} from \axiomRmlK{} in Lemma~\ref{rml-k-rcomm}.
-We note that since each of the refinements $\kPModel[\agentC]{\kStateS[\agentC]}$ are \classKFF{} models then the construction used in Lemma~\ref{rml-k-rcomm} will produce a \classKFF{} model as required.
+We show that $\kPModel{\kStateS} \entails \somerefsBs ( \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC)$ using the same reasoning as in the proof of soundness of {\bf RDist} from \axiomRmlK{} in Lemma~\ref{rml-k-rdist}.
+We note that since each of the refinements $\kPModel[\agentC]{\kStateS[\agentC]}$ are \classKFF{} models then the construction used in Lemma~\ref{rml-k-rdist} will produce a \classKFF{} model as required.
 \end{proof}
 
 Yet again we use similar reasoning to show that the axiom {\bf RDist} from \axiomRmlKD{} is sound.

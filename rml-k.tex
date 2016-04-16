@@ -679,9 +679,9 @@ By the induction hypothesis there exists $\psi', \chi' \in \langMl$ in disjuncti
 As $\psi'$ and $\chi'$ are in disjunctive normal form then $\psi' = \delta_0 \lor \cdots \lor \delta_m$ and $\chi' = \gamma_0 \lor \cdots \lor \gamma_n$ where $m, n \in \naturals$.
 We distribute the disjunctions over the conjunction using the following equivalence:
 $$
-\entails (\psi \land \chi) \iff (\psi' \land \chi') \iff \vee_{\substack{0 \leq i \leq m\\0 \leq j \leq n}} (\delta_i \land \gamma_i)
+\entails (\psi \land \chi) \iff (\psi' \land \chi') \iff \vee_{\substack{0 \leq i \leq m\\0 \leq j \leq n}} (\delta_i \land \gamma_j)
 $$
-Here we note that the subformulas $\delta_i \land \gamma_i$ may not be in the appropriate form, and so we use some equivalences to find appropriate substitutes. 
+Here we note that the subformulas $\delta_i \land \gamma_j$ may not be in the appropriate form, and so we use some equivalences to find appropriate substitutes. 
 Let $i, j \in \naturals$ such that $0 \leq i \leq m$ and $0 \leq j \leq n$ and suppose that $\delta_i = \pi \land \bigwedge_{\agentB \in \agentsB} \coverB \Gamma_\agentB$ and $\gamma_j = \tau \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC$.
 We rewrite the conjunction $\delta_i \land \gamma_j$ using the following equivalence:
 $$

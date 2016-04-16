@@ -94,7 +94,7 @@ It is simple to check that {\bf atoms-$\atomP$}, {\bf atoms-$\atomQ$}, {\bf fort
 
 We also show that $\kPModelP{\kStateS} \not\simulatesB \kPModel{\kStateS}$ by the following argument.
 Suppose that $\refinement' \subseteq \kStatesP \times \kStates$ is a relation from $\kPModelP{\kStateS}$ to $\kPModel{\kStateS}$ such that $\refinement'$ satisfies {\bf atoms-$\atomP$} and $(\kStateS, \kStateS) \in \refinement'$.
-As $\kStateU \in \kSuccessorsPB{\kStateS}$ then in order for $\refinement'$ to satisfy {\bf back-$\agentB$} there must exist some $\kStateX \in \kSuccessorsPB{\kStateS}$ such that $(\kStateX, \kStateU) \in \refinement'$.
+As $\kStateU \in \kSuccessorsB{\kStateS}$ then in order for $\refinement'$ to satisfy {\bf back-$\agentB$} there must exist some $\kStateX \in \kSuccessorsPB{\kStateS}$ such that $(\kStateX, \kStateU) \in \refinement'$.
 However $\kStateU \notin \kValuation(\atomP)$ but $\kStateS, \kStateT \in \kValuationP(\atomP)$ so, as $\refinement'$ satisfies {\bf atoms-$\atomP$}, we must have $(\kStateS, \kStateU) \notin \refinement'$ and $(\kStateT, \kStateU) \notin \refinement'$.
 Then $\refinement'$ does not satisfy {\bf back-$\agentB$} and is not a $\agentB$-refinement.
 Therefore there does not exist a $\agentB$-refinement from $\kPModelP{\kStateS}$ to $\kPModel{\kStateS}$ and $\kPModelP{\kStateS} \not\simulatesB \kPModel{\kStateS}$.

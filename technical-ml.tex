@@ -312,7 +312,7 @@ Bisimulation contracted Kripke models are useful because bisimilarity of states 
 \begin{definition}[Bisimulation contraction]
 Let $\kModelAndTuple$ be a Kripke model,
 let $\bisimulation \subseteq \kStates \times \kStates$ be the maximal bisimulation between $\kModel$ and itself,
-and let ${[\kStateS]} = \{\kStateT \in \kStates \mid (\kStateT, \kStateS\}) \in \bisimulation$.
+and let ${[\kStateS]} = \{\kStateT \in \kStates \mid (\kStateT, \kStateS)\}) \in \bisimulation$.
 The {\em bisimulation contraction} of $\kModel$ is the quotient model $\kModelAndTupleP$ where:
 \begin{eqnarray*}
     \kStatesP &=& \{{[\kStateS]} \mid \kStateS \in \kStates\}\\

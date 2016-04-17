@@ -241,10 +241,10 @@ Then $\kModelP \in \classKF$.
 
 \begin{proof}
 Let $\agentB \in \agentsB$, and let $(\kStateS, \kStateT), (\kStateT, \kStateU) \in \kAccessibilityPB$.
-By construction $\kAccessibilityPB \subseteq \kAccessibilityA$ so $(\kStateS, \kStateT), (\kStateT, \kStateU) \in \kAccessibilityB$.
-Then $(\kStateS, \kStateU) \in \kAccessibilityA$ follows from the transitivity of $\kAccessibilityA$.
-By construction as $(\kStateT, \kStateU) \in \kAccessibilityPA$ then $\kPModel{\kStateU} \entails \atomP$.
-Then by construction $(\kStateS, \kStateU) \in \kAccessibilityPA$.
+By construction $\kAccessibilityPB \subseteq \kAccessibilityB$ so $(\kStateS, \kStateT), (\kStateT, \kStateU) \in \kAccessibilityB$.
+Then $(\kStateS, \kStateU) \in \kAccessibilityB$ follows from the transitivity of $\kAccessibilityB$.
+By construction as $(\kStateT, \kStateU) \in \kAccessibilityPB$ then $\kPModel{\kStateU} \entails \atomP$.
+Then by construction $(\kStateS, \kStateU) \in \kAccessibilityPB$.
 Therefore $\kAccessibilityPB$ is transitive.
 Let $\agentC \in \agents \setminus \agentsB$.
 By construction $\kAccessibilityPC = \kAccessibilityC$ so as $\kAccessibilityC$ is transitive so is $\kAccessibilityPC$.
@@ -259,11 +259,11 @@ There exists a pointed Kripke model $\kPModelP{\kStateSP} \in \classKF$ where $\
 \end{lemma}
 
 \begin{proof}
-By Lemma~\ref{refinement-expansion} there exists a pointed Kripke model $\kPModelPPP{\kStateSPPP}$ such that $\kPModelPP{\kStateSPP} \bisimilar \kPModelPPP{\kStateSPPP}$ and $\kPModel{\kStateS} \simulates[(\agentsB \cup \agentsC)] \kPModelPPP{\kStateSPPP}$ via an expanded $(\agentsB \cup \agentsC)$-refinement.
+By Lemma~\ref{refinement-expansion} there exists a pointed Kripke model $\kPModelPPP{\kStateSPPP}$ such that $\kPModelPP{\kStateSPP} \bisimilar \kPModelPPP{\kStateSPPP}$ and $\kPModel{\kStateS} \simulates[\agentsB] \kPModelPPP{\kStateSPPP}$ via an expanded $\agentsB$-refinement.
 Suppose that there exists a pointed Kripke model $\kPModelP{\kStateSP} \in \classKF$ where $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$ is the $(\agentsB, \atomP)$-restriction of $\kModelP$, such that $\kPModel{\kStateS} \bisimilar[\atomP] \kPModelP{\kStateS}$ and $\kPModelPPP{\kStateSPPP} \bisimilar[\atomP] \kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$.
 As $\kPModelPP{\kStateSPP} \bisimilar \kPModelPPP{\kStateSPPP}$ then we have that $\kPModelPP{\kStateSPP} \bisimilar[\atomP] \kPModelPPP{\kStateSPPP}$ and so $\kPModelPP{\kStateSPP} \bisimilar[\atomP] \kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$.
 
-Then without loss of generality we assume that $\kModel$ and $\kModelPP$ are disjoint Kripke models such that $\kPModel{\kStateS} \simulates[(\agentsB \cup \agentsC)] \kPModelPP{\kStateSPP}$ via an expanded $(\agentsB \cup \agentsC)$-refinement $\refinement \subseteq \kStates \times \kStatesPP$.
+Then without loss of generality we assume that $\kModel$ and $\kModelPP$ are disjoint Kripke models such that $\kPModel{\kStateS} \simulates[\agentsB] \kPModelPP{\kStateSPP}$ via an expanded $\agentsB$-refinement $\refinement \subseteq \kStates \times \kStatesPP$.
 For every $\kStateTPP \in \kStatesPP$ we denote by $\refinement^{-1}(\kStateTPP)$ the unique $\kStateT \in \kStates$ such that $(\kStateT, \kStateTPP) \in \refinement^{-1}$.
 
 Let $\kPModelAndTupleP{\kStateSPP}$ where:

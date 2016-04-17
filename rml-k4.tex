@@ -645,9 +645,9 @@ By Lemma~\ref{rml-k4-relativisation-restriction} we have $\kPModel[\prime(\agent
 By Lemma~\ref{rml-k4-restriction-refinement} we note that $\kPModelP{\kStateSP} \simulatesBs \kPModel[\prime(\agentsB, \atomP)]{\kStateSP}$, say via some $\agentsB$-refinement $\refinement' \subseteq \kStatesP \times \kStatesP$, and by Lemma~\ref{rml-k4-restriction-k4} we note that $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} \in \classKF$.
 By the induction hypothesis we have $\kPModel[\prime(\agentsB, \atomP)]{\kStateSPP} \entails_\logicRml \phi$.
 
-Let $\kPModelAndTuplePP{\kStateSPP}$ where:
+Let $\kPModel[\prime(\agentsB, \atomP)]{\kStateSP} = \kPModelTuplePP{\kStateSP}$ where:
 \begin{eqnarray*}
-    \kStateSPP &=& \kStatesP\\
+    \kStatesPP &=& \kStatesP\\
     \kAccessibilityPPA &=& \kAccessibilityA[\prime(\agentsB, \atomP)]\\
     \kValuationPP(\atomP) &=& \{\kStateTP \mid (\kStateT, \kStateUP) \in \bisimulation, (\kStateUP, \kStateTP) \in \refinement', \kStateT \in \kValuation(\atomP)\}\\
     \kValuationPP(\atomQ) &=& \kValuationP(\atomQ)

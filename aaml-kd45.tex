@@ -120,8 +120,8 @@ We show that $\agentsB$-bisimilar action models result in the same $\agentsB$-re
 Recall that $\agentsB$-restricted modal formulas were defined in Definition~\ref{b-restricted}.
 
 \begin{lemma}\label{action-b-bisimulation-results}
-Let $\agentsB \subseteq \agents$ be a set of agents, let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ and let $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar[\agentsB] \aPModelP{\aStateSP}$.
-Then $\kPModel{\kStateS} \entails \aPrecondition(\aStateS)$ if and only if $\kPModelP{\kStateSP} \entails \aPreconditionP(\aStateSP)$ and (when they are defined) $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP} \exec \aPModelP{\aStateSP}$.
+Let $\agentsB \subseteq \agents$ be a set of agents, let $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ be pointed Kripke models such that $\kPModel{\kStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP}$ and let $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar[\agentsB] \aPModelP{\aStateSP}$ and $\aPrecondition(\aStateS)$ and $\aPreconditionP(\aStateSP)$ are $\agentsB$-restricted modal formulas.
+Then $\kPModel{\kStateS} \entails \aPrecondition(\aStateS)$ if and only if $\kPModelP{\kStateSP} \entails \aPreconditionP(\aStateSP)$, and (when they are defined) $\kPModel{\kStateS} \exec \aPModel{\aStateS} \bisimilar[\agentsB] \kPModelP{\kStateSP} \exec \aPModelP{\aStateSP}$.
 \end{lemma}
 
 \begin{proof}
@@ -150,7 +150,7 @@ Follows from symmetric reasoning to {\bf forth-$\agentB$}.
 \end{proof}
 
 \begin{corollary}
-Let $\agentsB \subseteq \agents$ be a set of agents and let $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar[\agentsB] \aPModelP{\aStateSP}$.
+Let $\agentsB \subseteq \agents$ be a set of agents and let $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ be pointed action models such that $\aPModel{\aStateS} \bisimilar[\agentsB] \aPModelP{\aStateSP}$ and $\aPrecondition(\aStateS)$ and $\aPreconditionP(\aStateSP)$ are $\agentsB$-restricted modal formulas.
 Then for every pointed Kripke model $\kPModel{\kStateS}$ and every $\agentsB$-restricted modal formula $\phi \in \langAaml$ we have that $\kPModel{\kStateS} \entails \actionA{\aPModel{\aStateS}} \phi$ if and only if $\kPModel{\kStateS} \entails \actionA{\aPModelP{\aStateSP}} \phi$.
 \end{corollary}
 

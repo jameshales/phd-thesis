@@ -86,7 +86,7 @@ The provably correct translation also implies that \logicRamlK{} is expressively
 The logic \logicRamlK{} is expressively equivalent to the logic \logicK{}.
 \end{corollary}
 
-From expressive equivalence we have that \logicRmlK{} is compact and decidable.
+From expressive equivalence we have that \logicRamlK{} is compact and decidable.
 
 \begin{corollary}
 The logic \logicRamlK{} is compact.
@@ -170,9 +170,9 @@ We next show that $\entails \actionA{\aPModel{\aStatesT}} \phi$.
 Finally we show that $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someactsBs \phi$.
 \begin{eqnarray}
     &&\entails \someactsBs (\alpha \lor \beta) \implies (\someactsBs \alpha \lor \someactsBs \beta) \label{aaml-k-choice-5}\\
-    &&\entails \someactsBs (\alpha \lor \beta) \implies (\actionE{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha \land \actionE{\aPModel[\beta]{\aStatesT[\beta]}} \beta) \label{aaml-k-choice-6}\\
-    &&\entails \someactsBs (\alpha \lor \beta) \implies (\actionE{\aPModel{\aStatesT[\alpha]}} \alpha \land \actionE{\aPModel{\aStatesT[\beta]}} \beta) \label{aaml-k-choice-7}\\
-    &&\entails \someactsBs (\alpha \lor \beta) \implies (\actionE{\aPModel{\aStatesT[\alpha]}} (\alpha \lor \beta) \land \actionE{\aPModel{\aStatesT[\beta]}} (\alpha \lor \beta)) \label{aaml-k-choice-8}\\
+    &&\entails \someactsBs (\alpha \lor \beta) \implies (\actionE{\aPModel[\alpha]{\aStatesT[\alpha]}} \alpha \lor \actionE{\aPModel[\beta]{\aStatesT[\beta]}} \beta) \label{aaml-k-choice-6}\\
+    &&\entails \someactsBs (\alpha \lor \beta) \implies (\actionE{\aPModel{\aStatesT[\alpha]}} \alpha \lor \actionE{\aPModel{\aStatesT[\beta]}} \beta) \label{aaml-k-choice-7}\\
+    &&\entails \someactsBs (\alpha \lor \beta) \implies (\actionE{\aPModel{\aStatesT[\alpha]}} (\alpha \lor \beta) \lor \actionE{\aPModel{\aStatesT[\beta]}} (\alpha \lor \beta)) \label{aaml-k-choice-8}\\
     &&\entails \someactsBs (\alpha \lor \beta) \implies \actionE{\aPModel{\aStatesT}} (\alpha \lor \beta) \label{aaml-k-choice-9}
 \end{eqnarray}
 (\ref{aaml-k-choice-5}) follows from \axiomRamlK{} axiom {\bf R};
@@ -193,7 +193,7 @@ We next show the case where the given formula is a conjunction of a propositiona
 \begin{lemma}\label{aaml-k-covers}
 Let $\agentsB, \agentsC \subseteq \agents$, 
 let $\phi = \pi \land \bigwedge_{\agentC \in \agentsC} \coverC \Gamma_\agentC \in \langAaml$ where $\pi \in \langPl$, and 
-for every $\agentC \in \agentsC$, $\gamma \in \agentsC$
+for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentsC$
 let $\aPModelAndTuple[\gamma]{\aStatesT[\gamma]} \in \classAmK$ be a $\agentsB$-action model such that 
 $\entails \actionA{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma$,
 $\entails \actionE{\aPModel[\gamma]{\aStatesT[\gamma]}} \gamma \iff \someactsBs \gamma$, and
@@ -207,7 +207,7 @@ for every $\aStateT \in \aStatesT$, $\kPModel{\kStateS} \in \classK$ if $\kPMode
 \pagebreak
 
 \begin{proof}
-Without loss of generality we assume that each $\aModel[\gamma]$ for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$ is disjoint.
+Without loss of generality we assume that each $\aModel[\gamma]$ is pair-wise disjoint.
 
 We construct the action model $\aPModelAndTuple{\aStateTest}$ where:
 \begin{eqnarray*}
@@ -294,7 +294,7 @@ Let $\agentC \in \agentsC$.
     && \entails \actionA{\aPModel{\aStateTest}} \necessaryC \bigvee_{\gamma \in \Gamma_\agentC} \gamma \label{aaml-covers-17}
 \end{eqnarray}
 (\ref{aaml-covers-8}) follows from hypothesis;
-(\ref{aaml-covers-9}) follows from the above note that $\aModel[\gamma]{\aStateT[\gamma]} \bisimilar \aPModel{\aStateT[\gamma]}$;
+(\ref{aaml-covers-9}) follows from the above note that $\aPModel[\gamma]{\aStateT[\gamma]} \bisimilar \aPModel{\aStateT[\gamma]}$;
 (\ref{aaml-covers-10}) follows from \axiomRamlK{} axiom {\bf AU};
 (\ref{aaml-covers-14}) follows from propositional disjunction introduction;
 (\ref{aaml-covers-15}) follows from the construction of $\aModel$;
@@ -337,7 +337,7 @@ Then:
 \end{eqnarray}
 (\ref{aaml-covers-23}) follows from above;
 (\ref{aaml-covers-24}) follows from hypothesis;
-(\ref{aaml-covers-25}) follows from the above note that $\aModel[\gamma]{\aStateT[\gamma]} \bisimilar \aPModel{\aStateT[\gamma]}$;
+(\ref{aaml-covers-25}) follows from the above note that $\aPModel[\gamma]{\aStateT[\gamma]} \bisimilar \aPModel{\aStateT[\gamma]}$;
 (\ref{aaml-covers-26}) follows from \axiomRamlK{} axiom {\bf AU};
 (\ref{aaml-covers-27}) follows from the construction of $\aModel$ and propositional disjunction introduction;
 (\ref{aaml-covers-28}) follows from propositional reasoning; and
@@ -360,9 +360,9 @@ Therefore $\entails \actionE{\aPModel{\aStateTest}} \phi \iff \someactsBs \phi$.
 
 We next show that for every $\kPModel{\kStateS} \in \classK$ if $\kPModel{\kStateS} \entails \aPrecondition(\aStateTest)$ then $\kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
 Let $\kPModel{\kStateS} \in \classK$ such that $\kPModel{\kStateS} \entails \aPrecondition(\aStateTest)$.
-For every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kSuccessorsC{\kStateS}$ such that $\kPModel{\kStateT} \entails \aPrecondition[\agentC,\gamma](\aStateT[\agentC,\gamma])$ we have that $\kPModel{\kStateT} \simulatesBs \kPModel{\kStateT} \exec \aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]}$.
-From above $\aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \bisimilar \aPModel{\aStateT[\agentC, \gamma]}$ and so by Proposition~\ref{action-bisimulation-results} we have that $\kPModel{\kStateT} \exec \aPModel[\agentC, \gamma]{\aStateT[\agentC, \gamma]} \bisimilar \kPModel{\kStateT} \exec \aPModel{\aStateT[\agentC, \gamma]}$.
-From Corollary~\ref{bisimilar-refinement} and Proposition~\ref{refinements-preorder} we have that $\kPModel{\kStateT} \simulatesBs \kPModel{\kStateT} \exec \aPModel{\aStateT[\agentC, \gamma]}$ (say via a $\agentsB$-refinement $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$).
+For every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\gamma^\agentC] \in \aStatesT[\gamma^\agentC]$, $\kStateT \in \kSuccessorsC{\kStateS}$ such that $\kPModel{\kStateT} \entails \aPrecondition[\agentC,\gamma](\aStateT[\agentC,\gamma])$ we have that $\kPModel{\kStateT} \simulatesBs \kPModel{\kStateT} \exec \aPModel[\gamma^\agentC]{\aStateT[\gamma^\agentC]}$.
+From above $\aPModel[\gamma^\agentC]{\aStateT[\gamma^\agentC]} \bisimilar \aPModel{\aStateT[\gamma^\agentC]}$ and so by Proposition~\ref{action-bisimulation-results} we have that $\kPModel{\kStateT} \exec \aPModel[\gamma^\agentC]{\aStateT[\gamma^\agentC]} \bisimilar \kPModel{\kStateT} \exec \aPModel{\aStateT[\gamma^\agentC]}$.
+From Corollary~\ref{bisimilar-refinement} and Proposition~\ref{refinements-preorder} we have that $\kPModel{\kStateT} \simulatesBs \kPModel{\kStateT} \exec \aPModel{\aStateT[\gamma^\agentC]}$ (say via a $\agentsB$-refinement $\refinement^{\kStateT, \aStateT[\gamma^\agentC]}$).
 
 Let $\kPModelP{(\kStateS, \aStateTest)} = \kPModel{\kStateS} \exec \aPModel{\aStateTest}$.
 We define $\refinement \subseteq \kStates \times \kStatesP$ where:
@@ -370,7 +370,7 @@ We define $\refinement \subseteq \kStates \times \kStatesP$ where:
 \refinement &=& 
 \{(\kStateS, (\kStateS, \aStateTest))\} \cup 
 \{(\kStateT, (\kStateT, \aStateSkip)) \mid \kStateT \in \kStates\}  \\&&\quad \cup
-\bigcup \{\refinement^{\kStateT, \aStateT[\agentC, \gamma]} \mid \agentC \in \agentsC, \gamma \in \Gamma_\agentC, \aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma], \kStateT \in \kSuccessorsC{\kStateT}, \kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])\}
+\bigcup \{\refinement^{\kStateT, \aStateT[\gamma^\agentC]} \mid \agentC \in \agentsC, \gamma \in \Gamma_\agentC, \aStateT[\gamma^\agentC] \in \aStatesT[\gamma^\agentC], \kStateT \in \kSuccessorsC{\kStateT}, \kPModel{\kStateT} \entails \aPrecondition(\aStateT[\gamma^\agentC])\}
 \end{eqnarray*}
 
 We show that $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{(\kStateS, \aStateTest)}$.
@@ -396,7 +396,7 @@ We show by cases that the relationships in $\refinement$ satisfy the conditions 
             \item[back-$\agentA$]
                 Suppose that $\agentA \in \agentsC$.
                 Let $(\kStateT, \aStateT[\agentA, \gamma]) \in \kSuccessorsPA{(\kStateS, \aStateTest)}$ where $\gamma \in \Gamma_\agentA$ and $\aStateT[\agentA, \gamma] \in \aStatesT[\agentA, \gamma]$.
-                By construction $\kStateT \in \kSuccessorsA{\kStateS}$ and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentA, \gamma])$ so by hypothesis $(\kStateT, (\kStateT, \aStateT[\agentA, \gamma])) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
+                By construction $\kStateT \in \kSuccessorsA{\kStateS}$ and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentA, \gamma])$ so by hypothesis $(\kStateT, (\kStateT, \aStateT[\agentA, \gamma])) \in \refinement^{\kStateT, \aStateT[\gamma^\agentC]} \subseteq \refinement$.
                 Suppose that $\agentA \notin \agentsC$.
                 Let $(\kStateT, \aStateSkip) \in \kSuccessorsPA{(\kStateS, \aStateTest)}$.
                 By construction $\kStateT \in \kSuccessorsA{\kStateS}$ and $(\kStateT, (\kStateT, \aStateSkip)) \in \refinement$.
@@ -412,16 +412,16 @@ We show by cases that the relationships in $\refinement$ satisfy the conditions 
                 Let $(\kStateU, \aStateSkip) \in \kSuccessorsPA{(\kStateT, \aStateSkip)}$.
                 By construction $\kStateU \in \kSuccessorsA{\kStateT}$ \\and $(\kStateU, (\kStateU, \aStateSkip)) \in \refinement$.
         \end{description}
-    \item[{Case $(\kStateT, \kStateTP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\agentC, \gamma] \in \aStatesT[\agentC, \gamma]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\agentC, \gamma])$:}]\hfill
+    \item[{Case $(\kStateT, \kStateTP) \in \refinement^{\kStateT, \aStateT[\gamma^\agentC]} \subseteq \refinement$ where $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\aStateT[\gamma^\agentC] \in \aStatesT[\gamma^\agentC]$, $\kStateT \in \kStates$, and $\kPModel{\kStateT} \entails \aPrecondition(\aStateT[\gamma^\agentC])$:}]\hfill
         \begin{description}
             \item[atoms-$\atomP$]
-                By {\bf atoms-$\atomP$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ we have that $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateTP \in \kValuationP(\atomP)$.
+                By {\bf atoms-$\atomP$} for $\refinement^{\kStateT, \aStateT[\gamma^\agentC]}$ we have that $\kStateT \in \kValuation(\atomP)$ if and only if $\kStateTP \in \kValuationP(\atomP)$.
             \item[forth-$\agentD$]
                 Let $\kStateU \in \kSuccessorsD{\kStateT}$.
-                By {\bf forth-$\agentD$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $\kStateUP \in \kSuccessorsPD{\kStateTP}$ such that $(\kStateU, \kStateUP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
+                By {\bf forth-$\agentD$} for $\refinement^{\kStateT, \aStateT[\gamma^\agentC]}$ there exists $\kStateUP \in \kSuccessorsPD{\kStateTP}$ such that $(\kStateU, \kStateUP) \in \refinement^{\kStateT, \aStateT[\gamma^\agentC]} \subseteq \refinement$.
             \item[back-$\agentA$]
                 Let $\kStateUP \in \kSuccessorsPA{\kStateTP}$.
-                By {\bf back-$\agentA$} for $\refinement^{\kStateT, \aStateT[\agentC, \gamma]}$ there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $(\kStateU, \kStateUP) \in \refinement^{\kStateT, \aStateT[\agentC, \gamma]} \subseteq \refinement$.
+                By {\bf back-$\agentA$} for $\refinement^{\kStateT, \aStateT[\gamma^\agentC]}$ there exists $\kStateU \in \kSuccessorsA{\kStateT}$ such that $(\kStateU, \kStateUP) \in \refinement^{\kStateT, \aStateT[\gamma^\agentC]} \subseteq \refinement$.
         \end{description}
 \end{description}
 
@@ -473,7 +473,7 @@ Given this result we can show that the logics \logicAamlK{} and \logicRamlK{} ag
 
 \begin{theorem}\label{aaml-k-semantics-equivalent}
 The semantics of \logicAamlK{} and the semantics of \logicRamlK{} agree on all formulas of \langAaml{}.
-That is, for every $\phi \in \langAaml$, $\kPModel{\kStateS} \in \classK$: $\kPModel{\kStateS} \entails_\logicAamlK \phi$ if and only if $\kPModel{\kStateS} \entails_\logicAamlK \phi$.
+That is, for every $\phi \in \langAaml$, $\kPModel{\kStateS} \in \classK$: $\kPModel{\kStateS} \entails_\logicAamlK \phi$ if and only if $\kPModel{\kStateS} \entails_\logicRamlK \phi$.
 \end{theorem}
 
 \begin{proof}

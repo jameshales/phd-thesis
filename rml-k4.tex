@@ -477,10 +477,10 @@ We consider each case:
         Then $\kPModelP{\kStateUP} \entails \atomP$ so by construction $\kStateUP \in \kSuccessorsPB{\kStateTP}$.
 
         \paragraph{forth-$\agentC$}
-        Let $\kStateU \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateT}$.
-        By definition $\kSuccessorsB[(\agentsB, \atomP)]{\kStateT} \subseteq \kSuccessorsB{\kStateT}$ so $\kStateU \in \kSuccessorsB{\kStateT}$.
-        By {\bf forth-$\agentB$} for $\bisimulation$ between $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ there exists $\kStateUP \in \kSuccessorsPB{\kStateTP}$ such that $(\kStateU, \kStateUP) \in \bisimulation$.
-        By construction $\kSuccessorsB[\prime(\agentsB, \atomP)]{\kStateTP} = \kSuccessorsPB{\kStateTP}$ so $\kStateUP \in \kSuccessorsPB{\kStateTP}$.
+        Let $\kStateU \in \kSuccessorsC[(\agentsC, \atomP)]{\kStateT}$.
+        By definition $\kSuccessorsC[(\agentsC, \atomP)]{\kStateT} \subseteq \kSuccessorsC{\kStateT}$ so $\kStateU \in \kSuccessorsC{\kStateT}$.
+        By {\bf forth-$\agentC$} for $\bisimulation$ between $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ there exists $\kStateUP \in \kSuccessorsPC{\kStateTP}$ such that $(\kStateU, \kStateUP) \in \bisimulation$.
+        By construction $\kSuccessorsC[\prime(\agentsC, \atomP)]{\kStateTP} = \kSuccessorsPC{\kStateTP}$ so $\kStateUP \in \kSuccessorsPC{\kStateTP}$.
 
         \paragraph{back-$\agentB$}
         Follows from symmetrical reasoning to {\bf forth-$\agentB$}.

@@ -883,15 +883,15 @@ We show that $\refinement$ satisfies {\bf atoms-$\atomP$} and {\bf back} for eve
                 By construction $0^+ \in \kValuation(\atomP)$ and $n^+ \in \kValuation(\atomP)$.
             \item[back]
                 Let $n^+ \in \kSuccessors{}{n^+}$.
-                By construction $0^+ \in \kSuccessors{}{n^+}$ and $(0^+, n^+) \in \refinement$.
+                By construction $0^+ \in \kSuccessors{}{0^+}$ and $(0^+, n^+) \in \refinement$.
         \end{description}
     \item[Case: $(0^-, n^-) \in \refinement$ where $n \in \naturals$:]\hfill
         \begin{description}
             \item[atoms-$\atomP$]
                 By construction $0^- \notin \kValuation(\atomP)$ and $n^- \notin \kValuation(\atomP)$.
             \item[back]
-                Let $n^- \in \kSuccessors{}{n^0}$.
-                By construction $0^- \in \kSuccessors{}{n^-}$ and $(0^-, n^-) \in \refinement$.
+                Let $n^- \in \kSuccessors{}{n^-}$.
+                By construction $0^- \in \kSuccessors{}{0^-}$ and $(0^-, n^-) \in \refinement$.
         \end{description}
     \item[Case: $(\omega, n) \in \refinement$ where $n \in \naturals$:]\hfill
         \begin{description}
@@ -907,7 +907,7 @@ We show that $\refinement$ satisfies {\bf atoms-$\atomP$} and {\bf back} for eve
                 By construction $\omega' \in \kValuation(\atomP)$ and $n \in \kValuation(\atomP)$.
             \item[back]
                 Let $k^* \in \kSuccessors{}{n}$.
-                By construction $k^* \in \kSuccessors{}{\omega}$ and $(k^*, k^*) \in \refinement$.
+                By construction $k^* \in \kSuccessors{}{\omega'}$ and $(k^*, k^*) \in \refinement$.
         \end{description}
     \item[Case: $(0, \omega) \in \refinement$:]\hfill
         \begin{description}
@@ -932,7 +932,7 @@ We show that $\refinement$ satisfies {\bf atoms-$\atomP$} and {\bf back} for eve
                 Let $k^* \in \kSuccessors{}{\omega'}$.
 
                 Suppose that $k^* = \omega'$.
-                By construction $0 \in \kSuccessors{}{\omega'}$ and $(0, \omega') \in \refinement$.
+                By construction $0 \in \kSuccessors{}{0}$ and $(0, \omega') \in \refinement$.
 
                 Suppose that $k^* = k$ where $k \in \naturals$.
                 By construction $0 \in \kSuccessors{}{0}$ and $(0, k) \in \refinement$.
@@ -994,16 +994,16 @@ We proceed by induction on $n \in \naturals$.
     Let $k^* \in \kSuccessors{}{i}$.
 
     Suppose that $k^* = k$ where $k \in \naturals$ and $k \geq n - 1$.
-    Then from the induction hypothesis $\kPModel{k} \bisimilar [n-1] \kPModel{j - 1}$.
+    Then from the induction hypothesis $\kPModel{k} \bisimref[n-1] \kPModel{j - 1}$.
 
     Suppose that $k^* = k$ where $k \in \naturals$ and $k < n - 1$.
-    Then $k < n - 1 < j$ so $k \in \kSuccessors{}{j}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+    Then $k < n - 1 < j$ so $k \in \kSuccessors{}{j}$ and we trivially have that $\kPModel{k} \bisimref[n - 1] \kPModel{k}$.
 
     Suppose that $k^* = 0^+$.
-    Then $0^+ \in \kSuccessors{}{j}$ and we trivially have that $\kPModel{0^+} \bisimilar \kPModel{0^+}$.
+    Then $0^+ \in \kSuccessors{}{j}$ and we trivially have that $\kPModel{0^+} \bisimref[n - 1] \kPModel{0^+}$.
 
     Suppose that $k^* = k^+$ where $k \in \naturals$ and $k > 0$.
-    Then $j^+ \in \kSuccessors{}{j}$ and as $j \geq n > 0$ we trivially have that $\kPModel{k^+} \bisimilar \kPModel{k^+}$.
+    Then $j^+ \in \kSuccessors{}{j}$ and as $j \geq n > 0$ we trivially have that $\kPModel{k^+} \bisimref[n - 1] \kPModel{k^+}$.
 
     Suppose that $k^* = k^-$ for $k \in \naturals$. This follows from similar reasoning to the case where $k^* = k^+$.
 
@@ -1025,16 +1025,16 @@ We proceed by induction on $n \in \naturals$.
     \paragraph{forth}
 
     Let $k \in \kSuccessors{}{n}$. 
-    Then $k \in \kSuccessors{}{\omega'}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+    Then $k \in \kSuccessors{}{\omega'}$ and we trivially have that $\kPModel{k} \bisimref[n - 1] \kPModel{k}$.
 
     \paragraph{back}
 
     Let $k \in \kSuccessors{}{\omega'}$. 
 
     Suppose that $k = \omega'$. 
-    Then $n - 1 \in \kSuccessors{}{n}$ and by the induction hypothesis $\kPModel{n - 1} \bisimilar{n - 1} \kPModel{\omega'}$.
+    Then $n - 1 \in \kSuccessors{}{n}$ and by the induction hypothesis $\kPModel{n - 1} \bisimref[n - 1] \kPModel{\omega'}$.
 
-    Suppose that $k \neq \omega'$ and $k < n$. Then $k \in \kSuccessors{}{n}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+    Suppose that $k \neq \omega'$ and $k < n$. Then $k \in \kSuccessors{}{n}$ and we trivially have that $\kPModel{k} \bisimref[n - 1] \kPModel{k}$.
 
     Suppose that $k \geq n$. Then $n - 1 \in \kSuccessors{}{n}$ and from above we have that $\kPModel{k} \bisimref[n - 1] \kPModel{n - 1}$.
     
@@ -1052,7 +1052,7 @@ We proceed by induction on $n \in \naturals$.
     \paragraph{forth}
 
     Let $k \in \kSuccessors{}{\omega}$.
-    Then $k \in \kSuccessors{}{\omega'}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+    Then $k \in \kSuccessors{}{\omega'}$ and we trivially have that $\kPModel{k} \bisimref[n - 1] \kPModel{k}$.
 
     \paragraph{back}
 
@@ -1062,7 +1062,7 @@ We proceed by induction on $n \in \naturals$.
     Then $n - 1 \in \kSuccessors{}{\omega}$ and from above we have that $\kPModel{n - 1} \bisimref[n - 1] \kPModel{\omega'}$.
 
     Suppose that $k \neq \omega'$.
-    Then $k \in \kSuccessors{}{\omega}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+    Then $k \in \kSuccessors{}{\omega}$ and we trivially have that $\kPModel{k} \bisimref[n - 1] \kPModel{k}$.
 \end{enumerate}
 
 Therefore $\kPModel{\omega} \bisimref[n] \kPModel{\omega'}$ for every $n \in \naturals$.

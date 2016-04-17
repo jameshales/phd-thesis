@@ -151,7 +151,7 @@ $$
     \proves (\atomP \land \possibleB \lnot \atomP) \iff (\atomP \land \possibleA \atomP \land \possibleB \lnot \atomP) & {\bf T}\\
     \proves (\atomP \land \possibleB \lnot \atomP) \iff (\atomP \land \possibleA \atomP \land \coversB \{\lnot \atomP, \atomP\}) & \text{Defn. of $\coversB$}\\
     \proves (\atomP \land \possibleB \lnot \atomP) \iff (\lnot \lnot \atomP \land \possibleA \lnot \lnot \atomP \land \coversB \{\lnot \lnot \lnot \atomP, \lnot \lnot \atomP\}) & {\bf P}\\
-    \proves (\atomP \land \possibleB \lnot \atomP) \iff (\lnot \allrefsA \lnot \atomP \possibleA \lnot \allrefsA \lnot \atomP \land \coversB \{\lnot \allrefsA \lnot \lnot \atomP, \lnot \allrefsA \lnot \atomP\}) & {\bf RP}\\
+    \proves (\atomP \land \possibleB \lnot \atomP) \iff (\lnot \allrefsA \lnot \atomP \land \possibleA \lnot \allrefsA \lnot \atomP \land \coversB \{\lnot \allrefsA \lnot \lnot \atomP, \lnot \allrefsA \lnot \atomP\}) & {\bf RP}\\
     \proves (\atomP \land \possibleB \lnot \atomP) \iff (\somerefsA \atomP \land \possibleA \somerefsA \atomP \land \coversB \{\somerefsA \lnot \atomP, \somerefsA \atomP\}) & \text{Defn. of $\somerefsA$}\\
     \proves (\atomP \land \possibleB \lnot \atomP) \iff (\atomP \land \somerefsA (\atomP \land \coversA \{\atomP\}) \land \coversB \{\somerefsA \lnot \atomP, \somerefsA \atomP\}) & {\bf RS5}\\
     \proves (\atomP \land \possibleB \lnot \atomP) \iff (\somerefsA (\atomP \land \coversA \{\atomP\}) \land \somerefsA (\atomP \land \coversB \{\lnot \atomP, \atomP\})) & {\bf RComm}\\

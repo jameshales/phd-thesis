@@ -86,7 +86,7 @@ We proceed by induction on $n \in \naturals$:
 
             Suppose that $k \geq n - 1$. By the induction hypothesis $\kPModel{k} \bisimilar [n-1] \kPModel{j - 1}$.
 
-            Suppose that $k < n - 1$. Then $k < n - 1 < j$ and $k \in \kSuccessors{}{j}$, so we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+            Suppose that $k < n - 1$. Then $k < n - 1 < j$ and $k \in \kSuccessors{}{j}$, so we trivially have that $\kPModel{k} \bisimilar[n - 1] \kPModel{k}$.
 
             \item[back] Symmetrical reasoning to {\bf forth}.
         \end{description}
@@ -100,13 +100,13 @@ We proceed by induction on $n \in \naturals$:
         \begin{description}
             \item[atoms] Trivial.
 
-            \item[forth] Let $k \in \kSuccessors{}{n}$. Then $k \in \kSuccessors{}{\omega'}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+            \item[forth] Let $k \in \kSuccessors{}{n}$. Then $k \in \kSuccessors{}{\omega'}$ and we trivially have that $\kPModel{k} \bisimilar[n - 1] \kPModel{k}$.
 
             \item[back] Let $k \in \kSuccessors{}{\omega'}$. 
 
                 Suppose that $k = \omega'$. Then $n - 1 \in \kSuccessors{}{n}$ and by the induction hypothesis $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{\omega'}$. 
 
-                Suppose that $k \neq \omega'$ and $k < n$. Then $k \in \kSuccessors{}{n}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+                Suppose that $k \neq \omega'$ and $k < n$. Then $k \in \kSuccessors{}{n}$ and we trivially have that $\kPModel{k} \bisimilar[n - 1] \kPModel{k}$.
 
                 Suppose that $k \neq \omega'$ and $k \geq n$. Then $n - 1 \in \kSuccessors{}{n}$ and from above $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{k}$.
         \end{description}
@@ -120,13 +120,13 @@ We proceed by induction on $n \in \naturals$:
         \begin{description}
             \item[atoms] Trivial.
 
-            \item[forth] Let $k \in \kSuccessors{}{\omega}$. Then $k \in \kSuccessors{}{\omega'}$ and from above we have that $\kPModel{k} \bisimilar \kPModel{k}$.
+            \item[forth] Let $k \in \kSuccessors{}{\omega}$. Then $k \in \kSuccessors{}{\omega'}$ and from above we have that $\kPModel{k} \bisimilar[n - 1] \kPModel{k}$.
 
             \item[back] Let $k \in \kSuccessors{}{\omega'}$.
 
                 Suppose that $k = \omega'$. Then $n - 1 \in \kSuccessors{}{\omega}$ and from above $\kPModel{n - 1} \bisimilar[n - 1] \kPModel{\omega'}$.
 
-                Suppose that $k \neq \omega'$. Then $k \in \kSuccessors{}{\omega}$ and we trivially have that $\kPModel{k} \bisimilar \kPModel{k}$.
+                Suppose that $k \neq \omega'$. Then $k \in \kSuccessors{}{\omega}$ and we trivially have that $\kPModel{k} \bisimilar[n - 1] \kPModel{k}$.
         \end{description}
 \end{enumerate}
 
@@ -207,8 +207,8 @@ As the bisimulation quantifiers of \logicBqml{} quantify over $\atomP$-bisimilar
 This characterisation was demonstrated by Bozzelli, et al.~\cite{bozzelli:2014b} using a translation from \langRml{} formulas to \langBqml{} formulas.
 This translation replaces each refinement quantifier $\allrefs \phi$ with a bisimulation quantifier $\allbisimsP \phi^\atomP$ where $\atomP$ is a fresh propositional atom, and $\phi^\atomP$ is the formula $\phi$ ``relativised'' with respect to the propositional atom $\atomP$.
 The relativisation of a formula with respect to $\atomP$ has the effect of restricting modalities to only consider states in which $\atomP$ is valid, essentially by replacing each modality $\necessary \phi$ with a restricted modality $\necessary (\atomP \implies \phi)$.
-Interpreting the relativised formula $\phi^\atomP$ on a Kripke model is equivalent to interpreting the original formula $\phi$ on the Kripke model with its accessibility relation restricted to $\atomP$.
-Thus the formula $\allbisimsP \phi^\atomP$ quantifies over all $\atomP$-bisimilar Kripke models and interprets the formula $\phi$ on each Kripke model with its accessibility relation restricted to $\atomP$.
+Interpreting the relativised formula $\phi^\atomP$ on a Kripke model is equivalent to interpreting the original formula $\phi$ on the Kripke model with its accessibility relation restricted so that states are only related to other states that have the atom $\atomP$ in their valuation.
+Thus the formula $\allbisimsP \phi^\atomP$ quantifies over all $\atomP$-bisimilar Kripke models and interprets the formula $\phi$ on each Kripke model with its accessibility relation so-restricted by the atom $\atomP$.
 As refinements were partially characterised as $\atomP$-bisimulations followed by a restriction of the accessibility relation to $\atomP$, Bozzelli, et al.~\cite{bozzelli:2014b} showed that $\allbisimsP \phi^\atomP$ is equivalent to $\allrefs \phi$ in the setting of \classK{}.
 
 In this section we mostly restate the results and reasoning by Bozzelli, et al.~\cite{bozzelli:2014b}, with minor modifications to show that the results hold in the setting of \classKF{}.

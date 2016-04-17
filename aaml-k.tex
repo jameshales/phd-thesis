@@ -561,16 +561,22 @@ We leave the consideration of synthesis procedures with improved complexity to f
 Finally we give an example of an application of the action models synthesised by the above procedure.
 
 \begin{example}
-Suppose that we want an action model that will result in $\necessaryA \atomP \land \lnot \necessaryB \atomP$ whenever possible.
-We note that $\necessaryA \atomP \land \lnot \necessaryB \atomP$ is equivalent to the disjunctive normal formula $\coversA \emptyset \land \coversB \{\lnot \atomP, \top\} \lor \coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}$.
-Then inductively following the constructions given in Lemma~\ref{aaml-k-choice} and Lemma~\ref{aaml-k-covers} we get the multi-pointed action model $\aPModel{\aStatesT}$ shown in Figure~\ref{aaml-k-example}.
-That $\entails \actionA{\aPModel{\aStateT}} (\necessaryA \atomP \land \lnot \necessaryB \atomP)$ and $\entails \somerefs (\necessaryA \atomP \land \lnot \necessaryB \atomP) \implies \actionE{\aPModel{\aStatesT}} (\necessaryA \atomP \land \lnot \necessaryB \atomP)$ can easily be demonstrated by applying the \axiomAmlK{} axioms.
+Let $\phi = \necessaryA \atomP \land \lnot \necessaryB \atomP$.
+Suppose that we want an action model $\aPModel{\aStatesT}$
+such that $\entails \actionA{\aPModel{\aStatesT}} \phi$
+and $\entails \actionE{\aPModel{\aStatesT}} \phi \iff \someacts \phi$.
+The action model $\aPModel{\aStatesT}$ is in a sense a general-purpose action model for achieving $\phi$.
+For any Kripke model either it is possible to achieve $\phi$ as the result of executing an action model, in which case we can execute $\aPModel{\aStatesT}$ and result in $\phi$ being satisfied, or it is not possible to achieve $\phi$ as the result of executing any action model, in which case we can't execute $\aPModel{\aStatesT}$.
+
+We note that $\phi$ is equivalent to the disjunctive normal formula $\coversA \emptyset \land \coversB \{\lnot \atomP, \top\} \lor \coversA \{\atomP\} \land \coversB \{\lnot \atomP, \top\}$.
+Then recursively following the constructions given in Lemma~\ref{aaml-k-choice} and Lemma~\ref{aaml-k-covers} we get the multi-pointed action model $\aPModel{\aStatesT}$ shown in Figure~\ref{aaml-k-example}.
+That $\entails \actionA{\aPModel{\aStateT}} \phi$ and $\entails \somerefs \phi \implies \actionE{\aPModel{\aStatesT}} \phi$ can easily be demonstrated by applying the \axiomAmlK{} axioms.
 We note that there is an amount of redundancy in the action model, such as multiple identical states with the precondition $\top$, and some states that are subsumed by other states, such as the $\someacts \lnot \atomP$ states, which are subsumed by the $\someacts \top$ states, which are in turn subsumed by the $\top$ states.
 We leave as an exercise to the reader the identification of the smaller action model that results from removing these redundancies.
 Automated techniques could in principle identify these redundancies and produce smaller action models.
 
-\begin{figure}[b!]
-    \caption{An action model $\aPModel{\aStatesT}$ that results in $\necessaryA \atomP \land \lnot \necessaryB \atomP$ whenever possible, produced by our synthesis procedure.}\label{aaml-k-example}
+\begin{figure}
+    \caption{An general-purpose action model $\aPModel{\aStatesT}$ for achieving $\necessaryA \atomP \land \lnot \necessaryB \atomP$, produced by our synthesis procedure.}\label{aaml-k-example}
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=6em,thick]
         \node (left) {\underline{$\someacts (\coversA \emptyset \land \coversB \{\lnot \atomP, \top\})$}};

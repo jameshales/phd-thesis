@@ -185,12 +185,12 @@ Since we have no simple replacement for bisimilarity or $\agentsB$-bisimilarity 
 We begin by showing some properties of explicit formulas that we use in the soundness proofs.
 
 \begin{lemma}
-    Let $\phi = \gamma_0 \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$ be an explicit formula such that for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$, $\gamma$ is consistent with respect to the semantics of \logicRmlS{}, and let $\Delta$ be as defined in Definition~\ref{explicit-formulas}.
+    Let $\phi = \gamma_0 \land \bigwedge_{\agentC \in \agentsC} \coversC \Gamma_\agentC$ be an explicit formula such that for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$: $\nproves \gamma$; and let $\Delta$ be as defined in Definition~\ref{explicit-formulas}.
 
     Then for every $\agentC \in \agentsC$, $\gamma \in \Gamma_\agentC$:
     \begin{enumerate}
         \item For every $\delta \in \Delta$: $\proves \gamma \implies \delta$ or $\proves \gamma \implies \lnot \delta$
-        \item For every $\necessaryC \delta \in \Delta$: $\proves \gamma \necessaryC \delta$ if and only if for every $\gamma' \in \Gamma_\agentC$ we have $\proves \gamma' \implies \delta$
+        \item For every $\necessaryC \delta \in \Delta$: $\proves \gamma \necessaryC \implies \delta$ if and only if for every $\gamma' \in \Gamma_\agentC$ we have $\proves \gamma' \implies \delta$
     \end{enumerate}
 \end{lemma}
 
@@ -209,14 +209,14 @@ We begin by showing some properties of explicit formulas that we use in the soun
     Let $\necessaryC \delta \in \Delta$.
 
     Suppose that $\proves \gamma_\lambda \implies \necessaryC \delta$.
-    As $\gamma_\lambda$ is consistent then $\nproves \gamma_\lambda \implies \lnot \necessaryC \delta$.
-    From above $\necessaryC \delta \notin \lambda$ implies that $\proves \gamma_\lambda \implies \lnot \delta$, so by contrapositive we have that $\necessaryC \delta \in \lambda$.
+    As $\nproves \gamma_\lambda$ then $\nproves \gamma_\lambda \implies \lnot \necessaryC \delta$.
+    From above $\necessaryC \delta \notin \lambda$ implies that $\proves \gamma_\lambda \implies \lnot \knowsC \delta$, so by contrapositive we have that $\necessaryC \delta \in \lambda$.
     By the definition of explicit formulas $\necessaryC \delta \in \lambda$ if and only if for every $\lambda' \in \Lambda_\agentC$ we have $\delta \in \lambda'$.
     From above $\delta \in \lambda'$ implies that $\proves \gamma_{\lambda'} \implies \delta$.
 
     Suppose that for every $\gamma' \in \Gamma_\agentC$ we have $\proves \gamma' \implies \delta$.
     As $\gamma_{\lambda'}$ is consistent then $\nproves \gamma_{\lambda'} \implies \lnot \delta$.
-    From above $\delta \notin \lambda$ implies that $\proves \gamma_{\lambda'} \implies \lnot \delta$, so by contrapositive we have that $\delta \in \lambda'$ for every $\lambda' \in \Lambda_\agentC$.
+    From above $\delta \notin \lambda'$ implies that $\proves \gamma_{\lambda'} \implies \lnot \delta$, so by contrapositive we have that $\delta \in \lambda'$ for every $\lambda' \in \Lambda_\agentC$.
     By the definition of explicit formulas $\necessaryC \delta \in \lambda$ if and only if for every $\lambda' \in \Lambda_\agentC$ we have $\delta \in \lambda'$.
     From above $\necessaryC \delta \in \lambda$ implies that $\proves \gamma_\lambda \implies \necessaryC \delta$.
 \end{proof}
@@ -247,7 +247,7 @@ We use these refinements to construct a single larger refinement to satisfy the 
 Let $\kPModelAndTupleP{\kStateSP_{\gamma_0}}$ be a pointed Kripke model where:
 \begin{eqnarray*}
     \kStatesP &=& \bigcup_{\gamma \in \Gamma_\agentA} (\{\kStateSP_\gamma\} \cup \kStates[\gamma])\\
-    \kAccessibilityPA &=& \{(\kStateSP_\gamma, \kStateSP_{\gamma'}) \mid \gamma, \gamma' \in \Gamma_\agentA\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \kStates[\gamma]\\
+    \kAccessibilityPA &=& \{(\kStateSP_\gamma, \kStateSP_{\gamma'}) \mid \gamma, \gamma' \in \Gamma_\agentA\} \cup \bigcup_{\gamma \in \Gamma_\agentA} \kAccessibilityA[\gamma]\\
     \kAccessibilityPB &=& \bigcup_{\gamma \in \Gamma_\agentA} (\{(\kStateSP_\gamma, \kStateSP_\gamma), (\kStateSP_\gamma, \kStateT[\gamma]), (\kStateT[\gamma], \kStateSP_\gamma) \mid \kStateT[\gamma] \in \kSuccessorsB[\gamma]{\kStateS[\gamma]}\} \cup \kAccessibilityB[\gamma])\\
     \kValuationP(\atomP) &=& \bigcup_{\gamma \in \Gamma_\agentA} (\{\kStateSP_\gamma \mid \kStateS[\gamma] \in \kValuation[\gamma](\atomP)\} \cup \kValuation[\gamma](\atomP))
 \end{eqnarray*}
@@ -315,7 +315,7 @@ It is less clear that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$, or
 We note that there are $\agentA$-successors of $\kPModel{\kStateS}$ that do not satisfy any $\somerefsBs \gamma_i$ and do not correspond to any $\agentsB$-refinement $\kPModel[\gamma_i]{\kStateT[\gamma_i]}$.
 This is permissible as $\agentA \in \agentsB$, so {\bf forth-$\agentA$} is not required in order for $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ to hold.
 
-To show that $\kPModelP{\kStateSP_{\gamma_0}} \entails \coversA (\gamma_0 \land \Gamma_\agentA)$ we will show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP_{\gamma_0}}$ and $\kPModelP{\kStateSP_{\gamma_0}} \entails \coversA (\gamma_0 \land \Gamma_\agentA)$.
+To show that $\kPModelP{\kStateSP_{\gamma_0}} \entails \gamma_0 \land \coversA \Gamma_\agentA$ we will show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP_{\gamma_0}}$ and $\kPModelP{\kStateSP_{\gamma_0}} \entails \gamma_0 \land \coversA \Gamma_\agentA$.
 
 We first show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP_{\gamma_0}}$.
 
@@ -380,7 +380,7 @@ We show by cases that the relationships in $\refinement$ satisfy the conditions 
 
 Therefore $\refinement$ is a $\agentsB$-refinement from $\kPModel{\kStateS}$ to $\kPModelP{\kStateSP_{\gamma_0}}$.
 
-We next show that $\kPModelP{\kStateSP_{\gamma_0}} \entails \coversA (\gamma_0 \land \Gamma_\agentA)$.
+We next show that $\kPModelP{\kStateSP_{\gamma_0}} \entails \gamma_0 \land \coversA \Gamma_\agentA$.
 
 We will show for every $\gamma \in \Gamma_\agentA$ that $\kPModelP{\kStateSP_\gamma} \entails \gamma$.
 Unlike in the constructions used for {\bf RK} and {\bf RKD45}, the construction used here does not preserve the bisimilarity of states from each of the refinements $\kModel[\gamma]$, so we need a different approach to show that $\kPModelP{\kStateSP_\gamma} \entails \gamma$.
@@ -510,7 +510,7 @@ We show that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \coversA \{
 The only additional consideration required for \logicRmlS{} is that the refinement must be a \classS{} Kripke model, but this is given by the semantics of $\somerefsBs$ in \logicRmlS{}.
 
 ($\Leftarrow$)
-Let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \bigwedge_{\gamma \in \Gamma_\agentA} \possibleA \somerefsBs \gamma$.
+Let $\kPModelAndTuple{\kStateS} \in \classS$ be a pointed Kripke model such that $\kPModel{\kStateS} \entails \somerefsBs \gamma_0 \land \coversA \{\somerefsBs \gamma \mid \gamma \in \Gamma_\agentA\}$.
 For every $\gamma \in \Gamma_\agentA$ there exists $\kStateT_\gamma \in \kSuccessorsA{\kStateS}$ and $\kPModelAndTuple[\gamma]{\kStateS[\gamma]} \in \classS$ such that $\kPModel{\kStateT_\gamma} \simulatesBs \kPModel[\gamma]{\kStateS[\gamma]}$ and $\kPModel[\gamma]{\kStateS[\gamma]} \entails \gamma$.
 For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\gamma \in \Gamma_\agentA$ and $\kPModelAndTuple[\kStateT]{\kStateS[\kStateT]} \in \classS$ such that $\kPModel{\kStateT} \simulatesBs \kPModel[\kStateT]{\kStateS[\kStateT]}$ and $\kPModel[\kStateT]{\kStateS[\kStateT]} \entails \gamma$.
 For notational consistency, for every $\kStateU \in \kSuccessorsA{\kStateS}$ we define $\kStateT_{\kStateU} = \kStateU$.
@@ -523,7 +523,7 @@ We use these refinements to construct a single larger refinement to satisfy the 
 Let $\kPModelAndTupleP{\kStateSP_{\gamma_0}}$ be a pointed Kripke model where:
 \begin{eqnarray*}
     \kStatesP &=& \bigcup_{x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateT}} (\{\kStateSP_x\} \cup \kStates[x])\\
-    \kAccessibilityPA &=& \{(\kStateSP_x, \kStateSP_y) \mid x, y \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}\} \cup \bigcup_{x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateT}} \kStates[x]\\
+    \kAccessibilityPA &=& \{(\kStateSP_x, \kStateSP_y) \mid x, y \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}\} \cup \bigcup_{x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateT}} \kAccessibilityA[x]\\
     \kAccessibilityPB &=& \bigcup_{x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}} (\{(\kStateSP_x, \kStateSP_x), (\kStateSP_x, \kStateT[x]), (\kStateT[x], \kStateSP_x) \mid \kStateT[x] \in \kSuccessorsB[x]{\kStateS[x]}\}\\
     \kValuationP(\atomP) &=& \bigcup_{x \in \Gamma_\agentA \cup \kSuccessorsA{\kStateS}} (\{\kStateSP_x \mid \kStateS[x] \in \kValuation[x](\atomP)\} \cup \kValuation[x](\atomP))
 \end{eqnarray*}
@@ -600,7 +600,7 @@ This is required as $\agentA \in \agentsB$ and so {\bf forth-$\agentA$} is requi
 From this schematic representation we can clearly see that $\kPModelP{\kStateSP} \entails \coversA \{\gamma_1, \dots, \gamma_n\}$.
 It is less clear that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$, but we will show this next.
 
-To show that $\kPModelP{\kStateSP_{\gamma_0}} \entails \coversA (\gamma_0 \land \Gamma_\agentA)$ we will show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP_{\gamma_0}}$ and $\kPModelP{\kStateSP_{\gamma_0}} \entails \coversA (\gamma_0 \land \Gamma_\agentA)$.
+To show that $\kPModelP{\kStateSP_{\gamma_0}} \entails \gamma_0 \land \coversA \Gamma_\agentA$ we will show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP_{\gamma_0}}$ and $\kPModelP{\kStateSP_{\gamma_0}} \entails \gamma_0 \land \coversA \Gamma_\agentA$.
 
 We first show that $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP_{\gamma_0}}$.
 
@@ -715,38 +715,38 @@ We note that by construction $\kModelP \in \classS$.
     \centering
     \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=7em,thick]
 
-        \node (sp) {\underline{$\kStateSP \entails \somerefsBs (\covers[\agentC_1] \Gamma_{\agentC_1} \land \cdots \land \covers[\agentC_n] \Gamma_{\agentC_n})$}};
+        \node (sp) {\underline{$\kStateSP \entails \somerefsBs (\covers[\agentA_1] \Gamma_{\agentA_1} \land \cdots \land \covers[\agentA_n] \Gamma_{\agentA_n})$}};
         \node (mtid) [above of=sp] {};
-        \node (mt1m) [left of=mtid,node distance=3.5em] {$\kStateT[\agentC_1]_m$};
+        \node (mt1m) [left of=mtid,node distance=3.5em] {$\kStateT[\agentA_1]_m$};
         \node (mt1d) [left of=mt1m,node distance=3.5em] {$\cdots$};
-        \node (mt11) [left of=mt1d,node distance=3.5em] {$\kStateT[\agentC_1]_1$};
-        \node (mtn1) [right of=mtid,node distance=3.5em] {$\kStateT[\agentC_n]_1$};
+        \node (mt11) [left of=mt1d,node distance=3.5em] {$\kStateT[\agentA_1]_1$};
+        \node (mtn1) [right of=mtid,node distance=3.5em] {$\kStateT[\agentA_n]_1$};
         \node (mtnd) [right of=mtn1,node distance=3.5em] {$\cdots$};
-        \node (mtnm) [right of=mtnd,node distance=3.5em] {$\kStateT[\agentC_n]_m$};
+        \node (mtnm) [right of=mtnd,node distance=3.5em] {$\kStateT[\agentA_n]_m$};
         \node (mtd) [above of=mtid] {$\cdots$};
-        \node (ms) [above of=mtd] {$\kStateS \entails \somerefsBs \covers[\agentC_1] \Gamma_{\agentC_1} \land \cdots \land \somerefsBs \covers[\agentC_n] \Gamma_{\agentC_n}$};
-        \node (mt1) [left of=mtd] {$\kPModel[\agentC_1]{\kStateS[\agentC_1]} \entails \covers[\agentC_1] \Gamma_{\agentC_1}$};
-        \node (mtn) [right of=mtd] {$\kPModel[\agentC_n]{\kStateS[\agentC_n]} \entails \covers[\agentC_n] \Gamma_{\agentC_n}$};
+        \node (ms) [above of=mtd] {$\kStateS \entails \somerefsBs \covers[\agentA_1] \Gamma_{\agentA_1} \land \cdots \land \somerefsBs \covers[\agentA_n] \Gamma_{\agentA_n}$};
+        \node (mt1) [left of=mtd] {$\kPModel[\agentA_1]{\kStateS[\agentA_1]} \entails \covers[\agentA_1] \Gamma_{\agentA_1}$};
+        \node (mtn) [right of=mtd] {$\kPModel[\agentA_n]{\kStateS[\agentA_n]} \entails \covers[\agentA_n] \Gamma_{\agentA_n}$};
 
       \path[every node/.style={font=\sffamily\small},<->]
-        (mt1) edge [swap] node {$\agentC_1$} (mt11)
-              edge node {$\agentC_1$} (mt1m)
+        (mt1) edge [swap] node {$\agentA_1$} (mt11)
+              edge node {$\agentA_1$} (mt1m)
               edge [loop left,distance=1em] node {$\agents$} (mt1)
-        (mt11) edge [bend left] node {$\agentC_1$} (mt1m)
-        (mtn) edge [swap] node {$\agentC_n$} (mtn1)
-              edge node {$\agentC_n$} (mtnm)
+        (mt11) edge [bend left] node {$\agentA_1$} (mt1m)
+        (mtn) edge [swap] node {$\agentA_n$} (mtn1)
+              edge node {$\agentA_n$} (mtnm)
               edge [loop right,distance=1em] node {$\agents$} (mtn)
-        (mtn1) edge [bend left] node {$\agentC_1$} (mtnm)
+        (mtn1) edge [bend left] node {$\agentA_1$} (mtnm)
         (mt11) edge [loop left,distance=1em] node {$\agents$} (mt11)
         (mt1m) edge [loop right,distance=1em] node {$\agents$} (mt1m)
         (mtn1) edge [loop left,distance=1em] node {$\agents$} (mtn1)
         (mtnm) edge [loop right,distance=1em] node {$\agents$} (mtnm)
         (ms) edge [->,dashed,bend left=90,min distance=10em] node {$\simulatesBs$} (sp)
         %(ms) edge [draw=none,dashed,bend right=90,min distance=10em] node {} (sp)
-        (sp) edge node {$\agentC_1$} (mt11)
-             edge node {$\agentC_1$} (mt1m)
-             edge [swap] node {$\agentC_n$} (mtn1)
-             edge [swap] node {$\agentC_n$} (mtnm)
+        (sp) edge node {$\agentA_1$} (mt11)
+             edge node {$\agentA_1$} (mt1m)
+             edge [swap] node {$\agentA_n$} (mtn1)
+             edge [swap] node {$\agentA_n$} (mtnm)
              edge [loop below,distance=1em] node {$\agents$} (sp)
         (ms) edge [->,swap,dashed] node {$\simulatesBs$} (mt1)
              edge [->,dashed]node {$\simulatesBs$} (mtn)
@@ -986,7 +986,7 @@ $$
 $$
 If we enumerate $\Gamma_\agentC$ as $\Gamma_\agentC = \{\gamma^\agentC_1, \dots, \gamma^\agentC_{n^\agentC}\}$ then we get:
 $$
-\proves \coversC \Gamma'_\agentC \iff \bigvee_{\emptyset \subset \Lambda^\agentC_1 \subseteq \powerset^{+\gamma^\agentC_1}(\Delta)} \cdots \bigvee_{\emptyset \subset \Lambda^\agentC_{n^\agentC} \subseteq \powerset^{+\gamma^\agentC_{n^\agentC}}(\Delta)} \coversC \bigcup_{i = 1}^{n^\agentC} \{\tau(\lambda) \mid \lambda \in \Lambda^\agentC_i\}
+\proves \coversC \Gamma_\agentC \iff \bigvee_{\emptyset \subset \Lambda^\agentC_1 \subseteq \powerset^{+\gamma^\agentC_1}(\Delta)} \cdots \bigvee_{\emptyset \subset \Lambda^\agentC_{n^\agentC} \subseteq \powerset^{+\gamma^\agentC_{n^\agentC}}(\Delta)} \coversC \bigcup_{i = 1}^{n^\agentC} \{\tau(\lambda) \mid \lambda \in \Lambda^\agentC_i\}
 $$
 If we enumerate $\agentsC$ as $\agentsC = \{\agentC_1, \dots, \agentC_m\}$ then we get:
 $$
@@ -1001,7 +1001,7 @@ $$
 $$
 So $\psi$ is equivalent to a disjunction of formulas of the form $\chi = \pi \land \bigwedge_{\agentC \in \agentsC} \coversC \bigcup_{i = 1}^{n^\agentC} \{\tau(\lambda) \mid \lambda \in \Lambda^\agentC_i\}$, where for every $\agentC \in \agentsC$, $i = 1, \dots, n^\agentC$: $\emptyset \subset \Lambda^\agentC_i \subseteq \powerset^{+\gamma^\agentC_i}(\Delta)$.
 
-For every $\agentC \in \agentsC$ let $\Lambda_\agentC = \bigcup_{i = 1}^{n^c} \lambda^\agentC_i$.
+For every $\agentC \in \agentsC$ let $\Lambda_\agentC = \bigcup_{i = 1}^{n^c} \Lambda^\agentC_i$.
 Then:
 $$
 \proves \chi \iff \pi \land \bigwedge_{\agentC \in \agentsC} \coversC \{\tau(\lambda) \mid \lambda \in \Lambda_\agentC\}

@@ -43,7 +43,7 @@ Let \classC{} be a class of Kripke models and let \aSignatureFamily{} be a non-e
 The interpretation of the formula $\phi$ in the logic \logicAamlC{} on the pointed Kripke model $\kPModel{\kStateS}$ is the same as its interpretation in action model logic, defined in Definition~\ref{aml-semantics}, with the additional inductive case:
 $$
 \begin{array}{lcl}
-    \kPModel{\kStateS} \entails \allactsBs \phi & \text{ iff } & \text{for every } \aPModel{\aStateS} \in \aSignatureFamily \text{ if } \kPModel{\kStateS} \entails \aPrecondition(\aStateS) \text{ and } \kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}\\&&\quad \text{ then } \kPModel{\kStateS} \exec \aPModel{\aStateS} \entails \phi
+  \kPModel{\kStateS} \entails \allactsBs \phi & \text{ iff } & \text{for every } \aPModel{\aStateS} \in \aSignatureFamily \text{ such that } \aPrecondition \subseteq \langMl\\&&\quad \text{ if } \kPModel{\kStateS} \entails \aPrecondition(\aStateS) \text{ and } \kPModel{\kStateS} \simulatesBs \kPModel{\kStateS} \exec \aPModel{\aStateS}\\&&\quad \text{ then } \kPModel{\kStateS} \exec \aPModel{\aStateS} \entails \phi
 \end{array}
 $$
 \end{definition}
@@ -59,8 +59,10 @@ We are interested in the following variants of arbitrary action model logic:
 
 We note that by Proposition~\ref{action-models-refinements} the result of executing any action model is a $\agents$-refinement, so the action model quantifiers $\allactsAs$ and $\someactsAs$, abbreviated as $\allacts$ and $\someacts$ respectively, correspond to unrestricted action model quantification.
 Given this we can observe that the semantics of the action model quantifier $\allacts$ is similar to the semantics of the public announcement quantifier of \logicApal{}~\cite{balbiani:2007}.
-One notable difference is that whilst \logicApal{} permits public announcements of formulas containing public announcement quantifiers, the public announcement quantifiers do not quantify over public announcements that themselves contain quantifiers, whereas the action model quantifier of \logicAaml{} makes no such restriction.
-We will show in the following sections that such a restriction is unnecessary in the settings that we consider; the logics \logicAamlK{}, \logicAamlKFF{}, and \logicAamlS{} are expressively equivalent to their underlying modal logics, \logicK{}, \logicKFF{}, and \logicS{} respectively, so any action model containing quantifiers is equivalent to an action model without quantifiers.
+Whilst \logicApal{} permits public announcements of formulas containing public announcement quantifiers, the public announcement quantifiers do not quantify over public announcements that themselves contain quantifiers.
+This is required to ensure the well-foundedness of the semantics of the logic.
+We make a similar restriction here with the semantics of \logicAaml{}.
+However we will show in the following sections that such a restriction is unnecessary in the settings that we consider; the logics \logicAamlK{}, \logicAamlKFF{}, and \logicAamlS{} are expressively equivalent to their underlying modal logics, \logicK{}, \logicKFF{}, and \logicS{} respectively, so any action model containing quantifiers is equivalent to an action model without quantifiers.
 Despite the action model quantifiers quantifying over more epistemic updates that public announcement quantifiers, the public announcement quantifiers are in fact more powerful than action model quantifiers, at least in the setting of \classS{}, as \logicApalS{} is strictly more expressive than \logicS{} and is undecidable, whereas \logicAamlS{} is expressively equivalent to \logicS{} and is decidable.
 
 We give some examples of \logicAaml{}.

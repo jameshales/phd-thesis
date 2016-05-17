@@ -690,15 +690,9 @@ $$
 $$
 This may leave us with more than one cover operator for some agents, but we can combine these cover operators using the following equivalence:
 $$
-\entails (\coversA \Gamma \land \coversA \Gamma') \iff \coversA \{\gamma \land \gamma' \mid \gamma \in \Gamma, \gamma' \in \Gamma'\}
+\entails (\coversA \Gamma \land \coversA \Gamma') \iff \coversA ( \{\gamma \land \bigvee_{\gamma' \in \Gamma'} \gamma' \mid \gamma \in \Gamma \} \cup \{\gamma' \land \bigvee_{\gamma \in \Gamma} \gamma \mid \gamma' \in \Gamma' \})
 $$
-This equivalence should be obvious when the cover operator is expanded:
-\begin{eqnarray*}
-&&\entails \left( \necessaryA \bigvee_{\gamma \in \Gamma} \gamma \land \bigwedge_{\gamma \in \Gamma} \possibleA \gamma \land \necessaryA \bigvee_{\gamma' \in \Gamma'} \gamma' \land \bigwedge_{\gamma' \in \Gamma'} \possibleA \gamma' \right)
-\\&&\quad\iff
-\left( \necessaryA \bigvee_{\gamma \in \Gamma, \gamma' \in \Gamma'} (\gamma \land \gamma') \land \bigwedge_{\gamma \in \Gamma, \gamma' \in \Gamma'} \possibleA (\gamma \land \gamma') \right)
-\end{eqnarray*}
-Here we note that $\gamma \land \gamma'$ may not be in disjunctive normal form, and so we will use to the induction hypothesis to find a substitute.
+Here we note that $\gamma \land \bigvee_{\gamma' \in \Gamma'} \gamma'$ and $\gamma' \land \bigvee_{\gamma \in \Gamma} \gamma$ may not be in disjunctive normal form, and so we will use to the induction hypothesis to find a substitute.
 For every $\gamma \in \Gamma$, $\gamma' \in \Gamma'$ as $\gamma \land \gamma'$ has a modal depth less than $\phi$ then by the induction hypothesis there exists an $\epsilon_{\gamma,\gamma'} \in \langMl$ in disjunctive normal form such that $\entails \epsilon_{\gamma,\gamma'} \iff (\gamma \land \gamma')$.
 Substituting $\epsilon_{\gamma,\gamma'}$ for $\gamma \land \gamma'$ after applying all of the above equivalences leaves us with a formula in disjunctive normal form.
 \end{proof}
@@ -709,7 +703,61 @@ As \axiomK{} is a sound and complete axiomatisation for \logicK{} then this is a
 We also note that, much like the disjunctive normal form for propositional logic, converting a modal formula to the disjunctive normal form introduced here can result in an exponential increase in the size compared to the original formula.
 
 Given the disjunctive normal form, we will show that the reduction axioms of \axiomRmlK{} may be applied to formulas in disjunctive normal form in order to give a provably correct translation.
-We first show some useful theorems in \axiomRmlK{}.
+Before we give our provably correct translation we give two lemmas.
+First we note that every \axiomK{} theorem is an \axiomRmlK{} theorem.
+
+\begin{lemma}\label{rml-k-ml-provability}
+Let $\phi \in \langMl$ be a modal formula.
+If $\proves_\axiomK \phi$ then $\proves_\axiomRmlK \phi$.
+\end{lemma}
+
+\begin{proof}
+Suppose that $\proves_\axiomK \phi$.
+Then there exists a proof of $\proves_\axiomK \phi$ using the axioms and rules of \axiomK{}.
+As \axiomRmlK{} includes all of the axioms and rules of \axiomK{} then the proof of $\proves_\axiomK \phi$ using the axioms and rules of \axiomK{} is also a proof of $\proves_\axiomRmlK{} \phi$ using the axioms and rules of \axiomRmlK{}.
+Therefore $\proves_\axiomRmlK{} \phi$.
+\end{proof}
+
+Secondly we show that \axiomRmlK{} is closed under substitution of equivalents.
+
+\begin{lemma}\label{rml-k-substitution-equivalents}
+Let $\phi, \psi, \chi \in \langRml$ be formulas and let $\atomP \in \atoms$ be a propositional atom.
+If $\proves \psi \iff \chi$ then $\proves \phi[\psi\backslash\atomP] \iff \phi[\chi\backslash\atomP]$.
+\end{lemma}
+
+\begin{proof}
+We proceed by induction on the structure of $\phi$.
+
+\begin{description}
+    \item[Case $\phi = \atomP$:]\hfill\\
+        Then $\atomP[\psi\backslash\atomP] = \psi$ and $\atomP[\chi\backslash\atomP] = \chi$ and by hypothesis $\proves \psi \iff \chi$ so by {\bf P} we have $\proves \atomP[\psi\backslash\atomP] \iff \atomP[\chi\backslash\atomP]$.
+
+    \item[Case $\phi = \atomQ$ where $\atomQ \in \atoms$ and $\atomQ \neq \atomP$:]\hfill\\
+        Then $\atomQ[\psi\backslash\atomP] = \atomQ$ and $\atomQ[\chi\backslash\atomP] = \atomQ$ so by {\bf P} we have $\proves \atomQ[\psi\backslash\atomP] \iff \atomQ[\chi\backslash\atomP]$.
+
+    \item[Case $\phi = \lnot \alpha$:]\hfill\\
+        By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$.
+        Then by {\bf P} we have $\proves \lnot \alpha[\psi\backslash\atomP] \iff \lnot \alpha[\chi\backslash\atomP]$.
+
+    \item[Case $\phi = \alpha \land \beta$:]\hfill\\
+        By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$ and $\proves \beta[\psi\backslash\atomP] \iff \beta[\chi\backslash\atomP]$.
+        Then by {\bf P} we have $\proves (\alpha[\psi\backslash\atomP] \land \beta[\psi\backslash\atomP]) \iff (\alpha[\chi\backslash\atomP] \land \beta[\chi\backslash\atomP])$.
+
+    \item[Case $\phi = \necessaryA \alpha$:]\hfill\\
+        By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$.
+        By {\bf NecK} we have $\proves \necessaryA (\alpha[\psi\backslash\atomP] \implies \alpha[\chi\backslash\atomP])$ and by {\bf K} we have $\proves \necessaryA \alpha[\psi\backslash\atomP] \implies \necessaryA \alpha[\chi\backslash\atomP]$.
+        Likewise by {\bf NecK} we have $\proves \necessaryA (\alpha[\chi\backslash\atomP] \implies \alpha[\psi\backslash\atomP])$ and by {\bf K} we have $\proves \necessaryA \alpha[\chi\backslash\atomP] \implies \necessaryA \alpha[\psi\backslash\atomP]$.
+        Then by {\bf P} we have $\proves \necessaryA \alpha[\psi\backslash\atomP] \iff \necessaryA \alpha[\chi\backslash\atomP]$.
+
+    \item[Case $\phi = \allrefsBs \alpha$:]\hfill\\
+        By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$.
+        By {\bf NecR} we have $\proves \allrefsBs (\alpha[\psi\backslash\atomP] \implies \alpha[\chi\backslash\atomP])$ and by {\bf R} we have $\proves \allrefsBs \alpha[\psi\backslash\atomP] \implies \allrefsBs \alpha[\chi\backslash\atomP]$.
+        Likewise by {\bf NecR} we have $\proves \allrefsBs (\alpha[\chi\backslash\atomP] \implies \alpha[\psi\backslash\atomP])$ and by {\bf R} we have $\proves \allrefsBs \alpha[\chi\backslash\atomP] \implies \allrefsBs \alpha[\psi\backslash\atomP]$.
+        Then by {\bf P} we have $\proves \allrefsBs \alpha[\psi\backslash\atomP] \iff \allrefsBs \alpha[\chi\backslash\atomP]$.
+\end{description}
+\end{proof}
+
+We now show some useful theorems in \axiomRmlK{}.
 
 \begin{lemma}\label{rml-k-theorems}
 The following are theorems of \axiomRmlK{}:
@@ -884,60 +932,6 @@ where $\phi, \psi \in \langRml$, $\pi \in \langPl$, $\agentA \in \agents$, $\age
 
 We can now clearly recognise that the equivalences (\ref{rml-k-or}) and (\ref{rml-k-cover}) are reduction axioms that can be used to push refinement quantifiers past propositional connectives and modalities in formulas in disjunctive normal form.
 These equivalences form the basis of our provably correct translation from \langRml{} to \langMl{}.
-
-Before we give our provably correct translation we give two lemmas.
-First we note that every \axiomK{} theorem is an \axiomRmlK{} theorem.
-
-\begin{lemma}\label{rml-k-ml-provability}
-Let $\phi \in \langMl$ be a modal formula.
-If $\proves_\axiomK \phi$ then $\proves_\axiomRmlK \phi$.
-\end{lemma}
-
-\begin{proof}
-Suppose that $\proves_\axiomK \phi$.
-Then there exists a proof of $\proves_\axiomK \phi$ using the axioms and rules of \axiomK{}.
-As \axiomRmlK{} includes all of the axioms and rules of \axiomK{} then the proof of $\proves_\axiomK \phi$ using the axioms and rules of \axiomK{} is also a proof of $\proves_\axiomRmlK{} \phi$ using the axioms and rules of \axiomRmlK{}.
-Therefore $\proves_\axiomRmlK{} \phi$.
-\end{proof}
-
-Secondly we show that \axiomRmlK{} is closed under substitution of equivalents.
-
-\begin{lemma}\label{rml-k-substitution-equivalents}
-Let $\phi, \psi, \chi \in \langRml$ be formulas and let $\atomP \in \atoms$ be a propositional atom.
-If $\proves \psi \iff \chi$ then $\proves \phi[\psi\backslash\atomP] \iff \phi[\chi\backslash\atomP]$.
-\end{lemma}
-
-\begin{proof}
-We proceed by induction on the structure of $\phi$.
-
-\begin{description}
-    \item[Case $\phi = \atomP$:]\hfill\\
-        Then $\atomP[\psi\backslash\atomP] = \psi$ and $\atomP[\chi\backslash\atomP] = \chi$ and by hypothesis $\proves \psi \iff \chi$ so by {\bf P} we have $\proves \atomP[\psi\backslash\atomP] \iff \atomP[\chi\backslash\atomP]$.
-
-    \item[Case $\phi = \atomQ$ where $\atomQ \in \atoms$ and $\atomQ \neq \atomP$:]\hfill\\
-        Then $\atomQ[\psi\backslash\atomP] = \atomQ$ and $\atomQ[\chi\backslash\atomP] = \atomQ$ so by {\bf P} we have $\proves \atomQ[\psi\backslash\atomP] \iff \atomQ[\chi\backslash\atomP]$.
-
-    \item[Case $\phi = \lnot \alpha$:]\hfill\\
-        By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$.
-        Then by {\bf P} we have $\proves \lnot \alpha[\psi\backslash\atomP] \iff \lnot \alpha[\chi\backslash\atomP]$.
-
-    \item[Case $\phi = \alpha \land \beta$:]\hfill\\
-        By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$ and $\proves \beta[\psi\backslash\atomP] \iff \beta[\chi\backslash\atomP]$.
-        Then by {\bf P} we have $\proves (\alpha[\psi\backslash\atomP] \land \beta[\psi\backslash\atomP]) \iff (\alpha[\chi\backslash\atomP] \land \beta[\chi\backslash\atomP])$.
-
-    \item[Case $\phi = \necessaryA \alpha$:]\hfill\\
-        By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$.
-        By {\bf NecK} we have $\proves \necessaryA (\alpha[\psi\backslash\atomP] \implies \alpha[\chi\backslash\atomP])$ and by {\bf K} we have $\proves \necessaryA \alpha[\psi\backslash\atomP] \implies \necessaryA \alpha[\chi\backslash\atomP]$.
-        Likewise by {\bf NecK} we have $\proves \necessaryA (\alpha[\chi\backslash\atomP] \implies \alpha[\psi\backslash\atomP])$ and by {\bf K} we have $\proves \necessaryA \alpha[\chi\backslash\atomP] \implies \necessaryA \alpha[\psi\backslash\atomP]$.
-        Then by {\bf P} we have $\proves \necessaryA \alpha[\psi\backslash\atomP] \iff \necessaryA \alpha[\chi\backslash\atomP]$.
-
-    \item[Case $\phi = \allrefsBs \alpha$:]\hfill\\
-        By the induction hypothesis $\proves \alpha[\psi\backslash\atomP] \iff \alpha[\chi\backslash\atomP]$.
-        By {\bf NecR} we have $\proves \allrefsBs (\alpha[\psi\backslash\atomP] \implies \alpha[\chi\backslash\atomP])$ and by {\bf R} we have $\proves \allrefsBs \alpha[\psi\backslash\atomP] \implies \allrefsBs \alpha[\chi\backslash\atomP]$.
-        Likewise by {\bf NecR} we have $\proves \allrefsBs (\alpha[\chi\backslash\atomP] \implies \alpha[\psi\backslash\atomP])$ and by {\bf R} we have $\proves \allrefsBs \alpha[\chi\backslash\atomP] \implies \allrefsBs \alpha[\psi\backslash\atomP]$.
-        Then by {\bf P} we have $\proves \allrefsBs \alpha[\psi\backslash\atomP] \iff \allrefsBs \alpha[\chi\backslash\atomP]$.
-\end{description}
-\end{proof}
 
 Now that we have shown the equivalences of Lemma~\ref{rml-k-theorems}, and that \axiomRmlK{} is closed under substitution of equivalents we can give an alternative version of the proof in Example~\ref{rml-k-example-derivation}.
 

@@ -381,17 +381,17 @@ We also have a notion of depth-limited bisimilarity of action models.
 
 \begin{definition}[$n$-bisimulation]
 Let $\aModelAndTuple$ and $\aModelAndTupleP$ be Kripke models and let $n \in \naturals$.
-A list of non-empty relations $\bisimulation_0, \dots, \bisimulation_n$, where for $i = 0, \dots, n$: $\bisimulation_n \subseteq \bisimulation_{n - 1} \subseteq \cdots \subseteq \bisimulation_0 \subseteq \aStates \times \aStatesP$, is an {\em $n$-bisimulation} if and only if for every $i = 0, \dots, n$, $\atomP \in \atoms$, $\agentA \in \agents$ and $(\aStateS, \aStateSP) \in \bisimulation_i$ the following conditions, {\bf pre-$i$-$\atomP$}, {\bf forth-$i$-$\agentA$} and {\bf back-$i$-$\agentB$} holds:
+A list of non-empty relations $\bisimulation_n \subseteq \bisimulation_{n - 1} \subseteq \cdots \subseteq \bisimulation_0 \subseteq \aStates \times \aStatesP$ if and only if for every $i = 0, \dots, n$, $\atomP \in \atoms$, $\agentA \in \agents$ and $(\aStateS, \aStateSP) \in \bisimulation_i$ the following conditions, {\bf pre-$i$-$\atomP$}, {\bf forth-$i$-$\agentA$} and {\bf back-$i$-$\agentB$} holds:
 
 \paragraph{pre-$i$}
 If $i = 0$ then $\entails \aPrecondition(\aStateS) \iff \aPreconditionP(\aStateSP)$.
-If $i > 0$ then $\aPModel{\aStateS} \bisimulation_{i-1} \aPModelP{\aStateSP}$.
+If $i > 0$ then $(\aStateS, \aStateSP) \in \bisimulation_{i - 1}$.
 
 \paragraph{forth-$i$-$\agentA$}
-For every $\aStateT \in \aSuccessorsA{\aStateS}$ there exists $\aStateTP \in \aSuccessorsPA{\aStateSP}$ such that $\aStateT \bisimulation_{i - 1} \aStateTP$.
+For every $\aStateT \in \aSuccessorsA{\aStateS}$ there exists $\aStateTP \in \aSuccessorsPA{\aStateSP}$ such that $(\aStateT, \aStateTP) \in \bisimulation_{i - 1}$.
 
 \paragraph{back-$i$-$\agentA$}
-For every $\aStateTP \in \aSuccessorsPA{\aStateSP}$ there exists $\aStateT \in \aSuccessorsA{\aStateS}$ such that $\aStateT \bisimulation_{i - 1} \aStateTP$.
+For every $\aStateTP \in \aSuccessorsPA{\aStateSP}$ there exists $\aStateT \in \aSuccessorsA{\aStateS}$ such that $(\aStateT, \aStateTP) \in \bisimulation_{i - 1}$.
 
 If there exists an $n$-bisimulation $\bisimulation_0, \dots, \bisimulation_n$ such that $\aStateS \bisimulation_n \aStateSP$ then we say that $\aPModel{\aStateS}$ and $\aPModelP{\aStateSP}$ are {\em $n$-bisimilar} and we denote this by $\aPModel{\aStateS} \bisimilar[n] \aPModelP{\aStateSP}$.
 \end{definition}

@@ -206,7 +206,7 @@ This partial characterisation was more closely related to bisimulation quantific
 As the bisimulation quantifiers of \logicBqml{} quantify over $\atomP$-bisimilar Kripke models, this allows a characterisation of refinement quantifiers in terms of bisimulation quantifiers.
 This characterisation was demonstrated by Bozzelli, et al.~\cite{bozzelli:2014b} using a translation from \langRml{} formulas to \langBqml{} formulas.
 This translation replaces each refinement quantifier $\allrefs \phi$ with a bisimulation quantifier $\allbisimsP \phi^\atomP$ where $\atomP$ is a fresh propositional atom, and $\phi^\atomP$ is the formula $\phi$ ``relativised'' with respect to the propositional atom $\atomP$.
-The relativisation of a formula with respect to $\atomP$ has the effect of restricting modalities to only consider states in which $\atomP$ is valid, essentially by replacing each modality $\necessary \phi$ with a restricted modality $\necessary (\atomP \implies \phi)$.
+The relativisation of a formula with respect to an atom $\atomP$ not appearing in the formula has the effect of restricting modalities to only consider states in which $\atomP$ is valid, essentially by replacing each modality $\necessary \phi$ with a restricted modality $\necessary (\atomP \implies \phi)$.
 Interpreting the relativised formula $\phi^\atomP$ on a Kripke model is equivalent to interpreting the original formula $\phi$ on the Kripke model with its accessibility relation restricted so that states are only related to other states that have the atom $\atomP$ in their valuation.
 Thus the formula $\allbisimsP \phi^\atomP$ quantifies over all $\atomP$-bisimilar Kripke models and interprets the formula $\phi$ on each Kripke model with its accessibility relation so-restricted by the atom $\atomP$.
 As refinements were partially characterised as $\atomP$-bisimulations followed by a restriction of the accessibility relation to $\atomP$, Bozzelli, et al.~\cite{bozzelli:2014b} showed that $\allbisimsP \phi^\atomP$ is equivalent to $\allrefs \phi$ in the setting of \classK{}.
@@ -374,7 +374,7 @@ We show by cases that the relationships in $\bisimulation''$ satisfy the conditi
 Therefore $\bisimulation''$ is a $\atomP$-bisimulation between $\kPModelPP{\kStateSPP}$ and $\kPModel[\prime(\agentsB, \atomP)]{\kStateSPP}$, and $\kPModelPP{\kStateSP} \bisimilar[\atomP] \kPModel[\prime(\agentsB, \atomP)]{\kStateSPP}$.
 \end{proof}
 
-As previously mentioned, Bozzelli, et al.~\cite{bozzelli:2014b} demonstrated a translation from \langRml{} to \langBqml{} that relies on a notion of relativisation of \langBqml{} formulas with respect to a specific agent and propositional atom.
+As previously mentioned, Bozzelli, et al.~\cite{bozzelli:2014b} demonstrated a translation from \langRml{} to \langBqml{} that relies on a notion of relativisation of \langBqml{} formulas with respect to a specific agent and a fresh propositional atom not appearing in the formula.
 We use essentially the same notion of relativisation, but generalised to match our multi-agent notion of refinement.
 
 \begin{definition}[Relativisation]
@@ -389,6 +389,8 @@ The {\em $(\agentsB, \atomP)$-relativisation} $\phi^{(\agentsB, \atomP)}$ of a f
     (\allbisimsQ \phi)^{(\agentsB, \atomP)} &=& \allbisimsQ \phi^{(\agentsB, \atomP)}\\
 \end{eqnarray*}
 where $\atomQ \neq \atomP$, $\agentB \in \agentsB$, and $\agentC \in \agents \setminus \agentsB$.
+
+Note that the cases for $\atomP^{(\agentsB, \atomP)}$ and $(\allbisimsP \phi)^{(\agentsB, \atomP)}$ are undefined because $\atomP$ does not appear in $\phi$.
 \end{definition}
 
 \begin{figure}
@@ -418,7 +420,7 @@ This is represented with a schematic diagram in Figure~\ref{rml-k4-relativisatio
 We adapt this result to the setting of \classKF{} and for our modified definitions.
 
 \begin{lemma}\label{rml-k4-relativisation-restriction}
-Let $\agentsB \subseteq \agents$ be a set of agents, let $\atomP \in \atoms$ be a propositional atom, let $\phi \in \langBqml$ be a bisimulation quantified modal formula, let $\kPModel{\kStateS} \in \classKF$ be a pointed Kripke model, and let $\kPModel[(\agentsB, \atomP)]{\kStateS}$ be the $(\agentsB, \atomP)$-restriction of $\kPModel{\kStateS}$.
+Let $\agentsB \subseteq \agents$ be a set of agents, let $\atomP \in \atoms$ be a propositional atom, let $\phi \in \langBqml$ be a bisimulation quantified modal formula not containing $\atomP$, let $\kPModel{\kStateS} \in \classKF$ be a pointed Kripke model, and let $\kPModel[(\agentsB, \atomP)]{\kStateS}$ be the $(\agentsB, \atomP)$-restriction of $\kPModel{\kStateS}$.
 Then $\kPModel{\kStateS} \entails_\logicBqmlKF \phi^{(\agentsB, \atomP)}$ if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails_\logicBqmlKF \phi$.
 \end{lemma}
 
@@ -441,7 +443,6 @@ We consider each case:
         By construction $\kStateT \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateS}$ if and only if $\kStateT \in \kSuccessorsB{\kStateS}$ and $\kPModel{\kStateT} \entails \atomP$.
         Then for every $\kStateT \in \kSuccessorsB{\kStateS}$: $\kPModel{\kStateT} \entails \atomP$ implies that $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \psi$; if and only if for every $\kStateT \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateS}$: $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \psi$.
         By definition for every $\kStateT \in \kSuccessorsB[(\agentsB, \atomP)]{\kStateS}$: $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \psi$; if and only if $\kPModel[(\agentsB, \atomP)]{\kStateS} \entails \necessaryB \psi$.
-\pagebreak
     \item[Case $\phi = \necessaryC \psi$ where $\agentC \in \agents \setminus \agentsB$]:
         By definition $\kPModel{\kStateS} \entails (\necessaryC \psi)^{(\agentsB, \atomP)}$ if and only if $\kPModel{\kStateS} \entails \necessaryC \psi^{(\agentsB, \atomP)}$.
         By definition $\kPModel{\kStateS} \entails \necessaryC \psi^{(\agentsB, \atomP)}$ if and only if for every $\kStateT \in \kSuccessorsC{\kStateS}$: $\kPModel{\kStateT} \entails \psi^{(\agentsB, \atomP)}$.
@@ -720,18 +721,17 @@ We first define $n$-mutual refinements.
 \begin{definition}[$n$-mutual refinements]
 Let $\kPModelAndTuple{\kStateS} \in \classK$ and $\kPModelAndTupleP{\kStateSP} \in \classK$ be pointed Kripke models.
 
-We say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $0$-mutual refinements} and we write $\kPModel{\kStateS} \bisimref[0] \kPModelP{\kStateSP}$ if and only if for every $\emptyset \subset \agentsB \subseteq \agents$: $\kPModel{\kStateS} \refinesBs \kPModelP{\kStateSP}$ and $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
-
-We say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $n$-mutual refinements} for some $n \in \naturals$ and we write $\kPModel{\kStateS} \bisimref[n] \kPModelP{\kStateSP}$ if and only if for every $\agentA \in \agents$ the following, {\bf mutual refinements}, {\bf forth-$\agentA$} and {\bf back-$\agentA$} hold:
+We say that $\kPModel{\kStateS}$ and $\kPModelP{\kStateSP}$ are {\em $n$-mutual refinements} and we write $\kPModel{\kStateS} \bisimref[n] \kPModelP{\kStateSP}$ if and only if there exists a list of non-empty relations $\refinement_n \subseteq \refinement_{n - 1} \subseteq \cdots \subseteq \refinement_0 \subseteq \kStates \times \kStatesP$ such that for every $i = 0, \dots, n$, $\agentA \in \agents$, and $(\kStateS, \kStateSP) \in \refinement_i$ the following conditions, {\bf mutual refinements}, {\bf forth-$\agentA$}, and {\bf back-$\agentA$} holds: 
 
 \paragraph{mutual refinements} 
-For every $\emptyset \subset \agentsB \subseteq \agents$: $\kPModel{\kStateS} \refinesBs \kPModelP{\kStateSP}$ and $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$ 
+If $i = 0$ then for every $\emptyset \subset \agentsB \subseteq \agents$: $\kPModel{\kStateS} \refinesBs \kPModelP{\kStateSP}$ and $\kPModel{\kStateS} \simulatesBs \kPModelP{\kStateSP}$.
+If $i > 0$ then $(\kStateS, \kStateSP) \in \refinement_{i - 1}$.
 
 \paragraph{forth-$a$}
-For every $\kStateT \in \kStateS \kAccessibility{\agentA}$ there exists $\kStateTP \in \kStateSP \kAccessibilityP{\agentA}$ such that $\kPModel{\kStateT} \bisimref[n-1] \kPModelP{\kStateTP}$.
+For every $\kStateT \in \kStateS \kAccessibility{\agentA}$ there exists $\kStateTP \in \kStateSP \kAccessibilityP{\agentA}$ such that $(\kStateT, \kStateTP) \in \refinement_{i - 1}$.
 
 \paragraph{back-$a$}
-For every $\kStateTP \in \kStateSP \kAccessibilityP{\agentA}$ there exists $\kStateT \in \kStateS \kAccessibility{\agentA}$ such that $\kPModel{\kStateT} \bisimref[n-1] \kPModelP{\kStateTP}$.
+For every $\kStateTP \in \kStateSP \kAccessibilityP{\agentA}$ there exists $\kStateT \in \kStateS \kAccessibility{\agentA}$ such that $(\kStateT, \kStateTP) \in \refinement_{i - 1}$.
 \end{definition}
 
 We show that if two pointed Kripke models are $n$-mutual refinements then they agree on the interpretation of all \langRml{} formulas of modal depth up to $n$.
@@ -763,10 +763,10 @@ So for every $\kStateTP \in \kSuccessorsA{\kStateSP}$ we have $\kPModelP{\kState
 Therefore $\kPModelP{\kStateSP} \entails \necessaryA \psi$.
 The converse follows from symmetrical reasoning.
 
-Suppose that $\phi = \allrefsBs \psi$ and $\kPModel{\kStateS} \entails \allrefsBs \psi$.
+Suppose that $\phi = \somerefsBs \psi$ and $\kPModel{\kStateS} \entails \somerefsBs \psi$.
 Then there exists $\kPModelPP{\kStateSPP} \in \classC$ such that $\kPModel{\kStateS} \simulatesBs \kPModelPP{\kStateSPP}$ and $\kPModelPP{\kStateS} \entails \psi$.
 As $\kPModelP{\kStateSP} \simulatesBs \kPModel{\kStateS}$ then by Lemma~\ref{refinements-preorder} we have that $\kPModelP{\kStateSP} \simulatesBs \kPModelPP{\kStateSPP}$.
-Therefore $\kPModelP{\kStateSP} \entails \allrefsBs \psi$.
+Therefore $\kPModelP{\kStateSP} \entails \somerefsBs \psi$.
 The converse follows from symmetrical reasoning.
 \end{proof}
 

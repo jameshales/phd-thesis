@@ -976,11 +976,24 @@ We note that:
 $$
 \proves \coversC (\{\alpha \lor \beta\} \cup \Gamma) \iff (\coversC (\{\alpha\} \cup \Gamma) \lor \coversC (\{\beta\} \cup \Gamma) \lor \coversC (\{\alpha, \beta\} \cup \Gamma))
 $$
-We can generalise this to disjunctions of an arbitrary number of formulas:
+This becomes more obvious if we expand the cover operators:
+$$
+\begin{array}{ll}
+  \proves & (\knowsC (\alpha \lor \beta \lor \bigvee_{\gamma \in \Gamma} \gamma) \land \suspectsC (\alpha \lor \beta) \land \bigwedge_{\gamma \in \Gamma} \suspectsC \gamma) \iff \\
+  & \big( (\knowsC (\alpha \lor \bigvee_{\gamma \in \Gamma} \gamma) \land \suspectsC \alpha \land \bigwedge_{\gamma \in \Gamma} \suspectsC \gamma) \lor \\
+  & (\knowsC (\beta \lor \bigvee_{\gamma \in \Gamma} \gamma) \land \suspectsC \beta \land \bigwedge_{\gamma \in \Gamma} \suspectsC \gamma) \lor \\
+  & (\knowsC (\alpha \lor \beta \lor \bigvee_{\gamma \in \Gamma} \gamma) \land \suspectsC \alpha \land \suspectsC \beta \land \bigwedge_{\gamma \in \Gamma} \suspectsC \gamma) \big)
+\end{array}
+$$
+The semantic intuition for this equivalence is that the disjunction on the right hand side of the equivalence enumerates the possible ways that the $\alpha \lor \beta$ part of the cover operator may be satisfied at successors of the current state: there exists a successor that satisfies $\alpha$, but maybe no successor that satisfies $\beta$; there exists a successor that satisfies $\beta$, but maybe no successor that satisfies $\alpha$; or there exists both a successor that satisfies $\alpha$ and a successor that satisfies $\beta$.
+
+We can generalise this equivalence by applying it iteratively to disjunctions of an arbitrary number of formulas:
 $$
 \proves \coversC (\{\bigvee_{\sigma \in \Sigma} \sigma\} \cup \Gamma) \iff \bigvee_{\emptyset \subset \Sigma' \subseteq \Sigma} \coversC (\Sigma' \cup \Gamma)
 $$
-And we can generalise this further to sets of disjunctions of formulas:
+The semantic intuition here is similar: the disjunction on the right hand side of the equivalence enumerates the possible ways that the $\bigvee_{\sigma \in \Sigma} \sigma$ part of the cover operator may be satisfied, with each disjunct corresponding to the situation where a given subset of the formulas in $\Sigma$ is satisfied at successors of the current state.
+
+We can generalise this equivalence even further by applying it iteratively to sets of disjunctions of arbitrary numbers of formulas:
 $$
 \proves \coversC \{\bigvee_{\sigma \in \Sigma_i} \sigma \mid i = 1, \dots, n\} \iff \bigvee_{\emptyset \subset \Sigma'_1 \subseteq \Sigma_1} \cdots  \bigvee_{\emptyset \subset \Sigma'_n \subseteq \Sigma_n} \coversC \bigcup_{i = 1}^n \Sigma'_i
 $$
@@ -1131,8 +1144,6 @@ We convert subformulas to disjunctions of explicit formulas instead of formulas 
 In order for the equivalences from Lemma~\ref{rml-s5-theorems} to be applied inductively to the subformula we must at each stage convert to a disjunction of explicit formulas again.
 We note that by Lemma~\ref{explicit-equivalent} converting a formula to a disjunction of explicit formulas does not increase the modal depth of the formula, so the induction remains well-founded despite these additional conversion steps, as at each step the modal depth of the formula decreases.
 \end{proof}
-
-\pagebreak
 
 Given the provably correct translation we have that \axiomRmlS{} is sound and complete.
 

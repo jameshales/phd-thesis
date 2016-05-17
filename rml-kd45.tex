@@ -245,6 +245,9 @@ For every $\kStateT \in \kSuccessorsB{\kStateS}$ there exists $\kStateTP \in \kS
 For every $\kStateTP \in \kSuccessorsPB{\kStateSP}$ there exists $\kStateT \in \kSuccessorsB{\kStateS}$ such that $\kPModel{\kStateT} \bisimilar \kPModelP{\kStateTP}$.
 \end{definition}
 
+We note that the above definition is not recursive; $\agentsB$-bisimilarity is defined in terms of regular bisimilarity.
+Intuitively two Kripke models are $\agentsB$-bisimilar if their $\agentsB$-successors are bisimilar.
+
 We show that $\agentsB$-bisimilar Kripke models satisfy the same $\agentsB$-restricted modal formulas.
 
 \begin{lemma}\label{b-restricted-invariance}

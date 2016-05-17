@@ -65,8 +65,6 @@ we write $\kPredecessorsA{\kStateT}$ to denote the set of predecessor states $\k
 We will be working with a variety of modal logics that are defined by relational properties on Kripke frames.
 We define those relational properties here.
 
-\pagebreak
-
 \begin{definition}[Relational properties]
 Let $\kStates$ be a set and let $\kAccessibilityRel \subseteq \kStates \times \kStates$ be a binary relation on $\kStates$. 
 Then we say that $\kAccessibilityRel$ is \ldots
@@ -143,15 +141,15 @@ If every finite subset of $\Phi$ is satisfiable in \{$\kPModel{\kStatesT}$, $\kM
 
 We write $\interpretation[\kModel]{\phi}$ to denote the set of states where $\phi$ is valid, where $\interpretation[\kModel]{\phi} = \{\kStateS \in \kStates \mid \kPModel{\kStateS} \entails \phi\}$.
 
-In the following chapters we will rely heavily on the cover operator of Janin and Walukiewicz~\cite{janin:1995}, following the definitions given by B{\'i}lkov{\'a}, Palmigiano and Venema~\cite{bilkova:2008}.
-In the following chapters we use the cover operator to state axioms for \logicRml{} and \logicAaml{}, and to provide the synthesis procedures for \logicAaml{}.
+In the following chapters we rely on the cover operator of Janin and Walukiewicz~\cite{janin:1995}, following the definitions given by B{\'i}lkov{\'a}, Palmigiano and Venema~\cite{bilkova:2008}.
+We use the cover operator to state axioms for \logicRml{} and \logicAaml{}, and to provide the synthesis procedures for \logicAaml{}.
 The cover operator is an abbreviation for a conjunction of an arbitrary number of modalities that happens to be convenient for such purposes.
 The cover operator is defined by the syntactic abbreviation $\coversA \Gamma ::= \necessaryA \bigvee_{\gamma \in \Gamma} \gamma \land \bigwedge_{\gamma \in \Gamma} \possibleA \gamma$, where $\Gamma$ is a finite set of formulas.
 Semantically, we have $\kPModel{\kStateS} \entails \coversA \Gamma$ if and only if: for every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\gamma \in \Gamma$ such that $\kPModel{\kStateT} \entails \gamma$; and for every $\gamma \in \Gamma$ there exists $\kStateT \in \kSuccessorsA{\kStateS}$ such that $\kPModel{\kStateT} \entails \gamma$.
 
 \pagebreak
 
-We give an example of modal logic.
+We give an example of some Kripke models and some modal formulas satisfied by those Kripke models:
 
 \begin{example}\label{example-ml}
 Let $\kPModelAndTuple{\kStateS}$ and $\kPModelAndTupleP{\kStateS}$ be pointed Kripke models where:
@@ -253,6 +251,8 @@ Then for every $\phi \in \langMl$:
 $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 \end{proposition}
 
+This is a well-known result, shown by Blackburn, de Rijke, and Venema~\cite{blackburn:2001}.
+
 Not all modally equivalent Kripke models are bisimilar.
 However we can define a property of Kripke models that guarantees that modal equivalence implies bisimilarity.
 
@@ -267,6 +267,8 @@ For modally saturated Kripke models, modal equivalence implies bisimilarity.
 Let $\kModel$ and $\kModelP$ be modally saturated Kripke models such that for every $\phi \in \langMl$: $\kPModel{\kStateS} \entails \phi$ if and only if $\kPModelP{\kStateSP} \entails \phi$.
 Then $\kPModel{\kStateS} \bisimilar \kPModelP{\kStateSP}$.
 \end{proposition}
+
+This is shown by Blackburn, de Rijke, and Venema~\cite{blackburn:2001}.
 
 A notable class of modally saturated Kripke models are the finite and image-finite Kripke models.
 
@@ -339,11 +341,11 @@ We also consider a depth-limited notion of bisimulation.
 
 \begin{definition}[$n$-bisimulation]
 Let $\kModelAndTuple$ and $\kModelAndTupleP$ be Kripke models and let $n \in \naturals$.
-A list of non-empty relations $\bisimulation_0, \dots, \bisimulation_n$, where for $i = 0, \dots, n$: $\bisimulation_n \subseteq \bisimulation_{n - 1} \subseteq \cdots \subseteq \bisimulation_0 \subseteq \kStates \times \kStatesP$, is an {\em $n$-bisimulation} if and only if for every $i = 0, \dots, n$, $\atomP \in \atoms$, $\agentA \in \agents$ and $(\kStateS, \kStateSP) \in \bisimulation_i$ the following conditions, {\bf atoms-$i$-$\atomP$}, {\bf forth-$i$-$\agentA$} and {\bf back-$i$-$\agentB$} holds:
+A list of non-empty relations $\bisimulation_n \subseteq \bisimulation_{n - 1} \subseteq \cdots \subseteq \bisimulation_0 \subseteq \kStates \times \kStatesP$ is an {\em $n$-bisimulation} if and only if for every $i = 0, \dots, n$, $\atomP \in \atoms$, $\agentA \in \agents$ and $(\kStateS, \kStateSP) \in \bisimulation_i$ the following conditions, {\bf atoms-$i$-$\atomP$}, {\bf forth-$i$-$\agentA$} and {\bf back-$i$-$\agentB$} holds:
 
 \paragraph{atoms-$i$-$\atomP$}
 If $i = 0$ then $\kStateS \in \kValuation(\atomP)$ if and only if $\kStateSP \in \kValuationP(\atomP)$.
-If $i > 0$ then $\kPModel{\kStateS} \bisimulation_{i-1} \kPModelP{\kStateSP}$.
+If $i > 0$ then $(\kStateS, \kStateSP) \in \bisimulation_{i - 1}$.
 
 \paragraph{forth-$i$-$\agentA$}
 For every $\kStateT \in \kSuccessorsA{\kStateS}$ there exists $\kStateTP \in \kSuccessorsPA{\kStateSP}$ such that $(\kStateT, \kStateTP) \in \bisimulation_{i - 1}$.
@@ -451,6 +453,8 @@ If every set of formulas that is consistent according to an axiomatisation is sa
 The axiomatisations \axiomK{}, \axiomKF{}, \axiomKFF{}, \axiomKD{}, and \axiomS{} are sound and strongly complete with respect to the semantics of the respective logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, and \logicS{}.
 \end{proposition}
 
+This is shown by Chellas~\cite{chellas:1980}.
+
 \begin{definition}[Substitution of equivalents]
 Let $\lang$ be a logical language defined on the propositional atoms $\atoms$.
 An axiomatisation is closed under {\em substitution of equivalents} if and only if for every $\phi, \psi, \psi' \in \lang$, and $\atomP \in \atoms$: $\proves \psi \iff \psi'$ implies $\proves \phi[\psi/\atomP] \iff \phi[\psi'/\atomP]$.
@@ -470,6 +474,9 @@ If every (possibly infinite) set of formulas that is finitely satisfiable accord
 The logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{}, and \logicS{} are compact.
 \end{proposition}
 
+These are well-known results that follow from the compactness of first-order logic and the characterisation of the listed modal logics as fragments of first-order logic.
+These results are shown by Blackburn, de Rijke, and Venema~\cite{blackburn:2001}.
+
 \begin{definition}[Model-checking problem]
 The {\em model-checking problem} for a logic is to determine for a given formula and a given finite pointed Kripke model whether the formula is valid on the pointed Kripke model.
 \end{definition}
@@ -477,6 +484,10 @@ The {\em model-checking problem} for a logic is to determine for a given formula
 \begin{proposition}
 The model-checking problems for the logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{} and \logicS{} are decidable.
 \end{proposition}
+
+This is a well-known result.
+The decision procedure is determined by recursively interpreting a modal formula on a finite Kripke model.
+The procedure terminates because both the formula and the model are finite.
 
 \begin{definition}[Satisfiability and provability problems]
 The {\em satisfiability problem} for a logic is to determine for a given formula whether the formula is satisfiable according to the semantics of the logic.
@@ -489,13 +500,12 @@ We note that for sound and complete proof systems the satisfiability and provabi
 The satisfiability problems for the logics \logicK{}, \logicKF{}, \logicKFF{}, \logicKD{} and \logicS{} are decidable.
 \end{proposition}
 
-In the following sections and chapters we will compare the expressive power of the logics that we consider to other logics, often to an underlying modal logic.
+This is shown by Chellas~\cite{chellas:1980}.
 
-\pagebreak
+In the following sections and chapters we compare the expressive power of the logics that we consider to other logics, often to an underlying modal logic.
 
-\begin{definition}[Expressivity]
-If a logic can express all of the semantic properties that another logic can then we say that the logic is {\em at least as expressive} as the other logic.
-If two logics are at least as expressive as each other then we say that the two logics are {\em expressively equivalent}.
-If a logic is at least as expressive as but not expressively equivalent to another logic then we say that the logic is {\em strictly less expressive} than the other logic.
+To compare the expressive power of two modal logics interpreted over the same class of Kripke models we compare the subclasses of Kripke models that can be specified as the Kripke models from the class that satisfy a formula of the logic.
+If a modal logic can specify all of the subclasses of Kripke models that another modal logic can specify then we say that the logic is {\em at least as expressive} as the other logic.
+If two modal logics are at least as expressive as each other then we say that the two logics are {\em expressively equivalent}.
+If a modal logic is at least as expressive as but not expressively equivalent to another logic then we say that the logic is {\em strictly less expressive} than the other logic.
 If two logics are neither at least as expressive as the other logic then we say that the two logics are {\em incomparable} in expressivity.
-\end{definition}

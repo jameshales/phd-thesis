@@ -216,7 +216,8 @@ class report.cls by Cara MacNish August 1999/September 2000 and James Hales Nove
     for the degree of\\
     Doctor of Philosophy\\
     from\\
-    The University of Western Australia}
+    The University of Western Australia\\
+    \@date}
   \end{center}
   \end{titlepage}%
   \refstepcounter{page}

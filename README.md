@@ -46,3 +46,8 @@ Requirements:
 - GNU Make
 
 Simply run `make`.
+
+License
+-------
+
+This thesis is distributed under the [Creative Commons Attribution Share Alike 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license.
